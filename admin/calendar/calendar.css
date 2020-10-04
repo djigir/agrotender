@@ -1,0 +1,64 @@
+.calwnd
+{
+	width: 202px;
+	position: absolute;
+	overflow:hidden;
+	z-index: 21;
+}
+
+.calwnd .calwndcont
+{
+	border: 1px solid #888888;
+	background-color: #ffffff;
+}
+
+.calwnd iframe
+{
+	display:none;/*sorry for IE5*/
+	display/**/:block;/*sorry for IE5*/
+	position:absolute;/*must have*/
+	top:0;/*must have*/
+	left:0;/*must have*/
+	z-index:-1;/*must have*/
+	width:3000px;/*must have for any big value*/
+	height:3000px/*must have for any big value*/;
+}
+
+table.caltbl
+{	font-size: 8pt;
+	background-color: #ffffff;
+	border-collapse: separate;
+	width: 200px;}
+
+table .calth{
+	font-weight: bold;
+	background-color: #952b1d;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 9pt;
+}
+
+table .caltd{
+	background-color: #efd8c7;
+	padding: 0px 2px 1px 2px;
+	text-align: center;
+	font-size: 8pt;
+}
+
+table .caltdo{
+	font-weight: normal;
+	background-color: #f7efe3;
+	padding: 0px 2px 1px 2px;
+	text-align: center;
+	font-size: 8pt;
+}
+
+a.callink { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #1864a4; font-weight:normal; text-decoration: underline }
+a.callink:hover { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #004484; font-weight:normal; text-decoration: underline }
+a.callink:visited { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #1864a4; font-weight:normal; text-decoration: underline }
+a.callink:active { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #1864a4; font-weight:normal; text-decoration: underline }
+
+a.callink1 { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #FFFFFF; font-weight:bold; text-decoration: underline }
+a.callink1:hover { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #D0D0D0; font-weight:bold; text-decoration: underline }
+a.callink1:visited { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #FFFFFF; font-weight:bold; text-decoration: underline }
+a.callink1:active { font-size: 8pt; font-family: Verdana, Arial, Tahoma, Helvetica; color: #FFFFFF; font-weight:bold; text-decoration: underline }

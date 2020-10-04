@@ -1,0 +1,105 @@
+* {
+    font-family: Gilroy;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+.siteIsUnaviable {
+    height: 100%;
+    width: calc(100% - 410px);
+    min-height: 100vh;
+    background-color: #001C41;
+    padding-left: 50px;
+    padding-right: 70px;
+}
+.logo {
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 120px;
+    text-decoration: none;
+}
+.logo_wrap .linkBefore {
+    display: none;
+}
+.logo img {
+    width: 340px;
+    height: 80px;
+}
+.siteIsUnaviable h1 {
+    color: #FFFFFF;
+    font-weight: bold;
+    font-size: 68px;
+}
+.siteIsUnaviable h2 {
+    margin-top: 30px;
+    margin-bottom: 60px;
+    font-weight: 600;
+    font-size: 46px;
+    color: #FFFFFF;
+}
+.siteIsUnaviable .bottom {
+    position: fixed;
+    bottom: 60px;
+    left: 50px;
+    right: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.siteIsUnaviable .bottom .allQuestions {
+    font-weight: 600;
+    font-size: 42px;
+    color: #FFFFFF;
+}
+.siteIsUnaviable .bottom .allQuestions img {
+    width: 72px;
+    height: 72px;
+    margin-right: 27px;
+    transform: translateY(10px);
+}
+.siteIsUnaviable .bottom a {
+    transform: translateY(20px);
+    font-weight: 600;
+    font-size: 28px;
+    color: #FFFFFF;
+    opacity: 0.7;
+    text-decoration: none;
+}
+.siteIsUnaviable .button {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 20px 60px;
+    box-shadow: 0px 8px 20px rgba(255, 111, 0, 0.3);
+    border-radius: 18px;
+    background: linear-gradient(110.85deg, #FF6F00 51.64%, #FEA82E 105.51%);
+    border-radius: 28px;
+    border: none;
+    font-size: 36px;
+    color: #FFFFFF;
+    border: none;
+}
+.siteIsUnAviable__wrap {
+    display: flex;
+}
+.siteIsUnaviable__right {
+    background-image: url('../img/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    width: 410px;
+}
+.siteIsUnaviable__right .bottom {
+    position: fixed;
+    bottom: 60px;
+    right: 30px;
+}
+.siteIsUnaviable__right .bottom a{
+    font-weight: 800;
+    font-size: 42px;
+    color: #001C41;
+    text-decoration: none;
+}
+.mobileNumber {
+    display: none;
+}

@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Страница на обслуживании</title>
+    <link rel="stylesheet" href="./tarif_assets/css/animate.min.css">
+    <link rel="stylesheet" href="./tarif_assets/css/main.css">
+    <link rel="stylesheet" href="./tarif_assets/css/fonts.css">
+    <style>
+        #toHome {
+            position: relative;
+            left: 0;
+            transition: 300ms left ease;
+        }
+        #toHome:hover {
+            left: -10px
+        }
+        #downloadBtn {
+            transition: 300ms transform ease;
+        }
+        #downloadBtn:hover {
+            transform: translateY(-10px);
+        }
+        #numberLink {
+            transition: 300ms color ease;
+        }
+        #numberLink:hover {
+            color: #024195;
+        }
+        @media screen and (max-width: 1440px) {
+            .logo {
+                margin-bottom: 70px;
+            }
+            .siteIsUnaviable h1 {
+                font-size: 60px;
+            }
+            .siteIsUnaviable h2 {
+                font-size: 40px;
+            }
+        }
+        @media screen and (max-width: 1024px) {
+            .logo {
+                margin-bottom: 60px;
+            }
+            .logo img {
+                width: 280px;
+                height: 65px;
+            }
+            .siteIsUnaviable {
+                width: 100%;
+            }
+            .siteIsUnaviable__right {
+                display: none;
+            }
+            .siteIsUnaviable .bottom {
+                right: 30px;
+            }
+            .siteIsUnaviable .bottom .allQuestions {
+                display: flex;
+                align-items: center;
+                font-size: 32px;
+            }
+            .siteIsUnaviable .bottom .allQuestions img {
+                transform: none;
+            }
+            .allQuestions_wrap {
+                text-align: end;
+            }
+            .allQuestions_wrap .mobileNumber{
+                font-size: 36px;
+                font-weight: 800;
+                display: block;
+            }
+        }
+        @media screen and (max-width: 991px) {
+            .logo_wrap {
+                position: relative;
+            }
+            .logo_wrap .linkBefore  {
+                display: block;
+                position: absolute;
+                left: -20px;
+                top: 10px;
+            }
+            .logo {
+                margin-top: 25px;
+                margin-bottom: 60px;
+            }
+            .logo img {
+                width: 170px;
+                height: 40px;
+            }
+            .siteIsUnaviable {
+                padding: 0 40px;
+            }
+            .siteIsUnaviable h1 {
+                font-size: 40px;
+                line-height: 40px;
+                margin-bottom: 30px;
+            }
+            .siteIsUnaviable h2 {
+                font-size: 24px;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+            .siteIsUnaviable .button {
+                max-width: 280px;
+                width: 100%;
+                padding: 13px 30px;
+                text-align: center;
+                font-size: 22px;
+                border-radius: 18px;
+            }
+            .siteIsUnAviable__wrap {
+                flex-direction: column;
+            }
+            .siteIsUnaviable {
+                position: relative;
+                width: 100%;
+                min-height: auto;
+            }
+            .siteIsUnaviable .bottom a {
+                display: none;
+            }
+            .siteIsUnaviable .bottom {
+                position: absolute;
+                bottom: 100px;
+                width: 100%;
+                left: 0;
+                bottom: 20px;
+                display: flex;
+                justify-content: center;
+            }
+            .siteIsUnaviable .bottom .allQuestions {
+                display: flex;
+                align-items: center;
+                flex-direction: column;
+                font-size: 32px;
+            }
+            .allQuestions_wrap .mobileNumber {
+                display: none;
+            }
+            .siteIsUnaviable__right .bottom a {
+                font-size: 32px;
+            }
+            .siteIsUnaviable .bottom .allQuestions img {
+                margin-bottom: 20px;
+                margin-right: 0;
+            }
+            .siteIsUnaviable__right {
+                height: 80px;
+                display: block;
+                width: 100%;
+                background-image: url('../img/bgMobile.png');
+            }
+            .siteIsUnaviable__right .bottom {
+                position: static;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        @media screen and (max-width: 360px) {
+            .siteIsUnaviable .bottom .allQuestions img {
+                width: 58px;
+                height: 58px;
+                margin-bottom: 10px;
+            }
+            .siteIsUnaviable .bottom .allQuestions {
+                font-size: 32px;
+            }
+            .siteIsUnaviable__right .bottom a {
+                font-size: 32px;
+            }
+            .siteIsUnaviable .button {
+                font-size: 20px;
+            }
+            }
+            @media screen and (max-width: 320px) {
+            .siteIsUnaviable .bottom .allQuestions img {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 10px;
+            }
+            .siteIsUnaviable h1 {
+                font-size: 34px;
+                margin-bottom: 20px;
+            }
+            .siteIsUnaviable h2 {
+                font-size: 20px;
+                margin-bottom: 26px;
+            }
+            .siteIsUnaviable__right{
+                height: 50px;
+            }
+            .siteIsUnaviable .bottom .allQuestions {
+                font-size: 26px;
+            }
+            .siteIsUnaviable__right .bottom a {
+                font-size: 26px;
+            }
+        }
+
+        .look_in_google {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            color: #82b7ff;
+            padding-left: 80px;
+            margin-top: 30px;
+        }
+
+        .look_in_google img {
+            width: 30px;
+            margin-right: 10px;
+        }
+
+        @media screen and (max-width: 991px) {
+            .look_in_google {
+                padding-left: 0;
+            }
+        }
+        @media screen and (max-width: 400px) {
+            .siteIsUnaviable .bottom .allQuestions img {
+                display: none;
+            }
+        }
+        @media screen and (max-width: 480px) {
+            .look_in_google {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="siteIsUnAviable__wrap">
+        <div class="siteIsUnaviable">
+            <div class="logo_wrap animate__fadeIn animate__animated" data-delay=".3s">
+                <a href="#" class="linkBefore">
+                    <img src="./tarif_assets/img/leftArrow.svg" alt="">
+                </a>
+                <a href="/" class="logo">
+                    <img src="./tarif_assets/img/logo.svg" alt="">
+                </a>
+            </div>
+            <h1 class="animate__fadeInDown animate__animated"  data-delay=".7s">Страница на обслуживании</h1>
+            <h2 class="animate__fadeInDown animate__animated"  data-delay="1s">Для ознакомления с тарифами </h2>
+            <a 
+                id="downloadBtn"
+                href="https://agrotender.com.ua/files/Baza%20znaniy/AGROTENDER_TARIFF_2020.pdf"
+                class="button  animate__fadeIn animate__animated"
+                data-delay="1.3s"
+                download
+            >Смотреть тарифы</a>
+            <div class="animate__fadeIn animate__animated" data-delay="1.5s">
+                <a href="https://drive.google.com/file/d/194d9qZKMjixQYWMf1lAs6MgOhBdkGKa_/view" class="look_in_google">
+                    <img src="./tarif_assets/img/google-drive.svg" alt="">
+                    <span>Смотреть в Google Drive</span>
+                </a>
+            </div>
+            <div 
+                class="bottom animate__fadeInUp animate__animated"
+                data-delay="1.6s"
+            >
+                <a href="/" id="toHome">
+                    <img src="./tarif_assets/img/leftArrow.svg" alt="">
+                    <span>На главную</span>
+                </a>
+                <div class="allQuestions">
+                    <img src="./tarif_assets/img/smile.png" alt="">
+                    <span class="allQuestions_wrap">
+                        <span>По всем вопросам</span>
+                        <span class="mobileNumber">+380 50 401 84 77</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="siteIsUnaviable__right">
+            <div 
+                class="bottom animate__fadeInUp animate__animated"
+                data-delay="2s"
+            >
+                <a href="tel:+380504018477" id="numberLink">+380 50 401 84 77</a>
+            </div>
+        </div>
+    </div>
+    <script src="./tarif_assets/js/main.js"></script>
+</body>
+</html>

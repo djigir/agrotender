@@ -1,0 +1,20 @@
+#toHome {
+    position: relative;
+    left: 0;
+    transition: 300ms left ease;
+}
+#toHome:hover {
+    left: -10px
+}
+#downloadBtn {
+    transition: 300ms transform ease;
+}
+#downloadBtn:hover {
+    transform: translateY(-10px);
+}
+#numberLink {
+    transition: 300ms color ease;
+}
+#numberLink:hover {
+    color: #024195;
+}

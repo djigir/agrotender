@@ -1,0 +1,67 @@
+/* bill styles */
+.bill-print{padding: 30px 0;}
+.print-page{
+	max-width: 640px;
+}
+.bill-print-p{	
+	padding: 8px 0;
+}
+.bill-print-ptit{padding: 0 0 6px 0;}
+.bill-print-ptit span{display: inline-block; width: 120px; font-weight: bold;}
+.bill-print-rekv{padding-left: 30px;}
+table.print-rekv{	
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+table.print-rekv  td{
+	border: 0 !important;
+	vertical-align: top; 
+	padding: 3px 0 !important;
+}
+table.print-rekv  td.first-td{width: 140px; font-weight: bold;}
+.bill-print-comment{
+	text-align: center;
+	padding: 20px;
+	font-size: 16px;
+	text-decoration: underline;
+	color: red;
+}
+.bill-print-num{
+	text-align: center;
+	padding: 14px 0 4px 0;
+	font-size: 22px;
+}
+.bill-print-dt{
+	text-align: center;
+}
+
+.bill-print-tbl{
+	padding: 20px 0;
+}
+table.print-tbl{
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
+	/*border: 1px solid black;*/
+}
+th.t-th{border: 1px solid black;}
+table.print-tbl th{
+	text-align: center;
+	border: 1px solid black;
+	font-weight: normal;
+	padding: 14px 4px;
+}
+table.print-tbl td{
+	border: 1px solid black !important;
+	padding: 10px 4px !important;
+}
+table.print-tbl td.no-bord{border: 0 !important; text-align: right;}
+
+.bill-print-stamp{
+	padding: 20px 0;
+}
+.bill-print-stamp>img{display: block; margin: 0 50px 0 auto;}

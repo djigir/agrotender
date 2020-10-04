@@ -1,0 +1,7 @@
+.idea
+.well-known
+pics
+app/cache
+app/views_compile/*
+vendor
+robots.txt

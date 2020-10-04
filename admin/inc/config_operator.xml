@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE config_file [
+
+<!ELEMENT config (language,mainmenu)>
+<!ELEMENT language (PCDATA)>
+<!ELEMENT mainmenu (menusection+)>
+<!ELEMENT menusection (menutitle, menuitem+)>
+<!ELEMENT menutitle (PCDATA)>
+<!ELEMENT menuitem (PCDATA)>
+<!ATTLIST menuitem linkurl CDATA #REQUIRED>
+]>
+<config>
+<!-- language could be 'en' or 'ru' -->
+<language>ru</language>
+<mainmenu>
+    <menusection>
+		<menutitle>Файловый менеджер</menutitle>
+		<menuitem linkurl="cat_files.php?full=true">Файловый менеджер</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Страницы</menutitle>
+		<menuitem linkurl="page_res.php">Текстовки</menuitem>
+		<menuitem linkurl="page_basic.php">Контент страниц</menuitem>
+		
+	</menusection>
+	
+	<menusection>
+		<menutitle>Разделы сайта</menutitle>
+		<menuitem linkurl="page_cont.php">Контакты</menuitem>
+		<menuitem linkurl="splashslides.php">Слайды</menuitem>
+		<menuitem linkurl="offices.php">Филиалы</menuitem>
+		<menuitem linkurl="technology.php">Технологии</menuitem>
+		
+	</menusection>
+	<menusection>
+		<menutitle>Наполнение Каталога</menutitle>
+		<menuitem linkurl="cat_sect.php">Разделы каталога</menuitem>
+		<menuitem linkurl="cat_makes.php">Фирмы производители</menuitem>
+		<menuitem linkurl="cat_addprod.php">Добавить продукт</menuitem>
+		
+	</menusection>
+	
+</mainmenu>
+</config>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE config_file [
+
+<!ELEMENT config (language,mainmenu)>
+<!ELEMENT language (PCDATA)>
+<!ELEMENT mainmenu (menusection+)>
+<!ELEMENT menusection (menutitle, menuitem+)>
+<!ELEMENT menutitle (PCDATA)>
+<!ELEMENT menuitem (PCDATA)>
+<!ATTLIST menuitem linkurl CDATA #REQUIRED>
+]>
+<config>
+<!-- language could be 'en' or 'ru' -->
+<language>ru</language>
+<mainmenu>
+	<menusection>
+		<menutitle>Быстрый доступ</menutitle>
+		<!--<menuitem linkurl="traders.php">Трейдеры</menuitem>-->
+		<menuitem linkurl="comp_manage.php?isprice=1">Трейдеры</menuitem>
+		<menuitem linkurl="all_trader_view.php">Активные трейдеры</menuitem>
+		<menuitem linkurl="comp_manage.php">Редактир. компаний</menuitem>
+		<menuitem linkurl="board.php">Объявления</menuitem>
+		<menuitem linkurl="board.php?compmode=onlycomp">Объявления компаний</menuitem>
+		<menuitem linkurl="comp_lenta.php">Лента</menuitem>
+		<menuitem linkurl="torg_elevator.php">Элеваторы</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Доска объявлений</menutitle>
+		<menuitem linkurl="adv_tgroup.php">Группы разделов доски</menuitem>
+		<menuitem linkurl="adv_topics.php">Разделы доски объяв.</menuitem>
+		<menuitem linkurl="board.php">Объявления</menuitem>
+		<menuitem linkurl="adv_complains.php">Жалобы на объявления</menuitem>
+		<menuitem linkurl="board_srchstat.php">Статистика запросов</menuitem>
+		<menuitem linkurl="board_words.php">Подсказки к разделам</menuitem>
+		<menuitem linkurl="seo_titles.php">SEO Titles board</menuitem>
+		<!--<menuitem linkurl="adv_tags.php">Таги доски объяв.</menuitem>-->		
+	</menusection>
+	<menusection>
+		<menutitle>Компании</menutitle>
+		<menuitem linkurl="comp_tgroup.php">Группы разделов</menuitem>
+		<menuitem linkurl="comp_topics.php">Разделы</menuitem>
+		<menuitem linkurl="comp_manage.php">Редактир. компаний</menuitem>
+		<menuitem linkurl="board.php?compmode=onlycomp">Объявления компаний</menuitem>		
+		<menuitem linkurl="comp_lenta.php">Лента</menuitem>
+		<menuitem linkurl="comp_news.php">Новости компаний</menuitem>
+		<menuitem linkurl="comp_vacs.php">Вакансии компаний</menuitem>
+		<menuitem linkurl="comp_comment.php">Отзывы компаний</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Цены трейдеров</menutitle>
+		<menuitem linkurl="traders.php">Трейдеры</menuitem>
+		<menuitem linkurl="comp_msngr.php">Мессенджер</menuitem>
+		<menuitem linkurl="trader_cult_groups.php">Группы товаров</menuitem>
+		<menuitem linkurl="trader_cult2.php">Товары</menuitem>
+		<menuitem linkurl="trader_cult.php">Закупки</menuitem>
+		<menuitem linkurl="trader_port.php">Порты</menuitem>
+		<!--<menuitem linkurl="trader_comment.php">Отзывы трейдеров</menuitem>-->				
+		<menuitem linkurl="trader_types.php">Типы трейдеров</menuitem>
+		<menuitem linkurl="seo_titles_tr.php">SEO Titles trader</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Новости/Библиотека</menutitle>
+		<menuitem linkurl="news.php">Новости</menuitem>
+		<menuitem linkurl="news_comment.php">Комментарии к новостям</menuitem>
+		<menuitem linkurl="faq_group.php">Разделы библиотеки</menuitem>
+		<menuitem linkurl="faq.php">Статьи</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Элеваторы</menutitle>
+		<menuitem linkurl="torg_elevator.php">Элеваторы</menuitem>
+		<menuitem linkurl="importelev.php">Импорт элеваторов</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Реклама</menutitle>
+		<menuitem linkurl="banner_places.php">Банерные площадки</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Файловый менеджер</menutitle>
+		<menuitem linkurl="cat_files.php?full=true">Файловый менеджер</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Управление пользователями</menutitle>
+		<menuitem linkurl="torg_buyer.php">Зарегистрированные пользователи</menuitem>
+		<menuitem linkurl="torg_buyer_ban.php">Забаненные пользователи</menuitem>
+		<menuitem linkurl="torg_buyer_pays.php">Пополнения пользователей</menuitem>
+		<menuitem linkurl="torg_buyer_balance.php">Операции по счету пользователей</menuitem>
+	</menusection>
+	
+
+	<menusection>
+		<menutitle>Управление страницами</menutitle>		
+		<menuitem linkurl="page_manager.php">Добавить/Удалить скрипты</menuitem>
+		<menuitem linkurl="popdlgs.php">Всплывающие окна</menuitem>
+		<!--<menuitem linkurl="page_basic.php">Контент страниц</menuitem>-->		
+	</menusection>
+	<menusection>
+		<menutitle>Управление алгоритмами</menutitle>
+		<menuitem linkurl="preferences.php">Алгоритмы</menuitem>
+		<menuitem linkurl="page_res.php">Текстовки</menuitem>
+		<menuitem linkurl="page_cont.php">Контакты</menuitem>
+		<menuitem linkurl="tarrif_packs.php">Пакеты услуг</menuitem>
+	</menusection>
+	
+	
+	<!--<menusection>
+		<menutitle>Блек-лист</menutitle>
+		<menuitem linkurl="black_news.php">Публикации</menuitem>
+		<menuitem linkurl="black_news_comment.php">Модерир. комментариев</menuitem>
+	</menusection>-->
+		
+	<!--<menusection>
+		<menutitle>Тендеры</menutitle>
+		<menuitem linkurl="torg_profiles.php">Культуры</menuitem>
+		<menuitem linkurl="torg_params.php">Параметры культур</menuitem>
+		<menuitem linkurl="torg_param2prof.php">Привязка культура/пар.</menuitem>
+		<menuitem linkurl="torg_items.php">Торги</menuitem>
+		<menuitem linkurl="torg_titles2.php">Тайтлы и тексты</menuitem>
+	</menusection>-->
+	
+	
+	
+	<menusection>
+		<menutitle>Управление пользователями</menutitle>
+		<menuitem linkurl="user_list.php">Пользователи</menuitem>
+	</menusection>	
+	<menusection>
+		<menutitle>Выгрузка</menutitle>
+		<menuitem linkurl="exportmain.php">Экпорт E-mail адресов</menuitem>
+		<!--<menuitem linkurl="exportmails.php">Выгрузить E-mails</menuitem>
+		<menuitem linkurl="exportmails_comp.php">Выгрузить E-mails компании</menuitem>-->
+		<menuitem linkurl="exportphones.php">Выгрузить телефоны</menuitem>
+	</menusection>
+	<!--<menusection>
+		<menutitle>Опросные листы</menutitle>
+		<menuitem linkurl="quest_group.php">Группы листов</menuitem>
+		<menuitem linkurl="questlist.php">Опросные листы</menuitem>
+	</menusection>-->
+</mainmenu>
+</config>

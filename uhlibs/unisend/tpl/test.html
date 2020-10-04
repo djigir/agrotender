@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>{MAIN_MAIL_TITLE}</title>
+</head>
+
+<body style="font-family: tahoma; background: #f5f8fd; padding: 30px 0 30px 0; margin: auto;">
+	<table style="padding: 0; border-spacing: 0; border-collapse: collapse; margin: 0 auto; margin-bottom: 10px;" cellspacing="0" cellpadding="0" border="0" width="90%">
+		<tr style="background: #ffffff; height: 60px;">
+			<td style="padding: 10px 0 10px 15px;">
+				<img src="https://agrotender.com.ua/img5/ml/agrotender-logo.png" alt="AgroTender">
+			</td>
+		</tr>
+	</table>
+		<!-- Header -->
+	<table style="margin: 0; padding: 0; border-spacing: 0; border-collapse: collapse; margin: 10px auto;" cellspacing="0" cellpadding="0" border="0" width="90%">
+		<tr style="background: #ffffff;">
+			<td style="padding: 30px 30px 40px 30px;">
+					<table style="width: 100%; font: 14px/14px Tahoma;">
+						<tr><td colspan="2" style="font: bold 24px/24px Tahoma; color: #000000;">Здравствуйте, {FULL_NAME}</td></tr>
+						<tr><td colspan="2" style="font: 14px/24px Tahoma; padding-top: 30px;">
+							<b>{DATE_TIME}</b>
+						</td></tr>
+
+						"{ARR_TPL_ITEMS_LIST}" => array(
+							"{ITEM_NAME}" => "name",
+							"{ARR_TPL_TRAIDERS_LIST}" => array(
+
+							)
+						)
+
+						{ARR_TPL_ITEMS_LIST}
+						<tr><td style="padding-top: 40px;">Список трейдеров изменивших цену на <b>{ITEM_NAME}:</b></td></tr>
+
+						{ARR_TPL_TRAIDERS_LIST}
+
+						<tr width="100%">
+							<td style="font: 18px/18px"><b>{TRAIDER_NAME}</b></td>
+							<td style="text-align: right; padding: 12px 0;"><a href="{URL_LEARN}" style="text-decoration: none;  color: #ffffff; "><div style="display: table-cell; text-align: center; vertical-align: middle; width: 160px; padding: 10px 20px; font: bold 14px/14px Tahoma; background: #008dff; border-radius: 3px;">ОЗНАКОМИТЬСЯ</div></a></td>
+						</tr>
+						<tr style="height: 1px;"><td colspan="2" style="background: #bdbcbc;"></td></tr>
+						<tr width="100%">
+							<td style="font: 18px/18px"><b>БУНГЕ</b></td>
+							<td style="text-align: right; padding: 12px 0;"><a href="{URL_LEARN}" style="text-decoration: none;  color: #ffffff; "><div style="display: table-cell; text-align: center; vertical-align: middle; width: 160px; padding: 10px 20px; font: bold 14px/14px Tahoma; background: #008dff; border-radius: 3px;">ОЗНАКОМИТЬСЯ</div></a></td>
+						</tr>
+						<tr style="height: 1px;"><td colspan="2" style="background: #bdbcbc;"></td></tr>
+						{/ARR_TPL_TRAIDERS_LIST}
+						{/ARR_TPL_ITEMS_LIST}
+
+						<tr><td style="padding-top: 40px;">Список трейдеров изменивших цену на <b>{ITEM_NAME}:</b></td></tr>
+						<tr width="100%">
+							<td style="font: 18px/18px"><b></b>НИБУЛОН</b></td>
+							<td style="text-align: right; padding: 12px 0;"><a href="{URL_LEARN}" style="text-decoration: none;  color: #ffffff; "><div style="display: table-cell; text-align: center; vertical-align: middle; width: 160px; padding: 10px 20px; font: bold 14px/14px Tahoma; background: #008dff; border-radius: 3px;">ОЗНАКОМИТЬСЯ</div></a></td>
+						</tr>
+						<tr style="height: 1px;"><td colspan="2" style="background: #bdbcbc;"></td></tr>
+						<tr width="100%">
+							<td style="font: 18px/18px"><b>БУНГЕ</b></td>
+							<td style="text-align: right; padding: 12px 0;"><a href="{URL_LEARN}" style="text-decoration: none;  color: #ffffff; "><div style="display: table-cell; text-align: center; vertical-align: middle; width: 160px; padding: 10px 20px; font: bold 14px/14px Tahoma; background: #008dff; border-radius: 3px;">ОЗНАКОМИТЬСЯ</div></a></td>
+						</tr>
+						<tr style="height: 1px;"><td colspan="2" style="background: #bdbcbc;"></td></tr>
+						<tr><td colspan="2" style="padding-top: 25px; text-align: center;">Отписаться от рассылки <a href="{URL_UNSUBSCRIBE}" style="text-decoration: none; color: #0450da;">здесь</a></td></tr>
+					</table>
+			</td>
+		</tr>
+	</table>
+	<table style="padding: 0; border-spacing: 0; border-collapse: collapse; margin: 0 auto; font: 14px/14px Tahoma;" cellspacing="0" cellpadding="0" border="0" width="90%">
+		<tr style="background: #ffffff;">
+			<td  width="150px" max-width="25%" style="padding: 20px 15px 20px 35px;">
+				<span>Полезные ссылки:</span>
+			</td>
+			<td >
+				<a href="#" style="text-decoration: none; color: #476474">Мои объявления</a>
+				|
+				<a href="#" style="text-decoration: none; color: #476474">Орфета</a>
+				|
+				<a href="#" style="text-decoration: none; color: #476474">Платные услуги</a>
+			</td>
+		</tr>
+		<tr><td style="height: 1px;"></td></tr>
+		<tr style="background: #ffffff;">
+			<td width="150px" max-width="25%" style="padding: 40px 15px 40px 35px;">
+				<span>Мы в соцсетях:</span>
+			</td>
+			<td>
+				<a href="#"><img src="https://agrotender.com.ua/img5/ml/fb-go.png" alt="Facebook" width="53" height="53"></a>
+			</td>
+		</tr>
+		<tr style="background: #e9effa;">
+			<td width="150px" max-width="25%" style="padding: 40px 15px 40px 30px;">
+				<span>Наши контакты:</span>
+			</td>
+			<td style="vertical-align: middle;">
+				<a href="#" style="color: #b1b7ba; text-decoration: none; font: 14px/20px Tahoma;">info@agrotender.com.ua - техподдержка</a><br>
+				<a href="#" style="color: #b1b7ba; text-decoration: none; font: 14px/20px Tahoma;">reklama@agrotender.com.ua - реклама</a><br>
+				<a href="#" style="color: #b1b7ba; text-decoration: none; font: 14px/20px Tahoma;">trader@agrotender.com.ua - цены трейдеров</a>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: center; padding: 15px; color: #494a4a;" colspan="2">
+				Это сообщение было отправлено автоматически. Пожалуйста, не отвечайте на него.
+			</td>
+		</tr>
+	</table>
+</body>
+</html>

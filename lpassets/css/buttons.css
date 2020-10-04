@@ -1,0 +1,94 @@
+.btn {
+    width: 300px;
+    height: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 42px;
+    color: #fff;
+    text-decoration: none;
+
+    font-weight: 600;
+    position: relative;
+    margin: 0 15px;
+}
+.btn span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.btn.viber {
+    background: linear-gradient(180deg, #8A78E7 0%, #7E65FF 100%);
+    box-shadow: 0px 6px 8px rgba(160, 144, 241, 0.3);
+}
+.btn.telegram {
+    padding-left: 40px;
+    background: linear-gradient(180deg, #5CA9F1 0%, #44A4FF 100%);
+    box-shadow: 0px 6px 8px rgba(116, 172, 225, 0.3);
+}
+.btn.viber span {
+    left: 110px;
+}
+.btn.telegram span {
+    left: 85px;
+}
+
+.btn img {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.btn.viber img {
+    left: 24px;
+}
+.btn.telegram img {
+    left: 24px;
+}
+
+
+@media screen and (max-width: 600px) {
+    .btn {
+        width: 160px;
+        height: 50px;
+        font-size: 20px;
+        border-radius: 10px;
+    }
+    .btn img {
+        width: 21px;
+        height: 21px;
+    }
+    .btn.viber span {
+        left: 55px;
+    }
+    .btn.telegram span {
+        left: 45px;
+    }
+    .btn.viber img {
+        left: 17px;
+    }
+    .btn.telegram img {
+        left: 12px;
+    }
+}
+
+@media screen and (max-width: 360px) {
+    .btn {
+        font-size: 18px;
+        border-radius: 10px;
+    }
+    .btn img {
+        left: 15px;
+        width: 18px;
+        height: 18px;
+    }
+    .btn.telegram {
+        padding-left: 30px;
+    }
+}

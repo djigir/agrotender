@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE config_file [
+
+<!ELEMENT config (language,mainmenu)>
+<!ELEMENT language (PCDATA)>
+<!ELEMENT mainmenu (menusection+)>
+<!ELEMENT menusection (menutitle, menuitem+)>
+<!ELEMENT menutitle (PCDATA)>
+<!ELEMENT menuitem (PCDATA)>
+<!ATTLIST menuitem linkurl CDATA #REQUIRED>
+]>
+<config>
+<!-- language could be 'en' or 'ru' -->
+<language>ru</language>
+<mainmenu>
+	<menusection>
+		<menutitle>Управление пользователями</menutitle>
+		<menuitem linkurl="user_list.php">Пользователи</menuitem>
+	</menusection>
+    <menusection>
+		<menutitle>Файловый менеджер</menutitle>
+		<menuitem linkurl="cat_files.php?full=true">Файловый менеджер</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Страницы</menutitle>
+		<menuitem linkurl="page_res.php">Текстовки</menuitem>
+		<menuitem linkurl="page_manager.php">Добавить/Удалить скрипты</menuitem>
+		<menuitem linkurl="page_basic.php">Контент страниц</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Курсы валют</menutitle>
+		<menuitem linkurl="preferences.php">Настройки</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Разделы сайта</menutitle>
+		<menuitem linkurl="page_cont.php">Контакты</menuitem>
+		<menuitem linkurl="splashslides.php">Слайды</menuitem>
+		<menuitem linkurl="offices.php">Филиалы</menuitem>
+		<menuitem linkurl="news.php">Новости</menuitem>
+		<menuitem linkurl="faq_group.php">Группы вопросов</menuitem>
+		<menuitem linkurl="faq.php">Вопросы и ответы</menuitem>
+		<menuitem linkurl="links.php">Партнеры/Где играть</menuitem>
+		<!--
+		<menuitem linkurl="useful.php">Полезное</menuitem>
+		<menuitem linkurl="comment.php">Отзывы</menuitem>
+		<menuitem linkurl="staff_group.php">Группы сотрудников</menuitem>
+		<menuitem linkurl="staff.php">Сотрудники</menuitem>
+		<menuitem linkurl="vacancy.php">Вакансии</menuitem>
+		<menuitem linkurl="links.php">Партнеры</menuitem>
+		<menuitem linkurl="awards.php">Сертификаты</menuitem>
+		<menuitem linkurl="banners.php">Банеры</menuitem>
+		<menuitem linkurl="photo.php">Наши объекты</menuitem>
+		<menuitem linkurl="article.php">Статьи</menuitem>
+		<menuitem linkurl="photo_projects.php">Проекты</menuitem>-->
+	</menusection>
+	<menusection>
+		<menutitle>Конфигуратор Каталога</menutitle>
+		<menuitem linkurl="cat_profiles.php">Типы товаров</menuitem>
+		<menuitem linkurl="cat_params.php">Параметры товаров</menuitem>
+		<menuitem linkurl="cat_param2prof.php">Привязка тип/параметр</menuitem>
+		<menuitem linkurl="cat_filters.php">Фильтры товаров</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Наполнение Каталога</menutitle>
+		<menuitem linkurl="cat_sect.php">Разделы каталога</menuitem>
+		<menuitem linkurl="cat_makes.php">Фирмы производители</menuitem>
+		<menuitem linkurl="cat_addprod.php">Товары</menuitem>
+		<menuitem linkurl="cat_price.php">Редактор цен</menuitem>
+		<menuitem linkurl="cat_best.php">Товары на главной</menuitem>
+		<menuitem linkurl="actions.php">Акции</menuitem>
+		<menuitem linkurl="cat_sect_tit.php">SEO titles</menuitem>
+	</menusection>
+	<menusection>
+		<menutitle>Заказы клиентов</menutitle>
+		<menuitem linkurl="orders.php">Заказы</menuitem>
+	</menusection>
+	<!--<menusection>
+		<menutitle>Опросные листы</menutitle>
+		<menuitem linkurl="quest_group.php">Группы листов</menuitem>
+		<menuitem linkurl="questlist.php">Опросные листы</menuitem>
+	</menusection>-->
+</mainmenu>
+</config>

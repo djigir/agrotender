@@ -1,0 +1,410 @@
+body {
+  background-color: #F2F9FF;
+  overflow: hidden;
+}
+.header {
+  animation-delay: 0;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+.header__link {
+  font-size: 24px;
+  line-height: 1;
+  color: #3B82DD;
+  text-decoration: none;
+}
+.content {
+  position: relative;
+  z-index: 3;
+}
+.content h1{
+  animation-delay: 500ms;
+  position: relative;
+  z-index: 4;
+
+  color: #0D294E;
+  font-size: 84px;
+  line-height: 1;
+  font-weight: 500;
+  margin-bottom: 115px;
+}
+.content h1 .content__normal {
+  animation-delay: 500ms;
+}
+.content h1 .content__bold {
+  animation-delay: 700ms;
+  font-weight: 700;
+  font-size: 70px;
+}
+.content h1 .content__small {
+  animation-delay: 900ms;
+  font-weight: 400;
+  font-size: 52px;
+}
+
+.footer__text {
+  font-weight: 400;
+  animation-delay: 2s;
+  font-size: 30px;
+  margin-bottom: 45px;
+  color: #0D294E;
+  max-width: 685px;
+}
+.footer__buttons {
+  animation-delay: 2.3s;
+  display: flex;
+  margin: 0 -15px;
+}
+#app {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  padding-top: 50px;
+}
+#appPhoneDesctop {
+  z-index: -1;
+  position: absolute;
+  top: -20px;
+  right: -70px;
+  animation-delay: 1s;
+}
+#appPhoneMobile {
+  display: none;
+}
+.shadow {
+  display: none;
+}
+
+@media screen and (max-width: 1700px) {
+  #appPhoneDesctop {
+    top:  50px;
+    width: 800px;
+    right: 50px;
+  }
+
+}
+@media screen and (max-width: 1380px) {
+  #app {
+    padding-top: 25px;
+  }
+  #appPhoneDesctop {
+    top:  50px;
+    width: 750px;
+    right: 0;
+  }
+  .content {
+    position: relative;
+  }
+  .content h1 {
+    position: relative;
+    font-size: 74px;
+  }
+  .content h1 .content__bold {
+    font-size: 60px;
+  }
+  .content h1 .content__small {
+    font-size: 42px;
+  }
+  .footer__text {
+    font-size: 25px;
+  }
+}
+@media screen and (max-width: 1170px) {
+  #appPhoneDesctop {
+    top:  50px;
+    width: 650px;
+  }
+  .content h1 {
+    font-size: 69px;
+  }
+  .content h1 .content__bold {
+    font-size: 55px;
+  }
+  .content h1 .content__small {
+    font-size: 37px;
+  }
+  .footer__text {
+    font-size: 24px;
+    max-width: 585px;
+  }
+}
+.shadow {
+  position: absolute;
+  z-index: 1;
+  width: 100%;
+  height: 500px;
+  left: -20px;
+  bottom: -250px; 
+  background: linear-gradient(154.52deg, #E9F3FD 50.69%, rgba(233, 243, 253, 0) 80.9%);
+}
+
+@media screen and (max-width: 1024px) {
+  /* #appPhoneDesctop {
+    display: none;
+  }*/
+  #appPhoneDesctop {
+    display: block;
+    position: absolute;
+    top: 24%;
+    z-index: -1;
+    width: 600px;
+    left: 15%;
+  }
+  body {
+    background-color: #EAF4FE;
+  }
+  .header {
+    justify-content: center;
+  }
+  .header__link {
+    display: none;
+  }
+  .content h1 {
+    text-align: center;
+    margin-bottom: 0;
+  }
+  .footer {
+    z-index: 5;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    margin: 0 auto;
+  }
+  .footer__text {
+    position: relative;
+    z-index: 6;
+    font-size: 25px;
+  }
+}
+
+
+@media screen and (max-width: 600px) {
+  #app {
+    height: 100vh;
+  }
+  #appPhoneDesctop {
+    display: none;
+  }
+  .shadow {
+    display: block;
+  }
+  #appPhoneMobile {
+    display: block;
+    position: absolute;
+    top: 100px;
+    bottom: 0;
+    right: 0;
+    left: 10%;
+    z-index: 1;
+    animation-delay: 1.2s;
+  }
+  #appPhoneMobile .phone {
+    max-width: 90%;
+    max-height: 100%;
+  }
+  #appPhoneMobile .cucuruza1{
+    animation-delay: 2.5s;
+    position: absolute;
+    left: 170px;
+    top: 120px;
+    z-index: -1;
+    transform: translate(-50px, 70px);
+    animation-duration: 1s;
+    animation-name: fromCenter;
+    animation-fill-mode: forwards;
+
+  }
+  #appPhoneMobile .cucuruza2{
+    animation-delay: 2.5s;
+    position: absolute;
+    left: 20px;
+    top: 250px;
+    z-index: -1;
+    max-width: 30%;
+    transform: translate(70px, -70px);
+    animation-name: fromTopRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+  #appPhoneMobile .psheniza{
+    animation-delay: 2.5s;
+    position: absolute;
+    left: 240px;
+    top: 220px;
+    z-index: -1;
+    max-width: 30%;
+    transform: translate(-75px, 0);
+    animation-name: fromCenterToTopRight;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+  .header {
+    margin-bottom: 20px;
+  }
+  .header__logo img{
+    width: 160px;
+    height: 35px;
+  }
+  .content h1 {
+    font-size: 42px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+  .content h1 .content__bold {
+    font-size: 36px;
+    line-height: 1;
+    margin-bottom: 20px;
+  }
+  .content h1 .content__small {
+    font-size: 26px;
+    line-height: 1;
+
+  }
+  .footer {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    padding-bottom: 20px;
+  }
+  .footer.iphone {
+    bottom: 30px;
+  }
+  .footer__text {
+    animation-delay: 2s;
+    width: 90%;
+    line-height: 1.2;
+    font-size: 17px;
+    margin: 0 auto 15px;
+  }
+  .footer__text span {
+    display: block;
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .footer__buttons {
+    animation-delay: 3s;
+    justify-content: center;
+    width: 100%;
+    margin: 0;
+  }
+  .footer__buttons .btn {
+    margin: 0 5px;
+  }
+}
+@media screen and (max-width: 380px) {
+  .footer {
+    bottom: 15px;
+  }
+  #appPhoneMobile {
+    top: 50px;
+    height: 70%;
+  }
+  #app {
+    height: 100vh;
+    padding-top: 10px;
+  }
+  .header{
+    margin-bottom: 0;
+  }
+  .header__logo img {
+    width: 140px;
+    height: 30px;
+  }
+  .content h1 {
+    font-size: 34px;
+  }
+  .content h1 .content__bold {
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+  .content h1 .content__small {
+    font-size: 20px;
+  }
+  .footer__text {
+    width: 100%;
+  }
+  #appPhoneMobile .cucuruza1{
+    top: 100px;
+    left: 120px;
+    height: 20%;
+  }
+  #appPhoneMobile .cucuruza2{
+    left: 10%;
+    top: 55%;
+    height: 20%;
+  }
+  #appPhoneMobile .psheniza{
+    left: 60%;
+    top: 50%;
+    height: 20%;
+  }
+  .footer__text{
+    width: 80%;
+    font-size: 12px;
+    margin: 0 auto 15px;
+  }
+  .footer__text span {
+    width: 120%;
+    margin-left: -10%;
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+}
+
+/*
+@media only screen 
+  and (device-width : 414px) 
+  and (device-height : 896px) 
+  and (-webkit-device-pixel-ratio : 2) {
+    .footer {
+      bottom: 80px;
+    }
+  }
+@media only screen 
+    and (device-width : 375px) 
+    and (device-height : 812px) 
+    and (-webkit-device-pixel-ratio : 3) {
+      .footer {
+        bottom: 80px;
+      }
+    }
+@media only screen 
+  and (device-width : 414px) 
+  and (device-height : 896px) 
+  and (-webkit-device-pixel-ratio : 3) {
+    .footer {
+      bottom: 80px;
+    }
+  }
+*/
+
+@keyframes fromTopRight {
+  0% {
+    transform: translate(70px, -70px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes fromCenter {
+  0% {
+    transform: translate(-50px, 70px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+@keyframes fromCenterToTopRight {
+  0% {
+    transform: translate(-75px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}

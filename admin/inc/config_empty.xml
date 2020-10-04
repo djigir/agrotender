@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE config_file [
+
+<!ELEMENT config (language,mainmenu)>
+<!ELEMENT language (PCDATA)>
+<!ELEMENT mainmenu (menusection+)>
+<!ELEMENT menusection (menutitle, menuitem+)>
+<!ELEMENT menutitle (PCDATA)>
+<!ELEMENT menuitem (PCDATA)>
+<!ATTLIST menuitem linkurl CDATA #REQUIRED>
+]>
+<config>
+<!-- language could be 'en' or 'ru' -->
+<language>ru</language>
+<!--
+<mainmenu>
+    <menusection>
+		<menutitle>Многоязыковая поддержка</menutitle>
+		<menuitem linkurl="langs.php">Выбрать язык сайта</menuitem>
+	</menusection>
+</mainmenu>-->
+</config>
