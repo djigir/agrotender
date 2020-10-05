@@ -11,7 +11,6 @@
 //var_dump($_SERVER['REQUEST_URI']);die();
 if(strripos($_SERVER['REQUEST_URI'],'/traders')===0 ){
     include_once "laravel/public/index.php";
-
     die();
 
 }
