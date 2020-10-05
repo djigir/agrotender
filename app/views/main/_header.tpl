@@ -56,7 +56,7 @@
                 <a href="https://t.me/AGROTENDER_bot" id='telegramHead'>
                   <img alt="" src="/app/assets/img/company/telegram.svg" style="width: 20px" />
                 </a>
-                {if $page eq 'main/home'}
+                {if $page eq 'main/main'}
                 <span class="align-self-center align-middle logo-text d-none d-lg-inline-block pl-2">Присоединяйся!</span>
                 {else}
                 <span class="align-self-center align-middle logo-text d-none d-lg-inline-block pl-2">Присоединяйся!</span>

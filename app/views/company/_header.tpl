@@ -193,7 +193,7 @@
           {if $company['logo_file'] neq null}
             <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">
           {/if}
-          {if $page eq 'company/home'}
+          {if $page eq 'company/main'}
           <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>
           {else}
           <span class="title d-block mt-2">{$company['title']}</span>

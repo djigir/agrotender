@@ -10,7 +10,7 @@ class Engine {
   public    $handlers = ['request', 'session', 'cookie', 'view', 'response', 'db'];
   protected $data;
   private   $routingRules = [
-    ["main/home", "/", "Main:index", "GET|POST"],
+    ["main/main", "/", "Main:index", "GET|POST"],
     ["main/companies", "/kompanii", "Main:companies", "GET|POST"],
     ["main/companies-r", "/kompanii/region_(region:str)/(?:index|t(rubric:num)(?:|_p(pageNumber1:num))|)(?:p(pageNumber2:num)|)", "Main:companies", "GET|POST"],
     ["main/companies-s", "/kompanii/s/(query:any)(?:/region_(region:str)|)(?:/t(rubric:num)|/index|)(?:/p(pageNumber1:num)|)(?:|)", "Main:companies", "GET|POST"],
@@ -39,7 +39,7 @@ class Engine {
     ["main/success", "/success", "Main:info:success", "GET"],
     ["main/logout", "/logout", "Main:logout", "GET"],
     ["main/404", "/notfound", "Main:pageNotFound", "GET"],
-    ["user/home", "/u/", "User:index", "GET|POST"],
+    ["user/main", "/u/", "User:index", "GET|POST"],
     ["user/contacts", "/u/contacts", "User:contacts", "GET|POST"],
     ["user/notify", "/u/notify", "User:notify", "GET|POST"],
     ["user/reviews", "/u/reviews", "User:reviews", "GET|POST"],
@@ -58,7 +58,7 @@ class Engine {
     ["user/docsBalance", "/u/balance/docs", "User:docsBalance", "GET|POST"],
     ["main/changeEmail", "/changeEmail/(id:num)/(email:any)", "Main:changeEmail", "GET"],
     ["main/pay", "/pay", "Main:pay", "GET|POST"],
-    ["company/home", "/kompanii/comp-(companyId:num)", "Company:index", "GET|POST"],
+    ["company/main", "/kompanii/comp-(companyId:num)", "Company:index", "GET|POST"],
     //["company/about", "/kompanii/comp-(companyId:num)-about", "Company:about", "GET|POST"],
     ["company/adverts", "/kompanii/comp-(companyId:num)-adverts", "Company:adverts", "GET|POST"],
     ["company/contacts", "/kompanii/comp-(companyId:num)-cont", "Company:contacts", "GET|POST"],

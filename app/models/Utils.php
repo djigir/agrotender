@@ -112,7 +112,7 @@ class Utils extends \Core\Model {
   public function getCompanyMenu($page, $company) {
     $user = $this->model('user');
     $params = [
-      ['company/home', '/kompanii/comp-'.$company['id'], 'Главная'],
+      ['company/main', '/kompanii/comp-'.$company['id'], 'Главная'],
       ['company/prices', '/kompanii/comp-'.$company['id'].'-prices', 'Цены трейдера'],
       ['company/forwards', '/kompanii/comp-'.$company['id'].'-forwards', 'Форварды'],
       ['company/reviews', '/kompanii/comp-'.$company['id'].'-reviews', 'Отзывы'],
@@ -156,7 +156,7 @@ class Utils extends \Core\Model {
   public function getProfileMenu($page) {
     $user = $this->model('user');
     $params = [
-      [['user/home', 'user/contacts', 'user/notify', 'user/reviews', 'user/company', 'user/news', 'user/vacancy'], '/u/', 'Профиль'],
+      [['user/main', 'user/contacts', 'user/notify', 'user/reviews', 'user/company', 'user/news', 'user/vacancy'], '/u/', 'Профиль'],
       ['user/posts', '/u/posts', 'Объявления'],
       ['user/proposeds', '/u/proposeds', 'Заявки'],
       [['user/prices', 'user/pricesContacts', 'user/pricesForward'], '/u/prices', 'Цены трейдера'],

@@ -30,7 +30,7 @@
 //require_once 'PEAR.php';
 //require_once 'Spreadsheet/Excel/Reader/OLERead.php';
 require_once '../phpexcelreader/Excel/oleread.inc.php';
-//require_once '/home/alex/domains/deshevo.ukrdomen.com/public_html/phpexcelreader/Excel/oleread.inc';
+//require_once '/main/alex/domains/deshevo.ukrdomen.com/public_html/phpexcelreader/Excel/oleread.inc';
 //require_once 'OLE.php';
 
 define('SPREADSHEET_EXCEL_READER_BIFF8',             0x600);
