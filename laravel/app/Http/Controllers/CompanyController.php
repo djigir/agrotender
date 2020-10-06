@@ -35,7 +35,7 @@ class CompanyController extends Controller
      */
     public function company_region_rubric_number($region, $rubric_number)
     {
-        return view('company.company_region_rubric number');
+        return view('company.company_region_rubric_number');
     }
 
     /**

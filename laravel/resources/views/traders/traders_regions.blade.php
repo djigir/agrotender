@@ -1,7 +1,7 @@
 @extends('layout.layout')
 {{--Трейдер--}}
 
-
+@section('content')
 <div class="header__wrap">
     <header class="new_header">
         <div class="new_container">
@@ -1716,4 +1716,4 @@
     </div>
 </div>
 {/if}
-
+@endsection
