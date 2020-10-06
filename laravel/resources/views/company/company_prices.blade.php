@@ -1,2 +1,5 @@
 @extends('layout.layout')
-Компаннии цены
+
+@section('content')
+    Компаннии цены
+@endsection

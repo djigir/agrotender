@@ -1,3 +1,6 @@
 @extends('layout.layout')
-Все компании
+
+@section('content')
+    Все компании
+@endsection
 

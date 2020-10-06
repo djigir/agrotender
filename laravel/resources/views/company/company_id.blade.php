@@ -1,2 +1,5 @@
 @extends('layout.layout')
-Компании по id
+
+@section('content')
+    Компании по id
+@endsection

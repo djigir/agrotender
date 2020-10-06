@@ -1,3 +1,6 @@
 @extends('layout.layout')
-Компании по региону
+
+@section('content')
+    Компании по региону
+@endsection
 

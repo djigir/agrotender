@@ -1,2 +1,5 @@
 @extends('layout.layout')
-Компаннии reviews
+
+@section('content')
+    Компаннии reviews
+@endsection

@@ -1,2 +1,5 @@
 @extends('layout.layout')
-Фильтр компаний {{ $query }}
+
+@section('content')
+    Фильтр компаний {{ $query }}
+@endsection

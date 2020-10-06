@@ -1,2 +1,5 @@
 @extends('layout.layout')
-Компании регион и номер рубрики
+
+@section('content')
+    Компании регион и номер рубрики
+@endsection
