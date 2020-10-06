@@ -1,5 +1,6 @@
 @extends('layout.layout')
 
+
 @section('content')
     <div class="filters-wrap">
         <div class="filters-inner">
@@ -700,4 +701,3 @@
     </div>
     {/if}
 @endsection
-
