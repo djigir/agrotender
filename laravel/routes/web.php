@@ -29,7 +29,7 @@ Route::prefix('traders')
     ->name('traders.')
     ->group(function () {
 
-        Route::get('/', 'Api\UserController@index')->name('index');
+
         Route::get('/', function () {
             return redirect('/traders/region_ukraine');
         });
