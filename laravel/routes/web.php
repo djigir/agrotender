@@ -29,7 +29,6 @@ Route::prefix('traders')
     ->name('traders.')
     ->group(function () {
 
-
         Route::get('/', function () {
             return redirect('/traders/region_ukraine');
         });
