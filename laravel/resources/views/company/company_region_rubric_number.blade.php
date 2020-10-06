@@ -1,6 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
+    Компании регион и номер рубрики
     <div class="filters-wrap">
         <div class="filters-inner">
             <div class="filters arrow-t">
@@ -333,4 +334,3 @@
     {/if}
     </div>
 @endsection
-

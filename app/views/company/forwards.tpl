@@ -1,4 +1,3 @@
-
 <div class="container mt-4">
   <h2 class="d-inline-block">Цены трейдера</h2>
   {if $updateDate neq null}
