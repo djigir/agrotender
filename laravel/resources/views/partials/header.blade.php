@@ -46,7 +46,7 @@
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="wrap">
+<div class="header__wrap" >
     <header class="header">
         <div class="top container">
             <div class="row">
@@ -117,9 +117,20 @@
         </div>
         <div class="d-none d-sm-flex justify-content-center align-items-center">
             <ul class="menu-links m-0 p-0">
-                {$desktop}
                 <li>
-                    <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/kukuruza?viewmod=tbl" class="menu-link">Форварды</a>
+                    <a href="/board" class="menu-link">Объявления</a>
+                </li>
+                <li>
+                    <a href="/kompanii" class="menu-link">Компании</a>
+                </li>
+                <li>
+                    <a href="/traders/region_ukraine" class="menu-link">Цены Трейдеров</a>
+                </li>
+                <li>
+                    <a href="/elev" class="menu-link">Элеваторы</a>
+                </li>
+                <li>
+                    <a href="/traders/region_ukraine/pshenica_2_kl" class="menu-link">Форварды</a>
                 </li>
             </ul>
         </div>

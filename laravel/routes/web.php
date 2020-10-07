@@ -10,9 +10,8 @@ Route::prefix('traders')
     ->name('traders.')
     ->group(function () {
 
-        Route::get('/', function () {
-            return redirect('/traders/region_ukraine');
-        });
+        Route::get('/', 'TraderController@index');
+//        function () {return redirect('/traders/region_ukraine');});
 
         Route::get('/region_{region}', 'TraderController@region')->name('traders_regions');
         Route::get('/region_{region}/{culture}', 'TraderController@region_and_culture')->name('traders_regions_culture');
