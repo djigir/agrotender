@@ -20,17 +20,23 @@ class TraderService
     public function DataForFilter()
     {
 //        \DB::enableQueryLog();
-        $temp = CompTopic::with('comp_topic_item')
+        $rubrics = CompTopic::with(['comp_topic_item' => function($query) {
+            $query->select(
+                'topic_id'
+                ,\DB::raw('count(*) as count, id')
+            )->groupBy('id');
+        }])
             ->select(
-                'id',
-                'menu_group_id',
-                'title',
-                'sort_num',
-                \DB::raw('count(*) as count, id')
+                'id'
+                , 'menu_group_id'
+                , 'title'
+                , 'sort_num'
+
             )
-            ->groupBy('id')
+
             ->get();
 //        dd(\DB::getQueryLog());
-        dd($temp->toArray());
+        //dd($rubrics->toArray());
+        return $rubrics->toArray();
     }
 }

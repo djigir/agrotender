@@ -2,7 +2,7 @@
 {{--Трейдер--}}
 
 @section('content')
-    @include('layout.layout-filter', ['section' => $section, 'rubric' => $rubric, 'onlyPorts' => $onlyPorts])
+    @include('layout.layout-filter', ['section' => $section, 'rubricsGroup' => $rubric, 'onlyPorts' => $onlyPorts])
 {{--    <div class="header__wrap">--}}
 {{--        <header class="new_header">--}}
 {{--            <div class="new_container">--}}

@@ -36,6 +36,7 @@ class TraderController extends Controller
     public function region($region)
     {
 
+
         /*
          * $query = "
           SELECT tp_l.name as rubric, tpr.id, round(tpr.costval) as price, round(tpr.costval_old) as old_price, tpr.place_id, tpr.curtype as currency, tpr.change_date, $title
@@ -72,6 +73,22 @@ class TraderController extends Controller
         );*/
 
 
+
+
+        $rubric = $this->traderService->DataForFilter();
+
+        return view('traders.traders_regions'
+            ,['section' => 'section', 'rubric' => $rubric, 'onlyPorts' => 'onlyPorts']
+        );
+        //$traders_products_lang = Traders_Products_Lang::first();
+        /*$traders = Traders::first();
+        $traders_price = Traders_Prices::first();
+        $traders_filter = TradersFilters::first();*/
+        //dd($traders_products_lang);
+        /*$traders = Traders_Prices::query();
+        if($region){
+            $traders = $traders->where('region',$region);
+        }*/
 
     }
 
