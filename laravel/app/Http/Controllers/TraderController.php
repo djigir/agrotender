@@ -37,9 +37,12 @@ class TraderController extends Controller
     public function region($region)
     {
 
-        $this->traderService->DataForFilter();
+        $rubric = $this->traderService->DataForFilter();
 
-        $traders_products_lang = Traders_Products_Lang::first();
+        return view('traders.traders_regions'
+            ,['section' => 'section', 'rubric' => $rubric, 'onlyPorts' => 'onlyPorts']
+        );
+        //$traders_products_lang = Traders_Products_Lang::first();
         /*$traders = Traders::first();
         $traders_price = Traders_Prices::first();
         $traders_filter = TradersFilters::first();*/
@@ -48,12 +51,6 @@ class TraderController extends Controller
         if($region){
             $traders = $traders->where('region',$region);
         }*/
-        return view('traders.traders_regions'
-//            ,            ['traders'=>$traders->paginate(15)]
-        );
-
-
-
     }
 
     /**
