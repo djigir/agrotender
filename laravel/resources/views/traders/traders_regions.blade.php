@@ -1,185 +1,183 @@
 @extends('layout.layout')
 {{--Трейдер--}}
 
-{{dd()}}
 @section('content')
-
-    <div class="header__wrap">
-        <header class="new_header">
-            <div class="new_container">
-                <div class="header__flex header__desktop">
-                    <div class="logo-wrap">
-                        <a href="https://agrotender.com.ua" class="logo">
-                            <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="logo" class="logo_desktop">
-                            <img src="https://agrotender.com.ua/app/assets/img/agromini.svg" alt="logo" class="logo_mobile">
-                        </a>
-                        <div class="hidden-links">
-                            <a href="#">
-                                <img src="https://agrotender.com.ua/app/assets/img/company/viber4.svg" alt="">
-                            </a>
-                            <a href="#">
-                                <img src="https://agrotender.com.ua/app/assets/img/company/telegram-white.svg" alt="">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="header__center__buttons">
-                        <a href="https://agrotender.com.ua/board" class="header__center__button">Объявления</a>
-                        <div class="header__tradersPrice">
-                            <a href="https://agrotender.com.ua/traders" class="header__center__button withArrow">
-                                Цены Трейдеров
-                            </a>
-                            <div class="header__hoverElem-wrap">
-                                <div class="header__hoverElem">
-                                    <ul>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/traders" class="header_fw600">Закупки</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/" class="header_fw600">Форварды</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/traders_sell" class="header_fw600">Продажи</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/tarif20.html" class="header__yellowText">Разместить компанию</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="header__tradersPrice special">
-                            <a href="https://agrotender.com.ua/traders" class="header__center__button withBg">
-                <span class="header__tradersPrice-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-                            </a>
-                            <div class="header__hoverElem-wrap">
-                                <div class="header__hoverElem">
-                                    <ul>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/traders">Компании</a>
-                                        </li>
-                                        <li>
-                                            <a href="https://agrotender.com.ua/elev">Элеваторы</a>
-                                        </li>
-                                        <li>
-                                            <span class="line"></span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="header__right">
-                        <a href="#" class="header__right__button">
-                            <span>Мой профиль</span>
-                            <img src="https://agrotender.com.ua/app/assets/img/profile.svg" alt="profile">
-                        </a>
-                        <div class="header__hoverElem-wrap">
-                            <div class="header__hoverElem">
-                                {if $user->auth}
-                                <ul>
-                                    <li>
-                                        <span>Цены трейдера:</span>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/prices">Таблица закупок</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/prices/contacts">Контакты трейдера</a>
-                                    </li>
-                                    <li>
-                                        <span>Моя Компания:</span>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/company">Настройки</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/contacts">Контакты</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/posts">Объявления</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/balance/pay">Пополнить баланс</a>
-                                    </li>
-                                    <li>
-                                        <span>Мой профиль:</span>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/u/">Настройки</a>
-                                    </li>
-                                    <li>
-                                        <a href="https://agrotender.com.ua/logout" class="header__exit">Выход</a>
-                                    </li>
-                                </ul>
-                                {else}
-                                <ul>
-                                    <li>
-                                        <a href="/buyerreg">Регистрация</a>
-                                    </li>
-                                    <li>
-                                        <a href="/buyerlog">Вход</a>
-                                    </li>
-                                </ul>
-                                {/if}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="header__mobile">
-                    <button class="header_drawerOpen-btn">
-                        <img src="https://agrotender.com.ua/app/assets/img/menu.svg" alt="">
-                    </button>
-                    <a href="/" class="header_logo_mobile">
-                        <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="">
-                    </a>
-                    <a href="/" class="header_profile">
-                        <img src="https://agrotender.com.ua/app/assets/img/profile_white.svg" alt="">
-                    </a>
-                </div>
-                <div class="drawer">
-                    <div class="drawer_content">
-                        <div class="drawer__header">
-                            <a href="/" class="drawer__header-logo">
-                                <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
-                            </a>
-                            <a href="#" class="drawer__header-social first">
-                                <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
-                            </a>
-                            <a href="#" class="drawer__header-social">
-                                <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
-                            </a>
-                        </div>
-                        <ul class="drawer__list">
-                            <li>
-                                <a href="#">Главная</a>
-                            </li>
-                            <li>
-                                <a href="#">Объявления</a>
-                            </li>
-                            <li>
-                                <a href="#">Цены трейдеров</a>
-                            </li>
-                            <li>
-                                <a href="#">Компании</a>
-                            </li>
-                            <li>
-                                <a href="#">Элеваторы</a>
-                            </li>
-                        </ul>
-                        <div class="drawer_footer">
-                            <ul class="drawer__list">
-                                <li><a href="#">Выход</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-    </div>
+{{--    <div class="header__wrap">--}}
+{{--        <header class="new_header">--}}
+{{--            <div class="new_container">--}}
+{{--                <div class="header__flex header__desktop">--}}
+{{--                    <div class="logo-wrap">--}}
+{{--                        <a href="https://agrotender.com.ua" class="logo">--}}
+{{--                            <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="logo" class="logo_desktop">--}}
+{{--                            <img src="https://agrotender.com.ua/app/assets/img/agromini.svg" alt="logo" class="logo_mobile">--}}
+{{--                        </a>--}}
+{{--                        <div class="hidden-links">--}}
+{{--                            <a href="#">--}}
+{{--                                <img src="https://agrotender.com.ua/app/assets/img/company/viber4.svg" alt="">--}}
+{{--                            </a>--}}
+{{--                            <a href="#">--}}
+{{--                                <img src="https://agrotender.com.ua/app/assets/img/company/telegram-white.svg" alt="">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="header__center__buttons">--}}
+{{--                        <a href="https://agrotender.com.ua/board" class="header__center__button">Объявления</a>--}}
+{{--                        <div class="header__tradersPrice">--}}
+{{--                            <a href="https://agrotender.com.ua/traders" class="header__center__button withArrow">--}}
+{{--                                Цены Трейдеров--}}
+{{--                            </a>--}}
+{{--                            <div class="header__hoverElem-wrap">--}}
+{{--                                <div class="header__hoverElem">--}}
+{{--                                    <ul>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/traders" class="header_fw600">Закупки</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/" class="header_fw600">Форварды</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/traders_sell" class="header_fw600">Продажи</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/tarif20.html" class="header__yellowText">Разместить компанию</a>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="header__tradersPrice special">--}}
+{{--                            <a href="https://agrotender.com.ua/traders" class="header__center__button withBg">--}}
+{{--                <span class="header__tradersPrice-dots">--}}
+{{--                  <span></span>--}}
+{{--                  <span></span>--}}
+{{--                  <span></span>--}}
+{{--                </span>--}}
+{{--                            </a>--}}
+{{--                            <div class="header__hoverElem-wrap">--}}
+{{--                                <div class="header__hoverElem">--}}
+{{--                                    <ul>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/traders">Компании</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="https://agrotender.com.ua/elev">Элеваторы</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <span class="line"></span>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="header__right">--}}
+{{--                        <a href="#" class="header__right__button">--}}
+{{--                            <span>Мой профиль</span>--}}
+{{--                            <img src="https://agrotender.com.ua/app/assets/img/profile.svg" alt="profile">--}}
+{{--                        </a>--}}
+{{--                        <div class="header__hoverElem-wrap">--}}
+{{--                            <div class="header__hoverElem">--}}
+{{--                                {if $user->auth}--}}
+{{--                                <ul>--}}
+{{--                                    <li>--}}
+{{--                                        <span>Цены трейдера:</span>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/prices">Таблица закупок</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/prices/contacts">Контакты трейдера</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <span>Моя Компания:</span>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/company">Настройки</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/contacts">Контакты</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/posts">Объявления</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/balance/pay">Пополнить баланс</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <span>Мой профиль:</span>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/u/">Настройки</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="https://agrotender.com.ua/logout" class="header__exit">Выход</a>--}}
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                                {else}--}}
+{{--                                <ul>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="/buyerreg">Регистрация</a>--}}
+{{--                                    </li>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="/buyerlog">Вход</a>--}}
+{{--                                    </li>--}}
+{{--                                </ul>--}}
+{{--                                {/if}--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="header__mobile">--}}
+{{--                    <button class="header_drawerOpen-btn">--}}
+{{--                        <img src="https://agrotender.com.ua/app/assets/img/menu.svg" alt="">--}}
+{{--                    </button>--}}
+{{--                    <a href="/" class="header_logo_mobile">--}}
+{{--                        <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="">--}}
+{{--                    </a>--}}
+{{--                    <a href="/" class="header_profile">--}}
+{{--                        <img src="https://agrotender.com.ua/app/assets/img/profile_white.svg" alt="">--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                <div class="drawer">--}}
+{{--                    <div class="drawer_content">--}}
+{{--                        <div class="drawer__header">--}}
+{{--                            <a href="/" class="drawer__header-logo">--}}
+{{--                                <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">--}}
+{{--                            </a>--}}
+{{--                            <a href="#" class="drawer__header-social first">--}}
+{{--                                <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">--}}
+{{--                            </a>--}}
+{{--                            <a href="#" class="drawer__header-social">--}}
+{{--                                <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        <ul class="drawer__list">--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Главная</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Объявления</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Цены трейдеров</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Компании</a>--}}
+{{--                            </li>--}}
+{{--                            <li>--}}
+{{--                                <a href="#">Элеваторы</a>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                        <div class="drawer_footer">--}}
+{{--                            <ul class="drawer__list">--}}
+{{--                                <li><a href="#">Выход</a></li>--}}
+{{--                            </ul>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </header>--}}
+{{--    </div>--}}
 
     <button class="openFilter">
         <img src="https://agrotender.com.ua/app/assets/img/blue_list.svg" alt="">
@@ -488,178 +486,179 @@
         </div>
     </div>
 
-    <!-- <div class="filters-wrap">
-      <div class="filters-inner">
-        <div class="filters arrow-t">
-          <div class="step-1 stp">
-            <div class="position-relative scroll-wrap">
-              <div class="mt-3">
-                <span class="title ml-3 pt-3">Настройте фильтры:</span>
-              </div>
-              <a class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between" href="#" type="{if $section neq 'buy'}_sell{/if}">
-                <span>{if $section eq 'buy'}Закупки{else}Продажи{/if}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="{if $rubric eq null}0{else}{$rubric['translit']}{/if}">
-                <span>{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="{if $region eq null}0{elseif $region['id'] eq 1}1{else}{$region['translit']}{/if}" port="{if $onlyPorts eq 'yes'}all{else}{if $port eq null}0{else}{$port['translit']}{/if}{/if}">
-              <span>{if $onlyPorts eq 'yes'} Все порты {else} {if $region eq null} {if $port eq null} Вся Украина {else} {$port['name']} {/if} {elseif $region['id'] eq 1} АР Крым {else} {$region['name']} область {/if} {/if}</span>
-              <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" href="#">
-                <span class="text-muted">Валюта:</span>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-radio{if $currency eq null} active{/if}">
-                    <input type="radio" name="currency" value="" autocomplete="off"{if $currency eq null} checked{/if}> Любая
-                  </label>
-                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'uah'} active{/if}">
-                    <input type="radio" name="currency" value="uah" autocomplete="off"{if $currency neq null && $currency['code'] eq 'uah'} checked{/if}> Гривна
-                  </label>
-                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'usd'} active{/if}">
-                    <input type="radio" name="currency" value="usd" autocomplete="off"{if $currency neq null && $currency['code'] eq 'usd'} checked{/if}> Доллар
-                  </label>
-                </div>
-              </a>
-              <a class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between" href="#">
-                <span class="text-muted">Показать:</span>
-                <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label class="btn btn-radio{if $viewmod neq null} active{/if}">
-                    <input type="radio" name="viewmod" value="nontbl" autocomplete="off"{if $viewmod neq null} checked{/if}> Списком
-                  </label>
-                  <label class="btn btn-radio{if $viewmod eq null} active{/if}">
-                    <input type="radio" name="viewmod" value="" autocomplete="off"{if $viewmod eq null} checked{/if}> Таблицей
-                  </label>
-                </div>
-              </a>
-              <div class="error-text mt-3 text-center">
-                <span>Для сравнения цен выберите продукцию</span>
-              </div>
-            </div>
-            <a class="show" href="#">
-            Показать трейдеров
-            </a>
-          </div>
+{{--    <div class="filters-wrap">--}}
+{{--      <div class="filters-inner">--}}
+{{--        <div class="filters arrow-t">--}}
+{{--          <div class="step-1 stp">--}}
+{{--            <div class="position-relative scroll-wrap">--}}
+{{--              <div class="mt-3">--}}
+{{--                <span class="title ml-3 pt-3">Настройте фильтры:</span>--}}
+{{--              </div>--}}
+{{--              <a class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between" href="#" type="{if $section neq 'buy'}_sell{/if}">--}}
+{{--                <span>{if $section eq 'buy'}Закупки{else}Продажи{/if}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="{if $rubric eq null}0{else}{$rubric['translit']}{/if}">--}}
+{{--                <span>{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="{if $region eq null}0{elseif $region['id'] eq 1}1{else}{$region['translit']}{/if}" port="{if $onlyPorts eq 'yes'}all{else}{if $port eq null}0{else}{$port['translit']}{/if}{/if}">--}}
+{{--              <span>{if $onlyPorts eq 'yes'} Все порты {else} {if $region eq null} {if $port eq null} Вся Украина {else} {$port['name']} {/if} {elseif $region['id'] eq 1} АР Крым {else} {$region['name']} область {/if} {/if}</span>--}}
+{{--              <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" href="#">--}}
+{{--                <span class="text-muted">Валюта:</span>--}}
+{{--                <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
+{{--                  <label class="btn btn-radio{if $currency eq null} active{/if}">--}}
+{{--                    <input type="radio" name="currency" value="" autocomplete="off"{if $currency eq null} checked{/if}> Любая--}}
+{{--                  </label>--}}
+{{--                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'uah'} active{/if}">--}}
+{{--                    <input type="radio" name="currency" value="uah" autocomplete="off"{if $currency neq null && $currency['code'] eq 'uah'} checked{/if}> Гривна--}}
+{{--                  </label>--}}
+{{--                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'usd'} active{/if}">--}}
+{{--                    <input type="radio" name="currency" value="usd" autocomplete="off"{if $currency neq null && $currency['code'] eq 'usd'} checked{/if}> Доллар--}}
+{{--                  </label>--}}
+{{--                </div>--}}
+{{--              </a>--}}
+{{--              <a class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between" href="#">--}}
+{{--                <span class="text-muted">Показать:</span>--}}
+{{--                <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
+{{--                  <label class="btn btn-radio{if $viewmod neq null} active{/if}">--}}
+{{--                    <input type="radio" name="viewmod" value="nontbl" autocomplete="off"{if $viewmod neq null} checked{/if}> Списком--}}
+{{--                  </label>--}}
+{{--                  <label class="btn btn-radio{if $viewmod eq null} active{/if}">--}}
+{{--                    <input type="radio" name="viewmod" value="" autocomplete="off"{if $viewmod eq null} checked{/if}> Таблицей--}}
+{{--                  </label>--}}
+{{--                </div>--}}
+{{--              </a>--}}
+{{--              <div class="error-text mt-3 text-center">--}}
+{{--                <span>Для сравнения цен выберите продукцию</span>--}}
+{{--              </div>--}}
+{{--            </div>--}}
+{{--            <a class="show" href="#">--}}
+{{--            Показать трейдеров--}}
+{{--            </a>--}}
+{{--          </div>--}}
 
 
 
-          <div class="step-2 stp h-100">
-            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
-            <div class="scroll">
-              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_forwards/region_ukraine">
-                <span>Форварды</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders{if $section eq 'buy'}_sell{/if}">
-                <span>{if $section eq 'buy'}Продажи{else}Закупки{/if}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic/region_ukraine">
-                <span>Аналитика закупок</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic_sell">
-                <span>Аналитика продаж</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-            </div>
-          </div>
-          <div class="step-3 stp h-100">
-            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
-            <div class="scroll">
-              {foreach from=$rubricsGroup item=g}
-              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{$g['id']}">
-                <span>{$g['name']}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              {/foreach}
-            </div>
-          </div>
-          <div class="step-3-1 stp h-100">
-            <a class="back py-3 px-4 content-block d-block" step="3" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
-            <div class="scroll">
-              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" group="">
-                <span></span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              {foreach from=$rubrics item=groups key=group_id}
-                {foreach from=$groups item=group}
-                  {foreach from=$group item=r}
-              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{$group_id}" group="{$r['translit']}">
-                <span>{$r['name']}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-                  {/foreach}
-                {/foreach}
-              {/foreach}
-            </div>
-          </div>
-          <div class="step-4 stp h-100">
-            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
-            <div class="scroll">
-              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="0">
-              <span style="font-weight: 600;">Вся Украина</span>
-              <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="1">
-                <span>АР Крым</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              {foreach from=$regions_list item=col}
-                {foreach from=$col item=region}
-              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="{$region['translit']}">
-                <span>{$region['name']} область</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-                {/foreach}
-              {/foreach}
-              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="all">
-                <span style="font-weight: 600;">Все порты</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-              {foreach from=$ports item=col}
-                {foreach from=$col item=port}
-              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="{$port['translit']}">
-                <span>{$port['name']}</span>
-                <span><i class="far fa-chevron-right"></i></span>
-              </a>
-                {/foreach}
-              {/foreach}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="d-none d-sm-block container mt-3">
-      <ol class="breadcrumbs small p-0">
-        <li><a href="/"><span>Главная</span></a></li>
-        {if $rubric neq null && $region eq null && $port eq null}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><h1>{$h1}</h1></li>
-        {elseif $rubric eq null && ($region neq null or $port neq null)}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><h1>{$h1}</h1></li>
-        {elseif $rubric neq null && ($region neq null or $port neq null)}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>
-        {if $section eq 'buy'}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><a href="/traders/{if $rubric neq null}{$rubric['translit']}{elseif $port neq null}tport_{$port['translit']}{/if}"><span>Цена {if $rubric neq null}{$rubric['name']}{elseif $port neq null}{$port['name']}{/if}</span></a></li>
-        {/if}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><h1>{$h1}</h1></li>
-        {else}
-        <i class="fas fa-chevron-right extra-small"></i>
-        <li><h1>{if $h1 neq ''}{$h1}{else}Цены трейдеров в {if $region['id'] eq null}Украине{else}{$region['parental']} области{/if}{/if}</h1></li>
-        {/if}
-      </ol>
-    </div> -->
-    {if $feed}
+{{--          <div class="step-2 stp h-100">--}}
+{{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
+{{--            <div class="scroll">--}}
+{{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_forwards/region_ukraine">--}}
+{{--                <span>Форварды</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders{if $section eq 'buy'}_sell{/if}">--}}
+{{--                <span>{if $section eq 'buy'}Продажи{else}Закупки{/if}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic/region_ukraine">--}}
+{{--                <span>Аналитика закупок</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic_sell">--}}
+{{--                <span>Аналитика продаж</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--            </div>--}}
+{{--          </div>--}}
+{{--          <div class="step-3 stp h-100">--}}
+{{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
+{{--            <div class="scroll">--}}
+{{--              {foreach from=$rubricsGroup item=g}--}}
+{{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{$g['id']}">--}}
+{{--                <span>{$g['name']}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              {/foreach}--}}
+{{--            </div>--}}
+{{--          </div>--}}
+{{--          <div class="step-3-1 stp h-100">--}}
+{{--            <a class="back py-3 px-4 content-block d-block" step="3" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
+{{--            <div class="scroll">--}}
+{{--              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" group="">--}}
+{{--                <span></span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              {foreach from=$rubrics item=groups key=group_id}--}}
+{{--                {foreach from=$groups item=group}--}}
+{{--                  {foreach from=$group item=r}--}}
+{{--              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{$group_id}" group="{$r['translit']}">--}}
+{{--                <span>{$r['name']}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--                  {/foreach}--}}
+{{--                {/foreach}--}}
+{{--              {/foreach}--}}
+{{--            </div>--}}
+{{--          </div>--}}
+{{--          <div class="step-4 stp h-100">--}}
+{{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
+{{--            <div class="scroll">--}}
+{{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="0">--}}
+{{--              <span style="font-weight: 600;">Вся Украина</span>--}}
+{{--              <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="1">--}}
+{{--                <span>АР Крым</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              {foreach from=$regions_list item=col}--}}
+{{--                {foreach from=$col item=region}--}}
+{{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="{$region['translit']}">--}}
+{{--                <span>{$region['name']} область</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--                {/foreach}--}}
+{{--              {/foreach}--}}
+{{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="all">--}}
+{{--                <span style="font-weight: 600;">Все порты</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--              {foreach from=$ports item=col}--}}
+{{--                {foreach from=$col item=port}--}}
+{{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="{$port['translit']}">--}}
+{{--                <span>{$port['name']}</span>--}}
+{{--                <span><i class="far fa-chevron-right"></i></span>--}}
+{{--              </a>--}}
+{{--                {/foreach}--}}
+{{--              {/foreach}--}}
+{{--            </div>--}}
+{{--          </div>--}}
+{{--        </div>--}}
+{{--      </div>--}}
+{{--    </div>--}}
+{{--    <div class="d-none d-sm-block container mt-3">--}}
+{{--      <ol class="breadcrumbs small p-0">--}}
+{{--        <li><a href="/"><span>Главная</span></a></li>--}}
+{{--        {if $rubric neq null && $region eq null && $port eq null}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><h1>{$h1}</h1></li>--}}
+{{--        {elseif $rubric eq null && ($region neq null or $port neq null)}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><h1>{$h1}</h1></li>--}}
+{{--        {elseif $rubric neq null && ($region neq null or $port neq null)}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
+{{--        {if $section eq 'buy'}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><a href="/traders/{if $rubric neq null}{$rubric['translit']}{elseif $port neq null}tport_{$port['translit']}{/if}"><span>Цена {if $rubric neq null}{$rubric['name']}{elseif $port neq null}{$port['name']}{/if}</span></a></li>--}}
+{{--        {/if}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><h1>{$h1}</h1></li>--}}
+{{--        {else}--}}
+{{--        <i class="fas fa-chevron-right extra-small"></i>--}}
+{{--        <li><h1>{if $h1 neq ''}{$h1}{else}Цены трейдеров в {if $region['id'] eq null}Украине{else}{$region['parental']} области{/if}{/if}</h1></li>--}}
+{{--        {/if}--}}
+{{--      </ol>--}}
+{{--    </div>--}}
+
+    @if(isset($feed) && $feed)
     <div class="container mt-3 mt-sm-4 mb-3 mb-sm-0">
         <div class="content-block feed py-3 position-relative">
             <div class="swiper-container">
@@ -708,7 +707,7 @@
             <div class="swiper-button-prev"></div>
         </div>
     </div>
-    {/if}
+    @endif
 
     <svg class="inline-svg">
         <symbol id="check" viewbox="0 0 12 10">
@@ -887,351 +886,164 @@
 
     <div class="bg_filters"></div>
 
-    <div class="new_filters-wrap">
-        <div class="replacement"></div>
-        <div class="fixed-item">
-            <div class="new_container">
-                <div class="new_filters">
-                    <div class="filter__item main">
-                        <button class="filter__button main">{if $section eq 'buy'}Закупки{else}Продажи{/if}</button>
-                        <div class="new_filters_dropdown-wrap">
-                            <div class="new_filters_dropdown">
-                                <ul>
-                                    <li>
-                                        <a href="/traders_forwards/region_ukraine">Форварды</a>
-                                    </li>
-                                    {if $section eq 'buy'}
-                                    <li>
-                                        <a href="/traders_sell">Продажи</a>
-                                    </li>
-                                    {else}
-                                    <li>
-                                        <a href="/traders/region_ukraine">Закупки</a>
-                                    </li>
-                                    {/if}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter__item producrion" id="choseProduct">
-                        <button class="filter__button producrion-btn">{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</button>
-                        <div class="new_filters_dropdown-wrap">
-                            <div class="new_filters_dropdown">
-                                <div class="new_filters_dropdown-column">
-                                    <ul>
-                                        {foreach from=$rubricsGroup item=g}
-                                        <li class="{if $rubric['group_id'] eq $g['id']} active{/if}">
-                                            <a href="#">{$g['name']}</a>
-                                        </li>
-                                        {/foreach}
-                                    </ul>
-                                </div>
-                                {foreach from=$rubrics item=groups key=group_id}
-                                <div class="new_filters_dropdown-content {$group_id}">
-                                    {foreach from=$groups item=group}
-                                    <ul>
-                                        {foreach from=$group item=r}
-                                        <li>
-                                            <a href="/traders{if $section eq 'sell'}_sell{/if}{if $region neq null}/region_{$region['translit']}{else if $port neq null or $onlyPorts eq 'yes'}/tport_{if $port neq null}{$port['translit']}{else}all{/if}{else}/region_ukraine{/if}/{$r['translit']}{if $currency !== null}?currency={$currency['code']}{/if}?viewmod=nontbl">{$r['name']}
-                                                {foreach from=$r_count item=rc}
-                                                {if $r['id'] eq $rc['id']}
-                                                ({$rc['count']})
-                                                {/if}
-                                                {/foreach}
-                                            </a>
-                                        </li>
-                                        {/foreach}
-                                    </ul>
+{{--    <div class="new_filters-wrap">--}}
+{{--        <div class="replacement"></div>--}}
+{{--        <div class="fixed-item">--}}
+{{--            <div class="new_container">--}}
+{{--                <div class="new_filters">--}}
+{{--                    <div class="filter__item main">--}}
+{{--                        <button class="filter__button main">{if $section eq 'buy'}Закупки{else}Продажи{/if}</button>--}}
+{{--                        <div class="new_filters_dropdown-wrap">--}}
+{{--                            <div class="new_filters_dropdown">--}}
+{{--                                <ul>--}}
+{{--                                    <li>--}}
+{{--                                        <a href="/traders_forwards/region_ukraine">Форварды</a>--}}
+{{--                                    </li>--}}
+{{--                                    {if $section eq 'buy'}--}}
+{{--                                    <li>--}}
+{{--                                        <a href="/traders_sell">Продажи</a>--}}
+{{--                                    </li>--}}
+{{--                                    {else}--}}
+{{--                                    <li>--}}
+{{--                                        <a href="/traders/region_ukraine">Закупки</a>--}}
+{{--                                    </li>--}}
+{{--                                    {/if}--}}
+{{--                                </ul>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="filter__item producrion" id="choseProduct">--}}
+{{--                        <button class="filter__button producrion-btn">{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</button>--}}
+{{--                        <div class="new_filters_dropdown-wrap">--}}
+{{--                            <div class="new_filters_dropdown">--}}
+{{--                                <div class="new_filters_dropdown-column">--}}
+{{--                                    <ul>--}}
+{{--                                        {foreach from=$rubricsGroup item=g}--}}
+{{--                                        <li class="{if $rubric['group_id'] eq $g['id']} active{/if}">--}}
+{{--                                            <a href="#">{$g['name']}</a>--}}
+{{--                                        </li>--}}
+{{--                                        {/foreach}--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                                {foreach from=$rubrics item=groups key=group_id}--}}
+{{--                                <div class="new_filters_dropdown-content {$group_id}">--}}
+{{--                                    {foreach from=$groups item=group}--}}
+{{--                                    <ul>--}}
+{{--                                        {foreach from=$group item=r}--}}
+{{--                                        <li>--}}
+{{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}{if $region neq null}/region_{$region['translit']}{else if $port neq null or $onlyPorts eq 'yes'}/tport_{if $port neq null}{$port['translit']}{else}all{/if}{else}/region_ukraine{/if}/{$r['translit']}{if $currency !== null}?currency={$currency['code']}{/if}?viewmod=nontbl">{$r['name']}--}}
+{{--                                                {foreach from=$r_count item=rc}--}}
+{{--                                                {if $r['id'] eq $rc['id']}--}}
+{{--                                                ({$rc['count']})--}}
+{{--                                                {/if}--}}
+{{--                                                {/foreach}--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        {/foreach}--}}
+{{--                                    </ul>--}}
 
-                                    {/foreach}
-                                </div>
-                                {/foreach}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="filter__item second" id="all_ukraine">
-                        <button class="filter__button second">
-                            {if $onlyPorts eq 'yes'}
-                            Все порты
-                            {else}
-                            {if $region eq null}
-                            {if $port eq null}
-                            Вся Украина
-                            {else}
-                            {$port['name']}
-                            {/if}
-                            {elseif $region['id'] eq 1}
-                            АР Крым
-                            {else}
-                            {$region['name']}
-                            {/if}
-                            {/if}
-                        </button>
-                        <div class="new_filters_dropdown-wrap">
-                            <div class="new_filters_dropdown">
-                                <div class="new_filters_dropdown-column">
-                	<span class="d-block">
-            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_ukraine{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-            <span>Вся Украина</span>
-          </a>
-          <a href="/traders{if $section eq 'sell'}_sell{/if}/region_crimea/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-            <span>АР Крым</span>
-          </a>
-          </span>
-                                    <ul>
-                                        <li class="active">
-                                            <a href="#">Области</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Порты</a>
-                                        </li>
-                                    </ul>
-                                    </ul>
-                                </div>
-                                <div class="new_filters_dropdown-content active">
-                                    <ul>
-                                        {foreach from=$regions_list item=col}
-                                        {foreach from=$col item=c}
-                                        <li>
-                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-                                                {$c['name']}
-                                            </a>
-                                        </li>
-                                        {/foreach}
-                                        {/foreach}
-                                    </ul>
-                                </div>
-                                <div class="new_filters_dropdown-content">
-                                    <ul>
-                                        {foreach from=$ports item=col}
-                                        {foreach from=$col item=c}
-                                        <li>
-                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/tport_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">
-                                                {$c['name']}
-                                            </a>
-                                        </li>
-                                        {/foreach}
-                                        {/foreach}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="new_filters_checkbox first">
-                        <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox" />
-                        <label class="cbx" for="new_filters_currency_uah">
-            <span>
-              <svg width="12px" height="10px">
-                <use xlink:href="#check"></use>
-              </svg>
-            </span>
-                            <span>ГРН</span>
-                        </label>
-                    </div>
-                    <div class="new_filters_checkbox second">
-                        <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" />
-                        <label class="cbx" for="new_filters_currency_usd">
-            <span>
-              <svg width="12px" height="10px">
-                <use xlink:href="#check"></use>
-              </svg>
-            </span>
-                            <span>USD</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+{{--                                    {/foreach}--}}
+{{--                                </div>--}}
+{{--                                {/foreach}--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="filter__item second" id="all_ukraine">--}}
+{{--                        <button class="filter__button second">--}}
+{{--                            {if $onlyPorts eq 'yes'}--}}
+{{--                            Все порты--}}
+{{--                            {else}--}}
+{{--                            {if $region eq null}--}}
+{{--                            {if $port eq null}--}}
+{{--                            Вся Украина--}}
+{{--                            {else}--}}
+{{--                            {$port['name']}--}}
+{{--                            {/if}--}}
+{{--                            {elseif $region['id'] eq 1}--}}
+{{--                            АР Крым--}}
+{{--                            {else}--}}
+{{--                            {$region['name']}--}}
+{{--                            {/if}--}}
+{{--                            {/if}--}}
+{{--                        </button>--}}
+{{--                        <div class="new_filters_dropdown-wrap">--}}
+{{--                            <div class="new_filters_dropdown">--}}
+{{--                                <div class="new_filters_dropdown-column">--}}
+{{--                	<span class="d-block">--}}
+{{--            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_ukraine{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
+{{--            <span>Вся Украина</span>--}}
+{{--          </a>--}}
+{{--          <a href="/traders{if $section eq 'sell'}_sell{/if}/region_crimea/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
+{{--            <span>АР Крым</span>--}}
+{{--          </a>--}}
+{{--          </span>--}}
+{{--                                    <ul>--}}
+{{--                                        <li class="active">--}}
+{{--                                            <a href="#">Области</a>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <a href="#">Порты</a>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                                <div class="new_filters_dropdown-content active">--}}
+{{--                                    <ul>--}}
+{{--                                        {foreach from=$regions_list item=col}--}}
+{{--                                        {foreach from=$col item=c}--}}
+{{--                                        <li>--}}
+{{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
+{{--                                                {$c['name']}--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        {/foreach}--}}
+{{--                                        {/foreach}--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                                <div class="new_filters_dropdown-content">--}}
+{{--                                    <ul>--}}
+{{--                                        {foreach from=$ports item=col}--}}
+{{--                                        {foreach from=$col item=c}--}}
+{{--                                        <li>--}}
+{{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/tport_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">--}}
+{{--                                                {$c['name']}--}}
+{{--                                            </a>--}}
+{{--                                        </li>--}}
+{{--                                        {/foreach}--}}
+{{--                                        {/foreach}--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="new_filters_checkbox first">--}}
+{{--                        <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox" />--}}
+{{--                        <label class="cbx" for="new_filters_currency_uah">--}}
+{{--            <span>--}}
+{{--              <svg width="12px" height="10px">--}}
+{{--                <use xlink:href="#check"></use>--}}
+{{--              </svg>--}}
+{{--            </span>--}}
+{{--                            <span>ГРН</span>--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="new_filters_checkbox second">--}}
+{{--                        <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" />--}}
+{{--                        <label class="cbx" for="new_filters_currency_usd">--}}
+{{--            <span>--}}
+{{--              <svg width="12px" height="10px">--}}
+{{--                <use xlink:href="#check"></use>--}}
+{{--              </svg>--}}
+{{--            </span>--}}
+{{--                            <span>USD</span>--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
 
-    <div class="d-none d-sm-block container mt-5">
-        <div class="content-block mt-3 py-3 px-3">
-            <div class="btn-group position-relative w-100 ">
-                <div class="col pl-1">
-                    <button class="btn typeInput text-center drop-btn">{if $section eq 'buy'}Закупки{else}Продажи{/if} <i class="ml-2 small far fa-chevron-down"></i></button>
-                </div>
-                <div class="dropdown-wrapper position-absolute typeDrop">
-                    <div class="dropdown">
-                        <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
-                            <div class="row">
-                                <div class="col">
-                                    <a class="inline-link" href="/traders_forwards/region_ukraine">
-                                        <span>Форварды</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                    {if $section eq 'buy'}
-                                    <a class="inline-link" href="/traders_sell">
-                                        <span>Продажи</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                    {else}
-                                    <a class="inline-link" href="/traders/region_ukraine">
-                                        <span>Закупки</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                    {/if}
-                                    <a class="inline-link" href="/traders_analitic/region_ukraine">
-                                        <span>Аналитика закупок</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                    <a class="inline-link" href="/traders_analitic_sell">
-                                        <span>Аналитика продаж</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col px-1 mx-1">
-                    <button class="btn rubricInput text-center drop-btn{if $viewmod eq null && $rubric eq null} blue-shadow{/if}">{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if} <i class="ml-2 small far fa-chevron-down"></i></button>
-                </div>
-                <div class="dropdown-wrapper position-absolute rubricDrop">
-                    <div class="dropdown">
-                        <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
-                            <div class="row">
-                                <div class="col-auto">
-                                    {foreach from=$rubricsGroup item=g}
-                                    <a class="rubricLink getRubricGroup{if $rubric['group_id'] eq $g['id']} active{/if}" href="#" group="{$g['id']}">
-                    <span>
-                      {$g['name']}</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                    {/foreach}
-                                </div>
-                                {foreach from=$rubrics item=groups key=group_id}
-                                {foreach from=$groups item=group}
-                                <div class="col-auto rubricGroup pr-0 mr-3 group-{$group_id}">
-                                    {foreach from=$group item=r}
-                                    <a rid="{$r['id']}" class="rubricLink{if $r['name'] eq $rubric['name']} active{/if}" href="/traders{if $section eq 'sell'}_sell{/if}{if $region neq null}/region_{$region['translit']}{else if $port neq null or $onlyPorts eq 'yes'}/tport_{if $port neq null}{$port['translit']}{else}all{/if}{else}/region_ukraine{/if}/{$r['translit']}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-                                        <span>{$r['name']}</span>
-                                    </a>
-                                    {/foreach}
-                                </div>
-                                {/foreach}
-                                {/foreach}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col px-2 mx-1">
-                    <button class="btn regionInput text-center drop-btn align-self-center">
-                        {if $onlyPorts eq 'yes'}
-                        Все порты
-                        {else}
-                        {if $region eq null}
-                        {if $port eq null}
-                        Вся Украина
-                        {else}
-                        {$port['name']}
-                        {/if}
-                        {elseif $region['id'] eq 1}
-                        АР Крым
-                        {else}
-                        {$region['name']} область
-                        {/if}
-                        {/if}
-                        <i class="ml-2 small far fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="dropdown-wrapper position-absolute regionDrop">
-                    <div class="dropdown">
-          <span class="d-block">
-            <a class="regionLink d-inline-block{if $port eq null && $onlyPorts eq null && $region eq null} text-muted disabled"{else}"{/if} href="/traders{if $section eq 'sell'}_sell{/if}/region_ukraine{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-            <span>Вся Украина</span>
-              </a>
-              <a class="regionLink d-inline-block{if $region['id'] eq 1} text-muted disabled"{else}"{/if} href="/traders{if $section eq 'sell'}_sell{/if}/region_crimea/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-            <span>АР Крым</span>
-              </a>
-          </span>
-                        <hr class="mt-1 mb-2">
-                        <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
-                            <div class="row">
-                                {foreach from=$regions_list item=col}
-                                <div class="col">
-                                    {foreach from=$col item=c}
-                                    <a class="regionLink{if $c['name'] eq $region['name']} active{/if}" href="/traders{if $section eq 'sell'}_sell{/if}/region_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
-                                        <span>{$c['name']} область</span>
-                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
-                                    </a>
-                                    {/foreach}
-                                </div>
-                                {/foreach}
-                            </div>
-                        </div>
-                        {if $section eq 'buy'}
-                        <br>
-                        <span class="d-block">
-            <a class="regionLink d-inline-block{if $onlyPorts eq 'yes'} text-muted disabled"{else}"{/if} href="/traders{if $section eq 'sell'}_sell{/if}/tport_all/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">
-            <span>Все порты</span>
-                            </a>
-          </span>
-                        <hr class="mt-1 mb-2">
-                        <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
-                            <div class="row">
-                                {foreach from=$ports item=col}
-                                <div class="col">
-                                    {foreach from=$col item=c}
-                                    <a class="regionLink{if $c['name'] eq $port['name']} active{/if}" href="/traders{if $section eq 'sell'}_sell{/if}/tport_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">
-                                        <span>{$c['name']}</span>
-                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
-                                    </a>
-                                    {/foreach}
-                                </div>
-                                {/foreach}
-                            </div>
-                        </div>
-                        {/if}
-                    </div>
-                </div>
-                <div class="col px-2 mx-1">
-                    <button class="btn typeInput text-center drop-btn">{if $currency eq null}Валюта{else}{$currency['name']}{/if} <i class="ml-2 small far fa-chevron-down"></i></button>
-                </div>
-                <div class="dropdown-wrapper position-absolute currencyDrop">
-                    <div class="dropdown">
-                        <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
-                            <div class="row">
-                                <div class="col">
-                                    {if $currency neq null}
-                                    <a class="inline-link" href="{$smarty.server.SCRIPT_URI}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">
-                                        <span>Любая валюта</span>
-                                    </a>
-                                    {/if}
-                                    {foreach from=$currencies item=c key=key}
-                                    <a class="inline-link{if $currency['id'] === $c['id']} active{/if}" href="{$smarty.server.SCRIPT_URI}{if $viewmod eq 'nontbl'}?viewmod=nontbl&{else}?{/if}currency={$key}">
-                                        <span>{$c['name']}</span>
-                                    </a>
-                                    {/foreach}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {if $rubric neq null}
-                <div class="d-flex align-items-center">
-                    <a class="text-center filter-icon mr-3{if $viewmod eq 'nontbl'} active{/if}" rel="nofollow" href="{$smarty.server.SCRIPT_URL}{if $currency !== null}?currency={$currency['code']}&{else}?{/if}viewmod=nontbl"><i class="fas fa-th-large"></i></a>
-                    <a class="text-center filter-icon{if $viewmod eq null} active{/if}" rel="nofollow" href="{$smarty.server.SCRIPT_URL}{if $currency !== null}?currency={$currency['code']}{/if}"><i class="fas fa-bars lh-1-1"></i></a>
-                </div>
-                {/if}
-            </div>
-        </div>
-        <span class="popular" style="margin-top: 16px;display: block;">
-  <span style="font-weight: 600; color: #707070;">
-  <img src="/app/assets/img/speaker.svg" style="width: 24px; height: 24px"/>
-   Популярные культуры: </span>
-  <a href="/traders/region_ukraine/pshenica_2_kl" class="popular__block">Пшеница 2 кл.</a>
-  <a href="/traders/region_ukraine/pshenica_3_kl" class="popular__block">Пшеница 3 кл.</a>
-  <a href="/traders/region_ukraine/pshenica_4_kl" class="popular__block">Пшеница 4 кл.</a>
-  <a href="/traders/region_ukraine/podsolnechnik" class="popular__block">Подсолнечник</a>
-  <a href="/traders/region_ukraine/soya" class="popular__block">Соя</a>
-  <a href="/traders/region_ukraine/yachmen" class="popular__block">Ячмень</a>
-  </span>
-    </div>
+
 
     <!-- Vip Traders Title -->
     {if $vipTraders }

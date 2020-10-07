@@ -1394,6 +1394,7 @@ $countvip = count($vip);
   }
 
   public function signup() {
+    var_dump($this->action);
     if ($this->user->auth) {
       $this->response->redirect('/');
     }

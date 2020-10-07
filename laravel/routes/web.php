@@ -1,7 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Auth::routes();
 
 /* routes for traders  */
 Route::prefix('traders')
@@ -16,7 +18,10 @@ Route::prefix('traders')
         Route::get('/region_{region}/{culture}', 'TraderController@region_and_culture')->name('traders_regions_culture');
     });
 
-
+//Route::post('/buyerreg', function () {
+//    return view('auth.register');
+//})->name('sing-up');
+//Route::get('/buyerlog', 'UserController@sing_in')->name('sing-in');
 
 /* routes for company  */
 Route::prefix('kompanii')
@@ -33,6 +38,6 @@ Route::prefix('kompanii')
 
     });
 
-Auth::routes();
+
 
 Route::get('/home', 'HomeController@index')->name('home');

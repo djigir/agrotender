@@ -7,12 +7,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11" />
-    {if isset($keywords)}
-    <meta name="keywords" content="{$keywords}" />
-    {/if}
-    {if isset($description)}
-    <meta name="description" content="{$description}" />
-    {/if}
+    @if(isset($keywords))
+        <meta name="keywords" content="{{$keywords}}" />
+    @endif
+
+    @if(isset($description))
+        <meta name="description" content="{{$description}}" />
+    @endif
+
     <!-- Icons -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,800|Roboto:300,400,500" rel="stylesheet">
@@ -33,69 +35,16 @@
     <link rel="stylesheet" href="/app/assets/css/styles.css">
     <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
     <!-- Required CSS -->
-    {$header}
+
+    @if(isset($header))
+        {{$header}}
+    @endif
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
-    <style>
-        .tableScroll::-webkit-scrollbar  {
-            background: transparent;
-        }
-        .tableScroll.orange::-webkit-scrollbar-thumb {
-            background-color: #ffa800 !important;
-            border-bottom-left-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
-        }
-        .tableScroll.blue::-webkit-scrollbar-thumb {
-            background-color: #1056B2 !important;
-            border-bottom-left-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
-        }
-        .tableSecond {
-            position: absolute;
-            z-index: 2;
-            width: 100%;
-            left: 0;
-            top: 0;
-            right: 0;
-        }
-        .tableFirst .py-1 {
-            position: relative;
-            overflow: hidden;
-        }
-        .tableFirst .py-1:before {
-            content: '';
-            transform: rotate(180deg);
-            right: 0;
-            top: 0;
-            left: calc(100% - 15px);
-            bottom: 0;
-            position: absolute;
-            box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 18px -18px inset;
-        }
-        .tableSecond:before {
-            content: ''
-        }
-        .tableSecond .tableScroll {
-            position: absolute; left: 240px; width: calc(100% - 240px); overflow-x: scroll;
-        }
-        .tableSecond .tableScroll tbody{
-            position: relative
-        }
-        .tableSecond .tableScroll tbody:before {
-            content: '';
-            position: absolute;
-            left: 0;
-            width: 10px;
-            right: 0;
-            z-index: 9;
-        }
-        .tableSecond .tableScroll:before {
-            content: ''
-        }
-    </style>
 </head>
 <body data-page="{$page}">
 <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542"height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="wrap">
     <header class="header">
@@ -127,7 +76,8 @@
                         <i class="far fa-chevron-circle-down userIcon mr-3"></i>
                     </div>
                     <div class="d-none d-sm-block float-right right-links p-3">
-                        {if $user->auth}
+                        @if(isset($user->auth))
+
                         <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="head-name d-flex align-items-center position-relative">
                             <i class="fas fa-chevron-down mr-1"></i>
                             <span>{if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}</span>
@@ -157,9 +107,10 @@
                             <a class="dropdown-item" href="/u/contacts">Контакты</a>
                             <a class="dropdown-item" href="/logout">Выход</a>
                         </div>
-                        {else}
+                        @else
                         <a href="/buyerlog">Войти</a> &nbsp;|&nbsp; <a href="/buyerreg">Регистрация</a>
-                        {/if}
+{{--                        <a href="/login">Войти</a> &nbsp;|&nbsp; <a href="/register">Регистрация</a>--}}
+                        @endif
                     </div>
                 </div>
             </div>
@@ -204,22 +155,79 @@
                 <div class="bounce3"></div>
             </div>
         </div>
-        <div class="company-bg d-none d-sm-block">
-            <a href="/kompanii/comp-{$company['id']}">
-                {if $company['logo_file'] neq null}
-                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">
-                {/if}
-                {if $page eq 'company/main'}
-                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>
-                {else}
-                <span class="title d-block mt-2">{$company['title']}</span>
-                {/if}
-            </a>
-            <div class="company-menu-container d-none d-sm-block">
-                <div class="company-menu">
-                    {$menu}
-                </div>
-            </div>
-        </div>
+{{--        <div class="company-bg d-none d-sm-block">--}}
+{{--            <a href="/kompanii/comp-{$company['id']}">--}}
+{{--                {if $company['logo_file'] neq null}--}}
+{{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
+{{--                {/if}--}}
+{{--                {if $page eq 'company/main'}--}}
+{{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
+{{--                {else}--}}
+{{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
+{{--                {/if}--}}
+{{--            </a>--}}
+{{--            <div class="company-menu-container d-none d-sm-block">--}}
+{{--                <div class="company-menu">--}}
+{{--                    {$menu}--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </main>
 </div>
+<style>
+    .tableScroll::-webkit-scrollbar  {
+        background: transparent;
+    }
+    .tableScroll.orange::-webkit-scrollbar-thumb {
+        background-color: #ffa800 !important;
+        border-bottom-left-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
+    }
+    .tableScroll.blue::-webkit-scrollbar-thumb {
+        background-color: #1056B2 !important;
+        border-bottom-left-radius: 10px !important;
+        border-bottom-right-radius: 10px !important;
+    }
+    .tableSecond {
+        position: absolute;
+        z-index: 2;
+        width: 100%;
+        left: 0;
+        top: 0;
+        right: 0;
+    }
+    .tableFirst .py-1 {
+        position: relative;
+        overflow: hidden;
+    }
+    .tableFirst .py-1:before {
+        content: '';
+        transform: rotate(180deg);
+        right: 0;
+        top: 0;
+        left: calc(100% - 15px);
+        bottom: 0;
+        position: absolute;
+        box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 18px -18px inset;
+    }
+    .tableSecond:before {
+        content: ''
+    }
+    .tableSecond .tableScroll {
+        position: absolute; left: 240px; width: calc(100% - 240px); overflow-x: scroll;
+    }
+    .tableSecond .tableScroll tbody{
+        position: relative
+    }
+    .tableSecond .tableScroll tbody:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 10px;
+        right: 0;
+        z-index: 9;
+    }
+    .tableSecond .tableScroll:before {
+        content: ''
+    }
+</style>
