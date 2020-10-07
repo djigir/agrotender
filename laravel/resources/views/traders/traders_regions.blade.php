@@ -219,6 +219,11 @@
 
                             <div class="currency" data-currency="">
                                 <span class="currency-t">Валюта:</span>
+{{--                                {foreach from=$currencies item=c key=key}--}}
+{{--                                <a class="inline-link{if $currency['id'] === $c['id']} active{/if}" href="{$smarty.server.SCRIPT_URI}{if $viewmod eq 'nontbl'}?viewmod=nontbl&{else}?{/if}currency={$key}">--}}
+{{--                                    <span>{$c['name']}</span>--}}
+{{--                                </a>--}}
+{{--                                {/foreach}--}}
                                 <div class="mobile_filter-choose-items">
                                     <span class="mobile_filter-choose-item active" data-currency="">Все</span>
                                     <span class="mobile_filter-choose-item" data-currency="uah">UAH</span>
@@ -1045,213 +1050,113 @@
 
 
 
-    <!-- Vip Traders Title -->
-    {if $vipTraders }
-    {if $viewmod eq 'nontbl' || $rubric eq null}
+{{--    <!-- Vip Traders Title -->--}}
+{{--    {if $vipTraders }--}}
+{{--    {if $viewmod eq 'nontbl' || $rubric eq null}--}}
 
 
-    <div class="container mt-3 mt-sm-5">
-        <div class="row mt-sm-0 pt-sm-0 mb-sm-4">
-            <div class="position-relative w-100">
-                <div class="col-12 col-md-9 float-md-right text-center text-md-right">
-                    <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">
-                        <i class="far fa-plus mr-2"></i>
-                        <span class="pl-1 pr-1">Разместить компанию</span>
-                    </a>
-                </div>
-                <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">
-                    <div class="col-6 col-sm-12 pl-0">
-                        <h2 class="d-inline-block text-uppercase">{if $rubric eq null}ТОП трейдеры{else}{$rubric['name']}{/if}</h2>
-                        <div class="lh-1">
-                            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
-                        </div>
-                    </div>
-                    <div class="col-6 pr-0 text-right d-sm-none">
-                        <a href="/tarif20.html" class="btn btn-warning align-items-end add-trader">
-                            <span class="pl-1 pr-1">Стать трейдером</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {/if}
+{{--    <div class="container mt-3 mt-sm-5">--}}
+{{--        <div class="row mt-sm-0 pt-sm-0 mb-sm-4">--}}
+{{--            <div class="position-relative w-100">--}}
+{{--                <div class="col-12 col-md-9 float-md-right text-center text-md-right">--}}
+{{--                    <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">--}}
+{{--                        <i class="far fa-plus mr-2"></i>--}}
+{{--                        <span class="pl-1 pr-1">Разместить компанию</span>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">--}}
+{{--                    <div class="col-6 col-sm-12 pl-0">--}}
+{{--                        <h2 class="d-inline-block text-uppercase">{if $rubric eq null}ТОП трейдеры{else}{$rubric['name']}{/if}</h2>--}}
+{{--                        <div class="lh-1">--}}
+{{--                            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-6 pr-0 text-right d-sm-none">--}}
+{{--                        <a href="/tarif20.html" class="btn btn-warning align-items-end add-trader">--}}
+{{--                            <span class="pl-1 pr-1">Стать трейдером</span>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    {/if}--}}
 
-    {/if}
+{{--    {/if}--}}
 
     <!--End Vip Traders Title -->
 
 
     <!-- VIP Traders Banner  -->
-
-    {if $viewmod eq 'nontbl' || $rubric eq null}
-    {if $traders neq null}
-    <div class="container mt-3 ">
+    @if($traders->count()>0)
 
 
-
-        {foreach from=$vipTraders item=group}
-        {if $group@index eq 3}{foreach $banners['traders'] as $banner}
-        <div class="row mb-0 mb-sm-4 pb-sm-2 mx-0 justify-content-center align-items-center">
-
-            {$banner}
-
-        </div>
-        {/foreach}
-        {/if}
-        <!-- End Vip Traders Banner -->
-
-        <!-- VIP Traders -->
-
-
-
-
-
-        {if $region neq null or $rubric neq null or $currency neq null}
-        <div class="d-sm-none container pt-2 pt-sm-4">
-            {if $rubric neq null}
-            <span class="searchTag d-inline-block">{$rubric['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>
-            {/if}
-            {if $region neq null}
-            <span class="searchTag d-inline-block">{if $region['id'] eq 1}АР Крым{else}{$region['name']} область{/if} <a href="/traders{if $rubric neq null}/{$rubric['translit']}{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>
-            {/if}
-            {if $currency neq null}
-            <span class="searchTag d-inline-block">{$currency['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}"><i class="far fa-times close ml-2"></i></a></span>
-            {/if}
-        </div>
-        {/if}
-
-        <div class="new_traders vip">
-            {foreach name=group from=$group item=trader}
-            <div class="traders__item-wrap">
-
-                <a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
-                    <div class="traders__item__header">
-                        <span class="vip">ТОП</span>
-                        <img class="traders__item__image" src="/{$trader['logo']}" alt="">
-                    </div>
-                    <div class="traders__item__content">
-                        <div href="#" class="traders__item__content-title">
-                            {$trader['title']|unescape|truncate:25:"...":true}
-                        </div>
-                        <div class="traders__item__content-description">
-                            {foreach from=$trader['prices'] item=price}
-                            <p class="traders__item__content-p">
-                                <span class="traders__item__content-p-title">{$price['title']|unescape|truncate:14:"...":true}</span>
-                                <span class="right">
-                  <span class="traders__item__content-p-price {if $price['change_price'] neq ''}price-{$price['change_price']}" data-toggle="tooltip" data-placement="right" title="Старая цена: {if $price['currency'] eq 1}${/if}{$price['old_price']}"{else}"{/if}>{if $price['currency'] eq 1}$&nbsp;{/if}{$price['price']}</span>
-                                <span class="traders__item__content-p-icon">
-                     {if $price['change_price'] neq ''}<img src="/app/assets/img/price-{$price['change_price']}.svg">{/if}
-                  {if $price['change_price'] eq ''}<img src="/app/assets/img/price-not-changed.svg">{/if}
-                  </span>
-                                </span>
-                            </p>
-                            {/foreach}
-                        </div>
-                        <div class="traders__item__content-date">
-                            <!--               <span class="traders__item__content-date-more">+ ещё {$trader['review']['count']}</span> -->
-                            {if $smarty.now|date_format:"%Y-%m-%d" eq $trader['date']}<span class="green">сегодня</span>{elseif "-1 day"|date_format:"%Y-%m-%d" eq $trader['date']}<span style="color:#FF7404;">вчера</span>{else}<span style="color:#001430;">{$trader['date2']}</span>{/if}
-                        </div>
-                    </div>
-                </a>
-            </div>
-            {/foreach}
-        </div>
-
-
-
-        {foreachelse}
-        {/foreach}
-
-    </div>
+ @if($viewmod == 'nontbl' )
+     @include('traders.trader_list_nontbl',['traders'=>$traders])
+ @else
+     @include('traders.trader_list_tbl',['traders'=>$traders])
+     @endif
     <!-- End Vip Traders -->
 
 
-    {if $viewmod eq 'nontbl' || $rubric eq null}
 
-    {if $traders neq null}
-    <div class="container traders mt-3 mt-sm-5">
-        <div class="row mt-sm-0 pt-sm-0 mb-sm-4">
-            <div class="position-relative w-100">
-                {if ! $vipTraders}
-                <div class="col-12 col-md-9 float-md-right text-center text-md-right">
-                    <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">
-                        <i class="far fa-plus mr-2"></i>
-                        <span class="pl-1 pr-1">Разместить компанию</span>
-                    </a>
-                </div>
-                {/if}
-                <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">
-                    <div class="col-6 col-sm-12 pl-0">
-                        <h2 class="d-inline-block text-uppercase">{if $rubric eq null}Все трейдеры{else}{$rubric['name']}{/if}</h2>
-                        <div class="lh-1">
-                            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
-                        </div>
-                    </div>
 
-                    <div class="col-6 pr-0 text-right d-sm-none">
-                        <a href="/tarif20.html" class="btn btn-warning align-items-end add-trader">
-                            <span class="pl-1 pr-1">Стать трейдером</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    {/if}
-    {/if}
-    {if $region neq null or $rubric neq null or $currency neq null}
-    <div class="d-sm-none container  pt-2 pt-sm-4">
-        {if $rubric neq null}
-        <span class="searchTag d-inline-block">{$rubric['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>
-        {/if}
-        {if $region neq null}
-        <span class="searchTag d-inline-block">{if $region['id'] eq 1}АР Крым{else}{$region['name']} область{/if} <a href="/traders{if $rubric neq null}/{$rubric['translit']}{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>
-        {/if}
-        {if $currency neq null}
-        <span class="searchTag d-inline-block">{$currency['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}"><i class="far fa-times close ml-2"></i></a></span>
-        {/if}
-    </div>
-    {/if}
+    @endif
+{{--    {if $region neq null or $rubric neq null or $currency neq null}--}}
+{{--    <div class="d-sm-none container  pt-2 pt-sm-4">--}}
+{{--        {if $rubric neq null}--}}
+{{--        <span class="searchTag d-inline-block">{$rubric['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>--}}
+{{--        {/if}--}}
+{{--        {if $region neq null}--}}
+{{--        <span class="searchTag d-inline-block">{if $region['id'] eq 1}АР Крым{else}{$region['name']} область{/if} <a href="/traders{if $rubric neq null}/{$rubric['translit']}{/if}{if $currency neq null}?currency={$currency['code']}{/if}"><i class="far fa-times close ml-2"></i></a></span>--}}
+{{--        {/if}--}}
+{{--        {if $currency neq null}--}}
+{{--        <span class="searchTag d-inline-block">{$currency['name']} <a href="/traders{if $region neq null}/region_{$region['translit']}{else}/region_ukraine{/if}{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}"><i class="far fa-times close ml-2"></i></a></span>--}}
+{{--        {/if}--}}
+{{--    </div>--}}
+{{--    {/if}--}}
     <div class="new_container container mt-3 traders_dev">
-        {foreach from=$traders item=group}
+       @foreach($traders as $trader)
+{{--           {{dump($trader)}}--}}
         <div class="new_traders ">
-            {foreach name=group from=$group item=trader}
             <div class="traders__item-wrap">
-
                 <a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
                     <div class="traders__item__header">
-                        <img class="traders__item__image" src="/{$trader['logo']}" alt="">
+                        <img class="traders__item__image" src="/{{$trader->logo_filename}}" alt="">
                     </div>
                     <div class="traders__item__content">
                         <div href="#" class="traders__item__content-title">
-                            {$trader['title']|unescape|truncate:25:"...":true}
+{{--                            {$trader['title']|unescape|truncate:25:"...":true}--}}
+                            {{$trader->url}}
                         </div>
                         <div class="traders__item__content-description">
-                            {foreach from=$trader['prices'] item=price}
-                            <p class="traders__item__content-p">
-                                <span class="traders__item__content-p-title">{$price['title']|unescape|truncate:14:"...":true}</span>
-                                <span class="right">
-                  <span class="traders__item__content-p-price {if $price['change_price'] neq ''}price-{$price['change_price']}" data-toggle="tooltip" data-placement="right" title="Старая цена: {if $price['currency'] eq 1}${/if}{$price['old_price']}"{else}"{/if}>{if $price['currency'] eq 1}$&nbsp;{/if}{$price['price']}</span>
+{{--                            {foreach from=$trader['prices'] item=price}--}}
+{{--                            @foreach($trader->prices as $price)--}}
+{{--                            <p class="traders__item__content-p">--}}
+{{--                                <span class="traders__item__content-p-title">--}}
+{{--                                    {{$price->name}}--}}
+{{--                                    {$price['title']|unescape|truncate:14:"...":true}--}}
+{{--                                </span>--}}
+{{--                                <span class="right">--}}
+{{--                  <span class="traders__item__content-p-price {if $price['change_price'] neq ''}price-{$price['change_price']}" data-toggle="tooltip" data-placement="right" title="Старая цена: {if $price['currency'] eq 1}${/if}{$price['old_price']}"{else}"{/if}>{if $price['currency'] eq 1}$&nbsp;{/if}{$price['price']}</span>--}}
 
-                                <span class="traders__item__content-p-icon">
-                    {if $price['change_price'] neq ''}<img src="/app/assets/img/price-{$price['change_price']}.svg">{/if}
-                  {if $price['change_price'] eq ''}<img src="/app/assets/img/price-not-changed.svg">{/if}
-                  </span>
-                                </span>
-                            </p>
-                            {/foreach}
+{{--                                <span class="traders__item__content-p-icon">--}}
+{{--                    {if $price['change_price'] neq ''}<img src="/app/assets/img/price-{$price['change_price']}.svg">{/if}--}}
+{{--                  {if $price['change_price'] eq ''}<img src="/app/assets/img/price-not-changed.svg">{/if}--}}
+{{--                  </span>--}}
+{{--                                </span>--}}
+{{--                            </p>--}}
+{{--                            @endforeach--}}
                         </div>
                         <div class="traders__item__content-date">
                             <!--               <span class="traders__item__content-date-more">+ ещё {$trader['review']['count']}</span> -->
-                            {if $smarty.now|date_format:"%Y-%m-%d" eq $trader['date']}<span class="green">сегодня</span>{elseif "-1 day"|date_format:"%Y-%m-%d" eq $trader['date']}<span style="color:#FF7404;">вчера</span>{else}<span style="color:#001430;">{$trader['date2']}</span>{/if}
+{{--                            {if $smarty.now|date_format:"%Y-%m-%d" eq $trader['date']}<span class="green">сегодня</span>{elseif "-1 day"|date_format:"%Y-%m-%d" eq $trader['date']}<span style="color:#FF7404;">вчера</span>{else}<span style="color:#001430;">{$trader['date2']}</span>{/if}--}}
                         </div>
                     </div>
                 </a>
             </div>
-            {/foreach}
         </div>
-        {/foreach}
+        @endforeach
         <!--     {if $rubric eq null}{foreach $banners['traders'] as $banner}
           <div class="row mb-0 mb-sm-4 pb-sm-2 mx-0 justify-content-center align-items-center">
 

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompTopicItem extends Model
 {
-    protected $table = 'agt_comp_item2topic';
+    protected $table = 'comp_item2topic';
 
     protected $fillable = [
         'id',

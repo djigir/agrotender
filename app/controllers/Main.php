@@ -1,6 +1,8 @@
 <?php
 
 namespace App\controllers;
+use App\models\Traders;
+
 class Main extends \Core\Controller
 {
 
@@ -903,6 +905,7 @@ class Main extends \Core\Controller
 //if ( $_SERVER['REMOTE_ADDR'] == '37.1.205.103' ) exit;
         $typeInt = ($section == 'buy') ? 0 : 1;
         // traders model
+        /** @var Traders $traders */
         $traders = $this->model("traders");
         // get traders from offer
         if ($this->action == 'getTraders') {
@@ -1075,6 +1078,10 @@ class Main extends \Core\Controller
             }
         }
 //print_r($usual);die();
+        /*var_dump('<pre>',
+
+
+            );die();*/
         $this->view
             ->setTitle($meta['title'])
             ->setDescription($meta['description'])
@@ -1111,6 +1118,7 @@ class Main extends \Core\Controller
     {
         $typeInt = 0; // тип для получения рубрик
         // traders model
+        /** @var Traders $traders */
         $traders = $this->model("traders");
         $price_type = $traders->forwardPriceType;
         $forward_months = $traders->getForwardsMonths();

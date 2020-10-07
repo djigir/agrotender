@@ -33,7 +33,7 @@ class TraderController extends Controller
     }
 
 
-    public function region($region)
+    public function region(Request  $request,$region)
     {
 
 
@@ -51,14 +51,30 @@ class TraderController extends Controller
           LIMIT 2
         ";*/
 
-        //$traders = Traders::select('id', 'logo_filename')->first();
-        //$traders_products_lang = Traders_Products_Lang::select('name')->first();
-        //$traders_prices = TradersPrices::select('id', 'costval', 'costval_old', 'place_id', 'curtype', 'change_date')->first();
-        $traders_products_lang_id = Traders_Products_Lang::select('id')->first();
-        $traders_prices_id = TradersPrices::select('cult_id')->first();
-        $a = Traders_Products_Lang::first()->culture()->where('cult_id', 7)->get()->toBase();
 
-        dd($traders_products_lang_id, $traders_prices_id, $a);
+        /*
+         * select MAX(tpr.change_date) as ch_dt,ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$type} as top, MAX(tpr.dt) as date, date_format(MAX(tpr.dt), '%e %M') as date2
+        from agt_comp_items ci
+        inner join agt_traders_prices tpr on ci.author_id = tpr.buyer_id && tpr.acttype = '$typeInt' $currencySql $rubricSql
+        $placeSql
+      where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && ci.visible = 1
+      group by ci.id
+      order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
+      limit $start, $count";
+    // get traders list
+    $traders = $this->db->query("
+    select MAX(tpr.change_date) as ch_dt,ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$type} as top, MAX(tpr.dt) as date, date_format(MAX(tpr.dt), '%e %M') as date2
+        from agt_comp_items ci
+        inner join agt_traders_prices tpr on ci.author_id = tpr.buyer_id && tpr.acttype = '$typeInt' $currencySql $rubricSql
+        $placeSql
+      where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && ci.visible = 1
+      group by ci.id
+      order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title*/
+
+        $traders_products_lang_id = Traders_Products_Lang::with('culture')->first();
+        $traders_prices = TradersPrices::first();
+
+//        dd($traders_prices->name);
 
 
         //$this->traderService->DataForFilter();
@@ -78,7 +94,25 @@ class TraderController extends Controller
         $rubric = $this->traderService->DataForFilter();
 
         return view('traders.traders_regions'
-            ,['section' => 'section', 'rubric' => $rubric, 'onlyPorts' => 'onlyPorts']
+            ,[
+                'viewmod'=>$request->get('viewmod'),
+                'section' => 'section',
+                'traders'=>Traders::paginate(20),
+                'rubric' => $rubric,
+                'onlyPorts' => 'onlyPorts',
+                'currencies'=>[
+                    'uah' => [
+                        'id'   => 0,
+                        'name' => 'Гривна',
+                        'code' => 'uah'
+                    ],
+                    'usd' => [
+                        'id'   => 1,
+                        'name' => 'Доллар',
+                        'code' => 'usd'
+                    ]
+                ],
+            ]
         );
         //$traders_products_lang = Traders_Products_Lang::first();
         /*$traders = Traders::first();

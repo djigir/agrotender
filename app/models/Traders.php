@@ -883,7 +883,6 @@ class Traders extends \Core\Model {
         left join agt_traders_ports_lang pl on pl.port_id = tpl.port_id
       where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && tpr.active = 1 && tpl.type_id != 1 && ci.visible = 1
       order by ci.trader_premium{$type} desc,change_date desc, ci.rate_formula desc, ci.trader_sort{$type}, ci.title, tpr.dt");
-
     $traders = [];
     $date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
     foreach ($tmp as $v)
@@ -957,13 +956,11 @@ class Traders extends \Core\Model {
       $traders[$key]['date'] = $this->db->query("select date_format(dt, '%d.%m.%Y') as updateDate from agt_traders_prices where buyer_id = {$value['author_id']} && acttype = $typeInt order by dt desc")[0]['updateDate'] ?? null;
       $traders[$key]['date2'] = $this->db->query("select date_format(dt, '%d %b') as updateDate from agt_traders_prices where buyer_id = {$value['author_id']} && acttype = $typeInt order by dt desc")[0]['updateDate'] ?? null;
     }
-
     return $traders;
   }
 
 
   public function getList($count, $page = 1, $type = null, $region = null, $port = null, $rubric = null, $onlyPorts = false, $currency = null) {
-
     $typeInt         = ($type == 'buy') ? 0 : 1;
     $type            = ($type == 'buy') ? "" : "_sell";
     $currencySql     = ($currency !== null) ? "&& tpr.curtype = $currency" : "";
@@ -980,7 +977,7 @@ class Traders extends \Core\Model {
         inner join agt_traders_prices tpr on ci.author_id = tpr.buyer_id && tpr.acttype = '$typeInt' $currencySql $rubricSql
         $placeSql
       where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && ci.visible = 1")[0]['count'];
-    // find the total number of pages
+      // find the total number of pages
     $totalPages = intval(($totalTraders - 1) / $count) + 1;
     // if the page number is empty or less than one, we return the first page
     if(empty($page) or $page < 1 or $page == null) {
@@ -1010,15 +1007,6 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
       order by ci.trader_premium{$type} desc,date desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count)
 */
-$sql = "
-    select MAX(tpr.change_date) as ch_dt,ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$type} as top, MAX(tpr.dt) as date, date_format(MAX(tpr.dt), '%e %M') as date2
-        from agt_comp_items ci
-        inner join agt_traders_prices tpr on ci.author_id = tpr.buyer_id && tpr.acttype = '$typeInt' $currencySql $rubricSql
-        $placeSql
-      where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && ci.visible = 1
-      group by ci.id
-      order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
-      limit $start, $count";
     // get traders list
     $traders = $this->db->query("
     select MAX(tpr.change_date) as ch_dt,ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$type} as top, MAX(tpr.dt) as date, date_format(MAX(tpr.dt), '%e %M') as date2
@@ -1029,6 +1017,10 @@ $sql = "
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
+//      echo '<pre>';
+//      var_dump($traders);
+//      print_r($traders);
+//      echo '</pre>';die();
     // group by
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {
@@ -1092,17 +1084,12 @@ $sql = "
             FROM agt_traders_prices as tpr
             inner join agt_traders_products_lang  as tp_l on tp_l.id = tpr.cult_id
             inner join agt_traders_places         as tpl  on tpr.place_id = tpl.id $regionSql $portSql $onlyPortsSql
-            left join agt_traders_ports_lang      as pl   on pl.port_id = tpl.port_id
-            left join regions                     as r    on r.id = tpl.obl_id
           WHERE tpr.buyer_id = {$value['author_id']} && tpl.type_id != 1 && tpr.acttype = $typeInt $rubricSql $currencySql
           GROUP BY $groupBy
           ORDER BY tpr.change_date DESC
           LIMIT 2
         ";
-        /*echo '<pre>';
-        var_dump($traders);
-        print_r($traders);
-        echo '</pre>';die();*/
+//var_dump($query);die();
 
       $traders[$key]['review'] = $this->getRating($value['id']);
       $traders[$key]['prices'] = $this->db->query($query);

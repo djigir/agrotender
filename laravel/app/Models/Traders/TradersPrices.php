@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @param integer $id;
  * @param integer $buyer_id;
+ * @param string $name;
  * @param integer $cult_id;
  * @param integer $place_id;
  * @param integer $active;
@@ -39,9 +40,17 @@ class TradersPrices extends Model
         'comment',
     ];
 
+    protected $appends=['name'];
 
     public function product_lang() {
-
         return $this->hasOne(Traders_Products_Lang::class, 'id', 'cult_id');
+    }
+
+    public function getNameAttribute()
+    {
+        if($this->product_lang){
+            return $this->product_lang->name;
+        }
+        return '';
     }
 }
