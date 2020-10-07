@@ -963,6 +963,7 @@ class Traders extends \Core\Model {
 
 
   public function getList($count, $page = 1, $type = null, $region = null, $port = null, $rubric = null, $onlyPorts = false, $currency = null) {
+
     $typeInt         = ($type == 'buy') ? 0 : 1;
     $type            = ($type == 'buy') ? "" : "_sell";
     $currencySql     = ($currency !== null) ? "&& tpr.curtype = $currency" : "";
@@ -1098,6 +1099,11 @@ $sql = "
           ORDER BY tpr.change_date DESC
           LIMIT 2
         ";
+        /*echo '<pre>';
+        var_dump($traders);
+        print_r($traders);
+        echo '</pre>';die();*/
+
       $traders[$key]['review'] = $this->getRating($value['id']);
       $traders[$key]['prices'] = $this->db->query($query);
       if ( $traders[$key]['prices'] ) {
@@ -1109,7 +1115,9 @@ $sql = "
       }
     }
 
+
     return ['data' => $traders, 'totalPages' => $totalPages ?? 1, 'page' => $page];
+
   }
 
   public function getList_dev($count, $page = 1, $type = null, $region = null, $port = null, $rubric = null, $onlyPorts = false, $currency = null, $obl_ports = null) {

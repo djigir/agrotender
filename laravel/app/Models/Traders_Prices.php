@@ -38,4 +38,10 @@ class Traders_Prices extends Model
         'dt',
         'comment',
     ];
+
+
+    /*public function product_lang() {
+
+        return $this->belongsTo(Traders_Products_Lang::class);
+    }*/
 }

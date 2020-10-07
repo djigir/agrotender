@@ -29,4 +29,9 @@ class Traders_Products_Lang extends Model
         'p_descr',
         'p_content',
     ];
+
+    /*public function culture() {
+
+        return $this->hasOne(Traders_Prices::class);
+    }*/
 }

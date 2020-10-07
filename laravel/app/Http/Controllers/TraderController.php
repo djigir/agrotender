@@ -2,6 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Traders;
+use App\Models\Traders_Lang;
+use App\Models\Traders_Prices;
+use App\Models\Traders_Products_Lang;
+use App\Models\TradersComment;
+use App\Models\TradersFilters;
 use Illuminate\Http\Request;
 
 class TraderController extends Controller
@@ -15,8 +21,21 @@ class TraderController extends Controller
      */
     public function region($region)
     {
-        //dd($region);
-        return view('traders.traders_regions');
+
+        $traders_products_lang = Traders_Products_Lang::first();
+        /*$traders = Traders::first();
+        $traders_price = Traders_Prices::first();
+        $traders_filter = TradersFilters::first();*/
+        //dd($traders_products_lang);
+        /*$traders = Traders_Prices::query();
+        if($region){
+            $traders = $traders->where('region',$region);
+        }*/
+
+
+        return view('traders.traders_regions'
+//            ,            ['traders'=>$traders->paginate(15)]
+        );
     }
 
     /**
