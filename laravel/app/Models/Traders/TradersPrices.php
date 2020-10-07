@@ -40,8 +40,8 @@ class TradersPrices extends Model
     ];
 
 
-    /*public function product_lang() {
+    public function product_lang() {
 
-        return $this->belongsTo(Traders_Products_Lang::class);
-    }*/
+        return $this->hasOne(Traders_Products_Lang::class, 'id', 'cult_id');
+    }
 }

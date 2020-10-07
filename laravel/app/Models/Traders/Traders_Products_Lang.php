@@ -32,6 +32,6 @@ class Traders_Products_Lang extends Model
 
     public function culture() {
 
-        return $this->hasOne(TradersPrices::class);
+        return $this->belongsTo(TradersPrices::class, 'id', 'cult_id');
     }
 }
