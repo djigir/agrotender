@@ -70,6 +70,7 @@
                 {/if}
               </div>
               <div class="d-none d-sm-block float-right right-links p-3">
+
                 {if $user->auth}
                 <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="head-name d-flex align-items-center position-relative">
                   <i class="fas fa-chevron-down mr-1"></i>

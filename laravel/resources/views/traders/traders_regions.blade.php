@@ -2,6 +2,7 @@
 {{--Трейдер--}}
 
 @section('content')
+    @include('layout.layout-filter', ['section' => $section, 'rubric' => $rubric, 'onlyPorts' => $onlyPorts])
 {{--    <div class="header__wrap">--}}
 {{--        <header class="new_header">--}}
 {{--            <div class="new_container">--}}
@@ -178,7 +179,6 @@
 {{--            </div>--}}
 {{--        </header>--}}
 {{--    </div>--}}
-
     <button class="openFilter">
         <img src="https://agrotender.com.ua/app/assets/img/blue_list.svg" alt="">
         <span>Открыть фильтры</span>

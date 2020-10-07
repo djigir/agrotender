@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Models\Traders;
 use App\Models\Traders_Lang;
 use App\Models\Traders_Prices;
 use App\Models\Traders_Products_Lang;
 use App\Models\TradersComment;
 use App\Models\TradersFilters;
+
+use App\Models\Comp\CompTopic;
+
 use Illuminate\Http\Request;
 
 class TraderController extends Controller
@@ -17,10 +21,26 @@ class TraderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  string  $region
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
+
+    public function index(){
+        return redirect('/traders/region_ukraine');
+    }
+//$rubrics   = $this->db->query("
+//      select t.menu_group_id as group_id, t.title, count(i2t.id) as count, i2t.topic_id
+//        from agt_comp_topic as t
+//        left join agt_comp_item2topic i2t
+//          on i2t.topic_id = t.id
+//        ".($region != null ? "left join agt_comp_items i on i.id = i2t.item_id" : "")."
+//      ".($region != null ? "where i.obl_id = $region" : "")."
+//        group by t.id
+//        order by t.menu_group_id, t.sort_num, t.title");
+//return $rubrics;
+
     public function region($region)
     {
+
 
         $traders_products_lang = Traders_Products_Lang::first();
         /*$traders = Traders::first();
@@ -32,10 +52,25 @@ class TraderController extends Controller
             $traders = $traders->where('region',$region);
         }*/
 
-
+////        \DB::enableQueryLog();
+//        $temp = CompTopic::with('comp_topic_item')
+//            ->select(
+//                'id',
+//                'menu_group_id',
+//                'title',
+//                'sort_num',
+//                \DB::raw('count(*) as count, id')
+//            )
+//            ->groupBy('id')
+//            ->get();
+////        dd(\DB::getQueryLog());
+//        dd($temp->toArray());
         return view('traders.traders_regions'
 //            ,            ['traders'=>$traders->paginate(15)]
         );
+
+
+
     }
 
     /**

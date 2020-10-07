@@ -1,8 +1,13 @@
+{{var_dump($section, $rubric, $onlyPorts)}}
+
 <div class="d-none d-sm-block container mt-5">
     <div class="content-block mt-3 py-3 px-3">
         <div class="btn-group position-relative w-100 ">
             <div class="col pl-1">
-                <button class="btn typeInput text-center drop-btn">{if $section eq 'buy'}Закупки{else}Продажи{/if} <i class="ml-2 small far fa-chevron-down"></i></button>
+                <button class="btn typeInput text-center drop-btn">
+                    {if $section eq 'buy'}Закупки{else}Продажи{/if}
+                    <i class="ml-2 small far fa-chevron-down"></i>
+                </button>
             </div>
             <div class="dropdown-wrapper position-absolute typeDrop">
                 <div class="dropdown">
@@ -186,3 +191,169 @@
   <a href="/traders/region_ukraine/yachmen" class="popular__block">Ячмень</a>
   </span>
 </div>
+
+
+
+
+
+
+
+<div class="new_filters-wrap">
+    <div class="replacement"></div>
+    <div class="fixed-item">
+        <div class="new_container">
+            <div class="new_filters">
+                <div class="filter__item main">
+                    <button class="filter__button main">{if $section eq 'buy'}Закупки{else}Продажи{/if}</button>
+                    <div class="new_filters_dropdown-wrap">
+                        <div class="new_filters_dropdown">
+                            <ul>
+                                <li>
+                                    <a href="/traders_forwards/region_ukraine">Форварды</a>
+                                </li>
+                                {if $section eq 'buy'}
+                                <li>
+                                    <a href="/traders_sell">Продажи</a>
+                                </li>
+                                {else}
+                                <li>
+                                    <a href="/traders/region_ukraine">Закупки</a>
+                                </li>
+                                {/if}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="filter__item producrion" id="choseProduct">
+                    <button class="filter__button producrion-btn">{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</button>
+                    <div class="new_filters_dropdown-wrap">
+                        <div class="new_filters_dropdown">
+                            <div class="new_filters_dropdown-column">
+                                <ul>
+                                    {foreach from=$rubricsGroup item=g}
+                                    <li class="{if $rubric['group_id'] eq $g['id']} active{/if}">
+                                        <a href="#">{$g['name']}</a>
+                                    </li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                            {foreach from=$rubrics item=groups key=group_id}
+                            <div class="new_filters_dropdown-content {$group_id}">
+                                {foreach from=$groups item=group}
+                                <ul>
+                                    {foreach from=$group item=r}
+                                    <li>
+                                        <a href="/traders{if $section eq 'sell'}_sell{/if}{if $region neq null}/region_{$region['translit']}{else if $port neq null or $onlyPorts eq 'yes'}/tport_{if $port neq null}{$port['translit']}{else}all{/if}{else}/region_ukraine{/if}/{$r['translit']}{if $currency !== null}?currency={$currency['code']}{/if}?viewmod=nontbl">{$r['name']}
+                                            {foreach from=$r_count item=rc}
+                                            {if $r['id'] eq $rc['id']}
+                                            ({$rc['count']})
+                                            {/if}
+                                            {/foreach}
+                                        </a>
+                                    </li>
+                                    {/foreach}
+                                </ul>
+
+                                {/foreach}
+                            </div>
+                            {/foreach}
+                        </div>
+                    </div>
+                </div>
+                <div class="filter__item second" id="all_ukraine">
+                    <button class="filter__button second">
+                        {if $onlyPorts eq 'yes'}
+                        Все порты
+                        {else}
+                        {if $region eq null}
+                        {if $port eq null}
+                        Вся Украина
+                        {else}
+                        {$port['name']}
+                        {/if}
+                        {elseif $region['id'] eq 1}
+                        АР Крым
+                        {else}
+                        {$region['name']}
+                        {/if}
+                        {/if}
+                    </button>
+                    <div class="new_filters_dropdown-wrap">
+                        <div class="new_filters_dropdown">
+                            <div class="new_filters_dropdown-column">
+                	<span class="d-block">
+            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_ukraine{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
+            <span>Вся Украина</span>
+          </a>
+          <a href="/traders{if $section eq 'sell'}_sell{/if}/region_crimea/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
+            <span>АР Крым</span>
+          </a>
+          </span>
+                                <ul>
+                                    <li class="active">
+                                        <a href="#">Области</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Порты</a>
+                                    </li>
+                                </ul>
+                                </ul>
+                            </div>
+                            <div class="new_filters_dropdown-content active">
+                                <ul>
+                                    {foreach from=$regions_list item=col}
+                                    {foreach from=$col item=c}
+                                    <li>
+                                        <a href="/traders{if $section eq 'sell'}_sell{/if}/region_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">
+                                            {$c['name']}
+                                        </a>
+                                    </li>
+                                    {/foreach}
+                                    {/foreach}
+                                </ul>
+                            </div>
+                            <div class="new_filters_dropdown-content">
+                                <ul>
+                                    {foreach from=$ports item=col}
+                                    {foreach from=$col item=c}
+                                    <li>
+                                        <a href="/traders{if $section eq 'sell'}_sell{/if}/tport_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">
+                                            {$c['name']}
+                                        </a>
+                                    </li>
+                                    {/foreach}
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="new_filters_checkbox first">
+                    <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox" />
+                    <label class="cbx" for="new_filters_currency_uah">
+            <span>
+              <svg width="12px" height="10px">
+                <use xlink:href="#check"></use>
+              </svg>
+            </span>
+                        <span>ГРН</span>
+                    </label>
+                </div>
+                <div class="new_filters_checkbox second">
+                    <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" />
+                    <label class="cbx" for="new_filters_currency_usd">
+            <span>
+              <svg width="12px" height="10px">
+                <use xlink:href="#check"></use>
+              </svg>
+            </span>
+                        <span>USD</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // console.log('FILTER');
+</script>
