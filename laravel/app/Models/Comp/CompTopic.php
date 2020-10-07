@@ -22,8 +22,8 @@ class CompTopic extends Model
 
     protected $dates = ['add_date'];
 
-//    public function comp_topic_item()
-//    {
-//        return $this->hasMany(CompTopicItem::class, 'topic_id');
-//    }
+    public function comp_topic_item()
+    {
+        return $this->hasMany(CompTopicItem::class, 'topic_id');
+    }
 }

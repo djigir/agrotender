@@ -18,8 +18,8 @@ class CompTopicItem extends Model
     protected $dates = ['add_date'];
 
 
-//    public function comp_topic()
-//    {
-//        return $this->belongsTo(CompTopic::class, 'id');
-//    }
+    public function comp_topic()
+    {
+        return $this->belongsTo(CompTopic::class, 'id');
+    }
 }
