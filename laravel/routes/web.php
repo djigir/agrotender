@@ -32,3 +32,7 @@ Route::prefix('kompanii')
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@company_region_rubric_number')->name('company_region_rubric_number');
 
     });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

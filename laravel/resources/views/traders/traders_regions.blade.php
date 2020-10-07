@@ -1,7 +1,7 @@
 @extends('layout.layout')
 {{--Трейдер--}}
 
-
+{{dd()}}
 @section('content')
 
     <div class="header__wrap">
