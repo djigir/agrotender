@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @param integer $is_port;
  */
 
-class Traders_Places extends Model
+class TradersPlaces extends Model
 {
     protected $table = 'traders_places';
 

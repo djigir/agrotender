@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,8 +30,8 @@ class Traders_Products_Lang extends Model
         'p_content',
     ];
 
-    /*public function culture() {
+    public function culture() {
 
-        return $this->hasOne(Traders_Prices::class);
-    }*/
+        return $this->hasOne(TradersPrices::class);
+    }
 }

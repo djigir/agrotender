@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @param string $url;
  */
 
-class Traders_Ports extends Model
+class TradersPorts extends Model
 {
     protected $table = 'traders_ports';
 

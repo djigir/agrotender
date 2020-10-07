@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Traders;
-use App\Models\Traders_Lang;
-use App\Models\Traders_Prices;
-use App\Models\Traders_Products_Lang;
+use App\Models\Traders\Traders_Products_Lang;
+use App\Models\Traders\TradersPrices;
 use App\Models\TradersComment;
 use App\Models\TradersFilters;
 

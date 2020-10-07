@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 
 
-class Traders_Lang extends Model
+class TradersLang extends Model
 {
     protected $table = 'traders_lang';
 

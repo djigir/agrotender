@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 
 
-class Traders_Prices extends Model
+class TradersPrices extends Model
 {
     protected $table = 'traders_prices';
 
