@@ -1,7 +1,8 @@
 <?php
 
 return [
-
+    'date_format' => 'Y/m/d',
+    'date_format_javascript' => 'YYYY/MM/DD',
     /*
     |--------------------------------------------------------------------------
     | Application Name

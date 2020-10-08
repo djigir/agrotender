@@ -225,6 +225,7 @@ class Company extends \Core\Model {
   }
 
   public function getRubrics($region = null) {
+
     $rubrics   = $this->db->query("
       select t.menu_group_id as group_id, t.title, count(i2t.id) as count, i2t.topic_id
         from agt_comp_topic as t
@@ -238,6 +239,7 @@ class Company extends \Core\Model {
   }
 
   public function getRubricsChunk($region = null) {
+      var_dump($region);
     $rubrics = $this->getRubrics($region);
     $result  = [];
     foreach ($rubrics as $r) {

@@ -2,25 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CompanyService;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    protected $companyService;
+
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function all_company()
     {
-        return view('company.all_company');
+        $group = $this->companyService->getRubricsGroup();
+        $companies = $this->companyService->getCompanies()['data'];
+
+        return view('company.all_company', ['companies' => $companies, 'settings_for_page' => $companies]);
     }
 
     /**
      * Display a listing of the resource.
      * @param string $region;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_and_region($region)
     {
@@ -31,7 +43,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param string $region;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_region_rubric_number($region, $rubric_number)
     {
@@ -42,7 +54,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param string $query;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_filter($query)
     {
@@ -53,7 +65,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param integer $id_company;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_id($id_company)
     {
@@ -64,7 +76,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param integer $id_company;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_prices($id_company)
     {
@@ -75,7 +87,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param integer $id_company;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_reviews($id_company)
     {
@@ -86,7 +98,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param integer $id_company;
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_cont($id_company)
     {
