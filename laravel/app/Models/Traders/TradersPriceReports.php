@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  * @param \DateTime $add_date;
  */
 
-class Traders_Price_Reports extends Model
+class TradersPriceReports extends Model
 {
     protected $table = 'traders_price_reports';
 

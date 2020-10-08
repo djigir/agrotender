@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\Torg\TorgBuyer;
+use App\Models\Traders\TradersPrices;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,5 +40,10 @@ class CompItems extends Model
     public function torg_buyer()
     {
         return $this->hasMany(TorgBuyer::class, 'author_id');
+    }
+
+    public function traders_prices()
+    {
+        return $this->hasOne(TradersPrices::class);
     }
 }

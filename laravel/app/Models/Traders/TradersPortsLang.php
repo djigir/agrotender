@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Traders_Ports_Lang extends Model
+class TradersPortsLang extends Model
 {
     //
 }

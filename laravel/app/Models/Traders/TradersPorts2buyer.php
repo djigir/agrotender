@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 
 
-class Traders_Ports2buyer extends Model
+class TradersPorts2buyer extends Model
 {
     protected $table = 'traders_ports2buyer';
 
