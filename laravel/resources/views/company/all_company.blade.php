@@ -191,72 +191,79 @@
 {{--    {/if}--}}
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
-
-            {if $company['top']==1}companyTop{/if} {if $company['top']==2}companyTop{/if}
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
-{{--{{$company['top']==1 || $company['top']==2 ? 'companyTop' : ''}}--}}
-                "
-{{----}}
-
-{{--            {{$company['top'] == 2 ?? style ="overflow:hidden;"}}--}}
-{{--                 {if $company['top'] == 2} {/if}}--}}
-            >
-{{--                @if($company['top'] == 2)--}}
-{{--                    <div class="ribbonComp">VIP</div>--}}
-{{--                @endif--}}
-
+                {{$company->trader_premium == 1 || $company->trader_premium == 2 ? 'companyTop' : ''}}"
+            {{$company->trader_premium == 2 ?? 'style ="overflow:hidden;'}}>
+                @if($company->trader_premium == 2)<div class="ribbonComp">VIP</div>@endif
         <div class="row mx-0 w-100">
             <div class="col-auto pr-0 pl-2 pl-sm-3">
                 <div class="row m-0">
                     <div class="col-12 pl-0 pr-0 pr-sm-2">
-                        <a href="/kompanii/comp-{{$company['id']}}"><img class="companyImg"
-                          src="{{ $company['logo_file'] ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
+                        <a href="/kompanii/comp-{{$company->id}}"><img class="companyImg"
+                          src="{{ $company->logo_file ? $company->logo_file : '/app/assets/img/no-image.png' }}"/>
                         </a>
                     </div>
                 </div>
                 <div class="row m-0 pt-3 d-none d-sm-flex">
                     <div class="col-12 pl-0 pr-2 text-center">
-                        <span class="date">На сайте с {{$company['add_date']}}</span>
+                        <span class="date">На сайте с {{$company->add_date->format('Y-m-d')}}</span>
                     </div>
                 </div>
             </div>
             <div class="col">
                 <div class="row lh-1">
                     <div class="col">
-                        <span class="title"><a href="/kompanii/comp-{{$company['id']}}">{!! $company['title'] !!}</a></span>
+                        <span class="title"><a href="/kompanii/comp-{{$company->id}}-">{!!  str_replace('\\', '', $company->title) !!}</a></span>
                     </div>
                 </div>
                 <div class="row d-sm-none lh-1">
                     <div class="col">
-                        <span class="date mb-2">На сайте с {{$company['add_date']}}</span>
+                        <span class="date mb-2">На сайте с {{$company->add_date->format('Y-m-d')}}</span>
                     </div>
                 </div>
                 <div class="row d-none d-sm-flex">
                     <div class="col mt-1">
-                        <p class="desc">{{$company['short']}}</p>
+                        <p class="desc">{!! $company->short !!}</p>
                     </div>
                 </div>
                 <div class="row lh-1-2">
                     <div class="col">
                         <span class="a-bold d-none d-sm-inline-block">Виды деятельности:</span>
-                        <span class="activities d-none d-sm-block" {if $company['activities']|count_characters:true gt 75} data-toggle="tooltip" data-placement="top" title="{$company['activities']}"{/if}>{$company['activities']|truncate:75:"..":true}</span>
-                        <span class="activities d-block d-sm-none" {if $company['activities']|count_characters:true gt 57} data-toggle="tooltip" data-placement="top" title="{$company['activities']}"{/if}>{$company['activities']|truncate:57:"..":true}</span>
+                        <span class="activities d-none d-sm-block"
+                              @if(strlen($company->activities) > 75)
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{$company->activities}}"
+                              @endif>
+                            {{ \Illuminate\Support\Str::limit($company->activities, 75, $end='...') }}
+                        </span>
+                        <span class="activities d-block d-sm-none"
+                              @if(strlen($company->activities) > 57)
+                                data-toggle="tooltip"
+                                data-placement="top"
+                                title="{{$company->activities}}"
+                              @endif>
+                            {{ \Illuminate\Support\Str::limit($company->activities, 57, $end='...') }}
+                        </span>
                     </div>
                 </div>
                 <div class="row d-none d-sm-flex">
                     <div class="col pt-2 mt-1">
-                        {if $company['trader_price_avail'] eq 1 and $company['trader_price_visible'] eq 1}
-                        <a class="link" href="/kompanii/comp-{{$company['id']}}-prices"><span>Цены Трейдера</span></a>
-                        {/if}
-                        {if $company['purchases'] gt 0}
-                        <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=1"><span>Закупки ({$company['purchases']})</span></a>
-                        {/if}
-                        {if $company['sales'] gt 0}
-                        <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=2"><span>Товары ({$company['sales']})</span></a>
-                        {/if}
-                        {if $company['services'] gt 0}
-                        <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=3"><span>Услуги ({$company['services']})</span></a>
-                        {/if}
+                        @if($company->trader_price_avail == 1 and $company->trader_price_visible == 1)
+                            <a class="link" href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
+                        @endif
+
+                        @if($company->purchases > 0)
+                                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=1"><span>Закупки ({{$company->purchases}})</span></a>
+                        @endif
+
+                        @if($company->sales > 0)
+                                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=2"><span>Товары ({{$company->sales}})</span></a>
+                        @endif
+
+                        @if($company->services > 0)
+                                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=3"><span>Услуги ({{$company->services}})</span></a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -276,73 +283,102 @@
         </div>
         <div class="row mx-0 d-sm-none lh-1 w-100">
             <div class="col mt-2 text-center">
-                {if $company['trader_price_avail'] eq 1 and $company['trader_price_visible'] eq 1}
-                <a class="link" href="/kompanii/comp-{$company['id']}-prices"><span>Цены Трейдера</span></a>
-                {/if}
-                {if $company['purchases'] gt 0}
-                <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=1"><span>Закупки ({$company['purchases']})</span></a>
-                {/if}
-                {if $company['sales'] gt 0}
-                <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=2"><span>Товары ({$company['sales']})</span></a>
-                {/if}
-                {if $company['services'] gt 0}
-                <a class="link" href="/kompanii/comp-{$company['id']}-adverts?type=3"><span>Услуги ({$company['services']})</span></a>
-                {/if}
+                @if($company->trader_price_avail == 1 and $company->trader_price_visible == 1)
+                <a class="link" href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
+                @endif
+                    @if($company->purchases > 0)
+                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=1"><span>Закупки ({{$company->purchases}})</span></a>
+                    @endif
+                        @if($company->sales > 0)
+                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=2"><span>Товары ({{$company->sales}})</span></a>
+                @endif
+                            @if($company->services > 0)
+                <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=3"><span>Услуги ({{$company->services}})</span></a>
+                    @endif
             </div>
         </div>
     </div>
     @endforeach
-{{--    <div class="container">--}}
-{{--        <div class="empty pt-0 pt-md-5">--}}
-{{--            <div class="sketch mt-3 mt-md-5">--}}
-{{--                <div class="bee-sketch red"></div>--}}
-{{--                <div class="bee-sketch blue"></div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    </div>
+    <div class="container">
+        <div class="empty pt-0 pt-md-5">
+            <div class="sketch mt-3 mt-md-5">
+                <div class="bee-sketch red"></div>
+                <div class="bee-sketch blue"></div>
+            </div>
+        </div>
+    </div>
 {{--    {/foreach}--}}
 {{--    <div class="text-center mt-4">--}}
 {{--        {foreach $banners['bottom'] as $banner}--}}
 {{--        {$banner}--}}
 {{--        {/foreach}--}}
 {{--    </div>--}}
-{{--    {if $companies neq null && $totalPages > 1}--}}
+{{--{{dd($settings_for_page)}}--}}
+
+{{ $settings_for_page->links() }}
+
+    @if($companies &&  $settings_for_page->hasPages())
+
 {{--    <div class="row mx-0 mt-4">--}}
 {{--        <div class="col-12 pagination d-block text-center">--}}
-{{--            {assign "page" $pageNumber}--}}
-{{--            {if $page neq 1}--}}
+
+{{--            @if($settings_for_page->toArray()['current_page']!= 1)--}}
 {{--            <a href="{if $query neq null}/kompanii/s/{$query}/p{$page - 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 1}{/if}"><span class="mr-1"><i class="far fa-chevron-left"></i></span> <span class="d-none d-sm-inline-block">Предыдущая</span></a>--}}
-{{--            {/if}--}}
-{{--            {if ($page - 3) ge 1}--}}
-{{--            <a class="mx-1" href="{if $query neq null}/kompanii/s/{$query}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}{else}{/if}{/if}">1</a>--}}
-{{--            ..--}}
-{{--            {/if}--}}
-{{--            {if ($page - 2) gt 0}--}}
-{{--            <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 2}{/if}">{$page - 2}</a>--}}
-{{--            {/if}--}}
-{{--            {if ($page - 1) gt 0}--}}
-{{--            <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 1}{/if}">{$page - 1}</a>--}}
-{{--            {/if}--}}
-{{--            <a href="#" class="active mx-1">{$page}</a>--}}
-{{--            {if ($page + 1) le $totalPages}--}}
-{{--            <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}">{$page + 1}</a>--}}
-{{--            {/if}--}}
-{{--            {if ($page + 2) le $totalPages}--}}
-{{--            <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 2}{/if}">{$page + 2}</a>--}}
-{{--            {/if}--}}
-{{--            {if ($page + 3) le $totalPages}--}}
-{{--            ..--}}
-{{--            <a class="mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$totalPages}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$totalPages}{/if}">{$totalPages}</a>--}}
-{{--            {/if}--}}
-{{--            {if $page neq $totalPages}--}}
-{{--            <a href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}"><span class="d-none d-sm-inline-block">Следующая</span> <span class="ml-1"><i class="far fa-chevron-right"></i></span></a>--}}
-{{--            {/if}--}}
+
+{{--            @endif--}}
+
+{{--            @if($settings_for_page->toArray()['current_page'] - 3 > 1)--}}
+{{--                <a class="mx-1"--}}
+{{--                   href="{if $query neq null}/kompanii/s/{$query}{else}/kompanii/--}}
+{{--                   {if $region neq null}region_{$region['translit']}/--}}
+{{--                   {/if}{if $rubric neq null}t{$rubric['id']}{else}{/if}{/if}">--}}
+{{--                    {{$settings_for_page->toArray()['current_page'] - 3}}</a>--}}
+{{--                ..--}}
+{{--            @endif--}}
+
+{{--            @if($settings_for_page->toArray()['current_page'] - 2 > 1)--}}
+{{--                <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 2}{/if}">--}}
+{{--                    {{$settings_for_page->toArray()['current_page'] - 2}}</a>--}}
+{{--            @endif--}}
+
+{{--            @if($settings_for_page->toArray()['current_page'] - 1 > 1)--}}
+{{--                <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 1}{/if}">--}}
+{{--                    {{$settings_for_page->toArray()['current_page'] - 1}}</a>--}}
+{{--            @endif--}}
+
+{{--            <a href="#" class="active mx-1">{{$settings_for_page->toArray()['current_page']}}</a>--}}
+{{--            @if($settings_for_page->toArray()['current_page'] + 1 <= $settings_for_page->toArray()['to'])--}}
+{{--               <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}">--}}
+{{--                   {{$settings_for_page->toArray()['current_page'] + 1}}</a>--}}
+{{--            @endif--}}
+
+{{--            @if($settings_for_page->toArray()['current_page'] + 2 <= $settings_for_page->toArray()['to'])--}}
+{{--                <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 2}{/if}">--}}
+{{--                    {{$settings_for_page->toArray()['current_page'] + 2}}</a>--}}
+{{--            @endif--}}
+{{--            @if($settings_for_page->toArray()['current_page'] + 3 <= $settings_for_page->toArray()['to'])--}}
+{{--               ..--}}
+{{--               <a class="mx-1"--}}
+{{--                  href="{if $query neq null}/kompanii/s/{$query}/p{$totalPages}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$totalPages}{/if}">--}}
+{{--                   {{$settings_for_page->toArray()['last_page']}}--}}
+{{--               </a>--}}
+{{--            @endif--}}
+
+
+{{--            @if($settings_for_page->toArray()['current_page'] != $settings_for_page->toArray()['to'])--}}
+{{--                    <a href="/kompanii/?page={{$settings_for_page->toArray()['current_page'] + 1}}">--}}
+{{--                        <span class="d-none d-sm-inline-block">Следующая</span> <span class="ml-1"><i class="far fa-chevron-right"></i></span>--}}
+{{--                    </a>--}}
+{{--                <a href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}">--}}
+{{--                    <span class="d-none d-sm-inline-block">Следующая</span> <span class="ml-1"><i class="far fa-chevron-right"></i></span></a>--}}
+{{--            @endif--}}
 {{--        </div>--}}
 {{--    </div>--}}
 {{--    {if $text neq ''}--}}
 {{--    <br>--}}
 {{--    {$text}--}}
 {{--    {/if}--}}
-{{--    {/if}--}}
+    @endif
 @endsection
 

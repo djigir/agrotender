@@ -18,12 +18,13 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function all_company()
+    public function all_company(Request $request)
     {
         $group = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies()['data'];
+        $companies = $this->companyService->getCompanies($request);
 
         return view('company.all_company', ['companies' => $companies, 'settings_for_page' => $companies]);
     }
