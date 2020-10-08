@@ -759,7 +759,7 @@
       </div>
       {if $tableList neq null}
       <div class="col-12 col-md-3 float-left mt-4 mt-md-0 d-block">
-        <h2 class="d-inline-block text-uppercase">Все трейдеры</h2>
+        <h2 class="d-inline-block text-uppercase">Все трейдеры </h2>
       </div>
       {/if}
     </div>

@@ -74,7 +74,7 @@ class TraderController extends Controller
         $traders_products_lang_id = Traders_Products_Lang::with('culture')->first();
         $traders_prices = TradersPrices::first();
 
-        dd($traders_prices->name);
+        //dd($traders_prices->name);
 
 
         //$this->traderService->DataForFilter();

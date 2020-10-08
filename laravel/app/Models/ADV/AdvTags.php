@@ -19,7 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  *
  */
-class Adv_tags extends Model
+class AdvTags extends Model
 {
     protected $table = 'adv_tags';
 

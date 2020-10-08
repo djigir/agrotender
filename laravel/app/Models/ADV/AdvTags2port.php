@@ -2,27 +2,24 @@
 
 namespace App\Models\ADV;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
-
 /**
- * Class Adv_tags_rate
+ * Class Adv_tags_2port
  * @package App\Models\ADV
  * @property integer $id
  * @property integer $item_id
- * @property Carbon $dt
- * @property integer $amount
+ * @property integer $tag_id
+ *
  */
 
-class Adv_tags_rate extends Model
+class AdvTags2port extends Model
 {
-    protected $table = 'adv_tags_rate';
+    protected $table = 'adv_tags_2port';
 
     protected $fillable = [
         'id',
         'item_id',
-        'dt',
-        'amount',
+        'tag_id',
     ];
 }

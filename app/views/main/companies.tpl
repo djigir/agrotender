@@ -223,8 +223,14 @@
         <div class="row lh-1-2">
           <div class="col">
             <span class="a-bold d-none d-sm-inline-block">Виды деятельности:</span>
-            <span class="activities d-none d-sm-block" {if $company['activities']|count_characters:true gt 75} data-toggle="tooltip" data-placement="top" title="{$company['activities']}"{/if}>{$company['activities']|truncate:75:"..":true}</span>
-            <span class="activities d-block d-sm-none" {if $company['activities']|count_characters:true gt 57} data-toggle="tooltip" data-placement="top" title="{$company['activities']}"{/if}>{$company['activities']|truncate:57:"..":true}</span>
+            <span class="activities d-none d-sm-block"
+                    {if $company['activities']|count_characters:true gt 75}
+              data-toggle="tooltip" data-placement="top"
+            title="{$company['activities']}"{/if}>{$company['activities']|truncate:75:"..":true}</span>
+            <span class="activities d-block d-sm-none"
+                    {if $company['activities']|count_characters:true gt 57}
+              data-toggle="tooltip" data-placement="top"
+            title="{$company['activities']}"{/if}>{$company['activities']|truncate:57:"..":true}</span>
           </div>
         </div>
         <div class="row d-none d-sm-flex">

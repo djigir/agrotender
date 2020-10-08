@@ -2,6 +2,7 @@
 
 namespace App\Models\ADV;
 
+use App\Models\Comp\CompItems;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,7 +23,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $targeting
  * @property integer $colored
  * @property integer $fixdone
- * @property Carbon  $add_date
  * @property string  $author
  * @property string  $city
  * @property string  $phone
@@ -41,61 +41,29 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $cost_dog
  * @property integer $ups
  * @property integer $ups_do_notif
- * @property Carbon  $up_dt
  * @property string  $deact_ups_guid
  * @property string  $dub_guid
- * @property Carbon  $upnotif_dt
  * @property integer $viewnum
  * @property integer $viewnum_uniq
  * @property integer $viewnum_cont
  * @property string  $remote_ip
+ *
+ * @property Carbon  $upnotif_dt
+ * @property Carbon  $up_dt
+ * @property Carbon  $add_date
  */
 
-class Adv_torg_post extends Model
+class AdvTorgPost extends Model
 {
     protected $table = 'adv_torg_post';
 
     protected $fillable = [
-        'id',
-        'topic_id',
-        'obl_id',
-        'type_id',
-        'author_id',
-        'real_author_id',
-        'company_id',
-        'publish_utype',
-        'active',
-        'moderated',
-        'archive',
-        'targeting',
-        'colored',
-        'fixdone',
-        'add_date',
-        'author',
-        'city',
-        'phone',
-        'phone2',
-        'phone3',
-        'author2',
-        'author3',
-        'email',
-        'title',
-        'content',
-        'amount',
-        'izm',
-        'cost',
-        'cost_izm',
-        'cost_cur',
-        'cost_dog',
-        'ups',
-        'ups_do_notif',
-        'up_dt',
-        'deact_ups_guid',
-        'dub_guid',
-        'upnotif_dt',
-        'viewnum',
-        'viewnum_uniq',
-        'viewnum_cont',
-        'remote_ip',
+        'id', 'topic_id', 'obl_id', 'type_id', 'author_id', 'real_author_id', 'company_id', 'publish_utype',
+        'active', 'moderated', 'archive', 'targeting', 'colored', 'fixdone', 'author', 'city', 'phone', 'phone2',
+        'phone3', 'author2', 'author3', 'email', 'title', 'content', 'amount', 'izm', 'cost',
+        'cost_izm', 'cost_cur', 'cost_dog', 'ups', 'ups_do_notif',  'deact_ups_guid', 'dub_guid', 'viewnum', 'viewnum_uniq', 'viewnum_cont', 'remote_ip',
     ];
+
+    protected $dates = ['up_dt', 'upnotif_dt', 'add_date'];
+
 }
