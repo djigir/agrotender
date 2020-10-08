@@ -552,6 +552,7 @@ class Main extends \Core\Controller
 
     public function traders($section = 'buy')
     {
+
 //if ( empty($this->data['region']) && empty($this->data['port']) && empty($this->data['rubric']) ) die("Ведутся технические работы, раздел скоро будет доступен");
 //if ( $_SERVER['REMOTE_ADDR'] == '37.1.205.103' ) exit;
         $typeInt = ($section == 'buy') ? 0 : 1;

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Comp\CompItems;
 use App\Models\Traders\Traders;
 use App\Models\Traders\Traders_Products_Lang;
+use App\Models\Traders\TradersLang;
 use App\Models\Traders\TradersPrices;
+use App\Models\Traders\TradersPricesArc;
 use App\Models\TradersComment;
 use App\Models\TradersFilters;
 
@@ -33,7 +36,7 @@ class TraderController extends Controller
     }
 
 
-    public function region(Request  $request,$region)
+    public function region(Request  $request, $region)
     {
 
 
@@ -71,18 +74,18 @@ class TraderController extends Controller
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title*/
 
-        $traders_products_lang_id = Traders_Products_Lang::with('culture')->first();
-        $traders_prices = TradersPrices::first();
 
-        dd($traders_prices->name);
-
+        $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
+        $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
+        $traders2 = CompItems::first();
+        //dd($traders2);
 
         //$this->traderService->DataForFilter();
 
 
         /*
         if($region){
-            $traders = $traders->where('region',$region);
+            $traders = $traders->where('region', $region);
         }*/
         /*return view('traders.traders_regions'
 //            ,            ['traders'=>$traders->paginate(15)]
@@ -97,8 +100,9 @@ class TraderController extends Controller
             ,[
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
-                'traders'=>Traders::paginate(20),
+                'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubric,
+                'prices' => $prices['data'],
                 'onlyPorts' => 'onlyPorts',
                 'currencies'=>[
                     'uah' => [

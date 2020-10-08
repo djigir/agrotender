@@ -1120,33 +1120,38 @@
 {{--           {{dump($trader)}}--}}
         <div class="new_traders ">
             <div class="traders__item-wrap">
-                <a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
+                {{--<a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">--}}
+                <a href="{{ route('company.company_id', $trader->id) }}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
                     <div class="traders__item__header">
-                        <img class="traders__item__image" src="/{{$trader->logo_filename}}" alt="">
+                        <img class="traders__item__image" src="/{{--{{$trader->logo_filename}}--}}" alt="">
                     </div>
+                    {{-- /kompanii/comp-{{ $trader->id }} --}}
                     <div class="traders__item__content">
                         <div href="#" class="traders__item__content-title">
+                            {{ $trader->title }}
 {{--                            {$trader['title']|unescape|truncate:25:"...":true}--}}
-                            {{$trader->url}}
                         </div>
                         <div class="traders__item__content-description">
-{{--                            {foreach from=$trader['prices'] item=price}--}}
-{{--                            @foreach($trader->prices as $price)--}}
-{{--                            <p class="traders__item__content-p">--}}
-{{--                                <span class="traders__item__content-p-title">--}}
-{{--                                    {{$price->name}}--}}
-{{--                                    {$price['title']|unescape|truncate:14:"...":true}--}}
-{{--                                </span>--}}
-{{--                                <span class="right">--}}
-{{--                  <span class="traders__item__content-p-price {if $price['change_price'] neq ''}price-{$price['change_price']}" data-toggle="tooltip" data-placement="right" title="Старая цена: {if $price['currency'] eq 1}${/if}{$price['old_price']}"{else}"{/if}>{if $price['currency'] eq 1}$&nbsp;{/if}{$price['price']}</span>--}}
+                            {{--{foreach from=$trader['prices'] item=price}--}}
 
-{{--                                <span class="traders__item__content-p-icon">--}}
-{{--                    {if $price['change_price'] neq ''}<img src="/app/assets/img/price-{$price['change_price']}.svg">{/if}--}}
-{{--                  {if $price['change_price'] eq ''}<img src="/app/assets/img/price-not-changed.svg">{/if}--}}
-{{--                  </span>--}}
-{{--                                </span>--}}
-{{--                            </p>--}}
-{{--                            @endforeach--}}
+                            @foreach($prices as $price)
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">
+                                    {{$price["traders_products_lang"]["name"]}}
+                                    <!--{$price['title']|unescape|truncate:14:"...":true}-->
+                                </span>
+                                <span class="right">
+{{--                  <span class="traders__item__content-p-price {if $price['change_price'] neq ''}price-{$price['change_price']}" data-toggle="tooltip" data-placement="right" title="Старая цена: {if $price['currency'] eq 1}${/if}{$price['old_price']}"{else}"{/if}>{if $price['currency'] eq 1}$&nbsp;{/if}{$price['price']}</span>--}}
+                                {{ $price['costval'] }}
+                                <span class="traders__item__content-p-icon">
+
+                    {{--{if $price['change_price'] neq ''}<img src="/app/assets/img/price-{$price['change_price']}.svg">{/if}
+                  {if $price['change_price'] eq ''}<img src="/app/assets/img/price-not-changed.svg">{/if}--}}
+
+                                </span>
+                                </span>
+                            </p>
+                            @endforeach
                         </div>
                         <div class="traders__item__content-date">
                             <!--               <span class="traders__item__content-date-more">+ ещё {$trader['review']['count']}</span> -->

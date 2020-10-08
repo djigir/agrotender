@@ -30,8 +30,9 @@ class Traders_Products_Lang extends Model
         'p_content',
     ];
 
-    public function culture() {
 
-        return $this->belongsTo(TradersPrices::class, 'id', 'cult_id');
+    public function traders_prices_arc()
+    {
+        return $this->belongsTo(TradersPrices::class, 'id');
     }
 }

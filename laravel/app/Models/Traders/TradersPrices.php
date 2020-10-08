@@ -2,6 +2,7 @@
 
 namespace App\Models\Traders;
 
+use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -40,11 +41,8 @@ class TradersPrices extends Model
         'comment',
     ];
 
+    /* Mutations */
     protected $appends=['name'];
-
-    public function product_lang() {
-        return $this->hasOne(Traders_Products_Lang::class, 'id', 'cult_id');
-    }
 
     public function getNameAttribute()
     {
@@ -53,4 +51,17 @@ class TradersPrices extends Model
         }
         return '';
     }
+
+    /* Relations */
+    public function product_lang()
+    {
+        return $this->hasOne(Traders_Products_Lang::class, 'id', 'cult_id');
+    }
+
+    public function compItems()
+    {
+        return $this->belongsTo(CompItems::class);
+    }
+
+
 }

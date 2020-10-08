@@ -44,6 +44,6 @@ class CompItems extends Model
 
     public function traders_prices()
     {
-        return $this->hasOne(TradersPrices::class);
+        return $this->hasOne(TradersPrices::class, '');
     }
 }

@@ -905,7 +905,6 @@ class Traders extends \Core\Model {
 
 
     }
-
     return $traders;
   }
 
@@ -1017,10 +1016,10 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
-//      echo '<pre>';
-//      var_dump($traders);
-//      print_r($traders);
-//      echo '</pre>';die();
+/*      echo '<pre>';
+      var_dump($traders);
+      print_r($traders);
+      echo '</pre>';die();*/
     // group by
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {

@@ -34,5 +34,8 @@ class TradersPricesArc extends Model
         'acttype',
     ];
 
-
+    public function traders_products_lang()
+    {
+        return $this->hasOne(Traders_Products_Lang::class, 'id');
+    }
 }
