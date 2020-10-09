@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models\Traders;
-
+use App\Models\Traders\TradersProducts;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -34,5 +34,10 @@ class Traders_Products_Lang extends Model
     public function traders_prices_arc()
     {
         return $this->belongsTo(TradersPricesArc::class, 'id');
+    }
+
+    public function traders_products()
+    {
+        return $this->hasMany(TradersProducts::class, 'id');
     }
 }

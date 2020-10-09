@@ -81,12 +81,11 @@ class CompanyService
 //        return $rubric;
     }
 
-    public function getCompanies(Request $request)
+    public function getCompanies()
     {
 //        $rubric = ($rubric != null) ? "inner join agt_comp_item2topic i2t on i2t.item_id = i.id && i2t.topic_id = $rubric" : "";
 //        $region = ($region != null) ? "&& i.obl_id = $region" : "";
 //        $query  = ($query != null) ?  "&& (i.title like '%$query%' or i.content like '%$query%')" : "";
-
         $companies = CompItems::
         select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
             'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',

@@ -31,11 +31,10 @@ class TradersProductGroups extends Model
 
     public function getGroupsAttribute()
     {
-
         return TradersProductGroupLanguage::select('name', 'id')
             ->where('item_id', '=', $this->id)
-            ->get()
-            [0];
+            ->with('traders_products')
+            ->get()[0];
     }
 
 

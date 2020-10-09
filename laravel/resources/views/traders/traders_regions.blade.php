@@ -317,177 +317,6 @@
         </div>
     </div>
 
-    {{--    <div class="filters-wrap">--}}
-    {{--      <div class="filters-inner">--}}
-    {{--        <div class="filters arrow-t">--}}
-    {{--          <div class="step-1 stp">--}}
-    {{--            <div class="position-relative scroll-wrap">--}}
-    {{--              <div class="mt-3">--}}
-    {{--                <span class="title ml-3 pt-3">Настройте фильтры:</span>--}}
-    {{--              </div>--}}
-    {{--              <a class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between" href="#" type="{if $section neq 'buy'}_sell{/if}">--}}
-    {{--                <span>{if $section eq 'buy'}Закупки{else}Продажи{/if}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="{if $rubric eq null}0{else}{$rubric['translit']}{/if}">--}}
-    {{--                <span>{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="{if $region eq null}0{elseif $region['id'] eq 1}1{else}{$region['translit']}{/if}" port="{if $onlyPorts eq 'yes'}all{else}{if $port eq null}0{else}{$port['translit']}{/if}{/if}">--}}
-    {{--              <span>{if $onlyPorts eq 'yes'} Все порты {else} {if $region eq null} {if $port eq null} Вся Украина {else} {$port['name']} {/if} {elseif $region['id'] eq 1} АР Крым {else} {$region['name']} область {/if} {/if}</span>--}}
-    {{--              <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" href="#">--}}
-    {{--                <span class="text-muted">Валюта:</span>--}}
-    {{--                <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
-    {{--                  <label class="btn btn-radio{if $currency eq null} active{/if}">--}}
-    {{--                    <input type="radio" name="currency" value="" autocomplete="off"{if $currency eq null} checked{/if}> Любая--}}
-    {{--                  </label>--}}
-    {{--                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'uah'} active{/if}">--}}
-    {{--                    <input type="radio" name="currency" value="uah" autocomplete="off"{if $currency neq null && $currency['code'] eq 'uah'} checked{/if}> Гривна--}}
-    {{--                  </label>--}}
-    {{--                  <label class="btn btn-radio{if $currency neq null && $currency['code'] eq 'usd'} active{/if}">--}}
-    {{--                    <input type="radio" name="currency" value="usd" autocomplete="off"{if $currency neq null && $currency['code'] eq 'usd'} checked{/if}> Доллар--}}
-    {{--                  </label>--}}
-    {{--                </div>--}}
-    {{--              </a>--}}
-    {{--              <a class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between" href="#">--}}
-    {{--                <span class="text-muted">Показать:</span>--}}
-    {{--                <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
-    {{--                  <label class="btn btn-radio{if $viewmod neq null} active{/if}">--}}
-    {{--                    <input type="radio" name="viewmod" value="nontbl" autocomplete="off"{if $viewmod neq null} checked{/if}> Списком--}}
-    {{--                  </label>--}}
-    {{--                  <label class="btn btn-radio{if $viewmod eq null} active{/if}">--}}
-    {{--                    <input type="radio" name="viewmod" value="" autocomplete="off"{if $viewmod eq null} checked{/if}> Таблицей--}}
-    {{--                  </label>--}}
-    {{--                </div>--}}
-    {{--              </a>--}}
-    {{--              <div class="error-text mt-3 text-center">--}}
-    {{--                <span>Для сравнения цен выберите продукцию</span>--}}
-    {{--              </div>--}}
-    {{--            </div>--}}
-    {{--            <a class="show" href="#">--}}
-    {{--            Показать трейдеров--}}
-    {{--            </a>--}}
-    {{--          </div>--}}
-
-
-
-    {{--          <div class="step-2 stp h-100">--}}
-    {{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-    {{--            <div class="scroll">--}}
-    {{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_forwards/region_ukraine">--}}
-    {{--                <span>Форварды</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders{if $section eq 'buy'}_sell{/if}">--}}
-    {{--                <span>{if $section eq 'buy'}Продажи{else}Закупки{/if}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic/region_ukraine">--}}
-    {{--                <span>Аналитика закупок</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_analitic_sell">--}}
-    {{--                <span>Аналитика продаж</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--            </div>--}}
-    {{--          </div>--}}
-    {{--          <div class="step-3 stp h-100">--}}
-    {{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-    {{--            <div class="scroll">--}}
-    {{--              {foreach from=$rubricsGroup item=g}--}}
-    {{--              <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{$g['id']}">--}}
-    {{--                <span>{$g['name']}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              {/foreach}--}}
-    {{--            </div>--}}
-    {{--          </div>--}}
-    {{--          <div class="step-3-1 stp h-100">--}}
-    {{--            <a class="back py-3 px-4 content-block d-block" step="3" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-    {{--            <div class="scroll">--}}
-    {{--              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" group="">--}}
-    {{--                <span></span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              {foreach from=$rubrics item=groups key=group_id}--}}
-    {{--                {foreach from=$groups item=group}--}}
-    {{--                  {foreach from=$group item=r}--}}
-    {{--              <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{$group_id}" group="{$r['translit']}">--}}
-    {{--                <span>{$r['name']}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--                  {/foreach}--}}
-    {{--                {/foreach}--}}
-    {{--              {/foreach}--}}
-    {{--            </div>--}}
-    {{--          </div>--}}
-    {{--          <div class="step-4 stp h-100">--}}
-    {{--            <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-    {{--            <div class="scroll">--}}
-    {{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="0">--}}
-    {{--              <span style="font-weight: 600;">Вся Украина</span>--}}
-    {{--              <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="1">--}}
-    {{--                <span>АР Крым</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              {foreach from=$regions_list item=col}--}}
-    {{--                {foreach from=$col item=region}--}}
-    {{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="{$region['translit']}">--}}
-    {{--                <span>{$region['name']} область</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--                {/foreach}--}}
-    {{--              {/foreach}--}}
-    {{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="all">--}}
-    {{--                <span style="font-weight: 600;">Все порты</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--              {foreach from=$ports item=col}--}}
-    {{--                {foreach from=$col item=port}--}}
-    {{--              <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="{$port['translit']}">--}}
-    {{--                <span>{$port['name']}</span>--}}
-    {{--                <span><i class="far fa-chevron-right"></i></span>--}}
-    {{--              </a>--}}
-    {{--                {/foreach}--}}
-    {{--              {/foreach}--}}
-    {{--            </div>--}}
-    {{--          </div>--}}
-    {{--        </div>--}}
-    {{--      </div>--}}
-    {{--    </div>--}}
-    {{--    <div class="d-none d-sm-block container mt-3">--}}
-    {{--      <ol class="breadcrumbs small p-0">--}}
-    {{--        <li><a href="/"><span>Главная</span></a></li>--}}
-    {{--        {if $rubric neq null && $region eq null && $port eq null}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><h1>{$h1}</h1></li>--}}
-    {{--        {elseif $rubric eq null && ($region neq null or $port neq null)}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><h1>{$h1}</h1></li>--}}
-    {{--        {elseif $rubric neq null && ($region neq null or $port neq null)}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><a href="{if $section eq 'buy'}/traders{else}/traders_sell{/if}"><span>{if $section eq 'buy'}Цены трейдеров{else}Продажи трейдеров{/if}</span></a></li>--}}
-    {{--        {if $section eq 'buy'}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><a href="/traders/{if $rubric neq null}{$rubric['translit']}{elseif $port neq null}tport_{$port['translit']}{/if}"><span>Цена {if $rubric neq null}{$rubric['name']}{elseif $port neq null}{$port['name']}{/if}</span></a></li>--}}
-    {{--        {/if}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><h1>{$h1}</h1></li>--}}
-    {{--        {else}--}}
-    {{--        <i class="fas fa-chevron-right extra-small"></i>--}}
-    {{--        <li><h1>{if $h1 neq ''}{$h1}{else}Цены трейдеров в {if $region['id'] eq null}Украине{else}{$region['parental']} области{/if}{/if}</h1></li>--}}
-    {{--        {/if}--}}
-    {{--      </ol>--}}
-    {{--    </div>--}}
 
     @if(isset($feed) && $feed)
         <div class="container mt-3 mt-sm-4 mb-3 mb-sm-0">
@@ -546,371 +375,9 @@
         </symbol>
     </svg>
 
-    <!--  <div class="header__wrap">
-        <header class="new_header">
-          <div class="new_container">
-            <div class="header__flex header__desktop">
-              <div class="logo-wrap">
-                <a href="#" class="logo">
-                  <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="logo" class="logo_desktop">
-                  <img src="https://agrotender.com.ua/app/assets/img/agromini.svg" alt="logo" class="logo_mobile">
-                </a>
-                <div class="hidden-links">
-                  <a href="#">
-                    <img src="https://agrotender.com.ua/app/assets/img/company/viber4.svg" alt="">
-                  </a>
-                  <a href="#">
-                    <img src="https://agrotender.com.ua/app/assets/img/company/telegram-white.svg" alt="">
-                  </a>
-                </div>
-              </div>
-              <div class="header__center__buttons">
-                <a href="https://agrotender.com.ua/board" class="header__center__button">Объявления</a>
-                <div class="header__tradersPrice">
-                  <a href="https://agrotender.com.ua/traders" class="header__center__button withArrow">
-                    Цены Трейдеров
-                  </a>
-                  <div class="header__hoverElem-wrap">
-                    <div class="header__hoverElem">
-                      <ul>
-                        <li>
-                          <a href="https://agrotender.com.ua/traders" class="header_fw600">Закупки</a>
-                        </li>
-                        <li>
-                          <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/pshenica_2_kl" class="header_fw600">Форварды</a>
-                        </li>
-                        <li>
-                          <a href="https://agrotender.com.ua/traders_sell" class="header_fw600">Продажи</a>
-                        </li>
-                        <li>
-                          <span class="line"></span>
-                        </li>
-                        <li>
-                          <a href="https://agrotender.com.ua/tarif20.html" class="header__yellowText">Разместить компанию</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-                <div class="header__tradersPrice special">
-                  <a href="https://agrotender.com.ua/traders" class="header__center__button withBg">
-                    <span class="header__tradersPrice-dots">
-                      <span></span>
-                      <span></span>
-                      <span></span>
-                    </span>
-                  </a>
-                  <div class="header__hoverElem-wrap">
-                    <div class="header__hoverElem">
-                      <ul>
-                        <li>
-                          <a href="https://agrotender.com.ua/traders">Компании</a>
-                        </li>
-                        <li>
-                          <a href="https://agrotender.com.ua/elev">Элеваторы</a>
-                        </li>
-                        <li>
-                          <span class="line"></span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="header__right">
-                <a href="#" class="header__right__button">
-                  <span>Мой профиль</span>
-                  <img src="https://agrotender.com.ua/app/assets/img/profile.svg" alt="profile">
-                </a>
-                <div class="header__hoverElem-wrap">
-                  <div class="header__hoverElem">
-                    <ul>
-                      <li>
-                        <span>Цены трейдера:</span>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/prices">Таблица закупок</a>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/prices/contacts">Контакты трейдера</a>
-                      </li>
-                      <li>
-                        <span>Моя Компания:</span>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/company">Настройки</a>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/contacts">Контакты</a>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/posts">Объявления</a>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/balance/pay">Пополнить баланс</a>
-                      </li>
-                      <li>
-                        <span>Мой профиль:</span>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/u/">Настройки</a>
-                      </li>
-                      <li>
-                        <a href="https://agrotender.com.ua/logout" class="header__exit">Выход</a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="header__mobile">
-              <button class="header_drawerOpen-btn">
-                <img src="https://agrotender.com.ua/app/assets/img/menu.svg" alt="">
-              </button>
-              <a href="/" class="header_logo_mobile">
-                <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="">
-              </a>
-              <a href="/" class="header_profile">
-                <img src="https://agrotender.com.ua/app/assets/img/profile_white.svg" alt="">
-              </a>
-            </div>
-            <div class="drawer">
-              <div class="drawer_content">
-                <div class="drawer__header">
-                  <a href="/" class="drawer__header-logo">
-                    <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
-                  </a>
-                  <a href="#" class="drawer__header-social first">
-                    <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
-                  </a>
-                  <a href="#" class="drawer__header-social">
-                    <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
-                  </a>
-                </div>
-                <ul class="drawer__list">
-                  <li>
-                    <a href="#">Главная</a>
-                  </li>
-                  <li>
-                    <a href="#">Объявления</a>
-                  </li>
-                  <li>
-                    <a href="#">Цены трейдеров</a>
-                  </li>
-                  <li>
-                    <a href="#">Компании</a>
-                  </li>
-                  <li>
-                    <a href="#">Элеваторы</a>
-                  </li>
-                </ul>
-                <div class="drawer_footer">
-                  <ul class="drawer__list">
-                    <li><a href="#">Выход</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-      </div> -->
 
     <div class="bg_filters"></div>
 
-    {{--    <div class="new_filters-wrap">--}}
-    {{--        <div class="replacement"></div>--}}
-    {{--        <div class="fixed-item">--}}
-    {{--            <div class="new_container">--}}
-    {{--                <div class="new_filters">--}}
-    {{--                    <div class="filter__item main">--}}
-    {{--                        <button class="filter__button main">{if $section eq 'buy'}Закупки{else}Продажи{/if}</button>--}}
-    {{--                        <div class="new_filters_dropdown-wrap">--}}
-    {{--                            <div class="new_filters_dropdown">--}}
-    {{--                                <ul>--}}
-    {{--                                    <li>--}}
-    {{--                                        <a href="/traders_forwards/region_ukraine">Форварды</a>--}}
-    {{--                                    </li>--}}
-    {{--                                    {if $section eq 'buy'}--}}
-    {{--                                    <li>--}}
-    {{--                                        <a href="/traders_sell">Продажи</a>--}}
-    {{--                                    </li>--}}
-    {{--                                    {else}--}}
-    {{--                                    <li>--}}
-    {{--                                        <a href="/traders/region_ukraine">Закупки</a>--}}
-    {{--                                    </li>--}}
-    {{--                                    {/if}--}}
-    {{--                                </ul>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="filter__item producrion" id="choseProduct">--}}
-    {{--                        <button class="filter__button producrion-btn">{if $rubric eq null}Выбрать продукцию{else}{$rubric['name']}{/if}</button>--}}
-    {{--                        <div class="new_filters_dropdown-wrap">--}}
-    {{--                            <div class="new_filters_dropdown">--}}
-    {{--                                <div class="new_filters_dropdown-column">--}}
-    {{--                                    <ul>--}}
-    {{--                                        {foreach from=$rubricsGroup item=g}--}}
-    {{--                                        <li class="{if $rubric['group_id'] eq $g['id']} active{/if}">--}}
-    {{--                                            <a href="#">{$g['name']}</a>--}}
-    {{--                                        </li>--}}
-    {{--                                        {/foreach}--}}
-    {{--                                    </ul>--}}
-    {{--                                </div>--}}
-    {{--                                {foreach from=$rubrics item=groups key=group_id}--}}
-    {{--                                <div class="new_filters_dropdown-content {$group_id}">--}}
-    {{--                                    {foreach from=$groups item=group}--}}
-    {{--                                    <ul>--}}
-    {{--                                        {foreach from=$group item=r}--}}
-    {{--                                        <li>--}}
-    {{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}{if $region neq null}/region_{$region['translit']}{else if $port neq null or $onlyPorts eq 'yes'}/tport_{if $port neq null}{$port['translit']}{else}all{/if}{else}/region_ukraine{/if}/{$r['translit']}{if $currency !== null}?currency={$currency['code']}{/if}?viewmod=nontbl">{$r['name']}--}}
-    {{--                                                {foreach from=$r_count item=rc}--}}
-    {{--                                                {if $r['id'] eq $rc['id']}--}}
-    {{--                                                ({$rc['count']})--}}
-    {{--                                                {/if}--}}
-    {{--                                                {/foreach}--}}
-    {{--                                            </a>--}}
-    {{--                                        </li>--}}
-    {{--                                        {/foreach}--}}
-    {{--                                    </ul>--}}
-
-    {{--                                    {/foreach}--}}
-    {{--                                </div>--}}
-    {{--                                {/foreach}--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="filter__item second" id="all_ukraine">--}}
-    {{--                        <button class="filter__button second">--}}
-    {{--                            {if $onlyPorts eq 'yes'}--}}
-    {{--                            Все порты--}}
-    {{--                            {else}--}}
-    {{--                            {if $region eq null}--}}
-    {{--                            {if $port eq null}--}}
-    {{--                            Вся Украина--}}
-    {{--                            {else}--}}
-    {{--                            {$port['name']}--}}
-    {{--                            {/if}--}}
-    {{--                            {elseif $region['id'] eq 1}--}}
-    {{--                            АР Крым--}}
-    {{--                            {else}--}}
-    {{--                            {$region['name']}--}}
-    {{--                            {/if}--}}
-    {{--                            {/if}--}}
-    {{--                        </button>--}}
-    {{--                        <div class="new_filters_dropdown-wrap">--}}
-    {{--                            <div class="new_filters_dropdown">--}}
-    {{--                                <div class="new_filters_dropdown-column">--}}
-    {{--                	<span class="d-block">--}}
-    {{--            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_ukraine{if $rubric neq null}/{$rubric['translit']}{else}/index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
-    {{--            <span>Вся Украина</span>--}}
-    {{--          </a>--}}
-    {{--          <a href="/traders{if $section eq 'sell'}_sell{/if}/region_crimea/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
-    {{--            <span>АР Крым</span>--}}
-    {{--          </a>--}}
-    {{--          </span>--}}
-    {{--                                    <ul>--}}
-    {{--                                        <li class="active">--}}
-    {{--                                            <a href="#">Области</a>--}}
-    {{--                                        </li>--}}
-    {{--                                        <li>--}}
-    {{--                                            <a href="#">Порты</a>--}}
-    {{--                                        </li>--}}
-    {{--                                    </ul>--}}
-    {{--                                    </ul>--}}
-    {{--                                </div>--}}
-    {{--                                <div class="new_filters_dropdown-content active">--}}
-    {{--                                    <ul>--}}
-    {{--                                        {foreach from=$regions_list item=col}--}}
-    {{--                                        {foreach from=$col item=c}--}}
-    {{--                                        <li>--}}
-    {{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/region_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $currency !== null}?currency={$currency['code']}{/if}{if $viewmod eq 'nontbl'}{if $currency !== null}&{else}?{/if}viewmod=nontbl{/if}">--}}
-    {{--                                                {$c['name']}--}}
-    {{--                                            </a>--}}
-    {{--                                        </li>--}}
-    {{--                                        {/foreach}--}}
-    {{--                                        {/foreach}--}}
-    {{--                                    </ul>--}}
-    {{--                                </div>--}}
-    {{--                                <div class="new_filters_dropdown-content">--}}
-    {{--                                    <ul>--}}
-    {{--                                        {foreach from=$ports item=col}--}}
-    {{--                                        {foreach from=$col item=c}--}}
-    {{--                                        <li>--}}
-    {{--                                            <a href="/traders{if $section eq 'sell'}_sell{/if}/tport_{$c['translit']}/{if $rubric neq null}{$rubric['translit']}{else}index{/if}{if $viewmod eq 'nontbl'}?viewmod=nontbl{/if}">--}}
-    {{--                                                {$c['name']}--}}
-    {{--                                            </a>--}}
-    {{--                                        </li>--}}
-    {{--                                        {/foreach}--}}
-    {{--                                        {/foreach}--}}
-    {{--                                    </ul>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="new_filters_checkbox first">--}}
-    {{--                        <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox" />--}}
-    {{--                        <label class="cbx" for="new_filters_currency_uah">--}}
-    {{--            <span>--}}
-    {{--              <svg width="12px" height="10px">--}}
-    {{--                <use xlink:href="#check"></use>--}}
-    {{--              </svg>--}}
-    {{--            </span>--}}
-    {{--                            <span>ГРН</span>--}}
-    {{--                        </label>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="new_filters_checkbox second">--}}
-    {{--                        <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" />--}}
-    {{--                        <label class="cbx" for="new_filters_currency_usd">--}}
-    {{--            <span>--}}
-    {{--              <svg width="12px" height="10px">--}}
-    {{--                <use xlink:href="#check"></use>--}}
-    {{--              </svg>--}}
-    {{--            </span>--}}
-    {{--                            <span>USD</span>--}}
-    {{--                        </label>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-
-
-
-    {{--    <!-- Vip Traders Title -->--}}
-    {{--    {if $vipTraders }--}}
-    {{--    {if $viewmod eq 'nontbl' || $rubric eq null}--}}
-
-
-    {{--    <div class="container mt-3 mt-sm-5">--}}
-    {{--        <div class="row mt-sm-0 pt-sm-0 mb-sm-4">--}}
-    {{--            <div class="position-relative w-100">--}}
-    {{--                <div class="col-12 col-md-9 float-md-right text-center text-md-right">--}}
-    {{--                    <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">--}}
-    {{--                        <i class="far fa-plus mr-2"></i>--}}
-    {{--                        <span class="pl-1 pr-1">Разместить компанию</span>--}}
-    {{--                    </a>--}}
-    {{--                </div>--}}
-    {{--                <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">--}}
-    {{--                    <div class="col-6 col-sm-12 pl-0">--}}
-    {{--                        <h2 class="d-inline-block text-uppercase">{if $rubric eq null}ТОП трейдеры{else}{$rubric['name']}{/if}</h2>--}}
-    {{--                        <div class="lh-1">--}}
-    {{--                            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                    <div class="col-6 pr-0 text-right d-sm-none">--}}
-    {{--                        <a href="/tarif20.html" class="btn btn-warning align-items-end add-trader">--}}
-    {{--                            <span class="pl-1 pr-1">Стать трейдером</span>--}}
-    {{--                        </a>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
-    {{--        </div>--}}
-    {{--    </div>--}}
-    {{--    {/if}--}}
-
-    {{--    {/if}--}}
-
-    <!--End Vip Traders Title -->
 
 
     <!-- VIP Traders Banner  -->
@@ -1268,4 +735,1149 @@
     {/if}
 
 
+
+    @include('layout.layout-filter', ['section' => $section, 'rubricsGroup' => $rubric, 'onlyPorts' => $onlyPorts])
+    <div class="new_container container mt-3 traders_dev">
+        <div class="new_traders ">
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6546" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(251, 218, 89);">
+                        <img class="traders__item__image" src="/pics/c/4NJgh3XkncYD.jpg" alt="" data-primary-color="251,218,89">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            KADORR Agro Group
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6620">6 650</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Ячмень</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6100">6 150</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7650">7 750</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-1105" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(51, 106, 77);">
+                        <img class="traders__item__image" src="/pics/comp/1105_96102.jpg" alt="" data-primary-color="51,106,77">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Рамбурс
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">6 100</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя без ГМО</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">$&nbsp;436</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 100</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-4081" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/4081_95081.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Escador
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Подсолнечник</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 13900">14 050</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6950">7 000</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7000">7 050</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 2 отзыва</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6293" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/1RnbTG5LXytX.jpeg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Пирятинский деликатес
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7720">7 760</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 14100">14 450</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7720">7 760</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 1 отзыв</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-1968" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/HrkW02a6FUzF.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            АДМ ЮКРЕЙН
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6995">7 225</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">6 700</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6965">7 195</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="new_traders ">
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-5559" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/1ahFioC9j0C7.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Sintez Group &amp; Co
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 13600">14 100</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Горох желтый</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">6 500</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Фасоль</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">22 000</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 1 отзыв</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6302" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/9AkVDpHt9eUN.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            G.R. Agro
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 500</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Подсолнечник</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">14 000</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 500</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-1167" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/1167_80788.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            SUNGRAIN
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Ячмень</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6000">6 030</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 5800">5 850</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7310">7 370</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 1 отзыв</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6606" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/vGw5Emv1Gqli.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Петрус-Кондитер
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 400</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 400</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">7 300</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-1115" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/1115_84695.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            НОВААГРО
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Гречиха</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 18500">18 510</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">6 700</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">6 850</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="new_traders ">
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-5529" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(38, 179, 67);">
+                        <img class="traders__item__image" src="/pics/comp/5529_86405.jpg" alt="" data-primary-color="38,179,67">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Лихачевский Элеватор
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right" title="Старая цена: 6700">7</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-down.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right" title="Старая цена: 6700">7</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-down.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6600">6 900</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span class="green">сегодня</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6532" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(0, 197, 97);">
+                        <img class="traders__item__image" src="/pics/c/Wf6mpqolc469.png" alt="" data-primary-color="0,197,97">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            ВІН-ЕКСПО
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Просо желтое</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 5600">5 700</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Масло соевое</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">$&nbsp;780</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница спе..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">14 000</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-4593" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/4593_70690.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Прометей
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7130">7 220</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7500">7 600</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7470">7 570</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6354" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/tsdL477Tawjd.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            ТК Восток
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6325">6 350</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7350">7 400</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 7425">7 500</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-3193" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/3193_80434.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            АГРОЛІДЕР ЄВРОПА
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Горчица бела.</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right" title="Старая цена: 17000">16 800</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-down.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Нут</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 10000">13 000</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Чечевица</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 12000">14 500</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="new_traders ">
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-820" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/820_83166.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            Smart Trade
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Отруби пшен..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">4 850</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Отруби пшен..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">4 650</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Шрот подсол..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: $228">$&nbsp;230</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 3 отзыва</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-6596" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/c/XKwBhLDbeJoY.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            AGROLA
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Отруби пшен..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">5 150</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Отруби пшен..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price ">4 850</span>
+
+                  <span class="traders__item__content-p-icon">
+                                      <img src="/app/assets/img/price-not-changed.svg">                  </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+            <div class="traders__item-wrap">
+
+                <a href="/kompanii/comp-5608" class="traders__item  yellow">
+                    <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                        <img class="traders__item__image" src="/pics/comp/5608_54749.jpg" alt="" data-primary-color="255,255,255">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title">
+                            KERNEL
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Подсолнечни..</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 13000">13 300</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Ячмень</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6650">6 700</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right">
+                  <span class="traders__item__content-p-price price-up" data-toggle="tooltip" data-placement="right" title="Старая цена: 6400">6 450</span>
+
+                  <span class="traders__item__content-p-icon">
+                    <img src="/app/assets/img/price-up.svg">                                    </span>
+                </span>
+                            </p>
+                        </div>
+                        <div class="traders__item__content-date">
+                            <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                            <span style="color:#FF7404;">вчера</span>            </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!--
+     -->
+        <div class="new_traders "> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-4964" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/4964_89599.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            GrainCorp Ukraine
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:$ &nbsp;218">$&nbsp;220</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:7270">7 370</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">5 Октября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-2136" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/2136_85457.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            BG Trade SA
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза фураж…</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:$ &nbsp;184">$&nbsp;188</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:$ &nbsp;218">$&nbsp;219</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">2 Октября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-6566" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/c/aUIPbx18fK57.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Caravan Agro
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Лён</span>
+                                <span class="right"><span class="traders__item__content-p-price">13 000</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Сорго красное</span>
+                                <span class="right"><span class="traders__item__content-p-price">4 900</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">1 Октября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-812" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/812_47610.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            VIRTUS
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price">7 000</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price">6 900</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">29 Сентября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-959" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/959_83651.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            AnkoAgroTrade
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Рапс с ГМО</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;395</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Сорго белое</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;160</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">22 Сентября</span>
+                        </div>
+                    </div></a></div></div><div class="new_traders "> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-3720" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/3720_73076.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Global Commodities Swiss …
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Рапс с ГМО</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;380</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя без ГМО</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;408</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">21 Сентября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-6477" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/c/5Fvt5CVFpaEb.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Region Grain Company AG
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right"><span class="traders__item__content-p-price">5 350</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 4 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price">7 100</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">17 Сентября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-2045" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/2045_15757.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            LNZ GROUP
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя</span>
+                                <span class="right"><span class="traders__item__content-p-price">12 250</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Подсолнечник</span>
+                                <span class="right"><span class="traders__item__content-p-price">12 300</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">11 Сентября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-1490" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/1490_34978.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Ukrlandfarming
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя</span>
+                                <span class="right"><span class="traders__item__content-p-price">11 900</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Ячмень</span>
+                                <span class="right"><span class="traders__item__content-p-price">5 400</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">10 Сентября</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-1020" class="traders__item  yellow">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/1020_85359.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Klam Oliya
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Шрот подсолн. …</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;207</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Ячмень</span>
+                                <span class="right"><span class="traders__item__content-p-price">$&nbsp;155</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span style="color:#001430;">27 Июля</span>
+                        </div>
+                    </div></a></div></div><div class="new_traders "> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-1119" class="traders__item ">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/c/BnLleiOjlrCn.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            CORETRADE
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price">7 870</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:6600">6 700</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span class="green">сегодня</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-1943" class="traders__item ">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/1943_73237.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            ТАС АГРО
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя</span>
+                                <span class="right"><span class="traders__item__content-p-price">14 000</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:6300">6 400</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span class="green">сегодня</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-3962" class="traders__item ">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/comp/3962_63556.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            СІЕЙТІ
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Соя без ГМО</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:14300">14 400</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Кукуруза</span>
+                                <span class="right"><span class="traders__item__content-p-price">5 800</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-not-changed.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span class="green">сегодня</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-5962" class="traders__item ">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/c/p7DUB6TKdciH.JPG" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Orex Distribution
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:6850">7 000</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 2 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:6900">7 050</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span class="green">сегодня</span>
+                        </div>
+                    </div></a></div> <div class="traders__item-wrap">
+                <a href="/kompanii/comp-6441" class="traders__item ">
+                    <div class="traders__item__header">
+                        <img class="traders__item__image" src="/pics/c/p7KovMuRtsOV.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                        <div href="#" class="traders__item__content-title title">
+                            Південна Зернова Столиця
+                        </div>
+                        <div class="traders__item__content-description">
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Пшеница 3 кл.</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:7520">7 720</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                            <p class="traders__item__content-p">
+                                <span class="traders__item__content-p-title">Подсолнечник</span>
+                                <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:13500">13 900</span><span class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
+                            </p>
+                        </div><div class="traders__item__content-date">
+                            <span class="traders__item__content-date-more">+ ещё </span>
+                            <span class="green">сегодня</span>
+                        </div>
+                    </div></a></div></div></div>
 @endsection
