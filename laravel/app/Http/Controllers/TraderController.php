@@ -93,8 +93,6 @@ class TraderController extends Controller
         );*/
 
 
-
-
         $rubric = $this->traderService->DataForFilter();
 
         return view('traders.traders_regions'

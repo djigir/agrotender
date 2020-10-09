@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/app/assets/css/imagelightbox.css">
     <link rel="stylesheet" href="/app/assets/css/jquery.dmenu.css">
     <link rel="stylesheet" href="/app/assets/css/jquery.jgrowl.min.css">
-    <link rel="stylesheet" href="/app/assets/css/landing.css">
+{{--    <link rel="stylesheet" href="/app/assets/css/landing.css">--}}
     <link rel="stylesheet" href="/app/assets/css/main.css">
     <link rel="stylesheet" href="/app/assets/css/multiple-select.css">
     <link rel="stylesheet" href="/app/assets/css/noty.css">
