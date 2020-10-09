@@ -60,7 +60,7 @@ class TradersPrices extends Model
 
     public function compItems()
     {
-        return $this->belongsTo(CompItems::class);
+        return $this->belongsTo(CompItems::class, 'id');
     }
 
 

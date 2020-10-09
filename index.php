@@ -9,14 +9,14 @@
 
 
 //var_dump($_SERVER['REQUEST_URI']);die();
-if (
+/*if (
     strripos($_SERVER['REQUEST_URI'], '/traders') === 0
     || strripos($_SERVER['REQUEST_URI'], '/kompanii') === 0
 //    || strripos($_SERVER['REQUEST_URI'], '/buyerreg') === 0
 ){
     include_once "laravel/public/index.php";
     die();
-}
+}*/
 
 setlocale(LC_ALL, 'russian');
 date_default_timezone_set("Europe/Kiev");

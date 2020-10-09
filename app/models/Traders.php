@@ -988,7 +988,7 @@ class Traders extends \Core\Model {
     }
     // which record to start
     $start = $page * $count - $count;
-    
+
 /* today,vip,order date
 select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$type} as top, tpr.dt as date, date_format(MAX(tpr.dt), '%e %M') as date2
         from agt_comp_items ci
@@ -1088,9 +1088,10 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
           ORDER BY tpr.change_date DESC
           LIMIT 2
         ";
-
-
       $traders[$key]['review'] = $this->getRating($value['id']);
+        /*echo '<pre>';
+        var_dump($value['id']);
+        echo '</pre>';die();*/
       $traders[$key]['prices'] = $this->db->query($query);
       /*  var_dump($traders[$key]['prices']);die(); !!!!! */
       if ( $traders[$key]['prices'] ) {
@@ -1168,6 +1169,7 @@ $sql = "
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
+
     // group by
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {
@@ -1215,7 +1217,6 @@ $sql = "
         }
       }
     }
-
     return ['data' => $traders, 'totalPages' => $totalPages ?? 1, 'page' => $page];
   }
 

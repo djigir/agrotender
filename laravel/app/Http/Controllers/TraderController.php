@@ -75,12 +75,27 @@ class TraderController extends Controller
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title*/
 
 
+        //\DB::enableQueryLog();
+        $traders2 = CompItems::select('id', 'title', 'logo_file', 'author_id', 'trader_premium')
+            ->where('trader_price_avail', 1)
+            ->where('trader_price_visible', 1)
+            ->where('visible', 1)
+            ->with('traders_prices')
+            ->groupBy('id')
+            ->orderBy('trader_premium', 'desc')
+            ->orderBy('trader_sort', 'desc')
+            ->orderBy('rate_formula', 'desc')
+            ->orderBy('title', 'desc')
+            ->first();
+            //->get()->toArray();
+        //dd(\DB::getQueryLog());
+        $change_date_and_dt = TradersPrices::select('change_date', 'dt')->first();
+        dd($traders2 ,$change_date_and_dt);
 
         $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
         $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
-        $traders2 = CompItems::where('title', 'Escador')->first();
-        //dd($traders2);
-
+        //$traders2 = CompItems::where('title', 'Escador')->first();
+        dd($traders2);
         //$this->traderService->DataForFilter();
 
 
