@@ -1089,10 +1089,10 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
           LIMIT 2
         ";
       $traders[$key]['review'] = $this->getRating($value['id']);
-        /*echo '<pre>';
-        var_dump($value['id']);
-        echo '</pre>';die();*/
       $traders[$key]['prices'] = $this->db->query($query);
+        /*echo '<pre>';
+        var_dump($traders);
+        echo '</pre>';die();*/
       /*  var_dump($traders[$key]['prices']);die(); !!!!! */
       if ( $traders[$key]['prices'] ) {
         foreach ($traders[$key]['prices'] as $k => $v) {

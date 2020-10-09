@@ -53,9 +53,10 @@ class TradersPrices extends Model
     }
 
     /* Relations */
+
     public function product_lang()
     {
-        return $this->hasOne(Traders_Products_Lang::class, 'id', 'cult_id');
+         return $this->belongsTo(Traders_Products_Lang::class, 'item_id');
     }
 
     public function compItems()
@@ -74,7 +75,12 @@ class TradersPrices extends Model
 
     public function traders_products()
     {
-        return $this->belongsTo(TradersProducts::class, 'id');
+        return $this->belongsTo(TradersProducts::class, 'item_id');
     }
+
+    /*public function traders_products()
+    {
+        return $this->belongsTo(TradersProducts::class, 'id');
+    }*/
 
 }

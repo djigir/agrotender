@@ -43,6 +43,23 @@ class TraderController extends Controller
     {
 
 
+        /*$query = "
+          SELECT tp_l.name as rubric, tpr.id, round(tpr.costval) as price, round(tpr.costval_old) as old_price, tpr.place_id, tpr.curtype as currency, tpr.change_date, $title
+            FROM agt_traders_prices as tpr
+            inner join agt_traders_products_lang  as tp_l on tp_l.id = tpr.cult_id
+            inner join agt_traders_places         as tpl  on tpr.place_id = tpl.id $regionSql $portSql $onlyPortsSql
+          WHERE tpr.buyer_id = {$value['author_id']} && tpl.type_id != 1 && tpr.acttype = $typeInt $rubricSql $currencySql
+          GROUP BY $groupBy
+          ORDER BY tpr.change_date DESC
+          LIMIT 2
+        ";*/
+
+        // СВЯЗКА ТОВАРА С ЦЕНОЙ БЕЗ УСЛОВИЯ !
+        $a = Traders_Products_Lang::with(['traders_prices' => function($query) {
+            $query->where('costval', 6200);
+        }])->find(14);
+        dd($a);
+
         //\DB::enableQueryLog();
         $traders2 = CompItems::select('id', 'title', 'logo_file', 'author_id', 'trader_premium')
             ->where('trader_price_avail', 1)
@@ -58,12 +75,16 @@ class TraderController extends Controller
             //->get()->toArray();
         //dd(\DB::getQueryLog());
         $change_date_and_dt = TradersPrices::select('change_date', 'dt')->first();
-        dd($traders2 ,$change_date_and_dt);
+
+        /*$a = Traders_Products_Lang::select('name')->with(['traders_prices' => function($query) {
+            $query->select('id', 'costval', 'costval_old', 'place_id', 'curtype', 'change_date')->where('buyer_id', 62746);
+        }])->paginate(20)->toArray()['data'];*/
+
+
 
         $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
         $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
         //$traders2 = CompItems::where('title', 'Escador')->first();
-        dd($traders2);
         //$this->traderService->DataForFilter();
 
 

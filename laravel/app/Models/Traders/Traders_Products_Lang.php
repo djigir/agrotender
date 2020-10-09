@@ -40,4 +40,11 @@ class Traders_Products_Lang extends Model
     {
         return $this->hasMany(TradersProducts::class, 'id');
     }
+
+    public function traders_prices()
+    {
+        return $this->hasMany(TradersPrices::class, 'cult_id');
+    }
 }
+
+
