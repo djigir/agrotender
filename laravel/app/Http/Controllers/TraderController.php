@@ -78,7 +78,7 @@ class TraderController extends Controller
 
         $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
         $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
-        $traders2 = CompItems::first();
+        $traders2 = CompItems::where('title', 'НОВААГРО')->first();
         //dd($traders2);
 
         //$this->traderService->DataForFilter();

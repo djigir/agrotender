@@ -357,7 +357,6 @@ class Traders extends \Core\Model {
   }
 
   public function getTraderPricesRubrics($user, $placeType, $type) {
-
     $rubrics = $this->db->query("
       select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
         from agt_traders_products2buyer c2b
@@ -386,7 +385,7 @@ class Traders extends \Core\Model {
     foreach ($places as $pKey => $place) {
       foreach ($rubrics as $rKey => $rubric) {
         $pricesArr[$pKey]['rubrics'][$rKey] = $rubric;
-        $tmp_prices = $prices[$place['id']][$rubric['id']] ?? [];
+          $tmp_prices = $prices[$place['id']][$rubric['id']] ?? [];
         foreach ($tmp_prices as $price) {
           $pricesArr[$pKey]['rubrics'][$rKey]['price'][$price['curtype']] = [
             'cost' => ($price['costval'] != null) ? round($price['costval']) : null,
@@ -666,7 +665,7 @@ class Traders extends \Core\Model {
   }
 
   public function getRegions($rubric = null, $sitemap = null) {
-    $regions = $this->db->query("
+      $regions = $this->db->query("
       select *
         from regions
       group by id");
@@ -716,9 +715,9 @@ class Traders extends \Core\Model {
         where tp.acttype = $type && plc.type_id != 1 && ci.trader_price{$sell}_visible = 1 && ci.trader_price{$sell}_avail = 1 && ci.visible = 1
         group by tp.id
         order by tpl.name asc");
-    /* foreach ($rubrics as $key => $rubric) {
-      $rubrics[$key]['count'] = $this->getCountByRubric($rubric['id'], $type, $region, $port, $onlyPorts, $currency);
-    } */
+      /* foreach ($rubrics as $key => $rubric) {
+        $rubrics[$key]['count'] = $this->getCountByRubric($rubric['id'], $type, $region, $port, $onlyPorts, $currency);
+      } */
     return $rubrics;
   }
 
@@ -831,6 +830,7 @@ class Traders extends \Core\Model {
         inner join agt_traders_products_lang pgl
           on pg.id = pgl.item_id
       where pg.id = $id")[0] ?? null;
+
     return $groups;
   }
 
@@ -1088,10 +1088,11 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
           ORDER BY tpr.change_date DESC
           LIMIT 2
         ";
-//var_dump($query);die();
+
 
       $traders[$key]['review'] = $this->getRating($value['id']);
       $traders[$key]['prices'] = $this->db->query($query);
+      /*  var_dump($traders[$key]['prices']);die(); !!!!! */
       if ( $traders[$key]['prices'] ) {
         foreach ($traders[$key]['prices'] as $k => $v) {
           $diff = $date_expired_diff <= $v['change_date'] ? round($v['price'] - $v['old_price']) : 0;
@@ -1105,7 +1106,7 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
     return ['data' => $traders, 'totalPages' => $totalPages ?? 1, 'page' => $page];
 
   }
-
+    // СПИСОК ТРЕЙДЕОРОВ ПО КУЛЬТУРЕ
   public function getList_dev($count, $page = 1, $type = null, $region = null, $port = null, $rubric = null, $onlyPorts = false, $currency = null, $obl_ports = null) {
     $typeInt         = ($type == 'buy') ? 0 : 1;
     $type            = ($type == 'buy') ? "" : "_sell";
