@@ -61,7 +61,7 @@ class CompanyService
 //        \DB::enableQueryLog();
         //        dd(\DB::getQueryLog());
 
-        return CompTgroups::select()->with(['comp_topic' => function ($query) {
+        return CompTgroups::with(['comp_topic' => function ($query) {
             $query->where('parent_id', '=', 0);
         }])->get();
 
