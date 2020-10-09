@@ -30,4 +30,9 @@ class TradersProductGroupLanguage extends Model
     {
         return $this->belongsTo(TradersProductGroups::class, 'item_id');
     }
+
+    public function traders_products()
+    {
+        return $this->hasMany(TradersProducts::class, 'group_id');
+    }
 }

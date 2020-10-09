@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
+use App\Models\Traders\TradersPrices;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -29,4 +30,10 @@ class TradersPlaces extends Model
         'port_id',
         'is_port',
     ];
+
+
+    public function traders_prices()
+    {
+        return $this->hasMany(TradersPrices::class, 'place_id');
+    }
 }

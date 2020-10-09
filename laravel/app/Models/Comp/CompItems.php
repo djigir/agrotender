@@ -5,6 +5,7 @@ namespace App\Models\Comp;
 use App\Models\ADV\AdvTorgPost;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPrices;
+use App\Models\Traders\TradersPricesArc;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -81,6 +82,7 @@ class CompItems extends Model
         'trader_price_sell_visible', 'trader_price_sell_transpon', 'trader_price_sell_dtupdt',
         'trader_price_sell_avail', 'trader_sort_sell', 'trader_premium_sell',
         'trader_price_forward_visible', 'trader_price_forward_avail', 'trader_sort_forward', 'trader_premium_forward'
+
     ];
 
     protected $dates = ['add_date'];
@@ -137,9 +139,18 @@ class CompItems extends Model
         return $this->hasMany(TorgBuyer::class, 'author_id');
     }
 
+    public function traders_culture()
+    {
+        return $this->belongsTo(TradersPrices::class, 'buyer_id');
+    }
+
+    public function traders_places()
+    {
+        return $this->hasOne(TradersPrices::class, 'id');
+    }
 
     public function traders_prices()
     {
-        return $this->hasOne(TradersPrices::class, '');
+        return $this->hasMany(TradersPrices::class, 'buyer_id');
     }
 }
