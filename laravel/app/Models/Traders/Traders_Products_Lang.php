@@ -33,6 +33,6 @@ class Traders_Products_Lang extends Model
 
     public function traders_prices_arc()
     {
-        return $this->belongsTo(TradersPrices::class, 'id');
+        return $this->belongsTo(TradersPricesArc::class, 'id');
     }
 }

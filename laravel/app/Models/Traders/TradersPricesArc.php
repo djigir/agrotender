@@ -36,6 +36,6 @@ class TradersPricesArc extends Model
 
     public function traders_products_lang()
     {
-        return $this->hasOne(Traders_Products_Lang::class, 'id');
+        return $this->hasMany(Traders_Products_Lang::class, 'id');
     }
 }
