@@ -1,4 +1,3 @@
-{{--{{dd(Route::getRoutes())}}--}}
 <div class="new_filters-wrap">
     <div class="replacement"></div>
     <div class="fixed-item">
@@ -354,15 +353,14 @@
                                 <ul>
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
-                                            <a href="{{route('traders_port', ['port_name' => $port['url']])}}">{{$port['portname']}}</a>
-{{--                                            <a href="/traders/{{$port['url']}}">{{$port['portname']}}</a>--}}
+                                            <a href="{{route('traders.traders_port', $port['url'])}}">{{$port['portname']}}</a>
                                         </li>
                                     @endforeach
                                     <li>
-{{--                                        <a href="{{route('traders_region', 'crimea')}}">АР Крым</a>--}}
+                                        <a href="{{route('traders.traders_regions', 'crimea')}}">АР Крым</a>
                                     </li>
                                     <li>
-{{--                                        <a href="{{route('traders_regions', ['region' => 'ukraine'])}}">Вся Укрина</a>--}}
+                                        <a href="{{route('traders.traders_regions', ['region' => 'ukraine'])}}">Вся Укрина</a>
                                     </li>
                                 </ul>
                             </div>

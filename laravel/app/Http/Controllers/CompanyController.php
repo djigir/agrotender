@@ -21,12 +21,12 @@ class CompanyController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function all_company(Request $request)
+    public function companies()
     {
         $group = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies($request);
+        $companies = $this->companyService->getCompanies();
 
-        return view('company.all_company', ['companies' => $companies, 'settings_for_page' => $companies]);
+        return view('company.companies', ['companies' => $companies, 'settings_for_page' => $companies]);
     }
 
     /**

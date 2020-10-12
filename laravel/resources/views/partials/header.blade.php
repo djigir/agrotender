@@ -121,7 +121,7 @@
                     <a href="/board" class="menu-link">Объявления</a>
                 </li>
                 <li>
-                    <a href="/kompanii" class="menu-link">Компании</a>
+                    <a href="{{route('company.companies')}}" class="menu-link">Компании</a>
                 </li>
                 <li>
                     <a href="/traders/region_ukraine" class="menu-link">Цены Трейдеров</a>

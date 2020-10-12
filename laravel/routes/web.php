@@ -20,7 +20,7 @@ Route::prefix('traders')
 Route::prefix('kompanii')
     ->name('company.')
     ->group(function () {
-        Route::get('/', 'CompanyController@all_company')->name('all_company');
+        Route::get('/', 'CompanyController@companies')->name('companies');
         Route::get('/comp-{id_company}-prices', 'CompanyController@company_prices')->name('company_prices');
         Route::get('/comp-{id_company}-reviews', 'CompanyController@company_reviews')->name('company_reviews');
         Route::get('/comp-{id_company}-cont', 'CompanyController@company_cont')->name('company_cont');
