@@ -1,6 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
+    @include('filters.filter-companies')
 {{--    <div class="filters-wrap">--}}
 {{--        <div class="filters-inner">--}}
 {{--            <div class="filters arrow-t">--}}
@@ -163,21 +164,21 @@
 {{--                </div>--}}
 {{--            </div>--}}
 {{--        </div>--}}
-        <div class="row mt-4 pt-3">
-            <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">
-                <h2 class="d-inline-block text-uppercase">Поиск / Список компаний</h2>
-                <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
-            </div>
-            <div class="col-12 col-sm-8 float-md-right text-center text-md-right">
-                <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end" id="addCompanny">
-                    <i class="far fa-plus mr-2"></i>
-                    <span class="pl-1 pr-1">Разместить компанию</span>
-                </a>
-                <!-- <a href="{if $user->auth}/u/company{else}/add_buy_trader{/if}" class="top-btn btn btn-warning align-items-end">
-                  <span class="pt-1"><i class="far fa-plus mr-2"></i> Разместить компанию</span>
-                </a> -->
-            </div>
-        </div>
+{{--        <div class="row mt-4 pt-3">--}}
+{{--            <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">--}}
+{{--                <h2 class="d-inline-block text-uppercase">Поиск / Список компаний</h2>--}}
+{{--                <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>--}}
+{{--            </div>--}}
+{{--            <div class="col-12 col-sm-8 float-md-right text-center text-md-right">--}}
+{{--                <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end" id="addCompanny">--}}
+{{--                    <i class="far fa-plus mr-2"></i>--}}
+{{--                    <span class="pl-1 pr-1">Разместить компанию</span>--}}
+{{--                </a>--}}
+{{--                <!-- <a href="{if $user->auth}/u/company{else}/add_buy_trader{/if}" class="top-btn btn btn-warning align-items-end">--}}
+{{--                  <span class="pt-1"><i class="far fa-plus mr-2"></i> Разместить компанию</span>--}}
+{{--                </a> -->--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
 {{--    {if $region['id'] != null or $rubric['id'] != null}--}}
     <div class="d-sm-none container pt-4">
