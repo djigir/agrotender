@@ -18,13 +18,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Regions extends Model
 {
+    protected $connection = 'mysql2';
     protected $table = 'regions';
-
-//    public function __construct()
-//    {
-//        parent::__construct();
-//        $this->table = 'regions';
-//    }
 
     protected $fillable = [
         'id',

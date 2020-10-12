@@ -14,6 +14,7 @@ use App\Models\TradersFilters;
 
 use App\Models\Comp\CompTopic;
 
+use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\TraderService;
 use Illuminate\Http\Request;
@@ -22,16 +23,20 @@ class TraderController extends Controller
 {
     protected $traderService;
     protected $companyService;
+    protected $baseService;
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  TraderService  $traderService
+     * @param  CompanyService  $companyService
+     * @param  BaseServices  $baseService
      */
-    public function __construct(TraderService $traderService, CompanyService $companyService)
+    public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService)
     {
         $this->traderService = $traderService;
         $this->companyService = $companyService;
+        $this->baseService = $baseService;
     }
 
     public function index(){
@@ -101,13 +106,14 @@ class TraderController extends Controller
 
 
         $rubrics = $this->traderService->getRubricsGroup();
-//        $regions = $this->traderService->getRegions();
+        $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
 
         return view('traders.traders_regions'
             ,[
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
+                'regions' => $regions,
                 'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,
