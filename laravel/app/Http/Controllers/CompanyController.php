@@ -126,20 +126,26 @@ class CompanyController extends Controller
     public function company_cont($id_company)
     {
         $company = CompItems::find($id_company);
-        $creators = TorgBuyer::where('id', $company->author_id)->get();
-        $company_contacts = CompItemsContact::with('compItems2')->find($id_company)->toArray();
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
+
         $departament_name = [];
         $arr = [
             1 => 'Отдел закупок',
             2 => 'Отдел продаж',
             3 => 'Отдел услуг',
         ];
+
         foreach ($departments_type as $index => $value) {
             $departament_name [] = $arr[$value['type_id']];
         }
+        $departament_name = array_unique($departament_name);
 
-        return view('company.company_cont', ['company' => $company, 'creators' => $creators, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
+        $creators = TorgBuyer::where('id', $company->author_id)->get()->toArray();
+        foreach ($creators as $item) {
+            $creator = $item;
+        }
+        return view('company.company_cont', ['company' => $company, 'creator' => $creator, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
     }
 
 

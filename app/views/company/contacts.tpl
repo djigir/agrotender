@@ -47,6 +47,7 @@
     </div>
   </div>
   {foreach from=$contacts item=arr key=depName}
+    {var_dump($contact)}
   <div class="content-block trader-contact mx-sm-5 py-3 px-4">
     <div class="place d-flex justify-content-between">
       <div class="title">
