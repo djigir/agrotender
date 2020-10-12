@@ -24,4 +24,9 @@ class TorgBuyer extends Model
     {
         return $this->belongsTo(CompItems::class, 'id');
     }
+
+    public function compItems()
+    {
+        return $this->belongsTo(CompItems::class, 'author_id');
+    }
 }

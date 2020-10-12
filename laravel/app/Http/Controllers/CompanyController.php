@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Services\BaseServices;
+use App\Models\Comp\CompItems;
+use App\Models\Comp\CompItemsContact;
+use App\Models\Torg\TorgBuyer;
+
 use App\Services\CompanyService;
 use Illuminate\Http\Request;
 
@@ -120,7 +125,21 @@ class CompanyController extends Controller
      */
     public function company_cont($id_company)
     {
-        return view('company.company_cont');
+        $company = CompItems::find($id_company);
+        $creators = TorgBuyer::where('id', $company->author_id)->get();
+        $company_contacts = CompItemsContact::with('compItems2')->find($id_company)->toArray();
+        $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
+        $departament_name = [];
+        $arr = [
+            1 => 'Отдел закупок',
+            2 => 'Отдел продаж',
+            3 => 'Отдел услуг',
+        ];
+        foreach ($departments_type as $index => $value) {
+            $departament_name [] = $arr[$value['type_id']];
+        }
+
+        return view('company.company_cont', ['company' => $company, 'creators' => $creators, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
     }
 
 

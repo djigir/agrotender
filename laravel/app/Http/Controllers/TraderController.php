@@ -125,6 +125,12 @@ class TraderController extends Controller
     {
         return view('traders.traders_regions_culture');
     }
+
+
+    public function forwards() {
+        dd('forwards');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
