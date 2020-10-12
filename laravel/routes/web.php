@@ -15,6 +15,9 @@ Route::prefix('traders')
         Route::get('/{port_name}', 'TraderController@port')->name('traders_port');
     });
 
+Route::get('/traders_forwards/region_{region}', 'TraderController@forwards')->name('traders_forwards');
+Route::get('/traders_forwards/region_{region}/{culture}', 'TraderController@forwards_culture')->name('traders_forwards_culture');
+
 
 /* routes for company  */
 Route::prefix('kompanii')

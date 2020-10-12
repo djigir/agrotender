@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
 class Regions extends Model
 {
     protected $table = 'regions';
+    protected $connection = 'mysql2';
 
 //    public function __construct()
 //    {

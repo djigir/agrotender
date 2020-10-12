@@ -101,7 +101,7 @@ class TraderController extends Controller
 
 
         $rubrics = $this->traderService->getRubricsGroup();
-//        $regions = $this->traderService->getRegions();
+        //$regions = $this->traderService->getRegions();
         $ports = $this->traderService->getPorts();
 
         return view('traders.traders_regions'
@@ -147,6 +147,21 @@ class TraderController extends Controller
     {
         return view('traders.traders_regions_culture');
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string  $region
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function forwards($region)
+    {
+        if (!$region) {
+            return redirect('traders_forwards/region_ukraine');
+        }
+        return view('traders.trader_forwards');
+    }
+
     /**
      * Show the form for creating a new resource.
      *
