@@ -122,7 +122,7 @@ class CompanyService
             ->get()
             ->toArray();
 
-        dd($rubrics);
+        //dd($rubrics);
 
 //        $rubrics = $this->db->query("
 //      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
