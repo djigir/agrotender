@@ -3,7 +3,10 @@
 
 @section('content')
 
-    @include('layout.layout-filter', ['section' => $section, 'rubricsGroup' => $rubric, 'onlyPorts' => $onlyPorts])
+    @include('layout.layout-filter', [
+    'section' => $section,
+    'rubricsGroup' => $rubric,
+    'onlyPorts' => $onlyPorts])
 
     <button class="openFilter">
         <img src="https://agrotender.com.ua/app/assets/img/blue_list.svg" alt="">

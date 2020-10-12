@@ -23,4 +23,10 @@ class TradersPorts extends Model
         'add_date',
         'url',
     ];
+
+
+    public function traders_ports_lang()
+    {
+        return $this->hasMany(TradersPortsLang::class, 'port_id');
+    }
 }

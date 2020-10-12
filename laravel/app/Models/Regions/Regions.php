@@ -20,6 +20,12 @@ class Regions extends Model
 {
     protected $table = 'regions';
 
+//    public function __construct()
+//    {
+//        parent::__construct();
+//        $this->table = 'regions';
+//    }
+
     protected $fillable = [
         'id',
         'name',

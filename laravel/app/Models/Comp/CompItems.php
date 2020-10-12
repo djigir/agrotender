@@ -132,7 +132,6 @@ class CompItems extends Model
     }
 
 
-
     /* Relations */
     public function torg_buyer()
     {

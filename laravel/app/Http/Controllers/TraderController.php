@@ -58,7 +58,7 @@ class TraderController extends Controller
         $a = Traders_Products_Lang::with(['traders_prices' => function($query) {
             $query->where('costval', 6200);
         }])->find(14);
-        dd($a);
+        //dd($a);
 
         //\DB::enableQueryLog();
         $traders2 = CompItems::select('id', 'title', 'logo_file', 'author_id', 'trader_premium')
@@ -100,16 +100,18 @@ class TraderController extends Controller
         $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
 
 
-        $rubric = $this->traderService->DataForFilter();
+        $rubrics = $this->traderService->getRubricsGroup();
+//        $regions = $this->traderService->getRegions();
+        $ports = $this->traderService->getPorts();
 
         return view('traders.traders_regions'
             ,[
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
                 'traders'=> $traders, //Traders::paginate(20),
-                'rubric' => $rubric,
+                'rubric' => $rubrics,
+                'onlyPorts' => $ports,
                 'prices' => $prices['data'],
-                'onlyPorts' => 'onlyPorts',
                 'currencies'=>[
                     'uah' => [
                         'id'   => 0,
@@ -140,6 +142,11 @@ class TraderController extends Controller
         return view('traders.traders_regions_culture');
     }
 
+
+    public function port($port_name)
+    {
+        return view('traders.traders_regions_culture');
+    }
     /**
      * Show the form for creating a new resource.
      *

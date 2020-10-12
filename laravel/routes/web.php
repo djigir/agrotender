@@ -12,12 +12,9 @@ Route::prefix('traders')
         Route::get('/', 'TraderController@index');
         Route::get('/region_{region}', 'TraderController@region')->name('traders_regions');
         Route::get('/region_{region}/{culture}', 'TraderController@region_and_culture')->name('traders_regions_culture');
+        Route::get('/{port_name}', 'TraderController@port')->name('traders_port');
     });
 
-//Route::post('/buyerreg', function () {
-//    return view('auth.register');
-//})->name('sing-up');
-//Route::get('/buyerlog', 'UserController@sing_in')->name('sing-in');
 
 /* routes for company  */
 Route::prefix('kompanii')
@@ -35,5 +32,5 @@ Route::prefix('kompanii')
     });
 
 
-
 Route::get('/home', 'HomeController@index')->name('home');
+
