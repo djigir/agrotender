@@ -40,6 +40,11 @@ class CompanyController extends Controller
         return view('company.company_and_region');
     }
 
+    public function trader_contacts($id)
+    {
+        return view('company.company_trader_contacts');
+    }
+
     /**
      * Display a listing of the resource.
      * @param string $region;
@@ -64,13 +69,13 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param integer $id_company;
+     * @param integer $id;
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_id($id_company)
+    public function company($id)
     {
-        return view('company.company_id');
+        return view('company.company');
     }
 
     /**
