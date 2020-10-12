@@ -73,11 +73,18 @@ class Company extends \Core\Model {
     $dep = ($dep != null) ? " && type_id = $dep" : '';
     $arr = [];
     $contacts = $this->db->query("select *, case when type_id = 1 then 'Отдел закупок' when type_id = 2 then 'Отдел продаж' when type_id = 3 then 'Отдел услуг' end as typeName from agt_comp_items_contact where comp_id = $company $dep");
+      /*echo '<pre>';
+      var_dump($contacts);
+      echo '</pre>';die();*/
     foreach ($contacts as $contact) {
       $arr[$contact['typeName']][] = $contact;
     }
     return ($dep != null) ? $contacts : $arr;
   }
+
+    /*  echo '<pre>';
+          var_dump($company['contacts']);
+          echo '</pre>';die();*/
 
   public function getItem($company) {
     $company = $this->db->select('agt_comp_items', '*', ['id' => $company])[0] ?? null;

@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-
+    @include('company.company-header')
     <div class="container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
             <div class="col-4 d-block">
