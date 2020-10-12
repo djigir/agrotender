@@ -63,7 +63,7 @@ class TraderController extends Controller
         $a = Traders_Products_Lang::with(['traders_prices' => function($query) {
             $query->where('costval', 6200);
         }])->find(14);
-        //dd($a);
+       //dd($a);
 
         //\DB::enableQueryLog();
         $traders2 = CompItems::select('id', 'title', 'logo_file', 'author_id', 'trader_premium')

@@ -80,7 +80,11 @@ class Company extends \Core\Model {
   }
 
   public function getItem($company) {
+
     $company = $this->db->select('agt_comp_items', '*', ['id' => $company])[0] ?? null;
+      echo '<pre>';
+      var_dump($company);
+      echo '</pre>';die();
     if ($company != null) {
       $company['contacts'] = $this->db->select('agt_comp_items_contact', '*', ['comp_id' => $company['id']]) ?? null;
       $company['creator'] = $this->db->select('agt_torg_buyer', '*', ['id' => $company['author_id']])[0] ?? null;

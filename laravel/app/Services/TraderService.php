@@ -113,7 +113,6 @@ class TraderService
 //          ->groupBy('group_id')
             ->get()
             ->toArray();
-
         $rubrics = collect($rubrics)->groupBy('traders_product_groups_lang.name')->toArray();
         dd($rubrics);
         //dd(\DB::getQueryLog());

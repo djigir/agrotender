@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\BaseServices;
 use App\Services\CompanyService;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     protected $companyService;
+    protected $baseServices;
 
-
-    public function __construct(CompanyService $companyService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices)
     {
         $this->companyService = $companyService;
+        $this->baseServices = $baseServices;
     }
 
     /**
@@ -23,10 +25,16 @@ class CompanyController extends Controller
      */
     public function companies()
     {
-        $group = $this->companyService->getRubricsGroup();
+        $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
+        $regions = $this->baseServices->getRegions();
 
-        return view('company.companies', ['companies' => $companies, 'settings_for_page' => $companies]);
+        return view('company.companies', [
+            'companies' => $companies,
+            'settings_for_page' => $companies,
+            'regions' => $regions,
+            'rubricGroups' => $groups]
+        );
     }
 
     /**
@@ -37,7 +45,8 @@ class CompanyController extends Controller
      */
     public function company_and_region($region)
     {
-        return view('company.company_and_region');
+
+        return view('company.company_and_region', ['regions' => []]);
     }
 
     public function trader_contacts($id)
@@ -73,8 +82,11 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company($id)
+    public function company($id_author)
     {
+
+        $this->companyService->getTraderPricesRubrics($id_author);
+
         return view('company.company');
     }
 

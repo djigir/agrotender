@@ -42,7 +42,10 @@ class TradersProducts extends Model
         return $this->hasMany(TradersPrices::class, 'cult_id');
     }
 
-
+    public function traders_prices2()
+    {
+        return $this->belongsTo(TradersPrices::class, 'id');
+    }
     public function traders_places()
     {
 
@@ -61,5 +64,10 @@ class TradersProducts extends Model
     public function comp_items()
     {
 
+    }
+
+    public function traders_products2buyer()
+    {
+        return $this->belongsTo(TradersPorts2buyer::class,'cult_id');
     }
 }

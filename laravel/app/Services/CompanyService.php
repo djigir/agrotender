@@ -8,6 +8,7 @@ use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
+use App\Models\Traders\Traders_Products2buyer;
 use Symfony\Component\HttpFoundation\Request;
 
 class CompanyService
@@ -58,27 +59,96 @@ class CompanyService
     }
 
     public function getRubricsGroup() {
-//        \DB::enableQueryLog();
-        //        dd(\DB::getQueryLog());
+        $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
+            $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
+        }])
+            ->orderBy('sort_num')
+            ->orderBy('title')
+            ->get();
 
-        return CompTgroups::with(['comp_topic' => function ($query) {
-            $query->where('parent_id', '=', 0);
-        }])->get();
+        $rubrics = collect($rubrics)->groupBy('title')->toArray();
 
-//            $this->db->query("
-//      select distinct g.id, g.title, g.sort_num
-//        from agt_comp_topic t
-//        left join agt_comp_tgroups g
-//          on t.menu_group_id = g.id
-//      where t.parent_id = 0
-//        order by g.sort_num, g.title");
+        foreach ($rubrics as $index => $rubric){
+            $rubrics[$index] = $rubric[0];
+        }
 
+        return $rubrics;
+    }
+// $traderRegionsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 0, $type);
+// $traderPortsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 2, $type);
+// $pricesPorts   = $traders->getPlaces($this->companyItem['author_id'], 2, $type);
+// $pricesRegions = $traders->getPlaces($this->companyItem['author_id'], 0, $type);
+// $portsPrices   = ($pricesPorts != null) ? $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesPorts, $traderPortsPricesRubrics, $type) : null;
+// $regionsPrices = $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesRegions, $traderRegionsPricesRubrics, $type);
+    public function getCompanyTraderPrices($user, $places, $rubrics, $type) {
+        $pricesArr = $places;
+//        $date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
+//        $prices = $this->getPrices($user, $type);
+//        foreach ($places as $pKey => $place) {
+//            $is_avail = false;
+//            $tmp_rubrics = $rubrics;
+//            foreach ($rubrics as $rKey => $rubric) {
+//                $tmp_prices = $prices[$place['id']][$rubric['id']] ?? [];
+//                foreach ($tmp_prices as $price) {
+//                    $is_avail = true;
+//                    // diff отображать не позже 7 дней после сохранения цен
+//                    $diff = $date_expired_diff <= $price['change_date'] ? round($price['costval'] - $price['costval_old']) : 0;
+//                    $tmp_rubrics[$rKey]['price'][$price['curtype']] = [
+//                        'cost'         => ($price['costval'] != null) ? round($price['costval']) : null,
+//                        'comment'      => $price['comment'],
+//                        'price_diff'   => $diff,
+//                        'change_price' => !$price['costval_old'] || !$diff ? '' : ($diff < 0 ? 'down' : 'up'),
+//                        'currency'     => $price['curtype']
+//                    ];
+//                }
+//            }
+//            if ( $is_avail ) {
+//                $pricesArr[$pKey]['rubrics'] = $tmp_rubrics;
+//            }
+//        }
+        return $pricesArr;
+    }
+    public function getTraderPricesRubrics($user) {
+        $placeType = 0;
+        $type = 0;
+        $rubrics = [];
+        $rubrics = Traders_Products2buyer::select('sort_ind', 'id')
+            ->with(['traders_products' => function($query) {
+//                $query->with(['traders_prices' => function($query){
+//
+//                }]);
+            }])
+            ->where([['buyer_id', $user], ['acttype', 0], ['type_id', 0]])
+            ->get()
+            ->toArray();
 
+        dd($rubrics);
+
+//        $rubrics = $this->db->query("
+//      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
+//        from agt_traders_products2buyer c2b
+//        inner join agt_traders_products tp on c2b.cult_id=tp.id
+//        inner join agt_traders_products_lang tpl on tp.id=tpl.item_id
+//        inner join agt_traders_prices atp on atp.cult_id = tp.id && atp.acttype = $type && atp.buyer_id = $user
+//        inner join agt_traders_places pl on pl.id = atp.place_id && pl.buyer_id = c2b.buyer_id && pl.type_id = c2b.type_id
+//      where c2b.buyer_id = $user and c2b.acttype = $type and c2b.type_id = $placeType
+//      order by tpl.name asc");
+
+        return $rubrics;
     }
 
     public function getRubric($id) {
 //        $rubric = $this->db->query("select * from agt_comp_topic where id = $id")[0] ?? null;
 //        return $rubric;
+    }
+
+    public function getCompany($id)
+    {
+        $company = CompItems::find($id);
+
+
+
+        return $company;
     }
 
     public function getCompanies()

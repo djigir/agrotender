@@ -1,184 +1,8 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('filters.filter-companies')
-{{--    <div class="filters-wrap">--}}
-{{--        <div class="filters-inner">--}}
-{{--            <div class="filters arrow-t">--}}
-{{--                <div class="step-1 stp">--}}
-{{--                    <div class="mt-3">--}}
-{{--                        <span class="title ml-3 pt-3">Настройте фильтры:</span>--}}
-{{--                    </div>--}}
-{{--                    <div class="position-relative mt-3">--}}
-{{--                        <input type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="{if $query neq null}{$query}{/if}">--}}
-{{--                        <i class="far fa-search searchFilterIcon"></i>--}}
-{{--                    </div>--}}
-{{--                    <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="{if $rubric eq null}0{else}{$rubric['id']}{/if}">--}}
-{{--                        <span>{if $rubric eq null}Выберите рубрику{else}{$rubric['title']}{/if}</span>--}}
-{{--                        <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                    </a>--}}
-{{--                    <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="{if $region['id'] eq null}0{else}{$region['translit']}{/if} ">--}}
-{{--                        <span>{if $region['id'] eq null}Вся Украина{elseif $region['id'] eq 1}АР Крым{else}{$region['name']} область{/if}</span>--}}
-{{--                        <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                    </a>--}}
-{{--                    <a class="show showCompanies" href="#">--}}
-{{--                        Показать компании--}}
-{{--                    </a>--}}
-{{--                </div>--}}
-{{--                <div class="step-3 stp h-100">--}}
-{{--                    <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-{{--                    <div class="scroll">--}}
-{{--                        {foreach from=$rubricsGroup item=group}--}}
-{{--                        <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{$group['id']}">--}}
-{{--                            <span>{$group['title']}</span>--}}
-{{--                            <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                        </a>--}}
-{{--                        {/foreach}--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="step-3-1 stp h-100">--}}
-{{--                    <a class="back py-3 px-4 content-block d-block" step="3" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-{{--                    <div class="scroll">--}}
-{{--                        {foreach from=$rubrics item=r key=gid}--}}
-{{--                        {foreach from=$r item=rg}--}}
-{{--                        {foreach from=$rg item=rgi}--}}
-{{--                        <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{$rgi['group_id']}" rubricId="{$rgi['topic_id']}">--}}
-{{--                            <span>{$rgi['title']} &nbsp;<span class="companyCount small">({$rgi['count']})</span></span>--}}
-{{--                            <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                        </a>--}}
-{{--                        {/foreach}--}}
-{{--                        {/foreach}--}}
-{{--                        {/foreach}--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="step-4 stp h-100">--}}
-{{--                    <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>--}}
-{{--                    <div class="scroll">--}}
-{{--                        <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="0">--}}
-{{--                            <span>Вся Украина</span>--}}
-{{--                            <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                        </a>--}}
-{{--                        {foreach from=$regions_list item=col}--}}
-{{--                        {foreach from=$col item=region}--}}
-{{--                        <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{$region['translit']}">--}}
-{{--                            <span>{$region['name']} область</span>--}}
-{{--                            <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                        </a>--}}
-{{--                        {/foreach}--}}
-{{--                        {/foreach}--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </div>--}}
+    @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
     <div class="d-none d-sm-block container mt-3">
-{{--        <ol class="breadcrumbs small p-0">--}}
-{{--            <li><a href="/">Главная</a></li>--}}
-{{--            {if $rubric neq null}--}}
-{{--            <i class="fas fa-chevron-right extra-small"></i>--}}
-{{--            <li><a href="{if $region['id'] eq null}/kompanii{else}/kompanii/region_{$region['translit']}/index{/if}">Компании в {if $region['id'] eq null}Украине{else}{$region['parental']} области{/if}</a></li>--}}
-{{--            <i class="fas fa-chevron-right extra-small"></i>--}}
-{{--            <li><h1>{$h1}</h1></li>--}}
-{{--            {else}--}}
-{{--            <i class="fas fa-chevron-right extra-small"></i>--}}
-{{--            <li><h1>Компании в {if $region['id'] eq null}Украине{else}{$region['parental']} области{/if}</h1></li>--}}
-{{--            {/if}--}}
-{{--        </ol>--}}
-{{--        <div class="content-block mt-3 py-3 px-4">--}}
-{{--            <div class="form-row align-items-center position-relative">--}}
-{{--                <div class="col-3 mr-2">--}}
-{{--                    <button class="btn rubricInput text-center drop-btn">{if $rubric eq null}Все рубрики{else}{$rubric['title']}{/if} <i class="ml-2 small far fa-chevron-down"></i></button>--}}
-{{--                </div>--}}
-{{--                <div class="dropdown-wrapper position-absolute rubricDrop">--}}
-{{--                    <div class="dropdown">--}}
-{{--                        <div class="section text-left">--}}
-{{--                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col-auto">--}}
-{{--                                    {foreach from=$rubricsGroup item=g}--}}
-{{--                                    <a class="rubricLink getRubricGroup" href="#" group="{$g['id']}">--}}
-{{--                    <span>--}}
-{{--                      {$g['title']}</sp an>--}}
-{{--                      <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>--}}
-{{--                                    </a>--}}
-{{--                                    {/foreach}--}}
-{{--                                </div>--}}
-{{--                                {foreach from=$rubrics item=r key=gid}--}}
-{{--                                {foreach from=$r item=rg}--}}
-{{--                                <div class="col-auto rubricGroup pr-0 mr-3 group-{$gid}">--}}
-{{--                                    {foreach from=$rg item=rgi}--}}
-{{--                                    <a class="regionLink{if $rgi['topic_id'] eq $rubric['id']} active{/if}" href="/kompanii/region_{$region['translit']}/t{$rgi['topic_id']}">--}}
-{{--                                        <span{if $rgi['title']|count_characters:true gt 27} data-toggle="tooltip" data-placement="top" title="{$rgi['title']}"{/if}>{$rgi['title']|truncate:27:"..":true}</span>--}}
-{{--                                        <span class="companyCount small">({$rgi['count']})</span>--}}
-{{--                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                    {/foreach}--}}
-{{--                                </div>--}}
-{{--                                {/foreach}--}}
-{{--                                {/foreach}--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col-3 mr-2">--}}
-{{--                    <button class="btn regionInput text-center drop-btn">{if $region['id'] eq null}Вся Украина{elseif $region['id'] eq 1}АР Крым{else}{$region['name']} область{/if}<i class="ml-2 small far fa-chevron-down"></i></button>--}}
-{{--                </div>--}}
-{{--                <div class="dropdown-wrapper position-absolute regionDrop">--}}
-{{--                    <div class="dropdown">--}}
-{{--            <span class="d-block">--}}
-{{--              <a class="regionLink d-inline-block{if $region['id'] eq null} text-muted disabled"{else}"{/if} href="/kompanii/region_ukraine/{if $rubric neq null}t{$rubric['id']}{else}index{/if}">--}}
-{{--              <span>Вся Украина</span>--}}
-{{--                <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                </a>--}}
-{{--                <a class="regionLink d-inline-block{if $region['id'] eq 1} text-muted disabled"{else}"{/if} href="/kompanii/region_crimea/{if $rubric neq null}t{$rubric['id']}{else}index{/if}">--}}
-{{--              <span>АР Крым</span>--}}
-{{--                <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                </a>--}}
-{{--            </span>--}}
-{{--                        <hr class="mt-1 mb-2">--}}
-{{--                        <div class="section text-left">--}}
-{{--                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->--}}
-{{--                            <div class="row">--}}
-{{--                                {foreach from=$regions_list item=col}--}}
-{{--                                <div class="col">--}}
-{{--                                    {foreach from=$col item=c}--}}
-{{--                                    <a class="regionLink{if $c['name'] eq $region['name']} active{/if}" href="/kompanii/region_{$c['translit']}/{if $rubric neq null}t{$rubric['id']}{else}index{/if}">--}}
-{{--                                        <span>{$c['name']|truncate:22:"..":false} область</span>--}}
-{{--                                        <span class="companyCount small">({$c['count']})</span>--}}
-{{--                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                    {/foreach}--}}
-{{--                                </div>--}}
-{{--                                {/foreach}--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col searchDiv" data-tip="Введите поисковой запрос">--}}
-{{--                    <form class="searchForm">--}}
-{{--                        <input maxlength="32" type="text" name="text" class="searchInput" placeholder="Я ищу.."{if $query neq null} value="{$query}"{/if}>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--                <div class="col-auto">--}}
-{{--                    <i class="far fa-search searchIcon mt-2 ml-2"></i>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="row mt-4 pt-3">--}}
-{{--            <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">--}}
-{{--                <h2 class="d-inline-block text-uppercase">Поиск / Список компаний</h2>--}}
-{{--                <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>--}}
-{{--            </div>--}}
-{{--            <div class="col-12 col-sm-8 float-md-right text-center text-md-right">--}}
-{{--                <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end" id="addCompanny">--}}
-{{--                    <i class="far fa-plus mr-2"></i>--}}
-{{--                    <span class="pl-1 pr-1">Разместить компанию</span>--}}
-{{--                </a>--}}
-{{--                <!-- <a href="{if $user->auth}/u/company{else}/add_buy_trader{/if}" class="top-btn btn btn-warning align-items-end">--}}
-{{--                  <span class="pt-1"><i class="far fa-plus mr-2"></i> Разместить компанию</span>--}}
-{{--                </a> -->--}}
-{{--            </div>--}}
-{{--        </div>--}}
     </div>
 {{--    {if $region['id'] != null or $rubric['id'] != null}--}}
     <div class="d-sm-none container pt-4">
@@ -200,7 +24,7 @@
             <div class="col-auto pr-0 pl-2 pl-sm-3">
                 <div class="row m-0">
                     <div class="col-12 pl-0 pr-0 pr-sm-2">
-                        <a href="/kompanii/comp-{{$company->id}}"><img class="companyImg"
+                        <a href="{{route('company.company', $company->author_id)}}"><img class="companyImg"
                           src="{{ $company->logo_file ? $company->logo_file : '/app/assets/img/no-image.png' }}"/>
                         </a>
                     </div>
@@ -214,7 +38,7 @@
             <div class="col">
                 <div class="row lh-1">
                     <div class="col">
-                        <span class="title"><a href="/kompanii/comp-{{$company->id}}-">{!!  str_replace('\\', '', $company->title) !!}</a></span>
+                        <span class="title"><a href="{{route('company.company', $company->author_id)}}">{!!  str_replace('\\', '', $company->title) !!}</a></span>
                     </div>
                 </div>
                 <div class="row d-sm-none lh-1">
