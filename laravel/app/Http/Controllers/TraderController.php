@@ -14,6 +14,7 @@ use App\Models\TradersFilters;
 
 use App\Models\Comp\CompTopic;
 
+use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\TraderService;
 use Illuminate\Http\Request;
@@ -22,16 +23,20 @@ class TraderController extends Controller
 {
     protected $traderService;
     protected $companyService;
+    protected $baseService;
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  TraderService  $traderService
+     * @param  CompanyService  $companyService
+     * @param  BaseServices  $baseService
      */
-    public function __construct(TraderService $traderService, CompanyService $companyService)
+    public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService)
     {
         $this->traderService = $traderService;
         $this->companyService = $companyService;
+        $this->baseService = $baseService;
     }
 
     public function index(){
@@ -72,7 +77,7 @@ class TraderController extends Controller
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title', 'desc')
             ->first();
-            //->get()->toArray();
+        //->get()->toArray();
         //dd(\DB::getQueryLog());
         $change_date_and_dt = TradersPrices::select('change_date', 'dt')->first();
 
@@ -101,13 +106,14 @@ class TraderController extends Controller
 
 
         $rubrics = $this->traderService->getRubricsGroup();
-        //$regions = $this->traderService->getRegions();
+        $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
 
         return view('traders.traders_regions'
             ,[
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
+                'regions' => $regions,
                 'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,
@@ -147,21 +153,6 @@ class TraderController extends Controller
     {
         return view('traders.traders_regions_culture');
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  string  $region
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function forwards($region)
-    {
-        if (!$region) {
-            return redirect('traders_forwards/region_ukraine');
-        }
-        return view('traders.trader_forwards');
-    }
-
     /**
      * Show the form for creating a new resource.
      *
