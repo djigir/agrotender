@@ -20,7 +20,6 @@ class Regions extends Model
 {
     protected $connection = 'mysql2';
     protected $table = 'regions';
-    protected $connection = 'mysql2';
 
     protected $fillable = [
         'id',
