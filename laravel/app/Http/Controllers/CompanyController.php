@@ -69,10 +69,11 @@ class CompanyController extends Controller
      */
     public function company($id)
     {
+        $company_name = CompItems::find($id)->value('title');
         $company = CompItems::find($id);
         //$this->companyService->getTraderPricesRubrics($id);
 
-        return view('company.company', ['company' => $company, 'id' => $id]);
+        return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company_name]);
     }
 
 
@@ -137,10 +138,8 @@ class CompanyController extends Controller
         if(isset($request['search']))
         {
             $search = $request['search'];
-
             return redirect()->action('CompanyController@company_filter', [$search]);
         }
-
 
 
         if($region == 'ukraine' or $region == 'crimea'){
@@ -197,7 +196,8 @@ class CompanyController extends Controller
      */
     public function company_prices($id)
     {
-        return view('company.company_prices', ['id' => $id]);
+        $company_name = CompItems::find($id)->value('title');
+        return view('company.company_prices', ['id' => $id, 'company_name' => $company_name]);
     }
 
     /**
@@ -208,12 +208,14 @@ class CompanyController extends Controller
      */
     public function company_reviews($id_company)
     {
-
+        $company_name = CompItems::find($id_company)->value('title');
         $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
         $company = CompItems::find($id_company);
+
         foreach ($reviews as $review) {
             $reviews_author = $review['author_id'];
         }
+
         $company_review = CompItems::where('author_id', $reviews_author)->get();
         //dd($company_review);
 
@@ -223,6 +225,7 @@ class CompanyController extends Controller
                 'reviews' => $reviews,
                 'company' => $company,
                 'id' => $id_company,
+                'company_name' => $company_name,
             ]);
     }
 
@@ -234,6 +237,7 @@ class CompanyController extends Controller
      */
     public function company_cont($id_company)
     {
+        $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
@@ -260,7 +264,8 @@ class CompanyController extends Controller
             'creator' => $creator,
             'company_contacts' => $company_contacts,
             'departament_name' => $departament_name,
-            'id' => $id_company
+            'id' => $id_company,
+            'company_name' => $company_name
         ]);
     }
 
