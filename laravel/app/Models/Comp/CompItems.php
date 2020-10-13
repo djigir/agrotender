@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
@@ -153,9 +154,14 @@ class CompItems extends Model
         return $this->hasMany(TradersPrices::class, 'buyer_id');
     }
 
-    public function torg_buyer2()
+//    public function torg_buyer2()
+//    {
+//        return $this->hasOne(TorgBuyer::class, 'id');
+//    }
+//
+    public function comp_topic_items_rubrics()
     {
-        return $this->hasOne(TorgBuyer::class, 'id');
+        return $this->hasMany(CompTopicItem::class, 'item_id');
     }
 
     public function comp_items_contact()

@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 
+
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
+
+use App\Models\Comp\CompTopic;
+use App\Models\Regions\Regions;
+
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -30,30 +35,85 @@ class CompanyController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function companies()
+    public function companies(Request $request)
     {
+        $search = null;
+
         $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies();
+        $companies = $this->companyService->getCompanies(null, null, $search);
         $regions = $this->baseServices->getRegions();
+
+        if(isset($request['search']))
+        {
+            $search = $request['search'];
+
+            return redirect()->action('CompanyController@company_filter', [$search]);
+        }
 
         return view('company.companies', [
             'companies' => $companies,
             'settings_for_page' => $companies,
             'regions' => $regions,
-            'rubricGroups' => $groups]
+            'rubricGroups' => $groups,
+            'search' => $search
+            ]
         );
     }
 
+
     /**
      * Display a listing of the resource.
-     * @param string $region;
+     * @param integer $id;
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_and_region($region)
+    public function company($id)
     {
+        $company = CompItems::find($id);
+        //$this->companyService->getTraderPricesRubrics($id);
 
-        return view('company.company_and_region', ['regions' => []]);
+        return view('company.company', ['company' => $company, 'id' => $id]);
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     * @param  string  $region  ;
+     *
+     * @param  Request  $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function company_and_region($region, Request $request)
+    {
+        $search = null;
+        $unwanted_region = false;
+
+        if(isset($request['search']))
+        {
+            $search = $request['search'];
+
+            return redirect()->action('CompanyController@company_filter', [$search]);
+        }
+
+        if($region == 'ukraine' or $region == 'crimea'){
+            $unwanted_region = true;
+        }
+
+        $groups = $this->companyService->getRubricsGroup();
+        $companies = $this->companyService->getCompanies($region, null, $search);
+        $regions = $this->baseServices->getRegions();
+        $currently_obl = Regions::where('translit', $region)->value('name');
+
+        return view('company.company_and_region', [
+            'regions' => $regions,
+            'rubricGroups' => $groups,
+            'companies' => $companies,
+            'settings_for_page' => $companies,
+            'currently_obl' => $currently_obl,
+            'unwanted_region' => $unwanted_region,
+            'region' => $region,
+            'search' => $search
+        ]);
     }
 
     public function trader_contacts($id)
@@ -63,49 +123,81 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param string $region;
+     * @param  string  $region  ;
      *
+     * @param $rubric_number
+     * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_region_rubric_number($region, $rubric_number)
+    public function company_region_rubric_number($region, $rubric_number, Request $request)
     {
-        return view('company.company_region_rubric_number');
+        $search = null;
+        $unwanted_region = false;
+
+        if(isset($request['search']))
+        {
+            $search = $request['search'];
+
+            return redirect()->action('CompanyController@company_filter', [$search]);
+        }
+
+
+
+        if($region == 'ukraine' or $region == 'crimea'){
+            $unwanted_region = true;
+        }
+
+        $groups = $this->companyService->getRubricsGroup();
+        $companies = $this->companyService->getCompanies($region, $rubric_number, $search);
+        $regions = $this->baseServices->getRegions();
+        $currently_obl = Regions::where('translit', $region)->value('name');
+        $current_culture = CompTopic::where('id', $rubric_number)->value('title');
+
+        return view('company.company_region_rubric_number', [
+            'regions' => $regions,
+            'rubricGroups' => $groups,
+            'companies' => $companies,
+            'settings_for_page' => $companies,
+            'currently_obl' => $currently_obl,
+            'unwanted_region' => $unwanted_region,
+            'region' => $region,
+            'rubric_number' => $rubric_number,
+            'current_culture' => $current_culture,
+            'search' => $search
+        ]);
     }
 
     /**
      * Display a listing of the resource.
-     * @param string $query;
-     *
+     * @param $search
+     * @param $groups
+     * @param $regions
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_filter($query)
+    public function company_filter($search)
     {
-        return view('company.company_filter', ['query' => $query]);
+        $groups = $this->companyService->getRubricsGroup();
+        $regions = $this->baseServices->getRegions();
+        $companies = $this->companyService->getCompanies(null, null, $search);
+
+        return view('company.company_filter', [
+            'search' => $search,
+            'companies' => $companies,
+            'rubricGroups' => $groups,
+            'settings_for_page' => $companies,
+            'regions' => $regions]
+        );
     }
+
 
     /**
      * Display a listing of the resource.
-     * @param integer $id;
-     *
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company($id_author)
+    public function company_prices($id)
     {
-
-        $this->companyService->getTraderPricesRubrics($id_author);
-
-        return view('company.company');
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @param integer $id_company;
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function company_prices($id_company)
-    {
-        return view('company.company_prices');
+        return view('company.company_prices', ['id' => $id]);
     }
 
     /**
@@ -162,7 +254,14 @@ class CompanyController extends Controller
         foreach ($creators as $item) {
             $creator = $item;
         }
-        return view('company.company_cont', ['company' => $company, 'creator' => $creator, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
+
+        return view('company.company_cont', [
+            'company' => $company,
+            'creator' => $creator,
+            'company_contacts' => $company_contacts,
+            'departament_name' => $departament_name,
+            'id' => $id_company
+        ]);
     }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Models\Regions;
 
+use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 
 

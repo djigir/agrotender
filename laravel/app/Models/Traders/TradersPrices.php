@@ -61,11 +61,7 @@ class TradersPrices extends Model
 
     public function compItems()
     {
-
-        //return $this->belongsTo(CompItems::class, 'id');
-
         return $this->hasMany(CompItems::class, 'author_id');
-
     }
 
     public function traders_places()

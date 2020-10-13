@@ -7,6 +7,7 @@ namespace App\Services;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
+use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
 use App\Models\Traders\Traders_Products2buyer;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 class CompanyService
 {
     const PER_PAGE = 10;
-
-
 
     public function getRegion($region) {
 
@@ -71,6 +70,8 @@ class CompanyService
         foreach ($rubrics as $index => $rubric){
             $rubrics[$index] = $rubric[0];
         }
+
+
 
         return $rubrics;
     }
@@ -142,6 +143,16 @@ class CompanyService
 //        return $rubric;
     }
 
+
+    public function searchCompanies($value){
+        return CompItems::where('title', 'like', '%'.$value.'%')->orWhere('content', 'like', '%'.$value.'%')
+            ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
+                'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
+                'trader_price_visible', 'phone', 'phone2', 'phone3')->paginate(self::PER_PAGE);
+
+    }
+
+
     public function getCompany($id)
     {
         $company = CompItems::find($id);
@@ -151,17 +162,44 @@ class CompanyService
         return $company;
     }
 
-    public function getCompanies()
+    public function getCompanies($region = null, $rubric = null, $search = null)
     {
-//        $rubric = ($rubric != null) ? "inner join agt_comp_item2topic i2t on i2t.item_id = i.id && i2t.topic_id = $rubric" : "";
-//        $region = ($region != null) ? "&& i.obl_id = $region" : "";
-//        $query  = ($query != null) ?  "&& (i.title like '%$query%' or i.content like '%$query%')" : "";
+        $obl_id = Regions::where('translit', $region)->value('id');
+
         $companies = CompItems::
-        select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
-            'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
-            'trader_price_visible', 'phone', 'phone2', 'phone3'
-        )->paginate(self::PER_PAGE);
-        //dd($companies->toArray()['data']);
+            where([[function ($query) use($region, $obl_id){
+                if($region != 'ukraine' and $region != null)
+                    $query->where('obl_id', '=', $obl_id);
+            }]])->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
+                'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
+                'trader_price_visible', 'phone', 'phone2', 'phone3')
+            ->orderBy('trader_premium', 'desc')
+            ->orderBy('rate_formula', 'desc')
+            ->paginate(self::PER_PAGE);
+
+        if($region != null and $rubric != null){
+            $companies =  CompItems::
+            join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
+                ->where([['comp_item2topic.topic_id', $rubric], [function ($query) use($region, $obl_id){
+                    if($region != 'ukraine' and $region != null)
+                        $query->where('comp_items.obl_id', '=', $obl_id);
+            }]])
+
+                ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
+                    'comp_items.obl_id', 'comp_items.logo_file',
+                    'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
+                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3',
+                    )
+                ->orderBy('comp_items.trader_premium', 'desc')
+                ->orderBy('comp_items.rate_formula', 'desc')
+                //->groupBy('comp_items.id')
+                ->paginate(self::PER_PAGE);
+        }
+       // dd($companies->toArray());
+        if($search != null){
+            $companies = $this->searchCompanies($search);
+        }
+
         return $companies;
     }
 }
