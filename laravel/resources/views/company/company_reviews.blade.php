@@ -33,16 +33,23 @@
                 <div class="col pl-0">
                     <div class="row m-0 align-items-center">
                         <div class="col p-0">
-{{--                            @if(!is_null($company_review))--}}
-                            <a href="/kompanii/comp-{{ $company->id }}" target="_blank">{{ $company->title }}</a>
-{{--                            @else--}}
-                            <span class="author">{{ $review['author'] }}</span>
-{{--                            @endif--}}
+                            @foreach($company_reviews as $company_review)
+
+                            @if(!is_null($company_reviews))
+                                {{-- переделать через роут --}}
+                                 <a href="/kompanii/comp-{{ $company_review['id'] }}" target="_blank">{{ $company_review['title'] }}</a>
+                            @else
+                                <span class="author">{{ $review['author'] }}</span>
+                            @endif
+
+                            @endforeach
+
                             {{-- доделать когда будет авторизация --}}
                             {{--{if $company['id'] == $user->company['id']}
                             <i class="far fa-reply review-comment ml-1"></i>
                             {/if}--}}
                             {{-- доделать когда будет авторизация --}}
+
                         </div>
                     </div>
                     <div class="row m-0 align-items-center lh-1">

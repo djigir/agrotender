@@ -209,22 +209,31 @@ class CompanyController extends Controller
     public function company_reviews($id_company)
     {
         $company_name = CompItems::find($id_company)->value('title');
-        $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
         $company = CompItems::find($id_company);
+        $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
 
+        $reviews_authors = [];
         foreach ($reviews as $review) {
-            $reviews_author = $review['author_id'];
+            $reviews_authors [] = $review['author_id'];
         }
 
-        $company_review = CompItems::where('author_id', $reviews_author)->get();
-        //dd($company_review);
+        $count = count($reviews_authors);
 
+        for ($i = 0; $i < $count; $i++) {
+            $company_reviews = CompItems::where('author_id', $reviews_authors[$i])->get();
+        }
 
+//        dd($company_reviews);
+        /*
+         * https://agrotender.com.ua/kompanii/comp-820-reviews
+         * https://agrotender.com.ua/kompanii/comp-1119-reviews
+         * */
         return view('company.company_reviews',
             [
                 'reviews' => $reviews,
                 'company' => $company,
                 'id' => $id_company,
+                'company_reviews' => $company_reviews,
                 'company_name' => $company_name,
             ]);
     }
