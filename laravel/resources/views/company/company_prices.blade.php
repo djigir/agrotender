@@ -1,9 +1,9 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('filters.filter-companies', ['regions' => [], 'rubricGroups' => []])
+    @include('company.company-header', ['id' => $id])
     <div class="submenu d-none d-sm-block text-center mt-4">
-        <a href="/kompanii/comp-5608-prices" class="active">Таблица закупок</a>
+        <a href="{{route('company.company_prices', $id)}}" class="active">Таблица закупок</a>
         <a href="/kompanii/comp-5608-traderContacts">Контакты трейдера</a>
     </div>
     <div class="container mt-4">

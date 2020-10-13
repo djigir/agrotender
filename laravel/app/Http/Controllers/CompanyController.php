@@ -3,8 +3,13 @@
 namespace App\Http\Controllers;
 
 
+
+use App\Models\Comp\CompComment;
+use App\Models\Comp\CompCommentLang;
+
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
+
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -64,10 +69,11 @@ class CompanyController extends Controller
      */
     public function company($id)
     {
+        $company_name = CompItems::find($id)->value('title');
         $company = CompItems::find($id);
-        //$this->companyService->getTraderPricesRubrics($id);
+        $this->companyService->getTraderPricesRubrics($id);
 
-        return view('company.company', ['company' => $company]);
+        return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company_name]);
     }
 
 
@@ -132,10 +138,8 @@ class CompanyController extends Controller
         if(isset($request['search']))
         {
             $search = $request['search'];
-
             return redirect()->action('CompanyController@company_filter', [$search]);
         }
-
 
 
         if($region == 'ukraine' or $region == 'crimea'){
@@ -185,17 +189,15 @@ class CompanyController extends Controller
     }
 
 
-
-
     /**
      * Display a listing of the resource.
-     * @param integer $id_company;
-     *
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_prices($id_company)
+    public function company_prices($id)
     {
-        return view('company.company_prices');
+        $company_name = CompItems::find($id)->value('title');
+        return view('company.company_prices', ['id' => $id, 'company_name' => $company_name]);
     }
 
     /**
@@ -206,7 +208,34 @@ class CompanyController extends Controller
      */
     public function company_reviews($id_company)
     {
-        return view('company.company_reviews');
+        $company_name = CompItems::find($id_company)->value('title');
+        $company = CompItems::find($id_company);
+        $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
+
+        $reviews_authors = [];
+        foreach ($reviews as $review) {
+            $reviews_authors [] = $review['author_id'];
+        }
+
+        $count = count($reviews_authors);
+
+        for ($i = 0; $i < $count; $i++) {
+            $company_reviews = CompItems::where('author_id', $reviews_authors[$i])->get();
+        }
+
+//        dd($company_reviews);
+        /*
+         * https://agrotender.com.ua/kompanii/comp-820-reviews
+         * https://agrotender.com.ua/kompanii/comp-1119-reviews
+         * */
+        return view('company.company_reviews',
+            [
+                'reviews' => $reviews,
+                'company' => $company,
+                'id' => $id_company,
+                'company_reviews' => $company_reviews,
+                'company_name' => $company_name,
+            ]);
     }
 
     /**
@@ -217,6 +246,7 @@ class CompanyController extends Controller
      */
     public function company_cont($id_company)
     {
+        $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
@@ -238,7 +268,14 @@ class CompanyController extends Controller
             $creator = $item;
         }
 
-        return view('company.company_cont', ['company' => $company, 'creator' => $creator, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
+        return view('company.company_cont', [
+            'company' => $company,
+            'creator' => $creator,
+            'company_contacts' => $company_contacts,
+            'departament_name' => $departament_name,
+            'id' => $id_company,
+            'company_name' => $company_name
+        ]);
     }
 
 

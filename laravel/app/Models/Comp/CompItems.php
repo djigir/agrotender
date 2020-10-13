@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
@@ -167,4 +168,16 @@ class CompItems extends Model
     {
         return $this->hasMany(CompItemsContact::class, 'comp_id');
     }
+
+    public function comp_comment()
+    {
+        return $this->hasMany(CompComment::class, 'author_id', 'id');
+    }
+
+
+    /* пока не используемая
+     * public function comp_comment()
+    {
+        return $this->hasMany(CompComment::class, 'item_id');
+    }*/
 }

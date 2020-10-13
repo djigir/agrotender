@@ -8,7 +8,7 @@ use App\Models\Regions\Regions;
 
 class BaseServices
 {
-    public function getRegions($rubric = null, $sitemap = null)
+    public function getRegions()
     {
         $regions = Regions::get();
         return $regions;
