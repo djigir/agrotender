@@ -38,4 +38,20 @@ class CompComment extends Model
         'like_yes',
         'like_no',
     ];
+
+    /* пока не используемая
+     * public function comp_items()
+    {
+        return $this->belongsTo(CompItems::class, 'id');
+    }*/
+
+    public function comp_comment_lang()
+    {
+        return $this->hasOne(CompCommentLang::class, 'item_id');
+    }
+
+    public function comp_item()
+    {
+        return $this->belongsTo(CompItems::class, 'author_id');
+    }
 }

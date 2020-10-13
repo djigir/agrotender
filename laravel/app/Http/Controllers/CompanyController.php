@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Comp\CompComment;
+use App\Models\Comp\CompCommentLang;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -114,7 +116,22 @@ class CompanyController extends Controller
      */
     public function company_reviews($id_company)
     {
-        return view('company.company_reviews');
+
+        $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
+        $company = CompItems::find($id_company);
+        foreach ($reviews as $review) {
+            $reviews_author = $review['author_id'];
+        }
+        $company_review = CompItems::where('author_id', $reviews_author)->get();
+        //dd($company_review);
+
+
+        return view('company.company_reviews',
+            [
+                'reviews' => $reviews,
+                'company' => $company,
+                'id' => $id_company,
+            ]);
     }
 
     /**
