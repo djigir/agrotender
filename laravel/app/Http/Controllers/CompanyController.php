@@ -67,7 +67,7 @@ class CompanyController extends Controller
         $company = CompItems::find($id);
         //$this->companyService->getTraderPricesRubrics($id);
 
-        return view('company.company', ['company' => $company]);
+        return view('company.company', ['company' => $company, 'id' => $id]);
     }
 
 
@@ -185,17 +185,14 @@ class CompanyController extends Controller
     }
 
 
-
-
     /**
      * Display a listing of the resource.
-     * @param integer $id_company;
-     *
+     * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_prices($id_company)
+    public function company_prices($id)
     {
-        return view('company.company_prices');
+        return view('company.company_prices', ['id' => $id]);
     }
 
     /**
@@ -238,7 +235,13 @@ class CompanyController extends Controller
             $creator = $item;
         }
 
-        return view('company.company_cont', ['company' => $company, 'creator' => $creator, 'company_contacts' => $company_contacts, 'departament_name' => $departament_name]);
+        return view('company.company_cont', [
+            'company' => $company,
+            'creator' => $creator,
+            'company_contacts' => $company_contacts,
+            'departament_name' => $departament_name,
+            'id' => $id_company
+        ]);
     }
 
 

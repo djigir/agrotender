@@ -16,8 +16,6 @@ class CompanyService
 {
     const PER_PAGE = 10;
 
-
-
     public function getRegion($region) {
 
 //        $region = $this->db->query("
@@ -168,18 +166,16 @@ class CompanyService
     {
         $obl_id = Regions::where('translit', $region)->value('id');
 
-        $companies = CompItems::where([[function ($query) use($region, $obl_id){
-            if($region != 'ukraine' and $region != null)
-                $query->where('obl_id', '=', $obl_id);
-        }]])
-            ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
+        $companies = CompItems::
+            where([[function ($query) use($region, $obl_id){
+                if($region != 'ukraine' and $region != null)
+                    $query->where('obl_id', '=', $obl_id);
+            }]])->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
-//            ->groupBy('id')
             ->paginate(self::PER_PAGE);
-        //, \DB::raw('count(*) as count_company, id')
 
         if($region != null and $rubric != null){
             $companies =  CompItems::
@@ -188,15 +184,18 @@ class CompanyService
                     if($region != 'ukraine' and $region != null)
                         $query->where('comp_items.obl_id', '=', $obl_id);
             }]])
+
                 ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
                     'comp_items.obl_id', 'comp_items.logo_file',
                     'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3')
+                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3',
+                    )
                 ->orderBy('comp_items.trader_premium', 'desc')
                 ->orderBy('comp_items.rate_formula', 'desc')
+                //->groupBy('comp_items.id')
                 ->paginate(self::PER_PAGE);
         }
-
+       // dd($companies->toArray());
         if($search != null){
             $companies = $this->searchCompanies($search);
         }

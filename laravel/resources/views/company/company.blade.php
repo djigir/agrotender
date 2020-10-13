@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('company.company-header')
+    @include('company.company-header', ['id' => $id])
     <div class="container company mb-5">
         <h2 class="d-inline-block mt-4">Цены трейдера</h2>
         <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">

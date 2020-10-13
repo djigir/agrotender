@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
