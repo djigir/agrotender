@@ -71,7 +71,7 @@ class CompanyController extends Controller
     {
         $company_name = CompItems::find($id)->value('title');
         $company = CompItems::find($id);
-        //$this->companyService->getTraderPricesRubrics($id);
+        $this->companyService->getTraderPricesRubrics($id);
 
         return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company_name]);
     }
