@@ -48,34 +48,6 @@ class TraderController extends Controller
     {
 
         // СВЯЗКА ТОВАРА С ЦЕНОЙ БЕЗ УСЛОВИЯ !
-        $a = Traders_Products_Lang::with(['traders_prices' => function($query) {
-            $query->where('costval', 6200);
-        }])->find(14);
-       //dd($a);
-
-        //\DB::enableQueryLog();
-        $traders2 = CompItems::select('id', 'title', 'logo_file', 'author_id', 'trader_premium')
-            ->where('trader_price_avail', 1)
-            ->where('trader_price_visible', 1)
-            ->where('visible', 1)
-            ->with('traders_prices')
-            ->groupBy('id')
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('trader_sort', 'desc')
-            ->orderBy('rate_formula', 'desc')
-            ->orderBy('title', 'desc')
-            ->first();
-        //->get()->toArray();
-        //dd(\DB::getQueryLog());
-        $change_date_and_dt = TradersPrices::select('change_date', 'dt')->first();
-
-        $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
-        $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
-
-
-        $traders = CompItems::select('id', 'title', 'logo_file')->orderBy('id', 'desc')->paginate(10);
-        $prices = TradersPricesArc::select('id', 'costval', 'add_date', 'dt')->with('traders_products_lang')->paginate(10)->toArray();
-
 
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
@@ -86,10 +58,10 @@ class TraderController extends Controller
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
                 'regions' => $regions,
-                'traders'=> $traders, //Traders::paginate(20),
+//                'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,
-                'prices' => $prices['data'],
+//                'prices' => $prices['data'],
                 'currencies'=>[
                     'uah' => [
                         'id'   => 0,
