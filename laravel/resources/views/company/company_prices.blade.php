@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('company.company-header')
+    @include('filters.filter-companies', ['regions' => [], 'rubricGroups' => []])
     <div class="submenu d-none d-sm-block text-center mt-4">
         <a href="/kompanii/comp-5608-prices" class="active">Таблица закупок</a>
         <a href="/kompanii/comp-5608-traderContacts">Контакты трейдера</a>

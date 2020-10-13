@@ -7,110 +7,115 @@
     <div class="content-block mt-3 py-3 px-4">
         <div class="form-row align-items-center position-relative">
             <div class="col-3 mr-2">
-                <button class="btn rubricInput text-center drop-btn">Все рубрики <i
-                        class="ml-2 small far fa-chevron-down"></i></button>
+                <button class="btn rubricInput text-center drop-btn">
+                    {{(isset($current_culture) and  $current_culture) ? $current_culture : 'Все рубрики'}}
+                    <i class="ml-2 small far fa-chevron-down"></i>
+                </button>
             </div>
             <div class="dropdown-wrapper position-absolute rubricDrop">
                 <div class="dropdown" id="rubricDrop" style="display: none;">
                     <div class="section text-left">
                         <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                         <div class="row">
-                            <div class="col-auto">
-                                @foreach($rubricGroups as $index => $rubric)
-                                    <a class="rubricLink getRubricGroup " href="#" group="1">
-                                    <span class="test">{{$index}}
-                                        <span class="ml-4 float-right right">
-                                            <i class="far fa-chevron-right"></i>
-                                        </span>
-                                    </span>
-                                    </a>
-                                @endforeach
-
-                            </div>
-                            <div class="col-auto rubricGroup pr-0 mr-3 group-1" style="display: block; column-count: 2">
-                                @foreach($rubricGroups['Сельхоз производители']["comp_topic"] as $index => $culture)
-                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', ['ukraine', 1])}}">
-                                        <span>{{$rubricGroups['Сельхоз производители']["comp_topic"][$index]['title']}}</span>
-{{--                                        <span class="companyCount small">(1546)</span>--}}
+                            <div style="display: flex">
+                                <div class="col-auto">
+                                    @foreach($rubricGroups as $index => $rubric)
+                                        <a class="rubricLink getRubricGroup"  id="group-{{$rubricGroups[$index]['id']}}">
+                                            <span class="test">{{$index}}
+                                                <span class="ml-4 float-right right">
+                                                    <i class="far fa-chevron-right"></i>
+                                                </span>
+                                            </span>
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-1"  style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Сельхоз производители']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Сельхоз производители']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Сельхоз производители']["comp_topic"][$index]['title']}}</span>
+                                        {{--                                        <span class="companyCount small">(1546)</span>--}}
                                         <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-2" style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Переработчики']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Переработчики']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Переработчики']["comp_topic"][$index]['title']}}</span>
+    {{--                                        <span class="companyCount small">(1546)</span>--}}
+                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-3" id='technics_equipment' style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Техника и оборудование']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Техника и оборудование']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Техника и оборудование']["comp_topic"][$index]['title']}}</span>
+    {{--                                        <span class="companyCount small">(1546)</span>--}}
+                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-4" id='agrochemistry' style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Агрохимия']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Агрохимия']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Агрохимия']["comp_topic"][$index]['title']}}</span>
+    {{--                                        <span class="companyCount small">(1546)</span>--}}
+                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-5" id='purchase_implementation' style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Закупка и реализация']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Закупка и реализация']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Закупка и реализация']["comp_topic"][$index]['title']}}</span>
+    {{--                                        <span class="companyCount small">(1546)</span>--}}
+                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-6" id='transportation' style="display: none; column-count: 2">
+                                    @foreach($rubricGroups['Перевозки']["comp_topic"] as $index => $culture)
+                                        <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Перевозки']["comp_topic"][$index]['id']])}}">
+                                            <span>{{$rubricGroups['Перевозки']["comp_topic"][$index]['title']}}</span>
+    {{--                                        <span class="companyCount small">(1546)</span>--}}
+                                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                                        </a>
+                                    @endforeach
+                                </div>
+                                <div class="col-auto rubricGroup pr-0 mr-3 group-7" id='services' style="display: none; column-count: 2" >
+                                @foreach($rubricGroups['Услуги']["comp_topic"] as $index => $culture)
+                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $rubricGroups['Услуги']["comp_topic"][$index]['id']])}}">
+                                        <span>{{$rubricGroups['Услуги']["comp_topic"][$index]['title']}}</span>
+{{--                                        <span class="companyCount small">(1546)</span>--}}
+                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
                                     </a>
                                 @endforeach
                             </div>
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-2" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Переработчики']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Переработчики']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Переработчики']["comp_topic"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-3" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Техника и оборудование']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Техника и оборудование']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Техника и оборудование']["comp_topic"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-4" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Агрохимия']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Агрохимия']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Агрохимия']["comp_topic"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-4" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Закупка и реализация']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Закупка и реализация']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Закупка и реализация']["comp_topic"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-4" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Перевозки']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Перевозки']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Перевозки']["comp_topic"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
-{{--                            <div class="col-auto rubricGroup pr-0 mr-3 group-4" style="display: none; column-count: 2">--}}
-{{--                                @foreach($rubricGroups['Услуги']["comp_topic"] as $index => $culture)--}}
-{{--                                    <a class="regionLink" href="{{route('company.company_region_rubric_number', $rubricGroups['Услуги']["comp_topic"][$index]['id'])}}">--}}
-{{--                                        <span>{{$rubricGroups['Услуги']["Услуги"][$index]['title']}}</span>--}}
-{{--                                    --}}{{--                                        <span class="companyCount small">(1546)</span>--}}
-{{--                                    <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            </div>--}}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="col-3 mr-2">
-                <button class="btn regionInput text-center drop-btn">Вся Украина<i
-                        class="ml-2 small far fa-chevron-down"></i></button>
+                <button class="btn regionInput text-center drop-btn">
+                    {{(isset($unwanted_region) and isset($currently_obl)) ? ($unwanted_region ? $currently_obl : $currently_obl.' область') : 'Вся Украина'}}
+                <i class="ml-2 small far fa-chevron-down"></i>
+                </button>
             </div>
             <div class="dropdown-wrapper position-absolute regionDrop">
-                <div class="dropdown" style="display: none;">
-            <span class="d-block">
-              <a class="regionLink d-inline-block text-muted disabled"
-                 href="{{route('company.company_and_region', 'ukraine')}}">
-              <span>Вся Украина</span>
-                  <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
-              </a>
-              <a class="regionLink d-inline-block" href="{{route('company.company_and_region', 'crimea')}}">
-              <span>АР Крым</span>
-                  <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
-              </a>
-            </span>
+                <div class="dropdown" id="regionDrop" style="display: none;">
+                    <span class="d-block">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'ukraine')}}">
+                            <span style="cursor: pointer">Вся Украина</span>
+                        </a>
+                        <a class="regionLink d-inline-block {{(isset($currently_obl) and $currently_obl == 'АР Крым') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'crimea')}}">
+                            <span>АР Крым</span>
+                        </a>
+                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
+                    </span>
                     <hr class="mt-1 mb-2">
                     <div class="section text-left">
                         <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
@@ -118,11 +123,17 @@
                             <div class="col" style="column-count: 2">
                                 @foreach($regions as $index => $region)
                                     @if($index > 0)
-                                        <a class="regionLink"
-                                           href="{{route('company.company_and_region', $region->translit)}}">
-                                            <span>{{$region->name}} область</span>
-                                            {{--                                        <span class="companyCount small">(180)</span>--}}
-                                        </a>
+                                        @if(isset($rubric_number) and isset($region))
+                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region->name) ? 'active' : '' }}"
+                                               href="{{route('company.company_region_rubric_number', [$region->translit, $rubric_number])}}">
+                                                <span>{{$region->name}} область</span>
+                                            </a>
+                                        @else
+                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region->name) ? 'active' : '' }}"
+                                               href="{{route('company.company_and_region', $region->translit)}}">
+                                                <span>{{$region->name}} область</span>
+                                            </a>
+                                        @endif
                                     @endif
                                 @endforeach
                             </div>
@@ -130,19 +141,20 @@
                     </div>
                 </div>
             </div>
+            <form class="searchForm" style="display: flex">
             <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                <form class="searchForm">
-                    <input maxlength="32" type="text" name="text" class="searchInput" placeholder="Я ищу..">
-                </form>
+                    <input maxlength="32" type="text" name="search" id="searchInput" class="searchInput" placeholder="Я ищу.."
+                    value="{{$search != null ? $search : ''}}">
             </div>
-            <div class="col-auto">
-                <i class="far fa-search searchIcon mt-2 ml-2"></i>
+            <div class="col-auto search">
+               <button type="submit" class="btn-search"> <i class="far fa-search searchIcon mt-2 ml-2"></i></button>
             </div>
+            </form>
         </div>
     </div>
     <div class="row mt-4 pt-3">
         <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">
-            <h2 class="d-inline-block text-uppercase">Список компаний</h2>
+            <h2 class="d-inline-block text-uppercase">{{isset($search) ? 'Поиск' : 'Список компаний'}}</h2>
             <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
         </div>
         <div class="col-12 col-sm-8 float-md-right text-center text-md-right">
@@ -158,11 +170,49 @@
 </div>
 
 <script>
-    var cookies_obj = {};
     window.onload = function () {
-        $(".test").click(function (event) {
+        $(".rubricInput").click(function (event) {
+            if($("#rubricDrop").css('display') == 'none'){
+                $("#rubricDrop").css('display', 'block')
+            }else{
+                $("#rubricDrop").css('display', 'none')
+            }
 
+        });
+
+        $(".regionInput").click(function (event) {
+            if($("#regionDrop").css('display') == 'none'){
+                $("#regionDrop").css('display', 'block')
+            }else{
+                $("#regionDrop").css('display', 'none')
+            }
+        });
+
+        $(".getRubricGroup").click(function (event) {
+            $('.group-1').css('display', 'none');
+            $('.group-2').css('display', 'none');
+            $('.group-3').css('display', 'none');
+            $('.group-4').css('display', 'none');
+            $('.group-5').css('display', 'none');
+            $('.group-6').css('display', 'none');
+            $('.group-7').css('display', 'none');
+            let group = event.currentTarget.attributes[1].nodeValue;
+
+            if($(`.${group}`).css('display') == 'none'){
+                $(`.${group}`).css('display', 'block')
+            }else{
+                $(`.${group}`).css('display', 'none')
+            }
 
         });
     }
 </script>
+<style>
+    .btn-search{
+        background: none;
+        border: none;
+    }
+    .searchInput {
+        padding: .375rem 6rem .475rem 1.4rem!important;
+    }
+</style>

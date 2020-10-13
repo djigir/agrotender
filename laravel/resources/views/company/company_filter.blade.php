@@ -2,12 +2,9 @@
 
 @section('content')
     @include('filters.filter-companies', [
-     'regions' => $regions,
-     'rubricGroups' => $rubricGroups,
-     'currently_obl' => $currently_obl,
-     'unwanted_region' => $unwanted_region,
-     'current_culture' => $current_culture
-
+    'regions' => $regions,
+    'rubricGroups' => $rubricGroups,
+    'search' => $search
 ])
     <div class="d-none d-sm-block container mt-3">
     </div>
@@ -147,6 +144,7 @@
     {{--        {/foreach}--}}
     {{--    </div>--}}
     {{--{{dd($settings_for_page)}}--}}
-            {{ $settings_for_page->links() }}
-    </div>
+
+    {{ $settings_for_page->links() }}
 @endsection
+

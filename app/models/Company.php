@@ -340,7 +340,7 @@ class Company extends \Core\Model {
         group by i.id
         order by top desc, i.rate_formula desc
         limit $start, $count");
-    
+
     $i = 0;
     foreach ($companies as $company) {
       $companies[$i]['activities'] = $this->db->query("

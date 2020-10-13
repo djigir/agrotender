@@ -153,9 +153,14 @@ class CompItems extends Model
         return $this->hasMany(TradersPrices::class, 'buyer_id');
     }
 
-    public function torg_buyer2()
+//    public function torg_buyer2()
+//    {
+//        return $this->hasOne(TorgBuyer::class, 'id');
+//    }
+//
+    public function comp_topic_items_rubrics()
     {
-        return $this->hasOne(TorgBuyer::class, 'id');
+        return $this->hasMany(CompTopicItem::class, 'item_id');
     }
 
     public function comp_items_contact()

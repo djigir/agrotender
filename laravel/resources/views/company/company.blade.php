@@ -775,308 +775,285 @@
             </div>
         </div>
 
-        <h2 class="mt-4">Контакты трейдера</h2>
-        <div class="content-block trader-contact py-3 px-4">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Київ</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>пров. Т. Шевченка, 3:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (044) 461 88 01</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            &nbsp;<span class="name">Терзиев Александр</span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (050) 380 09 21</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            &nbsp;<span class="name">Горохов Артем</span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (097) 728 67 96</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            &nbsp;<span class="name">Звяга Павел</span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (050) 481 35 11</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-4"> <a class="btn btn-block showAll add-contact px-5" href="#">Показать все</a> </div></div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Біла Церква</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>Сквирське шосе, 194,  оф. 505:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (04563) 4 47 70</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Черкаси</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Б. Вишневецького, 47, оф. 310:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0472) 33 54 32</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0472) 36 09 00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Кропивницький</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Урожайна, 30:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0522) 35 15 24</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Полтава</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>площа Павленківська, 24:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0532) 50 34 00</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Дніпро</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Старокозацька, 40-Б,  5 поверх:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (056) 745 03 13</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (056) 745 03 14</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Вінниця</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Пирогова, 47-А,  ТЦ «Ізумруд», 2-ий поверх:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0432) 67 16 39</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Харків</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Римарська, 32:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (057) 766 72 15</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Одеса</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>просп. Шевченка, 4-Д,  БЦ Шевченківський, оф. 94:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (048) 786 00 37</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="content-block trader-contact py-3 px-4" style="display: none;">
-            <div class="place d-flex justify-content-between">
-                <div class="title">
-                    <span>Миколаїв</span>
-                </div>
-            </div>
-            <div class="contacts mt-4">
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 px-3 px-sm-0">
-                        <div class="col p-0">
-                            <b>вул. Садова, 3-В, 3-й поверх:</b> &nbsp;<span class="name"></span>
-                        </div>
-                    </div>
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0512) 50 05 49</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0512) 50 10 71</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">
-                    <div class="row m-0 justify-content-center">
-                        <div class="col-auto pr-2 text-center">
-                            <span class="phone">+38 (0512) 50 10 72</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--        <h2 class="mt-4">Контакты трейдера</h2>--}}
+{{--        <div class="content-block trader-contact py-3 px-4">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Київ</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>пров. Т. Шевченка, 3:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (044) 461 88 01</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            &nbsp;<span class="name">Терзиев Александр</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (050) 380 09 21</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            &nbsp;<span class="name">Горохов Артем</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (097) 728 67 96</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            &nbsp;<span class="name">Звяга Павел</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (050) 481 35 11</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="text-center mt-4"> <a class="btn btn-block showAll add-contact px-5" href="#">Показать все</a> </div></div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Біла Церква</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>Сквирське шосе, 194,  оф. 505:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (04563) 4 47 70</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Черкаси</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Б. Вишневецького, 47, оф. 310:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0472) 33 54 32</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0472) 36 09 00</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Кропивницький</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Урожайна, 30:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0522) 35 15 24</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Полтава</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>площа Павленківська, 24:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0532) 50 34 00</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Дніпро</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Старокозацька, 40-Б,  5 поверх:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (056) 745 03 13</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (056) 745 03 14</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Вінниця</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Пирогова, 47-А,  ТЦ «Ізумруд», 2-ий поверх:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0432) 67 16 39</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Харків</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Римарська, 32:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (057) 766 72 15</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Одеса</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>просп. Шевченка, 4-Д,  БЦ Шевченківський, оф. 94:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (048) 786 00 37</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <div class="content-block trader-contact py-3 px-4" style="display: none;">--}}
+{{--            <div class="place d-flex justify-content-between">--}}
+{{--                <div class="title">--}}
+{{--                    <span>Миколаїв</span>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="contacts mt-4">--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 px-3 px-sm-0">--}}
+{{--                        <div class="col p-0">--}}
+{{--                            <b>вул. Садова, 3-В, 3-й поверх:</b> &nbsp;<span class="name"></span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0512) 50 05 49</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0512) 50 10 71</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative" style="display: none;">--}}
+{{--                    <div class="row m-0 justify-content-center">--}}
+{{--                        <div class="col-auto pr-2 text-center">--}}
+{{--                            <span class="phone">+38 (0512) 50 10 72</span>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         <h2 class="mt-4">О компании</h2>
-        <div class="about mt-3"><p>Строить успешный агробизнес в Украине – можно! Компания Кернел – яркое тому подтверждение. Закупая подсолнечник у отечественных аграриев и перерабатывая его на качественное подсолнечное масло, компания заняла прочные позиции в мировых рейтингах агрокомпаний – как надежный поставщик и производитель продукции мирового класса.</p>
-            <h2 style="text-align: center;">Компания Кернел – неоспоримый лидер в агро бизнесе</h2>
-            <p>Kernel – производитель подсолнечного масла, которое пользуется спросом не только в Украине, но и за рубежом. Компания поставляет на экспорту продукции Черноморского региона, главным образом – подсолнечное масло собственного производства.</p>
-            <p>Основные направления деятельности компании:</p>
-            <ul>
-                <li>производство и реализация подсолнечного масла (на украинском и зарубежных рынках);</li>
-                <li>растениеводство;</li>
-                <li>продажа зерновых на экспорт;</li>
-                <li>услуги по хранению и перевалке зерновых на собственных элеваторах и в портовых терминалах.</li>
-            </ul>
-            <p>&nbsp;К ключевым преимуществам бренда стоит отнести:</p>
-            <ol>
-                <li>высокотехнологичное производство;</li>
-                <li>использование инноваций;</li>
-                <li>экологичность процессов;</li>
-                <li>контроль качества продукции.</li>
-            </ol>
-            <h2 style="text-align: center;">Kernel&nbsp;– трейдер с лучшими ценами</h2>
-            <p>Компания занимается скупкой подсолнечника, кукурузы, пшеницы и ячменя от аграриев. Регион отгрузки – Черноморский и Южный морские порты, а также элеваторы в Кировоградской, Харьковской, Полтавской областях. Трейдер предлагает выгодные цены – поэтому фермерам выгодно работать с ним без посредников.</p>
-            <h2 style="text-align: center;">Kernel&nbsp;Украине – компания, которой доверяют</h2>
-            <p>Kernel зарекомендовала себя как надежный и честный партнер. Сотрудничая с ним, вы можете быть уверены – все договоренности будут соблюдены.</p>
-            <h2 style="text-align: center;">Свяжитесь с трейдером на площадке Агротендер</h2>
-            <p>Договориться про сотрудничество, заказать подсолнечное масло или предложить свою продукцию компании Кернел вы можете на площадке Agrotender. Это – площадка для аграриев и трейдеров, где игроки рынка могут найти надежного партнера. Здесь фермеры и агротрейдеры договариваются про сотрудничество без посредников, а сам портал «Агротендер» не взимает комиссии за успешно совершенные на нем сделки.</p>
-            <p>На «Агротендер» контакты компании «Кернел» есть в открытом доступе. Но удобнее связаться с ее представителями через чат-боты в Viber/Telegram, разработанные сервисом. Также через чат-боты вы можете отслеживать изменения цен на подсолнечник и зерновые, чтобы предложить их представителям Kernel на пике повышения стоимости продукции.</p>
-            <p>Также на Agrotender представлены другие группы товаров – по сути, вся сельхозпродукция, которая может быть выращена в Украине. Тут вы можете купить свежую рыбу, продукцию животноводства, зерновые, соевое масло или овощи по лучшим ценам. Искать поставщика на «Агротендер» - выгодно!</p></div>
-
+        <div class="about mt-3">
+            {!! $company->content !!}
+        </div>
     </div>
 @endsection

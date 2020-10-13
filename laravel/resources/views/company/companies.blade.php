@@ -18,13 +18,13 @@
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
                 {{$company->trader_premium == 1 || $company->trader_premium == 2 ? 'companyTop' : ''}}"
-            {{$company->trader_premium == 2 ?? 'style ="overflow:hidden;'}}>
-                @if($company->trader_premium == 2)<div class="ribbonComp">VIP</div>@endif
+                {{$company->trader_premium == 2 ?? 'style ="overflow:hidden;'}}>
+            @if($company->trader_premium == 2)<div class="ribbonComp">VIP</div>@endif
         <div class="row mx-0 w-100">
             <div class="col-auto pr-0 pl-2 pl-sm-3">
                 <div class="row m-0">
                     <div class="col-12 pl-0 pr-0 pr-sm-2">
-                        <a href="{{route('company.company', $company->author_id)}}"><img class="companyImg"
+                        <a href="{{route('company.company', $company->id)}}"><img class="companyImg"
                           src="{{ $company->logo_file ? $company->logo_file : '/app/assets/img/no-image.png' }}"/>
                         </a>
                     </div>
@@ -38,7 +38,7 @@
             <div class="col">
                 <div class="row lh-1">
                     <div class="col">
-                        <span class="title"><a href="{{route('company.company', $company->author_id)}}">{!!  str_replace('\\', '', $company->title) !!}</a></span>
+                        <span class="title"><a href="{{route('company.company', $company->id)}}">{!!  str_replace('\\', '', $company->title) !!}</a></span>
                     </div>
                 </div>
                 <div class="row d-sm-none lh-1">
@@ -121,10 +121,10 @@
                 <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=3"><span>Услуги ({{$company->services}})</span></a>
                     @endif
             </div>
+    </div>
         </div>
-    </div>
     @endforeach
-    </div>
+
     <div class="container">
         <div class="empty pt-0 pt-md-5">
             <div class="sketch mt-3 mt-md-5">
@@ -142,68 +142,5 @@
 {{--{{dd($settings_for_page)}}--}}
 
 {{ $settings_for_page->links() }}
-
-    @if($companies &&  $settings_for_page->hasPages())
-
-{{--    <div class="row mx-0 mt-4">--}}
-{{--        <div class="col-12 pagination d-block text-center">--}}
-
-{{--            @if($settings_for_page->toArray()['current_page']!= 1)--}}
-{{--            <a href="{if $query neq null}/kompanii/s/{$query}/p{$page - 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 1}{/if}"><span class="mr-1"><i class="far fa-chevron-left"></i></span> <span class="d-none d-sm-inline-block">Предыдущая</span></a>--}}
-
-{{--            @endif--}}
-
-{{--            @if($settings_for_page->toArray()['current_page'] - 3 > 1)--}}
-{{--                <a class="mx-1"--}}
-{{--                   href="{if $query neq null}/kompanii/s/{$query}{else}/kompanii/--}}
-{{--                   {if $region neq null}region_{$region['translit']}/--}}
-{{--                   {/if}{if $rubric neq null}t{$rubric['id']}{else}{/if}{/if}">--}}
-{{--                    {{$settings_for_page->toArray()['current_page'] - 3}}</a>--}}
-{{--                ..--}}
-{{--            @endif--}}
-
-{{--            @if($settings_for_page->toArray()['current_page'] - 2 > 1)--}}
-{{--                <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 2}{/if}">--}}
-{{--                    {{$settings_for_page->toArray()['current_page'] - 2}}</a>--}}
-{{--            @endif--}}
-
-{{--            @if($settings_for_page->toArray()['current_page'] - 1 > 1)--}}
-{{--                <a class="d-none d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page - 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page - 1}{/if}">--}}
-{{--                    {{$settings_for_page->toArray()['current_page'] - 1}}</a>--}}
-{{--            @endif--}}
-
-{{--            <a href="#" class="active mx-1">{{$settings_for_page->toArray()['current_page']}}</a>--}}
-{{--            @if($settings_for_page->toArray()['current_page'] + 1 <= $settings_for_page->toArray()['to'])--}}
-{{--               <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}">--}}
-{{--                   {{$settings_for_page->toArray()['current_page'] + 1}}</a>--}}
-{{--            @endif--}}
-
-{{--            @if($settings_for_page->toArray()['current_page'] + 2 <= $settings_for_page->toArray()['to'])--}}
-{{--                <a class="d-sm-inline-block mx-1" href="{if $query neq null}/kompanii/s/{$query}/p{$page + 2}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 2}{/if}">--}}
-{{--                    {{$settings_for_page->toArray()['current_page'] + 2}}</a>--}}
-{{--            @endif--}}
-{{--            @if($settings_for_page->toArray()['current_page'] + 3 <= $settings_for_page->toArray()['to'])--}}
-{{--               ..--}}
-{{--               <a class="mx-1"--}}
-{{--                  href="{if $query neq null}/kompanii/s/{$query}/p{$totalPages}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$totalPages}{/if}">--}}
-{{--                   {{$settings_for_page->toArray()['last_page']}}--}}
-{{--               </a>--}}
-{{--            @endif--}}
-
-
-{{--            @if($settings_for_page->toArray()['current_page'] != $settings_for_page->toArray()['to'])--}}
-{{--                    <a href="/kompanii/?page={{$settings_for_page->toArray()['current_page'] + 1}}">--}}
-{{--                        <span class="d-none d-sm-inline-block">Следующая</span> <span class="ml-1"><i class="far fa-chevron-right"></i></span>--}}
-{{--                    </a>--}}
-{{--                <a href="{if $query neq null}/kompanii/s/{$query}/p{$page + 1}{else}/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}t{$rubric['id']}_p{else}p{/if}{$page + 1}{/if}">--}}
-{{--                    <span class="d-none d-sm-inline-block">Следующая</span> <span class="ml-1"><i class="far fa-chevron-right"></i></span></a>--}}
-{{--            @endif--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    {if $text neq ''}--}}
-{{--    <br>--}}
-{{--    {$text}--}}
-{{--    {/if}--}}
-    @endif
 @endsection
 

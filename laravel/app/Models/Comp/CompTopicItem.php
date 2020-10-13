@@ -17,6 +17,10 @@ class CompTopicItem extends Model
 
     protected $dates = ['add_date'];
 
+    public function comp_topic_rubric()
+    {
+        return $this->belongsTo(CompItems::class, 'id');
+    }
 
     public function comp_topic()
     {
