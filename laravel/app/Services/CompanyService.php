@@ -16,47 +16,6 @@ class CompanyService
 {
     const PER_PAGE = 10;
 
-    public function getRegion($region) {
-
-//        $region = $this->db->query("
-//      select * from regions where ".(is_int($region) ? "id = '$region' or " : "")."name = '$region' or translit = '$region'
-//    ")[0] ?? [
-//                "name"     => "Украина",
-//                "r"        => "Украине",
-//                "translit" => "ukraine",
-//                "id"       => null
-//            ];
-//        return $region;
-    }
-
-    public function getRubrics($region = null) {
-
-
-
-//        $rubrics   = $this->db->query("
-//      select t.menu_group_id as group_id, t.title, count(i2t.id) as count, i2t.topic_id
-//        from agt_comp_topic as t
-//        left join agt_comp_item2topic i2t
-//          on i2t.topic_id = t.id
-//        ".($region != null ? "left join agt_comp_items i on i.id = i2t.item_id" : "")."
-//      ".($region != null ? "where i.obl_id = $region" : "")."
-//        group by t.id
-//        order by t.menu_group_id, t.sort_num, t.title");
-//        return $rubrics;
-    }
-
-    public function getRubricsChunk($region = null) {
-//        $rubrics = $this->getRubrics($region);
-//        $result  = [];
-//        foreach ($rubrics as $r) {
-//            $result[$r['group_id']][] = $r;
-//        }
-//        foreach ($result as $key => $value) {
-//            $result[$key] = array_chunk($value, 7);
-//        }
-//        return $result;
-    }
-
     public function getRubricsGroup() {
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
@@ -71,16 +30,9 @@ class CompanyService
             $rubrics[$index] = $rubric[0];
         }
 
-
-
         return $rubrics;
     }
-// $traderRegionsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 0, $type);
-// $traderPortsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 2, $type);
-// $pricesPorts   = $traders->getPlaces($this->companyItem['author_id'], 2, $type);
-// $pricesRegions = $traders->getPlaces($this->companyItem['author_id'], 0, $type);
-// $portsPrices   = ($pricesPorts != null) ? $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesPorts, $traderPortsPricesRubrics, $type) : null;
-// $regionsPrices = $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesRegions, $traderRegionsPricesRubrics, $type);
+
     public function getCompanyTraderPrices($user, $places, $rubrics, $type) {
         $pricesArr = $places;
 //        $date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
@@ -109,22 +61,18 @@ class CompanyService
 //        }
         return $pricesArr;
     }
-    public function getTraderPricesRubrics($user) {
+
+
+    public function getTraderPricesRubrics($id) {
         $placeType = 0;
         $type = 0;
-        $rubrics = [];
-        $rubrics = Traders_Products2buyer::select('sort_ind', 'id')
-            ->with(['traders_products' => function($query) {
-//                $query->with(['traders_prices' => function($query){
-//
-//                }]);
-            }])
-            ->where([['buyer_id', $user], ['acttype', 0], ['type_id', 0]])
-            ->get()
-            ->toArray();
+        $author_id = CompItems::find($id)->value('author_id');
+        $rubrics = Traders_Products2buyer::
+            with(['traders_products'])
+            ->where([['buyer_id', $author_id], ['acttype', 0], ['type_id', 0]])
+            ->get()->toArray();
 
         //dd($rubrics);
-
 //        $rubrics = $this->db->query("
 //      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
 //        from agt_traders_products2buyer c2b
@@ -138,29 +86,16 @@ class CompanyService
         return $rubrics;
     }
 
-    public function getRubric($id) {
-//        $rubric = $this->db->query("select * from agt_comp_topic where id = $id")[0] ?? null;
-//        return $rubric;
-    }
-
 
     public function searchCompanies($value){
         return CompItems::where('title', 'like', '%'.$value.'%')->orWhere('content', 'like', '%'.$value.'%')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
-                'trader_price_visible', 'phone', 'phone2', 'phone3')->paginate(self::PER_PAGE);
+                'trader_price_visible', 'phone', 'phone2', 'phone3')
+            ->paginate(self::PER_PAGE);
 
     }
 
-
-    public function getCompany($id)
-    {
-        $company = CompItems::find($id);
-
-
-
-        return $company;
-    }
 
     public function getCompanies($region = null, $rubric = null, $search = null)
     {
@@ -184,7 +119,6 @@ class CompanyService
                     if($region != 'ukraine' and $region != null)
                         $query->where('comp_items.obl_id', '=', $obl_id);
             }]])
-
                 ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
                     'comp_items.obl_id', 'comp_items.logo_file',
                     'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
@@ -192,10 +126,11 @@ class CompanyService
                     )
                 ->orderBy('comp_items.trader_premium', 'desc')
                 ->orderBy('comp_items.rate_formula', 'desc')
-                //->groupBy('comp_items.id')
                 ->paginate(self::PER_PAGE);
         }
-       // dd($companies->toArray());
+
+        //dd($companies->toArray());
+
         if($search != null){
             $companies = $this->searchCompanies($search);
         }
