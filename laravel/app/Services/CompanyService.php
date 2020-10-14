@@ -122,7 +122,7 @@ class CompanyService
                 ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
                     'comp_items.obl_id', 'comp_items.logo_file',
                     'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3',
+                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3'
                     )
                 ->orderBy('comp_items.trader_premium', 'desc')
                 ->orderBy('comp_items.rate_formula', 'desc')
