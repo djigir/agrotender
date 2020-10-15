@@ -87,27 +87,15 @@ class CompanyService
 //        }
         return $pricesArr;
     }
+
+
     public function getPlaces($author_id, $placeType, $type) {
-        //\DB::enableQueryLog();
         $places = TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
             ->with('traders_ports', 'regions')
             ->with('traders_ports.traders_ports_lang')
             ->orderBy('place', 'asc')
             ->orderBy('obl_id', 'asc')
             ->get();
-        //$places = collect($places)->sortBy('traders_ports.traders_ports_lang.portname');
-        //dd(\DB::getQueryLog());
-//        $places = $this->db->query("
-//      select tp.*, tpl.portname, r.name as region, r.id as region_id
-//        from agt_traders_places tp
-//        left join agt_traders_ports tpo
-//          on tpo.id = tp.port_id
-//        left join agt_traders_ports_lang tpl
-//          on tpl.port_id = tpo.id
-//        left join regions r
-//          on r.id = tp.obl_id
-//      where tp.buyer_id = $user and tp.acttype = $type and tp.type_id = $placeType
-//      order by tp.obl_id asc, tpl.portname asc");
 
         return $places;
     }
@@ -133,13 +121,13 @@ class CompanyService
         $author_id = $company->author_id;
         $pricesPorts = $this->getPlaces($author_id, 2, $type);
         $pricesRegions = $this->getPlaces($author_id, 0, $type);
-
+        //dd($pricesPorts->toArray(), $pricesRegions->toArray());
         $pricesPorts = $this->TransformArray($pricesPorts);
         $pricesRegions = $this->TransformArray($pricesRegions);
 
 
         $prices = $this->getPrices($author_id, $type);
-
+        //dd($prices->toArray());
         $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
@@ -153,24 +141,17 @@ class CompanyService
             $trader = 1;
         }
 
-        $rubrics = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', 0], ['type_id', $placeType]])
-            ->with(['traders_products' => function($query) use($type, $author_id){
-                $query->with(['traders_prices' => function($query) use($type, $author_id)
-                {
-                    $query->where([['buyer_id', $author_id], ['acttype', $type]])->with('traders_places');
+        $rubrics = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
+            ->with(['traders_products' => function($query) use($type, $author_id, $placeType){
+                $query->with(['traders_prices' => function($query) use($type, $author_id, $placeType) {
+                    $query->where([['buyer_id', $author_id], ['acttype', $type]])
+                        ->with(['traders_places' => function($query) use($type, $placeType, $author_id){
+                                $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
+                                    ->with('traders_ports', 'regions')->with('traders_ports.traders_ports_lang');
+                    }]);
                 }]);
             }])
             ->get()->toArray();
-        //dd('$rubrics', $rubrics->toArray(), '$pricesPorts', $pricesPorts->toArray(), '$pricesRegions',$pricesRegions->toArray());
-//        $rubrics = $this->db->query("
-//      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
-//        from agt_traders_products2buyer c2b
-//        inner join agt_traders_products tp on c2b.cult_id=tp.id
-//        inner join agt_traders_products_lang tpl on tp.id=tpl.item_id
-//        inner join agt_traders_prices atp on atp.cult_id = tp.id && atp.acttype = $type && atp.buyer_id = $user
-//        inner join agt_traders_places pl on pl.id = atp.place_id && pl.buyer_id = c2b.buyer_id && pl.type_id = c2b.type_id
-//      where c2b.buyer_id = $user and c2b.acttype = $type and c2b.type_id = $placeType
-//      order by tpl.name asc");
 
         foreach ($rubrics as $index => $rubric){
             if(isset($rubrics[$index]['traders_products'][0])){

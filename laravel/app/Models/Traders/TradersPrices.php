@@ -66,7 +66,7 @@ class TradersPrices extends Model
 
     public function traders_places()
     {
-        return $this->belongsTo(TradersPlaces::class, 'id');
+        return $this->hasMany(TradersPlaces::class, 'id', 'place_id');
     }
 
     public function traders_products()
