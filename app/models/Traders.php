@@ -131,6 +131,9 @@ class Traders extends \Core\Model {
         $places[$key]['contacts'] = $contacts;
       }
     }
+      /*echo '<pre>';
+       var_dump($place['id']);
+       echo '</pre>';die();*/
     return $places;
   }
 

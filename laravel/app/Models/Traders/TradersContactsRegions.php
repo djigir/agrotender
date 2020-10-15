@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
+use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,4 +24,9 @@ class TradersContactsRegions extends Model
         'sort_num',
         'name',
     ];
+
+    public function comp_items()
+    {
+        return $this->belongsTo(CompItems::class, 'id');
+    }
 }

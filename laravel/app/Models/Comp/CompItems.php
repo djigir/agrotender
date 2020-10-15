@@ -7,6 +7,7 @@ use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
+use App\Models\Traders\TradersContactsRegions;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -172,6 +173,11 @@ class CompItems extends Model
     public function comp_comment()
     {
         return $this->hasMany(CompComment::class, 'author_id', 'id');
+    }
+
+    public function traders_contacts_regions()
+    {
+        return $this->hasMany(TradersContactsRegions::class, 'comp_id');
     }
 
 
