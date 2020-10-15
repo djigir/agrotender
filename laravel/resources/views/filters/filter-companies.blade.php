@@ -142,13 +142,13 @@
                 </div>
             </div>
             <form class="searchForm" style="display: flex">
-            <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                    <input maxlength="32" type="text" name="search" id="searchInput" class="searchInput" placeholder="Я ищу.."
-                    value="{{$search != null ? $search : ''}}">
-            </div>
-            <div class="col-auto search">
-               <button type="submit" class="btn-search"> <i class="far fa-search searchIcon mt-2 ml-2"></i></button>
-            </div>
+                <div class="col searchDiv" data-tip="Введите поисковой запрос">
+                        <input maxlength="32" type="text" name="search" id="searchInput" class="searchInput" placeholder="Я ищу.."
+                        value="{{$search != null ? $search : ''}}">
+                </div>
+                <div class="col-auto search">
+                   <button type="submit" class="btn-search"> <i class="far fa-search searchIcon mt-2 ml-2"></i></button>
+                </div>
             </form>
         </div>
     </div>

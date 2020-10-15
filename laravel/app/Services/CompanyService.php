@@ -9,12 +9,36 @@ use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
+use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\Traders_Products2buyer;
 use Symfony\Component\HttpFoundation\Request;
 
 class CompanyService
 {
     const PER_PAGE = 10;
+
+
+    public function getContacts($author_id, $departments_type)
+    {
+        $departament_name = [];
+        $creator = [];
+
+        $arr = [
+            1 => 'Отдел закупок',
+            2 => 'Отдел продаж',
+            3 => 'Отдел услуг',
+        ];
+
+        foreach ($departments_type as $index => $value) {
+            $departament_name [] = $arr[$value['type_id']];
+        }
+        $departament_name = array_unique($departament_name);
+
+        $creators = TorgBuyer::where('id', $author_id)->get()->toArray();
+
+
+        return ['creators' => $creators[0], 'departament_name' => $departament_name];
+    }
 
     public function getRubricsGroup() {
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {

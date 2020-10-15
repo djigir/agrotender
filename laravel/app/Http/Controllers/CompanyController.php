@@ -39,16 +39,18 @@ class CompanyController extends Controller
     {
         $search = null;
 
-        $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies(null, null, $search);
-        $regions = $this->baseServices->getRegions();
-
         if(isset($request['search']))
         {
             $search = $request['search'];
 
             return redirect()->action('CompanyController@company_filter', [$search]);
         }
+
+        $groups = $this->companyService->getRubricsGroup();
+        $companies = $this->companyService->getCompanies();
+        $regions = $this->baseServices->getRegions();
+
+
 
         return view('company.companies', [
             'companies' => $companies,
@@ -101,7 +103,7 @@ class CompanyController extends Controller
         }
 
         $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies($region, null, $search);
+        $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
 
@@ -147,7 +149,7 @@ class CompanyController extends Controller
         }
 
         $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies($region, $rubric_number, $search);
+        $companies = $this->companyService->getCompanies($region, $rubric_number);
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
@@ -202,12 +204,14 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param integer $id_company;
+     * @param integer $id_company ;
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function company_reviews($id_company)
     {
+        $company_reviews = null;
+
         $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
@@ -250,29 +254,13 @@ class CompanyController extends Controller
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
-
-        $departament_name = [];
-        $arr = [
-            1 => 'Отдел закупок',
-            2 => 'Отдел продаж',
-            3 => 'Отдел услуг',
-        ];
-
-        foreach ($departments_type as $index => $value) {
-            $departament_name [] = $arr[$value['type_id']];
-        }
-        $departament_name = array_unique($departament_name);
-
-        $creators = TorgBuyer::where('id', $company->author_id)->get()->toArray();
-        foreach ($creators as $item) {
-            $creator = $item;
-        }
+        $creator_departament_name = $this->companyService->getContacts($company->author_id, $departments_type);
 
         return view('company.company_cont', [
             'company' => $company,
-            'creator' => $creator,
+            'creator' => $creator_departament_name["creators"],
             'company_contacts' => $company_contacts,
-            'departament_name' => $departament_name,
+            'departament_name' => $creator_departament_name['departament_name'],
             'id' => $id_company,
             'company_name' => $company_name
         ]);
