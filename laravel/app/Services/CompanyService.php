@@ -92,8 +92,10 @@ class CompanyService
         $places = TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
             ->with('traders_ports', 'regions')
             ->with('traders_ports.traders_ports_lang')
+            ->orderBy('place', 'asc')
             ->orderBy('obl_id', 'asc')
             ->get();
+        //$places = collect($places)->sortBy('traders_ports.traders_ports_lang.portname');
         //dd(\DB::getQueryLog());
 //        $places = $this->db->query("
 //      select tp.*, tpl.portname, r.name as region, r.id as region_id
@@ -131,7 +133,13 @@ class CompanyService
         $author_id = $company->author_id;
         $pricesPorts = $this->getPlaces($author_id, 2, $type);
         $pricesRegions = $this->getPlaces($author_id, 0, $type);
+
+        $pricesPorts = $this->TransformArray($pricesPorts);
+        $pricesRegions = $this->TransformArray($pricesRegions);
+
+
         $prices = $this->getPrices($author_id, $type);
+
         $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
@@ -149,14 +157,11 @@ class CompanyService
             ->with(['traders_products' => function($query) use($type, $author_id){
                 $query->with(['traders_prices' => function($query) use($type, $author_id)
                 {
-                    $query->where([['buyer_id', $author_id], ['acttype', $type]])
-                        ->with('traders_places');
-                }])
-                ;
+                    $query->where([['buyer_id', $author_id], ['acttype', $type]])->with('traders_places');
+                }]);
             }])
-            ->get();
-
-        dd($pricesRegions->toArray(), $rubrics->toArray());
+            ->get()->toArray();
+        //dd('$rubrics', $rubrics->toArray(), '$pricesPorts', $pricesPorts->toArray(), '$pricesRegions',$pricesRegions->toArray());
 //        $rubrics = $this->db->query("
 //      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
 //        from agt_traders_products2buyer c2b
@@ -167,7 +172,35 @@ class CompanyService
 //      where c2b.buyer_id = $user and c2b.acttype = $type and c2b.type_id = $placeType
 //      order by tpl.name asc");
 
-        return $rubrics;
+        foreach ($rubrics as $index => $rubric){
+            if(isset($rubrics[$index]['traders_products'][0])){
+                $rubrics[$index]['traders_products'] = $rubrics[$index]['traders_products'][0];
+            }
+
+            if(empty($rubrics[$index]['traders_products']['traders_prices'])){
+                unset($rubrics[$index]);
+            }
+        }
+
+        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name');
+
+        return ['rubrics' => $rubrics, 'pricesPorts' => $pricesPorts, 'pricesRegions' => $pricesRegions];
+    }
+    public function TransformArray($array)
+    {
+        $array = $array->toArray();
+
+        foreach($array as $index => $new_array){
+            if(isset($array[$index]['traders_ports']) and isset($array[$index]['traders_ports'][0])){
+                $array[$index]['traders_ports'] = $array[$index]['traders_ports'][0];
+                $array[$index]['traders_ports']["traders_ports_lang"] = $array[$index]['traders_ports']["traders_ports_lang"][0];
+            }
+
+            $array[$index]['regions'] = $array[$index]['regions'][0];
+
+        }
+       $array = collect($array)->sortBy('regions.name');
+        return $array;
     }
 
 

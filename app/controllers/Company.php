@@ -55,6 +55,7 @@ class Company extends \Core\Controller {
     // prices ports rubrics
     $traderPortsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 2, $type);
     // prices with ports
+
     $portsPrices   = ($pricesPorts != null) ? $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesPorts, $traderPortsPricesRubrics, $type) : null;
     // prices with regions
     $regionsPrices = $traders->getCompanyTraderPrices($this->companyItem['author_id'], $pricesRegions, $traderRegionsPricesRubrics, $type);
@@ -108,6 +109,7 @@ class Company extends \Core\Controller {
         $title = $this->companyItem['title'].": цены, контакты, отзывы";
       }
     }
+
     $this->view
          ->setTitle($title)
          ->setKeywords($this->companyItem['title'])

@@ -73,11 +73,21 @@ class CompanyController extends Controller
     {
         $company = CompItems::find($id);
 
-        //$traderRegionsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 0);
-        //$traderPortsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 2);
-        //dd($traderRegionsPricesRubrics, $traderPortsPricesRubrics);
+        $traderRegionsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 0)['rubrics'];
+        $traderPortsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 2)['rubrics'];
+        $pricesPorts = $this->companyService->getTraderPricesRubrics($id, 0)['pricesPorts'];
+        $pricesRegions = $this->companyService->getTraderPricesRubrics($id, 0)['pricesRegions'];
 
-        return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company->title]);
+        //dd($traderRegionsPricesRubrics->toArray());
+        return view('company.company', [
+            'company' => $company,
+            'id' => $id,
+            'traderRegionsPricesRubrics' => $traderRegionsPricesRubrics,
+            'traderPortsPricesRubrics' => $traderPortsPricesRubrics,
+            'pricesPorts' => $pricesPorts,
+            'pricesRegions' => $pricesRegions,
+            ]
+        );
     }
 
 

@@ -35,9 +35,9 @@ class TradersProducts extends Model
             ->toArray()[0];
     }
 
-    public function traders_prices2()
+    public function traders_prices()
     {
-        return $this->belongsTo(TradersPrices::class, 'id');
+        return $this->hasMany(TradersPrices::class, 'cult_id');
     }
 
     public function traders_product_groups_lang()
@@ -50,10 +50,7 @@ class TradersProducts extends Model
         return $this->hasMany(Traders_Products_Lang::class, 'item_id', 'id');
     }
 
-    public function traders_prices()
-    {
-        return $this->hasMany(TradersPrices::class, 'cult_id');
-    }
+
 
 
     public function traders_products2buyer()

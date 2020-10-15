@@ -69,16 +69,6 @@ class TradersPrices extends Model
         return $this->belongsTo(TradersPlaces::class, 'id');
     }
 
-//    public function traders_products()
-//    {
-//        return $this->belongsTo(TradersProducts::class, 'item_id');
-//    }
-//
-//    public function traders_products2()
-//    {
-//        return $this->hasMany(TradersProducts::class, 'cult_id');
-//    }
-
     public function traders_products()
     {
         return $this->belongsTo(TradersProducts::class, 'id');
