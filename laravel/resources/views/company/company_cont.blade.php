@@ -87,44 +87,46 @@
 
     <div class="container mb-5">
         <h2 class="mt-4">Контакты трейдера</h2>
-        {if ($company['trader_price_avail'] == 1 or $company['trader_price_sell_avail'] == 1) and $traderContacts neq null}
-        {foreach $traderContacts as $place}
+        @if(!empty($traders_contacts))
+
+        @foreach($traders_contacts as $trader_contact)
+
         <div class="content-block trader-contact py-3 px-4">
             <div class="place d-flex justify-content-between">
                 <div class="title">
-                    <span>{$place['name']}</span>
+                    <span>{{ $trader_contact['name'] }}</span>
                 </div>
             </div>
             <div class="contacts mt-4">
-                {foreach $place['contacts'] as $contact}
+                @foreach($trader_contact['traders_contacts'] as $contact_trader)
                 <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">
-                    {if $contact['dolg'] neq null or $contact['fio'] neq null}
+                    @if(!is_null($contact_trader['dolg']) || !is_null($contact_trader['fio']))
                     <div class="row m-0 px-3 px-sm-0">
                         <div class="col p-0">
-                            {if $contact['dolg'] neq null}<b>{$contact['dolg']|strip_tags}:</b>{/if}{if $detect->isMobile()}<br>{/if} &nbsp;<span class="name">{if $contact['fio'] neq null}{$contact['fio']|strip_tags}{/if}</span>
+                            @if(!is_null($contact_trader['dolg']))<b>{{ $contact_trader['dolg'] }}</b>@endif <span class="name">@if(!is_null($contact_trader['fio'])){{ $contact_trader['fio'] }} @endif</span>
                         </div>
                     </div>
-                    {/if}
+                    @endif
                     <div class="row m-0 justify-content-center">
                         <div class="col-auto pr-2 text-center">
-                            <span class="phone">{if $contact['phone'] neq null}{$contact['phone']|strip_tags}{/if}</span>
+                            <b>Телефон:</b> <span class="phone">@if(!is_null($contact_trader['phone'])) {{ $contact_trader['phone'] }} @endif</span>
                         </div>
-                        {if $contact['email'] neq null}
+                        @if( !empty($contact_trader['email'] && !is_null($contact_trader['email'])))
                         <div class="col-auto pl-2 text-center">
-                            <b>Email:</b> &nbsp;<span class="email">{if $contact['email'] neq null}{$contact['email']|strip_tags}{/if}</span>
+                            <b>Email:</b> &nbsp;<span class="email">@if(!is_null($contact_trader['email'])) {{ $contact_trader['email'] }} @endif</span>
                         </div>
-                        {/if}
+                        @endif
                     </div>
                 </div>
-                {/foreach}
+                @endforeach
             </div>
         </div>
-        {/foreach}
-        {else}
+            @endforeach
+        @else
         <div class="content-block trader-contact py-3 px-4 text-center">
             <b>Список контактов пуст :(</b>
         </div>
-        {/if}
+        @endif
     </div>
 
 @endsection
