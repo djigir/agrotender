@@ -2,6 +2,7 @@
 
 namespace App\Models\Traders;
 
+use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPrices;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +36,16 @@ class TradersPlaces extends Model
     public function traders_prices()
     {
         return $this->hasMany(TradersPrices::class, 'place_id');
+    }
+
+
+    public function traders_ports()
+    {
+        return $this->hasMany(TradersPorts::class, 'id', 'port_id');
+    }
+
+    public function regions()
+    {
+        return $this->hasMany(Regions::class, 'id', 'obl_id');
     }
 }

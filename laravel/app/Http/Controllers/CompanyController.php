@@ -54,11 +54,11 @@ class CompanyController extends Controller
 
 
         return view('company.companies', [
-            'companies' => $companies,
-            'settings_for_page' => $companies,
-            'regions' => $regions,
-            'rubricGroups' => $groups,
-            'search' => $search
+                'companies' => $companies,
+                'settings_for_page' => $companies,
+                'regions' => $regions,
+                'rubricGroups' => $groups,
+                'search' => $search
             ]
         );
     }
@@ -72,11 +72,13 @@ class CompanyController extends Controller
      */
     public function company($id)
     {
-        $company_name = CompItems::find($id)->value('title');
         $company = CompItems::find($id);
-        $this->companyService->getTraderPricesRubrics($id);
 
-        return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company_name]);
+        //$traderRegionsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 0);
+        //$traderPortsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 2);
+        //dd($traderRegionsPricesRubrics, $traderPortsPricesRubrics);
+
+        return view('company.company', ['company' => $company, 'id' => $id, 'company_name' => $company->title]);
     }
 
 
@@ -183,11 +185,11 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies(null, null, $search);
 
         return view('company.company_filter', [
-            'search' => $search,
-            'companies' => $companies,
-            'rubricGroups' => $groups,
-            'settings_for_page' => $companies,
-            'regions' => $regions]
+                'search' => $search,
+                'companies' => $companies,
+                'rubricGroups' => $groups,
+                'settings_for_page' => $companies,
+                'regions' => $regions]
         );
     }
 

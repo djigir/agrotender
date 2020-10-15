@@ -3,6 +3,7 @@
 namespace App\Models\Regions;
 
 use App\Models\Comp\CompItems;
+use App\Models\Traders\TradersPlaces;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -31,4 +32,9 @@ class Regions extends Model
         'city_parental',
         'translit',
     ];
+
+    public function traders_places()
+    {
+        return $this->belongsTo(TradersPlaces::class, 'obl_id', 'id');
+    }
 }

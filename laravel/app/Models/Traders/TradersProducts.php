@@ -31,24 +31,13 @@ class TradersProducts extends Model
     public function getCultureAttribute()
     {
         return $this->traders_products_lang()
-            ->select('id', 'item_id', 'name')
             ->get()
             ->toArray()[0];
-    }
-
-
-    public function traders_prices()
-    {
-        return $this->hasMany(TradersPrices::class, 'cult_id');
     }
 
     public function traders_prices2()
     {
         return $this->belongsTo(TradersPrices::class, 'id');
-    }
-    public function traders_places()
-    {
-
     }
 
     public function traders_product_groups_lang()
@@ -58,16 +47,17 @@ class TradersProducts extends Model
 
     public function traders_products_lang()
     {
-        return $this->hasMany(Traders_Products_Lang::class, 'item_id');
+        return $this->hasMany(Traders_Products_Lang::class, 'item_id', 'id');
     }
 
-    public function comp_items()
+    public function traders_prices()
     {
-
+        return $this->hasMany(TradersPrices::class, 'cult_id');
     }
+
 
     public function traders_products2buyer()
     {
-        return $this->belongsTo(Traders_Products2buyer::class,'cult_id');
+        return $this->belongsTo(TradersProducts2buyer::class,'cult_id', 'id');
     }
 }

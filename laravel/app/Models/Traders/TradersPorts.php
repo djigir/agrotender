@@ -29,4 +29,10 @@ class TradersPorts extends Model
     {
         return $this->hasMany(TradersPortsLang::class, 'port_id');
     }
+
+    public function traders_places()
+    {
+        return $this->belongsTo(TradersPortsLang::class, 'port_id', 'id');
+    }
+
 }
