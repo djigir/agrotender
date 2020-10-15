@@ -207,6 +207,9 @@ class Company extends \Core\Controller {
     }
     // get reviews list
     $reviews = $this->user->getReviews(1, null, $this->companyItem['id']);
+      echo '<pre>';
+      var_dump($reviews);
+      echo '</pre>';die();
     // display page
     $this->view
          ->setTitle("Отзывы о {$this->companyItem['title']} на сайте Agrotender")

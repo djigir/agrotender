@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Traders;
 
+use App\Models\Traders\TradersContactsRegions;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -31,4 +32,9 @@ class TradersContacts extends Model
         'fax',
         'email',
     ];
+
+    public function traders_contacts_regions()
+    {
+        return $this->belongsTo(TradersContactsRegions::class, 'id');
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Traders;
 
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;

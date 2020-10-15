@@ -1,7 +1,9 @@
 @extends('layout.layout')
 
 @section('content')
+
     @include('company.company-header')
+
     <div class="container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
             <div class="col-4 d-block">
@@ -15,7 +17,7 @@
         </div>
     </div>
     <div class="container mb-5">
-        @forelse($reviews as $review)
+        @forelse($reviews_with_comp as $review)
         <div class="content-block mt-4 review pt-3 mx-0 mx-sm-5">
             <div class="row comment-row px-3" review-id="{{ $review['id'] }}">
                 <div class="col-12">
@@ -28,21 +30,18 @@
             <div class="row m-0 px-3">
 
                 <div class="col-auto pl-0">
-                    <img src="@if(is_null($company->logo_file) || $company->logo_file !== '')/app/assets/img/noavatar.png @else/{{ $company->logo_file }} @endif" class="avatar">
+                    <img src="@if(isset($review['logo_file'])) {{ $review['logo_file'] }} @else /app/assets/img/noavatar.png   @endif" class="avatar">
                 </div>
                 <div class="col pl-0">
                     <div class="row m-0 align-items-center">
                         <div class="col p-0">
-                            @foreach($company_reviews as $company_review)
 
-                            @if(!is_null($company_reviews))
-                                {{-- переделать через роут --}}
-                                 <a href="/kompanii/comp-{{ $company_review['id'] }}" target="_blank">{{ $company_review['title'] }}</a>
+                            @if(isset($review['title']))
+                                 <a href="{{ route('company.company', $review['comp_id']) }}" target="_blank">{{ $review['title'] }}</a>
                             @else
                                 <span class="author">{{ $review['author'] }}</span>
                             @endif
 
-                            @endforeach
 
                             {{-- доделать когда будет авторизация --}}
                             {{--{if $company['id'] == $user->company['id']}
@@ -75,7 +74,8 @@
                 <p class="review-content">{{ $review['comp_comment_lang']['content_minus'] }}</p>
                 @endif
 
-                {{--@if(!is_null($review['comment']) && $review['comment'] !== '')
+                {{-- найти коментарий компании
+                @if(!is_null($review['comment']) && $review['comment'] !== '')
 
                 @endif--}}
             </div>
@@ -86,7 +86,7 @@
             </div>
             {/if}--}}
         </div>
-{{--        @endforeach--}}
+
         @empty
         <div class="content-block mt-4 review py-3 px-4 mx-0 mx-sm-5 text-center">
             <b>У компании ещё нет ни одного отзыва.</b>
@@ -95,6 +95,7 @@
         </div>
         @endforelse
     </div>
+
     @auth()
     <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
@@ -139,55 +140,5 @@
         </div>
     </div>
     @endauth
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    {{--<div class="container">
-        <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
-            <div class="col-4 d-block">
-                <h2 class="d-inline-block text-uppercase">Отзывы</h2>
-            </div>
-            <div class="col-8 text-center text-md-right">
-                <a href="#" class="top-btn btn btn-primary align-bottom addReview">
-                    <span class="pl-1 pr-1">Оставить отзыв</span>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="container mb-5">
-        <div class="content-block mt-4 review py-3 px-4 mx-0 mx-sm-5 text-center">
-            <b>У компании ещё нет ни одного отзыва.</b>
-            <br>
-            <b>Ваш может стать первым!</b>
-        </div>
-    </div>--}}
 
 @endsection

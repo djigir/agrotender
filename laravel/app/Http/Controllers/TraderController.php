@@ -16,7 +16,7 @@ use App\Models\Comp\CompTopic;
 
 use App\Services\BaseServices;
 use App\Services\CompanyService;
-use App\Services\TraderService;
+use App\Services\Traders\TraderService;
 use Illuminate\Http\Request;
 
 class TraderController extends Controller

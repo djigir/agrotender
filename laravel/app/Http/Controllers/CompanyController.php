@@ -10,6 +10,7 @@ use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 
+use App\Models\Traders\TradersContactsRegions;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -222,34 +223,40 @@ class CompanyController extends Controller
      */
     public function company_reviews($id_company)
     {
-        $company_reviews = null;
 
         $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
-        $reviews = CompComment::where('item_id', $id_company)->with('comp_comment_lang')->orderBy('id', 'desc')->get()->toArray();
+        $reviews_with_comp = CompComment::where('item_id', $id_company)
+            ->join('comp_items', 'comp_comment.author_id', '=', 'comp_items.author_id')
+            ->select('comp_comment.id',
+                'comp_comment.item_id',
+                'comp_comment.author_id as comp_author_id',
+                'comp_items.author_id',
+                'comp_comment.author',
+                'comp_items.title',
+                'comp_comment.rate',
+                'comp_items.logo_file',
+                'comp_items.id as comp_id'
+            )
+            ->with('comp_comment_lang')
+            ->orderBy('comp_comment.id', 'desc')
+            ->get()
+            ->toArray();
 
-        $reviews_authors = [];
-        foreach ($reviews as $review) {
-            $reviews_authors [] = $review['author_id'];
+        if (empty($reviews_with_comp)) {
+            $reviews = CompComment::where('item_id', $id_company)
+                ->with('comp_comment_lang')
+                ->orderBy('comp_comment.id', 'desc')
+                ->get()
+                ->toArray();
+            $reviews_with_comp = $reviews;
         }
 
-        $count = count($reviews_authors);
-
-        for ($i = 0; $i < $count; $i++) {
-            $company_reviews = CompItems::where('author_id', $reviews_authors[$i])->get();
-        }
-
-//        dd($company_reviews);
-        /*
-         * https://agrotender.com.ua/kompanii/comp-820-reviews
-         * https://agrotender.com.ua/kompanii/comp-1119-reviews
-         * */
         return view('company.company_reviews',
             [
-                'reviews' => $reviews,
+                'reviews_with_comp' => $reviews_with_comp,
                 'company' => $company,
                 'id' => $id_company,
-                'company_reviews' => $company_reviews,
                 'company_name' => $company_name,
             ]);
     }
@@ -268,16 +275,21 @@ class CompanyController extends Controller
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
         $creator_departament_name = $this->companyService->getContacts($company->author_id, $departments_type);
 
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id_company)
+            ->with('traders_contacts')
+            ->get()
+            ->toArray();
+
         return view('company.company_cont', [
             'company' => $company,
             'creator' => $creator_departament_name["creators"],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
+            'traders_contacts' => $traders_contacts,
             'id' => $id_company,
             'company_name' => $company_name
         ]);
     }
-
 
 
     /**
