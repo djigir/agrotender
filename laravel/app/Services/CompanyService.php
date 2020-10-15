@@ -10,7 +10,9 @@ use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
-use App\Models\Traders\Traders_Products2buyer;
+use App\Models\Traders\TradersPlaces;
+use App\Models\Traders\TradersPrices;
+use App\Models\Traders\TradersProducts2buyer;
 use Symfony\Component\HttpFoundation\Request;
 
 class CompanyService
@@ -85,18 +87,76 @@ class CompanyService
 //        }
         return $pricesArr;
     }
+    public function getPlaces($author_id, $placeType, $type) {
+        //\DB::enableQueryLog();
+        $places = TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
+            ->with('traders_ports', 'regions')
+            ->with('traders_ports.traders_ports_lang')
+            ->orderBy('obl_id', 'asc')
+            ->get();
+        //dd(\DB::getQueryLog());
+//        $places = $this->db->query("
+//      select tp.*, tpl.portname, r.name as region, r.id as region_id
+//        from agt_traders_places tp
+//        left join agt_traders_ports tpo
+//          on tpo.id = tp.port_id
+//        left join agt_traders_ports_lang tpl
+//          on tpl.port_id = tpo.id
+//        left join regions r
+//          on r.id = tp.obl_id
+//      where tp.buyer_id = $user and tp.acttype = $type and tp.type_id = $placeType
+//      order by tp.obl_id asc, tpl.portname asc");
 
+        return $places;
+    }
 
-    public function getTraderPricesRubrics($id) {
+    public function getPrices($author_id, $type) {
+        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])->get();
+        $prices = collect($prices)->groupBy('place_id');
+
+        foreach ($prices as $index => $price){
+            $prices[$index] = $prices[$index]->groupBy('cult_id');
+            foreach ($prices[$index] as $index_cult => $cult){
+                $prices[$index][$index_cult] = $prices[$index][$index_cult][0];
+            }
+        }
+
+        return $prices;
+    }
+    public function getTraderPricesRubrics($id, $placeType)
+    {
+        $type= 0;
         $placeType = 0;
-        $type = 0;
-        $author_id = CompItems::find($id)->value('author_id');
-        $rubrics = Traders_Products2buyer::
-            with(['traders_products'])
-            ->where([['buyer_id', $author_id], ['acttype', 0], ['type_id', 0]])
-            ->get()->toArray();
+        $company = CompItems::where('id', $id)->get()->first();
+        $author_id = $company->author_id;
+        $pricesPorts = $this->getPlaces($author_id, 2, $type);
+        $pricesRegions = $this->getPlaces($author_id, 0, $type);
+        $prices = $this->getPrices($author_id, $type);
+        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
+        $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
-        //dd($rubrics);
+        if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
+            $type = 1;
+            $trader = 1;
+        }
+
+        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+            $type = 0;
+            $trader = 1;
+        }
+
+        $rubrics = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', 0], ['type_id', $placeType]])
+            ->with(['traders_products' => function($query) use($type, $author_id){
+                $query->with(['traders_prices' => function($query) use($type, $author_id)
+                {
+                    $query->where([['buyer_id', $author_id], ['acttype', $type]])
+                        ->with('traders_places');
+                }])
+                ;
+            }])
+            ->get();
+
+        dd($pricesRegions->toArray(), $rubrics->toArray());
 //        $rubrics = $this->db->query("
 //      select distinct c2b.sort_ind, c2b.id as b2id, tp.*, tpl.name
 //        from agt_traders_products2buyer c2b
@@ -126,12 +186,12 @@ class CompanyService
         $obl_id = Regions::where('translit', $region)->value('id');
 
         $companies = CompItems::
-            where([[function ($query) use($region, $obl_id){
-                if($region != 'ukraine' and $region != null)
-                    $query->where('obl_id', '=', $obl_id);
-            }]])->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
-                'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
-                'trader_price_visible', 'phone', 'phone2', 'phone3')
+        where([[function ($query) use($region, $obl_id){
+            if($region != 'ukraine' and $region != null)
+                $query->where('obl_id', '=', $obl_id);
+        }]])->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
+            'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
+            'trader_price_visible', 'phone', 'phone2', 'phone3')
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
             ->paginate(self::PER_PAGE);
@@ -142,12 +202,12 @@ class CompanyService
                 ->where([['comp_item2topic.topic_id', $rubric], [function ($query) use($region, $obl_id){
                     if($region != 'ukraine' and $region != null)
                         $query->where('comp_items.obl_id', '=', $obl_id);
-            }]])
+                }]])
                 ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
                     'comp_items.obl_id', 'comp_items.logo_file',
                     'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
                     'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3'
-                    )
+                )
                 ->orderBy('comp_items.trader_premium', 'desc')
                 ->orderBy('comp_items.rate_formula', 'desc')
                 ->paginate(self::PER_PAGE);

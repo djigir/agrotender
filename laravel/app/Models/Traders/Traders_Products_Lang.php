@@ -38,7 +38,7 @@ class Traders_Products_Lang extends Model
 
     public function traders_products()
     {
-        return $this->hasMany(TradersProducts::class, 'id');
+        return $this->hasMany(TradersProducts::class, 'id', 'item_id');
     }
 
     public function traders_prices()

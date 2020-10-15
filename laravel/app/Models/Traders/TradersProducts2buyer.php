@@ -14,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @param integer  $sort_ind;
  * @param integer $acttype;
  */
-class Traders_Products2buyer extends Model
+class TradersProducts2buyer extends Model
 {
     protected $table = 'traders_products2buyer';
 
@@ -29,6 +29,6 @@ class Traders_Products2buyer extends Model
 
     public function traders_products()
     {
-        return $this->hasMany(TradersProducts::class,'id');
+        return $this->hasMany(TradersProducts::class,'id', 'cult_id');
     }
 }
