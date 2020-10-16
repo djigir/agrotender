@@ -131,9 +131,6 @@ class Traders extends \Core\Model {
         $places[$key]['contacts'] = $contacts;
       }
     }
-      /*echo '<pre>';
-       var_dump($place['id']);
-       echo '</pre>';die();*/
     return $places;
   }
 
@@ -1019,7 +1016,8 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
-/*      echo '<pre>';
+
+      /*echo '<pre>';
       var_dump($traders);
       print_r($traders);
       echo '</pre>';die();*/

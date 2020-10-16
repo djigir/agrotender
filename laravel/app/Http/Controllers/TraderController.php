@@ -47,11 +47,17 @@ class TraderController extends Controller
     public function region(Request  $request, $region)
     {
 
-        // СВЯЗКА ТОВАРА С ЦЕНОЙ БЕЗ УСЛОВИЯ !
-
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
+
+        $traders = CompItems::where('trader_premium', 1)
+            ->where('trader_price_avail', 1)
+            ->where('trader_price_visible')
+            ->where('visible', 1)
+            ->get();
+
+        dd($traders);
 
         return view('traders.traders_regions'
             ,[

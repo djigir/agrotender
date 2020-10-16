@@ -73,7 +73,6 @@ class CompanyController extends Controller
     public function company($id)
     {
         $company = CompItems::find($id);
-
         $traderRegionsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 0)['rubrics'];
         $traderPortsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 2)['rubrics'];
         //dd($traderRegionsPricesRubrics->toArray(), $traderPortsPricesRubrics->toArray());
