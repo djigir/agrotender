@@ -77,7 +77,7 @@ class CompanyController extends Controller
         $RegionsPricesRubrics = $this->companyService->getTraderRegionsPricesRubrics($id, 0);
         $PortsPricesRubrics = $this->companyService->getTraderPortsPricesRubrics($id, 2);
 
-        //dd($RegionsPricesRubrics->toArray());
+        dd($RegionsPricesRubrics->toArray());
 
         return view('company.company', [
                 'company' => $company,
