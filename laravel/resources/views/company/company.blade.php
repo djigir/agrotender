@@ -30,7 +30,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {{dd($PortsPricesRubrics)}}
+{{--                        {{dd($RegionsPricesRubrics)}}--}}
                         @foreach($PortsPricesRubrics as $id_ppr => $data_port)
                             <tr>
                                 <td place="6603" class="py-1">
