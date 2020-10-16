@@ -76,18 +76,14 @@ class CompanyController extends Controller
 
         $traderRegionsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 0)['rubrics'];
         $traderPortsPricesRubrics = $this->companyService->getTraderPricesRubrics($id, 2)['rubrics'];
-        //dd($traderRegionsPricesRubrics->toArray(), $traderPortsPricesRubrics->toArray());
-        $pricesPorts = $this->companyService->getTraderPricesRubrics($id, 0)['pricesPorts'];
-        $pricesRegions = $this->companyService->getTraderPricesRubrics($id, 0)['pricesRegions'];
 
-        //dd($traderRegionsPricesRubrics->toArray());
+        dd($traderRegionsPricesRubrics->toArray(), $traderPortsPricesRubrics->toArray());
+
         return view('company.company', [
             'company' => $company,
             'id' => $id,
             'traderRegionsPricesRubrics' => $traderRegionsPricesRubrics,
             'traderPortsPricesRubrics' => $traderPortsPricesRubrics,
-            'pricesPorts' => $pricesPorts,
-            'pricesRegions' => $pricesRegions,
             ]
         );
     }

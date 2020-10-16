@@ -113,32 +113,25 @@ class CompanyService
 
         return $prices;
     }
+
     public function getTraderPricesRubrics($id, $placeType)
     {
-        $type= 0;
-        $placeType = 0;
+        $type = 0;
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company->author_id;
         $pricesPorts = $this->getPlaces($author_id, 2, $type);
         $pricesRegions = $this->getPlaces($author_id, 0, $type);
-        //dd($pricesPorts->toArray(), $pricesRegions->toArray());
-        $pricesPorts = $this->TransformArray($pricesPorts);
-        $pricesRegions = $this->TransformArray($pricesRegions);
-
-
         $prices = $this->getPrices($author_id, $type);
-        //dd($prices->toArray());
+
         $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
-            $trader = 1;
         }
 
         if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
             $type = 0;
-            $trader = 1;
         }
 
         $rubrics = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
@@ -153,35 +146,37 @@ class CompanyService
             }])
             ->get()->toArray();
 
-        foreach ($rubrics as $index => $rubric){
-            if(isset($rubrics[$index]['traders_products'][0])){
-                $rubrics[$index]['traders_products'] = $rubrics[$index]['traders_products'][0];
-            }
+        $rubrics = $this->change_array($rubrics);
 
-            if(empty($rubrics[$index]['traders_products']['traders_prices'])){
-                unset($rubrics[$index]);
-            }
-        }
-
-        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name');
 
         return ['rubrics' => $rubrics, 'pricesPorts' => $pricesPorts, 'pricesRegions' => $pricesRegions];
     }
-    public function TransformArray($array)
+    public function change_array($rubrics)
     {
-        $array = $array->toArray();
-
-        foreach($array as $index => $new_array){
-            if(isset($array[$index]['traders_ports']) and isset($array[$index]['traders_ports'][0])){
-                $array[$index]['traders_ports'] = $array[$index]['traders_ports'][0];
-                $array[$index]['traders_ports']["traders_ports_lang"] = $array[$index]['traders_ports']["traders_ports_lang"][0];
+        foreach ($rubrics as $index => $rubric){
+            if(!empty($rubrics[$index]['traders_products'])){
+                $rubrics[$index]['traders_products'] = $rubrics[$index]['traders_products'][0];
             }
 
-            $array[$index]['regions'] = $array[$index]['regions'][0];
+            $rubrics[$index]['culture'] = $rubrics[$index]['traders_products']['culture'];
+            $rubrics[$index]['traders_prices'] = $rubrics[$index]['traders_products']['traders_prices'];
 
+            unset($rubrics[$index]['traders_products']['culture']);
+            unset($rubrics[$index]['traders_products']['traders_prices']);
+
+            foreach ($rubrics[$index]["traders_prices"] as $inxex_r => $rubric_price){
+                if(!empty($rubric_price['traders_places'])){
+                    foreach ($rubric_price['traders_places'] as $index_p => $places){
+                        $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'] = $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'][0];
+                    }
+                }else{
+                    unset($rubrics[$index]["traders_prices"][$inxex_r]);
+                }
+            }
         }
-       $array = collect($array)->sortBy('regions.name');
-        return $array;
+
+        $rubrics = collect($rubrics)->sortBy('culture.name');
+        return $rubrics;
     }
 
 
