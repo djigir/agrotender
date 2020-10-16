@@ -114,6 +114,71 @@ class CompanyService
         return $prices;
     }
 
+
+    public function getTraderRegionsPricesRubrics($id, $placeType)
+    {
+        $trader_regions = $this->getTraderPricesRubrics($id, $placeType);
+
+        foreach ($trader_regions as $index => $port){
+            if(!empty($port['traders_products'])){
+                $trader_regions[$index]['traders_products'] = $trader_regions[$index]['traders_products'][0];
+                $trader_regions[$index]['culture'] = $trader_regions[$index]['traders_products']['culture'];
+                unset( $trader_regions[$index]['traders_products']['culture']);
+
+                if(!empty($trader_regions[$index]['traders_products']['traders_prices'])){
+                    foreach ($trader_regions[$index]['traders_products']['traders_prices'] as $index_pr => $prices){
+                        if(empty($prices['traders_places'])){
+                            unset($trader_regions[$index]['traders_products']['traders_prices'][$index_pr]);
+                        }
+                    }
+                }else{
+                    unset($trader_regions[$index]);
+                }
+
+            }else{
+                unset($trader_regions[$index]);
+            }
+
+        }
+        $trader_regions = collect($trader_regions)->sortBy('culture.name');
+
+        return $trader_regions;
+    }
+
+
+    public function getTraderPortsPricesRubrics($id, $placeType)
+    {
+        $trader_ports = $this->getTraderPricesRubrics($id, $placeType);
+
+        foreach ($trader_ports as $index => $port){
+            if(!empty($port['traders_products'])){
+                $trader_ports[$index]['traders_products'] = $trader_ports[$index]['traders_products'][0];
+                $trader_ports[$index]['culture'] = $trader_ports[$index]['traders_products']['culture'];
+                unset( $trader_ports[$index]['traders_products']['culture']);
+
+                if(!empty($trader_ports[$index]['traders_products']['traders_prices'])){
+                    foreach ($trader_ports[$index]['traders_products']['traders_prices'] as $index_pr => $prices){
+                        if(empty($prices['traders_places'])){
+                            unset($trader_ports[$index]['traders_products']['traders_prices'][$index_pr]);
+                        }
+                    }
+                }else{
+                    unset($trader_ports[$index]);
+                }
+
+            }else{
+                unset($trader_ports[$index]);
+            }
+
+        }
+        $trader_ports = collect($trader_ports)->sortBy('culture.name');
+
+        //dd($trader_ports->toArray());
+
+        return $trader_ports;
+    }
+
+
     public function getTraderPricesRubrics($id, $placeType)
     {
         $type = 0;
@@ -146,36 +211,41 @@ class CompanyService
             }])
             ->get()->toArray();
 
-        $rubrics = $this->change_array($rubrics);
+        //$rubrics = $this->change_array($rubrics);
 
 
-        return ['rubrics' => $rubrics, 'pricesPorts' => $pricesPorts, 'pricesRegions' => $pricesRegions];
+        return $rubrics;
     }
     public function change_array($rubrics)
     {
         foreach ($rubrics as $index => $rubric){
+
             if(!empty($rubrics[$index]['traders_products'])){
                 $rubrics[$index]['traders_products'] = $rubrics[$index]['traders_products'][0];
+                $rubrics[$index]['culture'] = $rubrics[$index]['traders_products']['culture'];
+                $rubrics[$index]['traders_prices'] = $rubrics[$index]['traders_products']['traders_prices'];
             }
-
-            $rubrics[$index]['culture'] = $rubrics[$index]['traders_products']['culture'];
-            $rubrics[$index]['traders_prices'] = $rubrics[$index]['traders_products']['traders_prices'];
 
             unset($rubrics[$index]['traders_products']['culture']);
             unset($rubrics[$index]['traders_products']['traders_prices']);
 
-            foreach ($rubrics[$index]["traders_prices"] as $inxex_r => $rubric_price){
-                if(!empty($rubric_price['traders_places'])){
-                    foreach ($rubric_price['traders_places'] as $index_p => $places){
-                        $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'] = $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'][0];
+            if(isset($rubrics[$index]["traders_prices"])){
+                foreach ($rubrics[$index]["traders_prices"] as $inxex_r => $rubric_price){
+                    if(!empty($rubric_price['traders_places'])){
+                        foreach ($rubric_price['traders_places'] as $index_p => $places){
+                            $rubrics[$index]['traders_places'] = array_unique($rubrics[$index]["traders_prices"][$inxex_r]['traders_places']);
+                            $rubrics[$index]['traders_places'][$index_p]['regions'] = $rubrics[$index]['traders_places'][$index_p]['regions'][0];
+    //                        $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'] = $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'][0];
+                        }
+                    }else{
+                        unset($rubrics[$index]["traders_prices"][$inxex_r]);
                     }
-                }else{
-                    unset($rubrics[$index]["traders_prices"][$inxex_r]);
                 }
             }
         }
 
         $rubrics = collect($rubrics)->sortBy('culture.name');
+
         return $rubrics;
     }
 
