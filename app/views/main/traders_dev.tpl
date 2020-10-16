@@ -1398,11 +1398,11 @@
 </div>
 {/if}
 <div class="new_container container mt-3 traders_dev">
+
   {foreach from=$traders item=group}
     <div class="new_traders ">
       {foreach name=group from=$group item=trader}
       <div class="traders__item-wrap">
-        
         <a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
           <div class="traders__item__header">
             <img class="traders__item__image" src="/{$trader['logo']}" alt="">

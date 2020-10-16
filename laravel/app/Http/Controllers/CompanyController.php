@@ -80,10 +80,10 @@ class CompanyController extends Controller
         dd($RegionsPricesRubrics->toArray());
 
         return view('company.company', [
-            'company' => $company,
-            'id' => $id,
-            'RegionsPricesRubrics' => $RegionsPricesRubrics,
-            'PortsPricesRubrics' => $PortsPricesRubrics,
+                'company' => $company,
+                'id' => $id,
+                'RegionsPricesRubrics' => $RegionsPricesRubrics,
+                'PortsPricesRubrics' => $PortsPricesRubrics,
             ]
         );
     }

@@ -131,9 +131,6 @@ class Traders extends \Core\Model {
         $places[$key]['contacts'] = $contacts;
       }
     }
-      /*echo '<pre>';
-       var_dump($place['id']);
-       echo '</pre>';die();*/
     return $places;
   }
 
@@ -926,7 +923,6 @@ class Traders extends \Core\Model {
       group by ci.id
       order by rand()
       limit $count");
-
     foreach ($traders as $key => $value) {
       $query = "
           select tp_l.name as rubric, tpr.id, round(tpr.costval) as price, round(tpr.costval - tpa.costval) as price_diff, round(tpa.costval) as old_price, tpr.place_id, tpr.curtype as currency, tp_l.name as title,
@@ -958,7 +954,7 @@ class Traders extends \Core\Model {
       $traders[$key]['date'] = $this->db->query("select date_format(dt, '%d.%m.%Y') as updateDate from agt_traders_prices where buyer_id = {$value['author_id']} && acttype = $typeInt order by dt desc")[0]['updateDate'] ?? null;
       $traders[$key]['date2'] = $this->db->query("select date_format(dt, '%d %b') as updateDate from agt_traders_prices where buyer_id = {$value['author_id']} && acttype = $typeInt order by dt desc")[0]['updateDate'] ?? null;
     }
-    return $traders;
+      return $traders;
   }
 
 
@@ -1019,11 +1015,7 @@ select ci.id, ci.title, ci.logo_file as logo, ci.author_id, ci.trader_premium{$t
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
-/*      echo '<pre>';
-      var_dump($traders);
-      print_r($traders);
-      echo '</pre>';die();*/
-    // group by
+      // group by
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {
       $groupBy = 'tpl.obl_id';
@@ -1172,7 +1164,6 @@ $sql = "
       group by ci.id
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
-
     // group by
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {
