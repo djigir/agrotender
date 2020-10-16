@@ -21,13 +21,10 @@ class Traders_Products_Lang extends Model
 
     protected $fillable = [
         'id',
-        'port_id',
+        'item_id',
         'lang_id',
-        'portname',
-        'p_title',
-        'p_h1',
-        'p_descr',
-        'p_content',
+        'name',
+        'descr',
     ];
 
 
@@ -43,7 +40,7 @@ class Traders_Products_Lang extends Model
 
     public function traders_prices()
     {
-        return $this->hasMany(TradersPrices::class, 'cult_id');
+        return $this->hasMany(TradersPrices::class, 'cult_id', 'item_id');
     }
 }
 

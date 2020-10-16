@@ -18,6 +18,7 @@ use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\Traders\TraderService;
 use Illuminate\Http\Request;
+use SebastianBergmann\CodeCoverage\TestFixture\C;
 
 class TraderController extends Controller
 {
@@ -44,26 +45,64 @@ class TraderController extends Controller
     }
 
 
-    public function region(Request  $request, $region)
+    public function region(Request $request, $region)
     {
 
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
 
-        $traders = CompItems::where('trader_premium', 1)
+        $top_traders = CompItems:://join('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
+              where('trader_premium', 1)
             ->where('trader_price_avail', 1)
-            ->where('trader_price_visible')
+            ->where('trader_price_visible', 1)
             ->where('visible', 1)
+//            ->select(
+//                'comp_items.id',
+//                'comp_items.topic_id',
+//                'comp_items.obl_id',
+//                'comp_items.ray_id',
+//                'comp_items.type_id',
+//                'comp_items.author_id',
+//                'comp_items.city',
+//                'comp_items.title',
+//                'comp_items.logo_file',
+//                'comp_items.logo_file',
+//
+//                'traders_prices.buyer_id',
+//                'traders_prices.cult_id',
+//                'traders_prices.place_id',
+//                'traders_prices.active',
+//                'traders_prices.curtype',
+//                'traders_prices.acttype',
+//                'traders_prices.costval',
+//                'traders_prices.costval_old',
+//                'traders_prices.change_date',
+//                'traders_prices.dt'
+//            )
+            ->groupBy('id')
+            ->get();
+        dd($top_traders->toArray());
+
+        $traders = CompItems::where('trader_premium', 0)
+            ->where('trader_price_avail', 1)
+            ->where('trader_price_visible', 1)
+            ->where('visible', 1)
+            ->groupBy('id')
             ->get();
 
-        dd($traders);
+
+
+//        dd($prices);
 
         return view('traders.traders_regions'
             ,[
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
                 'regions' => $regions,
+                'top_traders' => $top_traders,
+                'traders' => $traders,
+                'prices' => $prices,
 //                'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,

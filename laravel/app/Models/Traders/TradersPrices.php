@@ -56,12 +56,12 @@ class TradersPrices extends Model
 
     public function product_lang()
     {
-        return $this->belongsTo(Traders_Products_Lang::class, 'item_id');
+        return $this->belongsTo(Traders_Products_Lang::class, 'item_id', 'cult_id');
     }
 
     public function compItems()
     {
-        return $this->hasMany(CompItems::class, 'author_id');
+        return $this->belongsTo(CompItems::class, 'author_id');
     }
 
     public function traders_places()
