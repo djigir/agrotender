@@ -79,10 +79,19 @@ class TraderController extends Controller
 //                'traders_prices.costval_old',
 //                'traders_prices.change_date',
 //                'traders_prices.dt'
-//            )
+//            )->select('author_id')
             ->groupBy('id')
-            ->get();
-        dd($top_traders->toArray());
+            ->select('id', 'title', 'author_id', 'logo_file')
+            ->get()
+            ->toArray();
+
+        foreach ($top_traders as $index => $top_trader) {
+            $top_traders[$index]['trader_cultures'] = [];
+            $top_traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($top_trader['id'], 0)->toArray();
+            if (empty($top_traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($top_trader['id'], 0)->toArray())){
+                unset($top_traders[$index]);
+            }
+        }
 
         $traders = CompItems::where('trader_premium', 0)
             ->where('trader_price_avail', 1)
@@ -91,9 +100,14 @@ class TraderController extends Controller
             ->groupBy('id')
             ->get();
 
+        foreach ($traders as $index => $trader) {
+            $traders[$index]['trader_cultures'] = [];
+            $traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($trader['id'], 0)->toArray();
+            if (empty($traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($trader['id'], 0)->toArray())){
+                unset($traders[$index]);
+            }
 
-
-//        dd($prices);
+        }
 
         return view('traders.traders_regions'
             ,[
@@ -102,7 +116,6 @@ class TraderController extends Controller
                 'regions' => $regions,
                 'top_traders' => $top_traders,
                 'traders' => $traders,
-                'prices' => $prices,
 //                'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,

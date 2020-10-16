@@ -40,85 +40,76 @@
             @foreach($top_traders as $top_trader)
                 <div class="traders__item-wrap">
 
-                    <a href="{{ route('company.company', $top_trader->id) }}" class="traders__item  yellow">
+                    <a href="{{ route('company.company', $top_trader['id']) }}" class="traders__item  yellow">
                         <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
-                            <img class="traders__item__image" src="{{ $top_trader->logo_file }}" alt=""
+                            <img class="traders__item__image" src="{{ $top_trader['logo_file'] }}" alt=""
                                  data-primary-color="255,255,255">
                         </div>
                         <div class="traders__item__content">
                             <div href="#" class="traders__item__content-title">
-                                {{ $top_trader->title }}
+                                {{ $top_trader['title'] }}
                             </div>
-                            <div class="traders__item__content-description">
-                                <p class="traders__item__content-p">
-                                    <span class="traders__item__content-p-title">{{ $prices['name'] }}</span>
-                                    <span class="right">
-                  <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                        title="Старая цена: 6010">{{ $prices['costval'] }}</span>
-
-                  <span class="traders__item__content-p-icon">
-                    <img src="/app/assets/img/price-down.svg"></span>
-                </span>
-                                </p>
-                                <p class="traders__item__content-p">
-                                    <span class="traders__item__content-p-title">{{ $prices['name'] }}</span>
-                                    <span class="right">
-                  <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                        title="Старая цена: 19010">{{ $prices['costval'] }}</span>
-
-                  <span class="traders__item__content-p-icon">
-                    <img src="/app/assets/img/price-down.svg"></span>
-                </span>
-                                </p>
-                                <p class="traders__item__content-p">
-                                    <span class="traders__item__content-p-title">{{ $prices['name'] }}</span>
-                                    <span class="right">
-                  <span class="traders__item__content-p-price ">{{ $prices['costval'] }}</span>
-
-                  <span class="traders__item__content-p-icon">
-                                      <img src="/app/assets/img/price-not-changed.svg"></span>
-                </span>
-                                </p>
-                            </div>
+                            @foreach($top_trader['trader_cultures'] as $index => $culture)
+                                <div class="traders__item__content-description">
+                                    @if($index < 3)
+                                    <p class="traders__item__content-p">
+                                        <span
+                                            class="traders__item__content-p-title">{{ $culture['culture']['name'] }}</span>
+                                        <span class="right">
+                                        <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
+                                              title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
+                                        <span class="traders__item__content-p-icon">
+                                        <img src="/app/assets/img/price-down.svg">
+                                        </span>
+                                        </span>
+                                    </p>
+                                    @endif
+                                </div>
+                            @endforeach
                             <div class="traders__item__content-date">
                                 <!--               <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
                                 <span class="green">{{ 'дата' }}</span></div>
                         </div>
                     </a>
                 </div>
-    @endforeach
+            @endforeach
 
-                <div class="new_traders ">
-                    @foreach($traders as $trader)
+            <div class="new_traders ">
+                @foreach($traders as $trader)
                     <div class="traders__item-wrap">
-                        <a href="{{ route('company.company', $trader->id) }}" class="traders__item ">
+                        <a href="{{ route('company.company', $trader['id']) }}" class="traders__item ">
                             <div class="traders__item__header">
-                                <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
+                                <img class="traders__item__image" src="{{ $trader['logo_file'] }}" alt="">
                             </div>
                             <div class="traders__item__content">
                                 <div href="#" class="traders__item__content-title title">
-                                    {{ $trader->title }}
+                                    {{ $trader['title'] }}
                                 </div>
-                                <div class="traders__item__content-description">
-                                    <p class="traders__item__content-p">
-                                        <span class="traders__item__content-p-title">{{ $prices['name'] }}</span>
-                                        <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:5300">{{ $prices['costval'] }}</span><span
-                                            class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
-                                    </p>
-                                    <p class="traders__item__content-p">
-                                        <span class="traders__item__content-p-title">{{ $prices['name'] }}</span>
-                                        <span class="right"><span class="traders__item__content-p-price" price-up"="" data-toggle="tooltip" data-placement="right" title="Старая цена:5300">{{ $prices['costval'] }}</span><span
-                                            class="traders__item__content-p-icon"><img src="/app/assets/img/price-up.svg"> </span></span>
-                                    </p>
-                                </div>
+                                @foreach($trader['trader_cultures'] as $index => $culture)
+                                    <div class="traders__item__content-description">
+                                        @if($index < 2)
+                                            <p class="traders__item__content-p">
+                                        <span
+                                            class="traders__item__content-p-title">{{ $culture['culture']['name'] }}</span>
+                                                <span class="right">
+                                        <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
+                                              title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
+                                        <span class="traders__item__content-p-icon">
+                                        <img src="/app/assets/img/price-down.svg">
+                                        </span>
+                                        </span>
+                                            </p>
+                                        @endif
+                                    </div>
+                                @endforeach
                                 <div class="traders__item__content-date">
-                                    <span class="traders__item__content-date-more">+ ещё </span>
+{{--                                    <span class="traders__item__content-date-more">+ ещё </span>--}}
                                     <span class="green">{{ 'дата' }}</span>
                                 </div>
                             </div>
                         </a>
                     </div>
-                    @endforeach
-                </div>
+                @endforeach
+            </div>
 
 @endsection

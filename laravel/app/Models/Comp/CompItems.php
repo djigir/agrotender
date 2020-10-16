@@ -73,7 +73,7 @@ class CompItems extends Model
 {
     protected $table = 'comp_items';
 
-    protected $appends = ['activities', 'purchases', 'sales', 'services', 'trader_cultures'];
+    protected $appends = ['activities', 'purchases', 'sales', 'services'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -109,15 +109,6 @@ class CompItems extends Model
 
         return $activities;
     }
-
-    public function getTraderCulturesAttribute(){
-        $culture = Traders_Products_Lang::with(['traders_prices' => function($q){
-            $q->where('buyer_id', $this->author_id);
-        }])->find(9);
-
-        return $culture;
-    }
-
 
     public function getPurchasesAttribute()
     {
