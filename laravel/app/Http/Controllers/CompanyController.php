@@ -74,20 +74,24 @@ class CompanyController extends Controller
     {
         $company = CompItems::find($id);
 
+        $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
+        $port_place = $this->companyService->getPlacePortsRegions($id, 2);
+        $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
 
-        $RegionsPricesRubrics = $this->companyService->getTraderRegionsPricesRubrics($id, 0)['trader_regions'];
-        $region_place = $this->companyService->getTraderRegionsPricesRubrics($id, 0)['region_place'];
+        $region_culture = $this->companyService->getPortsRegionsCulture($id, 0);
+        $region_place = $this->companyService->getPlacePortsRegions($id, 0);
+        $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
-        $PortsPricesRubrics = $this->companyService->getTraderPortsPricesRubrics($id, 2);
 
-        //dd($PortsPricesRubrics);
+
+
 
         return view('company.company', [
                 'company' => $company,
                 'id' => $id,
-                'RegionsPricesRubrics' => $RegionsPricesRubrics,
-                'PortsPricesRubrics' => $PortsPricesRubrics,
                 'region_place' => $region_place,
+                'region_culture' => $region_culture,
+                'port_culture' => $port_culture,
             ]
         );
     }

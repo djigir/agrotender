@@ -90,11 +90,89 @@ class CompanyService
         return $prices;
     }
 
+    public function getPortsRegionsCulture($id, $placeType)
+    {
+        $get_culture = $this->getTraderPricesRubrics($id, $placeType);
+        $culture = [];
+
+        foreach ($get_culture as $index => $cult) {
+            if (!empty($cult['traders_products']) and !empty($get_culture[$index]['traders_products'][0]['traders_prices'])) {
+                array_push($culture, $get_culture[$index]['traders_products'][0]['culture']);
+            }
+        }
+
+        $culture = collect($culture)->sortBy('name')->toArray();
+        $culture = array_values($culture);
+
+        return $culture;
+    }
+
+
+    public function getPlacePortsRegions($id, $placeType)
+    {
+        $get_places = $this->getTraderPricesRubrics($id, $placeType);
+        $places = [];
+
+        foreach ($get_places as $index => $place) {
+            if (!empty($place['traders_products']) and !empty($get_places[$index]['traders_products'][0]['traders_prices'])) {
+                foreach ($get_places[$index]['traders_products'][0]['traders_prices'] as $index_pr => $prices){
+                    if(!empty($prices['traders_places'])){
+                        if(!empty($prices['traders_places'][0]['traders_ports'])){
+                            array_push($places, array('port_name' => $prices['traders_places'][0]['traders_ports'][0]['traders_ports_lang'][0]['portname'],
+                                'place' => $prices['traders_places'][0]['place']));
+                        }else{
+                            array_push($places, array('region' => $prices['traders_places'][0]['regions'][0]['name'],
+                                'place' => $prices['traders_places'][0]['place']));
+                        }
+
+                    }
+
+                }
+            }
+        }
+
+        $places = collect($places)->sortBy('region')->toArray();
+        $places = array_values($places);
+        $places = $this->baseService->new_unique($places, 'place');
+
+        return $places;
+    }
+
+
+    public function getPriceRegionsPorts($id, $placeType)
+    {
+        $get_prices = $this->getTraderPricesRubrics($id, $placeType);
+        $prices = [];
+
+        foreach ($get_prices as $index => $price) {
+            if (!empty($price['traders_products']) and !empty($get_prices[$index]['traders_products'][0]['traders_prices'])) {
+                array_push($prices,  $get_prices[$index]['traders_products'][0]['traders_prices']);
+            }
+        }
+
+
+        foreach ($prices as $index => $price) {
+            foreach ($price as $index_pr => $pr){
+               if(empty($pr['traders_places'])){
+                   unset($prices[$index][$index_pr]);
+               }
+            }
+            //$prices[$index] = array_values($prices[$index]);
+        }
+
+        dd($prices);
+
+
+        return $prices;
+    }
+
+
 
     public function getTraderRegionsPricesRubrics($id, $placeType)
     {
         $trader_regions = $this->getTraderPricesRubrics($id, $placeType);
         $region_place = [];
+
         foreach ($trader_regions as $index => $port){
             if(!empty($port['traders_products'])){
                 $trader_regions[$index]['traders_products'] = $trader_regions[$index]['traders_products'][0];
