@@ -18,7 +18,12 @@ use Symfony\Component\HttpFoundation\Request;
 class CompanyService
 {
     const PER_PAGE = 10;
+    protected $baseService;
 
+    public function __construct(BaseServices $baseService)
+    {
+        $this->baseService = $baseService;
+    }
 
     public function getContacts($author_id, $departments_type)
     {
@@ -59,35 +64,6 @@ class CompanyService
         return $rubrics;
     }
 
-    public function getCompanyTraderPrices($user, $places, $rubrics, $type) {
-        $pricesArr = $places;
-//        $date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
-//        $prices = $this->getPrices($user, $type);
-//        foreach ($places as $pKey => $place) {
-//            $is_avail = false;
-//            $tmp_rubrics = $rubrics;
-//            foreach ($rubrics as $rKey => $rubric) {
-//                $tmp_prices = $prices[$place['id']][$rubric['id']] ?? [];
-//                foreach ($tmp_prices as $price) {
-//                    $is_avail = true;
-//                    // diff отображать не позже 7 дней после сохранения цен
-//                    $diff = $date_expired_diff <= $price['change_date'] ? round($price['costval'] - $price['costval_old']) : 0;
-//                    $tmp_rubrics[$rKey]['price'][$price['curtype']] = [
-//                        'cost'         => ($price['costval'] != null) ? round($price['costval']) : null,
-//                        'comment'      => $price['comment'],
-//                        'price_diff'   => $diff,
-//                        'change_price' => !$price['costval_old'] || !$diff ? '' : ($diff < 0 ? 'down' : 'up'),
-//                        'currency'     => $price['curtype']
-//                    ];
-//                }
-//            }
-//            if ( $is_avail ) {
-//                $pricesArr[$pKey]['rubrics'] = $tmp_rubrics;
-//            }
-//        }
-        return $pricesArr;
-    }
-
 
     public function getPlaces($author_id, $placeType, $type) {
         $places = TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
@@ -118,7 +94,7 @@ class CompanyService
     public function getTraderRegionsPricesRubrics($id, $placeType)
     {
         $trader_regions = $this->getTraderPricesRubrics($id, $placeType);
-
+        $region_place = [];
         foreach ($trader_regions as $index => $port){
             if(!empty($port['traders_products'])){
                 $trader_regions[$index]['traders_products'] = $trader_regions[$index]['traders_products'][0];
@@ -129,6 +105,10 @@ class CompanyService
                     foreach ($trader_regions[$index]['traders_products']['traders_prices'] as $index_pr => $prices){
                         if(empty($prices['traders_places'])){
                             unset($trader_regions[$index]['traders_products']['traders_prices'][$index_pr]);
+                        }else{
+                            $trader_regions[$index]['traders_products']['traders_prices'][$index_pr]['traders_places'] = $trader_regions[$index]['traders_products']['traders_prices'][$index_pr]['traders_places'][0];
+                            $trader_regions[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['regions'] = $trader_regions[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['regions'][0];
+                            array_push($region_place, $trader_regions[$index]['traders_products']['traders_prices'][$index_pr]);
                         }
                     }
                 }else{
@@ -140,9 +120,23 @@ class CompanyService
             }
 
         }
-        $trader_regions = collect($trader_regions)->sortBy('culture.name');
 
-        return $trader_regions;
+        $trader_regions = collect($trader_regions)->sortBy('culture.name')->toArray();
+        $region_place = collect($region_place)->sortBy('traders_places.regions.name')->toArray();
+        $trader_regions = array_values($trader_regions);
+
+        $region_place = $this->baseService->new_unique($region_place, 'place_id');
+
+        foreach ($region_place as $index => $rp){
+            $region_place[$index]['place'] = $region_place[$index]['traders_places']['place'];
+            $region_place[$index]['region'] = $region_place[$index]['traders_places']['regions']['name'];
+            unset($region_place[$index]['traders_places']);
+        }
+
+        $region_place = array_values($region_place);
+
+
+        return ['trader_regions' => $trader_regions, 'region_place' => $region_place];
     }
 
 
@@ -160,8 +154,19 @@ class CompanyService
                     foreach ($trader_ports[$index]['traders_products']['traders_prices'] as $index_pr => $prices){
                         if(empty($prices['traders_places'])){
                             unset($trader_ports[$index]['traders_products']['traders_prices'][$index_pr]);
+                        }else{
+                            $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places'] = $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places'][0];
+                            $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports'] = $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports'][0];
+                            $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports']['traders_ports_lang'] = $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports']['traders_ports_lang'][0];
+
+                            $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports_lang'] = $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports']['traders_ports_lang'];
+                            unset($trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['traders_ports']['traders_ports_lang']);
+
+                            $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['regions'] = $trader_ports[$index]['traders_products']['traders_prices'][$index_pr]['traders_places']['regions'][0];
                         }
                     }
+                    $trader_ports[$index]['traders_prices'] = $trader_ports[$index]['traders_products']['traders_prices'];
+                    unset($trader_ports[$index]['traders_products']['traders_prices']);
                 }else{
                     unset($trader_ports[$index]);
                 }
@@ -171,9 +176,9 @@ class CompanyService
             }
 
         }
-        $trader_ports = collect($trader_ports)->sortBy('culture.name');
 
-        //dd($trader_ports->toArray());
+        $trader_ports = collect($trader_ports)->sortBy('culture.name')->toArray();
+        $trader_ports = array_values($trader_ports);
 
         return $trader_ports;
     }
@@ -210,41 +215,6 @@ class CompanyService
                 }]);
             }])
             ->get()->toArray();
-
-        //$rubrics = $this->change_array($rubrics);
-
-
-        return $rubrics;
-    }
-    public function change_array($rubrics)
-    {
-        foreach ($rubrics as $index => $rubric){
-
-            if(!empty($rubrics[$index]['traders_products'])){
-                $rubrics[$index]['traders_products'] = $rubrics[$index]['traders_products'][0];
-                $rubrics[$index]['culture'] = $rubrics[$index]['traders_products']['culture'];
-                $rubrics[$index]['traders_prices'] = $rubrics[$index]['traders_products']['traders_prices'];
-            }
-
-            unset($rubrics[$index]['traders_products']['culture']);
-            unset($rubrics[$index]['traders_products']['traders_prices']);
-
-            if(isset($rubrics[$index]["traders_prices"])){
-                foreach ($rubrics[$index]["traders_prices"] as $inxex_r => $rubric_price){
-                    if(!empty($rubric_price['traders_places'])){
-                        foreach ($rubric_price['traders_places'] as $index_p => $places){
-                            $rubrics[$index]['traders_places'] = array_unique($rubrics[$index]["traders_prices"][$inxex_r]['traders_places']);
-                            $rubrics[$index]['traders_places'][$index_p]['regions'] = $rubrics[$index]['traders_places'][$index_p]['regions'][0];
-    //                        $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'] = $rubrics[$index]["traders_prices"][$inxex_r]['traders_places'][$index_p]['regions'][0];
-                        }
-                    }else{
-                        unset($rubrics[$index]["traders_prices"][$inxex_r]);
-                    }
-                }
-            }
-        }
-
-        $rubrics = collect($rubrics)->sortBy('culture.name');
 
         return $rubrics;
     }
