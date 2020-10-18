@@ -18,33 +18,37 @@
                         <thead>
                         <tr>
                             <th>Порты / Переходы</th>
-                            @foreach($PortsPricesRubrics as $index => $data_port)
-                                <th>{{$data_port['culture']['name']}}</th>
+                            @foreach($port_culture as $index => $data_port)
+                                <th>{{$data_port['name']}}</th>
                             @endforeach
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($PortsPricesRubrics[0]['traders_prices'] as $index => $price_rubric)
+
+                        @foreach($port_place as $index => $place)
                             <tr>
                                 <td class="py-1">
-                                    <span
-                                        class="place-title">{{$price_rubric['traders_places']['traders_ports_lang']['portname']}}</span>
-                                    <span class="place-comment">{{$price_rubric['traders_places']['place']}}</span>
+                                    <span class="place-title">{{$place['portname']}}</span>
+                                    <span class="place-comment">{{$place['place']}}</span>
                                 </td>
 
-                                @foreach($PortsPricesRubrics as $index_p => $data_price)
-                                    <td>{{$price_rubric['traders_places']['id']}}</td>
-                                    {{--                                    @foreach($data_price['traders_prices'] as $index_d => $price)--}}
-                                    {{--                                        <td>--}}
-                                    {{--                                            <div class="d-flex align-items-center justify-content-center lh-1">--}}
-                                    {{--                                                <span class="font-weight-600">500</span> &nbsp;--}}
-                                    {{--    --}}{{--                                            <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-                                    {{--    --}}{{--                                            <span class="price-up"> 150 </span>--}}
-                                    {{--                                            </div>--}}
-                                    {{--    --}}{{--                                        <span class="d-block lh-1 pb-1 extra-small">без НДС-5708</span></td>--}}
-                                    {{--                                        </td>--}}
-                                    {{--                                    @endforeach--}}
-                                @endforeach
+                                    @foreach($port_price[$place['place_id']] as $index_price => $price)
+                                    <td>
+
+                                        <span>{{$price['costval']}}</span>
+    {{--                                    @foreach($price as $index_one_price => $one_price)--}}
+    {{--                                        <td class="currency-0">--}}
+    {{--                                            <div class="d-flex align-items-center justify-content-center lh-1">--}}
+    {{--                                                <span class="font-weight-600">{{$one_price['costval']}}</span> &nbsp;--}}
+    {{--                                                --}}{{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
+    {{--                                                --}}{{--<span class="price-up">200</span>--}}
+    {{--                                            </div>--}}
+    {{--                                            --}}{{--<span class="d-block lh-1 pb-1 extra-small">без НДС-12500</span>--}}
+    {{--                                        </td>--}}
+    {{--                                    @endforeach--}}
+                                            </td>
+                                    @endforeach
+
                             </tr>
                         @endforeach
                         </tbody>
@@ -344,30 +348,34 @@
                     <thead>
                     <tr>
                         <th>Регионы / Элеваторы</th>
-                        @foreach($RegionsPricesRubrics as $index => $data_region)
-                            <th>{{$data_region['culture']['name']}}</th>
+                        @foreach($region_culture as $index => $data_region)
+                            <th>{{$data_region['name']}}</th>
                         @endforeach
 
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach($region_place as $index => $rp)
+                        @foreach($region_place as $index => $place)
                             <tr>
                                 <td place="6614" class="py-1">
-                                    <span class="place-title">{{$rp['region']}} обл.</span>
-                                    <span class="place-comment">{{$rp['place']}}</span>
+                                    <span class="place-title">{{$place['region']}} обл.</span>
+                                    <span class="place-comment">{{$place['place']}}</span>
                                 </td>
+{{--                                @foreach($port_price[0] as $index_price => $price)--}}
+{{--                                    <td class="currency-0 ">--}}
+{{--                                        <div class="d-flex align-items-center justify-content-center lh-1">--}}
+{{--                                            <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;--}}
+{{--    --}}{{--                                        <img src="/app/assets/img/price-up.svg">&nbsp; --}}
+{{--                                            <span class="price-up">200</span>--}}
+{{--                                            <span class="price-up">{{$place['place']}}</span>--}}
+{{--                                        </div>--}}
+{{--    --}}{{--                                    <span class="d-block lh-1 pb-1 extra-small">без НДС-12500</span>--}}
+{{--                                    </td>--}}
+{{--                                @endforeach--}}
                             </tr>
                         @endforeach
 
-{{--                        <td place="6614" rubric="24" currency="0" class="currency-0 ">--}}
-{{--                            --}}{{--                            <div class="d-flex align-items-center justify-content-center lh-1">--}}
-{{--                            --}}{{--                                <span class="font-weight-600">15000</span> &nbsp;--}}
-{{--                            --}}{{--                                <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-{{--                            --}}{{--                                <span class="price-up">200</span>--}}
-{{--                            --}}{{--                            </div>--}}
-{{--                            <span class="d-block lh-1 pb-1 extra-small">без НДС-12500</span>--}}
-{{--                        </td>--}}
+
 
                     </tbody>
                 </table>

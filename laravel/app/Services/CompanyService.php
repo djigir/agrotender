@@ -118,15 +118,13 @@ class CompanyService
                 foreach ($get_places[$index]['traders_products'][0]['traders_prices'] as $index_pr => $prices){
                     if(!empty($prices['traders_places'])){
                         if(!empty($prices['traders_places'][0]['traders_ports'])){
-                            array_push($places, array('port_name' => $prices['traders_places'][0]['traders_ports'][0]['traders_ports_lang'][0]['portname'],
-                                'place' => $prices['traders_places'][0]['place']));
+                            array_push($places, array('portname' => $prices['traders_places'][0]['traders_ports'][0]['traders_ports_lang'][0]['portname'],
+                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id']));
                         }else{
                             array_push($places, array('region' => $prices['traders_places'][0]['regions'][0]['name'],
-                                'place' => $prices['traders_places'][0]['place']));
+                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id']));
                         }
-
                     }
-
                 }
             }
         }
@@ -146,10 +144,13 @@ class CompanyService
 
         foreach ($get_prices as $index => $price) {
             if (!empty($price['traders_products']) and !empty($get_prices[$index]['traders_products'][0]['traders_prices'])) {
-                array_push($prices,  $get_prices[$index]['traders_products'][0]['traders_prices']);
+                foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product){
+                    array_push($prices, $price_product);
+                }
+
             }
         }
-
+        $prices = collect($prices)->groupBy('place_id')->toArray();
 
         foreach ($prices as $index => $price) {
             foreach ($price as $index_pr => $pr){
@@ -157,16 +158,15 @@ class CompanyService
                    unset($prices[$index][$index_pr]);
                }
             }
-            //$prices[$index] = array_values($prices[$index]);
+            if(empty($prices[$index])){
+                unset($prices[$index]);
+            }
+
         }
 
-        dd($prices);
-
-
+        //$prices[$index] = array_values($prices[$index]);
         return $prices;
     }
-
-
 
     public function getTraderRegionsPricesRubrics($id, $placeType)
     {
@@ -216,8 +216,6 @@ class CompanyService
 
         return ['trader_regions' => $trader_regions, 'region_place' => $region_place];
     }
-
-
     public function getTraderPortsPricesRubrics($id, $placeType)
     {
         $trader_ports = $this->getTraderPricesRubrics($id, $placeType);

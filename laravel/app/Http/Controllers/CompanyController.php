@@ -82,16 +82,15 @@ class CompanyController extends Controller
         $region_place = $this->companyService->getPlacePortsRegions($id, 0);
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
-
-
-
-
         return view('company.company', [
-                'company' => $company,
-                'id' => $id,
-                'region_place' => $region_place,
-                'region_culture' => $region_culture,
-                'port_culture' => $port_culture,
+            'company' => $company,
+            'id' => $id,
+            'port_culture' => $port_culture,
+            'port_place' => $port_place,
+            'port_price' => $port_price,
+            'region_culture' => $region_culture,
+            'region_place' => $region_place,
+            'region_price' => $region_price,
             ]
         );
     }
