@@ -28,4 +28,14 @@ class BaseServices
         return $array;
 
     }
+
+    public function keywords()
+    {
+
+    }
+
+    public function description()
+    {
+
+    }
 }
