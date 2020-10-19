@@ -17,17 +17,20 @@ use App\Models\Comp\CompItemsContact;
 use App\Models\Torg\TorgBuyer;
 
 use App\Services\CompanyService;
+use App\Services\SeoService;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
     protected $companyService;
     protected $baseServices;
+    protected $seoService;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
     {
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->seoService = $seoService;
     }
 
     /**
@@ -51,7 +54,7 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
 
-
+        $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
         return view('company.companies', [
                 'companies' => $companies,
@@ -123,6 +126,7 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
+        $this->seoService->getCompaniesMeta(null, $region, $companies->currentPage());
 
         return view('company.company_and_region', [
             'regions' => $regions,
@@ -170,6 +174,8 @@ class CompanyController extends Controller
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
+
+        $this->seoService->getCompaniesMeta($rubric_number, $region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
