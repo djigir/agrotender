@@ -49,12 +49,12 @@
                             <div href="#" class="traders__item__content-title">
                                 {{ $top_trader['title'] }}
                             </div>
-                            @foreach($top_trader['trader_cultures'] as $index => $culture)
+                            @foreach($top_trader['cultures'] as $index => $culture)
                                 <div class="traders__item__content-description">
                                     @if($index < 3)
                                     <p class="traders__item__content-p">
                                         <span
-                                            class="traders__item__content-p-title">{{ $culture['culture']['name'] }}</span>
+                                            class="traders__item__content-p-title">{{ $culture['name'] }}</span>
                                         <span class="right">
                                         <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
                                               title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
@@ -85,12 +85,12 @@
                                 <div href="#" class="traders__item__content-title title">
                                     {{ $trader['title'] }}
                                 </div>
-                                @foreach($trader['trader_cultures'] as $index => $culture)
+                                @foreach($trader['cultures'] as $index => $culture)
                                     <div class="traders__item__content-description">
                                         @if($index < 2)
                                             <p class="traders__item__content-p">
                                         <span
-                                            class="traders__item__content-p-title">{{ $culture['culture']['name'] }}</span>
+                                            class="traders__item__content-p-title">{{ $culture['name'] }}</span>
                                                 <span class="right">
                                         <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
                                               title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>

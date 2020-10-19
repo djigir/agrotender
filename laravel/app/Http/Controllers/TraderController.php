@@ -86,9 +86,9 @@ class TraderController extends Controller
             ->toArray();
 
         foreach ($top_traders as $index => $top_trader) {
-            $top_traders[$index]['trader_cultures'] = [];
-            $top_traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($top_trader['id'], 0)->toArray();
-            if (empty($top_traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($top_trader['id'], 0)->toArray())){
+            $top_traders[$index]['cultures'] = [];
+            $top_traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($top_trader['id'], 0);
+            if (empty($top_traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($top_trader['id'], 0))){
                 unset($top_traders[$index]);
             }
         }
@@ -97,18 +97,24 @@ class TraderController extends Controller
             ->where('trader_price_avail', 1)
             ->where('trader_price_visible', 1)
             ->where('visible', 1)
+            ->select('id', 'title', 'author_id', 'logo_file')
             ->groupBy('id')
-            ->get();
+            ->get()
+            ->toArray();;
 
         foreach ($traders as $index => $trader) {
-            $traders[$index]['trader_cultures'] = [];
-            $traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($trader['id'], 0)->toArray();
-            if (empty($traders[$index]['trader_cultures'] = $this->companyService->getTraderRegionsPricesRubrics($trader['id'], 0)->toArray())){
+            $traders[$index]['cultures'] = [];
+            $traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($trader['id'], 0);
+            if (empty($traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($trader['id'], 0))){
                 unset($traders[$index]);
             }
 
         }
 
+        $top_traders = array_values($top_traders);
+        $traders = array_values($traders);
+
+//        dd($traders);
         return view('traders.traders_regions'
             ,[
                 'viewmod'=>$request->get('viewmod'),
