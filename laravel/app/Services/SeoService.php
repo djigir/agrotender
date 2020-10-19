@@ -80,13 +80,19 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMeta()
-    {
 
-    }
+    public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null)
 
-    public function getAnaliticMeta()
     {
+        dd($rubric, $region, $port, $type, $page, $onlyPorts);
+        $h1 = '';
+        $text = '';
+
+        $rubric = [];
+        $region = [];
+        $port = [];
+        $onlyPorts = [];
+
 
     }
 

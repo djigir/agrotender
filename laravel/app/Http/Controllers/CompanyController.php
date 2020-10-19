@@ -54,7 +54,11 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
 
+
         $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+
+        //$this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+
 
         return view('company.companies', [
                 'companies' => $companies,
@@ -289,12 +293,16 @@ class CompanyController extends Controller
             $reviews_with_comp = $reviews;
         }
 
+        $meta = ['title' => "Отзывы о {$company->title} на сайте Agrotender" ,
+            'keywords' => $company->title,
+            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
         return view('company.company_reviews',
             [
                 'reviews_with_comp' => $reviews_with_comp,
                 'company' => $company,
                 'id' => $id_company,
                 'company_name' => $company_name,
+                'meta' => $meta
             ]);
     }
 
@@ -317,10 +325,7 @@ class CompanyController extends Controller
             ->get()
             ->toArray();
 
-
-        $title = $company->title;
-
-//        $meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        $meta = ['title' => $company->title, 'keywords' => $company->title, 'description' => 'Сайт компании '.$company->title];
 
         return view('company.company_cont', [
             'company' => $company,
@@ -329,7 +334,8 @@ class CompanyController extends Controller
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
             'id' => $id_company,
-            'company_name' => $company_name
+            'company_name' => $company_name,
+            'meta' => $meta
         ]);
     }
 

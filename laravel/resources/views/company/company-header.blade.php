@@ -4,7 +4,6 @@
     <div class="company-menu-container d-none d-sm-block">
         <div class="company-menu">
             <a href="{{route('company.company', $id)}}" class="" >Главная</a>
-            <a href="{{route('company.company_prices', $id)}}" class=""> Цены трейдера</a>
             <a href="{{route('company.company_reviews', $id)}}" class="">Отзывы</a>
             <a href="{{route('company.company_cont', $id)}}" class="">Контакты</a>
         </div>

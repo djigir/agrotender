@@ -164,12 +164,16 @@ class Seo extends \Core\Model {
     return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
   }
   public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null) {
+      echo '<pre>';
+      var_dump($rubric, $region, $port, $type, $page, $onlyPorts);
+      echo '</pre>';die();
     $h1 = '';
     $text = '';
     $rubricText = ($rubric != null) ? $rubric['name'] : 'Аграрной продукции';
     $regionText = ($region != null) ? $region['parental'].' области' : 'Украине';
     $year = date('Y');
     $yearsText = $year.'-'.($year+1);
+
     if ($rubric != null || $region != null) {
       $seo = $this->db->query("select * from agt_seo_titles where pagetype = 2 && sect_id = 0 && obl_id = ".($region != null ? "{$region['id']}" : "0")." && cult_id = {$rubric['id']} && type_id = $type")[0] ?? null;
       if ($port != null) {
