@@ -112,6 +112,7 @@ class CompanyService
     {
         $get_places = $this->getTraderPricesRubrics($id, $placeType);
         $places = [];
+        $culture = $this->getPortsRegionsCulture($id, $placeType);
 
         foreach ($get_places as $index => $place) {
             if (!empty($place['traders_products']) and !empty($get_places[$index]['traders_products'][0]['traders_prices'])) {
@@ -119,20 +120,23 @@ class CompanyService
                     if(!empty($prices['traders_places'])){
                         if(!empty($prices['traders_places'][0]['traders_ports'])){
                             array_push($places, array('portname' => $prices['traders_places'][0]['traders_ports'][0]['traders_ports_lang'][0]['portname'],
-                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id']));
+                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id'],
+                                'culture' => $culture));
                         }else{
                             array_push($places, array('region' => $prices['traders_places'][0]['regions'][0]['name'],
-                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id']));
+                                'place' => $prices['traders_places'][0]['place'], 'place_id' => $prices['traders_places'][0]['id'],
+                                'culture' => $culture));
                         }
                     }
                 }
             }
         }
 
-        $places = collect($places)->sortBy('region')->toArray();
+
+        $places = collect($places)->sortBy('place')->toArray();
         $places = array_values($places);
         $places = $this->baseService->new_unique($places, 'place');
-
+        //dd($places);
         return $places;
     }
 
@@ -140,31 +144,79 @@ class CompanyService
     public function getPriceRegionsPorts($id, $placeType)
     {
         $get_prices = $this->getTraderPricesRubrics($id, $placeType);
-        $prices = [];
+        $currency = [
+            0 => 'UAH',
+            1 => 'USD',
+        ];
+
+        $prices = [
+            'UAH' => [],
+            'USD' => []
+        ];
 
         foreach ($get_prices as $index => $price) {
             if (!empty($price['traders_products']) and !empty($get_prices[$index]['traders_products'][0]['traders_prices'])) {
-                foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product){
-                    array_push($prices, $price_product);
+                foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product) {
+                    if (!empty($price_product['traders_places'])) {
+                        array_push($prices[$currency[$price_product['curtype']]], array(
+                            'place_id' => $price_product['place_id'],
+                            'costval' => $price_product['costval'],
+                            'costval_old' => $price_product['costval_old'],
+                            'add_date' => $price_product['add_date'],
+                            'comment' => $price_product['comment'],
+                            'traders_places' => $price_product['traders_places'],
+                            'curtype' => $price_product['curtype'],
+                            'culture' => $get_prices[$index]['traders_products'][0]['culture']['name'],
+                            'culture_id' => $get_prices[$index]['traders_products'][0]['culture']['id']
+                        ));
+                    }
                 }
-
             }
         }
-        $prices = collect($prices)->groupBy('place_id')->toArray();
 
-        foreach ($prices as $index => $price) {
-            foreach ($price as $index_pr => $pr){
-               if(empty($pr['traders_places'])){
-                   unset($prices[$index][$index_pr]);
-               }
-            }
-            if(empty($prices[$index])){
-                unset($prices[$index]);
-            }
 
+        if (!empty($prices['UAH'])){
+            $prices['UAH'] = collect($prices['UAH'])->groupBy('place_id')->toArray();
         }
 
-        //$prices[$index] = array_values($prices[$index]);
+        if (!empty($prices['USD'])){
+            $prices['USD'] = collect($prices['USD'])->groupBy('place_id')->toArray();
+        }
+
+
+        foreach ($prices as $index_currency => $currency){
+            foreach ($currency as $index_prices => $prices_pr){
+                foreach ($prices_pr as $index_price => $price){
+                    if(empty($price['traders_places'])){
+                        unset($prices[$index_currency][$index_prices][$index_price]);
+                        $prices[$index_currency][$index_prices] = array_values($prices[$index_currency][$index_prices]);
+                    }else{
+                        $prices[$index_currency][$index_prices] = collect($prices[$index_currency][$index_prices])->sortBy('culture')->toArray();
+                        $prices[$index_currency][$index_prices] = array_values($prices[$index_currency][$index_prices]);
+                    }
+                }
+//                $prices[$index_currency][$index_prices] = collect($prices[$index_currency][$index_prices])
+//                    ->groupBy('culture')
+//                    ->toArray();
+
+                if(empty($prices[$index_currency][$index_prices])){
+                    unset($prices[$index_currency][$index_prices]);
+                }
+            }
+        }
+
+//        foreach ($prices['UAH'] as $index => $price){
+//            foreach($price as $index_pr => $pr){
+//                $prices['UAH'][$index][$index_pr] = $prices['UAH'][$index][$index_pr][0];
+//            }
+//        }
+//
+//        foreach ($prices['USD'] as $index => $price){
+//            foreach($price as $index_pr => $pr){
+//                $prices['USD'][$index][$index_pr] = $prices['USD'][$index][$index_pr][0];
+//            }
+//        }
+        //dd($prices);
         return $prices;
     }
 

@@ -39,11 +39,6 @@ class CompComment extends Model
         'like_no',
     ];
 
-    /* пока не используемая
-     * public function comp_items()
-    {
-        return $this->belongsTo(CompItems::class, 'id');
-    }*/
 
     public function comp_comment_lang()
     {
