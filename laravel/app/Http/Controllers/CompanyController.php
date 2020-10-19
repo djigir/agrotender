@@ -54,7 +54,7 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
 
-        $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+        //$this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
         return view('company.companies', [
                 'companies' => $companies,

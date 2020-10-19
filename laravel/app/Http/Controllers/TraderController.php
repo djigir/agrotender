@@ -26,6 +26,7 @@ class TraderController extends Controller
     protected $traderService;
     protected $companyService;
     protected $baseService;
+    protected $seoService;
 
     /**
      * Remove the specified resource from storage.
@@ -34,11 +35,12 @@ class TraderController extends Controller
      * @param  CompanyService  $companyService
      * @param  BaseServices  $baseService
      */
-    public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService)
+    public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService, SeoService $seoService)
     {
         $this->traderService = $traderService;
         $this->companyService = $companyService;
         $this->baseService = $baseService;
+        $this->seoService = $seoService;
     }
 
     public function index(){
@@ -52,39 +54,14 @@ class TraderController extends Controller
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
 
-        $top_traders = CompItems:://join('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
-              where('trader_premium', 1)
-            ->where('trader_price_avail', 1)
-            ->where('trader_price_visible', 1)
-            ->where('visible', 1)
-//            ->select(
-//                'comp_items.id',
-//                'comp_items.topic_id',
-//                'comp_items.obl_id',
-//                'comp_items.ray_id',
-//                'comp_items.type_id',
-//                'comp_items.author_id',
-//                'comp_items.city',
-//                'comp_items.title',
-//                'comp_items.logo_file',
-//                'comp_items.logo_file',
-//
-//                'traders_prices.buyer_id',
-//                'traders_prices.cult_id',
-//                'traders_prices.place_id',
-//                'traders_prices.active',
-//                'traders_prices.curtype',
-//                'traders_prices.acttype',
-//                'traders_prices.costval',
-//                'traders_prices.costval_old',
-//                'traders_prices.change_date',
-//                'traders_prices.dt'
-//            )->select('author_id')
+        /** Вынести лишнее в сервис */
+        $top_traders = CompItems::
+            where([['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1], ['trader_premium', 1]])
             ->groupBy('id')
             ->select('id', 'title', 'author_id', 'logo_file')
             ->get()
             ->toArray();
-
+        /** Обернуть в метод */
         foreach ($top_traders as $index => $top_trader) {
             $top_traders[$index]['cultures'] = [];
             $top_traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($top_trader['id'], 0);
@@ -93,10 +70,8 @@ class TraderController extends Controller
             }
         }
 
-        $traders = CompItems::where('trader_premium', 0)
-            ->where('trader_price_avail', 1)
-            ->where('trader_price_visible', 1)
-            ->where('visible', 1)
+        $traders = CompItems::
+            where([['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1], ['trader_premium', 0]])
             ->select('id', 'title', 'author_id', 'logo_file')
             ->groupBy('id')
             ->get()
@@ -115,17 +90,20 @@ class TraderController extends Controller
         $traders = array_values($traders);
 
 //        dd($traders);
-        return view('traders.traders_regions'
-            ,[
+
+        $this->seoService->getTradersMeta();
+
+
+        return view('traders.traders_regions',
+            [
                 'viewmod'=>$request->get('viewmod'),
                 'section' => 'section',
                 'regions' => $regions,
                 'top_traders' => $top_traders,
                 'traders' => $traders,
-//                'traders'=> $traders, //Traders::paginate(20),
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,
-//                'prices' => $prices['data'],
+
                 'currencies'=>[
                     'uah' => [
                         'id'   => 0,
@@ -140,8 +118,12 @@ class TraderController extends Controller
                 ],
             ]
         );
+    }
 
-
+    public function port_and_culture($port, $culture)
+    {
+        //$this->seoService->getTradersMeta(null, null, );
+        dd($port, $culture);
     }
 
     /**
@@ -153,6 +135,10 @@ class TraderController extends Controller
      */
     public function region_and_culture($region, $culture)
     {
+        dd($region, $culture);
+
+        $this->seoService->getTradersMeta();
+
         return view('traders.traders_regions_culture');
     }
 
