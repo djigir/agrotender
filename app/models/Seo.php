@@ -163,7 +163,6 @@ class Seo extends \Core\Model {
     }
     return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
   }
-
   public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null) {
     $h1 = '';
     $text = '';
@@ -291,8 +290,6 @@ class Seo extends \Core\Model {
     $year = date("Y", time());
 
     $seostr = str_replace("__year__", $year, $seostr);
-
     return $seostr;
   }
-
 }

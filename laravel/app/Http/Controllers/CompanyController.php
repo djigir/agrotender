@@ -54,14 +54,15 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
 
-        $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+        $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
         return view('company.companies', [
                 'companies' => $companies,
                 'settings_for_page' => $companies,
                 'regions' => $regions,
                 'rubricGroups' => $groups,
-                'search' => $search
+                'search' => $search,
+                'meta' => $meta
             ]
         );
     }
@@ -85,6 +86,17 @@ class CompanyController extends Controller
         $region_place = $this->companyService->getPlacePortsRegions($id, 0);
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
+        if ($company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+            $title = "Закупочные цены {$company->title} на сегодня: контакты, отзывы";
+        }else {
+            $title = $company->title.": цены, контакты, отзывы";
+        }
+        $keywords = $company->title;
+        $description = mb_substr(strip_tags($company->content), 0, 200);
+
+        $meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+
+
         return view('company.company', [
             'company' => $company,
             'id' => $id,
@@ -94,6 +106,7 @@ class CompanyController extends Controller
             'region_culture' => $region_culture,
             'region_place' => $region_place,
             'region_price' => $region_price,
+            'meta' => $meta
             ]
         );
     }
@@ -101,8 +114,7 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  string  $region  ;
-     *
+     * @param  string  $region
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
@@ -126,7 +138,14 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
-        $this->seoService->getCompaniesMeta(null, $region, $companies->currentPage());
+        $get_region = Regions::where('translit', $region)->get()->toArray();
+
+        if (!empty($get_region)) {
+            $get_region = $get_region[0]['id'];
+        }else {
+            $get_region = null;
+        }
+        $meta =  $this->seoService->getCompaniesMeta(null, $get_region, $companies->currentPage());
 
         return view('company.company_and_region', [
             'regions' => $regions,
@@ -136,7 +155,8 @@ class CompanyController extends Controller
             'currently_obl' => $currently_obl,
             'unwanted_region' => $unwanted_region,
             'region' => $region,
-            'search' => $search
+            'search' => $search,
+            'meta' => $meta
         ]);
     }
 
@@ -174,8 +194,14 @@ class CompanyController extends Controller
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
+        $get_region = Regions::where('translit', $region)->get()->toArray();
 
-        $this->seoService->getCompaniesMeta($rubric_number, $region, $companies->currentPage());
+        if (!empty($get_region)) {
+            $get_region = $get_region[0]['id'];
+        }else {
+            $get_region = null;
+        }
+        $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
@@ -187,7 +213,8 @@ class CompanyController extends Controller
             'region' => $region,
             'rubric_number' => $rubric_number,
             'current_culture' => $current_culture,
-            'search' => $search
+            'search' => $search,
+            'meta' => $meta
         ]);
     }
 
@@ -289,6 +316,11 @@ class CompanyController extends Controller
             ->with('traders_contacts')
             ->get()
             ->toArray();
+
+
+        $title = $company->title;
+
+//        $meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
 
         return view('company.company_cont', [
             'company' => $company,

@@ -1,4 +1,6 @@
-@extends('layout.layout')
+@extends('layout.layout', ['title' => $meta['title'],
+'keywords' => $meta['keywords'],
+'description' => $meta['description']])
 
 @section('content')
     @include('company.company-header', ['id' => $id, 'company_name' => $company->title])
@@ -39,7 +41,6 @@
                                     @foreach($port_culture as $index => $data_port)
                                         @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
                                                 <td class="currency">
-                                                    {{dd($place['place_id'], $price['culture'], $data_port['name'])}}
                                                     @if(isset($port_price['UAH'][$place['place_id']][$index]) and $price['culture'] == $data_port['name'])
 
                                                             <span class="font-weight-600">{{$price['costval']}}</span>
