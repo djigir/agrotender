@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class Regions
  * @package App\Models\Regions
- * @property integer $id
- * @property string $name
- * @property string $parental
- * @property string $city
- * @property string $city_adverb
- * @property string $city_parental
- * @property string $translit
+ * @param integer $id
+ * @param string $name
+ * @param string $parental
+ * @param string $city
+ * @param string $city_adverb
+ * @param string $city_parental
+ * @param string $translit
  */
 class Regions extends Model
 {

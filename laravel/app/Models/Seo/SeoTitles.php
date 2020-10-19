@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 
 /**
+ * Class SeoTitles
+ * @package App\Models\Seo
+ *
  * @param integer $id;
  * @param integer $pagetype;
  * @param integer $csect_id;
@@ -32,9 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @property Carbon $add_date;
  * @property Carbon $modify_date;
-
  */
-
 class SeoTitles extends Model
 {
     protected $table = 'seo_titles';
@@ -45,5 +46,5 @@ class SeoTitles extends Model
         'filter_val', 'add_date', 'modify_date', 'page_h1', 'page_keywords',
         'page_title', 'page_descr', 'content_text', 'content_words', 'tpl_items_title',
         'tpl_items_keywords', 'tpl_items_descr', 'tpl_items_text', 'tpl_items_words',
-];
+    ];
 }
