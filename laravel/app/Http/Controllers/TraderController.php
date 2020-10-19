@@ -16,6 +16,7 @@ use App\Models\Comp\CompTopic;
 
 use App\Services\BaseServices;
 use App\Services\CompanyService;
+use App\Services\SeoService;
 use App\Services\Traders\TraderService;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\TestFixture\C;
@@ -47,7 +48,6 @@ class TraderController extends Controller
 
     public function region(Request $request, $region)
     {
-
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();

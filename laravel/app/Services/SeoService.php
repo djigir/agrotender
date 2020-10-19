@@ -3,14 +3,19 @@
 namespace App\Services;
 
 
+
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 
+use App\Models\Pages\Pages;
+
+
 class SeoService
 {
-    public function getPageInfo()
+    public function getPageInfo($page)
     {
-
+        dd(Pages::where('page_name', $page)->get()->toArray());
+        return Pages::where('page_name', $page)->get()->toArray();
     }
 
     public function getBoardMeta()
