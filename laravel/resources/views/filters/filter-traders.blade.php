@@ -19,7 +19,7 @@
                 </div>
                 <div class="filter__item producrion" id="choseProduct">
                     <button class="filter__button producrion-btn">
-                        @if($culture_name)
+                        @if(isset($culture_name))
                             {{$culture_name}}
                         @else
                             Выбрать продукцию
@@ -41,12 +41,12 @@
                                     @foreach($rubricsGroup[0]["products"] as $index => $item)
                                        <li>
                                            @if(isset($current_region))
-                                               <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                               <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                    {{ $item['culture']['name']}}
                                                </a>
                                            @endif
                                            @if(isset($current_port))
-                                              <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                              <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                 {{ $item['culture']['name']}}
                                               </a>
                                            @endif
@@ -59,12 +59,12 @@
                                     @foreach($rubricsGroup[1]["products"] as $index => $item)
                                         <li>
                                             @if(isset($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
                                             @if(isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
@@ -77,12 +77,12 @@
                                     @foreach($rubricsGroup[2]["products"] as $index => $item)
                                         <li>
                                             @if(isset($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
                                             @if(isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
@@ -97,12 +97,12 @@
                                     @foreach($rubricsGroup[3]["products"] as $index => $item)
                                         <li>
                                             @if(isset($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
                                             @if(isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
@@ -117,12 +117,12 @@
                                     @foreach($rubricsGroup[4]["products"] as $index => $item)
                                         <li>
                                             @if(isset($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
                                             @if(isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
@@ -135,12 +135,12 @@
                                     @foreach($rubricsGroup[5]["products"] as $index => $item)
                                         <li>
                                             @if(isset($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
                                             @if(isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}?viewmod=nontbl">
+                                                <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
                                                     {{ $item['culture']['name']}}
                                                 </a>
                                             @endif
@@ -174,35 +174,49 @@
                                 </ul>
 
                             </div>
-                            <div class="new_filters_dropdown-content ">
+                            <div class="new_filters_dropdown-content active">
                                 <ul>
                                     @foreach($regions as $index => $region)
                                             <li>
-                                                @if(isset($current_region) and isset($current_culture))
+                                                @if(isset($current_culture) and isset($current_region))
                                                     <a href="{{route('traders.traders_regions_culture', [$region['translit'], $current_culture])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{route('traders.traders_regions', $region['translit'])}}">
-                                                        {{$region['name']}}
-                                                    </a>
+                                                    @if(isset($current_culture))
+                                                        <a href="{{route('traders.traders_regions_culture', [$region['translit'], $current_culture])}}">
+                                                            {{$region['name']}}
+                                                        </a>
+                                                    @else
+                                                        <a href="{{route('traders.traders_regions', $region['translit'])}}">
+                                                            {{$region['name']}}
+                                                        </a>
+                                                    @endif
+
                                                 @endif
                                             </li>
                                     @endforeach
                                 </ul>
                             </div>
+
                             <div class="new_filters_dropdown-content active">
                                 <ul>
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
-                                            @if(isset($current_port) and isset($current_culture))
+                                            @if(isset($current_culture) and isset($current_port))
                                                 <a href="{{route('traders.traders_port_culture', [$port['url'], $current_culture])}}">
                                                     {{$port['portname']}}
                                                 </a>
                                             @else
-                                                <a href="{{route('traders.traders_port', $port['url'])}}">
-                                                    {{$port['portname']}}
-                                                </a>
+                                                @if(isset($current_culture))
+                                                    <a href="{{route('traders.traders_port_culture', [$port['url'], $current_culture])}}">
+                                                        {{$port['portname']}}
+                                                    </a>
+                                                @else
+                                                    <a href="{{route('traders.traders_port', $port['url'])}}">
+                                                        {{$port['portname']}}
+                                                    </a>
+                                                @endif
                                             @endif
                                         </li>
                                     @endforeach
@@ -211,32 +225,48 @@
                         </div>
                     </div>
                 </div>
-                <div class="new_filters_checkbox first">
-                    <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox">
-                    <label class="cbx" for="new_filters_currency_uah">
-                        <span>
-                          <svg width="12px" height="10px">
-                            <use xlink:href="#check"></use>
-                          </svg>
-                        </span>
-                        <span>ГРН</span>
-                    </label>
-                </div>
-                <div class="new_filters_checkbox second">
-                    <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox">
-                    <label class="cbx" for="new_filters_currency_usd">
-                        <span>
-                          <svg width="12px" height="10px">
-                            <use xlink:href="#check"></use>
-                          </svg>
-                        </span>
-                        <span>USD</span>
-                    </label>
-                </div>
+                <form style="display:flex;">
+                    <div class="new_filters_checkbox first">
+                        <button type="submit" class="btn-remove" name="currency" value="UAH">
+                            <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox">
+                        <label class="cbx" for="new_filters_currency_uah">
+                            <span>
+                              <svg width="12px" height="10px">
+                                <use xlink:href="#check"></use>
+                              </svg>
+                            </span>
+                            <span name="uah">ГРН</span>
+                        </label>
+                        </button>
+                    </div>
+                    <div class="new_filters_checkbox second">
+                        <button type="submit" class="btn-remove" name="currency" value="USD">
+                            <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox">
+                        <label class="cbx" for="new_filters_currency_usd">
+                            <span>
+                              <svg width="12px" height="10px">
+                                <use xlink:href="#check"></use>
+                              </svg>
+                            </span>
+                            <span>USD</span>
+                        </label>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    .btn-remove{
+        border: none;
+        background: none;
+        margin-top: 10px;
+        margin-right: -10px;
+        outline: 0 !important;
+    }
+</style>
 
 
 <script>

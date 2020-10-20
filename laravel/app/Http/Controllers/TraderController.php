@@ -73,17 +73,18 @@ class TraderController extends Controller
     }
     public function index(Request $request, $region)
     {
+//        dump($request->get('currency'));
+
         $search = null;
         $region_name = $this->checkName($region);
         $current_region = $region;
 
         $rubrics = $this->traderService->getRubricsGroup();
-        $regions = $this->baseService->getRegions()->toArray();
+        $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-        $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
-        array_push($regions, ['name' => 'Вся Украина', 'translit' => 'ukraine']);
+        $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
 
         $meta = $this->seoService->getTradersMeta(null, $region, null, 0, 1, null);
 
@@ -115,12 +116,11 @@ class TraderController extends Controller
         $search = null;
 
         $rubrics = $this->traderService->getRubricsGroup();
-        $regions = $this->baseService->getRegions()->toArray();
+        $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
-        array_push($regions, ['name' => 'Вся Украина', 'translit' => 'ukraine']);
 
         $region_name = $this->checkName($region);
         $current_region = $region;
@@ -152,7 +152,6 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, null, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, null, 0, null);
-        array_push($ports, ['portname' => 'Все порты', 'url' => 'all']);
 
         $port_name = $this->checkName(null, $port);
         $current_port = $port;
@@ -184,7 +183,6 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 0, null);
-        array_push($ports, ['portname' => 'Все порты', 'url' => 'all']);
 
         $port_name = $this->checkName(null, $port);
         $current_port = $port;
@@ -203,7 +201,6 @@ class TraderController extends Controller
             'current_port' => $current_port,
             'current_culture' => $culture,
             'culture_name' => $culture_name
-
         ]);
 
     }

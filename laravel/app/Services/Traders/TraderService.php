@@ -54,6 +54,7 @@ class TraderService
 
         $ports = collect($ports)->sortBy('portname')->toArray();
         $ports = array_values($ports);
+        array_push($ports, ['portname' => 'Все порты', 'url' => 'all']);
 
         return $ports;
 
