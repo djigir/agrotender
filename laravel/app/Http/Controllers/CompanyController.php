@@ -140,13 +140,7 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
-        $get_region = Regions::where('translit', $region)->get()->toArray();
-
-        if (!empty($get_region)) {
-            $get_region = $get_region[0]['id'];
-        }else {
-            $get_region = null;
-        }
+        $get_region = Regions::where('translit', $region)->value('id');
         $meta =  $this->seoService->getCompaniesMeta(null, $get_region, $companies->currentPage());
 
         return view('company.company_and_region', [
@@ -196,13 +190,7 @@ class CompanyController extends Controller
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
-        $get_region = Regions::where('translit', $region)->get()->toArray();
-
-        if (!empty($get_region)) {
-            $get_region = $get_region[0]['id'];
-        }else {
-            $get_region = null;
-        }
+        $get_region = Regions::where('translit', $region)->value('id');
         $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [

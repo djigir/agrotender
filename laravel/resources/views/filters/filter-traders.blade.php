@@ -46,7 +46,7 @@
                                 <ul>
                                     @foreach($rubricsGroup[1]["products"] as $index => $item)
                                         <li>
-                                            {{--                                           ?viewmod=nontbl--}}
+                                            {{-- ?viewmod=nontbl--}}
                                             <a href="{{route('traders.traders_regions', $item['url'])}}">
                                                 {{$item['culture']['name']}}
                                             </a>
@@ -111,12 +111,11 @@
                 </div>
                 <div class="filter__item second" id="all_ukraine">
                     <button class="filter__button second">
-                        Вся Украина
+                        {{(isset($unwanted_region) and isset($currently_region)) ? ($unwanted_region ? $currently_region : $currently_region.' область') : 'Вся Украина'}}
                     </button>
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
                             <div class="new_filters_dropdown-column">
-
                                 <ul>
                                     <li class="active">
                                         <a href="#">Области</a>
@@ -137,9 +136,7 @@
                                     <li>
                                         <a href="{{route('traders.traders_regions', ['region' => 'ukraine'])}}">Вся Укрина</a>
                                     </li>
-
                                 </ul>
-
                             </div>
                             <div class="new_filters_dropdown-content">
                                 <ul>

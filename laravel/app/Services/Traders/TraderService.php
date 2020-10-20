@@ -71,7 +71,7 @@ class TraderService
         $groups = collect($groups)->groupBy("index_group")->toArray();
 
         $groups = $this->group_array($groups);
-dd($groups);
+
         return $groups;
     }
 
@@ -107,8 +107,7 @@ dd($groups);
             $culture = TradersProducts::where('url', $culture)->value('id');
         }
 
-        $traders = CompItems::
-        where([
+        $traders = CompItems::where([
             ['trader_premium', $type_premium],
             ['trader_price_avail', 1],
             ['trader_price_visible', 1],
