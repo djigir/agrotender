@@ -128,14 +128,14 @@
                                 @foreach($regions as $index => $region)
                                     @if($index > 0)
                                         @if(isset($rubric_number) and isset($region))
-                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region->name) ? 'active' : '' }}"
-                                               href="{{route('company.company_region_rubric_number', [$region->translit, $rubric_number])}}">
-                                                <span>{{$region->name}} область</span>
+                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
+                                               href="{{route('company.company_region_rubric_number', [$region['translit'], $rubric_number])}}">
+                                                <span>{{$region['name']}} область</span>
                                             </a>
                                         @else
                                             <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region->name) ? 'active' : '' }}"
-                                               href="{{route('company.company_and_region', $region->translit)}}">
-                                                <span>{{$region->name}} область</span>
+                                               href="{{route('company.company_and_region', $region['translit'])}}">
+                                                <span>{{$region['name']}} область</span>
                                             </a>
                                         @endif
                                     @endif
@@ -215,6 +215,7 @@
     .btn-search{
         background: none;
         border: none;
+        outline: 0 !important;
     }
     .searchInput {
         padding: .375rem 6rem .475rem 1.4rem!important;

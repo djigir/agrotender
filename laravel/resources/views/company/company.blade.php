@@ -3,13 +3,13 @@
 'description' => $meta['description']])
 
 @section('content')
-    @include('company.company-header', ['id' => $id, 'company_name' => $company->title])
+    @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
 
     <div class="container company mb-5">
         <h2 class="d-inline-block mt-4">Цены трейдера</h2>
-        <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
-            <b>Обновлено 15.10.2020</b>
-        </div>
+{{--        <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">--}}
+{{--            <b>Обновлено 15.10.2020</b>--}}
+{{--        </div>--}}
         <div class="ports-tabs table-tabs mt-3">
             @if(!empty($port_price['UAH']))
                 <a  id='uah' class="active" style="cursor: pointer; color: white">Закупки UAH</a>
@@ -60,7 +60,7 @@
                         </table>
                     </div>
                 @endif
-
+                @if(!empty($port_place))
                 <div class="tableSecond">
                     <div class="tableScroll blue">
                         <table class="sortTable price-table ports-table"
@@ -103,6 +103,7 @@
                         </table>
                     </div>
                 </div>
+                @endif
             </div>
             <div class="d-sm-none price-table-wrap ports scroll-x">
                 <table class="sortTable price-table ports-table">
@@ -278,7 +279,7 @@
         @endif
         <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
-            {!! $company->content !!}
+            {!! $company['content'] !!}
         </div>
 
     </div>

@@ -105,13 +105,25 @@
                     @if(!is_null($contact_trader['dolg']) || !is_null($contact_trader['fio']))
                     <div class="row m-0 px-3 px-sm-0">
                         <div class="col p-0">
-                            @if(!is_null($contact_trader['dolg']))<b>{{ $contact_trader['dolg'] }}</b>@endif <span class="name">@if(!is_null($contact_trader['fio'])){{ $contact_trader['fio'] }} @endif</span>
+                            @if(!is_null($contact_trader['dolg']))
+                                <b>{{ $contact_trader['dolg'] }}</b>
+                            @endif
+                            <span class="name">
+                            @if(!is_null($contact_trader['fio']))
+                                    {{ $contact_trader['fio'] }}
+                            @endif
+                            </span>
                         </div>
                     </div>
                     @endif
                     <div class="row m-0 justify-content-center">
                         <div class="col-auto pr-2 text-center">
-                            <b>Телефон:</b> <span class="phone">@if(!is_null($contact_trader['phone'])) {{ $contact_trader['phone'] }} @endif</span>
+                            <b>Телефон:</b>
+                            <span class="phone">
+                                @if(!is_null($contact_trader['phone']))
+                                    {{ $contact_trader['phone'] }}
+                                @endif
+                            </span>
                         </div>
                         @if( !empty($contact_trader['email'] && !is_null($contact_trader['email'])))
                         <div class="col-auto pl-2 text-center">

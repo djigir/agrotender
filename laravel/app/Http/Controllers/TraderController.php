@@ -82,52 +82,47 @@ class TraderController extends Controller
     }
     public function index(Request $request, $region)
     {
-
-
-        $banners = [];
-        $top = BannerRotate::/*where('dt_start', Carbon::now())
-                        ->where('dt_end', Carbon::now())*/
-                        where('archive', 0)
-                        ->where('inrotate', 1)
-                        ->where('place_id', 43)
-                        ->limit(3)
-                        ->get()
-                        ->toArray();
-        $bottom = BannerRotate::/*where('dt_start', Carbon::now())
-                        ->where('dt_end', Carbon::now())*/
-                        where('archive', 0)
-                        ->where('inrotate', 1)
-                        ->where('place_id', 10)
-                        ->limit(1)
-                        ->get()
-                        ->toArray();
-        $body = BannerRotate::/*where('dt_start', Carbon::now())
-                        ->where('dt_end', Carbon::now())*/
-                        where('archive', 0)
-                        ->where('inrotate', 1)
-                        ->where('place_id', 44)
-                        ->limit(1)
-                        ->get()
-                        ->toArray();
-        $header = BannerRotate::/*where('dt_start', Carbon::now())
-                        ->where('dt_end', Carbon::now())*/
-                        where('archive', 0)
-                        ->where('inrotate', 1)
-                        ->where('place_id', 45)
-                        ->limit(1)
-                        ->get()
-                        ->toArray();
-        $traders = BannerRotate::/*where('dt_start', Carbon::now())
-                        ->where('dt_end', Carbon::now())*/
-                        where('archive', 0)
-                        ->where('inrotate', 1)
-                        ->where('place_id', 46)
-                        ->limit(1)
-                        ->get()
-                        ->toArray();
-
-
-
+//        $banners = [];
+//        $top = BannerRotate::/*where('dt_start', Carbon::now())
+//                        ->where('dt_end', Carbon::now())*/
+//                        where('archive', 0)
+//                        ->where('inrotate', 1)
+//                        ->where('place_id', 43)
+//                        ->limit(3)
+//                        ->get()
+//                        ->toArray();
+//        $bottom = BannerRotate::/*where('dt_start', Carbon::now())
+//                        ->where('dt_end', Carbon::now())*/
+//                        where('archive', 0)
+//                        ->where('inrotate', 1)
+//                        ->where('place_id', 10)
+//                        ->limit(1)
+//                        ->get()
+//                        ->toArray();
+//        $body = BannerRotate::/*where('dt_start', Carbon::now())
+//                        ->where('dt_end', Carbon::now())*/
+//                        where('archive', 0)
+//                        ->where('inrotate', 1)
+//                        ->where('place_id', 44)
+//                        ->limit(1)
+//                        ->get()
+//                        ->toArray();
+//        $header = BannerRotate::/*where('dt_start', Carbon::now())
+//                        ->where('dt_end', Carbon::now())*/
+//                        where('archive', 0)
+//                        ->where('inrotate', 1)
+//                        ->where('place_id', 45)
+//                        ->limit(1)
+//                        ->get()
+//                        ->toArray();
+//        $traders = BannerRotate::/*where('dt_start', Carbon::now())
+//                        ->where('dt_end', Carbon::now())*/
+//                        where('archive', 0)
+//                        ->where('inrotate', 1)
+//                        ->where('place_id', 46)
+//                        ->limit(1)
+//                        ->get()
+//                        ->toArray();
         $search = null;
         $region_name = $this->checkName($region)['name'];
         $current_region = $region;

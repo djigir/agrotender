@@ -3604,13 +3604,13 @@ var agrotender = new(function () {
 			  if (price.currency == 1) html += '$';
 			  html+=(price.price);
 			  html+='</span>';
-			  
+
               if (price.change_price!='') html += '<img src="/app/assets/img/price-'+(price.change_price)+'.svg">';
               if (price.change_price == '') html += '<img src="/app/assets/img/price-not-changed.svg">';
             html += '</div>'+
           '</div>';
           });
-		  
+
         html += '</div>'+
         '<div class="col-12 px-0 d-flex justify-content-between align-items-center px-2 pb-2 rating text-center">'+
           '<a class="stars" href="/kompanii/comp-'+(trader.id)+'-reviews">';
@@ -3647,12 +3647,12 @@ var agrotender = new(function () {
         });
       }
     });
-  $('.elev').appe    
+  $('.elev').appe
   };
 
 /*
       <div class="traders__item-wrap">
-        
+
         <a href="/kompanii/comp-{$trader['id']}{if $section neq 'buy'}-prices?type=1{else}{/if}" class="traders__item {if $trader['top'] eq '1'} yellow{/if}">
           <div class="traders__item__header">
             <img class="traders__item__image" src="/{$trader['logo']}" alt="">
@@ -3717,7 +3717,7 @@ var agrotender = new(function () {
           </div>
           <div class="traders__item__content">
             <div href="#" class="traders__item__content-title title">
-              ${trader.title.replace(/(.{25})..+/, "$1…")}            
+              ${trader.title.replace(/(.{25})..+/, "$1…")}
               </div>
               <div class="traders__item__content-description">
         `;
@@ -4417,7 +4417,7 @@ const $tradersCardTitle = document.querySelectorAll('.traders__item__content-tit
 if ($tradersCardDescText.length) {
   $tradersCardDescText.forEach($el => {
     if ($el.textContent.length > 12) {
-      $el.textContent = $el.textContent.split('').filter((_, idx) => idx < 12).join('') + '.'            
+      $el.textContent = $el.textContent.split('').filter((_, idx) => idx < 12).join('') + '.'
     }
   })
 }
@@ -4427,14 +4427,14 @@ if ( $tradersCardTitle.length && document.documentElement.clientWidth < 480) {
     $tradersCardTitle.forEach($el => {
       if ($el.textContent.length > 20) {
         console.log($el.textContent.length)
-        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 20).join('') + '.'            
+        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 20).join('') + '.'
       }
-    }) 
+    })
   } else {
     $tradersCardTitle.forEach($el => {
       if ($el.textContent.length > 26) {
         console.log($el.textContent.length)
-        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 26).join('') + '.'            
+        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 26).join('') + '.'
       }
     })
   }
@@ -4526,7 +4526,7 @@ window.onload = () => {
   `)
   if ($headerWrap) {
     const headerOffset = $headerWrap.offsetTop
-  
+
     window.addEventListener('scroll', function(e) {
       if (this.scrollY < 100) {
         $headerWrap.classList.add("fixed-item");
@@ -4543,11 +4543,11 @@ window.onload = () => {
       }
       this.oldScroll_header = this.scrollY;
     })
-    
+
     const $drawer =  document.querySelector('.new_header .drawer')
     const $drawerOpenBtn = document.querySelector('.header_drawerOpen-btn')
     const $body = document.querySelector('body')
-  
+
     $drawerOpenBtn.addEventListener('click', () => {
       $drawer.classList.add('open')
       $body.classList.add('body_non_scroll')
@@ -4559,7 +4559,7 @@ window.onload = () => {
       }
     })
   }
-  
+
 }
 
 
@@ -4572,26 +4572,26 @@ if (isFilter) {
   const checkboxes = document.querySelectorAll('.new_filters_checkbox')
 
   const items = [...checkboxes, ...$filterButtons]
-  
+
   items.forEach(el => {
     el.parentNode.addEventListener('mouseenter', (e) => {
       setTimeout(() => {
-        el.parentNode.classList.add('active')   
+        el.parentNode.classList.add('active')
         filter_Background.classList.add('active')
       }, 0)
     })
     el.parentNode.addEventListener('mouseleave', (e) => {
       setTimeout(() => {
-        el.parentNode.classList.remove('active')    
+        el.parentNode.classList.remove('active')
         filter_Background.classList.remove('active')
       }, 0)
     })
   })
-  
+
   filter_Background.addEventListener('click', () => {
     filter_Background.classList.remove('active')
   })
-  
+
 
   window.addEventListener('click', e => {
     let flagPath = false
@@ -4638,9 +4638,9 @@ if (isFilter) {
 
   fff(choseProduction)
   fff(allUkraine)
-  
+
   const $filterOffset = document.querySelector('.new_filters-wrap')
-  const filterOffset = $filterOffset.offsetTop 
+  const filterOffset = $filterOffset.offsetTop
 
   window.addEventListener('scroll', function(e) {
     if (this.scrollY > filterOffset && this.oldScroll < this.scrollY) {
@@ -4706,9 +4706,9 @@ class NewFilter {
 
   findEl(selector, node) {
     if (node) {
-      return node.querySelector(selector)      
+      return node.querySelector(selector)
     } else {
-      return this.$filter.querySelector(selector)      
+      return this.$filter.querySelector(selector)
     }
   }
 
@@ -4819,9 +4819,9 @@ class NewFilter {
   submitHandler() {
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
-      console.log(this.search_url)  
+      console.log(this.search_url)
       const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-      console.log(newUrl)  
+      console.log(newUrl)
       window.location = newUrl
     })
   }
@@ -4847,21 +4847,21 @@ class NewFilter {
           const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
           lists.forEach((ul, idx) => {
             if (idx < lists.length - 1) {
-              ul.classList.add('hidden')              
+              ul.classList.add('hidden')
             }
           })
           titles.forEach((t, idx) => {
-            t.classList.add('hidden')              
+            t.classList.add('hidden')
           })
           output.innerHTML = show_result.map(a => `<li>${a.outerHTML}</li>`).join('')
         } else {
           const lists = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-list')
           const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
           lists.forEach((ul, idx) => {
-            ul.classList.remove('hidden')           
+            ul.classList.remove('hidden')
           })
           titles.forEach((t, idx) => {
-            t.classList.remove('hidden')              
+            t.classList.remove('hidden')
           })
           output.innerHTML = ''
         }
@@ -4871,12 +4871,12 @@ class NewFilter {
         const lists = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-list')
         const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
         lists.forEach((ul, idx) => {
-          ul.classList.remove('hidden')           
+          ul.classList.remove('hidden')
         })
         titles.forEach((t, idx) => {
-          t.classList.remove('hidden')              
+          t.classList.remove('hidden')
         })
-        
+
         s.value = ''
         output.innerHTML = ''
       })
@@ -4885,7 +4885,7 @@ class NewFilter {
 }
 
 if ($filter) {
-  const filterExmp = new NewFilter($filter)  
+  const filterExmp = new NewFilter($filter)
   document.querySelector('.openFilter').onclick = () => filterExmp.open()
 }
 

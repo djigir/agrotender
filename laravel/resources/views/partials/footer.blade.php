@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="d-flex d-md-none align-items-center justify-content-center mt-2">
-        <span class="tm small">© «АгротендерTM» 2011–{'Y'|date}</span>
+        <span class="tm small">© «АгротендерTM» 2020</span>
     </div>
 </footer>
 </div>
@@ -45,27 +45,27 @@
 <!--<script src="/app/assets/js/html5shiv.min.js"></script>-->
 <!--<script src="/app/assets/js/html5shiv-printshiv.min.js"></script>-->
 <!--<script src="/app/assets/js/respond.min.js"></script>-->
-<script src="/app/assets/js/analitix.js"></script>
 <script src="/app/assets/js/app.js"></script>
+<script src="/app/assets/js/analitix.js"></script>
 {{--<script src="/app/assets/js/bootstrap.bundle.min.js"></script>--}}
 <script src="/app/assets/js/bootstrap.min.js"></script>
 {{--<script src="/app/assets/js/bootstrap-datepicker.min.js"></script>--}}
 {{--<script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>--}}
 <script src="/app/assets/js/clamp.min.js"></script>
-<script src="/app/assets/js/color-thief.min.js"></script>
+{{--<script src="/app/assets/js/color-thief.min.js"></script>--}}
 <script src="/app/assets/js/es5-shim.min.js"></script>
 <script src="/app/assets/js/favicon.min.js"></script>
 <script src="/app/assets/js/highcharts.js"></script>
 <script src="/app/assets/js/html2canvas.js"></script>
 {{--<script src="/app/assets/js/html5shiv.min.js"></script>--}}
 {{--<script src="/app/assets/js/html5shiv-printshiv.min.js"></script>--}}
-<script src="/app/assets/js/imagelightbox.js"></script>
-<script src="/app/assets/js/jquery.dataTables.min.js"></script>
-<script src="/app/assets/js/jquery.ellipsis.js"></script>
-<script src="/app/assets/js/jquery.jgrowl.min.js"></script>
-<script src="/app/assets/js/jquery.mask.min.js"></script>
-<script src="/app/assets/js/jquery.pjax.js"></script>
-<script src="/app/assets/js/jquery.validate.min.js"></script>
+{{--<script src="/app/assets/js/imagelightbox.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.dataTables.min.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.ellipsis.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.jgrowl.min.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.mask.min.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.pjax.js"></script>--}}
+{{--<script src="/app/assets/js/jquery.validate.min.js"></script>--}}
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
@@ -73,7 +73,7 @@
 <script src="/app/assets/js/respond.min.js"></script>
 <script src="/app/assets/js/sides.js"></script>
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
-<script src="/app/assets/js/stringMonthYear.js"></script>
+{{--<script src="/app/assets/js/stringMonthYear.js"></script>--}}
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
 
