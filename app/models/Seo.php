@@ -164,9 +164,6 @@ class Seo extends \Core\Model {
     return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
   }
   public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null) {
-      echo '<pre>';
-      var_dump($rubric, $region, $port, $type, $page, $onlyPorts);
-      echo '</pre>';die();
     $h1 = '';
     $text = '';
     $rubricText = ($rubric != null) ? $rubric['name'] : 'Аграрной продукции';

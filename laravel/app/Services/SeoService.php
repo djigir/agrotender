@@ -6,6 +6,8 @@ use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 
 use App\Models\Pages\Pages;
+use App\Models\Seo\SeoTitles;
+use App\Models\Traders\TradersProductGroupLanguage;
 
 
 class SeoService
@@ -82,18 +84,20 @@ class SeoService
 
 
     public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null)
-
     {
-        //dd($rubric, $region, $port, $type, $page, $onlyPorts);
+        $get_rubric = TradersProductGroupLanguage::first();
+        dd($get_rubric);
+
         $h1 = '';
         $text = '';
+        $rubricText = ($rubric != null) ? $rubric['name'] : 'Аграрной продукции';
+        $regionText = ($region != null) ? $region['parental'].' области' : 'Украине';
+        $year = date('Y');
+        $yearsText = $year.'-'.($year+1);
 
-        $rubric = [];
-        $region = [];
-        $port = [];
-        $onlyPorts = [];
-
-
+        if ($rubric != null || $region != null) {
+            $seo = SeoTitles::where(['pagetype', 2], ['sect_id', 0], ['obl_id', $region['id']], ['cult_id', $rubric['id']], ['type_id', $type]);
+        }
     }
 
     public function parseSeoText($region, $str)
