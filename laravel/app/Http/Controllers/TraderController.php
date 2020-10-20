@@ -60,8 +60,8 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
 
-        //$this->seoService->getTradersMeta();
-
+        $meta = $this->seoService->getTradersMeta(null, null, null, 0, 1, null);
+        dd($meta);
         return view('traders.traders_regions',
             [
                 'viewmod'=> $request->get('viewmod'),
