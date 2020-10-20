@@ -44,7 +44,6 @@ class TraderService
             $query->select('portname', 'p_title', 'p_h1', 'p_descr', 'port_id');
         }])
             ->where('active', 1)
-//            ->orderBy('traders_ports_lang.portname')
             ->get()
             ->toArray();
 
@@ -52,7 +51,10 @@ class TraderService
             $ports[$index] = array_merge($port, $port['traders_ports_lang'][0]);
             unset($ports[$index]["traders_ports_lang"]);
         }
-        $ports = collect($ports)->sortBy('portname');
+
+        $ports = collect($ports)->sortBy('portname')->toArray();
+        $ports = array_values($ports);
+
         return $ports;
 
     }
@@ -87,27 +89,71 @@ class TraderService
         return $groups;
     }
 
-    public function getTradersPortCulture()
+    public function getTradersRegionPortCulture($port = null, $culture = null, $type_premium, $region = null)
     {
+        $obl_id = null;
+        $traders = [];
+        if($port != null and $port!= 'all'){
+            $obl_id = TradersPorts::where('url', $port)->value('obl_id');
+        }
+
 
     }
 
-    public function getTradersRegionCulture()
+    public function getTraders($port = null, $culture = null, $type_premium, $region = null)
     {
+        $traders = CompItems::where([['trader_premium', $type_premium], ['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1]]);
 
-    }
+        if($region != null and  $region != 'ukraine'){
+            $obl_id = Regions::where('translit', $region)->value('id');
+        }
 
-    public function getTraders($type_premium)
-    {
-        $traders = CompItems::where([['trader_premium', $type_premium], ['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1]])
+        if($culture != null){
+            $culture = TradersProducts::where('url', $culture)->value('id');
+        }
+
+        $traders = CompItems::
+            where([
+                ['trader_premium', $type_premium],
+                ['trader_price_avail', 1],
+                ['trader_price_visible', 1],
+                ['visible', 1],
+                [function ($query) use($obl_id){
+                    if($obl_id != null)
+                    $query->where('obl_id', $obl_id);
+                }],
+            ])
             ->select('id', 'title', 'author_id', 'logo_file')
+            ->orderBy('trader_sort')
+            ->orderBy('rate_formula' , 'desc')
+            ->orderBy('title')
             ->groupBy('id')
             ->get()
             ->toArray();
 
+            if($obl_id != null and $culture != null){
+                $traders = CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
+                    ->where([['comp_items.trader_premium', $type_premium],
+                        ['comp_item2topic.topic_id', $culture], [function ($query) use($region, $obl_id){
+                        if($obl_id != null){
+                            $query->where('comp_items.obl_id', $obl_id);
+                        }
+                    }]])
+                    ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
+                        'comp_items.obl_id', 'comp_items.logo_file',
+                        'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
+                        'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3'
+                    )
+                    ->orderBy('comp_items.trader_premium', 'desc')
+                    ->orderBy('comp_items.rate_formula', 'desc')
+                    ->get()
+                    ->toArray();
+            }
+
         $traders = $this->add_data_traders($traders);
 
         return $traders;
+
     }
 
     public function add_data_traders($traders)
