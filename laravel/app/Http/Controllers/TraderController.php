@@ -55,6 +55,8 @@ class TraderController extends Controller
     public function checkName($region = null, $port = null)
     {
         $name = null;
+        $onlyPorts = null;
+
         if($region != null){
             if($region == 'ukraine'){
                 $name = 'Вся Украина';
@@ -65,10 +67,15 @@ class TraderController extends Controller
             }
         }else{
             $port_name = TradersPorts::where('url', $port)->value('id');
-            $name = ($port == 'all') ? 'Все порты' : TradersPortsLang::where('port_id', $port_name)->value('portname');
+            if($port == 'all'){
+                $name = 'Все порты';
+                $onlyPorts = 'yes';
+            }else{
+                $name = TradersPortsLang::where('port_id', $port_name)->value('portname');
+            }
         }
 
-        return $name;
+        return ['name' => $name, 'onlyPorts' => $onlyPorts];
 
     }
     public function index(Request $request, $region)
@@ -76,7 +83,7 @@ class TraderController extends Controller
 //        dump($request->get('currency'));
 
         $search = null;
-        $region_name = $this->checkName($region);
+        $region_name = $this->checkName($region)['name'];
         $current_region = $region;
 
         $rubrics = $this->traderService->getRubricsGroup();
@@ -122,7 +129,7 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
 
-        $region_name = $this->checkName($region);
+        $region_name = $this->checkName($region)['name'];
         $current_region = $region;
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
@@ -156,13 +163,9 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, null, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, null, 0, null);
 
-        $port_name = $this->checkName(null, $port);
+        $port_name = $this->checkName(null, $port)['name'];
+        $onlyPorts = $this->checkName(null, $port)['onlyPorts'];
         $current_port = $port;
-        if ($port_name === 'Все порты') {
-            $onlyPorts = 'yes';
-        }else {
-            $onlyPorts = $port_name;
-        }
 
         $meta = $this->seoService->getTradersMeta(null, null, $port_name, 1, 1, $onlyPorts);
 
@@ -191,16 +194,13 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 0, null);
 
-        $port_name = $this->checkName(null, $port);
+        $port_name = $this->checkName(null, $port)['name'];
+        $onlyPorts = $this->checkName(null, $port)['onlyPorts'];
         $current_port = $port;
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
 
-        if ($port_name === 'Все порты') {
-            $onlyPorts = 'yes';
-        }else {
-            $onlyPorts = $port_name;
-        }
+
         $meta = $this->seoService->getTradersMeta($culture_name, null, $port_name, 1, 1, $onlyPorts);
 
         return view('traders.traders_port_culture', [
