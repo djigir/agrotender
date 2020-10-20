@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Comp\CompItems;
+use App\Models\Regions\Regions;
 use App\Models\Traders\Traders;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersLang;
+use App\Models\Traders\TradersPorts;
+use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
+use App\Models\Traders\TradersProducts;
 use App\Models\TradersComment;
 use App\Models\TradersFilters;
 
@@ -51,16 +55,21 @@ class TraderController extends Controller
 
     public function index(Request $request, $region)
     {
+        $search = null;
+        $unwanted_region = false;
+
+        if($region == 'ukraine' or $region == 'crimea'){
+            $unwanted_region = true;
+        }
 
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
 
-        //$this->seoService->getTradersMeta();
+        $currently_region = Regions::where('translit', $region)->value('name');
 
         return view('traders.traders_regions',
             [
@@ -70,6 +79,8 @@ class TraderController extends Controller
                 'traders' => $traders,
                 'rubric' => $rubrics,
                 'onlyPorts' => $ports,
+                'currently_region' => $currently_region,
+                'unwanted_region' => $unwanted_region,
                 'currencies'=> $currencies,
             ]
         );
@@ -77,6 +88,12 @@ class TraderController extends Controller
 
     public function port(Request $request, $port)
     {
+        $search = null;
+        $unwanted_region = false;
+
+        if($port == 'all'){
+            $unwanted_region = true;
+        }
 
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
@@ -84,6 +101,9 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, null, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, null, 0, null);
+
+        $currently_region = TradersPorts::where('url', $port)->value('id');
+        $currently_region = TradersPortsLang::where('port_id', $currently_region)->value('portname');
 
 
         return view('traders.traders_port', [
@@ -97,8 +117,55 @@ class TraderController extends Controller
         ]);
     }
 
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  string  $region
+     * @param  string  $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function region_and_culture(Request $request, $region, $culture)
+    {
+        $search = null;
+        $unwanted_region = false;
+
+        if($region == 'ukraine' or $region == 'crimea'){
+            $unwanted_region = true;
+        }
+
+        $rubrics = $this->traderService->getRubricsGroup();
+        $regions = $this->baseService->getRegions();
+        $ports = $this->traderService->getPorts();
+        $currencies = $this->traderService->getCurrencies();
+        $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
+        $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
+        $currently_region = Regions::where('translit', $region)->value('name');
+        $culture = TradersProducts::where('url', $culture)->value('id');
+
+        return view('traders.traders_regions_culture', [
+            'viewmod'=> $request->get('viewmod'),
+            'regions' => $regions,
+            'top_traders' => $top_traders,
+            'traders' => $traders,
+            'rubric' => $rubrics,
+            'onlyPorts' => $ports,
+            'currencies'=> $currencies,
+        ]);
+
+        //$this->seoService->getTradersMeta();
+    }
+
+
     public function port_and_culture(Request $request, $port, $culture)
     {
+        $search = null;
+        $unwanted_region = false;
+
+        if($port == 'all'){
+            $unwanted_region = true;
+        }
+
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
@@ -106,7 +173,9 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 0, null);
 
-       // dd($top_traders, $traders);
+        $currently_region = TradersPorts::where('url', $port)->value('id');
+        $currently_region = TradersPortsLang::where('port_id', $currently_region)->value('portname');
+        $culture = TradersProducts::where('url', $culture)->value('id');
 
         return view('traders.traders_port_culture', [
             'viewmod'=> $request->get('viewmod'),
@@ -121,35 +190,7 @@ class TraderController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  string  $region
-     * @param  string  $culture
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function region_and_culture(Request $request, $region, $culture)
-    {
 
-        $rubrics = $this->traderService->getRubricsGroup();
-        $regions = $this->baseService->getRegions();
-        $ports = $this->traderService->getPorts();
-        $currencies = $this->traderService->getCurrencies();
-        $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
-        $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
-
-        return view('traders.traders_regions_culture', [
-            'viewmod'=> $request->get('viewmod'),
-            'regions' => $regions,
-            'top_traders' => $top_traders,
-            'traders' => $traders,
-            'rubric' => $rubrics,
-            'onlyPorts' => $ports,
-            'currencies'=> $currencies,
-        ]);
-
-        //$this->seoService->getTradersMeta();
-    }
 
 
     public function forwards() {
