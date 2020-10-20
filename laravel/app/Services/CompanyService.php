@@ -304,8 +304,7 @@ class CompanyService
     {
         $obl_id = Regions::where('translit', $region)->value('id');
 
-        $companies = CompItems::
-        where([[function ($query) use($region, $obl_id){
+        $companies = CompItems::where([[function ($query) use($region, $obl_id){
             if($region != 'ukraine' and $region != null)
                 $query->where('obl_id', '=', $obl_id);
         }]])->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
@@ -316,8 +315,7 @@ class CompanyService
             ->paginate(self::PER_PAGE);
 
         if($region != null and $rubric != null){
-            $companies =  CompItems::
-            join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
+            $companies =  CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
                 ->where([['comp_item2topic.topic_id', $rubric], [function ($query) use($region, $obl_id){
                     if($region != 'ukraine' and $region != null)
                         $query->where('comp_items.obl_id', '=', $obl_id);
