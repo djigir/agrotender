@@ -50,21 +50,19 @@ class TraderController extends Controller
 
     public function index(Request $request, $region)
     {
-        dump('$region', $region);
-
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-        $top_traders = $this->traderService->getTraders(1);
-        $traders = $this->traderService->getTraders(0);
+
+        $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
+        $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
 
         //$this->seoService->getTradersMeta();
 
         return view('traders.traders_regions',
             [
-                'viewmod'=>$request->get('viewmod'),
-                'section' => 'section',
+                'viewmod'=> $request->get('viewmod'),
                 'regions' => $regions,
                 'top_traders' => $top_traders,
                 'traders' => $traders,
@@ -75,10 +73,47 @@ class TraderController extends Controller
         );
     }
 
-    public function port_and_culture($port, $culture)
+    public function port(Request $request, $port)
     {
-        dump('port_and_culture', $port, $culture);
-        //$this->seoService->getTradersMeta(null, null, );
+        $rubrics = $this->traderService->getRubricsGroup();
+        $regions = $this->baseService->getRegions();
+        $ports = $this->traderService->getPorts();
+        $currencies = $this->traderService->getCurrencies();
+        $top_traders = $this->traderService->getTradersRegionPortCulture($port, null, 1, null);
+        $traders = $this->traderService->getTradersRegionPortCulture($port, null, 0, null);
+
+
+        return view('traders.traders_port', [
+            'viewmod'=> $request->get('viewmod'),
+            'regions' => $regions,
+            'top_traders' => $top_traders,
+            'traders' => $traders,
+            'rubric' => $rubrics,
+            'onlyPorts' => $ports,
+            'currencies'=> $currencies,
+        ]);
+    }
+
+    public function port_and_culture(Request $request, $port, $culture)
+    {
+        $rubrics = $this->traderService->getRubricsGroup();
+        $regions = $this->baseService->getRegions();
+        $ports = $this->traderService->getPorts();
+        $currencies = $this->traderService->getCurrencies();
+        $top_traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 1, null);
+        $traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 0, null);
+
+       // dd($top_traders, $traders);
+
+        return view('traders.traders_port_culture', [
+            'viewmod'=> $request->get('viewmod'),
+            'regions' => $regions,
+            'top_traders' => $top_traders,
+            'traders' => $traders,
+            'rubric' => $rubrics,
+            'onlyPorts' => $ports,
+            'currencies'=> $currencies,
+        ]);
 
     }
 
@@ -89,20 +124,26 @@ class TraderController extends Controller
      * @param  string  $culture
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function region_and_culture($region, $culture)
+    public function region_and_culture(Request $request, $region, $culture)
     {
-        dump('region_and_culture',$region, $culture);
+        $rubrics = $this->traderService->getRubricsGroup();
+        $regions = $this->baseService->getRegions();
+        $ports = $this->traderService->getPorts();
+        $currencies = $this->traderService->getCurrencies();
+        $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
+        $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
 
-        $this->seoService->getTradersMeta();
+        return view('traders.traders_regions_culture', [
+            'viewmod'=> $request->get('viewmod'),
+            'regions' => $regions,
+            'top_traders' => $top_traders,
+            'traders' => $traders,
+            'rubric' => $rubrics,
+            'onlyPorts' => $ports,
+            'currencies'=> $currencies,
+        ]);
 
-        return view('traders.traders_regions_culture');
-    }
-
-
-    public function port($port_name)
-    {
-        dump('port', $port_name);
-        return view('traders.traders_regions_culture');
+        //$this->seoService->getTradersMeta();
     }
 
 

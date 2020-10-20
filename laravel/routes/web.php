@@ -12,8 +12,9 @@ Route::prefix('traders')
         Route::get('/', 'TraderController@index_redirect');
         Route::get('/region_{region}', 'TraderController@index')->name('traders_regions');
         Route::get('/region_{region}/{culture}', 'TraderController@region_and_culture')->name('traders_regions_culture');
+
         Route::get('/tport_{port}/{culture}', 'TraderController@port_and_culture')->name('traders_port_culture');
-        Route::get('/{port_name}', 'TraderController@port')->name('traders_port');
+        Route::get('/tport_{port_name}', 'TraderController@port')->name('traders_port');
     });
 
 Route::get('/traders_forwards/region_{region}', 'TraderController@forwards')->name('traders_forwards');

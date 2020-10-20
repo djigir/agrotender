@@ -11,6 +11,7 @@ use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersPlaces;
+use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProducts2buyer;
 use Symfony\Component\HttpFoundation\Request;
@@ -110,12 +111,8 @@ class CompanyService
 
     public function getPlacePortsRegions($id, $placeType)
     {
-
         $get_places = $this->getTraderPricesRubrics($id, $placeType);
         $places = [];
-        $culture = $this->getPortsRegionsCulture($id, $placeType);
-
-
 
         foreach ($get_places as $index => $place) {
             if (!empty($place['traders_products']) and !empty($get_places[$index]['traders_products'][0]['traders_prices'])) {
