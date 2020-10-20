@@ -56,7 +56,6 @@ class Utils extends \Core\Model {
       $agropos = strpos($banner['ban_link'], "agrotender.com.ua");
       $blank = ($agropos === FALSE) ? ' target="_blank"' : '';
       $banners['header'][] = '<div class=""  style="z-index:2; width:100%;"><noindex><a class="" href="'.$banner['ban_link'].'" rel="nofollow"'.$blank.'><img style="height:30px;width:100%;" src="/files/'.$banner['ban_file'].'" class="" id=""></a></noindex></div>';
-    
     }
         foreach ($traders as $banner) {
       $agropos = strpos($banner['ban_link'], "agrotender.com.ua");

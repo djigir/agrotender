@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Banner\BannerRotate;
 use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Traders\Traders;
@@ -22,6 +23,7 @@ use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use App\Services\Traders\TraderService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\TestFixture\C;
 
@@ -80,7 +82,51 @@ class TraderController extends Controller
     }
     public function index(Request $request, $region)
     {
-//        dump($request->get('currency'));
+
+
+        $banners = [];
+        $top = BannerRotate::/*where('dt_start', Carbon::now())
+                        ->where('dt_end', Carbon::now())*/
+                        where('archive', 0)
+                        ->where('inrotate', 1)
+                        ->where('place_id', 43)
+                        ->limit(3)
+                        ->get()
+                        ->toArray();
+        $bottom = BannerRotate::/*where('dt_start', Carbon::now())
+                        ->where('dt_end', Carbon::now())*/
+                        where('archive', 0)
+                        ->where('inrotate', 1)
+                        ->where('place_id', 10)
+                        ->limit(1)
+                        ->get()
+                        ->toArray();
+        $body = BannerRotate::/*where('dt_start', Carbon::now())
+                        ->where('dt_end', Carbon::now())*/
+                        where('archive', 0)
+                        ->where('inrotate', 1)
+                        ->where('place_id', 44)
+                        ->limit(1)
+                        ->get()
+                        ->toArray();
+        $header = BannerRotate::/*where('dt_start', Carbon::now())
+                        ->where('dt_end', Carbon::now())*/
+                        where('archive', 0)
+                        ->where('inrotate', 1)
+                        ->where('place_id', 45)
+                        ->limit(1)
+                        ->get()
+                        ->toArray();
+        $traders = BannerRotate::/*where('dt_start', Carbon::now())
+                        ->where('dt_end', Carbon::now())*/
+                        where('archive', 0)
+                        ->where('inrotate', 1)
+                        ->where('place_id', 46)
+                        ->limit(1)
+                        ->get()
+                        ->toArray();
+
+
 
         $search = null;
         $region_name = $this->checkName($region)['name'];

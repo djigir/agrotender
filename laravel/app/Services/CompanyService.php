@@ -257,7 +257,7 @@ class CompanyService
     {
         $type = 0;
         $company = CompItems::where('id', $id)->get()->first();
-        $author_id = $company->author_id;
+        $author_id = $company['author_id'];
         $pricesPorts = $this->getPlaces($author_id, 2, $type);
         $pricesRegions = $this->getPlaces($author_id, 0, $type);
         $prices = $this->getPrices($author_id, $type);
@@ -269,7 +269,7 @@ class CompanyService
             $type = 1;
         }
 
-        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+        if ($issetT1 > 0 && $company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
             $type = 0;
         }
 

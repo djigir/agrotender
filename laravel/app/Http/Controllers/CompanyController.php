@@ -87,10 +87,10 @@ class CompanyController extends Controller
         $region_place = $this->companyService->getPlacePortsRegions($id, 0);
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
-        if ($company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+        if ($company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
             $title = "Закупочные цены {$company->title} на сегодня: контакты, отзывы";
         }else {
-            $title = $company->title.": цены, контакты, отзывы";
+            $title = $company['title'].": цены, контакты, отзывы";
         }
 
         $keywords = $company->title;
@@ -215,14 +215,13 @@ class CompanyController extends Controller
      * @param $regions
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_filter($search)
+    public function company_filter($query = null)
     {
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
-        $companies = $this->companyService->getCompanies(null, null, $search);
-
+        $companies = $this->companyService->getCompanies(null, null, $query);
         return view('company.company_filter', [
-                'search' => $search,
+                'search' => $query,
                 'companies' => $companies,
                 'rubricGroups' => $groups,
                 'settings_for_page' => $companies,
