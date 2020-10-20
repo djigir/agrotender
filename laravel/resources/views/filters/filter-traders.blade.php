@@ -26,177 +26,87 @@
                                 <ul>
                                     @foreach($rubricsGroup as $group => $item)
                                         <li class="">
-                                            <a href="#" class="test">{{$group}}</a>
+                                            <a href="#" class="test">{{$item['groups']['name']}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
                             <div class="new_filters_dropdown-content 1 active" id="cereals">
                                 <ul>
-                                    @foreach($rubricsGroup["Зерновые"]["group_culture"] as $index => $item)
-                                        @if($index > count($rubricsGroup["Зерновые"]["group_culture"]) / 2)
-                                            <li>
-                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Зерновые"]["group_culture"][$index]['url']}}?viewmod=nontbl">
-                                                    {{$rubricsGroup["Зерновые"]["group_culture"][$index]['name']}}
-                                                    {{--                                                    (50)--}}
-                                                </a>
-                                            </li>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                                <ul>
-                                    @foreach($rubricsGroup["Зерновые"]["group_culture"] as $index => $item)
-                                        @if($index < count($rubricsGroup["Зерновые"]["group_culture"]) / 2)
-                                            <li>
-                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Зерновые"]["group_culture"][$index]['url']}}">
-                                                    {{$rubricsGroup["Зерновые"]["group_culture"][$index]['name']}}
-                                                    {{--                                                    (50)--}}
-                                                </a>
-                                            </li>
-                                        @endif
+                                    @foreach($rubricsGroup[0]["products"] as $index => $item)
+                                       <li>
+{{--                                           ?viewmod=nontbl--}}
+                                           <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                               {{$item['culture']['name']}}
+                                           </a>
+                                       </li>
                                     @endforeach
                                 </ul>
                             </div>
-                            {{--                            <div class="new_filters_dropdown-content 7" id="oilseeds">--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Масличные"]["groups"]["traders_products"] as $index => $item)--}}
+                            <div class="new_filters_dropdown-content 7" id="oilseeds">
+                                <ul>
+                                    @foreach($rubricsGroup[1]["products"] as $index => $item)
+                                        <li>
+                                            {{--                                           ?viewmod=nontbl--}}
+                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                                {{$item['culture']['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="new_filters_dropdown-content 3 " id="legumes">
+                                <ul>
+                                    @foreach($rubricsGroup[2]["products"] as $index => $item)
+                                        <li>
+                                            {{--?viewmod=nontbl--}}
+                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                                {{$item['culture']['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
 
-                            {{--                                        @if($index > count($rubricsGroup["Масличные"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Масличные"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Масличные"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Масличные"]["groups"]["traders_products"] as $index => $item)--}}
-                            {{--                                        @if($index < count($rubricsGroup["Масличные"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Масличные"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Масличные"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
 
-                            {{--                            </div>--}}
-                            {{--                            <div class="new_filters_dropdown-content 3 " id="legumes">--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Бобовые"]["groups"]["traders_products"] as $index => $item)--}}
+                            </div>
+                            <div class="new_filters_dropdown-content 2" id="niche_crops">
+                                <ul>
+                                    @foreach($rubricsGroup[3]["products"] as $index => $item)
+                                        <li>
+                                            {{--                                           ?viewmod=nontbl--}}
+                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                                {{$item['culture']['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
 
-                            {{--                                        @if($index > count($rubricsGroup["Бобовые"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Бобовые"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Бобовые"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Бобовые"]["groups"]["traders_products"] as $index => $item)--}}
-                            {{--                                        @if($index < count($rubricsGroup["Бобовые"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Бобовые"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Бобовые"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
 
-                            {{--                            </div>--}}
-                            {{--                            <div class="new_filters_dropdown-content 2" id="niche_crops">--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Нишевые культуры"]["groups"]["traders_products"] as $index => $item)--}}
-
-                            {{--                                        @if($index > count($rubricsGroup["Нишевые культуры"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Нишевые культуры"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Нишевые культуры"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Нишевые культуры"]["groups"]["traders_products"] as $index => $item)--}}
-                            {{--                                        @if($index < count($rubricsGroup["Нишевые культуры"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Нишевые культуры"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Нишевые культуры"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-
-                            {{--                            </div>--}}
-                            {{--                            <div class="new_filters_dropdown-content 4" id="processing_products">--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Продукты переработки"]["groups"]["traders_products"] as $index => $item)--}}
-
-                            {{--                                        @if($index > count($rubricsGroup["Продукты переработки"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Продукты переработки"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Продукты переработки"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Продукты переработки"]["groups"]["traders_products"] as $index => $item)--}}
-                            {{--                                        @if($index < count($rubricsGroup["Продукты переработки"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Продукты переработки"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Продукты переработки"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-
-                            {{--                            </div>--}}
-                            {{--                            <div class="new_filters_dropdown-content 16" id="organic">--}}
-                            {{--                                <<ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Органика"]["groups"]["traders_products"] as $index => $item)--}}
-
-                            {{--                                        @if($index > count($rubricsGroup["Органика"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Органика"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Органика"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-                            {{--                                <ul>--}}
-                            {{--                                    @foreach($rubricsGroup["Органика"]["groups"]["traders_products"] as $index => $item)--}}
-                            {{--                                        @if($index < count($rubricsGroup["Органика"]["groups"]["traders_products"]) / 2)--}}
-                            {{--                                            <li>--}}
-                            {{--                                                <a href="/traders/region_ukraine/{{$rubricsGroup["Органика"]["groups"]["traders_products"][$index]['url']}}">--}}
-                            {{--                                                    {{$rubricsGroup["Органика"]["groups"]["traders_products"][$index]['name']}}--}}
-                            {{--                                                    (50)--}}
-                            {{--                                                </a>--}}
-                            {{--                                            </li>--}}
-                            {{--                                        @endif--}}
-                            {{--                                    @endforeach--}}
-                            {{--                                </ul>--}}
-
-                            {{--                            </div>--}}
+                            </div>
+                            <div class="new_filters_dropdown-content 4" id="processing_products">
+                                <ul>
+                                    @foreach($rubricsGroup[4]["products"] as $index => $item)
+                                        <li>
+                                            {{--                                           ?viewmod=nontbl--}}
+                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                                {{$item['culture']['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="new_filters_dropdown-content 16" id="organic">
+                                <ul>
+                                    @foreach($rubricsGroup[5]["products"] as $index => $item)
+                                        <li>
+                                            {{--                                           ?viewmod=nontbl--}}
+                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
+                                                {{$item['culture']['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -232,7 +142,7 @@
                                 </ul>
 
                             </div>
-                            <div class="new_filters_dropdown-content ">
+                            <div class="new_filters_dropdown-content">
                                 <ul>
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
@@ -247,22 +157,22 @@
                 <div class="new_filters_checkbox first">
                     <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox">
                     <label class="cbx" for="new_filters_currency_uah">
-            <span>
-              <svg width="12px" height="10px">
-                <use xlink:href="#check"></use>
-              </svg>
-            </span>
+                        <span>
+                          <svg width="12px" height="10px">
+                            <use xlink:href="#check"></use>
+                          </svg>
+                        </span>
                         <span>ГРН</span>
                     </label>
                 </div>
                 <div class="new_filters_checkbox second">
                     <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox">
                     <label class="cbx" for="new_filters_currency_usd">
-            <span>
-              <svg width="12px" height="10px">
-                <use xlink:href="#check"></use>
-              </svg>
-            </span>
+                        <span>
+                          <svg width="12px" height="10px">
+                            <use xlink:href="#check"></use>
+                          </svg>
+                        </span>
                         <span>USD</span>
                     </label>
                 </div>

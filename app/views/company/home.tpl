@@ -37,8 +37,14 @@
           
           <td place="{$place['id']}" rubric="{$rubric['id']}" currency="0" class="currency-0{if $issetUahPort eq null} d-none{/if}">
             {if $issetUahPort neq null}
-            {if !empty($rubric['price'][0])}<div class="d-flex align-items-center justify-content-center lh-1"><span class="font-weight-600">{$rubric['price'][0]['cost']}</span> {if $rubric['price'][0]['change_price'] neq ''}&nbsp;<img src="/app/assets/img/price-{$rubric['price'][0]['change_price']}.svg">&nbsp; <span class="price{if $rubric['price'][0]['change_price'] neq ''}-{$rubric['price'][0]['change_price']}{/if}"> {$rubric['price'][0]['price_diff']|ltrim:'-'}</span>{/if}</div>{/if}
-            {if !empty($rubric['price'][0]['comment']) }<span class="d-block lh-1 pb-1 extra-small">{$rubric['price'][0]['comment']}</span>{/if}
+            {if !empty($rubric['price'][0])}<div class="d-flex align-items-center justify-content-center lh-1">
+              <span class="font-weight-600">{$rubric['price'][0]['cost']}</span>
+              {if $rubric['price'][0]['change_price'] neq ''}&nbsp;
+                <img src="/app/assets/img/price-{$rubric['price'][0]['change_price']}.svg">
+                &nbsp; <span
+                      class="price{if $rubric['price'][0]['change_price'] neq ''}-{$rubric['price'][0]['change_price']}{/if}"> {$rubric['price'][0]['price_diff']|ltrim:'-'}</span>{/if}
+              </div>{/if}
+              {if !empty($rubric['price'][0]['comment']) }<span class="d-block lh-1 pb-1 extra-small">{$rubric['price'][0]['comment']}</span>{/if}
             {/if}
           </td>
           

@@ -57,9 +57,6 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
-        //$this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
-
-
         return view('company.companies', [
                 'companies' => $companies,
                 'settings_for_page' => $companies,
@@ -95,6 +92,7 @@ class CompanyController extends Controller
         }else {
             $title = $company->title.": цены, контакты, отзывы";
         }
+
         $keywords = $company->title;
         $description = mb_substr(strip_tags($company->content), 0, 200);
 

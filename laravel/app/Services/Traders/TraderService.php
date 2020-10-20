@@ -9,16 +9,22 @@ use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
+use App\Services\CompanyService;
 
 
 class TraderService
 {
-    protected $rubric = [];
-    protected $region = [];
+    protected $companyService;
+
+    public function __construct(CompanyService $companyService)
+    {
+        $this->companyService = $companyService;
+    }
+
 
     public function getCurrencies()
     {
-        $currencies = [
+        return [
             'uah' => [
                 'id' => 0,
                 'name' => 'Гривна',
@@ -30,7 +36,6 @@ class TraderService
                 'code' => 'usd'
             ]
         ];
-        return $currencies;
     }
 
     public function getPorts()
@@ -53,116 +58,60 @@ class TraderService
     }
 
 
-    public function getForwardRubrics(
-        $type,
-        $priceType,
-        $region = null,
-        $port = null,
-        $onlyPorts = null,
-        $currency = null
-    ) {
-        $rubrics = [];
-
-        //        $rubrics = $this->db->query("
-//      select tp.id, tp.url as translit, tp.group_id, tpl.name, tpr.id as tprid
-//        from agt_traders_products tp
-//        inner join agt_traders_products_lang tpl
-//          on tpl.item_id = tp.id
-//        inner join agt_traders_prices tpr
-//          on tpr.cult_id = tp.id
-//        inner join agt_traders_places plc
-//          on plc.id = tpr.place_id
-//        inner join agt_comp_items ci
-//          on ci.author_id = tpr.buyer_id
-//        where tp.acttype = $type && plc.type_id != 1 &&
-//          ci.trader_price_forward_visible = 1 && ci.trader_price_forward_avail = 1 && ci.visible = 1 &&
-//          tpr.active = 1 && tpr.acttype = $priceType
-//        group by tp.id
-//        order by tpl.name asc");
-//        // get traders count from rubric list
-//        $counts = $this->getCountsForwardByRubric(array_column($rubrics, 'id'), $region, $port, $onlyPorts, $currency);
-//        foreach ($rubrics as &$v) {
-//            $v['count'] = $counts[$v['id']] ?? 0;
-//        }
-        return $rubrics;
-    }
-
-    public function getRubrics()
-    {
-        $type = 0;
-        //\DB::enableQueryLog();
-        $rubrics = TradersProducts::
-        select('id', 'group_id')
-//            ->with([
-//                'traders_products_lang' => function($query)
-//                {
-//                    $query->select('id', 'item_id', 'name');
-//                }
-////                ,'traders_prices' => function($query)
-////                {
-////                    $query->where('active', 1)->with(['traders_places', 'compItems']);
-////                },
-//                ])
-            ->with([
-                'traders_product_groups_lang' => function ($query) {
-                    $query->select('item_id', 'name');
-                }
-            ])
-            ->where([['acttype', 0]])
-            ->orderBy('group_id')
-//          ->groupBy('group_id')
-            ->get()
-            ->toArray();
-        $rubrics = collect($rubrics)->groupBy('traders_product_groups_lang.name')->toArray();
-        dd($rubrics);
-        //dd(\DB::getQueryLog());
-
-        return $rubrics;
-    }
-
-
-
     public function getRubricsGroup()
     {
         $groups = TradersProductGroups::where("acttype", 0)->get();
-        $groups = collect($groups)->groupBy("groups.name")->toArray();
-        $groups = $this->transform_array($groups);
+
+        foreach ($groups as $index_group => $group){
+            $groups[$index_group]['index_group'] = $index_group;
+        }
+
+        $groups = collect($groups)->groupBy("index_group")->toArray();
+
+        $groups = $this->group_array($groups);
 
         return $groups;
     }
 
 
-    public function transform_array($groups)
+    public function group_array($groups)
     {
         foreach ($groups as $index => $group) {
             $groups[$index] = $groups[$index][0];
-            foreach ($groups[$index]["groups"]["traders_products"] as $id => $item) {
-                $groups[$index]["groups"]["traders_products"][$id] = array_merge($groups[$index]["groups"]["traders_products"][$id],
-                    $groups[$index]["groups"]["traders_products"][$id]["culture"]);
-                unset($groups[$index]["groups"]["traders_products"][$id]["culture"]);
-                $groups[$index]['group_culture'] = $groups[$index]["groups"]["traders_products"];
-            }
-            unset($groups[$index]["groups"]["traders_products"]);
+            $groups[$index]['products'] = $groups[$index]['groups']['traders_products'];
+            $groups[$index]['products'] = collect($groups[$index]['products'])->sortBy('culture.name')->toArray();
 
+            unset($groups[$index]['groups']['traders_products']);
         }
 
         return $groups;
     }
 
-
-    public function new_unique($array, $key)
+    public function getTraders($type_premium)
     {
-        $temp_array = [];
+        $traders = CompItems::where([['trader_premium', $type_premium], ['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1]])
+            ->select('id', 'title', 'author_id', 'logo_file')
+            ->groupBy('id')
+            ->get()
+            ->toArray();
 
-        foreach ($array as $v) {
-            if (!isset($temp_array[$v[$key]])) {
-                $temp_array[$v[$key]] = $v;
+        $traders = $this->add_data_traders($traders);
+
+        return $traders;
+    }
+
+    public function add_data_traders($traders)
+    {
+        foreach ($traders as $index => $trader) {
+            $traders[$index]['cultures'] = [];
+            $traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($trader['id'], 0);
+
+            if (empty($traders[$index]['cultures'])){
+                unset($traders[$index]);
             }
         }
+        $traders = array_values($traders);
 
-        $array = array_values($temp_array);
-
-        return $array;
-
+        return $traders;
     }
 }

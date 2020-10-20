@@ -55,7 +55,7 @@ class CompanyService
             ->orderBy('title')
             ->get();
 
-        $rubrics = collect($rubrics)->groupBy('title')->toArray();
+        $rubrics = collect($rubrics)->groupBy('id')->toArray();
 
         foreach ($rubrics as $index => $rubric){
             $rubrics[$index] = $rubric[0];
@@ -150,28 +150,33 @@ class CompanyService
         $get_prices = $this->getTraderPricesRubrics($id, $placeType);
         $cultures = $this->getPortsRegionsCulture($id, $placeType);
         $assoc_array = [];
-        $assoc_name = [];
+
+        foreach ($cultures as $index => $culture){
+            $assoc_array[$culture['id']] = array('index' => $index, 'name' => $culture['name']);
+        }
+
+        $prices = $this->price_formation($get_prices);
+        $prices = $this->sort_group($prices, $assoc_array);
+        $prices['UAH'] = $this->parsing_array($prices, 'UAH');
+        $prices['USD'] = $this->parsing_array($prices, 'USD');
+
+        return $prices;
+    }
+
+    public function price_formation($sourceData)
+    {
+        $prices = [
+            'UAH' => [],
+            'USD' => []
+        ];
 
         $currency = [
             0 => 'UAH',
             1 => 'USD',
         ];
 
-        $prices = [
-            'UAH' => [],
-            'USD' => []
-        ];
-
-        foreach ($cultures as $index => $culture){
-            $assoc_array[$culture['id']] = $index;
-        }
-
-        foreach ($cultures as $index => $culture){
-            $assoc_name[$culture['id']] = $culture['name'];
-        }
-
-        foreach ($get_prices as $index => $price) {
-            if (!empty($price['traders_products']) and !empty($get_prices[$index]['traders_products'][0]['traders_prices'])) {
+        foreach ($sourceData as $index => $price) {
+            if (!empty($price['traders_products']) and !empty($sourceData[$index]['traders_products'][0]['traders_prices'])) {
                 foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product) {
                     if (!empty($price_product['traders_places'])) {
                         array_push($prices[$currency[$price_product['curtype']]], array(
@@ -182,8 +187,8 @@ class CompanyService
                             'comment' => $price_product['comment'],
                             'traders_places' => $price_product['traders_places'],
                             'curtype' => $price_product['curtype'],
-                            'culture' => $get_prices[$index]['traders_products'][0]['culture']['name'],
-                            'culture_id' => $get_prices[$index]['traders_products'][0]['culture']['id']
+                            'culture' => $sourceData[$index]['traders_products'][0]['culture']['name'],
+                            'culture_id' => $sourceData[$index]['traders_products'][0]['culture']['id']
                         ));
                     }
                 }
@@ -193,11 +198,16 @@ class CompanyService
         if (!empty($prices['UAH'])){
             $prices['UAH'] = collect($prices['UAH'])->groupBy('place_id')->toArray();
         }
+
         if (!empty($prices['USD'])){
             $prices['USD'] = collect($prices['USD'])->groupBy('place_id')->toArray();
         }
 
+        return $prices;
+    }
 
+    public function sort_group($prices, $assoc_array)
+    {
         foreach ($prices as $index_currency => $currency){
             foreach ($currency as $index_place => $places){
                 foreach ($places as $index => $price){
@@ -208,51 +218,41 @@ class CompanyService
             }
         }
 
-
         foreach ($assoc_array as $index_assoc => $assoc){
             foreach ($prices as $index_cur => $currency){
                 foreach ($currency as $index_place => $price){
                     $key = key(array_diff_key($assoc_array, $prices[$index_cur][$index_place]));
                     if(!isset($prices[$index_cur][$index_place][$key])) {
                         $prices[$index_cur][$index_place][$key] = [];
-                        if(isset($assoc_name[$key])){
-                            $prices[$index_cur][$index_place][$key] = array('culture' => $assoc_name[$key]);
+                        if(isset($assoc_array[$key])){
+                            $prices[$index_cur][$index_place][$key] = array('culture' => $assoc_array[$key]['name']);
                         }
                     }
                 }
             }
         }
 
-        foreach ($prices['UAH'] as $index_cur => $currency){
-            foreach ($currency as $index => $price){
-                if($index == '' or empty($prices['UAH'][$index_cur][$index])){
-                    unset($prices['UAH'][$index_cur][$index]);
-                }else{
-                    if(isset($prices['UAH'][$index_cur][$index][0]))
-                    $prices['UAH'][$index_cur][$index] = $prices['UAH'][$index_cur][$index][0];
-                }
-
-            }
-            $prices['UAH'][$index_cur] = collect($prices['UAH'][$index_cur])->sortBy('culture')->toArray();
-            $prices['UAH'][$index_cur] = array_values($prices['UAH'][$index_cur]);
-        }
-
-        foreach ($prices['USD'] as $index_cur => $currency){
-            foreach ($currency as $index => $price){
-                if($index == '' or empty($prices['USD'][$index_cur][$index])){
-                    unset($prices['USD'][$index_cur][$index]);
-                }else{
-                    if(isset($prices['USD'][$index_cur][$index][0]))
-                        $prices['USD'][$index_cur][$index] = $prices['USD'][$index_cur][$index][0];
-                }
-
-            }
-            $prices['USD'][$index_cur] = collect($prices['USD'][$index_cur])->sortBy('culture')->toArray();
-            $prices['USD'][$index_cur] = array_values($prices['USD'][$index_cur]);
-        }
-
         return $prices;
     }
+
+    public function parsing_array($prices, $currency_type)
+    {
+        foreach ($prices[$currency_type] as $index_cur => $currency){
+            foreach ($currency as $index => $price){
+                if($index == '' or empty($prices[$currency_type][$index_cur][$index])){
+                    unset($prices[$currency_type][$index_cur][$index]);
+                }else{
+                    if(isset($prices[$currency_type][$index_cur][$index][0]))
+                        $prices[$currency_type][$index_cur][$index] = $prices[$currency_type][$index_cur][$index][0];
+                }
+
+            }
+            $prices[$currency_type][$index_cur] = collect($prices[$currency_type][$index_cur])->sortBy('culture')->toArray();
+            $prices[$currency_type][$index_cur] = array_values($prices[$currency_type][$index_cur]);
+        }
+        return $prices[$currency_type];
+    }
+
 
     public function getTraderPricesRubrics($id, $placeType)
     {
@@ -331,8 +331,6 @@ class CompanyService
                 ->orderBy('comp_items.rate_formula', 'desc')
                 ->paginate(self::PER_PAGE);
         }
-
-        //dd($companies->toArray());
 
         if($search != null){
             $companies = $this->searchCompanies($search);

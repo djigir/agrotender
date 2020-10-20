@@ -127,8 +127,8 @@
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
-                                                {{--                                                            <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-                                                {{--                                                            <span class="price-up">200</span>--}}
+                                                {{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
+                                                {{-- <span class="price-up">200</span>--}}
                                             </div>
                                             @if($price['comment'] != '' and !$price['comment'])
                                                 <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
@@ -284,20 +284,20 @@
     </div>
 @endsection
 <script>
-    window.onload = function () {
-        $("#uah").click(function (event){
-            $("#usd").removeClass('active');
-            $("#uah").addClass('active');
-
-            $(".tableSecond").css('display', 'none');
-            $(".tableFirst").css('display', 'block');
-        });
-
-        $("#usd").click(function (event) {
-            $("#usd").addClass('active');
-            $("#uah").removeClass('active');
-            $(".tableSecond").css('display', 'block');
-            $(".tableFirst").css('display', 'none');
-        });
-    }
+    // window.onload = function () {
+    //     $("#uah").click(function (event){
+    //         $("#usd").removeClass('active');
+    //         $("#uah").addClass('active');
+    //
+    //         $(".tableSecond").css('display', 'none');
+    //         $(".tableFirst").css('display', 'block');
+    //     });
+    //
+    //     $("#usd").click(function (event) {
+    //         $("#usd").addClass('active');
+    //         $("#uah").removeClass('active');
+    //         $(".tableSecond").css('display', 'block');
+    //         $(".tableFirst").css('display', 'none');
+    //     });
+    // }
 </script>

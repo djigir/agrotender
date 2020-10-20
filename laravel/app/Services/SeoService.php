@@ -84,7 +84,7 @@ class SeoService
     public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null)
 
     {
-        dd($rubric, $region, $port, $type, $page, $onlyPorts);
+        //dd($rubric, $region, $port, $type, $page, $onlyPorts);
         $h1 = '';
         $text = '';
 
