@@ -19,7 +19,7 @@
                 </div>
                 <div class="filter__item producrion" id="choseProduct">
                     <button class="filter__button producrion-btn">
-                        @if($culture_name)
+                        @if(isset($culture_name))
                             {{$culture_name}}
                         @else
                             Выбрать продукцию

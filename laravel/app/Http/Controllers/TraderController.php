@@ -127,6 +127,8 @@ class TraderController extends Controller
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
 
+        $meta = $this->seoService->getTradersMeta($culture_name, $region, null, 0, 1, null);
+
         return view('traders.traders_regions_culture', [
             'viewmod'=> $request->get('viewmod'),
             'regions' => $regions,
@@ -139,6 +141,7 @@ class TraderController extends Controller
             'current_region' => $current_region,
             'current_culture' => $culture,
             'culture_name' => $culture_name,
+            'meta' => $meta
         ]);
 
     }
@@ -156,8 +159,13 @@ class TraderController extends Controller
 
         $port_name = $this->checkName(null, $port);
         $current_port = $port;
+        if ($port_name === 'Все порты') {
+            $onlyPorts = 'yes';
+        }else {
+            $onlyPorts = $port_name;
+        }
 
-        //$meta = $this->seoService->getTradersMeta($culture, $region, null, 0, 1, null);
+        $meta = $this->seoService->getTradersMeta(null, null, $port_name, 1, 1, $onlyPorts);
 
         return view('traders.traders_port', [
             'viewmod'=> $request->get('viewmod'),
@@ -167,10 +175,9 @@ class TraderController extends Controller
             'rubric' => $rubrics,
             'onlyPorts' => $ports,
             'currencies'=> $currencies,
-            //'meta' => $meta,
+            'meta' => $meta,
             'port_name' => $port_name,
             'current_port' => $current_port,
-
         ]);
     }
 
@@ -191,6 +198,13 @@ class TraderController extends Controller
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
 
+        if ($port_name === 'Все порты') {
+            $onlyPorts = 'yes';
+        }else {
+            $onlyPorts = $port_name;
+        }
+        $meta = $this->seoService->getTradersMeta($culture_name, null, $port_name, 1, 1, $onlyPorts);
+
         return view('traders.traders_port_culture', [
             'viewmod'=> $request->get('viewmod'),
             'regions' => $regions,
@@ -202,7 +216,8 @@ class TraderController extends Controller
             'port_name' => $port_name,
             'current_port' => $current_port,
             'current_culture' => $culture,
-            'culture_name' => $culture_name
+            'culture_name' => $culture_name,
+            'meta' => $meta
 
         ]);
 
