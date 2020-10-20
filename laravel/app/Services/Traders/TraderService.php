@@ -90,7 +90,7 @@ class TraderService
     }
 
 
-    public function getTradersRegionPortCulture($port = null, $culture = null, $type_premium, $region = null)
+    public function getTradersRegionPortCulture($port = null, $culture = null, $type_premium = null, $region = null)
     {
         $obl_id = null;
         $traders = [];
