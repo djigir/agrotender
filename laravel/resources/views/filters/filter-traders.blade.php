@@ -37,7 +37,7 @@
                                        <li>
 {{--                                           ?viewmod=nontbl--}}
                                            <a href="{{route('traders.traders_regions', $item['url'])}}">
-                                               {{$item['culture']['name']}}
+                                               {{ $item['culture']['name']}}
                                            </a>
                                        </li>
                                     @endforeach

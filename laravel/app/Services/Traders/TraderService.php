@@ -86,6 +86,7 @@ class TraderService
 
         return $groups;
     }
+
     public function getTradersPortCulture()
     {
 
@@ -95,6 +96,7 @@ class TraderService
     {
 
     }
+
     public function getTraders($type_premium)
     {
         $traders = CompItems::where([['trader_premium', $type_premium], ['trader_price_avail', 1], ['trader_price_visible', 1], ['visible', 1]])

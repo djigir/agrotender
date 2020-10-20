@@ -31,9 +31,10 @@ class TraderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  TraderService  $traderService
-     * @param  CompanyService  $companyService
-     * @param  BaseServices  $baseService
+     * @param TraderService $traderService
+     * @param CompanyService $companyService
+     * @param BaseServices $baseService
+     * @param SeoService $seoService
      */
     public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService, SeoService $seoService)
     {
@@ -50,7 +51,7 @@ class TraderController extends Controller
 
     public function index(Request $request, $region)
     {
-        dump('$region', $region);
+//        dump('$region', $region);
 
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseService->getRegions();
@@ -79,8 +80,8 @@ class TraderController extends Controller
     {
         dump('port_and_culture', $port, $culture);
         //$this->seoService->getTradersMeta(null, null, );
-
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -91,8 +92,7 @@ class TraderController extends Controller
      */
     public function region_and_culture($region, $culture)
     {
-        dump('region_and_culture',$region, $culture);
-
+//        dump('region_and_culture',$region, $culture);
         $this->seoService->getTradersMeta();
 
         return view('traders.traders_regions_culture');
