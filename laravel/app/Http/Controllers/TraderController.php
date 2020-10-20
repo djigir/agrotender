@@ -71,6 +71,10 @@ class TraderController extends Controller
 
         $currently_region = Regions::where('translit', $region)->value('name');
 
+        $meta = $this->seoService->getTradersMeta(null, $region, null, 0, 1, null);
+
+
+
         return view('traders.traders_regions',
             [
                 'viewmod'=> $request->get('viewmod'),
@@ -82,6 +86,7 @@ class TraderController extends Controller
                 'currently_region' => $currently_region,
                 'unwanted_region' => $unwanted_region,
                 'currencies'=> $currencies,
+                'meta' => $meta
             ]
         );
     }
@@ -144,6 +149,9 @@ class TraderController extends Controller
         $currently_region = Regions::where('translit', $region)->value('name');
         $culture = TradersProducts::where('url', $culture)->value('id');
 
+        $meta = $this->seoService->getTradersMeta($culture, $region, null, 0, 1, null);
+        dd($meta);
+
         return view('traders.traders_regions_culture', [
             'viewmod'=> $request->get('viewmod'),
             'regions' => $regions,
@@ -152,6 +160,7 @@ class TraderController extends Controller
             'rubric' => $rubrics,
             'onlyPorts' => $ports,
             'currencies'=> $currencies,
+            'meta' => $meta
         ]);
 
         //$this->seoService->getTradersMeta();
