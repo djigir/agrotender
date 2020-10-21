@@ -4485,45 +4485,45 @@ const $headerWrap = document.querySelector('.header__wrap')
 const $headerWrap_container = $headerWrap.querySelector('.new_container')
 
 window.onload = () => {
-  $headerWrap_container.insertAdjacentHTML('beforeend', `
-    <div class="drawer">
-      <div class="drawer_content">
-        <div class="drawer__header">
-          <a href="/" class="drawer__header-logo">
-            <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
-          </a>
-          <a href="#" class="drawer__header-social first">
-            <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
-          </a>
-          <a href="#" class="drawer__header-social">
-            <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
-          </a>
-        </div>
-        <ul class="drawer__list">
-          <li>
-            <a href="#">Главная</a>
-          </li>
-          <li>
-            <a href="#">Объявления</a>
-          </li>
-          <li>
-            <a href="#">Цены трейдеров</a>
-          </li>
-          <li>
-            <a href="#">Компании</a>
-          </li>
-          <li>
-            <a href="#">Элеваторы</a>
-          </li>
-        </ul>
-        <div class="drawer_footer">
-          <ul class="drawer__list">
-            <li><a href="#">Выход</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  `)
+  // $headerWrap_container.insertAdjacentHTML('beforeend', `
+  //   <div class="drawer">
+  //     <div class="drawer_content">
+  //       <div class="drawer__header">
+  //         <a href="/" class="drawer__header-logo">
+  //           <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
+  //         </a>
+  //         <a href="#" class="drawer__header-social first">
+  //           <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
+  //         </a>
+  //         <a href="#" class="drawer__header-social">
+  //           <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
+  //         </a>
+  //       </div>
+  //       <ul class="drawer__list">
+  //         <li>
+  //           <a href="#">Главная</a>
+  //         </li>
+  //         <li>
+  //           <a href="#">Объявления</a>
+  //         </li>
+  //         <li>
+  //           <a href="#">Цены трейдеров</a>
+  //         </li>
+  //         <li>
+  //           <a href="#">Компании</a>
+  //         </li>
+  //         <li>
+  //           <a href="#">Элеваторы</a>
+  //         </li>
+  //       </ul>
+  //       <div class="drawer_footer">
+  //         <ul class="drawer__list">
+  //           <li><a href="#">Выход</a></li>
+  //         </ul>
+  //       </div>
+  //     </div>
+  //   </div>
+  // `)
   if ($headerWrap) {
     const headerOffset = $headerWrap.offsetTop
   
@@ -4547,7 +4547,7 @@ window.onload = () => {
     const $drawer =  document.querySelector('.new_header .drawer')
     const $drawerOpenBtn = document.querySelector('.header_drawerOpen-btn')
     const $body = document.querySelector('body')
-  
+
     $drawerOpenBtn.addEventListener('click', () => {
       $drawer.classList.add('open')
       $body.classList.add('body_non_scroll')
@@ -4831,7 +4831,7 @@ class NewFilter {
     searchs.forEach(s => {
       const closeBtn = s.parentNode.querySelector('button')
       const searchLinks = s.parentNode.parentNode.querySelectorAll('ul li a')
-      s.parentNode.parentNode.insertAdjacentHTML('beforeend', '<ul class="mobile_filter-section-list output"></ul>')
+      // s.parentNode.parentNode.insertAdjacentHTML('beforeend', '<ul class="mobile_filter-section-list output"></ul>')
       const output = s.parentNode.parentNode.querySelector('.output')
 
       s.addEventListener('keyup', e => {

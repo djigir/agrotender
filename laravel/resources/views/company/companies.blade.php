@@ -1,4 +1,8 @@
-@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $rubricGroups,'regions' => $regions ])
+@extends('layout.layout', ['title' => $meta['title'],
+'keywords' => $meta['keywords'],
+'description' => $meta['description'], 'rubricGroups' => $rubricGroups,'regions' => $regions ])
+
+
 {{--isMobile--}}
 @section('content')
     @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
@@ -31,6 +35,7 @@
 {{--        --}}{{--        {/if}--}}
 {{--    </div>--}}
     {{--    {/if}--}}
+
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
