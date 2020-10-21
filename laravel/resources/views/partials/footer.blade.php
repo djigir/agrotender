@@ -41,7 +41,7 @@
 </footer>
 </div>
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
-<script src="/app/assets/my_js/events.js"></script>
+{{--<script src="/app/assets/my_js/events.js"></script>--}}
 {{--<script src="/app/assets/my_js/app_new.js"></script>--}}
 <!--[if lt IE 9]>
 <<script src="/app/assets/js/es5-shim.min.js"></script>-->

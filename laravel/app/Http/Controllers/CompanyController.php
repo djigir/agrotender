@@ -79,10 +79,7 @@ class CompanyController extends Controller
             }
         }
 
-
-
         $search = null;
-
 
         if (isset($request['search'])) {
             $search = $request['search'];
