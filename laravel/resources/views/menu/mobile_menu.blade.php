@@ -20,7 +20,7 @@
 <div class="userMobileMenu" style="display: none">
     <div class="d-flex head py-2 px-4 align-items-center justify-content-between">
         <a id='one-back' class=" main" href="#"><i class="far fa-chevron-left mr-1"></i> Назад</a>
-        <img class="avatar" src="{{$company['logo_file'] != null ? $company['logo_file'] : '/app/assets/img/noavatar.png'}}">
+        <img class="avatar" src="{{(isset($company) and  $company['logo_file'] != null) ? $company['logo_file'] : '/app/assets/img/noavatar.png'}}">
     </div>
     <div class="items d-flex flex-column justify-content-between">
         @if(isset($id))

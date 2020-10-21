@@ -144,6 +144,7 @@
         {{--                <div class="d-block d-sm-inline-block tradersImgBlock"><noindex><a class="topBanners" href="http://zernotrans.com.ua" rel="nofollow" target="_blank"><img style="width:310px; height:70px;" id="topBan403" src="/files/pict/zernotlans_light.jpg" class="img-responsive tradersImg" alt=""></a></noindex></div>--}}
         {{--                <div class="d-block d-sm-inline-block tradersImgBlock"><noindex><a class="topBanners" href="https://agrotender.com.ua/reklama" rel="nofollow"><img style="width:310px; height:70px;" id="topBan390" src="/files/pict/ad_buys.png" class="img-responsive tradersImg" alt=""></a></noindex></div>--}}
         {{--            </div>--}}
+
         <div class="filters-wrap" style="display: none;">
             <div class="filters-inner">
                 <div class="filters arrow-t">
@@ -151,22 +152,27 @@
                         <div class="mt-3">
                             <span class="title ml-3 pt-3">Настройте фильтры:</span>
                         </div>
+                        <form>
                         <div class="position-relative mt-3">
-                            <input type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
+                            <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
                             <i class="far fa-search searchFilterIcon"></i>
                         </div>
-                        <a id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
-                            <span>Выберите рубрику</span>
+                        <a id="mobile-rubric" name='rubric' class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
+{{--                            <span>Выберите рубрику</span>--}}
+                            <input class="remove-input"  type="text" name='rubric' value="Выберите рубрику">
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
-                        <a id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
-                            <span>Вся Украина</span>
+                        <a id="mobile-region" name='region' class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
+{{--                            <span>Вся Украина</span>--}}
+                            <input class="remove-input"  type="text" name='region' value="Вся Украина">
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
                         <a class="show showCompanies" href="#">
-                            Показать компании
+                            <button type="submit">Показать компании</button>
                         </a>
+                        </form>
                     </div>
+
                     <div class="step-3 stp h-100" style="display: none;">
                         <a class="back py-3 px-4 content-block d-block" step="1" href="#">
                             <span class="back" id="back">
@@ -192,18 +198,22 @@
                                 Назад
                             </span>
                         </a>
+
                         <div class="scroll">
-                            @foreach($rubricGroups as $index_group => $rubricGroup)
-                                @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                    <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
-                                        <span>{{$culture['title']}} &nbsp;
-{{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-                                        </span>
-                                        <span><i class="far fa-chevron-right"></i></span>
-                                    </a>
+                            @if(isset($rubricGroups))
+                                @foreach($rubricGroups as $index_group => $rubricGroup)
+                                    @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
+                                        <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                            <span>{{$culture['title']}} &nbsp;
+    {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
+                                            </span>
+                                            <span><i class="far fa-chevron-right"></i></span>
+                                        </a>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
+                            @endif
                         </div>
+
                     </div>
                     <div class="step-4 stp h-100" style="display: none;">
                         <a class="back py-3 px-4 content-block d-block" step="1" href="#">
@@ -215,13 +225,13 @@
                         <div class="scroll">
                             @if(isset($regions))
                                 @foreach($regions as $index_region => $region)
-                                    <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="0">
+                                    <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" value="test" name="test"  region="0">
                                         @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
-                                            <span>{{$region['name']}}</span>
+                                            <span value="test" name="test">{{$region['name']}}</span>
                                         @else
-                                            <span>{{$region['name']}} область</span>
+                                            <span value="test" name="test">{{$region['name']}} область</span>
                                         @endif
-                                        <span>
+                                        <span value="test" name="test">
                                             <i class="far fa-chevron-right"></i>
                                         </span>
                                     </a>
@@ -232,6 +242,7 @@
                 </div>
             </div>
         </div>
+
 {{--        <div class="company-bg d-none d-sm-block">--}}
 {{--            <a href="/kompanii/comp-{$company['id']}">--}}
 {{--                {if $company['logo_file'] neq null}--}}
@@ -306,5 +317,11 @@
     }
     .tableSecond .tableScroll:before {
         content: ''
+    }
+
+    .remove-input{
+        color: #2d75d6;
+        border: none;
+        outline: none;
     }
 </style>
