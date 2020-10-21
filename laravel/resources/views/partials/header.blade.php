@@ -158,13 +158,13 @@
                             <i class="far fa-search searchFilterIcon"></i>
                         </div>
                         <a id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
+                            <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='' >
                             <span id="span-mobile-rubric">Выберете рубрику</span>
                             <span><i class="far fa-chevron-right"></i></span>
-
-
                         </a>
 
                         <a id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
+                            <input type="text" class="remove-input" id='input-mobile-region' name="region" value=''>
                             <span id="span-mobile-region">Вся Украина</span>
                             <span><i class="far fa-chevron-right"></i></span>
 
@@ -325,8 +325,12 @@
     }
 
     .remove-input{
-        color: #2d75d6;
+        position: absolute;
         border: none;
+        opacity: 0;
+        width: 100%;
+        height: 5%;
+        color: #2d75d6;
         outline: none;
     }
 </style>

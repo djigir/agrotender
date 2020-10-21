@@ -150,19 +150,16 @@ window.onload = function (){
         let rubric_name = event.target.innerText;
 
         $('#span-mobile-rubric').html(rubric_name);
+        $('#input-mobile-rubric').attr('value', group);
     });
 
 
     $(".region").click(function (event) {
         let region = event.currentTarget.attributes[2].nodeValue;
         let region_name = event.target.innerHTML;
+
         $('#span-mobile-region').html(region_name);
+        $('#input-mobile-region').attr('value', region);
     });
 
-
 }
-
-
-/*                */
-
-
