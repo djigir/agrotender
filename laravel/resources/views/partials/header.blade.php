@@ -205,7 +205,7 @@
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
                                         <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
-                                            <span>{{$culture['title']}} &nbsp;
+                                            <span>{{$culture['title']}}
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
                                             </span>
                                             <span><i class="far fa-chevron-right"></i></span>

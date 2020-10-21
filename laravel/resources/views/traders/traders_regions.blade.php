@@ -2,8 +2,8 @@
 'keywords' => $meta['keywords'],
 'description' => $meta['description'],
 'h1' => $meta['h1'],
-'text' => $meta['text']])
-
+'text' => $meta['text'],
+'ports' => 's'])
 @section('content')
 
     @include('filters.filter-traders', [

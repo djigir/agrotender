@@ -133,6 +133,7 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
+        $groups = $this->companyService->getRubricsGroup();
 
         $meta = $this->seoService->getTradersMeta(null, $region, null, 0, 1, null);
 
@@ -148,6 +149,7 @@ class TraderController extends Controller
                 'meta' => $meta,
                 'region_name' => $region_name,
                 'current_region' => $current_region,
+                'rubricGroups' => $groups
             ]
         );
     }
