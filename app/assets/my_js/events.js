@@ -143,16 +143,20 @@ window.onload = function (){
     });
 
 
-    $(".rubric").click(function (event) {
+    /*$(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
 
         let group = event.currentTarget.attributes[2].nodeValue;
-        let rubric_name = event.target.innerHTML;
-        console.log(group, rubric_name, event);
+        let rubric_name = event.target.innerText;
+        let rubric_number = event.target.value;
+        $('#input-mobile-rubric').attr('name', rubric_name);
+        $('#input-mobile-rubric').attr('value', rubric_name);
+
+        console.log(group, rubric_number);
 
 
-    });
+    });*/
     $(".region").click(function (event) {
         let region = event.currentTarget.attributes[2].nodeValue;
         let region_name = event.target.innerHTML;
