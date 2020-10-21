@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{{ $title ?? '' }}</title>
+    <title>{{ $meta['title'] ?? '' }}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11" />
-    @if(isset($keywords))
-        <meta name="keywords" content="{{$keywords}}" />
+    @if(isset($meta['keywords']))
+        <meta name="keywords" content="{{$meta['keywords']}}" />
     @endif
 
-    @if(isset($description))
-        <meta name="description" content="{{$description}}" />
+    @if(isset($meta['description']))
+        <meta name="description" content="{{$meta['description']}}" />
     @endif
 
     <!-- Icons -->
@@ -504,7 +504,7 @@
 {{--        </div>--}}
     </main>
 </div>
-<script>
+{{--<script>
     window.onload = function (){
         $('.searchIcon').click(function () {
             console.log('click');
@@ -547,7 +547,7 @@
             $('.mobileMenu').removeClass('open');
         });
     }
-</script>
+</script>--}}
 <style>
     .tableScroll::-webkit-scrollbar  {
         background: transparent;

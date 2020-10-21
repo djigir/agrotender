@@ -1,11 +1,4 @@
-@extends('layout.layout',
-['meta' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description'],
-'h1' => $meta['h1'],
-'text' => $meta['text'],
-'rubricGroups' => $regions,
-'regions' => $rubricGroups])
+@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $regions,'regions' => $rubricGroups])
 {{--isMobile--}}
 @section('content')
     @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
@@ -172,6 +165,6 @@
     {{--        /foreach--}}
     {{--    </div>--}}
     {{--{{dd($settings_for_page)}}--}}
-{{--    {{ $settings_for_page->links() }}--}}
+    {{ $settings_for_page->links() }}
 @endsection
 

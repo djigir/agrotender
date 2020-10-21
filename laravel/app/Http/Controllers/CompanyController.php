@@ -41,7 +41,7 @@ class CompanyController extends Controller
      */
     public function companies(Request $request)
     {
-        $agent = new \Jenssegers\Agent\Agent;
+       // $agent = new \Jenssegers\Agent\Agent;
 
         $search = null;
 
@@ -65,7 +65,7 @@ class CompanyController extends Controller
                 'rubricGroups' => $groups,
                 'search' => $search,
                 'meta' => $meta,
-                'isMobile' => $agent->isMobile()
+               // 'isMobile' => $agent->isMobile()
             ]
         );
     }

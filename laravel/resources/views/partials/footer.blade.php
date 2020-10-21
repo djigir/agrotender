@@ -40,6 +40,7 @@
     </div>
 </footer>
 </div>
+<script src="/app/assets/my_js/events.js"></script>
 <!--[if lt IE 9]>
 <<script src="/app/assets/js/es5-shim.min.js"></script>-->
 <!--<script src="/app/assets/js/html5shiv.min.js"></script>-->
@@ -76,6 +77,5 @@
 {{--<script src="/app/assets/js/stringMonthYear.js"></script>--}}
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
-<script src="{{asset('/var/www/agrotender/laravel/public/js/my_js/events.js')}}"></script>
 </body>
 </html>
