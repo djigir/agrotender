@@ -132,6 +132,7 @@ window.onload = function (){
         $('.step-1').css('display', '');
         $('.step-4').css('display', 'none');
     });
+
     $("#back3").click(function () {
         $('.step-3').css('display', '');
         $('.step-3-1').css('display', 'none');
@@ -146,11 +147,18 @@ window.onload = function (){
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
+    });
+
+    $(".culture").click(function (event) {
         let group = event.currentTarget.attributes[2].nodeValue;
         let rubric_name = event.target.innerText;
 
         $('#span-mobile-rubric').html(rubric_name);
         $('#input-mobile-rubric').attr('value', group);
+
+        $('.step-1').css('display', '');
+        $('.step-3').css('display', 'none');
+        $('.step-3-1').css('display', 'none');
     });
 
 
@@ -160,6 +168,10 @@ window.onload = function (){
 
         $('#span-mobile-region').html(region_name);
         $('#input-mobile-region').attr('value', region);
+
+        $('.step-1').css('display', '');
+        $('.step-4').css('display', 'none');
+
     });
 
 }

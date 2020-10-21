@@ -169,9 +169,8 @@
                             <span><i class="far fa-chevron-right"></i></span>
 
                         </a>
-                        <a class="show showCompanies" href="#">
-                            <button type="submit">Показать компании</button>
-                        </a>
+                        <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
+
                         </form>
                     </div>
 
@@ -205,7 +204,7 @@
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                        <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                        <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
                                             <span>{{$culture['title']}} &nbsp;
 
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
@@ -332,5 +331,11 @@
         height: 5%;
         color: #2d75d6;
         outline: none;
+    }
+    .remove-style-btn{
+        border: none;
+        outline: none;
+        background: none;
+        color: white;
     }
 </style>
