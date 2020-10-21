@@ -194,14 +194,14 @@
                     <div class="step-3 stp h-100" style="display: none;">
                         <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
                         <div class="scroll">
-                            @if(isset($rubricGroups))
-                                @foreach($rubricGroups as $index_group => $rubricGroup)
-                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="1">
-                                        <span>{{$rubricGroup['title']}}</span>
-                                        <span><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                @endforeach
-                            @endif
+{{--                            @if(isset($rubricGroups))--}}
+{{--                                @foreach($rubricGroups as $index_group => $rubricGroup)--}}
+{{--                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="1">--}}
+{{--                                        <span>{{$rubricGroup['title']}}</span>--}}
+{{--                                        <span><i class="far fa-chevron-right"></i></span>--}}
+{{--                                    </a>--}}
+{{--                                @endforeach--}}
+{{--                            @endif--}}
                         </div>
                     </div>
                     <div class="step-3-1 stp h-100" style="display: none;">
