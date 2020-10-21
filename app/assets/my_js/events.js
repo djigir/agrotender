@@ -27,6 +27,10 @@ window.onload = function (){
             $('.overlay').removeClass('open');
             $('.mobileMenu').removeClass('open');
         }
+
+        if($('.filters-wrap').css('display') == 'block'){
+            $('.filters-wrap').css('display', 'none')
+        }
     });
 
     $('.overlay').click(function () {
@@ -151,5 +155,8 @@ window.onload = function (){
 
 
 }
+
+
+/*                */
 
 

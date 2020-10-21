@@ -193,16 +193,18 @@
                             </span>
                         </a>
                         <div class="scroll">
-                            @foreach($rubricGroups as $index_group => $rubricGroup)
-                                @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                    <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
-                                        <span>{{$culture['title']}} &nbsp;
-{{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-                                        </span>
-                                        <span><i class="far fa-chevron-right"></i></span>
-                                    </a>
+                            @if(isset($rubricGroups))
+                                @foreach($rubricGroups as $index_group => $rubricGroup)
+                                    @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
+                                        <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                            <span>{{$culture['title']}} &nbsp;
+{{--                                               <span class="companyCount small"😠{$rgi['count']})</span> --}}
+                                            </span>
+                                            <span><i class="far fa-chevron-right"></i></span>
+                                        </a>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="step-4 stp h-100" style="display: none;">

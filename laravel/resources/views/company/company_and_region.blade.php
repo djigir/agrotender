@@ -153,5 +153,5 @@
     {{--        {/foreach}--}}
     {{--    </div>--}}
     {{--{{dd($settings_for_page)}}--}}
-{{--    {{ $settings_for_page->links() }}--}}
+    {{ $settings_for_page->links() }}
 @endsection
