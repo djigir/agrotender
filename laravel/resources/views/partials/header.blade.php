@@ -204,11 +204,9 @@
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                        <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                        <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
                                             <span>{{$culture['title']}} &nbsp;
-
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-
                                             </span>
                                             <span><i class="far fa-chevron-right"></i></span>
                                         </a>
@@ -230,11 +228,11 @@
                                 @foreach($regions as $index_region => $region)
                                     <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit = "{{ $region['translit'] }}">
                                         @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
-                                            <span value="test" name="test">{{$region['name']}}</span>
+                                            <span>{{$region['name']}}</span>
                                         @else
-                                            <span value="test" name="test">{{$region['name']}} область</span>
+                                            <span>{{$region['name']}} область</span>
                                         @endif
-                                        <span value="test" name="test">
+                                        <span>
                                             <i class="far fa-chevron-right"></i>
                                         </span>
                                     </a>
