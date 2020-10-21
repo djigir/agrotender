@@ -38,13 +38,20 @@ class CompanyController extends Controller
 
     private function isMobileFilter(Request $request)
     {
-        return !empty($request->get('query')) || !empty($request->get('region')) || !empty($request->get('rubric'));
+        return !empty($request->get('query')) || !empty($request->get('region'));
     }
 
     public function mobile_filter(Request $request)
     {
-        $route_name = 'company.company_filter';
-        $route_params = ['query' => $request->get('query')];
+
+        $route_name = null;
+        $route_params = null;
+
+        if(!empty($request->get('query'))){
+            $route_name = 'company.company_filter';
+            $route_params = ['query' => $request->get('query')];
+        }
+
 
         if (!empty($request->get('region'))) {
             $route_name = 'company.company_and_region';
@@ -161,6 +168,9 @@ class CompanyController extends Controller
      */
     public function company_and_region($region, Request $request)
     {
+        if ($this->isMobileFilter($request)) {
+            return $this->mobile_filter($request);
+        }
         $search = null;
         $unwanted_region = false;
 
@@ -210,6 +220,9 @@ class CompanyController extends Controller
      */
     public function company_region_rubric_number($region, $rubric_number, Request $request)
     {
+        if ($this->isMobileFilter($request)) {
+            return $this->mobile_filter($request);
+        }
         $search = null;
         $unwanted_region = false;
 
@@ -253,8 +266,12 @@ class CompanyController extends Controller
      * @param $regions
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_filter($query = null)
+    public function company_filter($query = null, Request $request)
     {
+        if ($this->isMobileFilter($request)) {
+            return $this->mobile_filter($request);
+        }
+
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $companies = $this->companyService->getCompanies(null, null, $query);
