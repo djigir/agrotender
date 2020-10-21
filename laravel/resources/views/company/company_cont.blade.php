@@ -3,7 +3,7 @@
 'description' => $meta['description']])
 
 @section('content')
-    @include('company.company-header')
+    @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
     <div class="container mt-4 mb-5">
         <h2 class="mx-sm-5">Контакты</h2>
         <div class="content-block trader-contact mx-sm-5 py-3 px-4">

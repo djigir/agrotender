@@ -104,17 +104,19 @@
                         </div>
                     </div>
                     <div class="d-none d-md-block col-md-3">
-                        <div class="companySticker">
-                            @if($company['phone'])
-                                <span>{{$company['phone']}}</span>
-                            @endif
-                            @if($company['phone2'])
-                                <span>{{$company['phone2']}}</span>
-                            @endif
-                            @if($company['phone3'])
-                                <span>{{$company['phone3']}}</span>
-                            @endif
-                        </div>
+                        @if($company['phone'] && $company['phone2'] && $company['phone3'])
+                            <div class="companySticker">
+                                @if($company['phone'])
+                                    <span>{{$company['phone']}}</span>
+                                @endif
+                                @if($company['phone2'])
+                                    <span>{{$company['phone2']}}</span>
+                                @endif
+                                @if($company['phone3'])
+                                    <span>{{$company['phone3']}}</span>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="row mx-0 d-sm-none lh-1 w-100">
@@ -144,6 +146,7 @@
                 </div>
             </div>
         </div>
+
     {{--    {/foreach}--}}
     {{--    <div class="text-center mt-4">--}}
     {{--        {foreach $banners['bottom'] as $banner}--}}
@@ -151,6 +154,7 @@
     {{--        {/foreach}--}}
     {{--    </div>--}}
     {{--{{dd($settings_for_page)}}--}}
-            {{ $settings_for_page->links() }}
+{{--            {{ $settings_for_page->links() }}--}}
     </div>
+
 @endsection

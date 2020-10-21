@@ -133,7 +133,7 @@
                                                 <span>{{$region['name']}} область</span>
                                             </a>
                                         @else
-                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region->name) ? 'active' : '' }}"
+                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
                                                href="{{route('company.company_and_region', $region['translit'])}}">
                                                 <span>{{$region['name']}} область</span>
                                             </a>

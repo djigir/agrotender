@@ -36,17 +36,13 @@
     <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
     <!-- Required CSS -->
 
-    @if(isset($header))
-        {{$header}}
-    @endif
-
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
 </head>
-{{--{{dd($regions, )}}--}}
+
 <body data-page="{$page}">
-<!-- Google Tag Manager (noscript) -->
+
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
+
 <div class="header__wrap">
     <header class="header">
         <div class="top container">
@@ -74,7 +70,11 @@
                 </div>
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
-                        <i class="far fa-search searchIcon mt-2 ml-2"></i>
+                        @if(isset($id))
+                            <i class="far fa-chevron-circle-down userIcon mr-3"></i>
+                        @else
+                            <i class="far fa-search searchIcon mt-2 ml-2"></i>
+                        @endif
                     </div>
 {{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
 {{--                        @if(isset($user->auth))--}}
@@ -135,31 +135,7 @@
                 </li>
             </ul>
         </div>
-{{--        <div class="overlay"></div>--}}
-{{--        <div class="mobileMenu">--}}
-{{--            <div class="container p-0">--}}
-{{--                <div class="mobileHeader row mx-0 px-3">--}}
-{{--                    <a class="col-9" href="/u/">--}}
-{{--                        {if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}--}}
-{{--                    </a>--}}
-{{--                    <a href="/logout" class="right float-right logout col-3">Выход</a>--}}
-{{--                </div>--}}
-{{--                <div class="links">--}}
-{{--                    {$mobile}--}}
-{{--                    <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/kukuruza?viewmod=tbl">Форварды</a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="userMobileMenu">--}}
-{{--            <div class="d-flex head py-2 px-4 align-items-center justify-content-between">--}}
-{{--                <a class="back main" href="#">< Назад</a>--}}
-{{--                <img class="avatar" src="{if $company['logo_file'] neq null}/{$company['logo_file']}{else}/app/assets/img/noavatar.png{/if}">--}}
-{{--            </div>--}}
-{{--            <div class="items d-flex flex-column justify-content-between">--}}
-{{--                {$menu}--}}
-{{--                <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/pshenica_2_kl?viewmod=tbl">Форварды</a>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        @include('menu.mobile_menu')
     </header>
     <main class="main" role="main" data-page="{$page}">
         <div id="loading"></div>
@@ -192,7 +168,11 @@
                         </a>
                     </div>
                     <div class="step-3 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
+                        <a class="back py-3 px-4 content-block d-block" step="1" href="#">
+                            <span class="back">
+                                <i class="far fa-chevron-left mr-1"></i>Назад
+                            </span>
+                        </a>
                         <div class="scroll">
 {{--                            @if(isset($rubricGroups))--}}
 {{--                                @foreach($rubricGroups as $index_group => $rubricGroup)--}}
@@ -525,9 +505,7 @@
     </main>
 </div>
 <script>
-    console.log('onload');
     window.onload = function (){
-        console.log('onload');
         $('.searchIcon').click(function () {
             console.log('click');
             if ($('.filters-wrap').css('display') == 'none') {
@@ -537,18 +515,37 @@
             }
         });
 
-        // $('.burger').click(function (){
-        //     if(!$('body').hasClass('open')){
-        //         $('body').addClass('open');
-        //         $('.overlay').addClass('open');
-        //         $('.mobileMenu').addClass('open');
-        //     }else{
-        //         $('body').removeClass('open');
-        //         $('.overlay').removeClass('open');
-        //         $('.mobileMenu').removeClass('open');
-        //     }
-        //
-        // })
+        $('.back').click(function () {
+            if ($('.userMobileMenu').css('display') == 'none') {
+                $('.userMobileMenu').css('display', 'block')
+            } else {
+                $('.userMobileMenu').css('display', 'none')
+            }
+        });
+
+        $('.userIcon').click(function () {
+            if ($('.userMobileMenu').css('display') == 'none') {
+                $('.userMobileMenu').css('display', 'block')
+            } else {
+                $('.userMobileMenu').css('display', 'none')
+            }
+        });
+
+        $('.burger').click(function () {
+            console.log('click burger');
+            if(!$('.overlay').hasClass('open')){
+                $('.overlay').addClass('open');
+                $('.mobileMenu').addClass('open');
+            }else{
+                $('.overlay').removeClass('open');
+                $('.mobileMenu').removeClass('open');
+            }
+        });
+
+        $('.overlay').click(function () {
+            $('.overlay').removeClass('open');
+            $('.mobileMenu').removeClass('open');
+        });
     }
 </script>
 <style>

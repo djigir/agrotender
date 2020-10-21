@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @include('company.company-header')
+    @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
 
     <div class="container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">

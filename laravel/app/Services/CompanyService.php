@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Models\Comp\CompComment;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
@@ -296,6 +297,35 @@ class CompanyService
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
             ->paginate(self::PER_PAGE);
 
+    }
+
+    public function getReviews($id_company)
+    {
+        $reviews_with_comp = CompComment::where('item_id', $id_company)
+            ->join('comp_items', 'comp_comment.author_id', '=', 'comp_items.author_id')
+            ->select('comp_comment.id',
+                'comp_comment.item_id',
+                'comp_comment.author_id as comp_author_id',
+                'comp_items.author_id',
+                'comp_comment.author',
+                'comp_items.title',
+                'comp_comment.rate',
+                'comp_items.logo_file',
+                'comp_items.id as comp_id'
+            )
+            ->with('comp_comment_lang')
+            ->orderBy('comp_comment.id', 'desc')
+            ->get()
+            ->toArray();
+
+        if (empty($reviews_with_comp)) {
+            $reviews_with_comp = CompComment::where('item_id', $id_company)
+                ->with('comp_comment_lang')
+                ->orderBy('comp_comment.id', 'desc')
+                ->get()
+                ->toArray();
+        }
+        return $reviews_with_comp;
     }
 
 

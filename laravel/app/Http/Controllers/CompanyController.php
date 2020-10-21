@@ -181,7 +181,6 @@ class CompanyController extends Controller
             return redirect()->action('CompanyController@company_filter', [$search]);
         }
 
-
         if($region == 'ukraine' or $region == 'crimea'){
             $unwanted_region = true;
         }
@@ -251,38 +250,14 @@ class CompanyController extends Controller
      */
     public function company_reviews($id_company)
     {
-
         $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
-        $reviews_with_comp = CompComment::where('item_id', $id_company)
-            ->join('comp_items', 'comp_comment.author_id', '=', 'comp_items.author_id')
-            ->select('comp_comment.id',
-                'comp_comment.item_id',
-                'comp_comment.author_id as comp_author_id',
-                'comp_items.author_id',
-                'comp_comment.author',
-                'comp_items.title',
-                'comp_comment.rate',
-                'comp_items.logo_file',
-                'comp_items.id as comp_id'
-            )
-            ->with('comp_comment_lang')
-            ->orderBy('comp_comment.id', 'desc')
-            ->get()
-            ->toArray();
-
-        if (empty($reviews_with_comp)) {
-            $reviews = CompComment::where('item_id', $id_company)
-                ->with('comp_comment_lang')
-                ->orderBy('comp_comment.id', 'desc')
-                ->get()
-                ->toArray();
-            $reviews_with_comp = $reviews;
-        }
+        $reviews_with_comp = $this->companyService->getReviews($id_company);
 
         $meta = ['title' => "Отзывы о {$company->title} на сайте Agrotender" ,
             'keywords' => $company->title,
             'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
+
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $company,
