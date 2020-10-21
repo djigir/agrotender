@@ -8,3 +8,4 @@
 
 {{-- footer --}}
 @include('partials.footer')
+
