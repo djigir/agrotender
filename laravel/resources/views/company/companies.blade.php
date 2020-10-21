@@ -1,4 +1,4 @@
-@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $regions,'regions' => $rubricGroups])
+@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $rubricGroups,'regions' =>$regions ])
 {{--isMobile--}}
 @section('content')
     @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])

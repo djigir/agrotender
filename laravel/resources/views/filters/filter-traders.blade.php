@@ -258,6 +258,7 @@
     </div>
 </div>
 
+
 <style>
     .btn-remove{
         border: none;
@@ -267,67 +268,3 @@
         outline: 0 !important;
     }
 </style>
-
-
-<script>
-    window.onload = function () {
-        $("#choseProduct").click(function () {
-
-            if (!$("#choseProduct").hasClass('active')) {
-                $("#choseProduct").addClass('active');
-            } else {
-                $("#choseProduct").removeClass('active');
-            }
-
-        });
-
-        $("#all_ukraine").click(function () {
-            if (!$("#all_ukraine").hasClass('active')) {
-                $("#all_ukraine").addClass('active');
-            } else {
-                $("#all_ukraine").removeClass('active');
-            }
-
-        });
-        $(".regionInput").click(function () {
-            if (!$(".regionInput").hasClass('isopen')) {
-                $(".regionInput").addClass('isopen');
-            } else {
-                $(".regionInput").removeClass('isopen');
-            }
-
-        });
-
-        $(".rubricInput").click(function () {
-            if (!$(".rubricInput").hasClass('isopen')) {
-                $(".rubricInput").addClass('isopen');
-            } else {
-                $(".rubricInput").removeClass('isopen');
-            }
-
-        });
-
-        $(".test").click(function (event) {
-            // console.log(event.target.innerHTML);
-            console.log(window);
-
-        });
-
-        function activeCulture(group) {
-            console.log(group);
-            let culture = {
-                0: 'cereals',
-                1: 'oilseeds',
-                2: 'legumes',
-                3: 'processing_products',
-                4: 'niche_crops',
-                5: 'services',
-            }
-
-
-        }
-
-        // $( "#choseProduct" ).addClass('active');
-
-    }
-</script>

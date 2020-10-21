@@ -173,44 +173,6 @@
     </div>
 </div>
 
-<script>
-    window.onload = function () {
-        $(".rubricInput").click(function (event) {
-            if($("#rubricDrop").css('display') == 'none'){
-                $("#rubricDrop").css('display', 'block')
-            }else{
-                $("#rubricDrop").css('display', 'none')
-            }
-
-        });
-
-        $(".regionInput").click(function (event) {
-            if($("#regionDrop").css('display') == 'none'){
-                $("#regionDrop").css('display', 'block')
-            }else{
-                $("#regionDrop").css('display', 'none')
-            }
-        });
-
-        $(".getRubricGroup").click(function (event) {
-            $('.group-1').css('display', 'none');
-            $('.group-2').css('display', 'none');
-            $('.group-3').css('display', 'none');
-            $('.group-4').css('display', 'none');
-            $('.group-5').css('display', 'none');
-            $('.group-6').css('display', 'none');
-            $('.group-7').css('display', 'none');
-            let group = event.currentTarget.attributes[1].nodeValue;
-
-            if($(`.${group}`).css('display') == 'none'){
-                $(`.${group}`).css('display', 'block')
-            }else{
-                $(`.${group}`).css('display', 'none')
-            }
-
-        });
-    }
-</script>
 <style>
     .btn-search{
         background: none;
