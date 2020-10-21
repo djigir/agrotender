@@ -76,6 +76,6 @@
 {{--<script src="/app/assets/js/stringMonthYear.js"></script>--}}
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
-
+<script src="{{asset('/var/www/agrotender/laravel/public/js/my_js/events.js')}}"></script>
 </body>
 </html>
