@@ -158,14 +158,16 @@
                             <i class="far fa-search searchFilterIcon"></i>
                         </div>
                         <a id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
-{{--                            <span>Выберите рубрику</span>--}}
-                            <input class="remove-input" id="input-mobile-rubric" type="text" name='rubric' value="Выберите рубрику">
+                            <span id="span-mobile-rubric">Выберете рубрику</span>
                             <span><i class="far fa-chevron-right"></i></span>
+
+
                         </a>
+
                         <a id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
-{{--                            <span>Вся Украина</span>--}}
-                            <input class="remove-input"  id="input-mobile-region" type="text" name='region' value="Вся Украина">
+                            <span id="span-mobile-region">Вся Украина</span>
                             <span><i class="far fa-chevron-right"></i></span>
+
                         </a>
                         <a class="show showCompanies" href="#">
                             <button type="submit">Показать компании</button>
@@ -264,6 +266,7 @@
 {{--        </div>--}}
     </main>
 </div>
+
 <style>
     .tableScroll::-webkit-scrollbar  {
         background: transparent;

@@ -146,19 +146,17 @@ window.onload = function (){
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
-
         let group = event.currentTarget.attributes[2].nodeValue;
-        let rubric_name = event.target.innerHTML;
-        console.log(group, rubric_name, event);
+        let rubric_name = event.target.innerText;
 
-
+        $('#span-mobile-rubric').html(rubric_name);
     });
+
+
     $(".region").click(function (event) {
         let region = event.currentTarget.attributes[2].nodeValue;
         let region_name = event.target.innerHTML;
-        $('#input-mobile-region').attr('name', region);
-        $('#input-mobile-region').attr('value', region_name);
-        console.log(region,region_name, event);
+        $('#span-mobile-region').html(region_name);
     });
 
 
