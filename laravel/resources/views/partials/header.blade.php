@@ -155,11 +155,11 @@
                             <input type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
                             <i class="far fa-search searchFilterIcon"></i>
                         </div>
-                        <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
+                        <a id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
                             <span>Выберите рубрику</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
-                        <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
+                        <a id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
                             <span>Вся Украина</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
@@ -169,317 +169,64 @@
                     </div>
                     <div class="step-3 stp h-100" style="display: none;">
                         <a class="back py-3 px-4 content-block d-block" step="1" href="#">
-                            <span class="back">
-                                <i class="far fa-chevron-left mr-1"></i>Назад
+                            <span class="back" id="back">
+                                <i class="far fa-chevron-left mr-1"></i>
+                                Назад
                             </span>
                         </a>
                         <div class="scroll">
-{{--                            @if(isset($rubricGroups))--}}
-{{--                                @foreach($rubricGroups as $index_group => $rubricGroup)--}}
-{{--                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="1">--}}
-{{--                                        <span>{{$rubricGroup['title']}}</span>--}}
-{{--                                        <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                                    </a>--}}
-{{--                                @endforeach--}}
-{{--                            @endif--}}
+                            @if(isset($rubricGroups))
+                                @foreach($rubricGroups as $index_group => $rubricGroup)
+                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{{$rubricGroup['id']}}">
+                                        <span>{{$rubricGroup['title']}}</span>
+                                        <span><i class="far fa-chevron-right"></i></span>
+                                    </a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                     <div class="step-3-1 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="3" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
+                        <a class="back py-3 px-4 content-block d-block" step="3" href="#">
+                            <span id="back3">
+                                <i class="far fa-chevron-left mr-1"></i>
+                                Назад
+                            </span>
+                        </a>
                         <div class="scroll">
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="10">
-                                <span>Зерновые &nbsp;<span class="companyCount small">(1547)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="11">
-                                <span>Масличные  &nbsp;<span class="companyCount small">(1180)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="12">
-                                <span>Бобовые &nbsp;<span class="companyCount small">(755)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="13">
-                                <span>Овощеводство &nbsp;<span class="companyCount small">(329)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="14">
-                                <span>Фрукты  и ягоды &nbsp;<span class="companyCount small">(342)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="21">
-                                <span>Посевматериал &nbsp;<span class="companyCount small">(335)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="16">
-                                <span>Свиноводство &nbsp;<span class="companyCount small">(126)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="18">
-                                <span>КРС &nbsp;<span class="companyCount small">(105)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="17">
-                                <span>Кролиководство &nbsp;<span class="companyCount small">(25)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="15">
-                                <span>Птицефабрики &nbsp;<span class="companyCount small">(133)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="20">
-                                <span>Рыбоводство &nbsp;<span class="companyCount small">(83)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="22">
-                                <span>Молодняк животных &nbsp;<span class="companyCount small">(52)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-1" rubricid="19">
-                                <span>Пчеловодство &nbsp;<span class="companyCount small">(125)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="29">
-                                <span>Грануляция &nbsp;<span class="companyCount small">(265)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="23">
-                                <span>Комбикормовые заводы &nbsp;<span class="companyCount small">(243)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="30">
-                                <span>Крупорушки &nbsp;<span class="companyCount small">(147)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="24">
-                                <span>Мельницы &nbsp;<span class="companyCount small">(281)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="32">
-                                <span>Молоковозаводы &nbsp;<span class="companyCount small">(49)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="25">
-                                <span>МЭЗы и Маслозаводы &nbsp;<span class="companyCount small">(347)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="27">
-                                <span>Переработка мяса &nbsp;<span class="companyCount small">(76)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="31">
-                                <span>Пивоварни, Ликеро-водочные заводы &nbsp;<span class="companyCount small">(27)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="28">
-                                <span>Сахарные заводы &nbsp;<span class="companyCount small">(90)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="33">
-                                <span>Фасовка &nbsp;<span class="companyCount small">(257)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-2" rubricid="26">
-                                <span>Хлебозаводы, пекарни и кондитерки &nbsp;<span class="companyCount small">(106)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="41">
-                                <span>ГСМ &nbsp;<span class="companyCount small">(437)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="36">
-                                <span>Оборудование для животноводства &nbsp;<span class="companyCount small">(246)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="40">
-                                <span>Оборудование для переработки &nbsp;<span class="companyCount small">(377)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="37">
-                                <span>Оборудование для пчеловодства &nbsp;<span class="companyCount small">(42)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="35">
-                                <span>Оборудование для растениеводства &nbsp;<span class="companyCount small">(282)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="38">
-                                <span>Оборудование для рыбоводства &nbsp;<span class="companyCount small">(43)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="39">
-                                <span>Оборудование для хранения &nbsp;<span class="companyCount small">(352)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-3" rubricid="34">
-                                <span>Производители сельхозтехники &nbsp;<span class="companyCount small">(471)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-4" rubricid="42">
-                                <span>Средства защиты &nbsp;<span class="companyCount small">(451)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-4" rubricid="4">
-                                <span>Удобрения &nbsp;<span class="companyCount small">(654)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-5" rubricid="47">
-                                <span>Корма для животных &nbsp;<span class="companyCount small">(528)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-5" rubricid="46">
-                                <span>Торговля Агрохимией &nbsp;<span class="companyCount small">(456)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-5" rubricid="44">
-                                <span>Торговля продукцией животноводства &nbsp;<span class="companyCount small">(255)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-5" rubricid="43">
-                                <span>Торговля сельхозпродукцией &nbsp;<span class="companyCount small">(1998)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-5" rubricid="45">
-                                <span>Торговля сельхозтехникой и оборудованием &nbsp;<span class="companyCount small">(778)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-6" rubricid="48">
-                                <span>Автотранспорт &nbsp;<span class="companyCount small">(845)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-6" rubricid="49">
-                                <span>Ж/Д транспорт &nbsp;<span class="companyCount small">(283)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-6" rubricid="50">
-                                <span>Морской транспорт &nbsp;<span class="companyCount small">(182)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-7" rubricid="51">
-                                <span>Хранение урожая &nbsp;<span class="companyCount small">(449)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-7" rubricid="52">
-                                <span>Посев и уборка урожая &nbsp;<span class="companyCount small">(211)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-7" rubricid="53">
-                                <span>Строительство &nbsp;<span class="companyCount small">(376)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-7" rubricid="54">
-                                <span>Ремонт &nbsp;<span class="companyCount small">(470)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-7" rubricid="55">
-                                <span>Юридические услуги &nbsp;<span class="companyCount small">(139)</span></span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
+                            @foreach($rubricGroups as $index_group => $rubricGroup)
+                                @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
+                                    <a href="#" class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                        <span>{{$culture['title']}} &nbsp;
+{{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
+                                        </span>
+                                        <span><i class="far fa-chevron-right"></i></span>
+                                    </a>
+                                @endforeach
+                            @endforeach
                         </div>
                     </div>
                     <div class="step-4 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="1" href="#"><span><i class="far fa-chevron-left mr-1"></i> Назад</span></a>
+                        <a class="back py-3 px-4 content-block d-block" step="1" href="#">
+                            <span id="back2">
+                                <i class="far fa-chevron-left mr-1"></i>
+                                Назад
+                            </span>
+                        </a>
                         <div class="scroll">
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="0">
-                                <span>Вся Украина</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="vinnica">
-                                <span>Винницкая область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="volin">
-                                <span>Волынская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="dnepr">
-                                <span>Днепропетровская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="donetsk">
-                                <span>Донецкая область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="zhitomir">
-                                <span>Житомирская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="zakorpat">
-                                <span>Закарпатская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="zaporizh">
-                                <span>Запорожская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="ivanofrank">
-                                <span>Ивано-Франковская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="kyiv">
-                                <span>Киевская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="kirovograd">
-                                <span>Кировоградская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="lugansk">
-                                <span>Луганская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="lviv">
-                                <span>Львовская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="nikolaev">
-                                <span>Николаевская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="odessa">
-                                <span>Одесская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="poltava">
-                                <span>Полтавская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="rovno">
-                                <span>Ровенская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="sumy">
-                                <span>Сумская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="ternopil">
-                                <span>Тернопольская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="kharkov">
-                                <span>Харьковская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="kherson">
-                                <span>Херсонская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="khmelnitsk">
-                                <span>Хмельницкая область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="cherkassi">
-                                <span>Черкасская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="chernigov">
-                                <span>Черниговская область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                            <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="chernovci">
-                                <span>Черновицкая область</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
+                            @if(isset($regions))
+                                @foreach($regions as $index_region => $region)
+                                    <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="0">
+                                        @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
+                                            <span>{{$region['name']}}</span>
+                                        @else
+                                            <span>{{$region['name']}} область</span>
+                                        @endif
+                                        <span>
+                                            <i class="far fa-chevron-right"></i>
+                                        </span>
+                                    </a>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

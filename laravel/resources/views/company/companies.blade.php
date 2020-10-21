@@ -1,4 +1,4 @@
-@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $rubricGroups,'regions' =>$regions ])
+@extends('layout.layout', ['meta' => $meta,'rubricGroups' => $rubricGroups,'regions' => $regions ])
 {{--isMobile--}}
 @section('content')
     @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
@@ -164,6 +164,6 @@
     {{--        $banner--}}
     {{--        /foreach--}}
     {{--    </div>--}}
-    {{ $settings_for_page->links() }}
+{{--    {{ $settings_for_page->links() }}--}}
 @endsection
 

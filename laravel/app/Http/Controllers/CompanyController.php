@@ -55,7 +55,7 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
-
+//        dd($groups);
         $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
         return view('company.companies', [

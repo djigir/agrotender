@@ -16,27 +16,18 @@
         </div>
     </div>
 </div>
+
 <div class="userMobileMenu" style="display: none">
     <div class="d-flex head py-2 px-4 align-items-center justify-content-between">
-        <a class="back main" href="#">< Назад</a>
-        <img class="avatar" src="{if $company['logo_file'] neq null}/{$company['logo_file']}{else}/app/assets/img/noavatar.png{/if}">
+        <a id='one-back' class=" main" href="#"><i class="far fa-chevron-left mr-1"></i> Назад</a>
+        <img class="avatar" src="{{$company['logo_file'] != null ? $company['logo_file'] : '/app/assets/img/noavatar.png'}}">
     </div>
     <div class="items d-flex flex-column justify-content-between">
         @if(isset($id))
-            <a href="{{route('company.company', $id)}}" class="" >Главная</a>
-            <a href="{{route('company.company_reviews', $id)}}" class="">Отзывы</a>
-            <a href="{{route('company.company_cont', $id)}}" class="">Контакты</a>
+            <a href="{{route('company.company', $id)}}" class="menu-item" >Главная</a>
+            <a href="{{route('company.company_reviews', $id)}}" class="menu-item">Отзывы</a>
+            <a href="{{route('company.company_cont', $id)}}" class="menu-item">Контакты</a>
         @endif
     </div>
 </div>
-<style>
 
-</style>
-<script>
-    console.log('mobile-menu');
-    console.log(window.jQuery);
-    window.onload = function() {
-        console.log($('.burger'));
-    }
-
-</script>

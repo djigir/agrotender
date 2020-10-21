@@ -8,13 +8,7 @@ window.onload = function (){
         }
     });
 
-    $('.back').click(function () {
-        if ($('.userMobileMenu').css('display') == 'none') {
-            $('.userMobileMenu').css('display', 'block')
-        } else {
-            $('.userMobileMenu').css('display', 'none')
-        }
-    });
+
 
     $('.userIcon').click(function () {
         if ($('.userMobileMenu').css('display') == 'none') {
@@ -110,6 +104,52 @@ window.onload = function (){
         }
 
     });
+
+    $("#mobile-rubric").click(function () {
+        $('.step-1').css('display', 'none');
+        $('.step-3').css('display', '');
+    });
+
+    $('#one-back').click(function () {
+        if ($('.userMobileMenu').css('display') == 'none') {
+            $('.userMobileMenu').css('display', 'block')
+        } else {
+            $('.userMobileMenu').css('display', 'none')
+        }
+    });
+
+    $("#back").click(function () {
+        $('.step-1').css('display', '');
+        $('.step-3').css('display', 'none');
+
+    });
+
+    $("#back2").click(function () {
+        $('.step-1').css('display', '');
+        $('.step-4').css('display', 'none');
+    });
+    $("#back3").click(function () {
+        $('.step-3').css('display', '');
+        $('.step-3-1').css('display', 'none');
+    });
+
+    $("#mobile-region").click(function () {
+        $('.step-1').css('display', 'none');
+        $('.step-4').css('display', '');
+    });
+
+
+    $(".rubric").click(function (event) {
+        $('.step-3').css('display', 'none');
+        $('.step-3-1').css('display', '');
+
+        let group = event.currentTarget.attributes[2].nodeValue;
+        console.log(group, event);
+
+
+    });
+
+
 }
 
 
