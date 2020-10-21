@@ -147,6 +147,18 @@ window.onload = function (){
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
+
+        for(let i = 0; i < $('.culture').length; i++){
+            let elem = $('.culture')[i];
+            if(elem.getAttribute('rubricId') === event.currentTarget.attributes[2].value){
+                elem.style.cssText = 'display: block';
+
+
+            }else{
+                elem.style.cssText = 'display: none !important';
+            }
+
+        }
     });
 
     $(".culture").click(function (event) {
@@ -173,5 +185,7 @@ window.onload = function (){
         $('.step-4').css('display', 'none');
 
     });
-
+    $('.remove-style-btn').click(function (event) {
+        $('.remove-style-btn').css('border', 'none');
+    })
 }

@@ -157,18 +157,17 @@
                             <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
                             <i class="far fa-search searchFilterIcon"></i>
                         </div>
-                        <a id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0">
+                        <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0">
                             <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='' >
                             <span id="span-mobile-rubric">Выберете рубрику</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
-
-                        <a id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0 ">
+                        </span>
+                        <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0 ">
                             <input type="text" class="remove-input" id='input-mobile-region' name="region" value=''>
                             <span id="span-mobile-region">Вся Украина</span>
                             <span><i class="far fa-chevron-right"></i></span>
 
-                        </a>
+                        </span>
                         <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
 
                         </form>
@@ -204,11 +203,9 @@
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                        <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$culture['id']}}">
+                                        <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$rubricGroup['id']}}">
                                             <span>{{$culture['title']}} &nbsp;
-
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-
                                             </span>
                                             <span><i class="far fa-chevron-right"></i></span>
                                         </a>
@@ -230,11 +227,11 @@
                                 @foreach($regions as $index_region => $region)
                                     <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit = "{{ $region['translit'] }}">
                                         @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
-                                            <span value="test" name="test">{{$region['name']}}</span>
+                                            <span>{{$region['name']}}</span>
                                         @else
-                                            <span value="test" name="test">{{$region['name']}} область</span>
+                                            <span>{{$region['name']}} область</span>
                                         @endif
-                                        <span value="test" name="test">
+                                        <span>
                                             <i class="far fa-chevron-right"></i>
                                         </span>
                                     </a>

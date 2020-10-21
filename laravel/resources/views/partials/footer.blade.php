@@ -40,6 +40,7 @@
     </div>
 </footer>
 </div>
+<script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/my_js/events.js"></script>
 {{--<script src="/app/assets/my_js/app_new.js"></script>--}}
 <!--[if lt IE 9]>
@@ -47,8 +48,8 @@
 <!--<script src="/app/assets/js/html5shiv.min.js"></script>-->
 <!--<script src="/app/assets/js/html5shiv-printshiv.min.js"></script>-->
 <!--<script src="/app/assets/js/respond.min.js"></script>-->
-<script src="/app/assets/js/app.js"></script>
 <script src="/app/assets/js/analitix.js"></script>
+<script src="/app/assets/js/popper.min.js"></script>
 {{--<script src="/app/assets/js/bootstrap.bundle.min.js"></script>--}}
 <script src="/app/assets/js/bootstrap.min.js"></script>
 {{--<script src="/app/assets/js/bootstrap-datepicker.min.js"></script>--}}
@@ -68,15 +69,15 @@
 {{--<script src="/app/assets/js/jquery.mask.min.js"></script>--}}
 {{--<script src="/app/assets/js/jquery.pjax.js"></script>--}}
 {{--<script src="/app/assets/js/jquery.validate.min.js"></script>--}}
-<script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
-<script src="/app/assets/js/popper.min.js"></script>
+
 <script src="/app/assets/js/respond.min.js"></script>
 <script src="/app/assets/js/sides.js"></script>
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
 {{--<script src="/app/assets/js/stringMonthYear.js"></script>--}}
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
+{{--<script defer src="/app/assets/js/app.js"></script>--}}
 </body>
 </html>

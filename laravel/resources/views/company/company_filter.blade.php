@@ -6,18 +6,18 @@
     'rubricGroups' => $rubricGroups,
     'search' => $search
 ])
-    <div class="d-none d-sm-block container mt-3">
-    </div>
-    {{--    {if $region['id'] != null or $rubric['id'] != null}--}}
-    <div class="d-sm-none container pt-4">
-        {{--        {if $region['id'] != null}--}}
-        <div><span class="searchTag regionTag d-inline-block">{$region['name']} область <a href="/kompanii{if $rubric neq null}/t{$rubric['id']}{/if}"><i class="far fa-times close ml-3"></i></a></span></div>
-        {{--        {/if}--}}
-        {{--        {if $rubric['id'] != null}--}}
-        <div><span class="searchTag regionTag d-inline-block">{$rubric['title']} <a href="/kompanii/region_{$region['translit']}/index"><i class="far fa-times close ml-3"></i></a></span></div>
-        {{--        {/if}--}}
-    </div>
-    {{--    {/if}--}}
+{{--    <div class="d-none d-sm-block container mt-3">--}}
+{{--    </div>--}}
+{{--    --}}{{--    {if $region['id'] != null or $rubric['id'] != null}--}}
+{{--    <div class="d-sm-none container pt-4">--}}
+{{--        --}}{{--        {if $region['id'] != null}--}}
+{{--        <div><span class="searchTag regionTag d-inline-block">{$region['name']} область <a href="/kompanii{if $rubric neq null}/t{$rubric['id']}{/if}"><i class="far fa-times close ml-3"></i></a></span></div>--}}
+{{--        --}}{{--        {/if}--}}
+{{--        --}}{{--        {if $rubric['id'] != null}--}}
+{{--        <div><span class="searchTag regionTag d-inline-block">{$rubric['title']} <a href="/kompanii/region_{$region['translit']}/index"><i class="far fa-times close ml-3"></i></a></span></div>--}}
+{{--        --}}{{--        {/if}--}}
+{{--    </div>--}}
+{{--    --}}{{--    {/if}--}}
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1

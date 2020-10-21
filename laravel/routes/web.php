@@ -39,7 +39,7 @@ Route::prefix('kompanii')
         /*Route::get('/s/{query?}', function ($query = null){
 //            Route::get('/s/{query}','CompanyController@company_filter')->name('company_filter');
         })->name('company_filter');*/
-        Route::get('/s/{query?}', 'CompanyController@company_filter')->name('company_filter');
+        Route::get('/s/{query}', 'CompanyController@company_filter')->name('company_filter');
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@company_region_rubric_number')->name('company_region_rubric_number');
     });
 
