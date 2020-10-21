@@ -142,7 +142,7 @@
                 </div>
             </div>
         </div>
-
+    </div>
     {{--    {/foreach}--}}
     {{--    <div class="text-center mt-4">--}}
     {{--        {foreach $banners['bottom'] as $banner}--}}
@@ -150,7 +150,7 @@
     {{--        {/foreach}--}}
     {{--    </div>--}}
     {{--{{dd($settings_for_page)}}--}}
-{{--            {{ $settings_for_page->links() }}--}}
-    </div>
+    {{ $settings_for_page->links()}}
+
 
 @endsection
