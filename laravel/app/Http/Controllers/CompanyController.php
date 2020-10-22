@@ -257,7 +257,6 @@ class CompanyController extends Controller
      */
     public function companyReviews($id_company)
     {
-        $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
 
@@ -271,7 +270,6 @@ class CompanyController extends Controller
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $company,
             'id' => $id_company,
-            'company_name' => $company_name,
             'meta' => $meta
         ]);
     }
