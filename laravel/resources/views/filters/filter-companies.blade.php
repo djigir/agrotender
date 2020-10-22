@@ -100,15 +100,20 @@
                     </div>
                 </div>
             </div>
-            <form class="searchForm" style="display: flex">
-                <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                        <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
-                        value="{{isset($query) ? $query : ''}}">
-                </div>
-                <div class="col-auto search">
-                   <button type="submit" class="btn-search"> <i class="far fa-search searchIcon mt-2 ml-2"></i></button>
-                </div>
-            </form>
+            <div class="col searchDiv" data-tip="Введите поисковой запрос">
+                <form class="searchForm" style="display: flex" method="POST">
+                    @csrf
+                    <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
+                           value="{{isset($query) && $query != null ? $query : ''}}">
+                    <div class="col-auto search">
+                        <button type="submit" class="btn-search">
+                            <i class="far fa-search searchIcon mt-2 ml-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+
         </div>
     </div>
     <div class="row mt-4 pt-3">
@@ -127,33 +132,6 @@
         </div>
     </div>
 </div>
-<script>
-    window.onload = function () {
-        $(".rubricInput").click(function (event) {
-            $("#rubricDrop").toggle();
-            $("#regionDrop").hide();
-            $(".rubricGroup").hide();
-
-        });
-
-        $(".regionInput").click(function (event) {
-            $("#regionDrop").toggle();
-            $("#rubricDrop").hide();
-        });
-
-        $(".getRubricGroup").click(function (event) {
-            let group = event.currentTarget.attributes[1].nodeValue;
-            for(let i = 0; i < $('.groupCulture').length; i++){
-                let elem = $('.groupCulture')[i];
-                elem.style.cssText = 'display: none !important';
-
-                if(elem.getAttribute('group') === group){
-                    elem.style.cssText = 'display: block; column-count: 2; ';
-                }
-            }
-        });
-    }
-</script>
 <style>
     .btn-search{
         background: none;

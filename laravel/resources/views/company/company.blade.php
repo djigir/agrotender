@@ -1,7 +1,4 @@
-@extends('layout.layout', [
-    'title' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description'], 'id' => $id])
+@extends('layout.layout', ['meta' => $meta, 'id' => $id])
 
 @section('content')
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])

@@ -43,6 +43,10 @@ class CompanyController extends Controller
         return !empty($request->get('query')) || !empty($request->get('region'));
     }
 
+    private function IsDesktopFilter($query)
+    {
+        return redirect()->action('CompanyController@companyFilter', ['query' => $query]);
+    }
 
     private function checkName($translit = null)
     {
@@ -57,24 +61,30 @@ class CompanyController extends Controller
      */
     public function companies(Request $request)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
 
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
+
         $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
+
 
         return view('company.companies', [
                 'companies' => $companies,
                 'settings_for_page' => $companies,
                 'regions' => $regions,
                 'rubricGroups' => $groups,
-                'meta' => $meta,
-                'isMobile' => $this->agent->isMobile()
+                'meta' => [],
+                'isMobile' => $this->agent->isMobile(),
             ]
         );
     }
@@ -90,7 +100,7 @@ class CompanyController extends Controller
     {
         $company = CompItems::find($id);
 
-        if(empty($company)) {
+        if(empty($company)){
             App::abort(404);
         }
 
@@ -113,7 +123,8 @@ class CompanyController extends Controller
                 'region_culture' => $region_culture,
                 'region_place' => $region_place,
                 'region_price' => $region_price,
-                'meta' => $meta
+                'meta' => [],
+                'isMobile' => $this->agent->isMobile()
             ]
         );
     }
@@ -128,8 +139,14 @@ class CompanyController extends Controller
     public function companyRegion($region, Request $request)
     {
 
-        if ($this->isMobileFilter($request)) {
+
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
+
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
         $unwanted_region = $this->checkName($region);
@@ -151,7 +168,8 @@ class CompanyController extends Controller
             'currently_obl' => $currently_obl,
             'unwanted_region' => $unwanted_region,
             'region' => $region,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile(),
         ]);
     }
 
@@ -170,8 +188,12 @@ class CompanyController extends Controller
      */
     public function companyRegionRubric($region, $rubric_number, Request $request)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
         $unwanted_region = $this->checkName($region);
@@ -182,8 +204,10 @@ class CompanyController extends Controller
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
         $get_region = Regions::where('translit', $region)->value('id');
+
         $data = ['rubric' => $rubric_number, 'region' => $get_region, 'page' => $companies->currentPage()];
         $meta =  $this->seoService->getCompaniesMeta($data);
+
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
@@ -195,7 +219,8 @@ class CompanyController extends Controller
             'region' => $region,
             'rubric_number' => $rubric_number,
             'current_culture' => $current_culture,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile(),
         ]);
     }
 
@@ -207,7 +232,7 @@ class CompanyController extends Controller
      */
     public function companyFilter(Request $request, $query = null)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
 
@@ -216,12 +241,15 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies(null, null, $query);
         $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
+
         return view('company.company_filter', [
                 'companies' => $companies,
                 'rubricGroups' => $groups,
                 'settings_for_page' => $companies,
                 'regions' => $regions,
-                'meta' => $meta
+                'meta' => $meta,
+                'isMobile' => $this->agent->isMobile(),
+                'query' => $request->get('query'),
             ]
         );
     }
@@ -235,7 +263,12 @@ class CompanyController extends Controller
     public function companyPrices($id)
     {
         $company_name = CompItems::find($id)->value('title');
-        return view('company.company_prices', ['id' => $id, 'company_name' => $company_name]);
+
+        return view('company.company_prices', [
+            'id' => $id,
+            'company_name' => $company_name,
+            'isMobile' => $this->agent->isMobile()
+        ]);
     }
 
     /**
@@ -249,11 +282,13 @@ class CompanyController extends Controller
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
         $meta = $this->seoService->getMetaCompanyReviews($id_company);
+
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $company,
             'id' => $id_company,
-            'meta' => $meta
+            'meta' => $meta,
+            'isMobile' => $this->agent->isMobile()
         ]);
     }
 
@@ -265,7 +300,6 @@ class CompanyController extends Controller
      */
     public function companyContact($id_company)
     {
-        $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
@@ -285,8 +319,8 @@ class CompanyController extends Controller
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
             'id' => $id_company,
-            'company_name' => $company_name,
-            'meta' => $meta
+            'meta' => $meta,
+            'isMobile' => $this->agent->isMobile()
         ]);
     }
 
