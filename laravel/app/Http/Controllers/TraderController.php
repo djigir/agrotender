@@ -132,8 +132,8 @@ class TraderController extends Controller
         $traders = $this->traderService->getTradersRegionPortCulture(null, null,0, $region);
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, null,1, $region);
         $groups = $this->companyService->getRubricsGroup();
-
-        $meta = $this->seoService->getTradersMeta(null, $region, null, 0, 1, null);
+        $data = ['rubric' => null, 'region' => $region, 'port' => null, 'type' => 0, 'page' => 1, 'onlyPorts' => null];
+        $meta = $this->seoService->getTradersMeta($data);
 
         return view('traders.traders_regions',
             [
@@ -174,8 +174,8 @@ class TraderController extends Controller
         $current_region = $region;
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
-
-        $meta = $this->seoService->getTradersMeta($culture_name, $region, null, 0, 1, null);
+        $data = ['rubric' => $culture_name, 'region' => $region, 'port' => null, 'type' => 0, 'page' => 1, 'onlyPorts' => null];
+        $meta = $this->seoService->getTradersMeta($data);
 
         return view('traders.traders_regions_culture', [
             'viewmod'=> $request->get('viewmod'),
@@ -207,8 +207,8 @@ class TraderController extends Controller
         $port_name = $this->checkName(null, $port)['name'];
         $onlyPorts = $this->checkName(null, $port)['onlyPorts'];
         $current_port = $port;
-
-        $meta = $this->seoService->getTradersMeta(null, null, $port_name, 1, 1, $onlyPorts);
+        $data = ['rubric' => null, 'region' => null, 'port' => $port_name, 'type' => 0, 'page' => 1, 'onlyPorts' => $onlyPorts];
+        $meta = $this->seoService->getTradersMeta($data);
 
         return view('traders.traders_port', [
             'viewmod'=> $request->get('viewmod'),
@@ -241,8 +241,8 @@ class TraderController extends Controller
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
 
-
-        $meta = $this->seoService->getTradersMeta($culture_name, null, $port_name, 1, 1, $onlyPorts);
+        $data = ['rubric' => $culture_name, 'region' => null, 'port' => $port_name, 'type' => 0, 'page' => 1, 'onlyPorts' => $onlyPorts];
+        $meta = $this->seoService->getTradersMeta($data);
 
         return view('traders.traders_port_culture', [
             'viewmod'=> $request->get('viewmod'),

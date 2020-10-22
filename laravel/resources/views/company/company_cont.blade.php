@@ -1,4 +1,3 @@
-{{--@extends('layout.layout', ['meta' => $meta])--}}
 @extends('layout.layout', ['meta' => $meta])
 
 @section('content')
