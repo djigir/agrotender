@@ -29,7 +29,7 @@ class SeoService
     {
 
     }
-    public function getCompaniesMeta($data)
+    /*public function getCompaniesMeta($data)
     {
         $t3seo = '';
         $h1 = '';
@@ -90,7 +90,79 @@ class SeoService
         }
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }*/
+
+    public function getCompaniesMeta($data)
+    {
+        if (($data['rubric']) != null) {
+            $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
+//            dd($rubric);
+            if (!empty($rubric)) {
+                $rubric = $rubric[0];
+            }
+        }else {
+            $rubric = $data['rubric'];
+        }
+
+        if (!is_null($data['region'])) {
+            $region = Regions::where('id', $data['region'])->get()->toArray();
+            $region = $region[0];
+        }else {
+            $region = $data['region'];
+        }
+
+        $h1 = '';
+        $text = '';
+        $topic_name = (empty($rubric['id'])) ? 'Все рубрики' : $rubric['page_title'];
+        if (($data['rubric']) != null || $region!= null && $region != '') {
+            if ((!empty($rubric['page_title'])) && ($data['page'] == 1)) {
+                $r = ($region != null) ? $region : null;
+                $title = $this->parseSeoText($r, $rubric['page_title']);
+                $keywords = $this->parseSeoText($r, $rubric['page_keywords']);
+                $description = $this->parseSeoText($r, $rubric['page_descr']);
+                $h1 = $this->parseSeoText($r, $rubric['page_h1']);
+                $text = $this->parseSeoText($r, $rubric['page_descr']);
+            }elseif (($data['rubric'] == null) && ($data['page'] == 1)) {
+                // Only region selected
+                $title = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер.";
+                $keywords = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер. Аграрная, АПК.";
+                $description = "В каталога аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
+            }else {
+                $t3words = [
+                    1 => "культуры",
+                    2 => "культуры",
+                    16 => "культуры",
+                    18 => "продукты"
+                ];
+
+                $t3seo = "";
+                if ((!empty($data['rubric']['parent_id']) && $data['rubric']['parent_id'] != 0)) {
+                    $t3seo = " (".$data['rubric']['name'].") ";
+                } else {
+                    if(!isset($t3words[$data['rubric']])) {
+                        $title = "Каталог аграрных компаний {$region['city_parental']} и {$region['parental']} области от Агротендер.";
+                        $keywords = "Каталог аграрных компаний {$region['city_parental']} и {$region['parental']} от Агротендер. Аграрная, АПК.";
+                        $description = "В каталога аграрных компаний {$region['city_parental']} и {$region['parental']} области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
+                        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+//                        $t3seo = " ".$t3words[$data['rubric']['id']];
+                    }
+                }
+
+                $page_ptit = "";
+
+                $title = $page_ptit.": ".$topic_name.$t3seo." в ".($region == null) ? "Украине" : $region['parental'].". Компании на сайте Agrotender.com.ua.";
+                $keywords = $topic_name.$t3seo." в ".($region == null) ? "Украине" : $region['parental'];
+                $description = $topic_name.$t3seo." в ".($region == null) ? "Украине" : $region['parental'].". Каталог агропромышленных компаний на Агротендер.";
+            }
+        }else {
+            $title = 'Каталог компаний аграрного сектора Украины';
+            $keywords = 'каталог компаний';
+            $description = 'Сайт Агротендер представляет вашему вниманию каталог компаний аграрного сектора Украины.';
+        }
+
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
+
 
 
     public function getTradersMeta($rubric = null, $region = null, $port = null, $type = 0, $page = 1, $onlyPorts = null)
