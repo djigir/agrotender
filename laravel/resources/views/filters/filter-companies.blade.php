@@ -80,17 +80,18 @@
                         <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                         <div class="row">
                             <div class="col" style="column-count: 3">
+
                                 @foreach($regions as $index => $region)
                                     @if($index > 0)
                                         @if(isset($rubric_number) and isset($region))
                                             <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
                                                href="{{route('company.company_region_rubric_number', [$region['translit'], $rubric_number])}}">
-                                                <span>{{$region['name']}} область</span>
+                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                             </a>
                                         @else
                                             <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
                                                href="{{route('company.company_and_region', $region['translit'])}}">
-                                                <span>{{$region['name']}} область</span>
+                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                             </a>
                                         @endif
                                     @endif

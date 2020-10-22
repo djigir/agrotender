@@ -12,6 +12,7 @@ class BaseServices
     {
         $regions = Regions::get()->toArray();
         array_push($regions, ['name' => 'Вся Украина', 'translit' => 'ukraine']);
+
         return $regions;
     }
 

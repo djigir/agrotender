@@ -55,14 +55,17 @@ class CompanyController extends Controller
 
     private function regionName($region)
     {
-        $name = 'Вся Украина';
-        $obl_name = 'Вся Украина';
         $name = Regions::where('translit', $region)->value('name');
         $obl_name = Regions::where('translit', $region)->value('name'). ' область';
 
         if($region == 'crimea'){
             $name = 'АР Крым';
             $obl_name = 'АР Крым';
+        }
+
+        if($region == 'ukraine'){
+            $name = 'Вся Украина';
+            $obl_name = 'Вся Украина';
         }
 
         return ['name' => $name, 'obl_name' => $obl_name];
@@ -227,6 +230,8 @@ class CompanyController extends Controller
         $currently_obl = Regions::where('translit', $region)->get()->toArray();
         $currently_obl = !empty($currently_obl) ? $currently_obl[0] : 'ukraine';
         $breadcrumbs = [0 => ['name' => 'Компании в Украине ', 'url' => null]];
+
+        $this->regionName($region)['obl_name'];
 
         if(is_array($currently_obl)){
             $breadcrumbs = [
