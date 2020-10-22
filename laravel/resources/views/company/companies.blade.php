@@ -1,6 +1,4 @@
-@extends('layout.layout', ['title' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description'], 'rubricGroups' => $rubricGroups,'regions' => $regions ])
+@extends('layout.layout', ['rubricGroups' => $rubricGroups,'regions' => $regions ])
 
 
 {{--isMobile--}}

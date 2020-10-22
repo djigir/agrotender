@@ -1,5 +1,8 @@
 window.onload = function (){
-    $('.searchIcon').click(function () {
+    if(window.location.href.indexOf('?') > -1){
+
+    }
+    $('.mobile-icon').click(function () {
         $(".filters-wrap").toggle();
     });
 
@@ -42,24 +45,53 @@ window.onload = function (){
         } else {
             $("#all_ukraine").removeClass('active');
         }
-
-    });
-    $(".regionInput").click(function () {
-        if (!$(".regionInput").hasClass('isopen')) {
-            $(".regionInput").addClass('isopen');
-        } else {
-            $(".regionInput").removeClass('isopen');
-        }
-
     });
 
-    $(".rubricInput").click(function () {
+    $(".rubricInput").click(function (event) {
+        $("#rubricDrop").toggle();
+        $("#regionDrop").hide();
+        $(".rubricGroup").hide();
+
         if (!$(".rubricInput").hasClass('isopen')) {
             $(".rubricInput").addClass('isopen');
         } else {
             $(".rubricInput").removeClass('isopen');
         }
+    });
 
+    $(".regionInput").click(function (event) {
+        $("#regionDrop").toggle();
+        $("#rubricDrop").hide();
+
+        if (!$(".regionInput").hasClass('isopen')) {
+            $(".regionInput").addClass('isopen');
+        } else {
+            $(".regionInput").removeClass('isopen');
+        }
+    });
+
+    $(".getRubricGroup").click(function (event) {
+        let group = event.currentTarget.attributes[1].nodeValue;
+        for(let i = 0; i < $('.groupCulture').length; i++){
+            let elem = $('.groupCulture')[i];
+            elem.style.cssText = 'display: none !important';
+
+            if(elem.getAttribute('group') === group){
+                elem.style.cssText = 'display: block; column-count: 2; ';
+            }
+        }
+    });
+
+    $('.btn-search').click(function (event) {
+        console.log($('#searchInput').val());
+
+        if($('#searchInput').val() === ''){
+            $('.searchDiv').addClass('tip');
+            setTimeout(() => {
+                $('.searchDiv').removeClass('tip');
+            }, 500);
+            event.preventDefault();
+        }
     });
 
     $("#mobile-rubric").click(function () {
@@ -92,21 +124,16 @@ window.onload = function (){
         $('.step-4').css('display', '');
     });
 
-
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
-
-        for(let i = 0; i < $('.culture').length; i++){
+        for (let i = 0; i < $('.culture').length; i++) {
             let elem = $('.culture')[i];
-            if(elem.getAttribute('rubricId') === event.currentTarget.attributes[2].value){
+            let group = event.currentTarget.attributes[2].value;
+            elem.style.cssText = 'display: none !important';
+            if (elem.getAttribute('rubricId') === group) {
                 elem.style.cssText = 'display: block';
-
-
-            }else{
-                elem.style.cssText = 'display: none !important';
             }
-
         }
     });
 
@@ -122,7 +149,6 @@ window.onload = function (){
         $('.step-3-1').css('display', 'none');
     });
 
-
     $(".region").click(function (event) {
         let region = event.currentTarget.attributes[2].nodeValue;
         let region_name = event.target.innerHTML;
@@ -134,7 +160,8 @@ window.onload = function (){
         $('.step-4').css('display', 'none');
 
     });
+
     $('.remove-style-btn').click(function (event) {
         $('.remove-style-btn').css('border', 'none');
     })
-}
+};

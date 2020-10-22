@@ -43,6 +43,10 @@ class CompanyController extends Controller
         return !empty($request->get('query')) || !empty($request->get('region'));
     }
 
+    private function IsDesktopFilter($query)
+    {
+        return redirect()->action('CompanyController@companyFilter', ['query' => $query]);
+    }
 
     private function checkName($translit = null)
     {
@@ -57,8 +61,12 @@ class CompanyController extends Controller
      */
     public function companies(Request $request)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
 
@@ -66,15 +74,15 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
 
-        $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+        //$meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
 
         return view('company.companies', [
                 'companies' => $companies,
                 'settings_for_page' => $companies,
                 'regions' => $regions,
                 'rubricGroups' => $groups,
-                'meta' => $meta,
-                'isMobile' => $this->agent->isMobile()
+                'meta' => [],
+                'isMobile' => $this->agent->isMobile(),
             ]
         );
     }
@@ -90,7 +98,7 @@ class CompanyController extends Controller
     {
         $company = CompItems::find($id);
 
-        if(empty($company)) {
+        if(empty($company)){
             App::abort(404);
         }
 
@@ -111,7 +119,7 @@ class CompanyController extends Controller
         $keywords = $company['title'];
         $description = mb_substr(strip_tags($company['content']), 0, 200);
 
-        $meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        //$meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
 
         return view('company.company', [
                 'company' => $company,
@@ -122,7 +130,8 @@ class CompanyController extends Controller
                 'region_culture' => $region_culture,
                 'region_place' => $region_place,
                 'region_price' => $region_price,
-                'meta' => $meta
+                'meta' => [],
+                'isMobile' => $this->agent->isMobile()
             ]
         );
     }
@@ -136,8 +145,12 @@ class CompanyController extends Controller
      */
     public function companyRegion($region, Request $request)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
         $unwanted_region = $this->checkName($region);
@@ -157,7 +170,8 @@ class CompanyController extends Controller
             'currently_obl' => $currently_obl,
             'unwanted_region' => $unwanted_region,
             'region' => $region,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile(),
         ]);
     }
 
@@ -176,8 +190,12 @@ class CompanyController extends Controller
      */
     public function companyRegionRubric($region, $rubric_number, Request $request)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request->get('query'));
         }
 
         $unwanted_region = $this->checkName($region);
@@ -189,7 +207,7 @@ class CompanyController extends Controller
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
         $get_region = Regions::where('translit', $region)->value('id');
 
-        $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
+        //$meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
@@ -201,7 +219,8 @@ class CompanyController extends Controller
             'region' => $region,
             'rubric_number' => $rubric_number,
             'current_culture' => $current_culture,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile(),
         ]);
     }
 
@@ -213,7 +232,7 @@ class CompanyController extends Controller
      */
     public function companyFilter(Request $request, $query = null)
     {
-        if ($this->isMobileFilter($request)) {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
 
@@ -225,7 +244,9 @@ class CompanyController extends Controller
                 'companies' => $companies,
                 'rubricGroups' => $groups,
                 'settings_for_page' => $companies,
-                'regions' => $regions
+                'regions' => $regions,
+                'isMobile' => $this->agent->isMobile(),
+                'query' => $request->get('query'),
             ]
         );
     }
@@ -239,7 +260,12 @@ class CompanyController extends Controller
     public function companyPrices($id)
     {
         $company_name = CompItems::find($id)->value('title');
-        return view('company.company_prices', ['id' => $id, 'company_name' => $company_name]);
+
+        return view('company.company_prices', [
+            'id' => $id,
+            'company_name' => $company_name,
+            'isMobile' => $this->agent->isMobile()
+        ]);
     }
 
     /**
@@ -254,18 +280,19 @@ class CompanyController extends Controller
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
 
-        $meta = [
-            'title' => "Отзывы о {$company->title} на сайте Agrotender",
-            'keywords' => $company->title,
-            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"
-        ];
+//        $meta = [
+//            'title' => "Отзывы о {$company->title} на сайте Agrotender",
+//            'keywords' => $company->title,
+//            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"
+//        ];
 
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $company,
             'id' => $id_company,
             'company_name' => $company_name,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile()
         ]);
     }
 
@@ -277,7 +304,6 @@ class CompanyController extends Controller
      */
     public function companyContact($id_company)
     {
-        $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
@@ -288,9 +314,9 @@ class CompanyController extends Controller
             ->get()
             ->toArray();
 
-        $meta = [
-            'title' => $company->title, 'keywords' => $company->title, 'description' => 'Сайт компании '.$company->title
-        ];
+//        $meta = [
+//            'title' => $company->title, 'keywords' => $company->title, 'description' => 'Сайт компании '.$company->title
+//        ];
 
         return view('company.company_cont', [
             'company' => $company,
@@ -299,8 +325,8 @@ class CompanyController extends Controller
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
             'id' => $id_company,
-            'company_name' => $company_name,
-            'meta' => $meta
+            'meta' => [],
+            'isMobile' => $this->agent->isMobile()
         ]);
     }
 

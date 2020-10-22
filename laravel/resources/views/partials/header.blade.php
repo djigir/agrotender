@@ -70,10 +70,12 @@
                 </div>
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
-                        @if(isset($id))
-                            <i class="far fa-chevron-circle-down userIcon mr-3"></i>
-                        @else
-                            <i class="far fa-search searchIcon mt-2 ml-2"></i>
+                        @if($isMobile)
+                            @if(isset($id))
+                                <i class="far fa-chevron-circle-down userIcon mr-3"></i>
+                            @else
+                                <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
+                            @endif
                         @endif
                     </div>
                     {{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
@@ -135,7 +137,7 @@
                 </li>
             </ul>
         </div>
-        @include('menu.mobile_menu')
+        @include('mobile.mobile_menu')
     </header>
     <main class="main" role="main" data-page="{$page}">
         <div id="loading"></div>
