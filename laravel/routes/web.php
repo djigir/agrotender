@@ -29,7 +29,7 @@ Route::prefix('kompanii')
         Route::get('/comp-{id_company}-traderContacts', 'CompanyController@traderContacts')->name('trader_contacts');
         Route::get('/comp-{id_company}', 'CompanyController@company')->name('company');
         Route::get('/region_{region}', 'CompanyController@companyRegion')->name('company_and_region');
-        Route::post('/s/{query}', 'CompanyController@companyFilter')->name('company_filter');
+        Route::get('/s/{query}', 'CompanyController@companyFilter')->name('company_filter');
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@companyRegionRubric')->name('company_region_rubric_number');
     });
 

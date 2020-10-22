@@ -1,11 +1,12 @@
 </main>
+</div>
 <footer class="footer" xmlns="http://www.w3.org/1999/html">
     <div class="container">
         <div class="row">
             <div class="d-none d-sm-block col-sm-3">
                 <img src="/app/assets/img/logo-grey.png" alt="Аграрный сайт Украины №1">
                 <br>
-                <span class="extra-small">© «АгротендерTM» 2011–{'Y'|date}</span>
+                <span class="extra-small">© «АгротендерTM» 2011–{{Carbon\Carbon::now()->format('Y')}}</span>
                 <br>
                 <span>info@agrotender.com.ua</span>
             </div>
@@ -36,48 +37,29 @@
         </div>
     </div>
     <div class="d-flex d-md-none align-items-center justify-content-center mt-2">
-        <span class="tm small">© «АгротендерTM» 2020</span>
+        <span class="tm small">© «АгротендерTM» 2011–{{Carbon\Carbon::now()->format('Y')}}</span>
     </div>
 </footer>
-</div>
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/my_js/events.js"></script>
-{{--<script src="/app/assets/my_js/app_new.js"></script>--}}
-<!--[if lt IE 9]>
-<<script src="/app/assets/js/es5-shim.min.js"></script>-->
-<!--<script src="/app/assets/js/html5shiv.min.js"></script>-->
-<!--<script src="/app/assets/js/html5shiv-printshiv.min.js"></script>-->
-<!--<script src="/app/assets/js/respond.min.js"></script>-->
-<script src="/app/assets/js/analitix.js"></script>
 <script src="/app/assets/js/popper.min.js"></script>
-{{--<script src="/app/assets/js/bootstrap.bundle.min.js"></script>--}}
 <script src="/app/assets/js/bootstrap.min.js"></script>
-{{--<script src="/app/assets/js/bootstrap-datepicker.min.js"></script>--}}
-{{--<script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>--}}
 <script src="/app/assets/js/clamp.min.js"></script>
-{{--<script src="/app/assets/js/color-thief.min.js"></script>--}}
 <script src="/app/assets/js/es5-shim.min.js"></script>
 <script src="/app/assets/js/favicon.min.js"></script>
 <script src="/app/assets/js/highcharts.js"></script>
 <script src="/app/assets/js/html2canvas.js"></script>
-{{--<script src="/app/assets/js/html5shiv.min.js"></script>--}}
-{{--<script src="/app/assets/js/html5shiv-printshiv.min.js"></script>--}}
-{{--<script src="/app/assets/js/imagelightbox.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.dataTables.min.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.ellipsis.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.jgrowl.min.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.mask.min.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.pjax.js"></script>--}}
-{{--<script src="/app/assets/js/jquery.validate.min.js"></script>--}}
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
-
 <script src="/app/assets/js/respond.min.js"></script>
 <script src="/app/assets/js/sides.js"></script>
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
-{{--<script src="/app/assets/js/stringMonthYear.js"></script>--}}
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
-{{--<script defer src="/app/assets/js/app.js"></script>--}}
+<script src="/app/assets/js/bootstrap.bundle.min.js"></script>
+<script src="/app/assets/js/bootstrap-datepicker.min.js"></script>
+<script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>
+<script src="/app/assets/js/color-thief.min.js"></script>
+<script src="/app/assets/my_js/app_new.js"></script>
 </body>
 </html>

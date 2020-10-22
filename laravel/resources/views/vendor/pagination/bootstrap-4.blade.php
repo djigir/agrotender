@@ -1,6 +1,6 @@
-@if ($paginator->hasPages())
-    <div class="row  mt-4 mobile-paginate">
-        <div class="col-12  d-block text-center">
+<div class="row  mt-4 mobile-paginate">
+    <div class="col-12  d-block text-center">
+        @if ($paginator->hasPages())
             <nav>
                 <ul class="pagination">
                     @if ($paginator->onFirstPage())
@@ -53,7 +53,8 @@
         border-radius: 7px;
     }
     .mobile-paginate {
-        margin: 0 auto; margin-top: -4rem !important;
+        margin: 0 auto;
+        margin-top: -4rem !important;
     }
     @media only screen and (max-width: 480px){
         .mobile-paginate {

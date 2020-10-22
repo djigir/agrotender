@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="/app/assets/css/simplelightbox.min.css">
     <link rel="stylesheet" href="/app/assets/css/styles.css">
     <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
+    <link rel="stylesheet" href="/app/assets/css/my-header.css">
     <!-- Required CSS -->
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
@@ -70,12 +71,10 @@
                 </div>
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
-                        @if($isMobile)
-                            @if(isset($id))
-                                <i class="far fa-chevron-circle-down userIcon mr-3"></i>
-                            @else
-                                <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
-                            @endif
+                        @if(isset($id))
+                            <i class="far fa-chevron-circle-down userIcon mr-3"></i>
+                        @else
+                            <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
                         @endif
                     </div>
                     {{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
@@ -264,79 +263,4 @@
         {{--                </div>--}}
         {{--            </div>--}}
         {{--        </div>--}}
-    </main>
-</div>
 
-<style>
-    .tableScroll::-webkit-scrollbar  {
-        background: transparent;
-    }
-    .tableScroll.orange::-webkit-scrollbar-thumb {
-        background-color: #ffa800 !important;
-        border-bottom-left-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
-    }
-    .tableScroll.blue::-webkit-scrollbar-thumb {
-        background-color: #1056B2 !important;
-        border-bottom-left-radius: 10px !important;
-        border-bottom-right-radius: 10px !important;
-    }
-    .tableSecond {
-        position: absolute;
-        z-index: 2;
-        width: 100%;
-        left: 0;
-        top: 0;
-        right: 0;
-    }
-    .tableFirst .py-1 {
-        position: relative;
-        overflow: hidden;
-    }
-    .tableFirst .py-1:before {
-        content: '';
-        transform: rotate(180deg);
-        right: 0;
-        top: 0;
-        left: calc(100% - 15px);
-        bottom: 0;
-        position: absolute;
-        box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 18px -18px inset;
-    }
-    .tableSecond:before {
-        content: ''
-    }
-    .tableSecond .tableScroll {
-        position: absolute; left: 240px; width: calc(100% - 240px); overflow-x: scroll;
-    }
-    .tableSecond .tableScroll tbody{
-        position: relative
-    }
-    .tableSecond .tableScroll tbody:before {
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 10px;
-        right: 0;
-        z-index: 9;
-    }
-    .tableSecond .tableScroll:before {
-        content: ''
-    }
-
-    .remove-input{
-        position: absolute;
-        border: none;
-        opacity: 0;
-        width: 100%;
-        height: 5%;
-        color: #2d75d6;
-        outline: none;
-    }
-    .remove-style-btn{
-        border: none;
-        outline: none;
-        background: none;
-        color: white;
-    }
-</style>

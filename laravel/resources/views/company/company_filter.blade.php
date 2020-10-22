@@ -1,16 +1,16 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('filters.filter-companies', [
-    'regions' => $regions,
-    'rubricGroups' => $rubricGroups,
-])
+    @if(!$isMobile)
+        @include('filters.filter-companies', ['regions' => $regions,'rubricGroups' => $rubricGroups,])
+    @endif
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
                 {{$company->trader_premium == 1 || $company->trader_premium == 2 ? 'companyTop' : ''}}"
                 {{$company->trader_premium == 2 ?? 'style ="overflow:hidden;'}}>
-                @if($company->trader_premium == 2)<div class="ribbonComp">VIP</div>@endif
+                @if($company->trader_premium == 2)
+                    <div class="ribbonComp">VIP</div>@endif
                 <div class="row mx-0 w-100">
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">
@@ -29,7 +29,8 @@
                     <div class="col">
                         <div class="row lh-1">
                             <div class="col">
-                                <span class="title"><a href="{{route('company.company', $company->id)}}">{!!  str_replace('\\', '', $company->title) !!}</a></span>
+                                <span class="title"><a
+                                        href="{{route('company.company', $company->id)}}">{!!  str_replace('\\', '', $company->title) !!}</a></span>
                             </div>
                         </div>
                         <div class="row d-sm-none lh-1">
@@ -66,7 +67,8 @@
                         <div class="row d-none d-sm-flex">
                             <div class="col pt-2 mt-1">
                                 @if($company->trader_price_avail == 1 and $company->trader_price_visible == 1)
-                                    <a class="link" href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
+                                    <a class="link"
+                                       href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
                                 @endif
 
                                 @if($company->purchases > 0)

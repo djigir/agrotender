@@ -1,37 +1,45 @@
 @extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups,'regions' => $regions])
 {{--isMobile--}}
 @section('content')
-    @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
+    @if(!$isMobile)
+        @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
+    @endif
     <div class="d-none d-sm-block container mt-3"></div>
     {{--    {if $region['id'] != null or $rubric['id'] != null}--}}
-{{--    <div class="d-sm-none container pt-4">--}}
-{{--        --}}{{--        {if $region['id'] != null}--}}
-{{--        <div>--}}
-{{--            <span class="searchTag regionTag d-inline-block">--}}
-{{--                {$region['name']} область--}}
-{{--                <a href="/kompanii{if $rubric neq null}/t{$rubric['id']}{/if}">--}}
-{{--                    <i class="far fa-times close ml-3">--}}
-{{--                        --}}
-{{--                    </i>--}}
-{{--                </a>--}}
-{{--            </span>--}}
-{{--        </div>--}}
-{{--        --}}{{--        {/if}--}}
-{{--        --}}{{--        {if $rubric['id'] != null}--}}
-{{--        <div>--}}
-{{--            <span class="searchTag regionTag d-inline-block">--}}
-{{--                {$rubric['title']}--}}
-{{--                <a href="/kompanii/region_{$region['translit']}/index">--}}
-{{--                    <i class="far fa-times close ml-3">--}}
-{{--                        --}}
-{{--                    </i>--}}
-{{--                </a>--}}
-{{--            </span>--}}
-{{--        </div>--}}
-{{--        --}}{{--        {/if}--}}
-{{--    </div>--}}
+    {{--    <div class="d-sm-none container pt-4">--}}
+    {{--        --}}{{--        {if $region['id'] != null}--}}
+    {{--        <div>--}}
+    {{--            <span class="searchTag regionTag d-inline-block">--}}
+    {{--                {$region['name']} область--}}
+    {{--                <a href="/kompanii{if $rubric neq null}/t{$rubric['id']}{/if}">--}}
+    {{--                    <i class="far fa-times close ml-3">--}}
+    {{--                        --}}
+    {{--                    </i>--}}
+    {{--                </a>--}}
+    {{--            </span>--}}
+    {{--        </div>--}}
+    {{--        --}}{{--        {/if}--}}
+    {{--        --}}{{--        {if $rubric['id'] != null}--}}
+    {{--        <div>--}}
+    {{--            <span class="searchTag regionTag d-inline-block">--}}
+    {{--                {$rubric['title']}--}}
+    {{--                <a href="/kompanii/region_{$region['translit']}/index">--}}
+    {{--                    <i class="far fa-times close ml-3">--}}
+    {{--                        --}}
+    {{--                    </i>--}}
+    {{--                </a>--}}
+    {{--            </span>--}}
+    {{--        </div>--}}
+    {{--        --}}{{--        {/if}--}}
+    {{--    </div>--}}
     {{--    {/if}--}}
-
+    <div class="d-sm-none container pt-4">
+        <div>
+            <span class="searchTag regionTag d-inline-block">
+                Компании в Украине
+            </span>
+        </div>
+    </div>
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
@@ -47,13 +55,14 @@
                         <div class="row m-0">
                             <div class="col-12 pl-0 pr-0 pr-sm-2">
                                 <a href="{{route('company.company', $company['id'])}}">
-                                    <img class="companyImg" src="{{ $company['logo_file'] ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
+                                    <img class="companyImg"
+                                         src="{{ $company['logo_file'] ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
                                 </a>
                             </div>
                         </div>
                         <div class="row m-0 pt-3 d-none d-sm-flex">
                             <div class="col-12 pl-0 pr-2 text-center">
-                                <span class="date">На сайте с {{$company['add_date']->format('Y-m-d')}}</span>
+                                <span class="date">На сайте с {{$company['add_date']->format('m.Y')}}</span>
                             </div>
                         </div>
                     </div>
@@ -66,7 +75,7 @@
                         </div>
                         <div class="row d-sm-none lh-1">
                             <div class="col">
-                                <span class="date mb-2">На сайте с {{$company['add_date']->format('Y-m-d')}}</span>
+                                <span class="date mb-2">На сайте с {{$company['add_date']->format('m.Y')}}</span>
                             </div>
                         </div>
                         <div class="row d-none d-sm-flex">
@@ -135,7 +144,8 @@
                 <div class="row mx-0 d-sm-none lh-1 w-100">
                     <div class="col mt-2 text-center">
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
-                            <a class="link" href="/kompanii/comp-{{$company['id']}}-prices"><span>Цены Трейдера</span></a>
+                            <a class="link"
+                               href="/kompanii/comp-{{$company['id']}}-prices"><span>Цены Трейдера</span></a>
                         @endif
                         @if($company['purchases'] > 0)
                             <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
@@ -159,12 +169,13 @@
                 </div>
             </div>
         </div>
-</div>
+        {{ $settings_for_page->links() }}
+    </div>
     {{--    <div class="text-center mt-4">--}}
     {{--        foreach $banners['bottom'] as $banner--}}
     {{--        $banner--}}
     {{--        /foreach--}}
     {{--    </div>--}}
-    {{ $settings_for_page->links() }}
+
 @endsection
 

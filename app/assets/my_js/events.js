@@ -1,7 +1,4 @@
 window.onload = function (){
-    if(window.location.href.indexOf('?') > -1){
-
-    }
     $('.mobile-icon').click(function () {
         $(".filters-wrap").toggle();
     });
@@ -72,6 +69,7 @@ window.onload = function (){
 
     $(".getRubricGroup").click(function (event) {
         let group = event.currentTarget.attributes[1].nodeValue;
+        console.log(group);
         for(let i = 0; i < $('.groupCulture').length; i++){
             let elem = $('.groupCulture')[i];
             elem.style.cssText = 'display: none !important';
