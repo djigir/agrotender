@@ -60,7 +60,6 @@ class CompanyService
     public function getContacts($author_id, $departments_type)
     {
         $departament_name = [];
-        $creator = [];
 
         $arr = [
             1 => 'Отдел закупок',
@@ -192,7 +191,7 @@ class CompanyService
         $assoc_array = [];
 
         foreach ($cultures as $index => $culture) {
-            $assoc_array[$culture['id']] = array('index' => $index, 'name' => $culture['name']);
+            $assoc_array[$culture['id']] = ['index' => $index, 'name' => $culture['name']];
         }
 
         $prices = $this->price_formation($get_prices);

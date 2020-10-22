@@ -5,6 +5,7 @@ namespace App\Services\Traders;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
+use App\Models\Traders\TraderFeed;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
@@ -41,6 +42,9 @@ class TraderFeedService
       where tp.acttype = $type && date(f.change_date) = curdate() && ci.trader_price{$sell}_avail = 1 && ci.trader_price{$sell}_visible = 1 && tp.type_id != 1 && ci.visible = 1
       group by f.user
       order by f.change_date desc");
+
+        $traders = TraderFeed::with(['places','items','langs'])
+            ->where('tp.acttype = $type && date(f.change_date) = curdate() && ci.trader_price{$sell}_avail = 1 && ci.trader_price{$sell}_visible = 1 && tp.type_id != 1 && ci.visible = 1');
 
         foreach ($feed as $key => $value) {
             $feed[$key]['onchange'] = 'Подтвердил цены';
