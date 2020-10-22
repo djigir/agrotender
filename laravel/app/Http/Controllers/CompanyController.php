@@ -180,11 +180,6 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        if (isset($request['search'])) {
-            $search = $request['search'];
-            return redirect()->action('CompanyController@companyFilter', [$search]);
-        }
-
         $unwanted_region = $this->checkName($region);
 
         $groups = $this->companyService->getRubricsGroup();
@@ -212,12 +207,11 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param $search
-     * @param $groups
-     * @param $regions
+     * @param  Request  $request
+     * @param $query
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function companyFilter($query = null, Request $request)
+    public function companyFilter(Request $request, $query = null)
     {
         if ($this->isMobileFilter($request)) {
             return $this->companyService->mobileFilter($request);
@@ -228,7 +222,6 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies(null, null, $query);
 
         return view('company.company_filter', [
-                'search' => $query,
                 'companies' => $companies,
                 'rubricGroups' => $groups,
                 'settings_for_page' => $companies,

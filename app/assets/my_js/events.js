@@ -44,23 +44,23 @@ window.onload = function (){
         }
 
     });
-    // $(".regionInput").click(function () {
-    //     if (!$(".regionInput").hasClass('isopen')) {
-    //         $(".regionInput").addClass('isopen');
-    //     } else {
-    //         $(".regionInput").removeClass('isopen');
-    //     }
-    //
-    // });
-    //
-    // $(".rubricInput").click(function () {
-    //     if (!$(".rubricInput").hasClass('isopen')) {
-    //         $(".rubricInput").addClass('isopen');
-    //     } else {
-    //         $(".rubricInput").removeClass('isopen');
-    //     }
-    //
-    // });
+    $(".regionInput").click(function () {
+        if (!$(".regionInput").hasClass('isopen')) {
+            $(".regionInput").addClass('isopen');
+        } else {
+            $(".regionInput").removeClass('isopen');
+        }
+
+    });
+
+    $(".rubricInput").click(function () {
+        if (!$(".rubricInput").hasClass('isopen')) {
+            $(".rubricInput").addClass('isopen');
+        } else {
+            $(".rubricInput").removeClass('isopen');
+        }
+
+    });
 
     $("#mobile-rubric").click(function () {
         $('.step-1').css('display', 'none');

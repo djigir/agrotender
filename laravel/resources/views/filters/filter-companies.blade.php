@@ -102,7 +102,7 @@
             </div>
             <form class="searchForm" style="display: flex">
                 <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                        <input maxlength="32" type="text" name="search" id="searchInput" class="searchInput" placeholder="Я ищу.."
+                        <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
                         value="{{isset($query) ? $query : ''}}">
                 </div>
                 <div class="col-auto search">
