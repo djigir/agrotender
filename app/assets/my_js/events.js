@@ -125,11 +125,13 @@ window.onload = function (){
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
+
         for (let i = 0; i < $('.culture').length; i++) {
             let elem = $('.culture')[i];
             let group = event.currentTarget.attributes[2].value;
             elem.style.cssText = 'display: none !important';
-            if (elem.getAttribute('rubricId') === group) {
+
+            if (elem.getAttribute('group') === group) {
                 elem.style.cssText = 'display: block';
             }
         }
@@ -138,9 +140,10 @@ window.onload = function (){
     $(".culture").click(function (event) {
         let group = event.currentTarget.attributes[2].nodeValue;
         let rubric_name = event.target.innerText;
+        let rubric_id = event.currentTarget.attributes[3].nodeValue;
 
         $('#span-mobile-rubric').html(rubric_name);
-        $('#input-mobile-rubric').attr('value', group);
+        $('#input-mobile-rubric').attr('value', rubric_id);
 
         $('.step-1').css('display', '');
         $('.step-3').css('display', 'none');

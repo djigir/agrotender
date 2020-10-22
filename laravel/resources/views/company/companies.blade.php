@@ -34,11 +34,13 @@
     {{--    </div>--}}
     {{--    {/if}--}}
     <div class="d-sm-none container pt-4">
+        @if(!$isMobile)
         <div>
             <span class="searchTag regionTag d-inline-block">
                 Компании в Украине
             </span>
         </div>
+        @endif
     </div>
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
@@ -62,7 +64,7 @@
                         </div>
                         <div class="row m-0 pt-3 d-none d-sm-flex">
                             <div class="col-12 pl-0 pr-2 text-center">
-                                <span class="date">На сайте с {{ $company['add_date']->format('F.Y')}}</span>
+                                <span class="date">На сайте с {{$company['add_date']->format('F.Y')}}</span>
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
+<div class="content-block prices-block mb-5" style="position: relative" currency="0">
 <div class="price-table-wrap ports scroll-x d-none d-sm-block">
 @if(!empty($port_place))
-    <div class="tableFirst" style="position: relative; z-index: 1;overflow: hidden;">
+    <div class="tableFirst" style="position: relative; z-index: 1; overflow: hidden;">
         <table class="sortTable price-table ports-table">
             <thead>
             <tr>
@@ -42,8 +43,7 @@
 @if(!empty($port_place))
     <div class="tableSecond">
         <div class="tableScroll blue">
-            <table class="sortTable price-table ports-table"
-                   style="left: -240px; width: calc(100% + 240px)">
+            <table class="sortTable price-table ports-table" style="left: -240px; width: calc(100% + 240px)">
                 <thead>
                 <tr>
                     <th>Порты / Переходы</th>
@@ -125,3 +125,4 @@
         </table>
     </div>
 @endif
+</div>

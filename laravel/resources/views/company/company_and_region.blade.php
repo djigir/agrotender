@@ -12,7 +12,7 @@
         <div class="d-sm-none container pt-4">
             <div>
                 <span class="searchTag regionTag d-inline-block">
-                    {{$currently_obl}} область
+                    {{$currently_obl}}
                 <a href="{{route('company.companies')}}">
                     <i class="far fa-times close ml-3"></i>
                 </a>
