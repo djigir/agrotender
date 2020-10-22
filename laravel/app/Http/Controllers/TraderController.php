@@ -50,7 +50,7 @@ class TraderController extends Controller
         $this->seoService = $seoService;
     }
 
-    public function index_redirect(){
+    public function indexRedirect(){
         return redirect('/traders/region_ukraine');
     }
 
@@ -64,8 +64,6 @@ class TraderController extends Controller
                 $name = 'Вся Украина';
             }elseif ($region == 'crimea'){
                 $name = 'АР Крым';
-            }else{
-                $name = Regions::where('translit', $region)->value('name').' область';
             }
         }else{
             $port_name = TradersPorts::where('url', $port)->value('id');
@@ -161,7 +159,7 @@ class TraderController extends Controller
      * @param  string  $culture
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function region_and_culture(Request $request, $region, $culture)
+    public function regionCulture(Request $request, $region, $culture)
     {
         $search = null;
 
@@ -227,7 +225,7 @@ class TraderController extends Controller
     }
 
 
-    public function port_and_culture(Request $request, $port, $culture)
+    public function portCulture(Request $request, $port, $culture)
     {
         $search = null;
         $rubrics = $this->traderService->getRubricsGroup();

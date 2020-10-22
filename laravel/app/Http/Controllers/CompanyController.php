@@ -19,20 +19,22 @@ use App\Services\SeoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
+use phpDocumentor\Reflection\Types\This;
 
 class CompanyController extends Controller
 {
-    //use Jenssegers\Agent\Agent;
 
     protected $companyService;
     protected $baseServices;
     protected $seoService;
+    protected $agent;
 
     public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
     {
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
         $this->seoService = $seoService;
+        $this->agent = new \Jenssegers\Agent\Agent;
     }
 
 
@@ -41,33 +43,10 @@ class CompanyController extends Controller
         return !empty($request->get('query')) || !empty($request->get('region'));
     }
 
-    public function mobile_filter(Request $request)
+
+    private function checkName($translit = null)
     {
-
-        $route_name = null;
-        $route_params = null;
-
-        if(!empty($request->get('query'))){
-            $route_name = 'company.company_filter';
-            $route_params = ['query' => $request->get('query')];
-        }
-
-
-        if (!empty($request->get('region'))) {
-            $route_name = 'company.company_and_region';
-            $route_params = ['region' => $request->get('region')];
-        }
-
-        if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
-            $route_name = 'company.company_region_rubric_number';
-            $route_params = [
-                'region' => $request->get('region'),
-                'rubric_number' => $request->get('rubric')
-            ];
-        }
-
-        return redirect()->route($route_name, $route_params);
-
+        return $translit == 'ukraine' or $translit == 'crimea';
     }
 
     /**
@@ -78,21 +57,10 @@ class CompanyController extends Controller
      */
     public function companies(Request $request)
     {
-        $agent = new \Jenssegers\Agent\Agent;
-
-        if ($agent->isMobile()) {
-            if ($this->isMobileFilter($request)) {
-                return $this->mobile_filter($request);
-            }
+        if ($this->isMobileFilter($request)) {
+            return $this->companyService->mobileFilter($request);
         }
 
-        $search = null;
-
-        if (isset($request['search'])) {
-            $search = $request['search'];
-
-            return redirect()->action('CompanyController@company_filter', [$search]);
-        }
 
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
@@ -105,9 +73,8 @@ class CompanyController extends Controller
                 'settings_for_page' => $companies,
                 'regions' => $regions,
                 'rubricGroups' => $groups,
-                'search' => $search,
                 'meta' => $meta,
-                'isMobile' => $agent->isMobile()
+                'isMobile' => $this->agent->isMobile()
             ]
         );
     }
@@ -122,6 +89,7 @@ class CompanyController extends Controller
     public function company($id)
     {
         $company = CompItems::find($id);
+
         if(empty($company)) {
             App::abort(404);
         }
@@ -134,10 +102,10 @@ class CompanyController extends Controller
         $region_place = $this->companyService->getPlacePortsRegions($id, 0);
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
+        $title = $company['title'].": цены, контакты, отзывы";
+
         if ($company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
             $title = "Закупочные цены {$company['title']} на сегодня: контакты, отзывы";
-        } else {
-            $title = $company['title'].": цены, контакты, отзывы";
         }
 
         $keywords = $company['title'];
@@ -166,24 +134,13 @@ class CompanyController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_and_region($region, Request $request)
+    public function companyRegion($region, Request $request)
     {
         if ($this->isMobileFilter($request)) {
-            return $this->mobile_filter($request);
+            return $this->companyService->mobileFilter($request);
         }
-        $search = null;
-        $unwanted_region = false;
 
-//        if(isset($request['search']))
-//        {
-//            $search = $request['search'];
-//
-//            return redirect()->action('CompanyController@company_filter', [$search]);
-//        }
-
-        if ($region == 'ukraine' or $region == 'crimea') {
-            $unwanted_region = true;
-        }
+        $unwanted_region = $this->checkName($region);
 
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies($region, null);
@@ -200,12 +157,11 @@ class CompanyController extends Controller
             'currently_obl' => $currently_obl,
             'unwanted_region' => $unwanted_region,
             'region' => $region,
-            'search' => $search,
             'meta' => $meta
         ]);
     }
 
-    public function trader_contacts($id)
+    public function traderContacts($id)
     {
         return view('company.company_trader_contacts');
     }
@@ -218,22 +174,18 @@ class CompanyController extends Controller
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_region_rubric_number($region, $rubric_number, Request $request)
+    public function companyRegionRubric($region, $rubric_number, Request $request)
     {
         if ($this->isMobileFilter($request)) {
-            return $this->mobile_filter($request);
+            return $this->companyService->mobileFilter($request);
         }
-        $search = null;
-        $unwanted_region = false;
 
         if (isset($request['search'])) {
             $search = $request['search'];
-            return redirect()->action('CompanyController@company_filter', [$search]);
+            return redirect()->action('CompanyController@companyFilter', [$search]);
         }
 
-        if ($region == 'ukraine' or $region == 'crimea') {
-            $unwanted_region = true;
-        }
+        $unwanted_region = $this->checkName($region);
 
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies($region, $rubric_number);
@@ -241,7 +193,7 @@ class CompanyController extends Controller
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
         $get_region = Regions::where('translit', $region)->value('id');
-//        dd($rubric_number);
+
         $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [
@@ -254,7 +206,6 @@ class CompanyController extends Controller
             'region' => $region,
             'rubric_number' => $rubric_number,
             'current_culture' => $current_culture,
-            'search' => $search,
             'meta' => $meta
         ]);
     }
@@ -266,10 +217,10 @@ class CompanyController extends Controller
      * @param $regions
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_filter($query = null, Request $request)
+    public function companyFilter($query = null, Request $request)
     {
         if ($this->isMobileFilter($request)) {
-            return $this->mobile_filter($request);
+            return $this->companyService->mobileFilter($request);
         }
 
         $groups = $this->companyService->getRubricsGroup();
@@ -292,7 +243,7 @@ class CompanyController extends Controller
      * @param $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_prices($id)
+    public function companyPrices($id)
     {
         $company_name = CompItems::find($id)->value('title');
         return view('company.company_prices', ['id' => $id, 'company_name' => $company_name]);
@@ -304,7 +255,7 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_reviews($id_company)
+    public function companyReviews($id_company)
     {
         $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);
@@ -331,7 +282,7 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function company_cont($id_company)
+    public function companyContact($id_company)
     {
         $company_name = CompItems::find($id_company)->value('title');
         $company = CompItems::find($id_company);

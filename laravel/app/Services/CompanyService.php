@@ -29,6 +29,28 @@ class CompanyService
         $this->baseService = $baseService;
     }
 
+    public function mobileFilter(\Illuminate\Http\Request $request)
+    {
+        $route_name = 'company.company_filter';
+        $route_params = ['query' => $request->get('query')];
+
+        if (!empty($request->get('region'))) {
+            $route_name = 'company.company_and_region';
+            $route_params = ['region' => $request->get('region')];
+        }
+
+        if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
+            $route_name = 'company.company_region_rubric_number';
+            $route_params = [
+                'region' => $request->get('region'),
+                'rubric_number' => $request->get('rubric')
+            ];
+        }
+
+        return redirect()->route($route_name, $route_params);
+
+    }
+
     public function getContacts($author_id, $departments_type)
     {
         $departament_name = [];
