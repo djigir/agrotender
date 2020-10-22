@@ -4,23 +4,23 @@
             <a href="/">Главная</a>
         </li>
         <i class="fas fa-chevron-right extra-small"></i>
-        <li>
-            @if(!isset($currently_obl) or !$currently_obl)
-                <h1>Компании в Украине</h1>
-            @elseif($currently_obl == 'АР Крым')
-                <h1>Крымская область</h1>
-            @else
-                <h1>{{$currently_obl}} область</h1>
-            @endif
-
-
-        </li>
+        @foreach($breadcrumbs as $index_bread => $breadcrumb)
+            <li>
+                @if($breadcrumb['url'])
+                    <a href="{{$breadcrumb['url']}}">
+                        <h1>{!! $breadcrumb['name'] !!}</h1>
+                    </a>
+                @else
+                    <h1>{{$breadcrumb['name']}}</h1>
+                @endif
+            </li>
+        @endforeach
     </ol>
     <div class="content-block mt-3 py-3 px-4">
         <div class="form-row align-items-center position-relative">
             <div class="col-3 mr-2">
                 <button class="btn rubricInput text-center drop-btn" id="rubricOpen">
-                    {{(isset($current_culture) and  $current_culture) ? $current_culture : 'Все рубрики'}}
+                     {{(isset($current_culture) and  $current_culture) ? $current_culture : 'Все рубрики'}}
                     <i class="ml-2 small far fa-chevron-down"></i>
                 </button>
             </div>
@@ -101,10 +101,14 @@
                 </div>
             </div>
             <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                <form class="searchForm" style="display: flex" method="POST">
-                    @csrf
-                    <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
-                           value="{{isset($query) && $query != null ? $query : ''}}">
+                <form class="searchForm" style="display: flex" method="GET">
+                    @if(isset($query) && $query != null)
+                        <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
+                               value="{{isset($query) && $query != null ? $query : ''}}">
+                    @else
+                        <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.." value="">
+                    @endif
+
                     <div class="col-auto search">
                         <button type="submit" class="btn-search">
                             <i class="far fa-search searchIcon mt-2 ml-2"></i>
@@ -118,7 +122,7 @@
     </div>
     <div class="row mt-4 pt-3">
         <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">
-            <h2 class="d-inline-block text-uppercase">{{isset($query) ? 'Поиск' : 'Список компаний'}}</h2>
+            <h2 class="d-inline-block text-uppercase">{!! isset($query) ? 'Поиск: '. $query : 'Список компаний' !!}</h2>
             <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
         </div>
         <div class="col-12 col-sm-8 float-md-right text-center text-md-right">
@@ -126,12 +130,10 @@
                 <i class="far fa-plus mr-2"></i>
                 <span class="pl-1 pr-1">Разместить компанию</span>
             </a>
-            <!-- <a href="/add_buy_trader" class="top-btn btn btn-warning align-items-end">
-              <span class="pt-1"><i class="far fa-plus mr-2"></i> Разместить компанию</span>
-            </a> -->
         </div>
     </div>
 </div>
+
 <style>
     .btn-search{
         background: none;

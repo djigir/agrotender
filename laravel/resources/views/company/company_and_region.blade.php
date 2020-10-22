@@ -1,24 +1,25 @@
 @extends('layout.layout', ['meta' => $meta,'rubricGroups' => $rubricGroups,'regions' => $regions ])
 
 @section('content')
-    @include('filters.filter-companies', [
-    'regions' => $regions,
-    'rubricGroups' => $rubricGroups,
-    'currently_obl' => $currently_obl,
-    'unwanted_region' => $unwanted_region
-])
-@if((isset($currently_obl) and $currently_obl))
-    <div class="d-sm-none container pt-4">
-        <div>
-            <span class="searchTag regionTag d-inline-block">
-                {{$currently_obl}} область
-            <a href="{{route('company.companies')}}">
-                <i class="far fa-times close ml-3"></i>
-            </a>
-            </span>
+    @if(!$isMobile)
+        @include('filters.filter-companies', ['regions' => $regions,
+                 'rubricGroups' => $rubricGroups,
+                 'currently_obl' => $currently_obl,
+                 'unwanted_region' => $unwanted_region])
+    @endif
+
+    @if((isset($currently_obl) and $currently_obl))
+        <div class="d-sm-none container pt-4">
+            <div>
+                <span class="searchTag regionTag d-inline-block">
+                    {{$currently_obl}} область
+                <a href="{{route('company.companies')}}">
+                    <i class="far fa-times close ml-3"></i>
+                </a>
+                </span>
+            </div>
         </div>
-    </div>
-@endif
+    @endif
     <div class="container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
