@@ -164,4 +164,12 @@ window.onload = function (){
     $('.remove-style-btn').click(function (event) {
         $('.remove-style-btn').css('border', 'none');
     })
+
+    /* alert rewievs page */
+
+    $('.addReview').on('click', function () {
+        $('.noty_layout').css('display', 'block');
+    });
+
+
 };

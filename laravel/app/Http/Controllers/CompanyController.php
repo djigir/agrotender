@@ -83,7 +83,7 @@ class CompanyController extends Controller
                 'settings_for_page' => $companies,
                 'regions' => $regions,
                 'rubricGroups' => $groups,
-                'meta' => [],
+                'meta' => $meta,
                 'isMobile' => $this->agent->isMobile(),
             ]
         );
@@ -123,7 +123,7 @@ class CompanyController extends Controller
                 'region_culture' => $region_culture,
                 'region_place' => $region_place,
                 'region_price' => $region_price,
-                'meta' => [],
+                'meta' => $meta,
                 'isMobile' => $this->agent->isMobile()
             ]
         );
@@ -168,7 +168,7 @@ class CompanyController extends Controller
             'currently_obl' => $currently_obl,
             'unwanted_region' => $unwanted_region,
             'region' => $region,
-            'meta' => [],
+            'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -219,7 +219,7 @@ class CompanyController extends Controller
             'region' => $region,
             'rubric_number' => $rubric_number,
             'current_culture' => $current_culture,
-            'meta' => [],
+            'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
