@@ -4,16 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
-
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
-
 use App\Models\Traders\TradersContactsRegions;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Torg\TorgBuyer;
-
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Illuminate\Http\Request;
@@ -43,10 +40,9 @@ class CompanyController extends Controller
         return !empty($request->get('query')) || !empty($request->get('region'));
     }
 
-    private function IsDesktopFilter($query)
+    private function IsDesktopFilter(Request $request)
     {
-        //return redirect()->action('CompanyController@companyFilter', ['query' => $query]);
-        return redirect()->route('company.company_filter', ['query' => $query]);
+        return redirect()->route('company.company_filter', [$request->get('query')]);
     }
 
     private function checkName($translit = null)
@@ -63,7 +59,7 @@ class CompanyController extends Controller
     public function companies(Request $request)
     {
         if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request->get('query'));
+            return $this->IsDesktopFilter($request);
         }
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
@@ -140,12 +136,11 @@ class CompanyController extends Controller
     public function companyRegion($region, Request $request)
     {
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
-
             return $this->companyService->mobileFilter($request);
         }
 
         if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request->get('query'));
+            return $this->IsDesktopFilter($request);
         }
 
         $unwanted_region = $this->checkName($region);
@@ -187,6 +182,14 @@ class CompanyController extends Controller
      */
     public function companyRegionRubric($region, $rubric_number, Request $request)
     {
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
+            return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request);
+        }
+
         $unwanted_region = $this->checkName($region);
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies($region, $rubric_number);
@@ -197,16 +200,6 @@ class CompanyController extends Controller
 
         $data = ['rubric' => $rubric_number, 'region' => $region_id, 'page' => $companies->currentPage()];
         $meta =  $this->seoService->getCompaniesMeta($data);
-
-
-        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
-            return $this->companyService->mobileFilter($request);
-        }
-
-        if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request->get('query'));
-        }
-
 
         $currently_obl = Regions::where('translit', $region)->get()->toArray();
         $currently_obl = !empty($currently_obl) ? $currently_obl[0] : 'ukraine';
@@ -244,13 +237,14 @@ class CompanyController extends Controller
      */
     public function companyFilter(Request $request, $query = null)
     {
+        if(!empty($request->get('query'))){
+            return $this->IsDesktopFilter($request);
+        }
+
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
 
-        if(!empty($request->get('query'))){
-            $query = $request->get('query');
-        }
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $companies = $this->companyService->getCompanies(null, null, $query);
@@ -266,7 +260,7 @@ class CompanyController extends Controller
                 'meta' => $meta,
                 'breadcrumbs' => $breadcrumbs,
                 'isMobile' => $this->agent->isMobile(),
-                'query' => $request->get('query'),
+                'query' => $query,
             ]
         );
     }

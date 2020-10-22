@@ -37,7 +37,7 @@
                         </div>
                         <div class="row m-0 pt-3 d-none d-sm-flex">
                             <div class="col-12 pl-0 pr-2 text-center">
-                                <span class="date">На сайте с {{$company->add_date->format('Y-m-d')}}</span>
+                                <span class="date">На сайте с {{$company['add_date']->format('F.Y')}}</span>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         </div>
                         <div class="row d-sm-none lh-1">
                             <div class="col">
-                                <span class="date mb-2">На сайте с {{$company->add_date->format('Y-m-d')}}</span>
+                                <span class="date mb-2">На сайте с {{$company['add_date']->format('F.Y')}}</span>
                             </div>
                         </div>
                         <div class="row d-none d-sm-flex">
@@ -81,7 +81,7 @@
                         <div class="row d-none d-sm-flex">
                             <div class="col pt-2 mt-1">
                                 @if($company->trader_price_avail == 1 and $company->trader_price_visible == 1)
-                                    <a class="link" href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
+                                    <a class="link" href="{{route('company.company', $company['id'])}}"><span>Цены Трейдера</span></a>
                                 @endif
 
                                 @if($company->purchases > 0)
@@ -119,7 +119,7 @@
                 <div class="row mx-0 d-sm-none lh-1 w-100">
                     <div class="col mt-2 text-center">
                         @if($company->trader_price_avail == 1 and $company->trader_price_visible == 1)
-                            <a class="link" href="/kompanii/comp-{{$company->id}}-prices"><span>Цены Трейдера</span></a>
+                            <a class="link" href="{{route('company.company', $company['id'])}}"><span>Цены Трейдера</span></a>
                         @endif
                         @if($company->purchases > 0)
                             <a class="link" href="/kompanii/comp-{{$company->id}}-adverts?type=1"><span>Закупки ({{$company->purchases}})</span></a>
