@@ -143,4 +143,11 @@
     </div>
     @endauth
 
+    {{--<div id="noty_bar"
+         class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar noty_effects_close">
+        <div class="noty_body">Нужно авторизоваться.</div>
+        <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
+    </div>--}}
+    <div id="noty_bar_7d757c16-31f0-4b7b-86b1-7ca74c26b814" class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar"><div class="noty_body">Нужно авторизоваться.</div><div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div></div>
+
 @endsection

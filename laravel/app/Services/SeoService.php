@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 
@@ -20,7 +21,6 @@ class SeoService
                 ->where('pages.page_name', [isset($page) ? $page : null])
                 ->get()
                 ->toArray();
-//        dd($info);
         return $info;
     }
 
@@ -28,33 +28,34 @@ class SeoService
     {
 
     }
-    public function getCompaniesMeta($rubric = null, $region = null, $page = 1)
+    public function getCompaniesMeta($data)
     {
-        if (($rubric) != null) {
-            $rubric = SeoTitles::where('id', $rubric)->get()->toArray();
+        if (($data['rubric']) != null) {
+            $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
+            $rubric = $rubric[0];
+        }else {
+            $rubric = $data['rubric'];
         }
 
-        if (!is_null($region)) {
-            $region = Regions::where('id', $region)->get()->toArray();
-        }
-        if ($region !== null) {
+        if (!is_null($data['region'])) {
+            $region = Regions::where('id', $data['region'])->get()->toArray();
             $region = $region[0];
+        }else {
+            $region = $data['region'];
         }
-        if ($rubric != null) {
-            $rubric = $rubric[0];
-        }
+
         $h1 = '';
         $text = '';
-        $topic_name = ($rubric[0]['id'] == null) ? 'Все рубрики' : $rubric[0]['page_title'];
-        if (($rubric) != null || $region != null && $region != '') {
-            if (($rubric[0]['page_title'] != "") && ($page == 1)) {
-                $r = ($region['id'] != null) ? $region : null;
-                $title = $this->parseSeoText($r, $rubric[0]['page_title']);
-                $keywords = $this->parseSeoText($r, $rubric[0]['page_keywords']);
-                $description = $this->parseSeoText($r, $rubric[0]['page_descr']);
-                $h1 = $this->parseSeoText($r, $rubric[0]['page_h1']);
-                $text = $this->parseSeoText($r, $rubric[0]['page_descr']);
-            }elseif (($rubric == null) && ($page == 1)) {
+        $topic_name = ($rubric['id'] == null) ? 'Все рубрики' : $rubric['page_title'];
+        if (($data['rubric']) != null || $region!= null && $region != '') {
+            if (($rubric['page_title'] != "") && ($data['page'] == 1)) {
+                $r = ($region != null) ? $region : null;
+                $title = $this->parseSeoText($r, $rubric['page_title']);
+                $keywords = $this->parseSeoText($r, $rubric['page_keywords']);
+                $description = $this->parseSeoText($r, $rubric['page_descr']);
+                $h1 = $this->parseSeoText($r, $rubric['page_h1']);
+                $text = $this->parseSeoText($r, $rubric['page_descr']);
+            }elseif (($data['rubric'] == null) && ($data['page'] == 1)) {
                 // Only region selected
                 $title = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер.";
                 $keywords = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер. Аграрная, АПК.";
@@ -68,11 +69,11 @@ class SeoService
                 ];
 
                 $t3seo = "";
-                if (($rubric['parent_id'] != 0)) {
-                    $t3seo = " (".$rubric['name'].") ";
+                if (($data['rubric']['parent_id'] != 0)) {
+                    $t3seo = " (".$data['rubric']['name'].") ";
                 } else {
                     if( isset($t3words[$rubric['id']]) ) {
-                        $t3seo = " ".$t3words[$rubric['id']];
+                        $t3seo = " ".$t3words[$data['rubric']['id']];
                     }
                 }
 
@@ -210,6 +211,37 @@ class SeoService
         }
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }
+
+    public function getMetaForOneCompany($company)
+    {
+        $company = CompItems::find($company)->toArray();
+
+        $title = $company['title'].": цены, контакты, отзывы";
+
+        if ($company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
+            $title = "Закупочные цены {$company['title']} на сегодня: контакты, отзывы";
+        }
+
+        $keywords = $company['title'];
+        $description = mb_substr(strip_tags($company['content']), 0, 200);
+
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+    }
+
+    public function getMetaCompanyContacts($id_company)
+    {
+        $company = CompItems::find($id_company);
+        return ['title' => $company->title, 'keywords' => $company->title, 'description' => 'Сайт компании '.$company->title];
+    }
+
+    public function getMetaCompanyReviews($id_company)
+    {
+        $company = CompItems::find($id_company);
+
+         return   ['title' => "Отзывы о {$company->title} на сайте Agrotender",
+            'keywords' => $company->title,
+            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
     }
 
     public function parseSeoText($region, $str)

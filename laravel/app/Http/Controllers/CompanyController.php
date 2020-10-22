@@ -65,8 +65,8 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
-
-        $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+        $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
+        $meta = $this->seoService->getCompaniesMeta($data);
 
         return view('company.companies', [
                 'companies' => $companies,
@@ -102,16 +102,7 @@ class CompanyController extends Controller
         $region_place = $this->companyService->getPlacePortsRegions($id, 0);
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
-        $title = $company['title'].": цены, контакты, отзывы";
-
-        if ($company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
-            $title = "Закупочные цены {$company['title']} на сегодня: контакты, отзывы";
-        }
-
-        $keywords = $company['title'];
-        $description = mb_substr(strip_tags($company['content']), 0, 200);
-
-        $meta = ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        $meta = $this->seoService->getMetaForOneCompany($id);
 
         return view('company.company', [
                 'company' => $company,
@@ -136,6 +127,7 @@ class CompanyController extends Controller
      */
     public function companyRegion($region, Request $request)
     {
+
         if ($this->isMobileFilter($request)) {
             return $this->companyService->mobileFilter($request);
         }
@@ -147,7 +139,9 @@ class CompanyController extends Controller
         $regions = $this->baseServices->getRegions();
         $currently_obl = Regions::where('translit', $region)->value('name');
         $get_region = Regions::where('translit', $region)->value('id');
-        $meta = $this->seoService->getCompaniesMeta(null, $get_region, $companies->currentPage());
+
+        $data = ['rubric' => null, 'region' => $get_region, 'page' => $companies->currentPage()];
+        $meta = $this->seoService->getCompaniesMeta($data);
 
         return view('company.company_and_region', [
             'regions' => $regions,
@@ -188,8 +182,8 @@ class CompanyController extends Controller
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
         $get_region = Regions::where('translit', $region)->value('id');
-
-        $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
+        $data = ['rubric' => $rubric_number, 'region' => $get_region, 'page' => $companies->currentPage()];
+        $meta =  $this->seoService->getCompaniesMeta($data);
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
@@ -220,12 +214,14 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $companies = $this->companyService->getCompanies(null, null, $query);
-
+        $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
+        $meta = $this->seoService->getCompaniesMeta($data);
         return view('company.company_filter', [
                 'companies' => $companies,
                 'rubricGroups' => $groups,
                 'settings_for_page' => $companies,
-                'regions' => $regions
+                'regions' => $regions,
+                'meta' => $meta
             ]
         );
     }
@@ -252,13 +248,7 @@ class CompanyController extends Controller
     {
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
-
-        $meta = [
-            'title' => "Отзывы о {$company->title} на сайте Agrotender",
-            'keywords' => $company->title,
-            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"
-        ];
-
+        $meta = $this->seoService->getMetaCompanyReviews($id_company);
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $company,
@@ -286,9 +276,7 @@ class CompanyController extends Controller
             ->get()
             ->toArray();
 
-        $meta = [
-            'title' => $company->title, 'keywords' => $company->title, 'description' => 'Сайт компании '.$company->title
-        ];
+        $meta = $this->seoService->getMetaCompanyContacts($id_company);
 
         return view('company.company_cont', [
             'company' => $company,

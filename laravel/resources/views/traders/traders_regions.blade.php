@@ -1,8 +1,4 @@
-@extends('layout.layout', ['title' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description'],
-'h1' => $meta['h1'],
-'text' => $meta['text'])
+@extends('layout.layout', ['meta' => $meta])
 @section('content')
 
     @include('filters.filter-traders', [
@@ -107,7 +103,7 @@
                                         </div>
                                     @endforeach
                                     <div class="traders__item__content-date">
-    {{--                                    <span class="traders__item__content-date-more">+ ещё </span>--}}
+    {{--                                    <span class="traders__item__content-date-more">+ ещё </span> --}}
                                         <span class="green">{{ 'дата' }}</span>
                                     </div>
                                 </div>
