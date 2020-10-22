@@ -31,8 +31,8 @@ class CompanyService
 
     public function mobileFilter(\Illuminate\Http\Request $request)
     {
-        $route_name = 'company.company_filter';
-        $route_params = ['query' => $request->get('query')];
+        $route_name = null;
+        $route_params = null;
 
         if (!empty($request->get('region'))) {
             $route_name = 'company.company_and_region';
@@ -40,11 +40,17 @@ class CompanyService
         }
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
+
             $route_name = 'company.company_region_rubric_number';
             $route_params = [
                 'region' => $request->get('region'),
                 'rubric_number' => $request->get('rubric')
             ];
+        }
+
+        if(!empty($request->get('query'))){
+            $route_name = 'company.company_filter';
+            $route_params = ['query' => $request->get('query')];
         }
 
         return redirect()->route($route_name, $route_params);

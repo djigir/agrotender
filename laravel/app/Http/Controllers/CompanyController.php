@@ -7,12 +7,15 @@ use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
+use App\Models\Traders\TradersPrices;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Torg\TorgBuyer;
 use App\Services\CompanyService;
 use App\Services\SeoService;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Redirect;
@@ -50,6 +53,20 @@ class CompanyController extends Controller
         return $translit == 'ukraine' or $translit == 'crimea';
     }
 
+    private function regionName($region)
+    {
+        $name = 'Вся Украина';
+        $obl_name = 'Вся Украина';
+        $name = Regions::where('translit', $region)->value('name');
+        $obl_name = Regions::where('translit', $region)->value('name'). ' область';
+
+        if($region == 'crimea'){
+            $name = 'АР Крым';
+            $obl_name = 'АР Крым';
+        }
+
+        return ['name' => $name, 'obl_name' => $obl_name];
+    }
     /**
      * Display a listing of the resource.
      *
@@ -101,6 +118,9 @@ class CompanyController extends Controller
             App::abort(404);
         }
 
+        $updateDate = TradersPrices::where([['buyer_id', $company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
+        $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
+
         $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
         $port_place = $this->companyService->getPlacePortsRegions($id, 2);
         $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
@@ -110,6 +130,8 @@ class CompanyController extends Controller
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
         $meta = $this->seoService->getMetaForOneCompany($id);
+        $current_page = 'main';
+
 
         return view('company.company', [
                 'company' => $company,
@@ -121,11 +143,12 @@ class CompanyController extends Controller
                 'region_place' => $region_place,
                 'region_price' => $region_price,
                 'meta' => $meta,
+                'updateDate' => $updateDate,
+                'current_page' => $current_page,
                 'isMobile' => $this->agent->isMobile()
             ]
         );
     }
-
 
     /**
      * Display a listing of the resource.
@@ -147,18 +170,19 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
-        $currently_obl = Regions::where('translit', $region)->value('name');
+        $currently_obl = $this->regionName($region);
         $get_region = Regions::where('translit', $region)->value('id');
-        $breadcrumbs = [0 => ['name' => 'Компании в '.$currently_obl.' области', 'url' => null]];
+        $breadcrumbs = [0 => ['name' => 'Компании в '.$currently_obl['name'].' области', 'url' => null]];
         $data = ['rubric' => null, 'region' => $get_region, 'page' => $companies->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
+
 
         return view('company.company_and_region', [
             'regions' => $regions,
             'rubricGroups' => $groups,
             'companies' => $companies,
             'settings_for_page' => $companies,
-            'currently_obl' => $currently_obl,
+            'currently_obl' => $currently_obl['obl_name'],
             'unwanted_region' => $unwanted_region,
             'region' => $region,
             'meta' => $meta,
@@ -195,7 +219,6 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies($region, $rubric_number);
         $regions = $this->baseServices->getRegions();
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
-
         $region_id = Regions::where('translit', $region)->value('id');
 
         $data = ['rubric' => $rubric_number, 'region' => $region_id, 'page' => $companies->currentPage()];
@@ -212,13 +235,12 @@ class CompanyController extends Controller
             ];
         }
 
-
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
             'rubricGroups' => $groups,
             'companies' => $companies,
             'settings_for_page' => $companies,
-            'currently_obl' => is_array($currently_obl) ? $currently_obl['name'] : 'Вся Украина',
+            'currently_obl' => $this->regionName($region)['obl_name'],
             'unwanted_region' => $unwanted_region,
             'region' => $region,
             'rubric_number' => $rubric_number,
@@ -265,7 +287,6 @@ class CompanyController extends Controller
         );
     }
 
-
     /**
      * Display a listing of the resource.
      * @param $id
@@ -290,6 +311,7 @@ class CompanyController extends Controller
      */
     public function companyReviews($id_company)
     {
+        $current_page = 'reviews';
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
         $meta = $this->seoService->getMetaCompanyReviews($id_company);
@@ -299,6 +321,7 @@ class CompanyController extends Controller
             'company' => $company,
             'id' => $id_company,
             'meta' => $meta,
+            'current_page' => $current_page,
             'isMobile' => $this->agent->isMobile()
         ]);
     }
@@ -311,6 +334,7 @@ class CompanyController extends Controller
      */
     public function companyContact($id_company)
     {
+        $current_page = 'contact';
         $company = CompItems::find($id_company);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
         $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
@@ -331,6 +355,7 @@ class CompanyController extends Controller
             'traders_contacts' => $traders_contacts,
             'id' => $id_company,
             'meta' => $meta,
+            'current_page' => $current_page,
             'isMobile' => $this->agent->isMobile()
         ]);
     }

@@ -16,7 +16,7 @@
             @if((isset($currently_obl) and $currently_obl))
                 <div>
                 <span class="searchTag regionTag d-inline-block">
-                    {{$currently_obl}} область
+                    {{$currently_obl}}
 
                 <a href="{{route('company.company_region_rubric_number', ['ukraine', $rubric_number])}}">
                     <i class="far fa-times close ml-3"></i>
