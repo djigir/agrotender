@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{{ $meta['title'] ?? '' }}</title>
+    <title>{{ $title ?? '' }}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11" />
-    @if(isset($meta['keywords']))
-        <meta name="keywords" content="{{$meta['keywords']}}" />
+    @if(isset($keywords))
+        <meta name="keywords" content="{{$keywords}}" />
     @endif
 
-    @if(isset($meta['description']))
-        <meta name="description" content="{{$meta['description']}}" />
+    @if(isset($description))
+        <meta name="description" content="{{$description}}" />
     @endif
 
-    <!-- Icons -->
+<!-- Icons -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,800|Roboto:300,400,500" rel="stylesheet">
     <link rel="stylesheet" href="/app/assets/css/noty/mint.css">
@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="/app/assets/css/imagelightbox.css">
     <link rel="stylesheet" href="/app/assets/css/jquery.dmenu.css">
     <link rel="stylesheet" href="/app/assets/css/jquery.jgrowl.min.css">
-{{--    <link rel="stylesheet" href="/app/assets/css/landing.css">--}}
+    {{--    <link rel="stylesheet" href="/app/assets/css/landing.css">--}}
     <link rel="stylesheet" href="/app/assets/css/main.css">
     <link rel="stylesheet" href="/app/assets/css/multiple-select.css">
     <link rel="stylesheet" href="/app/assets/css/noty.css">
@@ -76,43 +76,43 @@
                             <i class="far fa-search searchIcon mt-2 ml-2"></i>
                         @endif
                     </div>
-{{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
-{{--                        @if(isset($user->auth))--}}
+                    {{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
+                    {{--                        @if(isset($user->auth))--}}
 
-{{--                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="head-name d-flex align-items-center position-relative">--}}
-{{--                            <i class="fas fa-chevron-down mr-1"></i>--}}
-{{--                            <span>{if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}</span>--}}
-{{--                            <img src="{if $user->company neq null && $user->company['logo_file'] neq null}/{$user->company['logo_file']}{else}/app/assets/img/noavatar.png{/if}" class="ml-2 head-logo">--}}
-{{--                            <span class="notification-badge top-badge"></span>--}}
-{{--                        </a>--}}
-{{--                        <div class="dropdown-menu mt-2 head-dropdown" aria-labelledby="dropdownMenuLink">--}}
-{{--                            {if $user->company neq null && ($user->company['trader_price_avail'] eq 1 or $user->company['trader_price_sell_avail'] eq 1 or $user->company['trader_price_forward_avail'] eq 1)}--}}
-{{--                            <h6 class="dropdown-header">Цены трейдеров:</h6>--}}
-{{--                            {if $user->company['trader_price_avail'] eq 1}--}}
-{{--                            <a class="dropdown-item" href="/u/prices">Таблица закупок</a>--}}
-{{--                            {/if}--}}
-{{--                            {if $user->company['trader_price_sell_avail'] eq 1}--}}
-{{--                            <a class="dropdown-item" href="/u/prices?type=1">Таблица продаж</a>--}}
-{{--                            {/if}--}}
-{{--                            {if $user->company['trader_price_forward_avail'] eq 1}--}}
-{{--                            <a class="dropdown-item{if $page eq 'user/pricesForward'} active{/if}" href="/u/prices/forwards">Форварды</a>--}}
-{{--                            {/if}--}}
-{{--                            {/if}--}}
-{{--                            <a class="dropdown-item" href="/u/proposeds">Заявки <span class="notification-badge"></span></a>--}}
-{{--                            <h6 class="dropdown-header">Объявления:</h6>--}}
-{{--                            <a class="dropdown-item" href="/u/posts">Объявления</a>--}}
-{{--                            <a class="dropdown-item" href="/u/balance/pay">Пополнить баланс</a>--}}
-{{--                            <a class="dropdown-item" href="/u/posts/limits">Лимит объявлений</a>--}}
-{{--                            <h6 class="dropdown-header">Профиль:</h6>--}}
-{{--                            <a class="dropdown-item" href="/u/company">Компания</a>--}}
-{{--                            <a class="dropdown-item" href="/u/contacts">Контакты</a>--}}
-{{--                            <a class="dropdown-item" href="/logout">Выход</a>--}}
-{{--                        </div>--}}
-{{--                        @else--}}
-{{--                        <a href="/buyerlog">Войти</a> &nbsp;|&nbsp; <a href="/buyerreg">Регистрация</a>--}}
-{{--                        <a href="/login">Войти</a> &nbsp;|&nbsp; <a href="/register">Регистрация</a>--}}
-{{--                        @endif--}}
-{{--                    </div>--}}
+                    {{--                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="head-name d-flex align-items-center position-relative">--}}
+                    {{--                            <i class="fas fa-chevron-down mr-1"></i>--}}
+                    {{--                            <span>{if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}</span>--}}
+                    {{--                            <img src="{if $user->company neq null && $user->company['logo_file'] neq null}/{$user->company['logo_file']}{else}/app/assets/img/noavatar.png{/if}" class="ml-2 head-logo">--}}
+                    {{--                            <span class="notification-badge top-badge"></span>--}}
+                    {{--                        </a>--}}
+                    {{--                        <div class="dropdown-menu mt-2 head-dropdown" aria-labelledby="dropdownMenuLink">--}}
+                    {{--                            {if $user->company neq null && ($user->company['trader_price_avail'] eq 1 or $user->company['trader_price_sell_avail'] eq 1 or $user->company['trader_price_forward_avail'] eq 1)}--}}
+                    {{--                            <h6 class="dropdown-header">Цены трейдеров:</h6>--}}
+                    {{--                            {if $user->company['trader_price_avail'] eq 1}--}}
+                    {{--                            <a class="dropdown-item" href="/u/prices">Таблица закупок</a>--}}
+                    {{--                            {/if}--}}
+                    {{--                            {if $user->company['trader_price_sell_avail'] eq 1}--}}
+                    {{--                            <a class="dropdown-item" href="/u/prices?type=1">Таблица продаж</a>--}}
+                    {{--                            {/if}--}}
+                    {{--                            {if $user->company['trader_price_forward_avail'] eq 1}--}}
+                    {{--                            <a class="dropdown-item{if $page eq 'user/pricesForward'} active{/if}" href="/u/prices/forwards">Форварды</a>--}}
+                    {{--                            {/if}--}}
+                    {{--                            {/if}--}}
+                    {{--                            <a class="dropdown-item" href="/u/proposeds">Заявки <span class="notification-badge"></span></a>--}}
+                    {{--                            <h6 class="dropdown-header">Объявления:</h6>--}}
+                    {{--                            <a class="dropdown-item" href="/u/posts">Объявления</a>--}}
+                    {{--                            <a class="dropdown-item" href="/u/balance/pay">Пополнить баланс</a>--}}
+                    {{--                            <a class="dropdown-item" href="/u/posts/limits">Лимит объявлений</a>--}}
+                    {{--                            <h6 class="dropdown-header">Профиль:</h6>--}}
+                    {{--                            <a class="dropdown-item" href="/u/company">Компания</a>--}}
+                    {{--                            <a class="dropdown-item" href="/u/contacts">Контакты</a>--}}
+                    {{--                            <a class="dropdown-item" href="/logout">Выход</a>--}}
+                    {{--                        </div>--}}
+                    {{--                        @else--}}
+                    {{--                        <a href="/buyerlog">Войти</a> &nbsp;|&nbsp; <a href="/buyerreg">Регистрация</a>--}}
+                    {{--                        <a href="/login">Войти</a> &nbsp;|&nbsp; <a href="/register">Регистрация</a>--}}
+                    {{--                        @endif--}}
+                    {{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -153,22 +153,22 @@
                             <span class="title ml-3 pt-3">Настройте фильтры:</span>
                         </div>
                         <form>
-                        <div class="position-relative mt-3">
-                            <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
-                            <i class="far fa-search searchFilterIcon"></i>
-                        </div>
-                        <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0">
+                            <div class="position-relative mt-3">
+                                <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="">
+                                <i class="far fa-search searchFilterIcon"></i>
+                            </div>
+                            <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0">
                             <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='' >
                             <span id="span-mobile-rubric">Выберете рубрику</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
-                        <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0 ">
+                            <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0 ">
                             <input type="text" class="remove-input" id='input-mobile-region' name="region" value=''>
                             <span id="span-mobile-region">Вся Украина</span>
                             <span><i class="far fa-chevron-right"></i></span>
 
                         </span>
-                        <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
+                            <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
 
                         </form>
                     </div>
@@ -203,8 +203,10 @@
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
+
                                         <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between group-{{$rubricGroup['id']}}"  rubricId="{{$rubricGroup['id']}}">
                                             <span>{{$culture['title']}} &nbsp;
+
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
                                             </span>
                                             <span><i class="far fa-chevron-right"></i></span>
@@ -243,23 +245,23 @@
             </div>
         </div>
 
-{{--        <div class="company-bg d-none d-sm-block">--}}
-{{--            <a href="/kompanii/comp-{$company['id']}">--}}
-{{--                {if $company['logo_file'] neq null}--}}
-{{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
-{{--                {/if}--}}
-{{--                {if $page eq 'company/main'}--}}
-{{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
-{{--                {else}--}}
-{{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
-{{--                {/if}--}}
-{{--            </a>--}}
-{{--            <div class="company-menu-container d-none d-sm-block">--}}
-{{--                <div class="company-menu">--}}
-{{--                    {$menu}--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        {{--        <div class="company-bg d-none d-sm-block">--}}
+        {{--            <a href="/kompanii/comp-{$company['id']}">--}}
+        {{--                {if $company['logo_file'] neq null}--}}
+        {{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
+        {{--                {/if}--}}
+        {{--                {if $page eq 'company/main'}--}}
+        {{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
+        {{--                {else}--}}
+        {{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
+        {{--                {/if}--}}
+        {{--            </a>--}}
+        {{--            <div class="company-menu-container d-none d-sm-block">--}}
+        {{--                <div class="company-menu">--}}
+        {{--                    {$menu}--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
     </main>
 </div>
 

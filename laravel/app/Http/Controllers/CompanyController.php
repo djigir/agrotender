@@ -78,14 +78,15 @@ class CompanyController extends Controller
      */
     public function companies(Request $request)
     {
+        $agent = new \Jenssegers\Agent\Agent;
 
-        if ($this->isMobileFilter($request)) {
-           return $this->mobile_filter($request);
+        if ($agent->isMobile()) {
+            if ($this->isMobileFilter($request)) {
+                return $this->mobile_filter($request);
+            }
         }
 
-        $agent = new \Jenssegers\Agent\Agent;
         $search = null;
-
 
         if (isset($request['search'])) {
             $search = $request['search'];
@@ -96,9 +97,9 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $companies = $this->companyService->getCompanies();
         $regions = $this->baseServices->getRegions();
-//        dd($groups);
-//        dd($groups);
+
         $meta = $this->seoService->getCompaniesMeta(null, null, $companies->currentPage());
+
         return view('company.companies', [
                 'companies' => $companies,
                 'settings_for_page' => $companies,
@@ -240,7 +241,8 @@ class CompanyController extends Controller
         $currently_obl = Regions::where('translit', $region)->value('name');
         $current_culture = CompTopic::where('id', $rubric_number)->value('title');
         $get_region = Regions::where('translit', $region)->value('id');
-        $meta = $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
+//        dd($rubric_number);
+        $meta =  $this->seoService->getCompaniesMeta($rubric_number, $get_region, $companies->currentPage());
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,

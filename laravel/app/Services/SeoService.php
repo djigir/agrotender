@@ -30,27 +30,30 @@ class SeoService
     }
     public function getCompaniesMeta($rubric = null, $region = null, $page = 1)
     {
-        if (!is_null($region)) {
-            $region = Regions::where('id', $region)->get()->toArray();
+        if (($rubric) != null) {
+            $rubric = SeoTitles::where('id', $rubric)->get()->toArray();
         }
 
-        if (!is_null($rubric)) {
-            $rubric = CompTopic::find($rubric)->toArray();
+        if (!is_null($region)) {
+            $region = Regions::where('id', $region)->get()->toArray();
         }
         if ($region !== null) {
             $region = $region[0];
         }
+        if ($rubric != null) {
+            $rubric = $rubric[0];
+        }
         $h1 = '';
         $text = '';
-        $topic_name = ($rubric['id'] == null) ? 'Все рубрики' : $rubric['title'];
-        if ($rubric != null || $region != null && $region != '') {
-            if (($rubric['page_title'] != "") && ($page == 1)) {
+        $topic_name = ($rubric[0]['id'] == null) ? 'Все рубрики' : $rubric[0]['page_title'];
+        if (($rubric) != null || $region != null && $region != '') {
+            if (($rubric[0]['page_title'] != "") && ($page == 1)) {
                 $r = ($region['id'] != null) ? $region : null;
-                $title = $this->parseSeoText($r, $rubric['page_title']);
-                $keywords = $this->parseSeoText($r, $rubric['page_keywords']);
-                $description = $this->parseSeoText($r, $rubric['page_descr']);
-                $h1 = $this->parseSeoText($r, $rubric['page_h1']);
-                $text = $this->parseSeoText($r, $rubric['descr']);
+                $title = $this->parseSeoText($r, $rubric[0]['page_title']);
+                $keywords = $this->parseSeoText($r, $rubric[0]['page_keywords']);
+                $description = $this->parseSeoText($r, $rubric[0]['page_descr']);
+                $h1 = $this->parseSeoText($r, $rubric[0]['page_h1']);
+                $text = $this->parseSeoText($r, $rubric[0]['page_descr']);
             }elseif (($rubric == null) && ($page == 1)) {
                 // Only region selected
                 $title = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер.";

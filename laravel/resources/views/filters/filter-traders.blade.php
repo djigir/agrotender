@@ -201,6 +201,7 @@
 
                             <div class="new_filters_dropdown-content active">
                                 <ul>
+{{--                                    {{ dd($onlyPorts) }}--}}
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
                                             @if(isset($current_culture) and isset($current_port))
