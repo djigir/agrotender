@@ -2,7 +2,7 @@
 
 @section('content')
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
-    <div class="container company mb-5">
+    <div class="container company mb-5">эт
         @if(!empty($port_place) || !empty($region_place))
             <h2 class="d-inline-block mt-4">Цены трейдера</h2>
             @if($updateDate != null)
