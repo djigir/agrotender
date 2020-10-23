@@ -244,12 +244,17 @@ class TraderController extends Controller
         return view('traders.trader_forwards');
     }
 
-    public function sell_region()
+    public function forwardsCulture()
+    {
+        return view('traders.trader_forwards_culture');
+    }
+
+    public function sellRegion()
     {
         return view('traders.sell.sell_region');
     }
 
-    public function sell_culture()
+    public function sellCulture()
     {
         return view('traders.sell.sell_culture');
     }

@@ -41,8 +41,8 @@ Route::prefix('kompanii')
 
 
 Route::get('/traders_forwards/region_{region}', 'TraderController@forwards')->name('traders_forwards');
-Route::get('/traders_sell/region_{region}', 'TraderController@sell_region')->name('traders_sell_culture');
-Route::get('/traders_forwards/region_{region}/{culture}', 'TraderController@forwards_culture')->name('traders_forwards_culture');
-Route::get('/traders_sell/region_{region}/{culture}', 'TraderController@sell_culture')->name('traders_forwards_culture');
+Route::get('/traders_sell/region_{region}', 'TraderController@sellRegion')->name('traders_sell_culture');
+Route::get('/traders_forwards/region_{region}/{culture}', 'TraderController@forwardsCulture')->name('traders_forwards_culture');
+Route::get('/traders_sell/region_{region}/{culture}', 'TraderController@sellCulture')->name('traders_forwards_culture');
 Route::get('/home', 'HomeController@index')->name('home');
 

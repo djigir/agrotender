@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{{ $meta['title'] ?? '' }}</title>
+    <title>{!! $meta['title'] ?? '' !!}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -139,7 +139,7 @@
                     <a href="/elev" class="menu-link">Элеваторы</a>
                 </li>
                 <li>
-                    <a href="{{route('traders.traders_regions_culture', ['ukraine', 'pshenica_2_kl'])}}"
+                    <a href="{{route('traders_forwards_culture', ['ukraine', 'pshenica_2_kl'])}}"
                        class="menu-link">Форварды</a>
                 </li>
             </ul>
