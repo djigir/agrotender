@@ -156,7 +156,7 @@ class TraderController extends Controller
         ];
 
         $meta = $this->seoService->getTradersMeta($data);
-        dd($culture, $culture_name, $region, $culture_name['name']);
+
         return view('traders.traders_regions_culture', [
             'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
