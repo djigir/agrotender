@@ -25,6 +25,7 @@ class Utils extends \Core\Model {
 
   public function getBanners() {
     $top = $this->db->query("select br.* from agt_banner_rotate br where dt_start <= now() and dt_end >= now() and archive = 0 and inrotate = 1 and place_id = 43 order by rand() limit 3");
+    var_dump('<pre>',$top);die();
     $bottom = $this->db->query("select br.* from agt_banner_rotate br where dt_start <= now() and dt_end >= now() and archive = 0 and inrotate = 1 and place_id = 10 order by rand() limit 1");
     $body = $this->db->query("select br.* from agt_banner_rotate br where dt_start <= now() and dt_end >= now() and archive = 0 and inrotate = 1 and place_id = 44 order by rand() limit 1");
     $header = $this->db->query("select br.* from agt_banner_rotate br where dt_start <= now() and dt_end >= now() and archive = 0 and inrotate = 1 and place_id = 45 order by rand() limit 1");

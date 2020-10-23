@@ -1,0 +1,55 @@
+.tableScroll::-webkit-scrollbar  {
+    background: transparent;
+}
+.tableScroll.orange::-webkit-scrollbar-thumb {
+    background-color: #ffa800 !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+.tableScroll.blue::-webkit-scrollbar-thumb {
+    background-color: #1056B2 !important;
+    border-bottom-left-radius: 10px !important;
+    border-bottom-right-radius: 10px !important;
+}
+.tableSecond {
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    left: 0;
+    top: 0;
+    right: 0;
+}
+.tableFirst .py-1 {
+    position: relative;
+    overflow: hidden;
+}
+.tableFirst .py-1:before {
+    content: '';
+    transform: rotate(180deg);
+    right: 0;
+    top: 0;
+    left: calc(100% - 15px);
+    bottom: 0;
+    position: absolute;
+    box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 18px -18px inset;
+}
+.tableSecond:before {
+    content: ''
+}
+.tableSecond .tableScroll {
+    position: absolute; left: 240px; width: calc(100% - 240px); overflow-x: scroll;
+}
+.tableSecond .tableScroll tbody{
+    position: relative
+}
+.tableSecond .tableScroll tbody:before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 10px;
+    right: 0;
+    z-index: 9;
+}
+.tableSecond .tableScroll:before {
+    content: ''
+}

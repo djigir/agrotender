@@ -1,4 +1,3 @@
-{{--@extends('layout.layout', ['meta' => $meta])--}}
 @extends('layout.layout', ['meta' => $meta])
 
 @section('content')
@@ -71,7 +70,7 @@
                     </div>
                     <div class="row m-0 justify-content-center">
                         <div class="col-auto pr-2 text-center">
-                            <b>Телефон:</b> <span class="phone">@if($contact['phone'] !== null) {{  $contact['phone'] }} @else - @endif</span>
+                            <b>Телефон:</b> <span class="phone" style="word-wrap: break-word">@if($contact['phone'] !== null) {{  $contact['phone'] }} @else - @endif</span>
                         </div>
                         @if($contact['email'] !== null)
                         <div class="col-auto pl-0 text-center">

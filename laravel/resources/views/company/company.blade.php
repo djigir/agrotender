@@ -29,7 +29,7 @@
         @if(!empty($region_place))
             @include('company.tables.company-region-table')
         @endif
-            <h2 class="mt-4">О компании</h2>
+        <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
             {!! $company['content'] !!}
         </div>

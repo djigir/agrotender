@@ -57,7 +57,7 @@
                         <div class="row m-0">
                             <div class="col-12 pl-0 pr-0 pr-sm-2">
                                 <a href="{{route('company.company', $company['id'])}}">
-                                    <img class="companyImg"
+                                    <img class="companyImg" alt="{{$company['name']}}"
                                          src="{{ $company['logo_file'] ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
                                 </a>
                             </div>
@@ -173,11 +173,7 @@
         </div>
         {{ $settings_for_page->links() }}
     </div>
-    {{--    <div class="text-center mt-4">--}}
-    {{--        foreach $banners['bottom'] as $banner--}}
-    {{--        $banner--}}
-    {{--        /foreach--}}
-    {{--    </div>--}}
+        @include('partials.banners.bottom')
 
 @endsection
 

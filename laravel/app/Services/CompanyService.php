@@ -48,7 +48,7 @@ class CompanyService
             ];
         }
 
-        if(!empty($request->get('query'))){
+        if (!empty($request->get('query'))) {
             $route_name = 'company.company_filter';
             $route_params = ['query' => $request->get('query')];
         }
@@ -60,7 +60,6 @@ class CompanyService
     public function getContacts($author_id, $departments_type)
     {
         $departament_name = [];
-        $creator = [];
 
         $arr = [
             1 => 'Отдел закупок',
@@ -83,17 +82,36 @@ class CompanyService
     {
         $rubrics = CompTgroups::with([
             'comp_topic' => function ($query) {
-                $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
+                $query->select('menu_group_id', 'title', 'id')
+                    ->where('parent_id', 0);
             }
         ])
             ->orderBy('sort_num')
             ->orderBy('title')
             ->get();
 
-        $rubrics = collect($rubrics)->groupBy('id')->toArray();
+
+        $topic_counts = CompTopicItem::select(['topic_id', \DB::raw('count(*) as cnt')])
+            ->groupBy('topic_id')
+            ->get()
+            ->keyBy('topic_id')
+            ->toArray();
+
+        $rubrics = $rubrics->groupBy('id')->toArray();
 
         foreach ($rubrics as $index => $rubric) {
-            $rubrics[$index] = $rubric[0];
+
+            $rubric = reset($rubric);
+
+            foreach ($rubric['comp_topic'] as &$topic) {
+                if(!isset($topic_counts[$topic['id']])){
+                    continue;
+                }
+                $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
+            }
+            unset($topic);
+
+            $rubrics[$index] = $rubric;
         }
 
         return $rubrics;
@@ -192,7 +210,7 @@ class CompanyService
         $assoc_array = [];
 
         foreach ($cultures as $index => $culture) {
-            $assoc_array[$culture['id']] = array('index' => $index, 'name' => $culture['name']);
+            $assoc_array[$culture['id']] = ['index' => $index, 'name' => $culture['name']];
         }
 
         $prices = $this->price_formation($get_prices);
