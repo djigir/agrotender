@@ -5,11 +5,14 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
+
 /* routes for traders  */
 Route::prefix('traders')
     ->name('traders.')
     ->group(function () {
-        Route::get('/', 'TraderController@indexRedirect');
+        Route::redirect('/', '/traders/region_ukraine', 301);
+
         Route::get('/region_{region}', 'TraderController@index')->name('traders_regions');
         Route::get('/region_{region}/{culture}', 'TraderController@regionCulture')->name('traders_regions_culture');
 
@@ -35,7 +38,6 @@ Route::prefix('kompanii')
 
 
 Route::get('/traders_forwards/region_{region}', 'TraderController@forwards')->name('traders_forwards');
-Route::get('/traders_sell', 'TraderController@sell_culture')->name('traders_forwards_culture');
 Route::get('/traders_sell/region_{region}', 'TraderController@sell_culture')->name('traders_forwards_culture');
 Route::get('/traders_forwards/region_{region}/{culture}', 'TraderController@forwards_culture')->name('traders_forwards_culture');
 Route::get('/traders_sell/region_{region}/{culture}', 'TraderController@sell_culture')->name('traders_forwards_culture');

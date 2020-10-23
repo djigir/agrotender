@@ -15,11 +15,8 @@ use App\Models\Torg\TorgBuyer;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Redirect;
-use phpDocumentor\Reflection\Types\This;
 
 class CompanyController extends Controller
 {
