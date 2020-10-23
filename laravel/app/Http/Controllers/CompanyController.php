@@ -77,12 +77,19 @@ class CompanyController extends Controller
         $regions = $this->baseServices->getRegions();
         $unwanted_region = $this->checkName($data['region']);
         $get_region = Regions::where('translit', $data['region'])->value('id');
-
         $currently_obl = $this->regionName($data['region']);
-
         $current_page = $data['page'];
 
-        return [];
+        return [
+            'companies' => $companies,
+            'company' => $company,
+            'groups' => $groups,
+            'regions' => $regions,
+            'unwanted_region' => $unwanted_region,
+            'get_region' => $get_region,
+            'currently_obl' => $currently_obl,
+            'current_page' => $current_page,
+        ];
     }
 
 
@@ -103,19 +110,18 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies();
-        $regions = $this->baseServices->getRegions();
+        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => null, 'page' => null];
+        $necessaryData = $this->setDataForCompanies($data_companies);
 
-        $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
+        $data = ['rubric' => null, 'region' => null, 'page' => $necessaryData['companies']->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
         $breadcrumbs = [0 => ['name' => 'Компании в Украине', 'url' => null]];
 
         return view('company.companies', [
-                'companies' => $companies,
-                'settings_for_page' => $companies,
-                'regions' => $regions,
-                'rubricGroups' => $groups,
+                'companies' => $necessaryData['companies'],
+                'settings_for_page' => $necessaryData['companies'],
+                'regions' => $necessaryData['regions'],
+                'rubricGroups' => $necessaryData['groups'],
                 'meta' => $meta,
                 'breadcrumbs' => $breadcrumbs,
                 'isMobile' => $this->agent->isMobile(),

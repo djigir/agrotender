@@ -26,23 +26,39 @@ window.onload = function (){
         $('.mobileMenu').removeClass('open');
     });
 
-    $("#choseProduct").click(function () {
+    $("#choseProduct").mouseover(function () {
+        $("#choseProduct").addClass('active');
+    });
 
-        if (!$("#choseProduct").hasClass('active')) {
-            $("#choseProduct").addClass('active');
-        } else {
-            $("#choseProduct").removeClass('active');
-        }
+    $("#choseProduct").mouseout(function () {
+        $("#choseProduct").removeClass('active');
+    });
+
+    $("#all_ukraine").mouseover(function () {
+        $("#all_ukraine").addClass('active');
+    });
+
+    $("#all_ukraine").mouseout(function () {
+        $("#all_ukraine").removeClass('active');
+    });
+
+    $('#active-region').click(function (event) {
+        $('#active-region').addClass('active');
+        $('#show-region').addClass('active');
+        $('#show-port').removeClass('active');
+        $('#active-port').removeClass('active');
+
 
     });
 
-    $("#all_ukraine").click(function () {
-        if (!$("#all_ukraine").hasClass('active')) {
-            $("#all_ukraine").addClass('active');
-        } else {
-            $("#all_ukraine").removeClass('active');
-        }
+    $('#active-port').click(function (event) {
+        $('#active-region').removeClass('active');
+        $('#show-region').removeClass('active');
+        $('#show-port').addClass('active');
+        $('#active-port').addClass('active');
     });
+
+
 
     $(".rubricInput").click(function (event) {
         $("#rubricDrop").toggle();

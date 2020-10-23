@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Regions\Regions;
 use App\Models\Traders\TraderFeed;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPorts;
@@ -49,35 +50,29 @@ class TraderController extends Controller
     }
 
 
-    public function checkName($region = null, $port = null)
+    public function getNamePortRegion($region = null, $port = null)
     {
-        $name = null;
         $onlyPorts = null;
+        $id_port = TradersPorts::where('url', $port)->value('id');
+        $port_name = ($port != 'all') ? TradersPortsLang::where('port_id', $id_port)->value('portname') : ['Все порты', $onlyPorts = 'yes'][0];
+        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
-        if ($region != null) {
-            if ($region == 'ukraine') {
-                $name = 'Вся Украина';
-            } elseif ($region == 'crimea') {
-                $name = 'АР Крым';
-            }
-        } else {
-            $port_name = TradersPorts::where('url', $port)->value('id');
-            if ($port == 'all') {
-                $name = 'Все порты';
-                $onlyPorts = 'yes';
-            } else {
-                $name = TradersPortsLang::where('port_id', $port_name)->value('portname');
-            }
+        if($region == 'crimea'){
+            $name_region = 'АР Крым';
         }
 
-        return ['name' => $name, 'onlyPorts' => $onlyPorts];
+        if($region == 'ukraine'){
+            $name_region = 'Вся Украина';
+        }
+
+        return ['region_name' => $name_region, 'port_name' => $port_name, 'onlyPorts' => $onlyPorts];
 
     }
 
     public function index(Request $request, $region)
     {
         $search = null;
-        $region_name = $this->checkName($region)['name'];
+        $region_name = $this->getNamePortRegion($region);
         $current_region = $region;
 
         $rubrics = $this->traderService->getRubricsGroup();
@@ -110,6 +105,7 @@ class TraderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param  Request  $request
      * @param  string  $region
      * @param  string  $culture
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
@@ -125,7 +121,7 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 1, $region);
         $traders = $this->traderService->getTradersRegionPortCulture(null, $culture, 0, $region);
 
-        $region_name = $this->checkName($region)['name'];
+        $region_name = $this->getNamePortRegion($region)['name'];
         $current_region = $region;
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
@@ -134,7 +130,7 @@ class TraderController extends Controller
             'onlyPorts' => null
         ];
         $meta = $this->seoService->getTradersMeta($data);
-
+        dd($region);
         return view('traders.traders_regions_culture', [
             'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
@@ -162,8 +158,8 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, null, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, null, 0, null);
 
-        $port_name = $this->checkName(null, $port)['name'];
-        $onlyPorts = $this->checkName(null, $port)['onlyPorts'];
+        $port_name = $this->getNamePortRegion(null, $port);
+        $onlyPorts = $this->getNamePortRegion(null, $port);
         $current_port = $port;
         $data = [
             'rubric' => null, 'region' => null, 'port' => $port_name, 'type' => 0, 'page' => 1,
@@ -196,8 +192,8 @@ class TraderController extends Controller
         $top_traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 1, null);
         $traders = $this->traderService->getTradersRegionPortCulture($port, $culture, 0, null);
 
-        $port_name = $this->checkName(null, $port)['name'];
-        $onlyPorts = $this->checkName(null, $port)['onlyPorts'];
+        $port_name = $this->getNamePortRegion(null, $port);
+        $onlyPorts = $this->getNamePortRegion(null, $port);
         $current_port = $port;
         $culture_name = TradersProducts::where('url', $culture)->value('id');
         $culture_name = Traders_Products_Lang::where('item_id', $culture_name)->value('name');
