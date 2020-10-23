@@ -29,68 +29,6 @@ class SeoService
     {
 
     }
-    /*public function getCompaniesMeta($data)
-    {
-        $t3seo = '';
-        $h1 = '';
-        $text = '';
-        $region_name_parental = "Украине";
-        $t3words = [
-            1 => "культуры",
-            2 => "культуры",
-            16 => "культуры",
-            18 => "продукты"
-        ];
-        $topic_name = 'Все рубрики';
-        $title = 'Каталог компаний аграрного сектора Украины';
-        $keywords = 'каталог компаний';
-        $description = 'Сайт Агротендер представляет вашему вниманию каталог компаний аграрного сектора Украины.';
-
-        $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
-        $rubric = !empty($rubric) ? $rubric[0] : $data['rubric'];
-
-        $region = Regions::where('id', $data['region'])->get()->toArray();
-        $region = !empty($region) ? $region[0] : $data['region'];
-
-        if(!empty($rubric['id'])){
-            $topic_name =  $rubric['page_title'];
-        }
-
-        if(!empty($data['rubric']) || !empty($region)){
-            if($data['page'] == 1) {
-                $title = "Каталог аграрных компаний ".$region['city_parental']." и ".$region['parental']." области от Агротендер.";
-                $keywords = "Каталог аграрных компаний ".$region['city_parental']." и ".$region['parental']." области от Агротендер. Аграрная, АПК.";
-                $description = "В каталога аграрных компаний ".$region['city_parental']." и ".$region['parental']." области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
-
-            }elseif(is_array($rubric) && $rubric['page_title'] != "" && $data['page'] == 1) {
-                $title = $this->parseSeoText($region, $rubric['page_title']);
-                $keywords = $this->parseSeoText($region, $rubric['page_keywords']);
-                $description = $this->parseSeoText($region, $rubric['page_descr']);
-                $h1 = $this->parseSeoText($region, $rubric['page_h1']);
-                $text = $this->parseSeoText($region, $rubric['page_descr']);
-
-            }else{
-
-                if(is_array($rubric) && isset($t3words[$rubric['id']])) {
-                    $t3seo = " ".$t3words[$data['rubric']['id']];
-                }
-                if (isset($data['rubric']['parent_id']) && $data['rubric']['parent_id'] != 0)
-                {
-                    $t3seo = " (".$data['rubric']['name'].") ";
-                }
-
-                if(!empty($region)){
-                    $region_name_parental = $region['parental'];
-                }
-
-                $title = ' : '.$topic_name.$t3seo." в ".$region_name_parental.". Компании на сайте Agrotender.com.ua.";
-                $keywords = $topic_name.$t3seo." в ".$region_name_parental;
-                $description = $topic_name.$t3seo." в ".$region_name_parental.". Каталог агропромышленных компаний на Агротендер.";
-            }
-        }
-
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
-    }*/
 
     public function getCompaniesMeta($data)
     {

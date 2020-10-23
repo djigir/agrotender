@@ -9,13 +9,14 @@ use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersProductGroupLanguage;
+use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProducts;
-
 use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use App\Services\Traders\TraderFeedService;
 use App\Services\Traders\TraderService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TraderController extends Controller
@@ -66,6 +67,7 @@ class TraderController extends Controller
         $traders = $this->traderService->getTradersRegionPortCulture(['port' => null, 'culture' => null, 'region' => $region, 'query' => $request->all()]);
 
         $groups = $this->companyService->getRubricsGroup();
+
 
         $data = ['rubric' => null, 'region' => $region, 'port' => null, 'type' => 0, 'page' => 1, 'onlyPorts' => null];
         $meta = $this->seoService->getTradersMeta($data);
@@ -206,11 +208,14 @@ class TraderController extends Controller
 
     }
 
-
     public function forwards()
     {
         dd('forwards');
     }
 
+    public function sell_region()
+    {
+        dd('sell');
+    }
 
 }
