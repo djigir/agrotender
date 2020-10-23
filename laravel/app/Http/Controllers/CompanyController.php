@@ -8,6 +8,8 @@ use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersPrices;
+use App\models\User;
+use App\Models\Users\Users;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -17,6 +19,7 @@ use App\Services\SeoService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Jenssegers\Date\Date;
 
 class CompanyController extends Controller
 {
@@ -112,7 +115,6 @@ class CompanyController extends Controller
 
         $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => null, 'page' => null];
         $necessaryData = $this->setDataForCompanies($data_companies);
-
         $data = ['rubric' => null, 'region' => null, 'page' => $necessaryData['companies']->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
         $breadcrumbs = [0 => ['name' => 'Компании в Украине', 'url' => null]];
@@ -145,8 +147,11 @@ class CompanyController extends Controller
         }
 
         $updateDate = TradersPrices::where([['buyer_id', $company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
-        $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
+        $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $date = Date::parse($updateDate)->format('F. Y');
+        $date = mb_convert_case($date, MB_CASE_TITLE, "UTF-8");
+        dd($date);
         $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
         $port_place = $this->companyService->getPlacePortsRegions($id, 2);
         $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
