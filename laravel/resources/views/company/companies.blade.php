@@ -134,7 +134,6 @@
                 </div>
             </div>
         @endforeach
-
         <div class="container">
             <div class="empty pt-0 pt-md-5">
                 <div class="sketch mt-3 mt-md-5">
@@ -146,6 +145,5 @@
         {{ $settings_for_page->links() }}
     </div>
         @include('partials.banners.bottom')
-
 @endsection
 

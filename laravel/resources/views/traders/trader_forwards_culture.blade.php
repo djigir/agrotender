@@ -1,1 +1,6 @@
-<h1>Forwards and culture</h1>
+@extends('layout.layout')
+
+@section('content')
+
+
+@endsection

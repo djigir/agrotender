@@ -96,11 +96,17 @@ class TraderController extends Controller
         $regions = $this->baseService->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
+
         $traders = $this->traderService->getTradersRegionPortCulture(['port' => null, 'culture' => null, 'region' => $region, 'query' => $request->all()]);
+        $groups = $this->companyService->getRubricsGroup();
+
+        //$data_traders = ['region' => $data_region['region'], 'page_type' => 1];
+        //$bread = $this->baseService->breadcrumbs($data_traders);
+
 
         $data = ['rubric' => null, 'region' => $region, 'port' => null, 'type' => 0, 'page' => 1, 'onlyPorts' => null];
-        $meta = $this->seoService->getTradersMeta($data);
 
+        $meta = $this->seoService->getTradersMeta($data);
 
         return view('traders.traders_regions',
             [
@@ -116,7 +122,8 @@ class TraderController extends Controller
                 'rubricGroups' => $rubrics,
                 'group_culture_id' => null,
                 'isMobile' => $this->agent->isMobile(),
-                'page_type' => 1
+                'page_type' => 1,
+                'breadcrumbs' => $meta['h1']
             ]
         );
     }
@@ -154,8 +161,10 @@ class TraderController extends Controller
             'rubric' => $culture_name['name'], 'region' => $region, 'port' => null, 'type' => 0, 'page' => 1,
             'onlyPorts' => null
         ];
-
+        //$data_traders = ['region' => $region, 'rubric' => $culture, 'page_type' => 1];
+        //$bread = $this->baseService->breadcrumbs($data_traders);
         $meta = $this->seoService->getTradersMeta($data);
+
 
         return view('traders.traders_regions_culture', [
             'viewmod' => $request->get('viewmod'),
@@ -195,6 +204,9 @@ class TraderController extends Controller
             'rubric' => null, 'region' => null, 'port' => $data_port['port'], 'type' => 0, 'page' => 1,
             'onlyPorts' => $data_port['onlyPorts']
         ];
+
+        //$data_traders = ['port' => $port, 'page_type' => 1];
+        //$bread = $this->baseService->breadcrumbs($data_traders);
 
         $meta = $this->seoService->getTradersMeta($data);
 
@@ -240,6 +252,9 @@ class TraderController extends Controller
 
         $meta = $this->seoService->getTradersMeta($data);
 
+        //$data_traders = ['rubric' => $culture, 'port' => $port, 'page_type' => 1];
+        //$bread = $this->baseService->breadcrumbs($data_traders);
+
         return view('traders.traders_port_culture', [
             'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
@@ -261,12 +276,22 @@ class TraderController extends Controller
 
     public function forwards()
     {
-        dd('forwards');
+        return view('traders.trader_forwards');
     }
 
-    public function sell_region()
+    public function forwardsCulture()
     {
-        dd('sell');
+        return view('traders.trader_forwards_culture');
+    }
+
+    public function sellRegion()
+    {
+        return view('traders.sell.sell_region');
+    }
+
+    public function sellCulture()
+    {
+        return view('traders.sell.sell_culture');
     }
 
 }
