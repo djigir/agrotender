@@ -1,4 +1,4 @@
-@if(isset($banner_bottom)
+@if(isset($banner_bottom))
 <div class="text-center">
     <div class="d-block d-sm-inline-block mx-2 position-relative">
         <noindex>
