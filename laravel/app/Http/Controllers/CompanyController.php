@@ -113,12 +113,13 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => null, 'page' => null];
+        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => null, 'page' => null, 'page_type' => 'companies'];
         $necessaryData = $this->setDataForCompanies($data_companies);
         $data = ['rubric' => null, 'region' => null, 'page' => $necessaryData['companies']->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
-        $breadcrumbs = [0 => ['name' => 'Компании в Украине', 'url' => null]];
 
+        //$bread = $this->baseServices->breadcrumbs(['page_type' => 0]);
+        $breadcrumbs = [0 => ['name' => 'Компании в Украине', 'url' => null]];
         return view('company.companies', [
                 'companies' => $necessaryData['companies'],
                 'settings_for_page' => $necessaryData['companies'],
@@ -147,11 +148,9 @@ class CompanyController extends Controller
         }
 
         $updateDate = TradersPrices::where([['buyer_id', $company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
-
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
         $date = Date::parse($updateDate)->format('F. Y');
         $date = mb_convert_case($date, MB_CASE_TITLE, "UTF-8");
-        dd($date);
         $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
         $port_place = $this->companyService->getPlacePortsRegions($id, 2);
         $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
@@ -162,7 +161,7 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $current_page = 'main';
-
+        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => $id, 'page' => $current_page, 'page_type' => 'companies'];
 
         return view('company.company', [
                 'company' => $company,
@@ -202,11 +201,13 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies($region, null);
         $regions = $this->baseServices->getRegions();
         $currently_obl = $this->regionName($region);
-        $get_region = Regions::where('translit', $region)->value('id');
+        $get_region = Regions::where('translit', $region)->get()->toArray()[0];
         $breadcrumbs = [0 => ['name' => 'Компании в '.$currently_obl['name'].' области', 'url' => null]];
-        $data = ['rubric' => null, 'region' => $get_region, 'page' => $companies->currentPage()];
+        $data = ['rubric' => null, 'region' => $get_region['id'], 'page' => $companies->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
 
+        //$data_companies = ['region' => $get_region['parental'], 'page_type' => 0];
+        //$bread = $this->baseServices->breadcrumbs($data_companies);
 
         return view('company.company_and_region', [
             'regions' => $regions,
@@ -260,13 +261,15 @@ class CompanyController extends Controller
         $breadcrumbs = [0 => ['name' => 'Компании в Украине ', 'url' => null]];
 
         $this->regionName($region)['obl_name'];
-
         if(is_array($currently_obl)){
             $breadcrumbs = [
                 0 => ['name' => 'Компании в '.$currently_obl['parental'].' области '.'<i class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.company_and_region', $region)],
                 1 => ['name' => 'Каталог - '.$current_culture.' хозяйства '.$currently_obl['city_parental'], 'url' => null]
             ];
         }
+
+        //$data_companies = ['region' => isset($currently_obl['parental']) ? : 'Украине', 'region2' => isset($currently_obl['city_parental']) ? '' : null, 'url' => route('company.company_and_region', $region), 'rubric' => $current_culture, 'page_type' => 0];
+        //$bread = $this->baseServices->breadcrumbs($data_companies);
 
         return view('company.company_region_rubric_number', [
             'regions' => $regions,
@@ -306,6 +309,9 @@ class CompanyController extends Controller
         $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
         $meta = $this->seoService->getCompaniesMeta($data);
         $breadcrumbs = [0 => ['name' => 'Компании в Украине ', 'url' => null]];
+
+        //$data_companies = ['query' => $query, 'page_type' => 0];
+        //$bread = $this->baseServices->breadcrumbs($data_companies);
 
         return view('company.company_filter', [
                 'companies' => $companies,
