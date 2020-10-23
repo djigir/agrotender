@@ -3,29 +3,17 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Banner\BannerRotate;
-use App\Models\Comp\CompItems;
-use App\Models\Regions\Regions;
-use App\Models\Traders\Traders;
+
 use App\Models\Traders\Traders_Products_Lang;
-use App\Models\Traders\TradersLang;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
-use App\Models\Traders\TradersPrices;
-use App\Models\Traders\TradersPricesArc;
 use App\Models\Traders\TradersProducts;
-use App\Models\TradersComment;
-use App\Models\TradersFilters;
-
-use App\Models\Comp\CompTopic;
 
 use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use App\Services\Traders\TraderService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
-use SebastianBergmann\CodeCoverage\TestFixture\C;
 
 class TraderController extends Controller
 {
@@ -44,6 +32,7 @@ class TraderController extends Controller
      */
     public function __construct(TraderService $traderService, CompanyService $companyService, BaseServices $baseService, SeoService $seoService)
     {
+        parent::__construct();
         $this->traderService = $traderService;
         $this->companyService = $companyService;
         $this->baseService = $baseService;

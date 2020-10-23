@@ -6,18 +6,19 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="yandex-verification" content="19ad2285f183dd11" />
+    <meta name="yandex-verification" content="19ad2285f183dd11"/>
     @if(isset($meta['keywords']))
-        <meta name="keywords" content="{{$meta['keywords']}}" />
+        <meta name="keywords" content="{{$meta['keywords']}}"/>
     @endif
 
     @if(isset($meta['description']))
-        <meta name="description" content="{{$meta['description']}}" />
+        <meta name="description" content="{{$meta['description']}}"/>
     @endif
 
 <!-- Icons -->
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,800|Roboto:300,400,500" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,800|Roboto:300,400,500"
+          rel="stylesheet">
     <link rel="stylesheet" href="/app/assets/css/noty/mint.css">
     <link rel="stylesheet" href="/app/assets/css/noty/nest.css">
     <link rel="stylesheet" href="/app/assets/css/bill.css">
@@ -34,7 +35,9 @@
     <link rel="stylesheet" href="/app/assets/css/simplelightbox.min.css">
     <link rel="stylesheet" href="/app/assets/css/styles.css">
     <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+          integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
+          crossorigin="anonymous"/>
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
     <!-- Required CSS -->
 
@@ -43,7 +46,10 @@
 
 <body data-page="{$page}">
 
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+</noscript>
 
 <div class="header__wrap">
     <header class="header">
@@ -133,19 +139,20 @@
                     <a href="/elev" class="menu-link">Элеваторы</a>
                 </li>
                 <li>
-                    <a href="{{route('traders.traders_regions_culture', ['ukraine', 'pshenica_2_kl'])}}" class="menu-link">Форварды</a>
+                    <a href="{{route('traders.traders_regions_culture', ['ukraine', 'pshenica_2_kl'])}}"
+                       class="menu-link">Форварды</a>
                 </li>
             </ul>
         </div>
         @include('mobile.mobile_menu')
     </header>
+    @include('partials.banners.body')
+</div>
     <main class="main" role="main" data-page="{$page}">
         <div id="loading"></div>
-        {{--            <div class="container text-center mt-3 mb-3 tradersImages position-relative">--}}
-        {{--                <div class="d-block d-sm-inline-block tradersImgBlock"><noindex><a class="topBanners" href="https://agrotender.com.ua/kompanii/comp-812.html" rel="nofollow"><img style="width:310px; height:70px;" id="topBan325" src="/files/pict/Virtus370x100_tel-.png" class="img-responsive tradersImg" alt=""></a></noindex></div>--}}
-        {{--                <div class="d-block d-sm-inline-block tradersImgBlock"><noindex><a class="topBanners" href="http://zernotrans.com.ua" rel="nofollow" target="_blank"><img style="width:310px; height:70px;" id="topBan403" src="/files/pict/zernotlans_light.jpg" class="img-responsive tradersImg" alt=""></a></noindex></div>--}}
-        {{--                <div class="d-block d-sm-inline-block tradersImgBlock"><noindex><a class="topBanners" href="https://agrotender.com.ua/reklama" rel="nofollow"><img style="width:310px; height:70px;" id="topBan390" src="/files/pict/ad_buys.png" class="img-responsive tradersImg" alt=""></a></noindex></div>--}}
-        {{--            </div>--}}
+
+       @include('partials.banners.head')
+
 
         <div class="filters-wrap" style="display: none;">
             <div class="filters-inner">
@@ -156,16 +163,21 @@
                         </div>
                         <form>
                             <div class="position-relative mt-3">
-                                <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search" placeholder="Я ищу.." value="{{isset($query) && $query != null ? $query : ''}}">
+                                <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search"
+                                       placeholder="Я ищу.." value="{{isset($query) && $query != null ? $query : ''}}">
                                 <i class="far fa-search searchFilterIcon"></i>
                             </div>
-                            <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between">
-                                <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='{{isset($rubric_number) ? $rubric_number : ''}}'>
+                            <span id="mobile-rubric"
+                                  class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between">
+                                <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric"
+                                       value='{{isset($rubric_number) ? $rubric_number : ''}}'>
                                 <span id="span-mobile-rubric">{{isset($current_culture) ? $current_culture : 'Выберете рубрику'}}</span>
                                 <span><i class="far fa-chevron-right"></i></span>
                             </span>
-                            <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between">
-                                <input type="text" class="remove-input" id='input-mobile-region' name="region" value='{{isset($region) ? $region: ''}}'>
+                            <span id="mobile-region"
+                                  class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between">
+                                <input type="text" class="remove-input" id='input-mobile-region' name="region"
+                                       value='{{isset($region) ? $region: ''}}'>
                                 <span id="span-mobile-region">{{isset($currently_obl) ? $currently_obl : 'Вся Украина'}}</span>
                                 <span><i class="far fa-chevron-right"></i></span>
                             </span>
@@ -184,7 +196,8 @@
                         <div class="scroll">
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
-                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{{$rubricGroup['id']}}">
+                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"
+                                       href="#" group="{{$rubricGroup['id']}}">
                                         <span>{{$rubricGroup['title']}}</span>
                                         <span><i class="far fa-chevron-right"></i></span>
                                     </a>
@@ -204,7 +217,9 @@
                             @if(isset($rubricGroups))
                                 @foreach($rubricGroups as $index_group => $rubricGroup)
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                        <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
+                                        <a href="#"
+                                           class="culture px-4 py-3 my-3 content-block d-flex justify-content-between "
+                                           group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
                                             <span>{{$culture['title']}} &nbsp;
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
                                             </span>
@@ -226,7 +241,9 @@
                         <div class="scroll">
                             @if(isset($regions))
                                 @foreach($regions as $index_region => $region)
-                                    <a href="#" class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit = "{{ $region['translit'] }}">
+                                    <a href="#"
+                                       class="region px-4 py-3 my-3 content-block d-flex justify-content-between"
+                                       translit="{{ $region['translit'] }}">
                                         @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                             <span>{{$region['name']}}</span>
                                         @else
@@ -244,21 +261,21 @@
             </div>
         </div>
 
-        {{--        <div class="company-bg d-none d-sm-block">--}}
-        {{--            <a href="/kompanii/comp-{$company['id']}">--}}
-        {{--                {if $company['logo_file'] neq null}--}}
-        {{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
-        {{--                {/if}--}}
-        {{--                {if $page eq 'company/main'}--}}
-        {{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
-        {{--                {else}--}}
-        {{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
-        {{--                {/if}--}}
-        {{--            </a>--}}
-        {{--            <div class="company-menu-container d-none d-sm-block">--}}
-        {{--                <div class="company-menu">--}}
-        {{--                    {$menu}--}}
-        {{--                </div>--}}
-        {{--            </div>--}}
-        {{--        </div>--}}
+{{--        <div class="company-bg d-none d-sm-block">--}}
+{{--            <a href="/kompanii/comp-{$company['id']}">--}}
+{{--                {if $company['logo_file'] neq null}--}}
+{{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
+{{--                {/if}--}}
+{{--                {if $page eq 'company/main'}--}}
+{{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
+{{--                {else}--}}
+{{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
+{{--                {/if}--}}
+{{--            </a>--}}
+{{--            <div class="company-menu-container d-none d-sm-block">--}}
+{{--                <div class="company-menu">--}}
+{{--                    {$menu}--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 

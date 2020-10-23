@@ -48,7 +48,7 @@ class CompanyService
             ];
         }
 
-        if(!empty($request->get('query'))){
+        if (!empty($request->get('query'))) {
             $route_name = 'company.company_filter';
             $route_params = ['query' => $request->get('query')];
         }
@@ -82,17 +82,36 @@ class CompanyService
     {
         $rubrics = CompTgroups::with([
             'comp_topic' => function ($query) {
-                $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
+                $query->select('menu_group_id', 'title', 'id')
+                    ->where('parent_id', 0);
             }
         ])
             ->orderBy('sort_num')
             ->orderBy('title')
             ->get();
 
-        $rubrics = collect($rubrics)->groupBy('id')->toArray();
+
+        $topic_counts = CompTopicItem::select(['topic_id', \DB::raw('count(*) as cnt')])
+            ->groupBy('topic_id')
+            ->get()
+            ->keyBy('topic_id')
+            ->toArray();
+
+        $rubrics = $rubrics->groupBy('id')->toArray();
 
         foreach ($rubrics as $index => $rubric) {
-            $rubrics[$index] = $rubric[0];
+
+            $rubric = reset($rubric);
+
+            foreach ($rubric['comp_topic'] as &$topic) {
+                if(!isset($topic_counts[$topic['id']])){
+                    continue;
+                }
+                $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
+            }
+            unset($topic);
+
+            $rubrics[$index] = $rubric;
         }
 
         return $rubrics;

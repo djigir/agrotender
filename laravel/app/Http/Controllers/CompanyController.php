@@ -31,6 +31,7 @@ class CompanyController extends Controller
 
     public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
     {
+        parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
         $this->seoService = $seoService;
@@ -366,14 +367,5 @@ class CompanyController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
 }
