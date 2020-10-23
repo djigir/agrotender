@@ -380,10 +380,10 @@ class CompanyService
     }
 
 
-    public function getCompanies($region = null, $rubric = null, $search = null)
+    public function getCompanies($region = null, $rubric = null, $query = null)
     {
-        if ($search != null) {
-            return $this->searchCompanies($search);
+        if ($query) {
+            return $this->searchCompanies($query);
         }
 
         $obl_id = Regions::where('translit', $region)->value('id');
@@ -391,7 +391,7 @@ class CompanyService
         $companies = CompItems::where([
             [
                 function ($query) use ($region, $obl_id) {
-                    if ($region != 'ukraine' and $region != null) {
+                    if ($region != 'ukraine' && $region) {
                         $query->where('obl_id', '=', $obl_id);
                     }
                 }
@@ -409,7 +409,7 @@ class CompanyService
                 ->where([
                     ['comp_item2topic.topic_id', $rubric], [
                         function ($query) use ($region, $obl_id) {
-                            if ($region != 'ukraine' and $region != null) {
+                            if ($region != 'ukraine' && $region) {
                                 $query->where('comp_items.obl_id', '=', $obl_id);
                             }
                         }

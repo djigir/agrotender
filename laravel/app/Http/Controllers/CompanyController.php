@@ -70,12 +70,31 @@ class CompanyController extends Controller
 
         return ['name' => $name, 'obl_name' => $obl_name];
     }
+
+    public function setDataForCompanies($data)
+    {
+        $companies = $this->companyService->getCompanies($data['region'], $data['rubric'], $data['query']);
+        $company = CompItems::find($data['id_company']);
+        $groups = $this->companyService->getRubricsGroup();
+        $regions = $this->baseServices->getRegions();
+        $unwanted_region = $this->checkName($data['region']);
+        $get_region = Regions::where('translit', $data['region'])->value('id');
+
+        $currently_obl = $this->regionName($data['region']);
+
+        $current_page = $data['page'];
+
+        return [];
+    }
+
+
     /**
      * Display a listing of the resource.
      *
      * @param  Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
+
     public function companies(Request $request)
     {
         if(!empty($request->get('query'))){
