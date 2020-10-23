@@ -17,6 +17,7 @@ use App\Models\Torg\TorgBuyer;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
+use  App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Jenssegers\Date\Date;
