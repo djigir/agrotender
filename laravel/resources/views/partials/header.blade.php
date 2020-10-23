@@ -50,11 +50,10 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0"
             style="display:none;visibility:hidden"></iframe>
 </noscript>
-
 <div class="header__wrap">
     <header class="header">
         <div class="top container">
-            <div class="row">
+            <div class="row" style="{{$isMobile ? 'flex-wrap: nowrap' : ''}}">
                 <div class="col-1 d-flex align-items-center justify-content-start d-sm-none">
                     <div class="float-right d-inline-block d-sm-none">
                         <div class="burger align-self-center align-middle">
@@ -84,43 +83,6 @@
                             <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
                         @endif
                     </div>
-                    {{--                    <div class="d-none d-sm-block float-right right-links p-3">--}}
-                    {{--                        @if(isset($user->auth))--}}
-
-                    {{--                        <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="head-name d-flex align-items-center position-relative">--}}
-                    {{--                            <i class="fas fa-chevron-down mr-1"></i>--}}
-                    {{--                            <span>{if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}</span>--}}
-                    {{--                            <img src="{if $user->company neq null && $user->company['logo_file'] neq null}/{$user->company['logo_file']}{else}/app/assets/img/noavatar.png{/if}" class="ml-2 head-logo">--}}
-                    {{--                            <span class="notification-badge top-badge"></span>--}}
-                    {{--                        </a>--}}
-                    {{--                        <div class="dropdown-menu mt-2 head-dropdown" aria-labelledby="dropdownMenuLink">--}}
-                    {{--                            {if $user->company neq null && ($user->company['trader_price_avail'] eq 1 or $user->company['trader_price_sell_avail'] eq 1 or $user->company['trader_price_forward_avail'] eq 1)}--}}
-                    {{--                            <h6 class="dropdown-header">Цены трейдеров:</h6>--}}
-                    {{--                            {if $user->company['trader_price_avail'] eq 1}--}}
-                    {{--                            <a class="dropdown-item" href="/u/prices">Таблица закупок</a>--}}
-                    {{--                            {/if}--}}
-                    {{--                            {if $user->company['trader_price_sell_avail'] eq 1}--}}
-                    {{--                            <a class="dropdown-item" href="/u/prices?type=1">Таблица продаж</a>--}}
-                    {{--                            {/if}--}}
-                    {{--                            {if $user->company['trader_price_forward_avail'] eq 1}--}}
-                    {{--                            <a class="dropdown-item{if $page eq 'user/pricesForward'} active{/if}" href="/u/prices/forwards">Форварды</a>--}}
-                    {{--                            {/if}--}}
-                    {{--                            {/if}--}}
-                    {{--                            <a class="dropdown-item" href="/u/proposeds">Заявки <span class="notification-badge"></span></a>--}}
-                    {{--                            <h6 class="dropdown-header">Объявления:</h6>--}}
-                    {{--                            <a class="dropdown-item" href="/u/posts">Объявления</a>--}}
-                    {{--                            <a class="dropdown-item" href="/u/balance/pay">Пополнить баланс</a>--}}
-                    {{--                            <a class="dropdown-item" href="/u/posts/limits">Лимит объявлений</a>--}}
-                    {{--                            <h6 class="dropdown-header">Профиль:</h6>--}}
-                    {{--                            <a class="dropdown-item" href="/u/company">Компания</a>--}}
-                    {{--                            <a class="dropdown-item" href="/u/contacts">Контакты</a>--}}
-                    {{--                            <a class="dropdown-item" href="/logout">Выход</a>--}}
-                    {{--                        </div>--}}
-                    {{--                        @else--}}
-                    {{--                        <a href="/buyerlog">Войти</a> &nbsp;|&nbsp; <a href="/buyerreg">Регистрация</a>--}}
-                    {{--                        <a href="/login">Войти</a> &nbsp;|&nbsp; <a href="/register">Регистрация</a>--}}
-                    {{--                        @endif--}}
-                    {{--                    </div>--}}
                 </div>
             </div>
         </div>
@@ -146,136 +108,37 @@
         </div>
         @include('mobile.mobile_menu')
     </header>
-    @include('partials.banners.body')
+    @if(!$isMobile)
+        @include('partials.banners.body')
+    @endif
 </div>
-    <main class="main" role="main" data-page="{$page}">
-        <div id="loading"></div>
+<main class="main" role="main" data-page="{$page}">
+    <div id="loading"></div>
+    @if(!isset($id))
+        @include('partials.banners.head')
+    @endif
+    @if($isMobile)
+        @if($page_type == 0)
+            @include('mobile.filters.mobile-filter-companies')
+        @else
+            @include('mobile.filters.mobile-filter-traders')
+        @endif
+    @endif
+    <style>
+        .remove-input{
+            position: absolute;
+            background: none;
+            width: 100%;
+            height: 10%;
+            margin-top: -12px;
+            border: none;
+            outline: none;
+            opacity: 0;
+        }
 
-       @include('partials.banners.head')
+        .remove-style-btn{
+            border: none;
+            outline: none !important;
 
-
-        <div class="filters-wrap" style="display: none;">
-            <div class="filters-inner">
-                <div class="filters arrow-t">
-                    <div class="step-1 stp" style="">
-                        <div class="mt-3">
-                            <span class="title ml-3 pt-3">Настройте фильтры:</span>
-                        </div>
-                        <form>
-                            <div class="position-relative mt-3">
-                                <input name='query' type="text" class="pl-4 pr-5 py-4 content-block filter-search"
-                                       placeholder="Я ищу.." value="{{isset($query) && $query != null ? $query : ''}}">
-                                <i class="far fa-search searchFilterIcon"></i>
-                            </div>
-                            <span id="mobile-rubric"
-                                  class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between">
-                                <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric"
-                                       value='{{isset($rubric_number) ? $rubric_number : ''}}'>
-                                <span id="span-mobile-rubric">{{isset($current_culture) ? $current_culture : 'Выберете рубрику'}}</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </span>
-                            <span id="mobile-region"
-                                  class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between">
-                                <input type="text" class="remove-input" id='input-mobile-region' name="region"
-                                       value='{{isset($region) ? $region: ''}}'>
-                                <span id="span-mobile-region">{{isset($currently_obl) ? $currently_obl : 'Вся Украина'}}</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </span>
-                            <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
-
-                        </form>
-                    </div>
-
-                    <div class="step-3 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="1" href="#">
-                            <span class="back" id="back">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                Назад
-                            </span>
-                        </a>
-                        <div class="scroll">
-                            @if(isset($rubricGroups))
-                                @foreach($rubricGroups as $index_group => $rubricGroup)
-                                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"
-                                       href="#" group="{{$rubricGroup['id']}}">
-                                        <span>{{$rubricGroup['title']}}</span>
-                                        <span><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                @endforeach
-                            @endif
-                        </div>
-                    </div>
-                    <div class="step-3-1 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="3" href="#">
-                            <span id="back3">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                Назад
-                            </span>
-                        </a>
-
-                        <div class="scroll">
-                            @if(isset($rubricGroups))
-                                @foreach($rubricGroups as $index_group => $rubricGroup)
-                                    @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                        <a href="#"
-                                           class="culture px-4 py-3 my-3 content-block d-flex justify-content-between "
-                                           group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
-                                            <span>{{$culture['title']}} &nbsp;
-    {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-                                            </span>
-                                            <span><i class="far fa-chevron-right"></i></span>
-                                        </a>
-                                    @endforeach
-                                @endforeach
-                            @endif
-                        </div>
-
-                    </div>
-                    <div class="step-4 stp h-100" style="display: none;">
-                        <a class="back py-3 px-4 content-block d-block" step="1" href="#">
-                            <span id="back2">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                Назад
-                            </span>
-                        </a>
-                        <div class="scroll">
-                            @if(isset($regions))
-                                @foreach($regions as $index_region => $region)
-                                    <a href="#"
-                                       class="region px-4 py-3 my-3 content-block d-flex justify-content-between"
-                                       translit="{{ $region['translit'] }}">
-                                        @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
-                                            <span>{{$region['name']}}</span>
-                                        @else
-                                            <span>{{$region['name']}} область</span>
-                                        @endif
-                                        <span>
-                                            <i class="far fa-chevron-right"></i>
-                                        </span>
-                                    </a>
-                                @endforeach
-                            @endif
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-{{--        <div class="company-bg d-none d-sm-block">--}}
-{{--            <a href="/kompanii/comp-{$company['id']}">--}}
-{{--                {if $company['logo_file'] neq null}--}}
-{{--                <img class="avatar" src="/{$company['logo_file']}" class="ml-2 head-logo">--}}
-{{--                {/if}--}}
-{{--                {if $page eq 'company/main'}--}}
-{{--                <h1 class="title d-block mt-2">{$company['title']}{if $trader eq '1' && $company['trader_price_avail'] eq 1 && $company['trader_price_visible'] eq 1} - Закупочные цены{/if}</h1>--}}
-{{--                {else}--}}
-{{--                <span class="title d-block mt-2">{$company['title']}</span>--}}
-{{--                {/if}--}}
-{{--            </a>--}}
-{{--            <div class="company-menu-container d-none d-sm-block">--}}
-{{--                <div class="company-menu">--}}
-{{--                    {$menu}--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-
+        }
+    </style>

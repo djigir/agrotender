@@ -92,6 +92,7 @@ class CompanyController extends Controller
             'get_region' => $get_region,
             'currently_obl' => $currently_obl,
             'current_page' => $current_page,
+            'page_type' => 0
         ];
     }
 
@@ -127,6 +128,7 @@ class CompanyController extends Controller
                 'meta' => $meta,
                 'breadcrumbs' => $breadcrumbs,
                 'isMobile' => $this->agent->isMobile(),
+                'page_type' => 0
             ]
         );
     }
@@ -147,11 +149,8 @@ class CompanyController extends Controller
         }
 
         $updateDate = TradersPrices::where([['buyer_id', $company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
-
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
-        $date = Date::parse($updateDate)->format('F. Y');
-        $date = mb_convert_case($date, MB_CASE_TITLE, "UTF-8");
-        dd($date);
+
         $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
         $port_place = $this->companyService->getPlacePortsRegions($id, 2);
         $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
@@ -176,7 +175,8 @@ class CompanyController extends Controller
                 'meta' => $meta,
                 'updateDate' => $updateDate,
                 'current_page' => $current_page,
-                'isMobile' => $this->agent->isMobile()
+                'isMobile' => $this->agent->isMobile(),
+                'page_type' => 0
             ]
         );
     }
@@ -208,7 +208,7 @@ class CompanyController extends Controller
         $meta = $this->seoService->getCompaniesMeta($data);
 
 
-        return view('company.company_and_region', [
+        return view('company.companies', [
             'regions' => $regions,
             'rubricGroups' => $groups,
             'companies' => $companies,
@@ -219,6 +219,7 @@ class CompanyController extends Controller
             'meta' => $meta,
             'breadcrumbs' => $breadcrumbs,
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
         ]);
     }
 
@@ -268,7 +269,7 @@ class CompanyController extends Controller
             ];
         }
 
-        return view('company.company_region_rubric_number', [
+        return view('company.companies', [
             'regions' => $regions,
             'rubricGroups' => $groups,
             'companies' => $companies,
@@ -281,6 +282,7 @@ class CompanyController extends Controller
             'meta' => $meta,
             'breadcrumbs' => $breadcrumbs,
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
         ]);
     }
 
@@ -316,6 +318,7 @@ class CompanyController extends Controller
                 'breadcrumbs' => $breadcrumbs,
                 'isMobile' => $this->agent->isMobile(),
                 'query' => $query,
+                'page_type' => 0
             ]
         );
     }
@@ -332,7 +335,8 @@ class CompanyController extends Controller
         return view('company.company_prices', [
             'id' => $id,
             'company_name' => $company_name,
-            'isMobile' => $this->agent->isMobile()
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
         ]);
     }
 
@@ -355,7 +359,8 @@ class CompanyController extends Controller
             'id' => $id_company,
             'meta' => $meta,
             'current_page' => $current_page,
-            'isMobile' => $this->agent->isMobile()
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
         ]);
     }
 
@@ -389,7 +394,8 @@ class CompanyController extends Controller
             'id' => $id_company,
             'meta' => $meta,
             'current_page' => $current_page,
-            'isMobile' => $this->agent->isMobile()
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
         ]);
     }
 

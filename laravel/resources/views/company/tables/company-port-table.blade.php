@@ -7,7 +7,7 @@
             <tr>
                 <th>Порты / Переходы</th>
                 @foreach($port_culture as $index => $data_port)
-                    <th>{{$data_port['name']}}</th>
+                    <th>{!! $data_port['name'] !!}</th>
                 @endforeach
             </tr>
             </thead>
@@ -23,9 +23,9 @@
                             <td class="currency">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
-                                        {{--                                                 <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-                                        {{--                                                  <span class="price-up">200</span>--}}
+                                        <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
+{{--                                                                                         <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+{{--                                                                                          <span class="price-up">200</span>--}}
                                     </div>
                                     @if($price['comment'] != '' and !$price['comment'])
                                         <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
@@ -48,7 +48,7 @@
                 <tr>
                     <th>Порты / Переходы</th>
                     @foreach($port_culture as $index => $data_port)
-                        <th>{{$data_port['name']}}</th>
+                        <th>{!! $data_port['name'] !!}</th>
                     @endforeach
                 </tr>
                 </thead>
@@ -64,9 +64,9 @@
                                 <td class="currency">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
-                                            {{--                                                            <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-                                            {{--                                                            <span class="price-up">200</span>--}}
+                                            <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
+{{--                                                                                                        <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+{{--                                                                                                        <span class="price-up">200</span>--}}
                                         </div>
                                         @if($price['comment'] != '' and !$price['comment'])
                                             <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
@@ -91,7 +91,7 @@
             <tr>
                 <th>Порты / Переходы</th>
                 @foreach($port_culture as $index => $data_port)
-                    <th>{{$data_port['name']}}</th>
+                    <th>{!! $data_port['name'] !!}</th>
                 @endforeach
             </tr>
             </thead>
@@ -107,9 +107,9 @@
                             <td class="currency">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
-                                        {{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
-                                        {{-- <span class="price-up">200</span>--}}
+{{--                                        <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;--}}
+{{--                                        <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+                                         <span class="price-up">200</span>
                                     </div>
                                     @if($price['comment'] != '' and !$price['comment'])
                                         <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>

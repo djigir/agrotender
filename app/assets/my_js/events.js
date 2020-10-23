@@ -1,7 +1,40 @@
 window.onload = function (){
     $('.mobile-icon').click(function () {
         $(".filters-wrap").toggle();
+
+        if($(".filters-wrap").css('display') == 'block'){
+            $('body').addClass('open');
+            $('.wrap').addClass('open');
+        }else{
+            $('body').removeClass('open');
+            $('.wrap').removeClass('open');
+        }
+
     });
+    $("#type-page").click(function () {
+        $('.step-1').css('display', 'none');
+        $('.step-2').css('display', '');
+    });
+
+    $("#back-page-type").click(function () {
+        $('.step-1').css('display', '');
+        $('.step-2').css('display', 'none');
+    });
+
+    // back-mobile-rubric-culture-traders
+    // back-mobile-rubric-traders
+    // back-mobile-region-port-traders
+
+
+    // mobile-rubric-traders
+    // mobile-region-port-traders
+    // currency-all
+    // currency-uah
+    // currency-usd
+    // show-type-list
+    // show-type-table
+
+
 
     $('.userIcon').click(function () {
         $(".userMobileMenu").toggle();
@@ -142,7 +175,6 @@ window.onload = function (){
     $("#back").click(function () {
         $('.step-1').css('display', '');
         $('.step-3').css('display', 'none');
-
     });
 
     $("#back2").click(function () {
@@ -176,6 +208,7 @@ window.onload = function (){
     });
 
     $(".culture").click(function (event) {
+        console.log('culture');
         let group = event.currentTarget.attributes[2].nodeValue;
         let rubric_name = event.target.innerText;
         let rubric_id = event.currentTarget.attributes[3].nodeValue;
@@ -195,9 +228,20 @@ window.onload = function (){
         $('#span-mobile-region').html(region_name);
         $('#input-mobile-region').attr('value', region);
 
+        $('#input-mobile-region-t').attr('value', region);
+        $('#input-mobile-port-t').attr('value', null);
+
+
         $('.step-1').css('display', '');
         $('.step-4').css('display', 'none');
 
+    });
+
+    $('.port').click(function (event) {
+        let region = event.currentTarget.attributes[2].nodeValue;
+        $('#input-mobile-port-t').attr('value', region);
+        $('#input-mobile-region-t').attr('value', null);
+        console.log(region);
     });
 
     $('.remove-style-btn').click(function (event) {

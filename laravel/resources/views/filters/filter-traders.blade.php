@@ -1,4 +1,3 @@
-{{--{{dd($rubricsGroup)}}--}}
 <div class="new_filters-wrap">
     <div class="fixed-item">
         <div class="new_container">

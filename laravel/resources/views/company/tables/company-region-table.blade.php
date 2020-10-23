@@ -9,7 +9,7 @@
                 <tr>
                     <th>Регионы / Элеваторы</th>
                     @foreach($region_culture as $index => $data_region)
-                        <th>{{$data_region['name']}}</th>
+                        <th>{!! $data_region['name'] !!}</th>
                     @endforeach
 
                 </tr>
@@ -27,7 +27,7 @@
                                 <td class="currency">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
+                                            <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
                                             {{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
                                             {{--<span class="price-up">200</span>--}}
                                         </div>
@@ -52,7 +52,7 @@
                     <tr>
                         <th>Регионы / Элеваторы</th>
                         @foreach($region_culture as $index => $data_region)
-                            <th>{{$data_region['name']}}</th>
+                            <th>{!! $data_region['name'] !!}</th>
                         @endforeach
 
                     </tr>
@@ -70,7 +70,7 @@
                                     <td class="currency">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
                                                 {{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
                                                 {{--<span class="price-up">200</span>--}}
                                             </div>
@@ -97,7 +97,7 @@
                     <tr>
                         <th>Регионы / Элеваторы</th>
                         @foreach($region_culture as $index => $data_region)
-                            <th>{{$data_region['name']}}</th>
+                            <th>{!! $data_region['name'] !!}</th>
                         @endforeach
 
                     </tr>
@@ -114,7 +114,7 @@
                                     <td class="currency">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{$price['costval']}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
                                                 {{--<img src="/app/assets/img/price-up.svg">&nbsp;--}}
                                                 {{--<span class="price-up">200</span>--}}
                                             </div>

@@ -4,6 +4,7 @@
     <div class="company-menu-container d-none d-sm-block">
         <div class="company-menu">
             <a href="{{route('company.company', $id)}}" class="{{$current_page == 'main' ? 'active' : ''}}" >Главная</a>
+            <a href="{{route('company.company', $id)}}" class="" >Форварды</a>
             <a href="{{route('company.company_reviews', $id)}}" class="{{$current_page == 'reviews' ? 'active' : ''}}">Отзывы</a>
             <a href="{{route('company.company_cont', $id)}}" class="{{$current_page == 'contact' ? 'active' : ''}}">Контакты</a>
         </div>

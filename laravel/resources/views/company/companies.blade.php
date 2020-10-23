@@ -36,7 +36,7 @@
                         </div>
                         <div class="row m-0 pt-3 d-none d-sm-flex">
                             <div class="col-12 pl-0 pr-2 text-center">
-                                <span class="date">На сайте с {{$company['add_date']->format('F.Y')}}</span>
+                                <span class="date">На сайте с {{$company['date']}}</span>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                         </div>
                         <div class="row d-sm-none lh-1">
                             <div class="col">
-                                <span class="date mb-2">На сайте с {{$company['add_date']->format('F.Y')}}</span>
+                                <span class="date mb-2">На сайте с {{$company['date']}}</span>
                             </div>
                         </div>
                         <div class="row d-none d-sm-flex">
@@ -67,9 +67,9 @@
                                       data-toggle="tooltip"
                                       data-placement="top"
                                       title="{{$company['activities']}}"
-                              @endif>
-                            {{ \Illuminate\Support\Str::limit($company['activities'], 75, $end='...') }}
-                        </span>
+                                      @endif aria-describedby="tooltip">
+                                    {{ \Illuminate\Support\Str::limit($company['activities'], 75, $end='...') }}
+                                </span>
                                 <span class="activities d-block d-sm-none"
                                       @if(strlen($company['activities']) > 57)
                                       data-toggle="tooltip"

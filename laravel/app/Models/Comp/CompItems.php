@@ -11,6 +11,7 @@ use App\Models\Traders\TradersPricesArc;
 use App\Models\Traders\TradersContactsRegions;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Date\Date;
 
 
 /**
@@ -73,7 +74,7 @@ class CompItems extends Model
 {
     protected $table = 'comp_items';
 
-    protected $appends = ['activities', 'purchases', 'sales', 'services'];
+    protected $appends = ['activities', 'purchases', 'sales', 'services', 'date'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -131,6 +132,11 @@ class CompItems extends Model
         return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 3], ['author_id', '=', $this->author_id]])
             ->get()
             ->count();
+    }
+
+    public function getDateAttribute()
+    {
+        return mb_convert_case(Date::parse($this->add_date)->format('F. Y'), MB_CASE_TITLE, "UTF-8");
     }
 
 
