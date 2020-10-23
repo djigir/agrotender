@@ -1,10 +1,7 @@
 @extends('layout.layout', ['meta' => $meta])
-@section('content')
 
-    @include('filters.filter-traders', [
-    'regions' => $regions,
-    'rubricsGroup' => $rubric,
-    'onlyPorts' => $onlyPorts])
+@section('content')
+    @include('filters.filter-traders', ['regions' => $regions,'rubricsGroup' => $rubric,'onlyPorts' => $onlyPorts])
 
     <div class="container mt-3 "></div>
 
@@ -35,83 +32,45 @@
             </div>
         </div>
     </div>
+
     <div class="new_container container mt-3 traders_dev">
-        @if(!empty($top_traders))
-        <div class="new_traders">
-            @foreach($top_traders as $top_trader)
-                <div class="traders__item-wrap">
-                    <a href="{{ route('company.company', $top_trader['id']) }}" class="traders__item yellow">
-                        <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
-                            <img class="traders__item__image" src="{{ $top_trader['logo_file'] }}" data-primary-color="255,255,255">
-                        </div>
-                        <div class="traders__item__content">
-                            <div href="#" class="traders__item__content-title">
-                                {{ $top_trader['title'] }}
+        @if(!empty($traders))
+            <div class="new_traders">
+                @foreach($traders as $trader)
+                    <div class="traders__item-wrap">
+                        <a href="{{route('company.company', $trader['id']) }}" class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}} ">
+                            <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
+                                <img class="traders__item__image" src="{{ $trader['logo_file'] }}" data-primary-color="255,255,255">
                             </div>
-                            @foreach($top_trader['cultures'] as $index => $culture)
-                                <div class="traders__item__content-description">
-                                    @if($index < 3)
-                                    <p class="traders__item__content-p">
-                                        <span class="traders__item__content-p-title">{{ $culture['name'] }}</span>
-                                            <span class="right">
-                                            <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                                                  title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
-                                            <span class="traders__item__content-p-icon">
-                                                <img src="/app/assets/img/price-down.svg">
+                            <div class="traders__item__content">
+                                <div href="#" class="traders__item__content-title">
+                                    {{ $trader['title'] }}
+                                </div>
+                                @foreach($trader['cultures'] as $index => $culture)
+                                    <div class="traders__item__content-description">
+                                        @if($index < 3)
+                                        <p class="traders__item__content-p">
+                                            <span class="traders__item__content-p-title">{{ $culture['name'] }}</span>
+                                                <span class="right">
+                                                <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
+                                                      title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
+                                                <span class="traders__item__content-p-icon">
+                                                    <img src="/app/assets/img/price-down.svg">
+                                                </span>
                                             </span>
-                                        </span>
-                                    </p>
-                                    @endif
+                                        </p>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                <div class="traders__item__content-date">
+                                    <!-- <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
+                                    <span class="green">{{ 'дата' }}</span>
                                 </div>
-                            @endforeach
-                            <div class="traders__item__content-date">
-                                <!-- <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->
-                                <span class="green">{{ 'дата' }}</span>
                             </div>
-                        </div>
-                    </a>
-                </div>
-            @endforeach
-        </div>
-        @endif
-            @if(!empty($traders))
-                <div class="new_traders">
-                    @foreach($traders as $trader)
-                        <div class="traders__item-wrap">
-                            <a href="{{ route('company.company', $trader['id']) }}" class="traders__item ">
-                                <div class="traders__item__header">
-                                    <img class="traders__item__image" src="{{ $trader['logo_file'] }}" alt="">
-                                </div>
-                                <div class="traders__item__content">
-                                    <div href="#" class="traders__item__content-title title">
-                                        {{ $trader['title'] }}
-                                    </div>
-                                    @foreach($trader['cultures'] as $index => $culture)
-                                        <div class="traders__item__content-description">
-                                            @if($index < 2)
-                                                <p class="traders__item__content-p">
-                                                    <span class="traders__item__content-p-title">{{ $culture['name'] }}</span>
-                                                        <span class="right">
-                                                        <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                                                              title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
-                                                        <span class="traders__item__content-p-icon">
-                                                            <img src="/app/assets/img/price-down.svg">
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                    <div class="traders__item__content-date">
-    {{--                                    <span class="traders__item__content-date-more">+ ещё </span> --}}
-                                        <span class="green">{{ 'дата' }}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
         @endif
     </div>
-
 @endsection

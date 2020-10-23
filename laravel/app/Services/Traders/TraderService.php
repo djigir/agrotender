@@ -6,19 +6,23 @@ use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPorts;
+use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
+use App\Services\BaseServices;
 use App\Services\CompanyService;
 
 
 class TraderService
 {
     protected $companyService;
+    protected $baseService;
 
-    public function __construct(CompanyService $companyService)
+    public function __construct(CompanyService $companyService, BaseServices $baseService)
     {
         $this->companyService = $companyService;
+        $this->baseService = $baseService;
     }
 
 
@@ -36,6 +40,25 @@ class TraderService
                 'code' => 'usd'
             ]
         ];
+    }
+
+    public function getNamePortRegion($region = null, $port = null)
+    {
+        $onlyPorts = null;
+        $id_port = TradersPorts::where('url', $port)->value('id');
+        $port_name = ($port != 'all') ? TradersPortsLang::where('port_id', $id_port)->value('portname') : ['Все порты', $onlyPorts = 'yes'][0];
+        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
+
+        if($region == 'crimea'){
+            $name_region = 'АР Крым';
+        }
+
+        if($region == 'ukraine'){
+            $name_region = 'Вся Украина';
+        }
+
+        return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
+
     }
 
     public function getPorts()
@@ -90,26 +113,58 @@ class TraderService
         return $groups;
     }
 
+    public function searchTraders($query, $obl_id){
+        $traders = CompItems::join('traders_prices', 'comp_items.author_id',  '=', 'traders_prices.buyer_id')
+            ->where([
+                ['comp_items.trader_price_avail', 1],
+                ['comp_items.trader_price_visible', 1],
+                ['comp_items.visible', 1],
+                ['traders_prices.curtype', $query],
+                [function ($query) use($obl_id){
+                    if($obl_id != null)
+                        $query->where('obl_id', $obl_id);
+                }],])
 
-    public function getTradersRegionPortCulture($port = null, $culture = null, $type_premium = null, $region = null)
+            ->select('comp_items.id', 'comp_items.title', 'comp_items.author_id',
+                'comp_items.logo_file', 'traders_prices.curtype',
+                'comp_items.trader_premium', 'comp_items.trader_price_avail',
+                'comp_items.trader_price_visible', 'comp_items.visible')
+
+            ->orderBy('comp_items.trader_premium', 'desc')
+            ->orderBy('comp_items.trader_sort')
+            ->orderBy('comp_items.rate_formula' , 'desc')
+            ->orderBy('comp_items.title')
+            ->get()
+            ->toArray();
+
+
+        $traders =  $this->baseService->new_unique($traders, 'title');
+        $traders = $this->add_data_traders($traders);
+
+        return $traders;
+    }
+
+    public function getTradersRegionPortCulture($data)
     {
         $obl_id = null;
-        $traders = [];
 
-        if($port != null and $port!= 'all'){
-            $obl_id = TradersPorts::where('url', $port)->value('obl_id');
+        if($data['port'] != null and $data['port'] != 'all'){
+            $obl_id = TradersPorts::where('url', $data['port'])->value('obl_id');
         }
 
-        if($region != null and  $region != 'ukraine'){
-            $obl_id = Regions::where('translit', $region)->value('id');
+        if($data['region'] != null and $data['region'] != 'ukraine'){
+            $obl_id = Regions::where('translit', $data['region'])->value('id');
         }
 
-        if($culture != null){
-            $culture = TradersProducts::where('url', $culture)->value('id');
+        if($data['culture'] != null){
+            $culture = TradersProducts::where('url', $data['culture'])->value('id');
+        }
+
+        if (!empty($data['query'])) {
+            return $this->searchTraders($data['query']['currency'], $obl_id);
         }
 
         $traders = CompItems::where([
-            ['trader_premium', $type_premium],
             ['trader_price_avail', 1],
             ['trader_price_visible', 1],
             ['visible', 1],
@@ -117,8 +172,8 @@ class TraderService
                 if($obl_id != null)
                     $query->where('obl_id', $obl_id);
             }],
-        ])
-            ->select('id', 'title', 'author_id', 'logo_file')
+        ])->select('id', 'title', 'author_id', 'logo_file', 'trader_premium')
+            ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort')
             ->orderBy('rate_formula' , 'desc')
             ->orderBy('title')
@@ -126,26 +181,36 @@ class TraderService
             ->get()
             ->toArray();
 
-        if($obl_id != null and $culture != null){
+        if($obl_id != null and $data['culture'] != null){
             $traders = CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
-                ->where([['comp_items.trader_premium', $type_premium],
-                    ['comp_item2topic.topic_id', $culture], [function ($query) use($region, $obl_id){
+                ->where([
+                    ['comp_item2topic.topic_id', $data['culture']],
+                    ['trader_price_avail', 1],
+                    ['trader_price_visible', 1],
+                    ['visible', 1],
+                    [function ($query) use($obl_id){
                         if($obl_id != null){
                             $query->where('comp_items.obl_id', $obl_id);
                         }
-                    }]])
-                ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-                    'comp_items.obl_id', 'comp_items.logo_file',
-                    'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3'
-                )
+                    }]])->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
+                    'comp_items.obl_id', 'comp_items.trader_premium', 'comp_items.logo_file',
+                    'comp_items.short', 'comp_items.add_date',
+                    'comp_items.visible', 'comp_items.obl_id',
+                    'comp_items.title', 'comp_items.trader_price_avail',
+                    'comp_items.trader_price_visible',
+                    'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3')
+
                 ->orderBy('comp_items.trader_premium', 'desc')
-                ->orderBy('comp_items.rate_formula', 'desc')
+                ->orderBy('comp_items.trader_sort')
+                ->orderBy('comp_items.rate_formula' , 'desc')
+                ->orderBy('comp_items.title')
                 ->get()
                 ->toArray();
         }
 
         $traders = $this->add_data_traders($traders);
+
+        //dd($traders);
 
         return $traders;
 
@@ -161,6 +226,7 @@ class TraderService
                 unset($traders[$index]);
             }
         }
+
         $traders = array_values($traders);
 
         return $traders;

@@ -58,6 +58,29 @@ window.onload = function (){
         $('#active-port').addClass('active');
     });
 
+    $(".group-culture").click(function (event) {
+        let group = event.currentTarget.attributes[1].nodeValue;
+        let group_culture = $(".group-culture");
+        let culture_group = $(".culture-group");
+
+        for(let i = 0; i < group_culture.length; i++){
+            let elem = group_culture[i];
+            elem.classList.remove('active');
+            if(elem.getAttribute('group') === group){
+                elem.classList.add('active');
+            }
+        }
+
+        for(let i = 0; i < culture_group.length; i++){
+            let elem = culture_group[i];
+            elem.classList.remove('active');
+            if(elem.getAttribute('group') === group){
+                elem.classList.add('active');
+            }
+        }
+
+    });
+
 
 
     $(".rubricInput").click(function (event) {
@@ -89,7 +112,6 @@ window.onload = function (){
         for(let i = 0; i < $('.groupCulture').length; i++){
             let elem = $('.groupCulture')[i];
             elem.style.cssText = 'display: none !important';
-
             if(elem.getAttribute('group') === group){
                 elem.style.cssText = 'display: block; column-count: 2; ';
             }

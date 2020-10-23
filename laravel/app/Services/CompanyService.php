@@ -159,7 +159,6 @@ class CompanyService
         $culture = collect($culture)->sortBy('name')->toArray();
         $culture = array_values($culture);
 
-
         return $culture;
     }
 

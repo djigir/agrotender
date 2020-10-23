@@ -17,7 +17,7 @@ if (
     include_once "laravel/public/index.php";
     die();
 }
-
+ini_set('max_execution_time', 150);
 setlocale(LC_ALL, 'russian');
 date_default_timezone_set("Europe/Kiev");
 define('developer_mode', true);
