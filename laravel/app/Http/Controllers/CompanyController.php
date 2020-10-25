@@ -39,7 +39,6 @@ class CompanyController extends Controller
         $this->agent = new \Jenssegers\Agent\Agent;
     }
 
-
     private function isMobileFilter(Request $request)
     {
         return !empty($request->get('query')) || !empty($request->get('region'));
@@ -57,44 +56,58 @@ class CompanyController extends Controller
 
     private function regionName($region)
     {
-        $name = Regions::where('translit', $region)->value('name');
-        $obl_name = Regions::where('translit', $region)->value('name'). ' область';
+        $name = Regions::where('translit', $region)->value('name'). ' область';
+//        $obl_name = Regions::where('translit', $region)->value('name'). ' область';
 
         if($region == 'crimea'){
             $name = 'АР Крым';
-            $obl_name = 'АР Крым';
+//            $obl_name = 'АР Крым';
         }
 
-        if($region == 'ukraine'){
+        if($region == 'ukraine' || !$region){
             $name = 'Вся Украина';
-            $obl_name = 'Вся Украина';
+//            $obl_name = 'Вся Украина';
         }
 
-        return ['name' => $name, 'obl_name' => $obl_name];
+        return $name;
     }
 
     public function setDataForCompanies($data)
     {
-        $companies = $this->companyService->getCompanies($data['region'], $data['rubric'], $data['query']);
-        $company = CompItems::find($data['id_company']);
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
-        $unwanted_region = $this->checkName($data['region']);
-        $get_region = Regions::where('translit', $data['region'])->value('id');
-        $currently_obl = $this->regionName($data['region']);
-        $current_page = $data['page'];
+        $region_name = $this->regionName($data['region']);
+        $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] :null;
+        $region_id = null;
+        $region = $data['region'];
+        $culture_name = isset($data['rubric_id']) ? CompTopic::where('id', $rubric_id)->value('title') : 'Все рубрики';
 
-        return [
-            'companies' => $companies,
-            'company' => $company,
-            'groups' => $groups,
-            'regions' => $regions,
-            'unwanted_region' => $unwanted_region,
-            'get_region' => $get_region,
-            'currently_obl' => $currently_obl,
-            'current_page' => $current_page,
-            'page_type' => 0
-        ];
+        if($data['region'] != 'ukraine' && $data['region']) {
+            $region = Regions::where('translit', $data['region'])->get()->toArray()[0];
+            $region_id = $region['id'];
+        }
+
+        $companies = $this->companyService->getCompanies($data['region'], $rubric_id, $data['query']);
+
+        $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
+
+        $breadcrumbs = $this->baseServices->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
+
+
+        return view('company.companies', [
+            'companies' => $companies, 'regions' => $regions,
+            'rubricGroups' => $groups, 'settings_for_page' => $companies,
+            'region_name' => $region_name,
+            'region' => $data['region'],
+            'rubric_id' => $rubric_id,
+            'culture_name' => $culture_name,
+            'region_id' => $region_id,
+            'query' => $data['query'],
+            'meta' => $meta,
+            'isMobile' => $this->agent->isMobile(),
+            'breadcrumbs' => $breadcrumbs,
+            'page_type' => 0,
+        ]);
     }
 
 
@@ -107,6 +120,89 @@ class CompanyController extends Controller
 
     public function companies(Request $request)
     {
+        $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies'];
+
+        if(!empty($request->get('query'))){
+            $data_companies['query'] = $request->get('query');
+            return $this->IsDesktopFilter($request);
+        }
+
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
+            return $this->companyService->mobileFilter($request);
+        }
+
+        $necessaryData = $this->setDataForCompanies($data_companies);
+
+        if($necessaryData){
+            return $necessaryData;
+        }
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     * @param string $region
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function companyRegion(string $region, Request $request)
+    {
+        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies'];
+
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
+            return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            $data_companies['query'] = $request->get('query');
+            return $this->IsDesktopFilter($request);
+        }
+
+        $necessaryData = $this->setDataForCompanies($data_companies);
+        if($necessaryData){
+            return $necessaryData;
+        }
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     * @param string $region
+     * @param $rubric_id
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function companyRegionRubric(string $region, $rubric_id, Request $request)
+    {
+        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies',
+            'rubric_id' => $rubric_id];
+
+        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
+            return $this->companyService->mobileFilter($request);
+        }
+
+        if(!empty($request->get('query'))){
+            $data_companies['query'] = $request->get('query');
+            return $this->IsDesktopFilter($request);
+        }
+
+        $necessaryData = $this->setDataForCompanies($data_companies);
+        if($necessaryData){
+            return $necessaryData;
+        }
+    }
+
+
+    /**
+     * Display a listing of the resource.
+     * @param  Request  $request
+     * @param $query
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function companyFilter(Request $request, $query = null)
+    {
+        $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies'];
+
         if(!empty($request->get('query'))){
             return $this->IsDesktopFilter($request);
         }
@@ -115,25 +211,13 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => null, 'page' => null, 'page_type' => 'companies'];
         $necessaryData = $this->setDataForCompanies($data_companies);
-        $data = ['rubric' => null, 'region' => null, 'page' => $necessaryData['companies']->currentPage()];
-        $meta = $this->seoService->getCompaniesMeta($data);
 
-        //$bread = $this->baseServices->breadcrumbs(['page_type' => 0]);
-        $breadcrumbs = [0 => ['name' => 'Компании в Украине', 'url' => null]];
-        return view('company.companies', [
-                'companies' => $necessaryData['companies'],
-                'settings_for_page' => $necessaryData['companies'],
-                'regions' => $necessaryData['regions'],
-                'rubricGroups' => $necessaryData['groups'],
-                'meta' => $meta,
-                'breadcrumbs' => $breadcrumbs,
-                'isMobile' => $this->agent->isMobile(),
-                'page_type' => 0
-            ]
-        );
+        if($necessaryData){
+            return $necessaryData;
+        }
     }
+
 
 
     /**
@@ -166,166 +250,19 @@ class CompanyController extends Controller
         $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => $id, 'page' => $current_page, 'page_type' => 'companies'];
 
         return view('company.company', [
-                'company' => $company,
-                'id' => $id,
-                'port_culture' => $port_culture,
-                'port_place' => $port_place,
-                'port_price' => $port_price,
-                'region_culture' => $region_culture,
-                'region_place' => $region_place,
-                'region_price' => $region_price,
-                'meta' => $meta,
-                'updateDate' => $updateDate,
-                'current_page' => $current_page,
-                'isMobile' => $this->agent->isMobile(),
-                'page_type' => 0
-            ]
-        );
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @param  string  $region
-     * @param  Request  $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function companyRegion($region, Request $request)
-    {
-        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
-            return $this->companyService->mobileFilter($request);
-        }
-
-        if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request);
-        }
-
-        $unwanted_region = $this->checkName($region);
-        $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies($region, null);
-        $regions = $this->baseServices->getRegions();
-        $currently_obl = $this->regionName($region);
-        $get_region = Regions::where('translit', $region)->get()->toArray()[0];
-        $breadcrumbs = [0 => ['name' => 'Компании в '.$currently_obl['name'].' области', 'url' => null]];
-        $data = ['rubric' => null, 'region' => $get_region['id'], 'page' => $companies->currentPage()];
-        $meta = $this->seoService->getCompaniesMeta($data);
-
-        //$data_companies = ['region' => $get_region['parental'], 'page_type' => 0];
-        //$bread = $this->baseServices->breadcrumbs($data_companies);
-
-        return view('company.companies', [
-            'regions' => $regions,
-            'rubricGroups' => $groups,
-            'companies' => $companies,
-            'settings_for_page' => $companies,
-            'currently_obl' => $currently_obl['obl_name'],
-            'unwanted_region' => $unwanted_region,
-            'region' => $region,
+            'company' => $company,
+            'id' => $id,
+            'port_culture' => $port_culture,
+            'port_place' => $port_place,
+            'port_price' => $port_price,
+            'region_culture' => $region_culture,
+            'region_place' => $region_place,
+            'region_price' => $region_price,
             'meta' => $meta,
-            'breadcrumbs' => $breadcrumbs,
+            'updateDate' => $updateDate,
+            'current_page' => $current_page,
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
-        ]);
-    }
-
-    public function traderContacts($id)
-    {
-        return view('company.company_trader_contacts');
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @param  string  $region  ;
-     *
-     * @param $rubric_number
-     * @param  Request  $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function companyRegionRubric($region, $rubric_number, Request $request)
-    {
-        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
-            return $this->companyService->mobileFilter($request);
-        }
-
-        if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request);
-        }
-
-        $unwanted_region = $this->checkName($region);
-        $groups = $this->companyService->getRubricsGroup();
-        $companies = $this->companyService->getCompanies($region, $rubric_number);
-        $regions = $this->baseServices->getRegions();
-        $current_culture = CompTopic::where('id', $rubric_number)->value('title');
-        $region_id = Regions::where('translit', $region)->value('id');
-
-        $data = ['rubric' => $rubric_number, 'region' => $region_id, 'page' => $companies->currentPage()];
-        $meta =  $this->seoService->getCompaniesMeta($data);
-
-        $currently_obl = Regions::where('translit', $region)->get()->toArray();
-        $currently_obl = !empty($currently_obl) ? $currently_obl[0] : 'ukraine';
-        $breadcrumbs = [0 => ['name' => 'Компании в Украине ', 'url' => null]];
-
-        $this->regionName($region)['obl_name'];
-        if(is_array($currently_obl)){
-            $breadcrumbs = [
-                0 => ['name' => 'Компании в '.$currently_obl['parental'].' области '.'<i class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.company_and_region', $region)],
-                1 => ['name' => 'Каталог - '.$current_culture.' хозяйства '.$currently_obl['city_parental'], 'url' => null]
-            ];
-        }
-
-
-        return view('company.companies', [
-            'regions' => $regions,
-            'rubricGroups' => $groups,
-            'companies' => $companies,
-            'settings_for_page' => $companies,
-            'currently_obl' => $this->regionName($region)['obl_name'],
-            'unwanted_region' => $unwanted_region,
-            'region' => $region,
-            'rubric_number' => $rubric_number,
-            'current_culture' => $current_culture,
-            'meta' => $meta,
-            'breadcrumbs' => $breadcrumbs,
-            'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
-        ]);
-    }
-
-    /**
-     * Display a listing of the resource.
-     * @param  Request  $request
-     * @param $query
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function companyFilter(Request $request, $query = null)
-    {
-        if(!empty($request->get('query'))){
-            return $this->IsDesktopFilter($request);
-        }
-
-        if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
-            return $this->companyService->mobileFilter($request);
-        }
-
-        $groups = $this->companyService->getRubricsGroup();
-        $regions = $this->baseServices->getRegions();
-        $companies = $this->companyService->getCompanies(null, null, $query);
-        $data = ['rubric' => null, 'region' => null, 'page' => $companies->currentPage()];
-        $meta = $this->seoService->getCompaniesMeta($data);
-        $breadcrumbs = [0 => ['name' => 'Компании в Украине ', 'url' => null]];
-
-        //$data_companies = ['query' => $query, 'page_type' => 0];
-        //$bread = $this->baseServices->breadcrumbs($data_companies);
-
-        return view('company.company_filter', [
-                'companies' => $companies,
-                'rubricGroups' => $groups,
-                'settings_for_page' => $companies,
-                'regions' => $regions,
-                'meta' => $meta,
-                'breadcrumbs' => $breadcrumbs,
-                'isMobile' => $this->agent->isMobile(),
-                'query' => $query,
-                'page_type' => 0
             ]
         );
     }
@@ -406,6 +343,9 @@ class CompanyController extends Controller
         ]);
     }
 
-
+    public function traderContacts($id)
+    {
+        return view('company.company_trader_contacts');
+    }
 
 }

@@ -1,14 +1,7 @@
 @extends('layout.layout', ['meta' => $meta])
 
 @section('content')
-    @include('filters.filter-traders', ['regions' => $regions,'rubricsGroup' => $rubric,'onlyPorts' => $onlyPorts])
-    <div class="d-none d-sm-block container mt-3">
-        <ol class="breadcrumbs small p-0">
-            <li><a href="/"><span>Главная</span></a></li>
-            <i class="fas fa-chevron-right extra-small"></i>
-            <li><h1>Цены трейдеров в Украине > @if(isset($breadcrumbs)) {{ $breadcrumbs }} @endif</h1></li>
-        </ol>
-    </div>
+    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
         <div class="row mt-sm-0 pt-sm-0 mb-sm-4">

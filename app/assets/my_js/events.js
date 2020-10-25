@@ -11,6 +11,7 @@ window.onload = function (){
         }
 
     });
+
     $("#type-page").click(function () {
         $('.step-1').css('display', 'none');
         $('.step-2').css('display', '');

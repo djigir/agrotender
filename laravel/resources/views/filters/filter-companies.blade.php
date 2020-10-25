@@ -20,7 +20,7 @@
         <div class="form-row align-items-center position-relative">
             <div class="col-3 mr-2">
                 <button class="btn rubricInput text-center drop-btn" id="rubricOpen">
-                     {{(isset($current_culture) and  $current_culture) ? $current_culture : 'Все рубрики'}}
+                     {{$culture_name}}
                     <i class="ml-2 small far fa-chevron-down"></i>
                 </button>
             </div>
@@ -44,8 +44,9 @@
                                 @foreach($rubricGroups as $index => $rubric)
                                     <div class="col-auto rubricGroup pr-0 mr-3 groupCulture " group="{{$rubric['id']}}" style="display: none; column-count: 2">
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
-                                            <a class="regionLink" href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
-                                                <span>{{$culture['title']}}</span>
+                                            <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}"
+                                               href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
+                                            <span>{{$culture['title']}}</span>
                                             <span class="companyCount small">({{$culture['cnt']}})</span>
                                             <span class="float-right right"><i class="far fa-chevron-right"></i></span>
                                             </a>
@@ -59,7 +60,7 @@
             </div>
             <div class="col-3 mr-2">
                 <button class="btn regionInput text-center drop-btn">
-                    {{(isset($unwanted_region) and isset($currently_obl)) ? ($unwanted_region ? $currently_obl : $currently_obl.' область') : 'Вся Украина'}}
+                    {{$region_name}}
                 <i class="ml-2 small far fa-chevron-down"></i>
                 </button>
             </div>
@@ -69,31 +70,25 @@
                         <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'ukraine')}}">
                             <span style="cursor: pointer">Вся Украина</span>
                         </a>
-                        <a class="regionLink d-inline-block {{(isset($currently_obl) and $currently_obl == 'АР Крым') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'crimea')}}">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'crimea')}}">
                             <span>АР Крым</span>
                         </a>
-                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
-                        <!--<span class="float-right right"><i class="far fa-chevron-right"></i></span>-->
                     </span>
                     <hr class="mt-1 mb-2">
                     <div class="section text-left">
-                        <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                         <div class="row">
                             <div class="col" style="column-count: 3">
-
                                 @foreach($regions as $index => $region)
-                                    @if($index > 0)
-                                        @if(isset($rubric_number) and isset($region))
-                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
-                                               href="{{route('company.company_region_rubric_number', [$region['translit'], $rubric_number])}}">
-                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
-                                            </a>
-                                        @else
-                                            <a class="regionLink {{(isset($currently_obl) and $currently_obl == $region['name']) ? 'active' : '' }}"
-                                               href="{{route('company.company_and_region', $region['translit'])}}">
-                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
-                                            </a>
-                                        @endif
+                                    @if(isset($rubric_id) and isset($region))
+                                        <a class="regionLink {{($region == $region['translit']) ? 'active' : '' }}"
+                                           href="{{route('company.company_region_rubric_number', [$region['translit'], $rubric_id])}}">
+                                            <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
+                                        </a>
+                                    @else
+                                        <a class="regionLink {{($region == $region['translit']) ? 'active' : ''}}"
+                                           href="{{route('company.company_and_region', $region['translit'])}}">
+                                            <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
+                                        </a>
                                     @endif
                                 @endforeach
                             </div>

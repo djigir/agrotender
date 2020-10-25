@@ -1,3 +1,22 @@
+<div class="d-none d-sm-block container mt-3">
+<ol class="breadcrumbs small p-0">
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <i class="fas fa-chevron-right extra-small"></i>
+    @foreach($breadcrumbs as $index_bread => $breadcrumb)
+        <li>
+            @if($breadcrumb['url'])
+                <a href="{{$breadcrumb['url']}}">
+                    <h1>{!! $breadcrumb['name'] !!}</h1>
+                </a>
+            @else
+                <h1>{{$breadcrumb['name']}}</h1>
+            @endif
+        </li>
+    @endforeach
+</ol>
+</div>
 <div class="new_filters-wrap">
     <div class="fixed-item">
         <div class="new_container">
@@ -19,36 +38,32 @@
                 </div>
                 <div class="filter__item producrion" id="choseProduct">
                     <button class="filter__button producrion-btn">
-                        @if(isset($culture_name))
-                            {{$culture_name}}
-                        @else
-                            Выбрать продукцию
-                        @endif
+                        {{$culture_name}}
                     </button>
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
                             <div class="new_filters_dropdown-column">
                                 <ul>
                                     @foreach($rubricsGroup as $group => $item)
-                                        <li class="group-culture {{$item['id'] == $group_culture_id ? 'active': ''}}" group="{{$group+1}}">
+                                        <li class="group-culture {{$item['id'] == $culture_id ? 'active': ''}}" group="{{$group+1}}">
                                             <a href="#">{{$item['groups']['name']}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
                             @foreach($rubricsGroup as $group => $item)
-                                <div class="new_filters_dropdown-content culture-group {{$item['id'] == $group_culture_id ? 'active': ''}}" group="{{$group+1}}">
+                                <div class="new_filters_dropdown-content culture-group {{$item['id'] == $culture_id ? 'active': ''}}" group="{{$group+1}}">
                                     <ul>
                                         @foreach($rubricsGroup[$group]["products"] as $index => $item)
                                             <li>
-                                                @if(isset($current_region))
-                                                    <a href="{{route('traders.traders_regions_culture', [$current_region, $item['url']])}}">
+                                                @if(!empty($region))
+                                                    <a href="{{route('traders.traders_regions_culture', [$region, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
                                                     </a>
                                                 @endif
 
-                                                @if(isset($current_port))
-                                                    <a href="{{route('traders.traders_port_culture', [$current_port, $item['url']])}}">
+                                                @if(!empty($port))
+                                                    <a href="{{route('traders.traders_port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
                                                     </a>
                                                 @endif
@@ -62,13 +77,7 @@
                 </div>
                 <div class="filter__item second" id="all_ukraine">
                     <button class="filter__button second">
-                        @if(isset($region_name))
-                            {{$region_name}}
-                        @endif
-
-                        @if(isset($port_name))
-                            {{$port_name}}
-                        @endif
+                        {{$region_port_name}}
                     </button>
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
@@ -86,13 +95,13 @@
                                 <ul>
                                     @foreach($regions as $index => $region)
                                         <li>
-                                            @if(!empty($current_culture) && !empty($current_region))
-                                                <a href="{{route('traders.traders_regions_culture', [$region['translit'], $current_culture])}}">
+                                            @if(!empty($culture) && !empty($region))
+                                                <a href="{{route('traders.traders_regions_culture', [$region['translit'], $culture_translit])}}">
                                                     {{$region['name']}}
                                                 </a>
                                             @else
-                                                @if(!empty($current_culture))
-                                                    <a href="{{route('traders.traders_regions_culture', [$region['translit'], $current_culture])}}">
+                                                @if(!empty($culture_translit))
+                                                    <a href="{{route('traders.traders_regions_culture', [$region['translit'], $culture_translit])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @else
@@ -110,13 +119,13 @@
                                 <ul>
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
-                                            @if(isset($current_culture) and isset($current_port))
-                                                <a href="{{route('traders.traders_port_culture', [$port['url'], $current_culture])}}">
+                                            @if(!empty($culture) && !empty($port))
+                                                <a href="{{route('traders.traders_port_culture', [$port['url'], $culture_translit])}}">
                                                     {{$port['portname']}}
                                                 </a>
                                             @else
-                                                @if(isset($current_culture))
-                                                    <a href="{{route('traders.traders_port_culture', [$port['url'], $current_culture])}}">
+                                                @if(!empty($culture_translit))
+                                                    <a href="{{route('traders.traders_port_culture', [$port['url'], $culture_translit])}}">
                                                         {{$port['portname']}}
                                                     </a>
                                                 @else
