@@ -44,7 +44,7 @@
                         <div class="row lh-1">
                             <div class="col">
                                 <span class="title">
-                                    <a href="{{route('company.company', $company['id'])}}">{!!  str_replace('\\', '', $company['title']) !!}
+                                    <a href="{{route('company.company', $company['id'])}}">{{  str_replace('\\', '', $company['title']) }}
                                     </a>
                                 </span>
                             </div>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="row d-none d-sm-flex">
                             <div class="col mt-1">
-                                <p class="desc">{!! $company['short'] !!}</p>
+                                <p class="desc">{{ strip_tags($company['short']) }}</p>
                             </div>
                         </div>
                         <div class="row lh-1-2">
