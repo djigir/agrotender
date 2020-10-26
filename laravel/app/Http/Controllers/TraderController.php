@@ -85,6 +85,7 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
+
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();

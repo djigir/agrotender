@@ -217,7 +217,7 @@ window.onload = function (){
 
         for (let i = 0; i < $('.culture').length; i++) {
             let elem = $('.culture')[i];
-            let group = event.currentTarget.attributes[2].value;
+            let group = event.currentTarget.attributes[1].value;
             elem.style.cssText = 'display: none !important';
 
             if (elem.getAttribute('group') === group) {
@@ -227,10 +227,9 @@ window.onload = function (){
     });
 
     $(".culture").click(function (event) {
-        console.log('culture');
         let group = event.currentTarget.attributes[2].nodeValue;
         let rubric_name = event.target.innerText;
-        let rubric_id = event.currentTarget.attributes[3].nodeValue;
+        let rubric_id = event.currentTarget.attributes[2].nodeValue;
 
         $('#span-mobile-rubric').html(rubric_name);
         $('#input-mobile-rubric').attr('value', rubric_id);
@@ -241,7 +240,7 @@ window.onload = function (){
     });
 
     $(".region").click(function (event) {
-        let region = event.currentTarget.attributes[2].nodeValue;
+        let region = event.currentTarget.attributes[1].nodeValue;
         let region_name = event.target.innerHTML;
 
         $('#span-mobile-region').html(region_name);

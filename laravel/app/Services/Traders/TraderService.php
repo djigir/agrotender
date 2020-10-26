@@ -65,6 +65,7 @@ class TraderService
             $name_region = 'Вся Украина';
         }
 
+
         return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
 
     }
