@@ -85,13 +85,14 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
+
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
         $traders = $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
             'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
-
+        $currency = isset($data['query']['currency']) ? $data['query']['currency'] : null;
         $region_all = $data['region'];
         $port_all = $data['port'];
 
@@ -138,6 +139,8 @@ class TraderController extends Controller
             'culture_translit' => $data['culture'],
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
+            'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
@@ -221,7 +224,7 @@ class TraderController extends Controller
     public function forwards($region)
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
-
+        $traders = $this->traderService->getTradersForward($region, null);
         return view('traders.trader_forwards', [
             'region_name' => $region_name,
             'region' => $region,
@@ -232,9 +235,12 @@ class TraderController extends Controller
     public function forwardsCulture($region, $culture)
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
+        $traders = $this->traderService->getTradersForward($region, $culture);
+        //dd($traders);
         return view('traders.trader_forwards_culture', [
             'region_name' => $region_name,
             'region' => $region,
+            'traders' => $traders,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

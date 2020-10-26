@@ -12,6 +12,23 @@
                 Компании в Украине
             </span>
         </div>
+        @else
+            @if($region_id)
+                <div>
+                    <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.company_and_region', 'ukraine')}}">
+                            <i class="far fa-times close ml-3"></i>
+                        </a>
+                    </span>
+                </div>
+            @endif
+            @if($rubric_id)
+                <div>
+                    <span class="searchTag regionTag d-inline-block">{{$culture_name}}<a href="{{route('company.company_and_region', $region)}}">
+                            <i class="far fa-times close ml-3"></i>
+                        </a>
+                    </span>
+                </div>
+            @endif
         @endif
     </div>
     <div class="container pb-4 companies">

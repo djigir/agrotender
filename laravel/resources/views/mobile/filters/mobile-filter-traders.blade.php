@@ -16,13 +16,13 @@
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
                             <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
-                            <span id="span-mobile-rubric">{{!empty($culture_name) ? $culture_name : 'Выбрать продукцию'}}</span>
+                            <span id="span-mobile-rubric">{{$culture_name}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0" port="0" id='mobile-region'>
                             <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
                             <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
-                            <span id="span-mobile-region">{{!empty($region_port_name) ? $region_port_name : 'Вся Украина'}}</span>
+                            <span id="span-mobile-region">{{$region_port_name}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" >

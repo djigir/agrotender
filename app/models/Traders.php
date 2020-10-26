@@ -1266,7 +1266,8 @@ $sql = "
   public function getTableListForwards($rubric, $region = null, $port = null, $onlyPorts = false, $currency = null, $dtStart = null) {
     $price_type = $this->forwardPriceType;
 
-    $where = "where ci.trader_price_forward_avail = 1 && ci.trader_price_forward_visible = 1 && tpr.active = 1 && tpl.type_id != 1 && ci.visible = 1 && tpr.acttype = $price_type && tpr.cult_id = $rubric";
+    $where = "where ci.trader_price_forward_avail = 1 && ci.trader_price_forward_visible = 1 
+    && tpr.active = 1 && tpl.type_id != 1 && ci.visible = 1 && tpr.acttype = $price_type && tpr.cult_id = $rubric";
     $where .= $region ? " && tpl.obl_id = $region" : '';
     $where .= $port ? "&& tpl.port_id = $port" : "";
     $where .= $onlyPorts ? "&& tpl.port_id != 0" : "";

@@ -9,12 +9,12 @@
                 </a>
             </li>
             <i class="fas fa-chevron-right extra-small"></i>
+            <li>
+                <a href="/traders_forwards">
+                    <span>Форварды</span>
+                </a>
+            </li>
             @if($region != 'ukraine')
-                <li>
-                    <a href="/traders_forwards">
-                        <span>Форварды</span>
-                    </a>
-                </li>
                 <i class="fas fa-chevron-right extra-small"></i>
                 <li>
                     <h1>
@@ -34,7 +34,8 @@
         <div class="content-block mt-3 py-3 px-3">
             <div class="btn-group position-relative w-100 ">
                 <div class="col pl-1">
-                    <button class="btn typeInput text-center drop-btn">Форварды <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn typeInput text-center drop-btn">Форварды <i
+                            class="ml-2 small far fa-chevron-down"></i></button>
                 </div>
                 <div class="dropdown-wrapper position-absolute typeDrop">
                     <div class="dropdown">
@@ -64,35 +65,42 @@
                     </div>
                 </div>
                 <div class="col px-1 mx-1">
-                    <button class="btn rubricInput text-center drop-btn blue-shadow">Выбрать продукцию <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn rubricInput text-center drop-btn blue-shadow" id="rubricOpen">
+                        Выбрать продукцию
+                        <i class="ml-2 small far fa-chevron-down"></i>
+                    </button>
                 </div>
                 <div class="dropdown-wrapper position-absolute rubricDrop">
-                    <div class="dropdown">
+                    <div class="dropdown" id="rubricDrop" style="display: block;">
                         <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                             <div class="row">
-                                <div class="col-auto">
-                                    <a class="rubricLink getRubricGroup" href="#" group="1">
-                    <span>
-                      Зерновые</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                </div>
-                                <div class="col-auto rubricGroup pr-0 mr-3 group-1">
-                                    <a rid="14" class="rubricLink" href="/traders_forwards/region_kyiv/kukuruza">
-                                        <span>Кукуруза (0)</span>
-                                    </a>
-                                    <a rid="8" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_2_kl">
-                                        <span>Пшеница 2 кл. (0)</span>
-                                    </a>
-                                </div>
-                                <div class="col-auto rubricGroup pr-0 mr-3 group-1">
-                                    <a rid="9" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_3_kl">
-                                        <span>Пшеница 3 кл. (0)</span>
-                                    </a>
-                                    <a rid="10" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_4_kl">
-                                        <span>Пшеница 4 кл. (0)</span>
-                                    </a>
+                                <div style="display: flex;">
+                                    <div class="col-auto">
+                                        <a class="rubricLink getRubricGroup" href="#" group="1">
+                                            <span>Зерновые</span>
+                                            <span class="ml-4 float-right right"><i
+                                                    class="far fa-chevron-right"></i></span>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto rubricGroup pr-0 mr-3 group-1" style="display: block;">
+                                        <a rid="14" class="rubricLink" href="/traders_forwards/region_kyiv/kukuruza">
+                                            <span>Кукуруза (0)</span>
+                                        </a>
+                                        <a rid="8" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_2_kl" style="display: block;">
+                                            <span>Пшеница 2 кл. (0)</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto rubricGroup pr-0 mr-3 group-1">
+                                        <a rid="9" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_3_kl">
+                                            <span>Пшеница 3 кл. (0)</span>
+                                        </a>
+                                        <a rid="10" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_4_kl">
+                                            <span>Пшеница 4 кл. (0)</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -295,7 +303,8 @@
                     </div>
                 </div>
                 <div class="col px-2 mx-1">
-                    <button class="btn typeInput text-center drop-btn">Валюта <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn typeInput text-center drop-btn">Валюта <i
+                            class="ml-2 small far fa-chevron-down"></i></button>
                 </div>
                 <div class="dropdown-wrapper position-absolute currencyDrop">
                     <div class="dropdown">
@@ -315,7 +324,8 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a class="text-center filter-icon mr-3" rel="nofollow" href="?viewmod=nontbl"><i class="fas fa-th-large"></i></a>
+                    <a class="text-center filter-icon mr-3" rel="nofollow" href="?viewmod=nontbl"><i
+                            class="fas fa-th-large"></i></a>
                     <a class="text-center filter-icon active" rel="nofollow" href="?"><i class="fas fa-bars lh-1-1"></i></a>
                 </div>
             </div>
@@ -350,455 +360,63 @@
     <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
         <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer"><table class="sortTable sortable dTable dataTable no-footer" cellspacing="0" id="DataTables_Table_0" role="grid">
                 <thead>
-                <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Компании: activate to sort column ascending" style="width: 247px;">Компании</th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="width: 76px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="width: 82px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="width: 100px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Место закупки: activate to sort column ascending" style="width: 193px;">Место закупки</th></tr>
+                <tr role="row">
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="Компании: activate to sort column ascending" style="width: 247px;">
+                        Компании
+                    </th>
+                    <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="UAH : activate to sort column descending" style="width: 76px;">UAH
+                        <i class="fas fa-sort" style="font-size: 12px;"></i>
+                    </th>
+                    <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="USD : activate to sort column descending" style="width: 82px;">USD <i
+                            class="fas fa-sort" style="font-size: 12px;"></i>
+                    </th>
+                    <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="Дата : activate to sort column descending" style="width: 100px;">Дата <i
+                            class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th>
+                    <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                        aria-label="Место закупки: activate to sort column ascending" style="width: 193px;">Место
+                        закупки
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                <tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">186</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Бориваж</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">186</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">184</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">186</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Бориваж</span>
-                    </td>
-                </tr><tr class="t-sub odd" cspan="1" role="row">
-                    <td colspan="5">
-                        <div class="row align-items-center justify-content-center">
-                            <a href="/buyerreg" class="subscribe-table d-flex align-items-center">
-                                <img src="/app/assets/img/envelope.png" class="ml-3 mr-3">
-                                <span class="ml-3">Подписаться на изменения цен: Кукуруза</span>
-                            </a>
-                        </div>
-                    </td>
-                    <td style="display: none;"><div class="d-flex align-items-center justify-content-center"> <span class="price">0</span> </div></td>
-                    <td style="display: none;"><div class="d-flex align-items-center justify-content-center"> <span class="price">0</span> </div></td>
-                    <td style="display: none;"><span data-date="20170802"></span></td>
-                    <td style="display: none;"></td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">184</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201201"><span data-date="20201201">Дек 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">187</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201201"><span data-date="20201201">Дек 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Бориваж</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">188</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20210101"><span data-date="20210101">Янв 2021</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Бориваж</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">185</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20210101"><span data-date="20210101">Янв 2021</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">185</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20210201"><span data-date="20210201">Фев 2021</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
-                            <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                            <span class="title">GrainCorp Ukraine</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">188</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20210201"><span data-date="20210201">Фев 2021</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Бориваж</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">125</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                        <br>
-                        <span class="place">FCA</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">153</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">125</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Сумская обл.</span>
-                        <br>
-                        <span class="place">FCA</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">154</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">125</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Сумская обл.</span>
-                        <br>
-                        <span class="place">FCA</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">125</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                        <br>
-                        <span class="place">FCA</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2468-forwards">
-                            <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg">
-                            <span class="title">Агростудио Групп</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">155</span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201201"><span data-date="20201201">Дек 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">208</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>38</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">208</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>40</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201001"><span data-date="20201001">Окт 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">208</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>40</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">208</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>38</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201101"><span data-date="20201101">Ноя 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">209</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>39</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201201"><span data-date="20201201">Дек 2020</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-2045-forwards">
-                            <img class="logo mr-3" src="/pics/comp/2045_15757.jpg">
-                            <span class="title">LNZ GROUP</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                    </td>
-                    <td class="usd">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">209</span><span class="price-up"> &nbsp;<img src="/app/assets/img/price-up.svg"> <span>41</span></span>
-                        </div>
-                    </td>
-                    <td data-sorttable-customkey="20201201"><span data-date="20201201">Дек 2020</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr></tbody>
+                @foreach($traders as $index_trader => $trader)
+                    @foreach($trader['traders_prices'] as $t_price => $price)
+                        <tr role="row" class="{{$index_trader%2 == 0 ? 'even' : 'odd'}}">
+                            <td>
+                                <a class="d-flex align-items-center" href="/kompanii/comp-4964-forwards">
+                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                    <span class="title">{{$trader['title']}}</span>
+                                </a>
+                            </td>
+                            <td class="uah">
+                                @if($price['curtype'] == 0)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($price['costval'], 1)}}</span>
+                                    </div>
+                                @endif
+                            </td>
+
+                            <td class="usd">
+                                @if($price['curtype'] == 1)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($price['costval'], 1)}}</span>
+                                    </div>
+                                @endif
+                            </td>
+                            <td data-sorttable-customkey="20201001"><span data-date="20201001">{{$trader['date']}}</span></td>
+                            <td>
+                                <span class="location">{{$price['places']['region']['name']}} обл.</span>
+{{--                                <br>--}}
+{{--                                <span class="place">Бориваж</span>--}}
+                            </td>
+                        </tr>
+                    @endforeach
+                @endforeach
+                </tbody>
             </table></div>
         <div class="text-center mt-5">
         </div>

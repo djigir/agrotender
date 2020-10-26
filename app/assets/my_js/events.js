@@ -1,4 +1,26 @@
 window.onload = function (){
+    if($('#active-region').attr('check_active')){
+        $('#active-region').addClass('active');
+        $('#active-port').removeClass('active');
+        $('#show-region').addClass('active');
+        $('#show-port').removeClass('active');
+    }
+
+    if($('#active-port').attr('check_active')){
+        $('#active-port').addClass('active');
+        $('#active-region').removeClass('active');
+        $('#show-port').addClass('active');
+        $('#show-region').removeClass('active');
+    }
+
+    if($('#new_filters_currency_uah').attr('currency') != '' && $('#new_filters_currency_uah').attr('currency') == 0){
+        $('#new_filters_currency_uah').attr('checked', 'true');
+    }
+
+    if ($('#new_filters_currency_usd').attr('currency') != '' && $('#new_filters_currency_usd').attr('currency') == 1) {
+        $('#new_filters_currency_usd').attr('checked', 'true');
+    }
+
     $('.mobile-icon').click(function () {
         $(".filters-wrap").toggle();
 
@@ -21,20 +43,6 @@ window.onload = function (){
         $('.step-1').css('display', '');
         $('.step-2').css('display', 'none');
     });
-
-    // back-mobile-rubric-culture-traders
-    // back-mobile-rubric-traders
-    // back-mobile-region-port-traders
-
-
-    // mobile-rubric-traders
-    // mobile-region-port-traders
-    // currency-all
-    // currency-uah
-    // currency-usd
-    // show-type-list
-    // show-type-table
-
 
 
     $('.userIcon').click(function () {
@@ -68,6 +76,16 @@ window.onload = function (){
         $("#choseProduct").removeClass('active');
     });
 
+    $(".new_filters").mouseover(function () {
+        $('.new_filters').addClass('active');
+        $('.bg_filters').addClass('active');
+    });
+    $(".new_filters").mouseout(function () {
+        $('.new_filters').removeClass('active');
+        $('.bg_filters').removeClass('active');
+    });
+
+
     $("#all_ukraine").mouseover(function () {
         $("#all_ukraine").addClass('active');
     });
@@ -81,8 +99,6 @@ window.onload = function (){
         $('#show-region').addClass('active');
         $('#show-port').removeClass('active');
         $('#active-port').removeClass('active');
-
-
     });
 
     $('#active-port').click(function (event) {
@@ -91,6 +107,8 @@ window.onload = function (){
         $('#show-port').addClass('active');
         $('#active-port').addClass('active');
     });
+
+
 
     $(".group-culture").click(function (event) {
         let group = event.currentTarget.attributes[1].nodeValue;
@@ -199,7 +217,7 @@ window.onload = function (){
 
         for (let i = 0; i < $('.culture').length; i++) {
             let elem = $('.culture')[i];
-            let group = event.currentTarget.attributes[2].value;
+            let group = event.currentTarget.attributes[1].value;
             elem.style.cssText = 'display: none !important';
 
             if (elem.getAttribute('group') === group) {
@@ -209,10 +227,9 @@ window.onload = function (){
     });
 
     $(".culture").click(function (event) {
-        console.log('culture');
         let group = event.currentTarget.attributes[2].nodeValue;
         let rubric_name = event.target.innerText;
-        let rubric_id = event.currentTarget.attributes[3].nodeValue;
+        let rubric_id = event.currentTarget.attributes[2].nodeValue;
 
         $('#span-mobile-rubric').html(rubric_name);
         $('#input-mobile-rubric').attr('value', rubric_id);
@@ -223,7 +240,7 @@ window.onload = function (){
     });
 
     $(".region").click(function (event) {
-        let region = event.currentTarget.attributes[2].nodeValue;
+        let region = event.currentTarget.attributes[1].nodeValue;
         let region_name = event.target.innerHTML;
 
         $('#span-mobile-region').html(region_name);
@@ -254,6 +271,5 @@ window.onload = function (){
     $('.addReview').on('click', function () {
         $('.noty_layout').css('display', 'block');
     });
-
 
 };

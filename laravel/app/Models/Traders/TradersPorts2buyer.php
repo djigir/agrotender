@@ -26,4 +26,9 @@ class TradersPorts2buyer extends Model
         'sort_ind',
         'acttype',
     ];
+
+    public function traders_products2buyer()
+    {
+        return $this->hasMany(TradersPorts2buyer::class, 'buyer_id', 'author_id');
+    }
 }

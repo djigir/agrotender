@@ -77,10 +77,11 @@ class CompanyController extends Controller
         $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $region_name = $this->regionName($data['region']);
-        $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] :null;
+        $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
         $region_id = null;
         $region = $data['region'];
-        $culture_name = isset($data['rubric_id']) ? CompTopic::where('id', $rubric_id)->value('title') : 'Все рубрики';
+        $culture_name = isset($data['rubric_id']) ? CompTopic::where('id', $rubric_id)->get()->toArray() : null;
+        $culture_name = !empty($culture_name) ? $culture_name[0]['title'] : 'Все рубрики';
 
         if($data['region'] != 'ukraine' && $data['region']) {
             $region = Regions::where('translit', $data['region'])->get()->toArray()[0];

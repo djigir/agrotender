@@ -10,17 +10,17 @@
             </li>
             <i class="fas fa-chevron-right extra-small"></i>
             @if($region != 'ukraine')
-            <li>
-                <a href="/traders_forwards">
-                    <span>Форварды</span>
-                </a>
-            </li>
-            <i class="fas fa-chevron-right extra-small"></i>
-            <li>
-                <h1>
-                    Форвардная цена на аграрную продукцию в {{$region_name}}
-                </h1>
-            </li>
+                <li>
+                    <a href="/traders_forwards">
+                        <span>Форварды</span>
+                    </a>
+                </li>
+                <i class="fas fa-chevron-right extra-small"></i>
+                <li>
+                    <h1>
+                        Форвардная цена на аграрную продукцию в {{$region_name}}
+                    </h1>
+                </li>
             @else
                 <li>
                     <a href="#">
@@ -34,7 +34,8 @@
         <div class="content-block mt-3 py-3 px-3">
             <div class="btn-group position-relative w-100 ">
                 <div class="col pl-1">
-                    <button class="btn typeInput text-center drop-btn">Форварды <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn typeInput text-center drop-btn">Форварды <i
+                            class="ml-2 small far fa-chevron-down"></i></button>
                 </div>
                 <div class="dropdown-wrapper position-absolute typeDrop">
                     <div class="dropdown">
@@ -64,35 +65,42 @@
                     </div>
                 </div>
                 <div class="col px-1 mx-1">
-                    <button class="btn rubricInput text-center drop-btn blue-shadow">Выбрать продукцию <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn rubricInput text-center drop-btn blue-shadow" id="rubricOpen">
+                        Выбрать продукцию
+                        <i class="ml-2 small far fa-chevron-down"></i>
+                    </button>
                 </div>
                 <div class="dropdown-wrapper position-absolute rubricDrop">
-                    <div class="dropdown">
+                    <div class="dropdown" id="rubricDrop" style="display: block;">
                         <div class="section text-left">
-                            <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                             <div class="row">
-                                <div class="col-auto">
-                                    <a class="rubricLink getRubricGroup" href="#" group="1">
-                    <span>
-                      Зерновые</span>
-                                        <span class="ml-4 float-right right"><i class="far fa-chevron-right"></i></span>
-                                    </a>
-                                </div>
-                                <div class="col-auto rubricGroup pr-0 mr-3 group-1">
-                                    <a rid="14" class="rubricLink" href="/traders_forwards/region_kyiv/kukuruza">
-                                        <span>Кукуруза (0)</span>
-                                    </a>
-                                    <a rid="8" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_2_kl">
-                                        <span>Пшеница 2 кл. (0)</span>
-                                    </a>
-                                </div>
-                                <div class="col-auto rubricGroup pr-0 mr-3 group-1">
-                                    <a rid="9" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_3_kl">
-                                        <span>Пшеница 3 кл. (0)</span>
-                                    </a>
-                                    <a rid="10" class="rubricLink" href="/traders_forwards/region_kyiv/pshenica_4_kl">
-                                        <span>Пшеница 4 кл. (0)</span>
-                                    </a>
+                                <div style="display: flex;">
+                                    <div class="col-auto">
+                                        <a class="rubricLink getRubricGroup" href="#" group="1">
+                                            <span>Зерновые</span>
+                                            <span class="ml-4 float-right right"><i
+                                                    class="far fa-chevron-right"></i></span>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto rubricGroup pr-0 mr-3 group-1" style="display: block;">
+                                        <a rid="14" class="rubricLink" href="/traders_forwards/region_kyiv/kukuruza">
+                                            <span>Кукуруза (0)</span>
+                                        </a>
+                                        <a rid="8" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_2_kl" style="display: block;">
+                                            <span>Пшеница 2 кл. (0)</span>
+                                        </a>
+                                    </div>
+                                    <div class="col-auto rubricGroup pr-0 mr-3 group-1">
+                                        <a rid="9" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_3_kl">
+                                            <span>Пшеница 3 кл. (0)</span>
+                                        </a>
+                                        <a rid="10" class="rubricLink"
+                                           href="/traders_forwards/region_kyiv/pshenica_4_kl">
+                                            <span>Пшеница 4 кл. (0)</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -295,7 +303,8 @@
                     </div>
                 </div>
                 <div class="col px-2 mx-1">
-                    <button class="btn typeInput text-center drop-btn">Валюта <i class="ml-2 small far fa-chevron-down"></i></button>
+                    <button class="btn typeInput text-center drop-btn">Валюта <i
+                            class="ml-2 small far fa-chevron-down"></i></button>
                 </div>
                 <div class="dropdown-wrapper position-absolute currencyDrop">
                     <div class="dropdown">
@@ -315,7 +324,8 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center">
-                    <a class="text-center filter-icon mr-3" rel="nofollow" href="?viewmod=nontbl"><i class="fas fa-th-large"></i></a>
+                    <a class="text-center filter-icon mr-3" rel="nofollow" href="?viewmod=nontbl"><i
+                            class="fas fa-th-large"></i></a>
                     <a class="text-center filter-icon active" rel="nofollow" href="?"><i class="fas fa-bars lh-1-1"></i></a>
                 </div>
             </div>
@@ -325,11 +335,15 @@
         <div class="row pt-sm-3">
             <div class="position-relative w-100">
                 <div class="col-12 col-md-9 float-md-right text-center text-md-right">
-                    <a style="background: linear-gradient(180deg, #8A78E7 0%, #7E65FF 100%); border: none; height: 35px" href="viber://pa?chatURI=agrotender_bot&amp;text=Начать" class="top-btn btn btn-primary align-bottom mr-0 mr-sm-3 mb-3 mb-sm-0">
+                    <a style="background: linear-gradient(180deg, #8A78E7 0%, #7E65FF 100%); border: none; height: 35px"
+                       href="viber://pa?chatURI=agrotender_bot&amp;text=Начать"
+                       class="top-btn btn btn-primary align-bottom mr-0 mr-sm-3 mb-3 mb-sm-0">
                         <img src="/app/assets/img/company/viber4.svg" style="width: 18px">
                         <span class="pl-1 pr-1">Продать в Viber</span>
                     </a>
-                    <a style="background: linear-gradient(180deg, #5CA9F1 0%, #44A4FF 100%); border: none; height: 35px" href="https://t.me/AGROTENDER_bot" class="top-btn btn btn-primary align-bottom mr-0 mr-sm-3 mb-3 mb-sm-0">
+                    <a style="background: linear-gradient(180deg, #5CA9F1 0%, #44A4FF 100%); border: none; height: 35px"
+                       href="https://t.me/AGROTENDER_bot"
+                       class="top-btn btn btn-primary align-bottom mr-0 mr-sm-3 mb-3 mb-sm-0">
                         <img src="/app/assets/img/company/telegram-white.svg" style="width: 18px">
                         <span class="pl-1 pr-1">Продать в Telegram</span>
                     </a>

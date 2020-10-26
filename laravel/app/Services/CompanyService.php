@@ -120,28 +120,29 @@ class CompanyService
 
     public function getPlaces($author_id, $placeType, $type)
     {
-        $places = TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
+        return TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
             ->with('traders_ports', 'regions')
             ->with('traders_ports.traders_ports_lang')
             ->orderBy('place', 'asc')
             ->orderBy('obl_id', 'asc')
             ->get();
-
-        return $places;
     }
 
-    public function getPrices($author_id, $type)
+    public function getPrices($author_id, $type, $placeType)
     {
-        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])->get();
-        $prices = collect($prices)->groupBy('place_id');
+        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])->
 
-        foreach ($prices as $index => $price) {
-            $prices[$index] = $prices[$index]->groupBy('cult_id');
-            foreach ($prices[$index] as $index_cult => $cult) {
-                $prices[$index][$index_cult] = $prices[$index][$index_cult][0];
-            }
-        }
+        with(['price_products', 'traders_places' => function($query) use($type, $placeType, $author_id){
+            $query->where([
+                ['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]
+            ])->with('traders_ports',
+                'regions')->with('traders_ports.traders_ports_lang');
+        }])->get()->groupBy('place_id');
 
+//        $prices = $prices->filter(function ($value, $key) use($prices) {
+//            dd($value->toArray());
+//        });
+//        dd($prices);
         return $prices;
     }
 
@@ -151,9 +152,11 @@ class CompanyService
         $culture = [];
 
         foreach ($get_culture as $index => $cult) {
-            if (!empty($cult['traders_products']) and !empty($get_culture[$index]['traders_products'][0]['traders_prices'])) {
-                array_push($culture, $get_culture[$index]['traders_products'][0]['culture']);
+            if (empty($cult['traders_products']) || empty($get_culture[$index]['traders_products'][0]['traders_prices'])) {
+                continue;
             }
+
+            array_push($culture, $get_culture[$index]['traders_products'][0]['culture']);
         }
 
         $culture = collect($culture)->sortBy('name')->toArray();
@@ -214,8 +217,11 @@ class CompanyService
 
         $prices = $this->price_formation($get_prices);
         $prices = $this->sort_group($prices, $assoc_array);
+
         $prices['UAH'] = $this->parsing_array($prices, 'UAH');
         $prices['USD'] = $this->parsing_array($prices, 'USD');
+
+
 
         return $prices;
     }
@@ -317,9 +323,10 @@ class CompanyService
         $type = 0;
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
+
         $pricesPorts = $this->getPlaces($author_id, 2, $type);
         $pricesRegions = $this->getPlaces($author_id, 0, $type);
-        $prices = $this->getPrices($author_id, $type);
+
 
         $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
@@ -332,7 +339,10 @@ class CompanyService
             $type = 0;
         }
 
-        $rubrics = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
+        $prices = $this->getPrices($author_id, $type, $placeType);
+
+
+        return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
             ->with([
                 'traders_products' => function ($query) use ($type, $author_id, $placeType) {
                     $query->with([
@@ -352,8 +362,6 @@ class CompanyService
                 }
             ])
             ->get()->toArray();
-
-        return $rubrics;
     }
 
 
