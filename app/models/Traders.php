@@ -40,7 +40,7 @@ class Traders extends \Core\Model {
     $sell = ($type == $this->forwardPriceType ? '_forward' : ($type == 1 ? '_sell' : ''));
     $feed = $this->db->query("
       select ci.title as company, ci.id as company_id, group_concat(distinct concat(tpl.name, ':', ifnull(f.change_price, 3)) order by f.change_price separator ', ') as rubrics, group_concat(distinct ifnull(f.change_price, 3) separator ', ') as change_price, date_format(f.change_date, '%H:%i') as change_time
-        from traders_feed f
+        from agt_traders_feed f
         inner join agt_traders_products_lang tpl
           on tpl.id = f.rubric
         inner join agt_traders_places tp
@@ -206,16 +206,16 @@ class Traders extends \Core\Model {
       $change = $existPrice === null ? 3 : ($existPrice['costval'] == $price ? 4 : ($existPrice['costval'] > $price ? 1 : "0"));
       if ($existPrice == null) {
         $this->db->insert('agt_traders_prices', ['buyer_id' => $user, 'cult_id' => $rubric, 'place_id' => $place, 'curtype' => $currency, 'acttype' => $type, 'active' => 1, 'costval' => $price, 'costval_old' => $price, 'comment' => $comment, 'dt' => 'curdate()', 'change_date' => 'now()', 'add_date' => 'now()']);
-        $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+        $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
       // обновляем цены в случае первого сохранения цен за сутки или изменения цены
       } elseif ( $existPrice['dt'] != date('Y-m-d') || $existPrice['costval'] != $price ) {
         $this->db->update('agt_traders_prices', ['active' => 1, 'costval' => $price, 'costval_old' => $existPrice['costval'], 'comment' => $comment, 'dt' => 'curdate()', 'change_date' => 'now()'], ['id' => $existPrice['id']]);
 
-        $existFeed = $this->db->query("select id,change_price from traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
+        $existFeed = $this->db->query("select id,change_price from agt_traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
         if ($existFeed == null) {
-          $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+          $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
         } elseif ( $existFeed['change_price'] != $change ) {
-          $this->db->update('traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
+          $this->db->update('agt_traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
         }
         $archId = $this->db->query("select id from agt_traders_prices_arc where buyer_id = $user && cult_id = $rubric && place_id = $place && curtype = $currency && acttype = $type && dt = curdate()")[0]['id'] ?? null;
         if ($archId == null) {
@@ -238,16 +238,16 @@ class Traders extends \Core\Model {
       $change = $existPrice === null ? 3 : ($existPrice['costval'] == $price ? 4 : ($existPrice['costval'] > $price ? 1 : '0'));
       if ($existPrice == null) {
         $this->db->insert('agt_traders_prices', ['buyer_id' => $user, 'cult_id' => $rubric, 'place_id' => $place, 'curtype' => $currency, 'acttype' => $type, 'active' => 1, 'costval' => $price, 'costval_old' => $price, 'comment' => $comment ?: '', 'dt' => $date, 'change_date' => 'now()', 'add_date' => 'now()']);
-        $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+        $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
       // обновляем цены в случае первого сохранения цен за сутки или изменения цены
       } elseif ( strtotime($existPrice['change_date']) < strtotime(date('Y-m-d')) || $existPrice['costval'] != $price ) {
         $this->db->update('agt_traders_prices', ['active' => 1, 'costval' => $price, 'costval_old' => $existPrice['costval'], 'comment' => $comment ?: '', 'dt' => $date, 'change_date' => 'now()'], ['id' => $existPrice['id']]);
 
-        $existFeed = $this->db->query("select id,change_price from traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
+        $existFeed = $this->db->query("select id,change_price from agt_traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
         if ($existFeed == null) {
-          $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+          $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
         } elseif ( $existFeed['change_price'] != $change ) {
-          $this->db->update('traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
+          $this->db->update('agt_traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
         }
       // обновляем только коментарий, если цена не изменилась
       } elseif ( $existPrice['comment'] != $comment ) {
