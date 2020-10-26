@@ -10,7 +10,7 @@ use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
-
+use Illuminate\Support\Carbon;
 
 class TraderFeedService
 {
@@ -43,8 +43,24 @@ class TraderFeedService
 //      group by f.user
 //      order by f.change_date desc");
 
-        $traders = TraderFeed::with(['places','items','langs'])
-            ->where('tp.acttype = $type && date(f.change_date) = curdate() && ci.trader_price{$sell}_avail = 1 && ci.trader_price{$sell}_visible = 1 && tp.type_id != 1 && ci.visible = 1');
+        $price_field = 'trader_price'.$type_text;
+        $traders = TraderFeed::
+            join('traders_products_lang','traders_products_lang.id', '=','traders_feed.rubric')
+
+
+            ->join('traders_places','traders_places.id', '=','traders_feed.place')
+
+            ->join('comp_items','comp_items.author_id', '=','traders_feed.user')
+            ->where('traders_places.acttype',$type)
+//            ->whereDate('traders_feed.change_date', Carbon::now())
+            ->where('comp_items.'.$price_field.'_avail',1)
+            ->where('comp_items.'.$price_field.'_visible',1)
+            ->where('traders_places.acttype',$type)
+            ->where('traders_places.type_id','!=',1)
+            ->where('comp_items.visible',1)
+            ->groupBy('traders_feed.user')
+            ->orderBy('traders_feed.change_date','DESC')
+        ;
 dd($traders->get());
         foreach ($feed as $key => $value) {
             $feed[$key]['onchange'] = 'Подтвердил цены';
