@@ -214,12 +214,11 @@ window.onload = function (){
     $(".rubric").click(function (event) {
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', '');
+        let group = event.currentTarget.getAttribute('group');
 
         for (let i = 0; i < $('.culture').length; i++) {
             let elem = $('.culture')[i];
-            let group = event.currentTarget.attributes[1].value;
             elem.style.cssText = 'display: none !important';
-
             if (elem.getAttribute('group') === group) {
                 elem.style.cssText = 'display: block';
             }
@@ -227,12 +226,12 @@ window.onload = function (){
     });
 
     $(".culture").click(function (event) {
-        let group = event.currentTarget.attributes[2].nodeValue;
+        let group = event.currentTarget.getAttribute('group');
         let rubric_name = event.target.innerText;
-        let rubric_id = event.currentTarget.attributes[2].nodeValue;
+        let rubric = event.currentTarget.getAttribute('rubric');
 
         $('#span-mobile-rubric').html(rubric_name);
-        $('#input-mobile-rubric').attr('value', rubric_id);
+        $('#input-mobile-rubric').attr('value', rubric);
 
         $('.step-1').css('display', '');
         $('.step-3').css('display', 'none');
@@ -240,7 +239,7 @@ window.onload = function (){
     });
 
     $(".region").click(function (event) {
-        let region = event.currentTarget.attributes[1].nodeValue;
+        let region = event.currentTarget.getAttribute('region');
         let region_name = event.target.innerHTML;
 
         $('#span-mobile-region').html(region_name);
@@ -249,17 +248,15 @@ window.onload = function (){
         $('#input-mobile-region-t').attr('value', region);
         $('#input-mobile-port-t').attr('value', null);
 
-
         $('.step-1').css('display', '');
         $('.step-4').css('display', 'none');
 
     });
 
     $('.port').click(function (event) {
-        let region = event.currentTarget.attributes[2].nodeValue;
-        $('#input-mobile-port-t').attr('value', region);
+        let port = event.currentTarget.getAttribute('port');
+        $('#input-mobile-port-t').attr('value', port);
         $('#input-mobile-region-t').attr('value', null);
-        console.log(region);
     });
 
     $('.remove-style-btn').click(function (event) {

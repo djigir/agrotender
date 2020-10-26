@@ -27,12 +27,14 @@
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
                             <ul>
-                                <li>
-                                    <a href="{{route('traders_forwards', !empty($region) ? $region : 'ukraine')}}">Форварды</a>
-                                </li>
-                                <li>
-                                    <a href="{{route('traders_sell', !empty($region) ? $region : 'ukraine')}}">Продажи</a>
-                                </li>
+                                @if($culture_id && $region)
+                                    <li>
+                                        <a href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">Форварды</a>
+                                    </li>
+                                @endif
+{{--                                <li>--}}
+{{--                                    <a href="{{route('traders_sell',  $region)}}">Продажи</a>--}}
+{{--                                </li>--}}
                             </ul>
                         </div>
                     </div>

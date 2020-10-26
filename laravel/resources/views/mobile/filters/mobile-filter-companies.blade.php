@@ -54,7 +54,7 @@
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
+                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubric="{{$culture['id']}}">
                                     <span>{{$culture['title']}} &nbsp;
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
                                     </span>
@@ -76,7 +76,7 @@
                 <div class="scroll">
                     @if(isset($regions))
                         @foreach($regions as $index_region => $region)
-                            <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit="{{ $region['translit'] }}">
+                            <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ $region['translit'] }}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                     <span>{{$region['name']}}</span>
                                 @else

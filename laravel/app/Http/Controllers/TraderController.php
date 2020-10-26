@@ -225,10 +225,12 @@ class TraderController extends Controller
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
         $traders = $this->traderService->getTradersForward($region, null);
+
         return view('traders.trader_forwards', [
             'region_name' => $region_name,
             'region' => $region,
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 
@@ -242,6 +244,7 @@ class TraderController extends Controller
             'region' => $region,
             'traders' => $traders,
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 
@@ -249,6 +252,7 @@ class TraderController extends Controller
     {
         return view('traders.sell.sell_region', [
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 
@@ -256,6 +260,7 @@ class TraderController extends Controller
     {
         return view('traders.sell.sell_culture', [
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 

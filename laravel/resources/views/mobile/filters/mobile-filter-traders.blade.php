@@ -66,11 +66,11 @@
                     </span>
                 </a>
                 <div class="scroll">
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_forwards/region_ukraine">
+                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#">
                         <span>Форварды</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </a>
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_sell">
+                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#">
                         <span>Продажи</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </a>
@@ -106,7 +106,7 @@
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $group => $item)
                             @foreach($rubricGroups[$group]["products"] as $index => $item_culture)
-                                <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$item['id']}}" rubricId="{{$item_culture['url']}}">
+                                <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
                                     <span>{{ $item_culture['culture']['name']}}</span>
                                     <span><i class="far fa-chevron-right"></i></span>
                                 </a>
@@ -124,17 +124,17 @@
                 </a>
                 <div class="scroll">
                     @foreach(array_reverse($regions) as $index_region  => $region)
-                        <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="{{$region['translit']}}">
+                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" region="{{$region['translit']}}">
                             <span style="{{$index_region < 1 ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
+                        </span>
                     @endforeach
 
                     @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-                        <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between port" port="{{$port['url']}}">
+                        <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" port="{{$port['url']}}">
                             <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['portname']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
+                        </span>
                     @endforeach
                 </div>
             </div>
