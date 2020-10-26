@@ -171,7 +171,6 @@ class Seo extends \Core\Model {
     $regionText = ($region != null) ? $region['parental'].' области' : 'Украине';
     $year = date('Y');
     $yearsText = $year.'-'.($year+1);
-
     if ($rubric != null || $region != null) {
       $seo = $this->db->query("select * from agt_seo_titles where pagetype = 2 && sect_id = 0 && obl_id = ".($region != null ? "{$region['id']}" : "0")." && cult_id = {$rubric['id']} && type_id = $type")[0] ?? null;
       if ($port != null) {
@@ -187,7 +186,6 @@ class Seo extends \Core\Model {
           $description = "Актуальные закупочные цены на ".$rubric['name']." сегодня в терминалах ".$port['name'].". Экспортные цены за тонну и контакты крупнейших трейдеров.";
         } elseif ($type == 3) {
           $rubric_text = $rubric != null ? $rubric['name'] : 'аграрную продукцию';
-
           $h1 = "Форвардная цена ".$rubric['name']." ".$port['name'];
           $title = $rubric['name'].": форвардная цена ".$port['name'].' на '.$yearsText;
           $keywords = $rubric['name'].", форварды, цена, ".$port['name'].", трейдеры, экспортеры";
@@ -199,7 +197,6 @@ class Seo extends \Core\Model {
         $description = $this->parseSeoText($region, $seo['page_descr']);
         $h1 = $this->parseSeoText($region, $seo['page_h1']);
         $text = $this->parseSeoText($region, $seo['content_text']);
-
         if ($page > 1) {
           $title = "Стр. " . $page . ", " . $title;
         }
@@ -254,7 +251,6 @@ class Seo extends \Core\Model {
       $h1 = "Цена на ".($rubric != null ? $rubric['name'] : 'Аграрную продукцию')." в ".($port != null ? $port['name'] : 'портах Украины');
     }
 
-    ///////////
     return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
   }
 

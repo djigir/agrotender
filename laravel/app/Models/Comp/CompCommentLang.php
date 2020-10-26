@@ -20,6 +20,8 @@ class CompCommentLang extends Model
 {
     protected $table = 'comp_comment_lang';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'id',
         'item_id',
@@ -27,6 +29,8 @@ class CompCommentLang extends Model
         'content',
         'content_plus',
         'content_minus',
+        'created_at',
+        'updated_at',
     ];
 
     /* Relations */

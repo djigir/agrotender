@@ -290,11 +290,33 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function companyReviews($id_company)
+    public function companyReviews(Request $request, $id_company)
     {
         $current_page = 'reviews';
         $company = CompItems::find($id_company);
         $reviews_with_comp = $this->companyService->getReviews($id_company);
+        $user = ['id' => 877,
+            'item_id' => $id_company,
+            'visible' => 1,
+            'rate' => 3,
+            'add_date' => Carbon::now(),
+            'author' => 'TEST',
+            'author_email' => 'test@gmail.com',
+            'ddchk_guid' => '',
+            'reply_to_id' => 0,
+            'author_id' => 34624,
+            'like_yes' => 0,
+            'like_no' => 0];
+
+        $data_comment = ['id_company' => $id_company,
+            'user' => $user,
+            'good' => $request->get('good'),
+            'bad' => $request->get('bad'),
+            'comment' => $request->get('comment')];
+        /*if (isset($_GET['add_comment'])) {
+            $reviews = $this->companyService->addReviews($data_comment);
+        }*/
+
         $meta = $this->seoService->getMetaCompanyReviews($id_company);
 
         return view('company.company_reviews', [
@@ -347,5 +369,4 @@ class CompanyController extends Controller
     {
         return view('company.company_trader_contacts');
     }
-
 }

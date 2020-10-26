@@ -31,15 +31,6 @@ class BaseServices
 
     }
 
-    public function keywords()
-    {
-
-    }
-
-    public function description()
-    {
-
-    }
     public function setBreadcrumbsTraders($data)
     {
         $breadcrumbs_trad[0] = ['name' => !empty($data['region_translit']) ? 'Цены трейдеров в Украине' : 'Цена на Аграрную продукцию в портах Украины', 'url' => null];

@@ -25,41 +25,44 @@ class SeoService
         return $info;
     }
 
-    public function getBoardMeta()
-    {
-
-    }
-
     public function getCompaniesMeta($data)
     {
-        if (($data['rubric']) != null) {
-            $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
-            if (!empty($rubric)) {
-                $rubric = $rubric[0];
-            }
-
-        }else {
-            $rubric = $data['rubric'];
-        }
-
-        if (!is_null($data['region'])) {
-            $region = Regions::where('id', $data['region'])->get()->toArray();
-            $region = $region[0];
-        }else {
-            $region = $data['region'];
-        }
-
-        if (empty($rubric)) {
-            $title = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер.";
-            $keywords = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер. Аграрная, АПК.";
-            $description = "В каталога аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
-            return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
-        }
+        $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
+        $rubric = !$rubric ? null : $rubric[0];
+        $region = !$data['region'] ? $data['region'] : Regions::where('id', $data['region'])->get()->toArray()[0];
 
         $h1 = '';
         $text = '';
+        $t3seo = "";
+        $title = !$region ? 'Каталог компаний аграрного сектора Украины' : "Каталог аграрных компаний {$region['city_parental']} и {$region['parental']} области от Агротендер";
+        $keywords = !$region ? 'каталог компаний' : "Каталог аграрных компаний {$region['city_parental']} в {$region['parental']} области от Агротендер. Аграрная, АПК";
+        $description = !$region ? 'Сайт Агротендер представляет вашему вниманию каталог компаний аграрного сектора Украины.' :
+        "В каталога аграрных компаний {$region['city_parental']} и {$region['parental']} области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции";
+        if ($rubric != null) {
+            $title = !$region? $this->parseSeoText($region, $rubric['page_title']) : "{$rubric['title']} хозяйства {$region['city_parental']} {$region['parental']} области. Каталог компаний от Агротендер";
+            $keywords = !$region != null ? $this->parseSeoText($region, $rubric['page_keywords']) : "Каталог, {$rubric['title']} хозяйства, {$region['city_parental']}, {$region['parental']} области";
+            $description = !$region ? $this->parseSeoText($region, $rubric['page_descr']) : "В каталоге компаний от Агротендер Вы всегда сможете найти информацию про {$rubric['title']} хозяйствам {$region['city_parental']} {$region['parental']} области, а так же их актуальные закупки и продажи.";
+            $h1 = !$region ? $this->parseSeoText($region, $rubric['page_h1']) : '';
+            $text = !$region ? $this->parseSeoText($region, $rubric['page_descr']) : '';
+        }
+        if ($region != null) {
+            $title = $this->parseSeoText($region, $rubric['page_title']);
+            $keywords = $this->parseSeoText($region, $rubric['page_keywords']);
+            $description = $this->parseSeoText($region, $rubric['page_descr']);
+            $h1 = $this->parseSeoText($region, $rubric['page_h1']);
+            $text = $this->parseSeoText($region, $rubric['page_descr']);
+        }
+
+        $t3words = [
+            1 => "культуры",
+            2 => "культуры",
+            16 => "культуры",
+            18 => "продукты"
+        ];
         $topic_name = (empty($rubric['id'])) ? 'Все рубрики' : $rubric['page_title'];
-        if (($data['rubric']) != null || $region!= null && $region != '') {
+
+
+        /*if (($data['rubric']) != null || $region!= null && $region != '') {
             if ((!empty($rubric['page_title'])) && ($data['page'] == 1)) {
                 $r = ($region != null) ? $region : null;
                 $title = $this->parseSeoText($r, $rubric['page_title']);
@@ -73,14 +76,9 @@ class SeoService
                 $keywords = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер. Аграрная, АПК.";
                 $description = "В каталога аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
             }else {
-                $t3words = [
-                    1 => "культуры",
-                    2 => "культуры",
-                    16 => "культуры",
-                    18 => "продукты"
-                ];
 
-                $t3seo = "";
+
+
                 if ((!empty($data['rubric']['parent_id']) && $data['rubric']['parent_id'] != 0)) {
                     $t3seo = " (".$data['rubric']['name'].") ";
                 } else {
@@ -99,54 +97,178 @@ class SeoService
                 $keywords = $topic_name.$t3seo." в ".($region == null) ? "Украине" : $region['parental'];
                 $description = $topic_name.$t3seo." в ".($region == null) ? "Украине" : $region['parental'].". Каталог агропромышленных компаний на Агротендер.";
             }
-        }else {
-            $title = 'Каталог компаний аграрного сектора Украины';
-            $keywords = 'каталог компаний';
-            $description = 'Сайт Агротендер представляет вашему вниманию каталог компаний аграрного сектора Украины.';
         }
+
+        if (empty($rubric)) {
+            $title = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер.";
+            $keywords = "Каталог аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области от Агротендер. Аграрная, АПК.";
+            $description = "В каталога аграрных компаний ".($region['id'] == null ? "Украины" : $region['city_parental']." и ".$region['parental'])." области Вы сможете разместить объявления о купле/продаже интересующей вас с/х продукции.";
+            return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        }*/
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
 
-
-    public function getTradersMeta($data)
+    public function getTradersMetaRegion($region, $culture, $type)
     {
-        $region = Regions::where('translit', $data['region'])->get()->toArray();
-        if ($data['rubric'] !== null) {
-            $rubric = Traders_Products_Lang::where('name', $data['rubric'])->get()->toArray();
-        }else {
-            $rubric = $data['rubric'];
-        }
-        if ($data['port'] !== null) {
-            $port = TradersPortsLang::where('portname', $data['port'])->get()->toArray();
-        }
-        $h1 = '';
-        $text = '';
-        $rubricText = ($rubric != null) ? $rubric[0]['name'] : 'Аграрной продукции';
-
-        if (!empty($region) && !is_null($region)) {
-            $regionText = (!empty($region[0])) ? $region[0]['parental'].' области' : 'Украине';
-        }else{
-            $regionText = ($region != null) ? $region['parental'].' области' : 'Украине';
+        if(empty($region)){
+            return false;
         }
 
         $year = date('Y');
         $yearsText = $year . '-' . ($year + 1);
-        if ($rubric != null || !empty($region) && $region[0] != null) {
+
+        $seo = SeoTitles::where([['pagetype', 2], ['sect_id', 0], [function($query){
+            if(isset($region['id'])){
+                $query->where('obl_id',$region['id']);
+            }
+        }],[function($query){
+            if(isset($culture['id'])){
+                $query->where('cult_id', $culture['id']);
+            }
+        }], ['type_id', $type]])->get()->toArray();
+
+        if ($region != null && is_array($region)) {
+            $h1 =  "Цена Аграрной продукции в {$region['parental']} области";
+            $title = "Цена Аграрной продукции за тонну в {$region['parental']} области сегодня. Закупочные цены трейдеров {$year}";
+            $keywords = "Цена, стоимость, экспорт, Аграрная продукция, {$region['name']} область";
+            $description = "Стоимость Аграрной продукции на портале Agrotender. Продажа Аграрной продукции крупнейшим зернотрейдерам в {$region['parental']} области без посредников за гривну и валюту.";
+            $text = '';
+        }elseif ($region === 'ukraine') {
+            $h1 =  "Цены трейдеров в Украине";
+            $title = "Закупочные цены зернотрейдеров Украины на сегодня - Agrotender.ua";
+            $keywords = "Закупочные, цены, трейдеры, Украина";
+            $description = "Продажа аграрной продукции крупнейшим трейдерам и переработчикам Украины. Только свежие и актуальные закупки без посредников. Динамика закупочных цен на сегодня.";
+            $text = '';
+        }else {
+            if ($seo != null) {
+                $title = $this->parseSeoText($region, $seo[0]['page_title']);
+                $keywords = $this->parseSeoText($region, $seo[0]['page_keywords']);
+                $description = $this->parseSeoText($region, $seo[0]['page_descr']);
+                $h1 = $this->parseSeoText($region, $seo[0]['page_h1']);
+                $text = $this->parseSeoText($region, $seo[0]['content_text']);
+            }
+        }
+
+        if ($region !== null && $culture !== null) {
+            $h1 =  "Цена {$culture['name']} в {$region['parental']} области";
+            $title = "Цена Кукуруза за тонну в {$region['parental']} области сегодня. Закупочные цены трейдеров {$year}";
+            $keywords = "Цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область";
+            $description = "Стоимость {$culture['name']} на портале Agrotender. Продажа {$culture['name']} крупнейшим зернотрейдерам в {$region['parental']} области без посредников за гривну и валюту.";
+            $text = '';
+        }
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }
+
+    public function getTradersMetaPort($port, $culture, $type)
+    {
+        if(empty($port)){
+            return false;
+        }
+
+        $h1 = $port == "all" ? "Цена на Аграрную продукцию в портах Украины" : $port['p_h1'];
+        $title = $port == "all" ?  "Цена аграрной продукции в портах Украины. Закупочные цены на сегодня от Agrotender." : $port['p_title'];
+        $keywords = $port == "all" ?  "Закупочные, цены, трейдеры, Украина" : $port['p_title'];
+        $description = $port == "all" ?  "Закупочные цены трейдеров на Аграрную продукцию в портах Украины. Контакты трейдеров и актуальные цены на сегодня. Стоимость в гривне и долларе." : $port['p_descr'];
+        $text = $port == "all" ? '' : $port['p_content'];
+
+        if ($culture) {
+            $h1 =  $port != "all" ? "Цена на {$culture['name']} в {$port['portname']}" : "'Цена на {$culture['name']} в портах Украины'";
+            $title = $port != "all" ? "Цена на {$culture['name']} в {$port['portname']}."  : "Цена на {$culture['name']} в портах Украины";
+            $title .= " Закупочные цены на сегодня от Agrotender.";
+            $keywords = $port != "all" ? "{$culture['name']}, цена, {$port['portname']}, трейдеры, экспортеры" : '';
+            $description = $port != "all" ? "Закупочные цены трейдеров на {$culture['name']} в {$port['portname']}. " : "Закупочные цены трейдеров на {$culture['name']} в портах Украины";
+            $description .= 'Контакты трейдеров и актуальные цены на сегодня. Стоимость в гривне и долларе.';
+            $text = $port != "all" ? $port['p_content'] : '';
+        }
+
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }
+
+    public function getTradersMetaForward($region, $culture, $type)
+    {
+        if(empty($region) && $type != 3){
+            return false;
+        }
+
+        $h1 =  '';
+        $title = '';
+        $keywords = '';
+        $description = '';
+        $text = '';
+
+
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }
+
+    public function getTradersMetaSell($region, $culture, $type)
+    {
+        if(empty($region) && $type != 2){
+            return false;
+        }
+
+        $h1 =  '';
+        $title = '';
+        $keywords = '';
+        $description = '';
+        $text = '';
+
+
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+    }
+
+    public function getTradersMeta($data)
+    {
+        $meta_region = $this->getTradersMetaRegion($data['region'], $data['rubric'], $data['type']);
+        $meta_port= $this->getTradersMetaPort($data['port'], $data['rubric'], $data['type']);
+        $meta_forward = $this->getTradersMetaForward($data['region'], $data['rubric'], $data['type']);
+        $meta_sell = $this->getTradersMetaSell($data['region'], $data['rubric'], $data['type']);
+
+        if ($meta_region) {
+            return $meta_region;
+        }
+
+        if ($meta_port) {
+            return $meta_port;
+        }
+
+
+        if ($meta_forward) {
+            return $meta_forward;
+        }
+
+        if($meta_sell) {
+            return $meta_sell;
+        }
+
+       /* $region = $data['region'];
+        $rubric = $data['rubric'];
+        $port = $data['port'];
+
+        $h1 = '';
+        $text = '';
+        $rubricText = ($rubric != null) ? $rubric['name'] : 'Аграрной продукции';
+
+        $regionText = is_array($region) ? $region['parental'].' области' : 'Украине';
+
+        $year = date('Y');
+        $yearsText = $year . '-' . ($year + 1);
+        if (!empty($rubric) || !empty($region)) {
             $seo = SeoTitles::where('pagetype', 2)
                 ->where('sect_id', 0)
-                ->where('obl_id', [!empty($region[0]['id']) ? $region[0]['id'] : 0])
-                ->where('cult_id', $rubric[0]['id'])
+                ->where('obl_id', [!empty($region['id']) ? $region['id'] : 0])
+                ->where('cult_id', $rubric['id'])
                 ->where('type_id', $data['type'])
                 ->get()
                 ->toArray();
+
             if (!empty($port)) {
 
                 if ($data['type'] == 1) {
-                    $h1 = $rubric[0]['name'] . " - отпускная цена в " . $port[0]['portname'];
-                    $title = $rubric[0]['name'] . ": отпускная цена в " . $port[0]['portname'] . " - Agrotender";
-                    $keywords = $rubric[0]['name'] . ", отпускная, цена, " . $port[0]['portname'] . ", трейдеры, экспортеры";
+                    $h1 = $rubric['name'] . " - отпускная цена в " . $port[0]['portname'];
+                    $title = $rubric['name'] . ": отпускная цена в " . $port[0]['portname'] . " - Agrotender";
+                    $keywords = $rubric['name'] . ", отпускная, цена, " . $port[0]['portname'] . ", трейдеры, экспортеры";
                     $description = "Самые свежие отпускные цены на " . $rubric[0]['name'] . " от ведущих трейдеров в терминалах " . $port[0]['portname'] . ".";
                 } elseif ($data['type'] == 0) {
                     $h1 = "Цена" . $rubric[0]['name'] . " " . $port[0]['portname'];
@@ -186,7 +308,7 @@ class SeoService
             } elseif ($data['type'] == 0) {
                 $h1 = "Цена $rubricText в $regionText";
                 $title = "Цена $rubricText за тонну в $regionText сегодня. Закупочные цены трейдеров " . date('Y');
-                $keywords = "Цена, стоимость, экспорт, " . ($rubric != null ? $rubric[0]['name'] : 'Аграрная продукция') . ", " . ($region != null ? $region[0]['name'] . ' область' : 'Украина');
+                $keywords = "Цена, стоимость, экспорт, " . ($rubric != null ? $rubric['name'] : 'Аграрная продукция') . ", " . ($region != null ? $region['name'] . ' область' : 'Украина');
                 $description = "Стоимость $rubricText на портале Agrotender. Продажа $rubricText крупнейшим зернотрейдерам в $regionText без посредников за гривну и валюту.";
             } elseif ($data['type'] == 3) {
                 $rubric_text = $rubric != null ? $rubric['name'] : 'аграрную продукцию';
@@ -228,7 +350,7 @@ class SeoService
             $h1 = "Цена на ".($rubric != null ? $rubric[0]['name'] : 'Аграрную продукцию')." в ".($port != null ? $port[0]['portname'] : 'портах Украины');
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];*/
     }
 
     public function getMetaForOneCompany($company)

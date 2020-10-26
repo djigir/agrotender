@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Http\Controllers\CompanyController;
 use App\Models\Comp\CompComment;
+use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
@@ -16,6 +17,7 @@ use App\Models\Traders\TradersPlaces;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProducts2buyer;
+use Carbon\Carbon;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -394,6 +396,34 @@ class CompanyService
                 ->toArray();
         }
         return $reviews_with_comp;
+    }
+
+    public function addReviews($data)
+    {
+        $insert_comment = [
+            'item_id' => $data['user']['id'],
+            'content' => $data['comment'],
+            'content_plus' => $data['good'],
+            'content_minus' => $data['bad'],
+        ];
+        $data_comment = [
+//            'id' => $data['user']['id'],
+            'item_id'=> $data['id_company'],
+            'visible'=> 1,
+            'rate'=> 3, // get rate from request
+            'add_date'=> Carbon::now(),
+            'author'=> $data['user']['author'],
+            'author_email'=> $data['user']['author_email'],
+            'ddchk_guid'=> '',
+            'reply_to_id'=> 0,
+            'author_id'=> $data['user']['author_id'],
+            'like_yes'=> 0,
+            'like_no' => 0,
+        ];
+//            $new_comment = CompCommentLang::create($insert_comment);
+//            $comment_id = CompComment::create($data_comment);
+
+
     }
 
 

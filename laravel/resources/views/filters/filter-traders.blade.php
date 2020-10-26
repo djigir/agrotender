@@ -27,10 +27,10 @@
                         <div class="new_filters_dropdown">
                             <ul>
                                 <li>
-                                    <a href="{{route('traders_forwards', $region)}}">Форварды</a>
+                                    <a href="{{route('traders_forwards', !empty($region) ? $region : 'ukraine')}}">Форварды</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('traders_sell', $region)}}">Продажи</a>
+                                    <a href="{{route('traders_sell', !empty($region) ? $region : 'ukraine')}}">Продажи</a>
                                 </li>
                             </ul>
                         </div>

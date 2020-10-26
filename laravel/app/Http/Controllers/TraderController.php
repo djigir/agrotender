@@ -91,7 +91,7 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $traders = $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
             'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
-
+        $culture_meta = null;
         $region_all = $data['region'];
         $port_all = $data['port'];
 
@@ -111,10 +111,14 @@ class TraderController extends Controller
 
         $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture[0]['id'])->value('id') : null;
 
-        $culture_name = !empty($culture) ? Traders_Products_Lang::where('item_id', $culture[0]['id'])->value('name') :
-            'Выбрать продукцию';
+        if (!empty($culture)) {
+            $culture_meta = Traders_Products_Lang::where('item_id', $culture[0]['id'])->get()->toArray()[0];
+            $culture_name = $culture_meta['name'];
+        }else {
+            $culture_name = 'Выбрать продукцию';
+        }
 
-        $meta = $this->seoService->getTradersMeta(['rubric' => !empty($culture) ? $culture : null, 'region' => $region_all,
+        $meta = $this->seoService->getTradersMeta(['rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
 
         $breadcrumbs = $this->baseServices->setBreadcrumbsTraders([

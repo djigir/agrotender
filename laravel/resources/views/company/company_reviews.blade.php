@@ -100,7 +100,7 @@
         @endforelse
     </div>
 
-    @auth()
+{{--    @auth()--}}
         <!-- Modal -->
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -112,27 +112,28 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group row mb-4 pb-1">
-                            <label class="col-sm-3 col-form-label text-left text-sm-right">Достоинства <span
-                                    class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="Достоинства" name="good">
+                        <form action="">
+                            <div class="form-group row mb-4 pb-1">
+                                <label class="col-sm-3 col-form-label text-left text-sm-right">Достоинства <span
+                                        class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Достоинства" name="good">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row mb-4 pb-1">
-                            <label class="col-sm-3 col-form-label text-left text-sm-right">Недостатки <span
-                                    class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" placeholder="Недостатки" name="bad">
+                            <div class="form-group row mb-4 pb-1">
+                                <label class="col-sm-3 col-form-label text-left text-sm-right">Недостатки <span
+                                        class="text-danger">*</span></label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" placeholder="Недостатки" name="bad">
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group row mb-4 pb-1">
-                            <label class="col-sm-3 col-form-label text-left text-sm-right">Комментарий</label>
-                            <div class="col-sm-9">
+                            <div class="form-group row mb-4 pb-1">
+                                <label class="col-sm-3 col-form-label text-left text-sm-right">Комментарий</label>
+                                <div class="col-sm-9">
                             <textarea class="form-control" name="comment" rows="7"
                                       style="margin-top: 0px; margin-bottom: 0px; height: 254px;"></textarea>
+                                </div>
                             </div>
-                        </div>
                     </div>
                     <div class="modal-footer d-block text-center text-sm-left d-sm-flex justify-content-end pt-2 mb-2 px-5">
                         <div id="colorstar" data-rate="1"
@@ -143,12 +144,13 @@
                             <span data-num="4" class="far fa-star"></span>
                             <span data-num="5" class="far fa-star"></span>
                         </div>
-                        <button type="button" class="btn btn-primary px-5 send-review">Отправить отзыв</button>
+                        <button type="submit" class="btn btn-primary px-5 send-review" name="add_comment">Отправить отзыв</button>
                     </div>
+                        </form>
                 </div>
             </div>
         </div>
-    @endauth
+{{--    @endauth--}}
 
 
     <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: none">

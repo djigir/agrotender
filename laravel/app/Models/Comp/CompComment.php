@@ -24,6 +24,9 @@ class CompComment extends Model
 {
     protected $table = 'comp_comment';
 
+    public $timestamps = false;
+    public $incrementing = false;
+
     protected $fillable = [
         'id',
         'item_id',
