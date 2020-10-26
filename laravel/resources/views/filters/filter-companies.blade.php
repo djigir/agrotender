@@ -27,7 +27,6 @@
             <div class="dropdown-wrapper position-absolute rubricDrop">
                 <div class="dropdown" id="rubricDrop" style="display: none;">
                     <div class="section text-left">
-                        <!--<div class="spinnerHome"> <div class="bounce1"></div> <div class="bounce2"></div> <div class="bounce3"></div> </div>-->
                         <div class="row">
                             <div style="display: flex;">
                                 <div class="col-auto">
@@ -42,7 +41,7 @@
                                     @endforeach
                                 </div>
                                 @foreach($rubricGroups as $index => $rubric)
-                                    <div class="col-auto rubricGroup pr-0 mr-3 groupCulture " group="{{$rubric['id']}}" style="display: none; column-count: 2">
+                                    <div class="col-auto rubricGroup pr-0 mr-3 groupCulture" group="{{$rubric['id']}}" style="display: none; column-count: 2">
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
                                             <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}"
                                                href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $culture['id']])}}">

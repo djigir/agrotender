@@ -6,9 +6,12 @@ use App\Models\ADV\AdvTorgPost;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\Traders_Products_Lang;
+use App\Models\Traders\TradersPlaces;
+use App\Models\Traders\TradersPorts2buyer;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
 use App\Models\Traders\TradersContactsRegions;
+use App\Models\Traders\TradersProducts2buyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
@@ -153,12 +156,12 @@ class CompItems extends Model
 
     public function traders_places()
     {
-        return $this->hasOne(TradersPrices::class, 'id');
+        return $this->hasOne(TradersPlaces::class, 'id');
     }
 
     public function traders_prices()
     {
-        return $this->hasMany(TradersPrices::class, 'buyer_id');
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
     public function comp_topic_items_rubrics()
@@ -179,6 +182,11 @@ class CompItems extends Model
     public function traders_contacts_regions()
     {
         return $this->hasMany(TradersContactsRegions::class, 'comp_id');
+    }
+
+    public function traders_products2_buyer()
+    {
+        return $this->hasMany(TradersProducts2buyer::class, 'buyer_id', 'author_id');
     }
 
 }

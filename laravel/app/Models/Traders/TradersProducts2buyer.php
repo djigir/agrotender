@@ -3,6 +3,7 @@
 namespace App\Models\Traders;
 
 
+use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 
 
@@ -30,5 +31,10 @@ class TradersProducts2buyer extends Model
     public function traders_products()
     {
         return $this->hasMany(TradersProducts::class,'id', 'cult_id');
+    }
+
+    public function comp_items()
+    {
+        return $this->belongsTo(CompItems::class, 'author_id', 'buyer_id');
     }
 }

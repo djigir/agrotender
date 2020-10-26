@@ -28,10 +28,10 @@
                         <div class="new_filters_dropdown">
                             <ul>
                                 <li>
-                                    <a href="{{!empty($region) ? route('traders_forwards', $region) : '#'}}">Форварды</a>
+                                    <a href="{{route('traders_forwards', !empty($region) ? $region : 'ukraine')}}">Форварды</a>
                                 </li>
                                 <li>
-                                    <a href="{{!empty($region) ? route('traders_sell', $region) : '#'}}">Продажи</a>
+                                    <a href="{{route('traders_sell', !empty($region) ? $region : 'ukraine')}}">Продажи</a>
                                 </li>
                             </ul>
                         </div>
@@ -46,14 +46,14 @@
                             <div class="new_filters_dropdown-column">
                                 <ul>
                                     @foreach($rubricsGroup as $group => $item)
-                                        <li class="group-culture {{$item['id'] == $culture_id ? 'active': ''}}" group="{{$group+1}}">
+                                        <li class="group-culture {{$item['index_group']+1 == $group_id ? 'active': ''}}" group="{{$group+1}}">
                                             <a href="#">{{$item['groups']['name']}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
                             @foreach($rubricsGroup as $group => $item)
-                                <div class="new_filters_dropdown-content culture-group {{$item['id'] == $culture_id ? 'active': ''}}" group="{{$group+1}}">
+                                <div class="new_filters_dropdown-content culture-group {{$item['index_group']+1 == $group_id ? 'active': ''}}" group="{{$group+1}}">
                                     <ul>
                                         @foreach($rubricsGroup[$group]["products"] as $index => $item)
                                             <li>

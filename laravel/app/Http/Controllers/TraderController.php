@@ -138,6 +138,7 @@ class TraderController extends Controller
             'culture_translit' => $data['culture'],
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
             'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
@@ -222,7 +223,7 @@ class TraderController extends Controller
     public function forwards($region)
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
-
+        $traders = $this->traderService->getTradersForward($region, null);
         return view('traders.trader_forwards', [
             'region_name' => $region_name,
             'region' => $region,
@@ -233,9 +234,12 @@ class TraderController extends Controller
     public function forwardsCulture($region, $culture)
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
+        $traders = $this->traderService->getTradersForward($region, $culture);
+        //dd($traders);
         return view('traders.trader_forwards_culture', [
             'region_name' => $region_name,
             'region' => $region,
+            'traders' => $traders,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

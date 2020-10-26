@@ -6,19 +6,19 @@ use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @param integer $id;
- * @param integer $buyer_id;
- * @param string $name;
- * @param integer $cult_id;
- * @param integer $place_id;
- * @param integer $active;
- * @param integer $acttype;
- * @param float $costval;
- * @param float $costva_old;
- * @param \Datetime  $add_date;
- * @param \Datetime  $change_date;
- * @param \Datetime $dt;
- * @param string $comment;
+ * @property  integer $id;
+ * @property  integer $buyer_id;
+ * @property  string $name;
+ * @property  integer $cult_id;
+ * @property  integer $place_id;
+ * @property  integer $active;
+ * @property  integer $acttype;
+ * @property  float $costval;
+ * @property  float $costva_old;
+ * @property  \Datetime  $add_date;
+ * @property  \Datetime  $change_date;
+ * @property  \Datetime $dt;
+ * @property  string $comment;
  */
 
 
@@ -42,14 +42,13 @@ class TradersPrices extends Model
     ];
 
     /* Mutations */
-    protected $appends=['name'];
+    protected $appends = ['places'];
 
-    public function getNameAttribute()
+
+    public function getPlacesAttribute()
     {
-        if($this->product_lang){
-            return $this->product_lang->name;
-        }
-        return '';
+        $place = TradersPlaces::where('id', $this->place_id)->get()->toArray();
+        return !empty($place) ? $place[0] : null;
     }
 
     /* Relations */
@@ -61,7 +60,7 @@ class TradersPrices extends Model
 
     public function compItems()
     {
-        return $this->belongsTo(CompItems::class, 'author_id');
+        return $this->belongsTo(CompItems::class, 'author_id', 'buyer_id');
     }
 
     public function traders_places()
@@ -74,4 +73,9 @@ class TradersPrices extends Model
         return $this->belongsTo(TradersProducts::class, 'id');
     }
 
+
+    public function price_products()
+    {
+        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
+    }
 }
