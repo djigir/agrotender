@@ -17,20 +17,21 @@
     @endforeach
 </ol>
 </div>
+<div class="bg_filters"></div>
 <div class="new_filters-wrap">
     <div class="fixed-item">
         <div class="new_container">
-            <div class="new_filters active">
+            <div class="new_filters">
                 <div class="filter__item main">
                     <button class="filter__button main">Закупки</button>
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
                             <ul>
                                 <li>
-                                    <a href="{{route('traders_forwards', $region)}}">Форварды</a>
+                                    <a href="{{!empty($region) ? route('traders_forwards', $region) : '#'}}">Форварды</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('traders_sell', $region)}}">Продажи</a>
+                                    <a href="{{!empty($region) ? route('traders_sell', $region) : '#'}}">Продажи</a>
                                 </li>
                             </ul>
                         </div>
@@ -83,10 +84,10 @@
                         <div class="new_filters_dropdown">
                             <div class="new_filters_dropdown-column">
                                 <ul>
-                                    <li class="active" id="active-region">
+                                    <li class="" id="active-region" check_active="{{!empty($region) ? true : false}}">
                                         <a href="#">Области</a>
                                     </li>
-                                    <li class="" id="active-port">
+                                    <li class="" id="active-port" check_active="{{!empty($port) ? true : false}}">
                                         <a href="#">Порты</a>
                                     </li>
                                 </ul>
@@ -144,7 +145,7 @@
                 <form style="display:flex;">
                     <div class="new_filters_checkbox first">
                         <button type="submit" class="btn-remove" name="currency" value="0">
-                            <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox">
+                            <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox"  currency="{{$currency}}">
                         <label class="cbx" for="new_filters_currency_uah">
                             <span>
                               <svg width="12px" height="10px">
@@ -157,7 +158,7 @@
                     </div>
                     <div class="new_filters_checkbox second">
                         <button type="submit" class="btn-remove" name="currency" value="1">
-                            <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox">
+                            <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" currency="{{$currency}}">
                         <label class="cbx" for="new_filters_currency_usd">
                             <span>
                               <svg width="12px" height="10px">

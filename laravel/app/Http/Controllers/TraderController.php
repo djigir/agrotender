@@ -91,7 +91,7 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $traders = $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
             'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
-
+        $currency = isset($data['query']['currency']) ? $data['query']['currency'] : null;
         $region_all = $data['region'];
         $port_all = $data['port'];
 
@@ -138,6 +138,7 @@ class TraderController extends Controller
             'culture_translit' => $data['culture'],
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
