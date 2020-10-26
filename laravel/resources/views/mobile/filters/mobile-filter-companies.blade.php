@@ -25,40 +25,40 @@
             </div>
 
             <div class="step-3 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="1" href="#">
+                <span class="back py-3 px-4 content-block d-block" step="1">
                     <span class="back" id="back">
                         <i class="far fa-chevron-left mr-1"></i>
                         Назад
                     </span>
-                </a>
+                </span>
                 <div class="scroll">
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $index_group => $rubricGroup)
-                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{{$rubricGroup['id']}}">
+                            <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$rubricGroup['id']}}">
                                 <span>{{$rubricGroup['title']}}</span>
                                 <span><i class="far fa-chevron-right"></i></span>
-                            </a>
+                            </span>
                         @endforeach
                     @endif
                 </div>
             </div>
             <div class="step-3-1 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="3" href="#">
+                <span class="back py-3 px-4 content-block d-block" step="3">
                     <span id="back3">
                         <i class="far fa-chevron-left mr-1"></i>
                         Назад
                     </span>
-                </a>
+                </span>
                 <div class="scroll">
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
-                                <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
+                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubricId="{{$culture['id']}}">
                                     <span>{{$culture['title']}} &nbsp;
     {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
                                     </span>
                                     <span><i class="far fa-chevron-right"></i></span>
-                                </a>
+                                </span>
                             @endforeach
                         @endforeach
                     @endif
@@ -66,17 +66,16 @@
 
             </div>
             <div class="step-4 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="1" href="#">
-                            <span id="back2">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                Назад
-                            </span>
-                </a>
+                <span class="back py-3 px-4 content-block d-block">
+                  <span id="back2">
+                      <i class="far fa-chevron-left mr-1"></i>
+                      Назад
+                  </span>
+                </span>
                 <div class="scroll">
                     @if(isset($regions))
                         @foreach($regions as $index_region => $region)
-                            <a href="#"
-                               class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit="{{ $region['translit'] }}">
+                            <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" translit="{{ $region['translit'] }}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                     <span>{{$region['name']}}</span>
                                 @else
@@ -85,7 +84,7 @@
                                 <span>
                                     <i class="far fa-chevron-right"></i>
                                  </span>
-                            </a>
+                            </span>
                         @endforeach
                     @endif
                 </div>

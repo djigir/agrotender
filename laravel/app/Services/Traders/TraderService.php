@@ -141,7 +141,7 @@ class TraderService
                     $query->where('obl_id', $obl_id);
             }],
             [function ($query) use($data){
-                if (!empty($data['query']) and isset($data['query']['currency'])) {
+                if (!empty($data['query']) && isset($data['query']['currency'])) {
                     $query->where('traders_prices.curtype', $data['query']['currency']);
                 }
             }]])
@@ -168,7 +168,7 @@ class TraderService
                         }
                     }],
                     [function ($query) use($data){
-                        if (!empty($data['query'])) {
+                        if (!empty($data['query']) && isset($data['query']['currency'])) {
                             $query->where('traders_prices.curtype', $data['query']['currency']);
                         }
                     }]])

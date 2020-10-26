@@ -9,27 +9,27 @@
                         <span class="title ml-3 pt-3">Настройте фильтры:</span>
                     </div>
 
-                        <a class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between" href="#" type="" id='type-page'>
+                        <span class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between"  type="" id='type-page'>
                             <input type="text"  value="" class="remove-input">
                             <span>Закупки</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
-                        <a class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between" href="#" rubric="0" id='mobile-rubric'>
-                            <input type="text" id='input-mobile-rubric' name="rubric" value=""  class="remove-input">
-                            <span id="span-mobile-rubric">{{isset($culture_name) ? $culture_name : 'Выбрать продукцию'}}</span>
+                        </span>
+                        <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
+                            <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
+                            <span id="span-mobile-rubric">{{!empty($culture_name) ? $culture_name : 'Выбрать продукцию'}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
-                        <a class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between" href="#" region="0" port="0" id='mobile-region'>
-                            <input type="text" id='input-mobile-region-t' name="region" value=""  class="remove-input">
-                            <input type="text" id='input-mobile-port-t' name="port" value=""  class="remove-input">
-                            <span id="span-mobile-region">{{isset($currently_obl) ? $currently_obl : 'Вся Украина'}}</span>
+                        </span>
+                        <span class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0" port="0" id='mobile-region'>
+                            <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
+                            <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
+                            <span id="span-mobile-region">{{!empty($region_port_name) ? $region_port_name : 'Вся Украина'}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
-                        <a class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" href="#">
+                        </span>
+                        <span class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" >
                             <span class="text-muted">Валюта:</span>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-radio active">
-                                    <input type="radio" id='currency-all' currency="null" name="currency" value="2" autocomplete="off" checked=""> Любая
+                                    <input type="radio" id='currency-all'> Любая
                                 </label>
                                 <label class="btn btn-radio">
                                     <input type="radio" id='currency-uah' name="currency" currency="0" value="0" autocomplete="off"> Гривна
@@ -38,8 +38,8 @@
                                     <input type="radio" id='currency-usd' name="currency" currency="1" value="1" autocomplete="off"> Доллар
                                 </label>
                             </div>
-                        </a>
-                        <a class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between" href="#">
+                        </span>
+                        <span class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between">
                             <span class="text-muted">Показать:</span>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-radio">
@@ -49,7 +49,7 @@
                                     <input type="radio" id='show-type-table' name="viewmod" value="table" autocomplete="off" checked=""> Таблицей
                                 </label>
                             </div>
-                        </a>
+                        </span>
 
                     <div class="error-text mt-3 text-center">
                         <span>Для сравнения цен выберите продукцию</span>
@@ -131,16 +131,11 @@
                     @endforeach
 
                     @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-
                         <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between port" port="{{$port['url']}}">
                             <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['portname']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
                     @endforeach
-{{--                    <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" port="all">--}}
-{{--                        <span style="font-weight: 600;">Все порты</span>--}}
-{{--                        <span><i class="far fa-chevron-right"></i></span>--}}
-{{--                    </a>--}}
                 </div>
             </div>
         </div>
