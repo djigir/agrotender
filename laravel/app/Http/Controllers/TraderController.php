@@ -131,7 +131,7 @@ class TraderController extends Controller
             'culture_id' => $culture_id,
             'culture_name' =>  !empty($culture) ? $culture[0]['culture']['name'] : null]);
 
-        return view('traders.traders_regions', [
+        return view('traders.traders', [
 //            'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
             'traders' => $traders,
