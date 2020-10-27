@@ -152,7 +152,7 @@ class CompItems extends Model
 
     public function traders_culture()
     {
-        return $this->belongsTo(TradersPrices::class, 'buyer_id');
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
     public function traders_places()

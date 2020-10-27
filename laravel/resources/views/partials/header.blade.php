@@ -95,13 +95,13 @@
                     <a href="{{route('company.companies')}}" class="menu-link">Компании</a>
                 </li>
                 <li>
-                    <a href="{{route('traders.traders_regions', 'ukraine')}}" class="menu-link">Цены Трейдеров</a>
+                    <a href="{{route('traders.region', 'ukraine')}}" class="menu-link">Цены Трейдеров</a>
                 </li>
                 <li>
                     <a href="/elev" class="menu-link">Элеваторы</a>
                 </li>
                 <li>
-                    <a href="{{route('traders_forwards_culture', ['ukraine', 'pshenica_2_kl'])}}"
+                    <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}"
                        class="menu-link">Форварды</a>
                 </li>
             </ul>

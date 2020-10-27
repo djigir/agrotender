@@ -46,7 +46,7 @@ class CompanyController extends Controller
 
     private function IsDesktopFilter(Request $request)
     {
-        return redirect()->route('company.company_filter', [$request->get('query')]);
+        return redirect()->route('company.filter', [$request->get('query')]);
     }
 
     private function checkName($translit = null)

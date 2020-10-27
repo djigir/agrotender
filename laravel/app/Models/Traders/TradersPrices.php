@@ -42,20 +42,20 @@ class TradersPrices extends Model
     ];
 
     /* Mutations */
-    protected $appends = ['places'];
-
-
-    public function getPlacesAttribute()
-    {
-        $place = TradersPlaces::where('id', $this->place_id)->get()->toArray();
-        return !empty($place) ? $place[0] : null;
-    }
+//    protected $appends = ['places'];
+//
+//
+//    public function getPlacesAttribute()
+//    {
+//        $place = TradersPlaces::where([['id', $this->place_id], ['type_id', '!=', 1]])->get()->toArray();
+//        return !empty($place) ? $place[0] : null;
+//    }
 
     /* Relations */
 
     public function product_lang()
     {
-        return $this->belongsTo(Traders_Products_Lang::class, 'item_id', 'cult_id');
+        return $this->hasMany(Traders_Products_Lang::class, 'item_id', 'cult_id');
     }
 
     public function compItems()

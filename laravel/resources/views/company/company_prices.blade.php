@@ -3,8 +3,7 @@
 @section('content')
     @include('company.company-header', ['id' => $id])
     <div class="submenu d-none d-sm-block text-center mt-4">
-        <a href="{{route('company.company_prices', $id)}}" class="active">Таблица закупок</a>
-        <a href="/kompanii/comp-5608-traderContacts">Контакты трейдера</a>
+        <a href="{{route('company.prices', $id)}}" class="active">Таблица закупок</a>
     </div>
     <div class="container mt-4">
         <h2 class="d-inline-block">Цены трейдера</h2>

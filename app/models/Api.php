@@ -29,6 +29,7 @@ class Api extends \Core\Model {
   }
 
   public function getTraders($region = null, $port = null, $rubric = null, $onlyPorts = false, $currency = null, $today = null) {
+
     $currencySql     = ($currency !== null) ? "&& tpr.curtype = $currency" : "";
     $regionSql       = ($region != null) ? "&& tpl.obl_id = $region" : "";
     $portSql         = ($port != null) ? "&& tpl.port_id = $port" : "";
