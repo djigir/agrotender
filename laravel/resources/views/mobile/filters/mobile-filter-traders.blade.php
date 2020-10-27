@@ -4,38 +4,36 @@
             <div class="step-1 stp" style="">
                 <form>
                 <div class="position-relative scroll-wrap">
-
                     <div class="mt-3">
                         <span class="title ml-3 pt-3">Настройте фильтры:</span>
                     </div>
-
                         <span class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between"  type="" id='type-page'>
                             <input type="text"  value="" class="remove-input">
-                            <span>Закупки</span>
+                            <span style="color: #1e56b2">Закупки</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
                             <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
-                            <span id="span-mobile-rubric">{{!empty($culture_name) ? $culture_name : 'Выбрать продукцию'}}</span>
+                            <span style="color: #1e56b2" id="span-mobile-rubric">{{$culture_name}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0" port="0" id='mobile-region'>
                             <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
                             <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
-                            <span id="span-mobile-region">{{!empty($region_port_name) ? $region_port_name : 'Вся Украина'}}</span>
+                            <span style="color: #1e56b2" id="span-mobile-region">{{$region_port_name}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" >
                             <span class="text-muted">Валюта:</span>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-radio active">
+                                <label class="btn btn-radio {{$currency == null ? 'active' : ''}}">
                                     <input type="radio" id='currency-all'> Любая
                                 </label>
-                                <label class="btn btn-radio">
-                                    <input type="radio" id='currency-uah' name="currency" currency="0" value="0" autocomplete="off"> Гривна
+                                <label class="btn btn-radio {{$currency == 0 && $currency != null ? 'active' : ''}}">
+                                    <input type="radio" id="currency-uah" name="currency"  value="0"> Гривна
                                 </label>
-                                <label class="btn btn-radio">
-                                    <input type="radio" id='currency-usd' name="currency" currency="1" value="1" autocomplete="off"> Доллар
+                                <label class="btn btn-radio {{$currency == 1 && $currency != null ? 'active' : ''}}">
+                                    <input type="radio"  id="currency-usd" name="currency"  value="1"> Доллар
                                 </label>
                             </div>
                         </span>
@@ -66,17 +64,18 @@
                     </span>
                 </a>
                 <div class="scroll">
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_forwards/region_ukraine">
-                        <span>Форварды</span>
-                        <span><i class="far fa-chevron-right"></i></span>
-                    </a>
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="/traders_sell">
+                    @if($culture_id && $region)
+                        <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">
+                            <span>Форварды</span>
+                            <span><i class="far fa-chevron-right"></i></span>
+                        </a>
+                    @endif
+                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_sell',  $region)}}">
                         <span>Продажи</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </a>
                 </div>
             </div>
-
             <div class="step-3 stp h-100" style="display: none;">
                 <a class="back py-3 px-4 content-block d-block" step="1" href="#" id="back">
                     <span>
@@ -87,10 +86,10 @@
                 <div class="scroll">
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $group => $item)
-                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="#" group="{{$item['id']}}">
-                                <span>{{$item['groups']['name']}}</span>
+                            <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}">
+                                <span style="color: #1e56b2">{{$item['groups']['name']}}</span>
                                 <span><i class="far fa-chevron-right"></i></span>
-                            </a>
+                            </span>
                         @endforeach
                     @endif
                 </div>
@@ -106,10 +105,10 @@
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $group => $item)
                             @foreach($rubricGroups[$group]["products"] as $index => $item_culture)
-                                <a href="#" class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$item['id']}}" rubricId="{{$item_culture['url']}}">
-                                    <span>{{ $item_culture['culture']['name']}}</span>
+                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
+                                    <span style="color: #1e56b2">{{ $item_culture['culture']['name']}}</span>
                                     <span><i class="far fa-chevron-right"></i></span>
-                                </a>
+                                </span>
                             @endforeach
                         @endforeach
                     @endif
@@ -124,17 +123,17 @@
                 </a>
                 <div class="scroll">
                     @foreach(array_reverse($regions) as $index_region  => $region)
-                        <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between" region="{{$region['translit']}}">
+                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}">
                             <span style="{{$index_region < 1 ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
+                        </span>
                     @endforeach
 
                     @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-                        <a href="#" class="region px-4 py-1 my-2 d-flex justify-content-between port" port="{{$port['url']}}">
+                        <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" style="color: #1e56b2" port="{{$port['url']}}">
                             <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['portname']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
-                        </a>
+                        </span>
                     @endforeach
                 </div>
             </div>

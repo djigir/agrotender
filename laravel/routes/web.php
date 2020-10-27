@@ -46,6 +46,4 @@ Route::get('/traders_forwards/region_{region}/{culture}', 'TraderController@forw
 Route::get('/traders_sell/region_{region}', 'TraderController@sellRegion')->name('traders_sell');
 Route::get('/traders_sell/region_{region}/{culture}', 'TraderController@sellCulture')->name('traders_sell_culture');
 
-
 Route::get('/home', 'HomeController@index')->name('home');
-

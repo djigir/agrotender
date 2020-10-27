@@ -89,11 +89,16 @@ class TraderController extends Controller
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-        $traders = $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
-            'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
-        $culture_meta = null;
+
+        $traders = isset($data['forwards']) ? $this->traderService->getTradersForward($data['region'], $data['culture']) :
+            $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
+                'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
+
+
+        $currency = isset($data['query']['currency']) ? $data['query']['currency'] : null;
         $region_all = $data['region'];
         $port_all = $data['port'];
+
 
         if($data['region'] != 'ukraine' && $data['region']) {
             $region_all = Regions::where('translit', $data['region'])->get()->toArray()[0];
@@ -130,7 +135,7 @@ class TraderController extends Controller
             'culture_id' => $culture_id,
             'culture_name' =>  !empty($culture) ? $culture[0]['culture']['name'] : null]);
 
-        return view('traders.traders_regions', [
+        return view('traders.traders', [
 //            'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
             'traders' => $traders,
@@ -142,6 +147,8 @@ class TraderController extends Controller
             'culture_translit' => $data['culture'],
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
+            'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
@@ -225,28 +232,32 @@ class TraderController extends Controller
     public function forwards($region)
     {
         $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
+        $traders = $this->traderService->getTradersForward($region, null);
 
         return view('traders.trader_forwards', [
             'region_name' => $region_name,
             'region' => $region,
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 
     public function forwardsCulture($region, $culture)
     {
-        $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
-        return view('traders.trader_forwards_culture', [
-            'region_name' => $region_name,
-            'region' => $region,
-            'isMobile' => $this->agent->isMobile(),
-        ]);
+        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true];
+        $necessaryData = $this->setDataForTraders($data_traders);
+
+        if($necessaryData){
+            return $necessaryData;
+        }
+
     }
 
     public function sellRegion($region)
     {
         return view('traders.sell.sell_region', [
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 
@@ -254,6 +265,7 @@ class TraderController extends Controller
     {
         return view('traders.sell.sell_culture', [
             'isMobile' => $this->agent->isMobile(),
+            'page_type' => 1,
         ]);
     }
 

@@ -18,11 +18,13 @@ class TraderService
 {
     protected $companyService;
     protected $baseService;
+    protected $query;
 
     public function __construct(CompanyService $companyService, BaseServices $baseService)
     {
         $this->companyService = $companyService;
         $this->baseService = $baseService;
+        $this->query = null;
     }
 
 
@@ -42,6 +44,12 @@ class TraderService
         ];
     }
 
+    public function setQuery()
+    {
+        $this->query = CompItems::join('traders_prices', 'comp_items.author_id',  '=', 'traders_prices.buyer_id');
+    }
+
+
     public function getNamePortRegion($region = null, $port = null)
     {
         $onlyPorts = null;
@@ -56,6 +64,7 @@ class TraderService
         if($region == 'ukraine'){
             $name_region = 'Вся Украина';
         }
+
 
         return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
 
@@ -113,6 +122,50 @@ class TraderService
         return $groups;
     }
 
+
+    public function getTradersForward($region, $culture)
+    {
+        $this->setQuery();
+
+        $traders = CompItems::where([['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1],
+            ['visible', 1]])->with(['traders_prices' => function($query) use($culture){
+            $query->where([['acttype', 3], ['active', 1], ['cult_id', TradersProducts::where('url', $culture)->value('id')]]);
+        }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula')
+            ->orderBy('trader_premium', 'desc')
+            ->orderBy('trader_sort')
+            ->orderBy('rate_formula' , 'desc')
+            ->orderBy('title')
+            ->get()
+            ->toArray();
+
+        foreach ($traders as $index_trader => $trader)
+        {
+            if(empty($trader['traders_prices'])){
+                unset($traders[$index_trader]);
+            }else{
+                foreach ($trader['traders_prices'] as $index_price => $price)
+                {
+                    $traders[$index_trader]['traders_prices'][$index_price]['region'] = $price['places']['region'];
+                    $traders[$index_trader]['traders_prices'][$index_price]['place_name'] = $price['places']['place'];
+                    unset($traders[$index_trader]['traders_prices'][$index_price]['places']);
+                }
+            }
+            if(isset($traders[$index_trader]))
+            $traders[$index_trader]['traders_prices'] = collect($traders[$index_trader]['traders_prices'])->sortByDesc('place_name')->toArray();
+
+        }
+
+        $traders = array_values($traders);
+
+        return $traders;
+    }
+
+    public function getTradersSell($region, $culture)
+    {
+
+    }
+
+
     public function getTradersRegionPortCulture($data)
     {
         $obl_id = null;
@@ -130,9 +183,9 @@ class TraderService
             $culture = TradersProducts::where('url', $data['culture'])->value('id');
         }
 
+        $this->setQuery();
 
-        $traders = CompItems::join('traders_prices', 'comp_items.author_id',  '=', 'traders_prices.buyer_id')
-        ->where([
+        $traders = $this->query->where([
             ['comp_items.trader_price_avail', 1],
             ['comp_items.trader_price_visible', 1],
             ['comp_items.visible', 1],
@@ -155,8 +208,7 @@ class TraderService
             ->toArray();
 
         if($obl_id != null and $data['culture'] != null){
-            $traders = CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
-                ->join('traders_prices', 'comp_items.author_id',  '=', 'traders_prices.buyer_id')
+            $traders = $this->query->join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
                 ->where([
                     ['comp_item2topic.topic_id', $culture],
                     ['trader_price_avail', 1],
@@ -183,6 +235,7 @@ class TraderService
                 ->orderBy('comp_items.trader_sort')
                 ->orderBy('comp_items.rate_formula' , 'desc')
                 ->orderBy('comp_items.title')
+                ->groupBy('id')
                 ->get()
                 ->toArray();
         }

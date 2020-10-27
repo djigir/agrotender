@@ -17,8 +17,13 @@ class Db {
   public static $host = 'localhost';
   public static $db_name = 'agrotender';
   public static $user = 'root';
+<<<<<<< HEAD
   public static $password = 'root';
 //  public static $password = 'rooooooot';
+=======
+//  public static $password = '';
+  public static $password = 'root';
+>>>>>>> 70bfbb03c02b572ddccdb0e6c3eefcdf71be497f
 //
   public function __construct() {
     // building data source name from config

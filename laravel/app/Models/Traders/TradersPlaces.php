@@ -7,14 +7,14 @@ use App\Models\Traders\TradersPrices;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @param integer $id;
- * @param integer $buyer_id;
- * @param integer $obl_id;
- * @param integer $type_id;
- * @param string $place;
- * @param integer $acttype;
- * @param integer $port_id;
- * @param integer $is_port;
+ * @property  integer $id;
+ * @property  integer $buyer_id;
+ * @property  integer $obl_id;
+ * @property  integer $type_id;
+ * @property  string $place;
+ * @property  integer $acttype;
+ * @property  integer $port_id;
+ * @property  integer $is_port;
  */
 
 class TradersPlaces extends Model
@@ -32,12 +32,23 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
+    protected $appends = ['region'];
+
+    public function getRegionAttribute()
+    {
+        $region = Regions::where('id', $this->obl_id)->get()->toArray();
+        return !empty($region) ? $region[0] : [];
+    }
+
+//    public function getPortAttribute()
+//    {
+//        return TradersPorts::where('id', $this->port_id)->get()->toArray();
+//    }
 
     public function traders_prices()
     {
         return $this->belongsTo(TradersPrices::class, 'place_id', 'id');
     }
-
 
     public function traders_ports()
     {
@@ -48,4 +59,6 @@ class TradersPlaces extends Model
     {
         return $this->hasMany(Regions::class, 'id', 'obl_id');
     }
+
+
 }
