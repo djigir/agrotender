@@ -31,7 +31,7 @@
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">
                             <div class="col-12 pl-0 pr-0 pr-sm-2">
-                                <a href="{{route('company.company', $company->id)}}"><img class="companyImg"
+                                <a href="{{route('company.index', $company->id)}}"><img class="companyImg"
                                                                                           src="{{ $company->logo_file ? $company->logo_file : '/app/assets/img/no-image.png' }}"/>
                                 </a>
                             </div>

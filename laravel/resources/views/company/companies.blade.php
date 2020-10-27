@@ -15,7 +15,7 @@
         @else
             @if($region_id)
                 <div>
-                    <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.company_and_region', 'ukraine')}}">
+                    <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.region', 'ukraine')}}">
                             <i class="far fa-times close ml-3"></i>
                         </a>
                     </span>
@@ -23,7 +23,7 @@
             @endif
             @if($rubric_id)
                 <div>
-                    <span class="searchTag regionTag d-inline-block">{{$culture_name}}<a href="{{route('company.company_and_region', $region)}}">
+                    <span class="searchTag regionTag d-inline-block">{{$culture_name}}<a href="{{route('company.region', $region)}}">
                             <i class="far fa-times close ml-3"></i>
                         </a>
                     </span>
@@ -45,7 +45,7 @@
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">
                             <div class="col-12 pl-0 pr-0 pr-sm-2">
-                                <a href="{{route('company.company', $company['id'])}}">
+                                <a href="{{route('company.index', $company['id'])}}">
                                     <img class="companyImg" alt="{{$company['name']}}"
                                          src="{{ $company['logo_file'] ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
                                 </a>
@@ -61,7 +61,7 @@
                         <div class="row lh-1">
                             <div class="col">
                                 <span class="title">
-                                    <a href="{{route('company.company', $company['id'])}}">{{  str_replace('\\', '', $company['title']) }}
+                                    <a href="{{route('company.index', $company['id'])}}">{{  str_replace('\\', '', $company['title']) }}
                                     </a>
                                 </span>
                             </div>
@@ -100,19 +100,19 @@
                         <div class="row d-none d-sm-flex">
                             <div class="col pt-2 mt-1">
                                 @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
-                                    <a class="link" href="{{route('company.company', $company['id'])}}"><span>Цены Трейдера</span></a>
+                                    <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                                 @endif
 
                                 @if($company['purchases'] > 0)
-                                    <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
+                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
                                 @endif
 
                                 @if($company['sales'] > 0)
-                                    <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
+                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
                                 @endif
 
                                 @if($company['services'] > 0)
-                                    <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
+                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
                                 @endif
                             </div>
                         </div>
@@ -136,16 +136,16 @@
                 <div class="row mx-0 d-sm-none lh-1 w-100">
                     <div class="col mt-2 text-center">
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
-                            <a class="link" href="{{route('company.company', $company['id'])}}"><span>Цены Трейдера</span></a>
+                            <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                         @endif
                         @if($company['purchases'] > 0)
-                            <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
+                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
                         @endif
                         @if($company['sales'] > 0)
-                            <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
+                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
                         @endif
                         @if($company['services'] > 0)
-                            <a class="link" href="/kompanii/comp-{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
+                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
                         @endif
                     </div>
                 </div>

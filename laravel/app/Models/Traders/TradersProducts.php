@@ -30,9 +30,7 @@ class TradersProducts extends Model
 
     public function getCultureAttribute()
     {
-        return $this->traders_products_lang()
-            ->get()
-            ->toArray()[0];
+        return $this->traders_products_lang()->get()->toArray()[0];
     }
 
     public function traders_prices()

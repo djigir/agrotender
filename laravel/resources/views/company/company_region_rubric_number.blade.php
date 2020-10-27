@@ -18,7 +18,7 @@
                 <span class="searchTag regionTag d-inline-block">
                     {{$currently_obl}}
 
-                <a href="{{route('company.company_region_rubric_number', ['ukraine', $rubric_number])}}">
+                <a href="{{route('company.region_rubric_number', ['ukraine', $rubric_number])}}">
                     <i class="far fa-times close ml-3"></i>
                 </a>
                 </span>
@@ -29,7 +29,7 @@
                 <div>
                 <span class="searchTag regionTag d-inline-block">
                     {{$current_culture}}
-                    <a href="{{route('company.company_and_region', $region)}}">
+                    <a href="{{route('company.region', $region)}}">
                         <i class="far fa-times close ml-3"></i>
                     </a>
                 </span>
@@ -49,7 +49,7 @@
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">
                             <div class="col-12 pl-0 pr-0 pr-sm-2">
-                                <a href="{{route('company.company', $company->id)}}">
+                                <a href="{{route('company.index', $company->id)}}">
                                     <img class="companyImg" src="{{ $company->logo_file ? $company->logo_file : '/app/assets/img/no-image.png' }}"/>
                                 </a>
                             </div>

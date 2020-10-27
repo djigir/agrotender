@@ -39,13 +39,13 @@ class CompanyService
         $route_params = null;
 
         if (!empty($request->get('region'))) {
-            $route_name = 'company.company_and_region';
+            $route_name = 'company.region';
             $route_params = ['region' => $request->get('region')];
         }
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
 
-            $route_name = 'company.company_region_rubric_number';
+            $route_name = 'company.region_rubric_number';
             $route_params = [
                 'region' => $request->get('region'),
                 'rubric_number' => $request->get('rubric')
@@ -53,7 +53,7 @@ class CompanyService
         }
 
         if (!empty($request->get('query'))) {
-            $route_name = 'company.company_filter';
+            $route_name = 'company.filter';
             $route_params = ['query' => $request->get('query')];
         }
 
@@ -86,8 +86,7 @@ class CompanyService
     {
         $rubrics = CompTgroups::with([
             'comp_topic' => function ($query) {
-                $query->select('menu_group_id', 'title', 'id')
-                    ->where('parent_id', 0);
+                $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
             }
         ])
             ->orderBy('sort_num')
@@ -361,7 +360,6 @@ class CompanyService
         }
 
         //$prices = $this->getPrices($author_id, $type, $placeType);
-
 
         return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
             ->with([

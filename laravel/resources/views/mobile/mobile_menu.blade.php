@@ -10,7 +10,7 @@
         <div class="links">
             <a href="#">Обьявления</a>
             <a href="{{route('company.companies')}}">Компании</a>
-            <a href="{{route('traders.')}}">Цены Трейдеров</a>
+            <a href="{{route('traders.region', 'ukraine')}}">Цены Трейдеров</a>
             <a href="#">Элеваторы</a>
             <a href="#">Форварды</a>
         </div>
@@ -24,9 +24,9 @@
     </div>
     <div class="items d-flex flex-column justify-content-between">
         @if(isset($id))
-            <a href="{{route('company.company', $id)}}" class="menu-item" >Главная</a>
-            <a href="{{route('company.company_reviews', $id)}}" class="menu-item">Отзывы</a>
-            <a href="{{route('company.company_cont', $id)}}" class="menu-item">Контакты</a>
+            <a href="{{route('company.index', $id)}}" class="menu-item" >Главная</a>
+            <a href="{{route('company.reviews', $id)}}" class="menu-item">Отзывы</a>
+            <a href="{{route('company.cont', $id)}}" class="menu-item">Контакты</a>
         @endif
     </div>
 </div>
