@@ -122,7 +122,6 @@ class TraderController extends Controller
         }else {
             $culture_name = 'Выбрать продукцию';
         }
-
         $meta = $this->seoService->getTradersMeta(['rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
 
