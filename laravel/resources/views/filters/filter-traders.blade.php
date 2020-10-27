@@ -32,9 +32,9 @@
                                         <a href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">Форварды</a>
                                     </li>
                                 @endif
-{{--                                <li>--}}
-{{--                                    <a href="{{route('traders_sell',  $region)}}">Продажи</a>--}}
-{{--                                </li>--}}
+                                <li>
+                                    <a href="{{route('traders_sell',  $region)}}">Продажи</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
