@@ -89,7 +89,7 @@ class TraderController extends Controller
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-
+        $culture_meta = null;
         $traders = isset($data['forwards']) ? $this->traderService->getTradersForward($data['region'], $data['culture']) :
             $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
                 'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
@@ -122,7 +122,6 @@ class TraderController extends Controller
         }else {
             $culture_name = 'Выбрать продукцию';
         }
-
         $meta = $this->seoService->getTradersMeta(['rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
 
