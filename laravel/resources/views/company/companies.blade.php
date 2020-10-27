@@ -53,7 +53,7 @@
                         </div>
                         <div class="row m-0 pt-3 d-none d-sm-flex">
                             <div class="col-12 pl-0 pr-2 text-center">
-                                <span class="date">На сайте с {{$company['date']}}</span>
+                                <span class="date">На сайте {{$company['date']}}</span>
                             </div>
                         </div>
                     </div>
@@ -68,7 +68,7 @@
                         </div>
                         <div class="row d-sm-none lh-1">
                             <div class="col">
-                                <span class="date mb-2">На сайте с {{$company['date']}}</span>
+                                <span class="date mb-2">На сайте {{$company['date']}}</span>
                             </div>
                         </div>
                         <div class="row d-none d-sm-flex">

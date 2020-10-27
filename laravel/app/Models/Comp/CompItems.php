@@ -139,7 +139,8 @@ class CompItems extends Model
 
     public function getDateAttribute()
     {
-        return mb_convert_case(Date::parse($this->add_date)->format('F. Y'), MB_CASE_TITLE, "UTF-8");
+
+        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
     }
 
 
