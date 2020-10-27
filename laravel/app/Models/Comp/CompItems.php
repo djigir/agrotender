@@ -140,6 +140,9 @@ class CompItems extends Model
     public function getDateAttribute()
     {
 
+        if($this->add_date===null){
+            return '';
+        }
         return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
     }
 
