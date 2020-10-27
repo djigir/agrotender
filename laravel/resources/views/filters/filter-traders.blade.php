@@ -26,16 +26,18 @@
                     <button class="filter__button main">Закупки</button>
                     <div class="new_filters_dropdown-wrap">
                         <div class="new_filters_dropdown">
-                            <ul>
-                                @if($culture_id && $region)
+                            @if($region)
+                                <ul>
+                                    @if($culture_id && $region)
+                                        <li>
+                                            <a href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">Форварды</a>
+                                        </li>
+                                    @endif
                                     <li>
-                                        <a href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">Форварды</a>
+                                        <a href="{{route('traders_sell',  $region)}}">Продажи</a>
                                     </li>
-                                @endif
-                                <li>
-                                    <a href="{{route('traders_sell',  $region)}}">Продажи</a>
-                                </li>
-                            </ul>
+                                </ul>
+                            @endif
                         </div>
                     </div>
                 </div>
