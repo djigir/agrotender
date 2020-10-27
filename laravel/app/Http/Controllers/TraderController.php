@@ -85,16 +85,20 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
-
         $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-        $traders = $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
-            'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
+
+        $traders = isset($data['forwards']) ? $this->traderService->getTradersForward($data['region'], $data['culture']) :
+            $this->traderService->getTradersRegionPortCulture(['port' => $data['port'],
+                'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']]);
+
+
         $currency = isset($data['query']['currency']) ? $data['query']['currency'] : null;
         $region_all = $data['region'];
         $port_all = $data['port'];
+
 
         if($data['region'] != 'ukraine' && $data['region']) {
             $region_all = Regions::where('translit', $data['region'])->get()->toArray()[0];
@@ -236,16 +240,13 @@ class TraderController extends Controller
 
     public function forwardsCulture($region, $culture)
     {
-        $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
-        $traders = $this->traderService->getTradersForward($region, $culture);
-        //dd($traders);
-        return view('traders.trader_forwards_culture', [
-            'region_name' => $region_name,
-            'region' => $region,
-            'traders' => $traders,
-            'isMobile' => $this->agent->isMobile(),
-            'page_type' => 1,
-        ]);
+        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true];
+        $necessaryData = $this->setDataForTraders($data_traders);
+
+        if($necessaryData){
+            return $necessaryData;
+        }
+
     }
 
     public function sellRegion($region)

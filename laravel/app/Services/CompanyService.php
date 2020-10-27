@@ -23,10 +23,12 @@ class CompanyService
 {
     const PER_PAGE = 10;
     protected $baseService;
+    protected $prices;
 
     public function __construct(BaseServices $baseService)
     {
         $this->baseService = $baseService;
+        $this->prices = null;
     }
 
     public function mobileFilter(\Illuminate\Http\Request $request)
@@ -88,7 +90,9 @@ class CompanyService
         ])
             ->orderBy('sort_num')
             ->orderBy('title')
-            ->get();
+            ->get()
+            ->groupBy('id')
+            ->toArray();
 
 
         $topic_counts = CompTopicItem::select(['topic_id', \DB::raw('count(*) as cnt')])
@@ -97,7 +101,6 @@ class CompanyService
             ->keyBy('topic_id')
             ->toArray();
 
-        $rubrics = $rubrics->groupBy('id')->toArray();
 
         foreach ($rubrics as $index => $rubric) {
 
@@ -128,23 +131,7 @@ class CompanyService
             ->get();
     }
 
-    public function getPrices($author_id, $type, $placeType)
-    {
-        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])->
 
-        with(['price_products', 'traders_places' => function($query) use($type, $placeType, $author_id){
-            $query->where([
-                ['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]
-            ])->with('traders_ports',
-                'regions')->with('traders_ports.traders_ports_lang');
-        }])->get()->groupBy('place_id');
-
-//        $prices = $prices->filter(function ($value, $key) use($prices) {
-//            dd($value->toArray());
-//        });
-//        dd($prices);
-        return $prices;
-    }
 
     public function getPortsRegionsCulture($id, $placeType)
     {
@@ -317,15 +304,14 @@ class CompanyService
         return $prices[$currency_type];
     }
 
-
-    public function getTraderPricesRubrics($id, $placeType)
+    public function setDataPrices($id, $placeType)
     {
         $type = 0;
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
 
-        $pricesPorts = $this->getPlaces($author_id, 2, $type);
-        $pricesRegions = $this->getPlaces($author_id, 0, $type);
+//        $pricesPorts = $this->getPlaces($author_id, 2, $type);
+//        $pricesRegions = $this->getPlaces($author_id, 0, $type);
 
 
         $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
@@ -339,7 +325,40 @@ class CompanyService
             $type = 0;
         }
 
-        $prices = $this->getPrices($author_id, $type, $placeType);
+        $this->prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])
+            ->with(['price_products', 'traders_places' => function($query) use($type, $placeType, $author_id){
+            $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
+        }])
+            ->get()
+            ->groupBy('place_id')
+            ->toArray();
+
+        return $this->prices;
+    }
+
+
+    public function getTraderPricesRubrics($id, $placeType)
+    {
+        $type = 0;
+        $company = CompItems::where('id', $id)->get()->first();
+        $author_id = $company['author_id'];
+
+//        $pricesPorts = $this->getPlaces($author_id, 2, $type);
+//        $pricesRegions = $this->getPlaces($author_id, 0, $type);
+
+
+        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
+        $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
+
+        if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
+            $type = 1;
+        }
+
+        if ($issetT1 > 0 && $company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
+            $type = 0;
+        }
+
+        //$prices = $this->getPrices($author_id, $type, $placeType);
 
 
         return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
@@ -353,8 +372,7 @@ class CompanyService
                                         $query->where([
                                             ['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]
                                         ])
-                                            ->with('traders_ports',
-                                                'regions')->with('traders_ports.traders_ports_lang');
+                                            ->with('traders_ports', 'regions')->with('traders_ports.traders_ports_lang');
                                     }
                                 ]);
                         }

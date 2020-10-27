@@ -30,6 +30,7 @@
             @endif
         </ol>
     </div>
+
     <div class="d-none d-sm-block container mt-5">
         <div class="content-block mt-3 py-3 px-3">
             <div class="btn-group position-relative w-100 ">
@@ -331,6 +332,7 @@
             </div>
         </div>
     </div>
+
     <div class="container mt-0 mt-sm-3">
         <div class="row pt-sm-3">
             <div class="position-relative w-100">

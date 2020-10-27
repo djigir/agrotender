@@ -128,17 +128,31 @@ class TraderService
         $this->setQuery();
 
         $traders = CompItems::where([['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1],
-            ['visible', 1]])->with(['traders_products2_buyer' => function($query) use($culture){
-            $query->where([['acttype', 3], ['cult_id', TradersProducts::where('url', $culture)->value('id')]]);
-        }, 'traders_prices' => function($query) use($culture){
+            ['visible', 1]])->with(['traders_prices' => function($query) use($culture){
             $query->where([['acttype', 3], ['active', 1], ['cult_id', TradersProducts::where('url', $culture)->value('id')]]);
-        }])->select('title', 'author_id')->get()->toArray();
+        }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula')
+            ->orderBy('trader_premium', 'desc')
+            ->orderBy('trader_sort')
+            ->orderBy('rate_formula' , 'desc')
+            ->orderBy('title')
+            ->get()
+            ->toArray();
 
         foreach ($traders as $index_trader => $trader)
         {
             if(empty($trader['traders_prices'])){
                 unset($traders[$index_trader]);
+            }else{
+                foreach ($trader['traders_prices'] as $index_price => $price)
+                {
+                    $traders[$index_trader]['traders_prices'][$index_price]['region'] = $price['places']['region'];
+                    $traders[$index_trader]['traders_prices'][$index_price]['place_name'] = $price['places']['place'];
+                    unset($traders[$index_trader]['traders_prices'][$index_price]['places']);
+                }
             }
+            if(isset($traders[$index_trader]))
+            $traders[$index_trader]['traders_prices'] = collect($traders[$index_trader]['traders_prices'])->sortByDesc('place_name')->toArray();
+
         }
 
         $traders = array_values($traders);

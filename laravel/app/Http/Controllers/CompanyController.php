@@ -248,7 +248,7 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $current_page = 'main';
-        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => $id, 'page' => $current_page, 'page_type' => 'companies'];
+//        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => $id, 'page' => $current_page, 'page_type' => 'companies'];
 
         return view('company.company', [
             'company' => $company,
