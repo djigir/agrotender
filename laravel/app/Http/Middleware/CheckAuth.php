@@ -15,7 +15,6 @@ class CheckAuth
      */
     public function handle($request, Closure $next)
     {
-//        dd($_SESSION['id']);
         return $next($request);
     }
 }

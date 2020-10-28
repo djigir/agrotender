@@ -376,7 +376,8 @@ class CompanyController extends Controller
     {
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
-            'content' => 'required',
+            'content_plus' => 'required',
+            'content_minus' => 'required',
         ]);
         if ($validator->fails()){
             return redirect()
@@ -411,16 +412,11 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-<<<<<<< HEAD
-     * @param Request $request
      * @param int $id
-=======
-     * @param  int  $id
->>>>>>> 8d088682a5b7543bc3feba35582e300c4876264c
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function companyReviews(Request $request, int $id)
+    public function companyReviews(int $id)
     {
         $this->setCompany($id);
         $reviews_with_comp = $this->companyService->getReviews($id);

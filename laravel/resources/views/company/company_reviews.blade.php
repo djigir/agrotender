@@ -42,7 +42,6 @@
                             @else
                                 <span class="author">{{ $review['author'] }}</span>
                             @endif
-                            @endif
                             {{-- доделать когда будет авторизация --}}
                             {{--{if $company['id'] == $user->company['id']}
                             <i class="far fa-reply review-comment ml-1"></i>
@@ -109,13 +108,13 @@
                     <div class="form-group row mb-4 pb-1">
                         <label class="col-sm-3 col-form-label text-left text-sm-right">Достоинства <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Достоинства" name="content_plus">
+                            <input type="text" class="form-control" placeholder="Достоинства" name="content_plus" required minlength="20">
                         </div>
                     </div>
                     <div class="form-group row mb-4 pb-1">
                         <label class="col-sm-3 col-form-label text-left text-sm-right">Недостатки <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Недостатки" name="content_minus">
+                            <input type="text" class="form-control" placeholder="Недостатки" name="content_minus" required minlength="20">
                         </div>
                     </div>
                     <div class="form-group row mb-4 pb-1">
