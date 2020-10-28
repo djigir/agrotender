@@ -57,7 +57,12 @@ class CompComment extends Model
 
     public function getCommentLangAttribute()
     {
-        return CompCommentLang::where('item_id', $this->id)->get()->toArray()[0];
+        $commentLang = CompCommentLang::where('item_id', $this->id)->select()->get()->toArray();
+        if (!empty($commentLang)){
+            return $commentLang[0];
+        }
+        return [];
+//        return CompCommentLang::where('item_id', $this->id)->get()->toArray()[0];
     }
     public function comp_comment_lang()
     {

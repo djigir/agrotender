@@ -274,40 +274,68 @@ window.onload = function (){
 
     $('.addReview').on('click', function () {
         $('.noty_layout').css('display', 'block');
+        /* Удаление alert по времени */
+        setTimeout(function(){
+            $('#noty_layout__bottomLeft').hide();
+        }, 5000);
     });
+    function changeBG(type = ''){
+        if(type == 'active'){
+            $('#bg-modal').addClass("modal-backdrop");
+            $('#bg-modal').addClass("show");
+            $('body').addClass('modal-open');
+            $('#reviewModal').toggle();
+        }else{
+            $('body').removeClass('modal-open');
+            $('#bg-modal').removeClass("modal-backdrop");
+            $('#bg-modal').removeClass("show");
+            $('#reviewModal').toggle();
+        }
 
+    }
+        /* modal */
     $('#reviews').click(function () {
-        $('#reviewModal').toggle();
-    });
-    $('.close').click(function () {
-        $('#reviewModal').toggle();
+       changeBG('active');
     });
 
+    $('.close').click(function (e) {
+        changeBG();
+    });
 
-    /* change color stars in reviews page */
-    $(".add_rate").click(function(event) {
+    /* закрыть модалльное окно по ESC */
+    $(document).on('keydown', function (e) {
+        if (e.keyCode == 27) {
+            $('body').removeClass('modal-open');
+            $('#bg-modal').removeClass("modal-backdrop");
+            $('#bg-modal').removeClass("show");
+            $('#reviewModal').css('display', 'none');
+        }
+
+    });
+
+    /* изменение цвета всех звезд при клике на первую звезду */
+    $("#first-rate").click(function (event) {
         let rate = $(this).attr('rate');
-        if(event.currentTarget.getAttribute('id') == 'first-rate'){
-            for (let i = 0; i < $(".add_rate").length; i++){
-                if(i > 0){
-                    $(".rate_input").attr('value', rate);
-                    console.log($(".rate_input").val());
-                    let elem = $(".add_rate")[i];
-                    elem.classList.remove('fas');
-                    elem.classList.add('far');
-                }
-            }
-        }else {
-            if(event.target.classList.contains("far")){
-                event.target.classList.add('fas');
-                event.target.classList.remove('far');
-                console.log($(".rate_input").val());
-                $(".rate_input").attr('value', rate);
-            }else if(event.target.classList.contains("fas")){
-                $(".rate_input").attr('value', rate);
-                console.log($(".rate_input").val());
-                event.target.classList.remove('fas');
-                event.target.classList.add('far');
+        $(".rate_input").attr('value', rate);
+        for (let i = 0; i < $(".add_rate").length; i++) {
+            let elem = $(".add_rate")[i];
+            elem.classList.remove('fas');
+            elem.classList.add('far');
+        }
+    });
+
+    /* изменение цвета звезд на странице отзывов */
+    $(".add_rate").click(function (event) {
+        let rate = $(this).attr('rate');
+        $(".rate_input").attr('value', rate);
+        for (let i = 0; i < $(".add_rate").length; i++) {
+            let elem = $(".add_rate")[i];
+            if (i < rate - 1){
+                elem.classList.remove('far');
+                elem.classList.add('fas');
+            }else  {
+                elem.classList.remove('fas');
+                elem.classList.add('far');
             }
         }
     })

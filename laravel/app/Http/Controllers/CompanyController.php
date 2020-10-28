@@ -23,7 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\View\View;
 use Jenssegers\Date\Date;
-use \Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
@@ -287,8 +287,6 @@ class CompanyController extends Controller
         }
         $company['traders_prices'] = array_values($company['traders_prices']);
 
-        dd($company);
-
         return view('company.company_forwards', [
             'company' => !empty($company) ? $company[0] : [],
             'id' => $id,
@@ -300,6 +298,17 @@ class CompanyController extends Controller
 
  public function createReviews(Request $request, $id)
     {
+        /** @var Validator $validator */
+        $validator = Validator::make($request->all(), [
+            'content' => 'required',
+        ]);
+        if ($validator->fails()){
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
         $author = CompComment::create([
             'item_id' => $id,
             'visible' => 1,
@@ -320,50 +329,21 @@ class CompanyController extends Controller
             'content_plus' => $request->get('content_plus'),
             'content_minus' => $request->get('content_minus')
         ]);
-        if ($comment['content'] != null) {
-            return redirect()
-                ->route('company.company_reviews', ['id_company' => $id]);
-        }
 
-//        $comment_text =CompCommentLang::create($request->only(['content', 'content_plus', 'content_minus']) + ['item_id', 1224]);
-//        $comment_text =CompCommentLang::create(['item_id', 1224, 'content', 'content_plus', 'content_minus']);
-
-//        CompCommentLang::update();
-//        $comp_comment = CompComment::find(906);
-//        $comp_comment->update(['rate' => 5]);
-
-        /*$data_comment = ['id_company' => $id_company,
-            'user' => $user,
-            'good' => $request->get('good'),
-            'bad' => $request->get('bad'),
-            'comment' => $request->get('comment')];*/
-
-
-        //$reviews = $this->companyService->addReviews($data_comment);
+      return redirect()->route('company.reviews', ['id_company' => $id]);
     }
-
-    public function updateReviews(){}
-
-    public function deleteReviews(){}
 
     /**
      * Display a listing of the resource.
-     * @param integer $id_company
-     *
+     * @param Request $request
+     * @param int $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function companyReviews(int $id)
+    public function companyReviews(Request $request, int $id)
     {
         $this->setCompany($id);
         $reviews_with_comp = $this->companyService->getReviews($id);
-        $meta = $this->seoService->getMetaCompanyReviews($id);
-        /*$data_comment = ['id_company' => $id,
-            'user' => $user,
-            'good' => $request->get('good'),
-            'bad' => $request->get('bad'),
-            'comment' => $request->get('comment')];*/
-
-
         $meta = $this->seoService->getMetaCompanyReviews($id);
 
         return view('company.company_reviews', [

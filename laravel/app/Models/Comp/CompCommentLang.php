@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @param string $content_plus;
  * @param string $content_minus;
  *
+ * @method static create(array $array)
  */
 
 class CompCommentLang extends Model

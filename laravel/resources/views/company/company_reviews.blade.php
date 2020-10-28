@@ -38,10 +38,7 @@
                     <div class="row m-0 align-items-center">
                         <div class="col p-0">
                             @if(!empty($review['company']))
-                                 <a href="{{ route('company.company', $review['company']['id']) }}" target="_blank">{!! $review['company']['title'] !!} </a>
-
-                            @if(isset($review['title']))
-                                 <a href="{{ route('company.index', $review['comp_id']) }}" target="_blank">{!! $review['title'] !!} </a>
+                                 <a href="{{ route('company.index', $review['company']['id']) }}" target="_blank">{!! $review['company']['title'] !!} </a>
                             @else
                                 <span class="author">{{ $review['author'] }}</span>
                             @endif
@@ -60,17 +57,16 @@
                 </div>
             </div>
             <div class="px-3">
-                    @if(!is_null($review['comment_lang']['content']) && $review['comment_lang']['content'] !== '')
-                <span class="review-title">Отзыв</span>
+            @if(isset($review['comment_lang']['content']))
+                    <span class="review-title">Отзыв</span>
                 <p class="review-content">{{ $review['comment_lang']['content'] }}</p>
                 @endif
-
-                    @if(!is_null($review['comment_lang']['content_plus']) && $review['comment_lang']['content_plus'] !== '')
+                    @if(isset($review['comment_lang']['content_plus']))
                 <span class="review-title">Достоинства:</span>
                 <p class="review-content">{{ $review['comment_lang']['content_plus'] }}</p>
                 @endif
 
-                    @if(!is_null($review['comment_lang']['content_minus']) && $review['comment_lang']['content_minus'] !== '')
+                    @if(isset($review['comment_lang']['content_minus']))
                 <span class="review-title">Недостатки:</span>
                 <p class="review-content">{{ $review['comment_lang']['content_minus'] }}</p>
                 @endif
@@ -96,7 +92,9 @@
         </div>
         @endforelse
     </div>
-    <div class="modal fade show" id="reviewModal" tabindex="-1" role="dialog" style="display: none; ">
+
+
+    <div class="modal fade show" id="reviewModal" tabindex="-1" role="dialog" style="display: none">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <form class="form modal-content"  action="{{route('company.create_review', $id)}}" method="POST">
                 @csrf
@@ -128,7 +126,7 @@
                 </div>
                 <div class="modal-footer d-block text-center text-sm-left d-sm-flex justify-content-end pt-2 mb-2 px-5">
                     <div id="colorstar" data-rate="3" class="starrr ratable text-center mr-3 d-block d-sm-inline-block mb-3 mb-sm-0">
-                        <span rate="1" data-num="1" class="fas fa-star add_rate" id="first-rate"></span>
+                        <span rate="1" data-num="1" class="fas fa-star" id="first-rate"></span>
                         <span rate="2" data-num="2" class="fas fa-star add_rate"></span>
                         <span rate="3" data-num="3" class="fas fa-star add_rate"></span>
                         <span rate="4" data-num="4" class="far fa-star add_rate"></span>
@@ -149,7 +147,6 @@
         </div>
     </div>
 
-
     @if ($errors->any())
         <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: block">
             <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
@@ -159,6 +156,5 @@
             </div>
         </div>
     @endif
-
-
+    <div class="fade" id="bg-modal"></div>
 @endsection

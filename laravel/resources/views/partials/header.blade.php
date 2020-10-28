@@ -75,6 +75,7 @@
                         <span class="align-self-center align-middle logo-text d-none d-lg-inline-block pl-2">Присоединяйся!</span>
                     </div>
                 </div>
+                @include('partials.auth')
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
                         @if(isset($id))
