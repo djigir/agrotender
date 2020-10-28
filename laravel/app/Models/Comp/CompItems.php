@@ -176,7 +176,7 @@ class CompItems extends Model
 
     public function comp_comment()
     {
-        return $this->hasMany(CompComment::class, 'author_id', 'id');
+        return $this->belongsTo(CompComment::class, 'author_id', 'author_id');
     }
 
     public function traders_contacts_regions()

@@ -21,7 +21,6 @@ Route::prefix('traders')
 
         Route::get('/tport_{port_name}', 'TraderController@port')->name('traders_port');
         Route::get('/tport_{port}/{culture}', 'TraderController@portCulture')->name('traders_port_culture');
-
     });
 
 /* routes for company  */
@@ -37,7 +36,10 @@ Route::prefix('kompanii')
         Route::get('/region_{region}', 'CompanyController@companyRegion')->name('company_and_region');
         Route::get('/s/{query}', 'CompanyController@companyFilter')->name('company_filter');
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@companyRegionRubric')->name('company_region_rubric_number');
+        Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');
     });
+
+
 
 
 Route::get('/traders_forwards/region_{region}', 'TraderController@forwards')->name('traders_forwards');

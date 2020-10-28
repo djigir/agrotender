@@ -21,6 +21,7 @@ use  App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Jenssegers\Date\Date;
+use \Illuminate\Validation\Validator;
 
 class CompanyController extends Controller
 {
@@ -220,7 +221,6 @@ class CompanyController extends Controller
     }
 
 
-
     /**
      * Display a listing of the resource.
      * @param  integer  $id;
@@ -286,38 +286,71 @@ class CompanyController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     * @param  integer  $id_company  ;
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param Request $request
+     * @param $id_company
+     * @param $validator
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function companyReviews(Request $request, $id_company)
+    public function createReviews(Request $request, $id_company)
     {
-        $current_page = 'reviews';
-        $company = CompItems::find($id_company);
-        $reviews_with_comp = $this->companyService->getReviews($id_company);
-        $user = ['id' => 877,
+        $author = CompComment::create([
             'item_id' => $id_company,
             'visible' => 1,
-            'rate' => 3,
+            'rate' => $request->get('rate'),
             'add_date' => Carbon::now(),
             'author' => 'TEST',
             'author_email' => 'test@gmail.com',
             'ddchk_guid' => '',
             'reply_to_id' => 0,
-            'author_id' => 34624,
+            'author_id' => 9999,
             'like_yes' => 0,
-            'like_no' => 0];
+            'like_no' => 0
+        ]);
+        $comment = CompCommentLang::create([
+            'item_id' => $author['id'],
+            'lang_id' => 1,
+            'content' => $request->get('content'),
+            'content_plus' => $request->get('content_plus'),
+            'content_minus' => $request->get('content_minus')
+        ]);
+        if ($comment['content'] != null) {
+            return redirect()
+                ->route('company.company_reviews', ['id_company' => $id_company]);
+        }
 
-        $data_comment = ['id_company' => $id_company,
+//        $comment_text =CompCommentLang::create($request->only(['content', 'content_plus', 'content_minus']) + ['item_id', 1224]);
+//        $comment_text =CompCommentLang::create(['item_id', 1224, 'content', 'content_plus', 'content_minus']);
+
+//        CompCommentLang::update();
+//        $comp_comment = CompComment::find(906);
+//        $comp_comment->update(['rate' => 5]);
+
+        /*$data_comment = ['id_company' => $id_company,
             'user' => $user,
             'good' => $request->get('good'),
             'bad' => $request->get('bad'),
-            'comment' => $request->get('comment')];
-        /*if (isset($_GET['add_comment'])) {
-            $reviews = $this->companyService->addReviews($data_comment);
-        }*/
+            'comment' => $request->get('comment')];*/
 
+
+        //$reviews = $this->companyService->addReviews($data_comment);
+    }
+
+    public function updateReviews(){}
+
+    public function deleteReviews(){}
+
+    /**
+     * Display a listing of the resource.
+     * @param integer $id_company
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function companyReviews(int $id_company)
+    {
+        $current_page = 'reviews';
+        $company = CompItems::find($id_company);
+        $reviews_with_comp = $this->companyService->getReviews($id_company);
+//        dd($reviews_with_comp);
         $meta = $this->seoService->getMetaCompanyReviews($id_company);
 
         return view('company.company_reviews', [

@@ -269,4 +269,39 @@ window.onload = function (){
         $('.noty_layout').css('display', 'block');
     });
 
+    $('#reviews').click(function () {
+        $('#reviewModal').toggle();
+    });
+    $('.close').click(function () {
+        $('#reviewModal').toggle();
+    });
+
+
+    /* change color stars in reviews page */
+    $(".add_rate").click(function(event) {
+        let rate = $(this).attr('rate');
+        if(event.currentTarget.getAttribute('id') == 'first-rate'){
+            for (let i = 0; i < $(".add_rate").length; i++){
+                if(i > 0){
+                    $(".rate_input").attr('value', rate);
+                    console.log($(".rate_input").val());
+                    let elem = $(".add_rate")[i];
+                    elem.classList.remove('fas');
+                    elem.classList.add('far');
+                }
+            }
+        }else {
+            if(event.target.classList.contains("far")){
+                event.target.classList.add('fas');
+                event.target.classList.remove('far');
+                console.log($(".rate_input").val());
+                $(".rate_input").attr('value', rate);
+            }else if(event.target.classList.contains("fas")){
+                $(".rate_input").attr('value', rate);
+                console.log($(".rate_input").val());
+                event.target.classList.remove('fas');
+                event.target.classList.add('far');
+            }
+        }
+    })
 };

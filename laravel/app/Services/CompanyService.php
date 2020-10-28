@@ -397,58 +397,14 @@ class CompanyService
 
     public function getReviews($id_company)
     {
-        $reviews_with_comp = CompComment::where('item_id', $id_company)
-            ->join('comp_items', 'comp_comment.author_id', '=', 'comp_items.author_id')
-            ->select('comp_comment.id',
-                'comp_comment.item_id',
-                'comp_comment.author_id as comp_author_id',
-                'comp_items.author_id',
-                'comp_comment.author',
-                'comp_items.title',
-                'comp_comment.rate',
-                'comp_items.logo_file',
-                'comp_items.id as comp_id'
-            )
-            ->with('comp_comment_lang')
+        return CompComment::where('item_id', $id_company)
             ->orderBy('comp_comment.id', 'desc')
             ->get()
             ->toArray();
-
-        if (empty($reviews_with_comp)) {
-            $reviews_with_comp = CompComment::where('item_id', $id_company)
-                ->with('comp_comment_lang')
-                ->orderBy('comp_comment.id', 'desc')
-                ->get()
-                ->toArray();
-        }
-        return $reviews_with_comp;
     }
 
     public function addReviews($data)
     {
-        $insert_comment = [
-            'item_id' => $data['user']['id'],
-            'content' => $data['comment'],
-            'content_plus' => $data['good'],
-            'content_minus' => $data['bad'],
-        ];
-        $data_comment = [
-//            'id' => $data['user']['id'],
-            'item_id'=> $data['id_company'],
-            'visible'=> 1,
-            'rate'=> 3, // get rate from request
-            'add_date'=> Carbon::now(),
-            'author'=> $data['user']['author'],
-            'author_email'=> $data['user']['author_email'],
-            'ddchk_guid'=> '',
-            'reply_to_id'=> 0,
-            'author_id'=> $data['user']['author_id'],
-            'like_yes'=> 0,
-            'like_no' => 0,
-        ];
-//            $new_comment = CompCommentLang::create($insert_comment);
-//            $comment_id = CompComment::create($data_comment);
-
 
     }
 

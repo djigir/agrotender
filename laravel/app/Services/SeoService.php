@@ -57,7 +57,7 @@ class SeoService
     }
 
 
-    public function getTradersMetaRegion($region, $culture, $type)
+    public function getTradersMetaRegion($region, $culture)
     {
         if(empty($region)){
             return false;
@@ -86,7 +86,7 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaPort($port, $culture, $type)
+    public function getTradersMetaPort($port, $culture)
     {
         if(empty($port)){
             return false;
@@ -111,9 +111,9 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaForward($region, $culture, $type)
+    public function getTradersMetaForward($region, $culture)
     {
-        if(empty($region) && $type != 3){
+        if(empty($region)){
             return false;
         }
 
@@ -127,9 +127,9 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaSell($region, $culture, $type)
+    public function getTradersMetaSell($region, $culture)
     {
-        if(empty($region) && $type != 2){
+        if(empty($region)){
             return false;
         }
 
@@ -145,10 +145,18 @@ class SeoService
 
     public function getTradersMeta($data)
     {
-        $meta_region = $this->getTradersMetaRegion($data['region'], $data['rubric'], $data['type']);
-        $meta_port= $this->getTradersMetaPort($data['port'], $data['rubric'], $data['type']);
-        $meta_forward = $this->getTradersMetaForward($data['region'], $data['rubric'], $data['type']);
-        $meta_sell = $this->getTradersMetaSell($data['region'], $data['rubric'], $data['type']);
+        $meta_region = $this->getTradersMetaRegion($data['region'], $data['rubric']);
+        $meta_port = $this->getTradersMetaPort($data['port'], $data['rubric']);
+        $meta_forward = $this->getTradersMetaForward($data['region'], $data['rubric']);
+        $meta_sell = $this->getTradersMetaSell($data['region'], $data['rubric']);
+
+        if ($meta_forward && $data['type'] == 1) {
+            return $meta_forward;
+        }
+
+        if($meta_sell && $data['type'] == 2) {
+            return $meta_sell;
+        }
 
         if ($meta_region) {
             return $meta_region;
@@ -158,14 +166,6 @@ class SeoService
             return $meta_port;
         }
 
-
-        if ($meta_forward) {
-            return $meta_forward;
-        }
-
-        if($meta_sell) {
-            return $meta_sell;
-        }
     }
 
     public function getMetaForOneCompany($company)
