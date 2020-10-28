@@ -168,9 +168,9 @@ class CompItems extends Model
         return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
-    public function comp_topic_items_rubrics()
+    public function comp_items_rubrics()
     {
-        return $this->hasMany(CompTopicItem::class, 'item_id');
+        return $this->hasMany(CompTopicItem::class, 'item_id', 'id');
     }
 
     public function comp_items_contact()

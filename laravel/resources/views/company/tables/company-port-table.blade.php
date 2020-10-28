@@ -1,3 +1,11 @@
+<div class="ports-tabs table-tabs mt-3">
+    @if(!empty($port_price['UAH']))
+        <a id="port-uah" class="active region-port-table" style="cursor: pointer; color: white">Закупки UAH</a>
+    @endif
+    @if(!empty($port_price['USD']))
+        <a id="port-usd" class="region-port-table" style="cursor: pointer; color: white">Закупки USD</a>
+    @endif
+</div>
 <div class="content-block prices-block mb-5" style="position: relative" currency="0">
 <div class="price-table-wrap ports scroll-x d-none d-sm-block">
 @if(!empty($port_place))
@@ -20,12 +28,28 @@
                     </td>
                     @if(isset($port_price['UAH'][$place['place_id']]))
                         @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
-                            <td class="currency">
+                            <td class="port-UAH">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
                                         <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
-{{--                                                                                         <img src="/app/assets/img/price-up.svg">&nbsp;--}}
-{{--                                                                                          <span class="price-up">200</span>--}}
+{{--  <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+{{--   <span class="price-up">200</span>--}}
+                                    </div>
+                                    @if($price['comment'] != '' and !$price['comment'])
+                                        <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
+                                    @endif
+                                @endif
+                            </td>
+                        @endforeach
+                    @endif
+                    @if(isset($port_price['USD'][$place['place_id']]))
+                        @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
+                            <td class="port-USD">
+                                @if(isset($price['costval']))
+                                    <div class="d-flex align-items-center justify-content-center lh-1">
+                                        <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
+                                        {{--   <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+                                        {{--    <span class="price-up">200</span>--}}
                                     </div>
                                     @if($price['comment'] != '' and !$price['comment'])
                                         <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
@@ -61,7 +85,7 @@
                         </td>
                         @if(isset($port_price['UAH'][$place['place_id']]))
                             @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
-                                <td class="currency">
+                                <td class="port-UAH">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -72,6 +96,22 @@
                                             <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
                                         @endif
 
+                                    @endif
+                                </td>
+                            @endforeach
+                        @endif
+                        @if(isset($port_price['USD'][$place['place_id']]))
+                            @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
+                                <td class="port-USD">
+                                    @if(isset($price['costval']))
+                                        <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
+                                            {{--   <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+                                            {{--    <span class="price-up">200</span>--}}
+                                        </div>
+                                        @if($price['comment'] != '' and !$price['comment'])
+                                            <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
+                                        @endif
                                     @endif
                                 </td>
                             @endforeach
@@ -104,7 +144,7 @@
                     </td>
                     @if(isset($port_price['UAH'][$place['place_id']]))
                         @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
-                            <td class="currency">
+                            <td class="port-UAH">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
 {{--                                        <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;--}}
@@ -119,6 +159,22 @@
                             </td>
                         @endforeach
                     @endif
+                    @if(isset($port_price['USD'][$place['place_id']]))
+                        @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
+                            <td class="port-USD">
+                                @if(isset($price['costval']))
+                                    <div class="d-flex align-items-center justify-content-center lh-1">
+                                        <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
+                                        {{--   <img src="/app/assets/img/price-up.svg">&nbsp;--}}
+                                        {{--    <span class="price-up">200</span>--}}
+                                    </div>
+                                    @if($price['comment'] != '' and !$price['comment'])
+                                        <span class="d-block lh-1 pb-1 extra-small">{{$price['comment']}}</span>
+                                    @endif
+                                @endif
+                            </td>
+                        @endforeach
+                    @endif
                 </tr>
             @endforeach
             </tbody>
@@ -126,3 +182,4 @@
     </div>
 @endif
 </div>
+

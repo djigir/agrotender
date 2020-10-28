@@ -43,7 +43,7 @@
                                 @foreach($rubricGroups as $index => $rubric)
                                     <div class="col-auto rubricGroup pr-0 mr-3 groupCulture" group="{{$rubric['id']}}" style="display: none; column-count: 2">
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
-                                            <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_rubric_number', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
+                                            <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
                                                 <span>{{$culture['title']}}</span>
                                                 <span class="companyCount small">({{$culture['cnt']}})</span>
                                                 <span class="float-right right"><i class="far fa-chevron-right"></i></span>
@@ -79,7 +79,7 @@
                                 @foreach($regions as $index => $region)
                                     @if(isset($rubric_id) and isset($region))
                                         <a class="regionLink {{($region == $region['translit']) ? 'active' : '' }}"
-                                           href="{{route('company.region_rubric_number', [$region['translit'], $rubric_id])}}">
+                                           href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                         </a>
                                     @else

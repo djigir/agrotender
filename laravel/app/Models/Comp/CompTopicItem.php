@@ -17,13 +17,15 @@ class CompTopicItem extends Model
 
     protected $dates = ['add_date'];
 
-    public function comp_topic_rubric()
+    public function comp_items()
     {
-        return $this->belongsTo(CompItems::class, 'id');
+        return $this->belongsTo(CompItems::class, 'id', 'item_id');
     }
 
     public function comp_topic()
     {
         return $this->belongsTo(CompTopic::class, 'id');
     }
+
+
 }

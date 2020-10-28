@@ -258,18 +258,6 @@ class TraderController extends Controller
         }
     }
 
-    public function forwards($region)
-    {
-        $region_name = $this->traderService->getNamePortRegion($region,null)['region'];
-        $traders = $this->traderService->getTradersForward($region, null);
-
-        return view('traders.trader_forwards', [
-            'region_name' => $region_name,
-            'region' => $region,
-            'isMobile' => $this->agent->isMobile(),
-            'page_type' => 1,
-        ]);
-    }
 
     public function forwardsCulture($region, $culture)
     {

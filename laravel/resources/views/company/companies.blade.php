@@ -1,34 +1,26 @@
 @extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups,'regions' => $regions])
-{{--isMobile--}}
+
 @section('content')
     @if(!$isMobile)
         @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
     @endif
     <div class="d-none d-sm-block container mt-3"></div>
     <div class="d-sm-none container pt-4">
-        @if(!$isMobile)
-        <div>
-            <span class="searchTag regionTag d-inline-block">
-                Компании в Украине
-            </span>
-        </div>
-        @else
-            @if($region_id)
-                <div>
-                    <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.region', 'ukraine')}}">
-                            <i class="far fa-times close ml-3"></i>
-                        </a>
-                    </span>
-                </div>
-            @endif
-            @if($rubric_id)
-                <div>
-                    <span class="searchTag regionTag d-inline-block">{{$culture_name}}<a href="{{route('company.region', $region)}}">
-                            <i class="far fa-times close ml-3"></i>
-                        </a>
-                    </span>
-                </div>
-            @endif
+        @if($region_id)
+            <div>
+                <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.region', 'ukraine')}}">
+                        <i class="far fa-times close ml-3"></i>
+                    </a>
+                </span>
+            </div>
+        @endif
+        @if($rubric_id)
+            <div>
+                <span class="searchTag regionTag d-inline-block">{{$culture_name}}<a href="{{route('company.region', $region)}}">
+                        <i class="far fa-times close ml-3"></i>
+                    </a>
+                </span>
+            </div>
         @endif
     </div>
     <div class="container pb-4 companies">

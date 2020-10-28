@@ -1,4 +1,11 @@
 window.onload = function (){
+    $('.port-UAH').css('display', '');
+    $('.region-UAH').css('display', '');
+
+    $('.region-USD').css('display', 'none');
+    $('.port-USD').css('display', 'none');
+
+
     if($('#active-region').attr('check_active')){
         $('#active-region').addClass('active');
         $('#active-port').removeClass('active');
@@ -269,4 +276,38 @@ window.onload = function (){
         $('.noty_layout').css('display', 'block');
     });
 
+
+    /* Переключение в таблице цен компании */
+    $('#region-uah').click(function (event) {
+        $('#region-uah').addClass('active');
+        $('#region-usd').removeClass('active');
+
+        $('.region-UAH').css('display', '');
+        $('.region-USD').css('display', 'none');
+
+    });
+
+    $('#region-usd').click(function (event) {
+        $('#region-usd').addClass('active');
+        $('#region-uah').removeClass('active');
+
+        $('.region-USD').css('display', '');
+        $('.region-UAH').css('display', 'none');
+    });
+
+    $('#port-uah').click(function (event) {
+        $('#port-uah').addClass('active');
+        $('#port-usd').removeClass('active');
+
+        $('.port-UAH').css('display', '');
+        $('.port-USD').css('display', 'none');
+    });
+
+    $('#port-usd').click(function (event) {
+        $('.port-USD').css('display', '');
+        $('.port-UAH').css('display', 'none');
+
+        $('#port-usd').addClass('active');
+        $('#port-uah').removeClass('active');
+    });
 };

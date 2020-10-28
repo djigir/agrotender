@@ -70,7 +70,7 @@ class TradersPrices extends Model
 
     public function traders_products()
     {
-        return $this->belongsTo(TradersProducts::class, 'id');
+        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
     }
 
 
