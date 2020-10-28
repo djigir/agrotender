@@ -32,7 +32,7 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
-    protected $appends = ['region'];
+    protected $appends = ['region', 'port'];
 
     public function getRegionAttribute()
     {
@@ -40,10 +40,11 @@ class TradersPlaces extends Model
         return !empty($region) ? $region[0] : [];
     }
 
-//    public function getPortAttribute()
-//    {
-//        return TradersPorts::where('id', $this->port_id)->get()->toArray();
-//    }
+    public function getPortAttribute()
+    {
+        $port = TradersPorts::where('id', $this->port_id)->get()->toArray();
+        return !empty($port) ? $port[0] : [];
+    }
 
     public function traders_prices()
     {

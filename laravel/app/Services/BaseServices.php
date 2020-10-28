@@ -16,6 +16,12 @@ class BaseServices
         return $regions;
     }
 
+    public function removeEmpty($array, $key)
+    {
+
+    }
+
+
     public function new_unique($array, $key)
     {
         $temp_array = [];

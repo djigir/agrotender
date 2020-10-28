@@ -316,7 +316,7 @@ class Company extends \Core\Controller {
     // prices regions rubrics
     $traderRegionsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 0, $price_type);
     // prices ports rubrics
-    $traderPortsPricesRubrics   = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 2, $price_type);
+    $traderPortsPricesRubrics = $traders->getTraderPricesRubrics($this->companyItem['author_id'], 2, $price_type);
      // prices with ports
     $portsPrices   = $traders->getCompanyTraderPricesForwards($this->companyItem['author_id'], $pricesPorts, $traderPortsPricesRubrics, $price_type, $forward_months);
     // prices with regions

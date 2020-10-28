@@ -1,9 +1,11 @@
 <div class="ports-tabs table-tabs mt-3">
     @if(!empty($port_price['UAH']))
-        <a id="port-uah" class="active region-port-table" style="cursor: pointer; color: white">Закупки UAH</a>
+        <a id="port-uah" class="region-port-table" style="cursor: pointer; color: white">Закупки UAH</a>
     @endif
-    @if(!empty($port_price['USD']))
+    @if(!empty($port_price['USD']) )
         <a id="port-usd" class="region-port-table" style="cursor: pointer; color: white">Закупки USD</a>
+    @elseif(!empty($port_price['USD']) && empty($port_price['UAH']))
+            <a id="port-usd" class="active region-port-table" style="cursor: pointer; color: white">Закупки USD</a>
     @endif
 </div>
 <div class="content-block prices-block mb-5" style="position: relative" currency="0">

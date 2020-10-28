@@ -109,7 +109,7 @@
         </div>
         @include('mobile.mobile_menu')
     </header>
-    @if(!$isMobile)
+    @if(!$isMobile && !isset($id))
         @include('partials.banners.body')
     @endif
 </div>

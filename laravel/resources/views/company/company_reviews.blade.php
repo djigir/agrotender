@@ -42,6 +42,7 @@
                             @else
                                 <span class="author">{{ $review['author'] }}</span>
                             @endif
+                            @endif
                             {{-- доделать когда будет авторизация --}}
                             {{--{if $company['id'] == $user->company['id']}
                             <i class="far fa-reply review-comment ml-1"></i>

@@ -56,7 +56,6 @@ class TradersProducts extends Model
 
     public function products_price()
     {
-
         return $this->belongsTo(TradersPrices::class, 'cult_id', 'id');
     }
 }
