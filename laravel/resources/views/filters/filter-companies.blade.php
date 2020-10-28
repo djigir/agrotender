@@ -43,11 +43,10 @@
                                 @foreach($rubricGroups as $index => $rubric)
                                     <div class="col-auto rubricGroup pr-0 mr-3 groupCulture" group="{{$rubric['id']}}" style="display: none; column-count: 2">
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
-                                            <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}"
-                                               href="{{route('company.company_region_rubric_number', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
-                                            <span>{{$culture['title']}}</span>
-                                            <span class="companyCount small">({{$culture['cnt']}})</span>
-                                            <span class="float-right right"><i class="far fa-chevron-right"></i></span>
+                                            <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
+                                                <span>{{$culture['title']}}</span>
+                                                <span class="companyCount small">({{$culture['cnt']}})</span>
+                                                <span class="float-right right"><i class="far fa-chevron-right"></i></span>
                                             </a>
                                         @endforeach
                                     </div>
@@ -66,10 +65,10 @@
             <div class="dropdown-wrapper position-absolute regionDrop">
                 <div class="dropdown" id="regionDrop" style="display: none;">
                     <span class="d-block">
-                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'ukraine')}}">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{route('company.region', 'ukraine')}}">
                             <span style="cursor: pointer">Вся Украина</span>
                         </a>
-                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{route('company.company_and_region', 'crimea')}}">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{route('company.region', 'crimea')}}">
                             <span>АР Крым</span>
                         </a>
                     </span>
@@ -80,12 +79,12 @@
                                 @foreach($regions as $index => $region)
                                     @if(isset($rubric_id) and isset($region))
                                         <a class="regionLink {{($region == $region['translit']) ? 'active' : '' }}"
-                                           href="{{route('company.company_region_rubric_number', [$region['translit'], $rubric_id])}}">
+                                           href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                         </a>
                                     @else
                                         <a class="regionLink {{($region == $region['translit']) ? 'active' : ''}}"
-                                           href="{{route('company.company_and_region', $region['translit'])}}">
+                                           href="{{route('company.region', $region['translit'])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                         </a>
                                     @endif

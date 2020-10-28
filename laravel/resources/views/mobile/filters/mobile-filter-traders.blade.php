@@ -65,12 +65,12 @@
                 </a>
                 <div class="scroll">
                     @if($culture_id && $region)
-                        <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">
+                        <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forward.region_culture', [$region , $culture_translit])}}">
                             <span>Форварды</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </a>
                     @endif
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_sell',  $region)}}">
+                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_sell.region',  $region)}}">
                         <span>Продажи</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </a>

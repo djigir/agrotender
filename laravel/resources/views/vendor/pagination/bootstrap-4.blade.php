@@ -1,5 +1,5 @@
 <div class="row  mt-4 mobile-paginate">
-    <div class="col-12  d-block text-center">
+    <div style="margin: 0 auto">
         @if ($paginator->hasPages())
             <nav>
                 <ul class="pagination">

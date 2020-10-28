@@ -26,11 +26,13 @@ class CompanyService
     const PER_PAGE = 10;
     protected $baseService;
     protected $prices;
+    protected $companies;
 
     public function __construct(BaseServices $baseService)
     {
         $this->baseService = $baseService;
         $this->prices = null;
+        $this->companies = null;
     }
 
     public function mobileFilter(\Illuminate\Http\Request $request)
@@ -39,13 +41,13 @@ class CompanyService
         $route_params = null;
 
         if (!empty($request->get('region'))) {
-            $route_name = 'company.company_and_region';
+            $route_name = 'company.region';
             $route_params = ['region' => $request->get('region')];
         }
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
 
-            $route_name = 'company.company_region_rubric_number';
+            $route_name = 'company.region_culture';
             $route_params = [
                 'region' => $request->get('region'),
                 'rubric_number' => $request->get('rubric')
@@ -53,7 +55,7 @@ class CompanyService
         }
 
         if (!empty($request->get('query'))) {
-            $route_name = 'company.company_filter';
+            $route_name = 'company.filter';
             $route_params = ['query' => $request->get('query')];
         }
 
@@ -86,8 +88,7 @@ class CompanyService
     {
         $rubrics = CompTgroups::with([
             'comp_topic' => function ($query) {
-                $query->select('menu_group_id', 'title', 'id')
-                    ->where('parent_id', 0);
+                $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
             }
         ])
             ->orderBy('sort_num')
@@ -360,8 +361,7 @@ class CompanyService
             $type = 0;
         }
 
-        //$prices = $this->getPrices($author_id, $type, $placeType);
-
+//        $prices = $this->getPrices($author_id, $type, $placeType);
 
         return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
             ->with([
@@ -384,15 +384,18 @@ class CompanyService
             ->get()->toArray();
     }
 
+    public function setCompanies()
+    {
+        $this->companies = CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id');
+    }
 
     public function searchCompanies($value)
     {
-        return CompItems::where('title', 'like', '%'.$value.'%')->orWhere('content', 'like', '%'.$value.'%')
+        return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
-                'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
+                'short', 'add_date', 'visible', 'title', 'trader_price_avail',
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
             ->paginate(self::PER_PAGE);
-
     }
 
     public function getReviews($id_company)
@@ -409,52 +412,39 @@ class CompanyService
     }
 
 
-    public function getCompanies($region = null, $rubric = null, $query = null)
+    public function getCompanies($data)
     {
-        if ($query) {
-            return $this->searchCompanies($query);
+        if ($data['query']) {
+            return $this->searchCompanies($data['query']);
         }
+        $this->setCompanies();
 
-        $obl_id = Regions::where('translit', $region)->value('id');
+        $obl_id = Regions::where('translit', $data['region'])->value('id');
 
-        $companies = CompItems::where([
+        return $this->companies->where([
             [
-                function ($query) use ($region, $obl_id) {
-                    if ($region != 'ukraine' && $region) {
-                        $query->where('obl_id', '=', $obl_id);
+                function ($check) use ($obl_id) {
+                    if ($obl_id)
+                    {
+                        $check->where('comp_items.obl_id', $obl_id);
+                    }
+                }
+            ], [
+                function ($check) use ($obl_id, $data) {
+                    if ($obl_id && $data['rubric'])
+                    {
+                        $check->where('comp_item2topic.topic_id', $data['rubric']);
                     }
                 }
             ]
         ])
-            ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
-                'short', 'add_date', 'visible', 'obl_id', 'title', 'trader_price_avail',
-                'trader_price_visible', 'phone', 'phone2', 'phone3')
+            ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
+                'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
+                'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
+                'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3')
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
+            ->distinct()
             ->paginate(self::PER_PAGE);
-
-        if ($region != null and $rubric != null) {
-            $companies = CompItems::join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')
-                ->where([
-                    ['comp_item2topic.topic_id', $rubric], [
-                        function ($query) use ($region, $obl_id) {
-                            if ($region != 'ukraine' && $region) {
-                                $query->where('comp_items.obl_id', '=', $obl_id);
-                            }
-                        }
-                    ]
-                ])
-                ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-                    'comp_items.obl_id', 'comp_items.logo_file',
-                    'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id',
-                    'comp_items.title', 'comp_items.trader_price_avail',
-                    'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3'
-                )
-                ->orderBy('comp_items.trader_premium', 'desc')
-                ->orderBy('comp_items.rate_formula', 'desc')
-                ->paginate(self::PER_PAGE);
-        }
-
-        return $companies;
     }
 }

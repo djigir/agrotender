@@ -1,7 +1,11 @@
+<?php
+$route_name = \Route::getCurrentRoute()->getName();
+//dd($route_name, strpos($route_name, '.'));
+?>
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
     <li>
-        <a href="/">Главная</a>
+        <a href="/reklama">Главная</a>
     </li>
     <i class="fas fa-chevron-right extra-small"></i>
     @foreach($breadcrumbs as $index_bread => $breadcrumb)
@@ -11,7 +15,7 @@
                     <h1>{!! $breadcrumb['name'] !!}</h1>
                 </a>
             @else
-                <h1>{{$breadcrumb['name']}}</h1>
+                <h1>{!! $breadcrumb['name'] !!}</h1>
             @endif
         </li>
     @endforeach
@@ -22,25 +26,7 @@
     <div class="fixed-item">
         <div class="new_container">
             <div class="new_filters">
-                <div class="filter__item main">
-                    <button class="filter__button main">Закупки</button>
-                    <div class="new_filters_dropdown-wrap">
-                        <div class="new_filters_dropdown">
-                            @if($region)
-                                <ul>
-                                    @if($culture_id && $region)
-                                        <li>
-                                            <a href="{{route('traders_forwards_culture', [$region , $culture_translit])}}">Форварды</a>
-                                        </li>
-                                    @endif
-                                    <li>
-                                        <a href="{{route('traders_sell',  $region)}}">Продажи</a>
-                                    </li>
-                                </ul>
-                            @endif
-                        </div>
-                    </div>
-                </div>
+                @include('filters.routeSection.firstSection')
                 <div class="filter__item producrion" id="choseProduct">
                     <button class="filter__button producrion-btn">
                         {{$culture_name}}
@@ -62,14 +48,18 @@
                                         @foreach($rubricsGroup[$group]["products"] as $index => $item)
                                             <li>
                                                 @if(!empty($region))
-                                                    <a href="{{route('traders.traders_regions_culture', [$region, $item['url']])}}">
+                                                    <a href="{{route('traders.region_culture', [$region, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
+{{--                                                        <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
                                                     </a>
                                                 @endif
 
                                                 @if(!empty($port))
-                                                    <a href="{{route('traders.traders_port_culture', [$port, $item['url']])}}">
+                                                    <a href="{{route('traders.port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
+                                                        @if(isset($item['cnt']))
+{{--                                                            <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
+                                                        @endif
                                                     </a>
                                                 @endif
                                             </li>
@@ -101,16 +91,16 @@
                                     @foreach($regions as $index => $region)
                                         <li>
                                             @if(!empty($culture) && !empty($region))
-                                                <a href="{{route('traders.traders_regions_culture', [$region['translit'], $culture_translit])}}">
+                                                <a href="{{route('traders.region_culture', [$region['translit'], $culture_translit])}}">
                                                     {{$region['name']}}
                                                 </a>
                                             @else
                                                 @if(!empty($culture_translit))
-                                                    <a href="{{route('traders.traders_regions_culture', [$region['translit'], $culture_translit])}}">
+                                                    <a href="{{route('traders.region_culture', [$region['translit'], $culture_translit])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{route('traders.traders_regions', $region['translit'])}}">
+                                                    <a href="{{route('traders.region', $region['translit'])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @endif
@@ -125,16 +115,16 @@
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
                                             @if(!empty($culture) && !empty($port))
-                                                <a href="{{route('traders.traders_port_culture', [$port['url'], $culture_translit])}}">
+                                                <a href="{{route('traders.port_culture', [$port['url'], $culture_translit])}}">
                                                     {{$port['portname']}}
                                                 </a>
                                             @else
                                                 @if(!empty($culture_translit))
-                                                    <a href="{{route('traders.traders_port_culture', [$port['url'], $culture_translit])}}">
+                                                    <a href="{{route('traders.port_culture', [$port['url'], $culture_translit])}}">
                                                         {{$port['portname']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{route('traders.traders_port', $port['url'])}}">
+                                                    <a href="{{route('traders.port', $port['url'])}}">
                                                         {{$port['portname']}}
                                                     </a>
                                                 @endif

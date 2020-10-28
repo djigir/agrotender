@@ -53,3 +53,9 @@
 .tableSecond .tableScroll:before {
     content: ''
 }
+
+.region-port-table{
+    cursor: pointer;
+    color: white !important;
+}
+

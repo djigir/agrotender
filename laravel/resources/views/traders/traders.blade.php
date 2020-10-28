@@ -13,20 +13,11 @@
                         <span class="pl-1 pr-1">Разместить компанию</span>
                     </a>
                 </div>
-                <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">
-                    <div class="col-6 col-sm-12 pl-0">
-                        <h2 class="d-inline-block text-uppercase">Все трейдеры</h2>
-                        <div class="lh-1">
-                            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
-                        </div>
-                    </div>
-
-                    <div class="col-6 pr-0 text-right d-sm-none">
-                        <a href="/tarif20.html" class="btn btn-warning align-items-end add-trader">
-                            <span class="pl-1 pr-1">Стать трейдером</span>
-                        </a>
-                    </div>
-                </div>
+                @if($type_traders == 0)
+                    @include('traders.block-info.traders')
+                @elseif(empty($traders) && ($type_traders == 1 || $type_traders == 2 ))
+                    @include('traders.block-info.traders_forwards')
+                @endif
             </div>
         </div>
     </div>
@@ -36,7 +27,7 @@
             <div class="new_traders">
                 @foreach($traders as $trader)
                     <div class="traders__item-wrap">
-                        <a href="{{route('company.company', $trader['id']) }}" class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}} ">
+                        <a href="{{route('company.index', $trader['id']) }}" class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}} ">
                             <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
                                 <img class="traders__item__image" src="{{ $trader['logo_file'] }}" data-primary-color="255,255,255">
                             </div>
@@ -68,7 +59,7 @@
                                                 <p class="traders__item__content-p">
                                                     <span class="traders__item__content-p-title">
                                                         {{$prices['region']['name']}} обл.
-{{--                                                        <span style="color: black; font-weight: bold; margin-left: 2px">{{ $prices['place_name'] }}</span>--}}
+{{--                                         <span style="color: black; font-weight: bold; margin-left: 2px">{{ $prices['place_name'] }}</span>--}}
                                                     </span>
                                                     <span class="right">
                                                         <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"

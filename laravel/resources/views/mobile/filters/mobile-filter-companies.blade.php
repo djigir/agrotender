@@ -1,4 +1,3 @@
-
 <div class="filters-wrap mobile-filters" style="display: none;">
     <div class="filters-inner">
         <div class="filters arrow-t">
@@ -13,12 +12,12 @@
                     </div>
                     <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between">
                         <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='{{isset($rubric_id) ? $rubric_id : ''}}'>
-                        <span style="color: #1e56b2" id="span-mobile-rubric">{{$culture_name}}</span>
+                        <span style="color: #1e56b2" id="span-mobile-rubric">{{isset($culture_name) ? $culture_name : ''}}</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </span>
                     <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between">
                         <input type="text" class="remove-input" id='input-mobile-region' name="region" value='{{isset($region) ? $region: ''}}'>
-                        <span style="color: #1e56b2"  id="span-mobile-region">{{$region_name}}</span>
+                        <span style="color: #1e56b2"  id="span-mobile-region">{{isset($region_name) ? $region_name : ''}}</span>
                         <span><i class="far fa-chevron-right"></i></span>
                     </span>
                     <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>

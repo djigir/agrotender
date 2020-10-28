@@ -18,8 +18,10 @@ use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
 use  App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\View\View;
 use Jenssegers\Date\Date;
 use \Illuminate\Validation\Validator;
 
@@ -30,6 +32,7 @@ class CompanyController extends Controller
     protected $baseServices;
     protected $seoService;
     protected $agent;
+    protected $company;
 
     public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
     {
@@ -37,6 +40,7 @@ class CompanyController extends Controller
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
         $this->seoService = $seoService;
+        $this->company = null;
         $this->agent = new \Jenssegers\Agent\Agent;
     }
 
@@ -47,7 +51,7 @@ class CompanyController extends Controller
 
     private function IsDesktopFilter(Request $request)
     {
-        return redirect()->route('company.company_filter', [$request->get('query')]);
+        return redirect()->route('company.filter', [$request->get('query')]);
     }
 
     private function checkName($translit = null)
@@ -58,16 +62,13 @@ class CompanyController extends Controller
     private function regionName($region)
     {
         $name = Regions::where('translit', $region)->value('name'). ' область';
-//        $obl_name = Regions::where('translit', $region)->value('name'). ' область';
 
         if($region == 'crimea'){
             $name = 'АР Крым';
-//            $obl_name = 'АР Крым';
         }
 
         if($region == 'ukraine' || !$region){
             $name = 'Вся Украина';
-//            $obl_name = 'Вся Украина';
         }
 
         return $name;
@@ -117,7 +118,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      *
      * @param  Request  $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
 
     public function companies(Request $request)
@@ -133,11 +134,7 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        $necessaryData = $this->setDataForCompanies($data_companies);
-
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForCompanies($data_companies);
     }
 
 
@@ -145,9 +142,9 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param string $region
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function companyRegion(string $region, Request $request)
+    public function companiesRegion(string $region, Request $request)
     {
         $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies'];
 
@@ -160,10 +157,7 @@ class CompanyController extends Controller
             return $this->IsDesktopFilter($request);
         }
 
-        $necessaryData = $this->setDataForCompanies($data_companies);
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForCompanies($data_companies);
     }
 
 
@@ -172,9 +166,9 @@ class CompanyController extends Controller
      * @param string $region
      * @param $rubric_id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function companyRegionRubric(string $region, $rubric_id, Request $request)
+    public function companiesRegionRubric(string $region, $rubric_id, Request $request)
     {
         $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies',
             'rubric_id' => $rubric_id];
@@ -188,10 +182,7 @@ class CompanyController extends Controller
             return $this->IsDesktopFilter($request);
         }
 
-        $necessaryData = $this->setDataForCompanies($data_companies);
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForCompanies($data_companies);
     }
 
 
@@ -199,9 +190,9 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param  Request  $request
      * @param $query
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function companyFilter(Request $request, $query = null)
+    public function companiesFilter(Request $request, $query = null)
     {
         $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies'];
 
@@ -213,29 +204,28 @@ class CompanyController extends Controller
             return $this->companyService->mobileFilter($request);
         }
 
-        $necessaryData = $this->setDataForCompanies($data_companies);
-
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForCompanies($data_companies);
     }
 
+    public function setCompany($id)
+    {
+        $this->company = CompItems::find($id);
 
+        if(empty($this->company)){
+            App::abort(404);
+        }
+    }
     /**
      * Display a listing of the resource.
      * @param  integer  $id;
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
     public function company($id)
     {
-        $company = CompItems::find($id);
+        $this->setCompany($id);
 
-        if(empty($company)){
-            App::abort(404);
-        }
-
-        $updateDate = TradersPrices::where([['buyer_id', $company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
         $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
@@ -247,11 +237,9 @@ class CompanyController extends Controller
         $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
 
         $meta = $this->seoService->getMetaForOneCompany($id);
-        $current_page = 'main';
-//        $data_companies = ['region' => null, 'rubric' => null, 'query' => null, 'id_company' => $id, 'page' => $current_page, 'page_type' => 'companies'];
 
         return view('company.company', [
-            'company' => $company,
+            'company' => $this->company,
             'id' => $id,
             'port_culture' => $port_culture,
             'port_place' => $port_place,
@@ -261,7 +249,7 @@ class CompanyController extends Controller
             'region_price' => $region_price,
             'meta' => $meta,
             'updateDate' => $updateDate,
-            'current_page' => $current_page,
+            'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
             ]
@@ -271,30 +259,49 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Factory|View
      */
-    public function companyPrices($id)
+    public function companyForwards($id)
     {
-        $company_name = CompItems::find($id)->value('title');
 
-        return view('company.company_prices', [
+        $company = CompItems::where([
+            ['id', $id], ['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1], ['visible', 1]
+        ])
+            ->with([
+                'traders_prices' => function ($query) {
+                    $query->where('acttype', 3)->with(['traders_places' => function($query){
+                        $query->where('type_id', 0)->with('traders_ports.traders_ports_lang');
+                    }], 'traders_products');
+                }
+            ])
+            ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
+                'short', 'add_date', 'visible', 'title', 'trader_price_avail',
+                'trader_price_visible')
+            ->get()
+            ->toArray()[0];
+
+        foreach ($company['traders_prices'] as $index => $comp){
+            if(empty($comp['traders_places'])){
+                unset($company['traders_prices'][$index]);
+            }
+        }
+        $company['traders_prices'] = array_values($company['traders_prices']);
+
+        dd($company);
+
+        return view('company.company_forwards', [
+            'company' => !empty($company) ? $company[0] : [],
             'id' => $id,
-            'company_name' => $company_name,
+            'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
         ]);
     }
 
-    /**
-     * @param Request $request
-     * @param $id_company
-     * @param $validator
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function createReviews(Request $request, $id_company)
+ public function createReviews(Request $request, $id)
     {
         $author = CompComment::create([
-            'item_id' => $id_company,
+            'item_id' => $id,
             'visible' => 1,
             'rate' => $request->get('rate'),
             'add_date' => Carbon::now(),
@@ -315,7 +322,7 @@ class CompanyController extends Controller
         ]);
         if ($comment['content'] != null) {
             return redirect()
-                ->route('company.company_reviews', ['id_company' => $id_company]);
+                ->route('company.company_reviews', ['id_company' => $id]);
         }
 
 //        $comment_text =CompCommentLang::create($request->only(['content', 'content_plus', 'content_minus']) + ['item_id', 1224]);
@@ -345,20 +352,26 @@ class CompanyController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function companyReviews(int $id_company)
+    public function companyReviews(int $id)
     {
-        $current_page = 'reviews';
-        $company = CompItems::find($id_company);
-        $reviews_with_comp = $this->companyService->getReviews($id_company);
-//        dd($reviews_with_comp);
-        $meta = $this->seoService->getMetaCompanyReviews($id_company);
+        $this->setCompany($id);
+        $reviews_with_comp = $this->companyService->getReviews($id);
+        $meta = $this->seoService->getMetaCompanyReviews($id);
+        /*$data_comment = ['id_company' => $id,
+            'user' => $user,
+            'good' => $request->get('good'),
+            'bad' => $request->get('bad'),
+            'comment' => $request->get('comment')];*/
+
+
+        $meta = $this->seoService->getMetaCompanyReviews($id);
 
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
-            'company' => $company,
-            'id' => $id_company,
+            'company' => $this->company,
+            'id' => $id,
             'meta' => $meta,
-            'current_page' => $current_page,
+            'current_page' => 'reviews',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
         ]);
@@ -366,41 +379,34 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  integer  $id_company  ;
-     *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $id
+     * @return Factory|View
      */
-    public function companyContact($id_company)
+    public function companyContact($id)
     {
-        $current_page = 'contact';
-        $company = CompItems::find($id_company);
-        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id_company)->get()->toArray();
-        $departments_type = CompItemsContact::where('comp_id', $id_company)->get()->toArray();
-        $creator_departament_name = $this->companyService->getContacts($company->author_id, $departments_type);
+        $this->setCompany($id);
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get()->toArray();
+        $departments_type = CompItemsContact::where('comp_id', $id)->get()->toArray();
+        $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
-        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id_company)
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
             ->with('traders_contacts')
             ->get()
             ->toArray();
 
-        $meta = $this->seoService->getMetaCompanyContacts($id_company);
+        $meta = $this->seoService->getMetaCompanyContacts($id);
 
         return view('company.company_cont', [
-            'company' => $company,
+            'company' => $this->company,
             'creator' => $creator_departament_name["creators"],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
-            'id' => $id_company,
+            'id' => $id,
             'meta' => $meta,
-            'current_page' => $current_page,
+            'current_page' => 'contact',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
         ]);
-    }
-
-    public function traderContacts($id)
-    {
-        return view('company.company_trader_contacts');
     }
 }

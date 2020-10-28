@@ -39,6 +39,9 @@
                         <div class="col p-0">
                             @if(!empty($review['company']))
                                  <a href="{{ route('company.company', $review['company']['id']) }}" target="_blank">{!! $review['company']['title'] !!} </a>
+
+                            @if(isset($review['title']))
+                                 <a href="{{ route('company.index', $review['comp_id']) }}" target="_blank">{!! $review['title'] !!} </a>
                             @else
                                 <span class="author">{{ $review['author'] }}</span>
                             @endif

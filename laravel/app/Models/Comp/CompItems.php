@@ -139,7 +139,11 @@ class CompItems extends Model
 
     public function getDateAttribute()
     {
-        return mb_convert_case(Date::parse($this->add_date)->format('F. Y'), MB_CASE_TITLE, "UTF-8");
+
+        if($this->add_date===null){
+            return '';
+        }
+        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
     }
 
 
@@ -151,7 +155,7 @@ class CompItems extends Model
 
     public function traders_culture()
     {
-        return $this->belongsTo(TradersPrices::class, 'buyer_id');
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
     public function traders_places()
@@ -164,9 +168,9 @@ class CompItems extends Model
         return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
-    public function comp_topic_items_rubrics()
+    public function comp_items_rubrics()
     {
-        return $this->hasMany(CompTopicItem::class, 'item_id');
+        return $this->hasMany(CompTopicItem::class, 'item_id', 'id');
     }
 
     public function comp_items_contact()

@@ -11,15 +11,6 @@
                 </div>
             @endif
         @endif
-        <div class="ports-tabs table-tabs mt-3">
-            @if(!empty($port_price['UAH']))
-                <a  id='uah' class="active" style="cursor: pointer; color: white">Закупки UAH</a>
-            @endif
-            @if(!empty($port_price['USD']))
-                <a  id='usd' style="cursor: pointer; color: white">Закупки USD</a>
-            @endif
-        </div>
-
         @if(!empty($port_place))
             @include('company.tables.company-port-table')
         @endif
