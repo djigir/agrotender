@@ -5,11 +5,11 @@ namespace App\Models\Traders;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @param integer $id;
- * @param integer $obl_id;
- * @param integer $active;
- * @param \DateTime $add_date;
- * @param string $url;
+ * @property  integer $id;
+ * @property  integer $obl_id;
+ * @property  integer $active;
+ * @property  \DateTime $add_date;
+ * @property  string $url;
  */
 
 class TradersPorts extends Model
@@ -24,6 +24,14 @@ class TradersPorts extends Model
         'url',
     ];
 
+    protected $appends = ['lang'];
+
+
+    public function getLangAttribute()
+    {
+        $lang = TradersPortsLang::where('port_id', $this->id)->get()->toArray();
+        return !empty($lang) ? $lang[0] : [];
+    }
 
     public function traders_ports_lang()
     {

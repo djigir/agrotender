@@ -7,7 +7,9 @@ use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
+use App\Models\Traders\TradersPorts2buyer;
 use App\Models\Traders\TradersPrices;
+use App\Models\Traders\TradersProducts2buyer;
 use App\models\User;
 use App\Models\Users\Users;
 use App\Services\BaseServices;
@@ -90,7 +92,7 @@ class CompanyController extends Controller
             $region_id = $region['id'];
         }
 
-        $companies = $this->companyService->getCompanies($data['region'], $rubric_id, $data['query']);
+        $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
 
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
 
@@ -256,6 +258,44 @@ class CompanyController extends Controller
         );
     }
 
+    public function getForwardsMonths() {
+        $data = [
+            'start' =>[],
+            'end' =>[],
+        ];
+
+        for ($i = 0; $i <= 6; $i++){
+            $dt_start = Carbon::now();
+            $dt_end = Carbon::now();
+            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
+            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
+        }
+
+        return $data;
+    }
+
+    public function getPricesForwards($user, $type, $dtStart, $placeType) {
+        return TradersPrices::where([['buyer_id', $user], ['acttype', $type]])
+            ->whereDate('dt', '>=', $dtStart)
+            ->with(['traders_places' => function($query) use($placeType){
+                $query->where('type_id', $placeType);
+            }])
+            ->get()
+            ->toArray();
+    }
+
+    public function getTraderPricesRubrics($user, $placeType, $type) {
+        $rubrics = TradersProducts2buyer::where([['buyer_id', $user], ['acttype', $type], ['type_id', $placeType]])
+            ->with(['traders_products' => function($query)use($user, $placeType, $type){
+                $query->with(['traders_prices' => function($query)use($user, $placeType, $type){
+                    $query->where([['acttype', $type], ['buyer_id', $user]])
+                        ->with(['traders_places' => function($query)use($user, $placeType, $type){
+                            $query->where([['buyer_id', $user], ['type_id', $placeType]]);
+                    }]);
+                }]);
+}])->get()->toArray();
+        return $rubrics;
+    }
     /**
      * Display a listing of the resource.
      * @param $id
@@ -263,14 +303,13 @@ class CompanyController extends Controller
      */
     public function companyForwards($id)
     {
-
         $company = CompItems::where([
             ['id', $id], ['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1], ['visible', 1]
         ])
             ->with([
                 'traders_prices' => function ($query) {
                     $query->where('acttype', 3)->with(['traders_places' => function($query){
-                        $query->where('type_id', 0)->with('traders_ports.traders_ports_lang');
+                        $query->where('type_id', 2)->with('traders_ports.traders_ports_lang');
                     }], 'traders_products');
                 }
             ])
@@ -285,12 +324,47 @@ class CompanyController extends Controller
                 unset($company['traders_prices'][$index]);
             }
         }
+        $forward_months = $this->getForwardsMonths();
         $company['traders_prices'] = array_values($company['traders_prices']);
 
-        dd($company);
+        $rubrics_port = $this->getTraderPricesRubrics($company['author_id'], 2, 3);
+        $prices_port = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 2);
+
+        $rubrics_region = $this->getTraderPricesRubrics($company['author_id'], 0, 3);
+        $prices_region = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 0);
+
+
+        foreach ($rubrics_port as $index => $rubric){
+            if(empty($rubric['traders_products'][0]['traders_prices'])){
+                unset($rubrics_port[$index]);
+            }
+        }
+
+        foreach ($rubrics_region as $index => $rubric){
+            if(empty($rubric['traders_products'][0]['traders_prices'])){
+                unset($rubrics_region[$index]);
+            }
+        }
+
+        foreach ($prices_port as $index => $price){
+            if(empty($price['traders_places'])){
+                unset($prices_port[$index]);
+            }
+        }
+
+        foreach ($prices_region as $index => $price){
+            if(empty($price['traders_places'])){
+                unset($prices_region[$index]);
+            }
+        }
+
 
         return view('company.company_forwards', [
-            'company' => !empty($company) ? $company[0] : [],
+            'company' => $company,
+            'prices_port' => $prices_port,
+            'rubrics_port' => $rubrics_port,
+            'prices_region' => $prices_region,
+            'rubrics_region' => $rubrics_region,
             'id' => $id,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
@@ -322,7 +396,7 @@ class CompanyController extends Controller
         ]);
         if ($comment['content'] != null) {
             return redirect()
-                ->route('company.company_reviews', ['id_company' => $id]);
+                ->route('company.reviews', ['id_company' => $id]);
         }
 
 //        $comment_text =CompCommentLang::create($request->only(['content', 'content_plus', 'content_minus']) + ['item_id', 1224]);
@@ -348,8 +422,7 @@ class CompanyController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param integer $id_company
-     *
+     * @param  int  $id
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function companyReviews(int $id)

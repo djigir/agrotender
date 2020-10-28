@@ -303,7 +303,6 @@ class Traders extends \Core\Model {
   }
 
   public function getPlaces($user, $placeType, $type) {
-
     $places = $this->db->query("
       select tp.*, tpl.portname, r.name as region, r.id as region_id
         from agt_traders_places tp

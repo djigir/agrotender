@@ -1,6 +1,7 @@
 <?php
 $route_name = \Route::getCurrentRoute()->getName();
-//dd($route_name, strpos($route_name, '.'));
+$prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
+//dd($prefix);
 ?>
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
@@ -48,14 +49,14 @@ $route_name = \Route::getCurrentRoute()->getName();
                                         @foreach($rubricsGroup[$group]["products"] as $index => $item)
                                             <li>
                                                 @if(!empty($region))
-                                                    <a href="{{route('traders.region_culture', [$region, $item['url']])}}">
+                                                    <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
 {{--                                                        <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
                                                     </a>
                                                 @endif
 
                                                 @if(!empty($port))
-                                                    <a href="{{route('traders.port_culture', [$port, $item['url']])}}">
+                                                    <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
                                                         @if(isset($item['cnt']))
 {{--                                                            <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
@@ -91,16 +92,17 @@ $route_name = \Route::getCurrentRoute()->getName();
                                     @foreach($regions as $index => $region)
                                         <li>
                                             @if(!empty($culture) && !empty($region))
-                                                <a href="{{route('traders.region_culture', [$region['translit'], $culture_translit])}}">
+                                                <a href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
                                                     {{$region['name']}}
                                                 </a>
                                             @else
                                                 @if(!empty($culture_translit))
-                                                    <a href="{{route('traders.region_culture', [$region['translit'], $culture_translit])}}">
+                                                    <a href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{route('traders.region', $region['translit'])}}">
+                                                    <a href="{{$prefix != 'traders_forward.' ? route($prefix.'region', $region['translit']) :
+                                                    route('traders.region', $region['translit'])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @endif
@@ -124,7 +126,7 @@ $route_name = \Route::getCurrentRoute()->getName();
                                                         {{$port['portname']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{route('traders.port', $port['url'])}}">
+                                                    <a href="{{$prefix != 'traders_forward.' ? route( $prefix.'port', $port['url']) : route('traders.port', $port['url'])}}">
                                                         {{$port['portname']}}
                                                     </a>
                                                 @endif

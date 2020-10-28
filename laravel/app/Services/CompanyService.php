@@ -88,6 +88,7 @@ class CompanyService
     {
         $rubrics = CompTgroups::with([
             'comp_topic' => function ($query) {
+//            dd($query->get()->toArray());
                 $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
             }
         ])
@@ -127,11 +128,10 @@ class CompanyService
     public function getPlaces($author_id, $placeType, $type)
     {
         return TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
-            ->with('traders_ports', 'regions')
             ->with('traders_ports.traders_ports_lang')
             ->orderBy('place', 'asc')
             ->orderBy('obl_id', 'asc')
-            ->get();
+            ->get()->toArray();
     }
 
 
