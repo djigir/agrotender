@@ -58,24 +58,26 @@ class TraderController extends Controller
     {
         $route_name = null;
         $route_params = null;
+        $route_name = \Route::getCurrentRoute()->getName();
+        $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 
-        if(!empty($request->get('region'))){
-            $route_name = 'traders.region';
+        if(!empty($request->get('region')) && $prefix != 'traders_forwards.'){
+            $route_name = $prefix.'region';
             $route_params = ['region' => $request->get('region'), 'currency' => $request->get('currency')];
         }
 
-        if(!empty($request->get('port'))){
-            $route_name = 'traders.port';
+        if(!empty($request->get('port')) && $prefix != 'traders_forwards.'){
+            $route_name = $prefix.'port';
             $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
         }
 
         if(!empty($request->get('region')) && !empty($request->get('rubric'))){
-            $route_name = 'traders.region_culture';
+            $route_name = $prefix.'region_culture';
             $route_params = [$request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
         if(!empty($request->get('port')) && !empty($request->get('rubric'))){
-            $route_name = 'traders.port_culture';
+            $route_name = $prefix.'port_culture';
             $route_params = ['port' => $request->get('port'), 'culture' => $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
@@ -189,17 +191,13 @@ class TraderController extends Controller
     public function index(Request $request, $region)
     {
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null];
-        $necessaryData = $this->setDataForTraders($data_traders);
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
            return $this->mobileFilter($request);
         }
 
-        if($necessaryData){
-            return $necessaryData;
-        }
-
+        return $this->setDataForTraders($data_traders);
     }
 
     /**
@@ -212,67 +210,71 @@ class TraderController extends Controller
      */
     public function regionCulture(Request $request, $region, $culture)
     {
-
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture];
-        $necessaryData = $this->setDataForTraders($data_traders);
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
             return $this->mobileFilter($request);
         }
 
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForTraders($data_traders);
     }
 
     public function port(Request $request, $port)
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null];
-        $necessaryData = $this->setDataForTraders($data_traders);
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
             return $this->mobileFilter($request);
         }
 
-        if($necessaryData){
-            return $necessaryData;
-        }
-
+        return $this->setDataForTraders($data_traders);
     }
 
 
     public function portCulture(Request $request, $port, $culture)
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture];
-        $necessaryData = $this->setDataForTraders($data_traders);
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
             return $this->mobileFilter($request);
         }
 
-        if($necessaryData){
-            return $necessaryData;
-        }
+        return $this->setDataForTraders($data_traders);
     }
 
 
-    public function forwardsCulture($region, $culture)
+    public function forwardsCulture(Request $request, $region, $culture)
     {
+        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        {
+            return $this->mobileFilter($request);
+        }
+
         $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true];
         return $this->setDataForTraders($data_traders);
     }
 
-    public function sellRegion($region)
+    public function sellRegion(Request $request, $region)
     {
+        if(!empty($request->get('region')) || !empty($request->get('port')))
+        {
+            return $this->mobileFilter($request);
+        }
+
         $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => null, 'sell' => true];
         return $this->setDataForTraders($data_traders);
     }
 
-    public function sellCulture($region, $culture)
+    public function sellCulture(Request $request, $region, $culture)
     {
+        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        {
+            return $this->mobileFilter($request);
+        }
+
         $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'sell' => true];
         return $this->setDataForTraders($data_traders);
     }

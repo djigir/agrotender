@@ -45,7 +45,7 @@
                                                     <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
                                                           title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
                                                     <span class="traders__item__content-p-icon">
-                                                        <img src="/app/assets/img/price-down.svg">
+{{--                                                        <img src="/app/assets/img/price-down.svg">--}}
                                                     </span>
                                                 </span>
                                             </p>

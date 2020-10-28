@@ -9,7 +9,13 @@
                     </div>
                         <span class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between"  type="" id='type-page'>
                             <input type="text"  value="" class="remove-input">
-                            <span style="color: #1e56b2">Закупки</span>
+                            @if($type_traders == 0)
+                                <span style="color: #1e56b2">Закупки</span>
+                            @elseif($type_traders == 1)
+                                <span style="color: #1e56b2">Форварды</span>
+                            @else
+                                <span style="color: #1e56b2">Продажи</span>
+                            @endif
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
@@ -37,17 +43,17 @@
                                 </label>
                             </div>
                         </span>
-                        <span class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between">
-                            <span class="text-muted">Показать:</span>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-radio">
-                                    <input type="radio" id='show-type-list' name="viewmod" value="list" autocomplete="off"> Списком
-                                </label>
-                                <label class="btn btn-radio active">
-                                    <input type="radio" id='show-type-table' name="viewmod" value="table" autocomplete="off" checked=""> Таблицей
-                                </label>
-                            </div>
-                        </span>
+{{--                        <span class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between">--}}
+{{--                            <span class="text-muted">Показать:</span>--}}
+{{--                            <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
+{{--                                <label class="btn btn-radio">--}}
+{{--                                    <input type="radio" id='show-type-list' name="viewmod" value="list" autocomplete="off"> Списком--}}
+{{--                                </label>--}}
+{{--                                <label class="btn btn-radio active">--}}
+{{--                                    <input type="radio" id='show-type-table' name="viewmod" value="table" autocomplete="off" checked=""> Таблицей--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
+{{--                        </span>--}}
 
                     <div class="error-text mt-3 text-center">
                         <span>Для сравнения цен выберите продукцию</span>
@@ -64,16 +70,47 @@
                     </span>
                 </a>
                 <div class="scroll">
-                    @if($culture_id && $region)
-                        <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forward.region_culture', [$region , $culture_translit])}}">
-                            <span>Форварды</span>
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </a>
+                    @if($region)
+                        @if($culture_id && $region && $type_traders != 1)
+                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forward.region_culture', [$region , $culture_translit])}}">
+                                <span>Форварды</span>
+                                <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
+                        @if($type_traders != 0)
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_id && $region ? route('traders.region_culture',  [$region, $culture_translit]) : route('traders.region',  $region)}}">
+                                <span>Закупки</span>
+                                <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
+                        @if($type_traders != 2)
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="
+                            {{($culture_id && $region) ? route('traders_sell.region_culture',  [$region, $culture_translit]) : route('traders_sell.region',  $region)}}">
+                                <span>Продажи</span>
+                                <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
                     @endif
-                    <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_sell.region',  $region)}}">
-                        <span>Продажи</span>
-                        <span><i class="far fa-chevron-right"></i></span>
-                    </a>
+                    @if($port)
+                        @if($culture_id && $port && $type_traders != 1)
+                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{route('traders_forward.port_culture', [$port , $culture_translit])}}">
+                                <span>Форварды</span>
+                                <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
+                        @if($type_traders != 0)
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_id && $port ? route('traders.port_culture',  [$port, $culture_translit]) : route('traders.port',  $port)}}">
+                                <span>Закупки</span>
+                                <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
+                        @if($type_traders != 2)
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href=" {{$culture_id && $port ? route('traders_sell.port_culture',  [$port, $culture_translit]) : route('traders_sell.port',  $port)}}">
+                             <span>Продажи</span>
+                             <span><i class="far fa-chevron-right"></i></span>
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
             <div class="step-3 stp h-100" style="display: none;">

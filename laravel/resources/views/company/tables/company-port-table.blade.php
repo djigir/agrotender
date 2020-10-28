@@ -1,11 +1,11 @@
 <div class="ports-tabs table-tabs mt-3">
     @if(!empty($port_price['UAH']))
-        <a id="port-uah" class="region-port-table" style="cursor: pointer; color: white">Закупки UAH</a>
+        <a id="port-uah" class="active region-port-table">Закупки UAH</a>
     @endif
-    @if(!empty($port_price['USD']) )
-        <a id="port-usd" class="region-port-table" style="cursor: pointer; color: white">Закупки USD</a>
-    @elseif(!empty($port_price['USD']) && empty($port_price['UAH']))
-            <a id="port-usd" class="active region-port-table" style="cursor: pointer; color: white">Закупки USD</a>
+    @if(!empty($port_price['USD']) && empty($port_price['UAH']))
+        <a id="port-usd" class="active region-port-table">Закупки USD</a>
+    @elseif(!empty($port_price['USD']) )
+        <a id="port-usd" class="region-port-table">Закупки USD</a>
     @endif
 </div>
 <div class="content-block prices-block mb-5" style="position: relative" currency="0">
@@ -46,7 +46,7 @@
                     @endif
                     @if(isset($port_price['USD'][$place['place_id']]))
                         @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
-                            <td class="port-USD">
+                            <td class="port-USD" style="display: none">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
                                         <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -104,7 +104,7 @@
                         @endif
                         @if(isset($port_price['USD'][$place['place_id']]))
                             @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
-                                <td class="port-USD">
+                                <td class="port-USD" style="display: none">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -163,7 +163,7 @@
                     @endif
                     @if(isset($port_price['USD'][$place['place_id']]))
                         @foreach($port_price['USD'][$place['place_id']] as $index_price => $price)
-                            <td class="port-USD">
+                            <td class="port-USD" style="display: none">
                                 @if(isset($price['costval']))
                                     <div class="d-flex align-items-center justify-content-center lh-1">
                                         <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;

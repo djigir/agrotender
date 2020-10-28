@@ -2,8 +2,10 @@
     @if(!empty($region_price['UAH']))
         <a  id="region-uah" class="active region-port-table">Закупки UAH</a>
     @endif
-    @if(!empty($region_price['USD']))
-        <a  id="region-usd" class="region-port-table">Закупки USD</a>
+    @if(!empty($region_price['USD']) && empty($region_price['UAH']))
+        <a  id="region-usd" class="active region-port-table">Закупки USD</a>
+    @elseif(!empty($region_price['USD']))
+       <a  id="region-usd" class="region-port-table">Закупки USD</a>
     @endif
 </div>
 @if(!empty($region_place))
@@ -45,7 +47,7 @@
                         @endif
                         @if(isset($region_price['USD'][$place['place_id']]))
                             @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                <td class="region-USD">
+                                <td class="region-USD" style="display: none">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -104,7 +106,7 @@
                             @endif
                             @if(isset($region_price['USD'][$place['place_id']]))
                                 @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                    <td class="region-USD">
+                                    <td class="region-USD" style="display: none">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -148,7 +150,7 @@
                             </td>
                             @if(isset($region_price['UAH'][$place['place_id']]))
                                 @foreach($region_price['UAH'][$place['place_id']] as $index_price => $price)
-                                    <td class="region-UAH">
+                                    <td class="region-UAH" >
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -165,7 +167,7 @@
                             @endif
                             @if(isset($region_price['USD'][$place['place_id']]))
                                 @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                    <td class="region-USD">
+                                    <td class="region-USD" style="display: none">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;

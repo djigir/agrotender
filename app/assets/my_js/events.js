@@ -1,11 +1,4 @@
 window.onload = function (){
-    $('.port-UAH').css('display', '');
-    $('.region-UAH').css('display', '');
-
-    $('.region-USD').css('display', 'none');
-    $('.port-USD').css('display', 'none');
-
-
     if($('#active-region').attr('check_active')){
         $('#active-region').addClass('active');
         $('#active-port').removeClass('active');
