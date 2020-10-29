@@ -77,7 +77,7 @@ class CompItems extends Model
 {
     protected $table = 'comp_items';
 
-    protected $appends = ['activities', 'purchases', 'sales', 'services', 'date'];
+    protected $appends = ['activities', 'purchases', 'sales', 'services', 'date', 'date_price'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -146,6 +146,10 @@ class CompItems extends Model
         return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
     }
 
+    public function getDatePriceAttribute()
+    {
+        return Date::parse($this->add_date);
+    }
 
     /* Relations */
     public function torg_buyer()

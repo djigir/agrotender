@@ -31,6 +31,24 @@
                         </li>
                     @endif
                 @endif
+                @if($port)
+                    @if($culture_id && $port && $type_traders != 1)
+                        <li>
+                            <a href="{{route('traders_forward.port_culture', [$port , $culture_translit])}}">Форварды</a>
+                        </li>
+                    @endif
+                    @if($type_traders != 0)
+                        <li>
+                            <a href="{{$culture_translit ? route('traders.port_culture',  [$port , $culture_translit]) : route('traders.port',  $port)}}">Закупки</a>
+                        </li>
+                    @endif
+
+                    @if($type_traders != 2)
+                        <li>
+                            <a href="{{$culture_translit ? route('traders_sell.port_culture',  [$port , $culture_translit]) : route('traders_sell.port',  $port)}}">Продажи</a>
+                        </li>
+                    @endif
+                @endif
             </ul>
         </div>
     </div>

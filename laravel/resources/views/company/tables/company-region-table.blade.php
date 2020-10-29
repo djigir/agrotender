@@ -47,7 +47,7 @@
                         @endif
                         @if(isset($region_price['USD'][$place['place_id']]))
                             @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                <td class="region-USD" style="display: none">
+                                <td class="region-USD" style="{{!empty($region_price['UAH']) ? 'display: none' : ''}}">
                                     @if(isset($price['costval']))
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -106,7 +106,7 @@
                             @endif
                             @if(isset($region_price['USD'][$place['place_id']]))
                                 @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                    <td class="region-USD" style="display: none">
+                                    <td class="region-USD" style="{{!empty($region_price['UAH']) ? 'display: none' : ''}}">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;
@@ -167,7 +167,7 @@
                             @endif
                             @if(isset($region_price['USD'][$place['place_id']]))
                                 @foreach($region_price['USD'][$place['place_id']] as $index_price => $price)
-                                    <td class="region-USD" style="display: none">
+                                    <td class="region-USD" style="{{!empty($region_price['UAH']) ? 'display: none' : ''}}">
                                         @if(isset($price['costval']))
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span> &nbsp;

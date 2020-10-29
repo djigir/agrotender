@@ -29,7 +29,7 @@ class TradersPorts extends Model
 
     public function getLangAttribute()
     {
-        $lang = TradersPortsLang::where('port_id', $this->id)->get()->toArray();
+        $lang = TradersPortsLang::where('port_id', $this->id)->select('id', 'port_id', 'portname')->get()->toArray();
         return !empty($lang) ? $lang[0] : [];
     }
 
