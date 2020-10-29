@@ -1,5 +1,4 @@
 @extends('layout.layout', ['meta' => $meta])
-{{--{{dd($traders)}}--}}
 @section('content')
     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     <div class="container mt-3 "></div>
@@ -60,7 +59,7 @@
                                     <div class="traders__item__content-description">
                                         @if($index < 2)
                                             <p class="traders__item__content-p">
-                                                <span class="traders__item__content-p-title">{{!empty($prices['port']) ? $prices['port']['lang']['portname'] : $prices['region']['name'].' обл.'}} </span>
+                                                <span class="traders__item__content-p-title">{{ $port != null ? $prices['port']['lang']['portname'] : $prices['region']['name'].' обл.'}} </span>
                                                 <span class="right">
                                           <span
                                               class="traders__item__content-p-price ">{{$prices['costval']}}</span>
