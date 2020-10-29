@@ -2,6 +2,7 @@
 
 namespace App\Models\Traders;
 
+use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPrices;
 use Illuminate\Database\Eloquent\Model;
@@ -36,7 +37,7 @@ class TradersPlaces extends Model
 
     public function getRegionAttribute()
     {
-        $region = Regions::where('id', $this->obl_id)->get()->toArray();
+        $region = Regions::where('id', $this->obl_id)->select('id', 'name', 'parental')->get()->toArray();
         return !empty($region) ? $region[0] : [];
     }
 

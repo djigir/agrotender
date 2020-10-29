@@ -124,14 +124,20 @@ class CompanyService
         return $rubrics;
     }
 
-
+    /** Упрощенный метод получения Place -> буду юзать в будующем
+     * @param $author_id
+     * @param $placeType
+     * @param $type
+     * @return
+     */
     public function getPlaces($author_id, $placeType, $type)
     {
         return TradersPlaces::where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]])
-            ->with('traders_ports.traders_ports_lang')
             ->orderBy('place', 'asc')
             ->orderBy('obl_id', 'asc')
-            ->get()->toArray();
+            ->select('obl_id', 'place', 'type_id', 'acttype', 'buyer_id', 'place', 'id', 'port_id')
+            ->get()
+            ->toArray();
     }
 
 
@@ -186,7 +192,7 @@ class CompanyService
         }
 
 
-        $places = collect($places)->sortBy('place')->toArray();
+        $places = collect($places)->sortBy($placeType == 0 ? 'place' : 'portname')->toArray();
         $places = array_values($places);
         $places = $this->baseService->new_unique($places, 'place');
 
@@ -212,7 +218,7 @@ class CompanyService
         $prices['USD'] = $this->parsing_array($prices, 'USD');
 
 
-
+        //dd($prices);
         return $prices;
     }
 
@@ -229,7 +235,9 @@ class CompanyService
         ];
 
         foreach ($sourceData as $index => $price) {
-            if (!empty($price['traders_products']) and !empty($sourceData[$index]['traders_products'][0]['traders_prices'])) {
+            if (empty($price['traders_products']) &&  empty($sourceData[$index]['traders_products'][0]['traders_prices'])) {
+                continue;
+            }
                 foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product) {
                     if (empty($price_product['traders_places'])) {
                         continue;
@@ -247,7 +255,7 @@ class CompanyService
                     ));
                 }
             }
-        }
+
 
         if (!empty($prices['UAH'])) {
             $prices['UAH'] = collect($prices['UAH'])->groupBy('place_id')->toArray();
@@ -312,31 +320,69 @@ class CompanyService
         $type = 0;
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
-
-//        $pricesPorts = $this->getPlaces($author_id, 2, $type);
-//        $pricesRegions = $this->getPlaces($author_id, 0, $type);
-
-
-        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
         }
 
-        if ($issetT1 > 0 && $company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
-            $type = 0;
+        $price = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
+            'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+                $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
+            }
+        ])->get()->groupBy(['curtype', 'place_id'])->toArray();
+
+        foreach ($price[0] as $index => $prices){
+            $price[0][$index] = collect($price[0][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
+            foreach ($prices as $index_p => $place){
+                if(empty($place['traders_places'])){
+                    unset($price[0][$index][$index_p]);
+                }
+            }
+            if(empty($price[0][$index])){
+                unset($price[0][$index]);
+            }
         }
 
-        $this->prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type]])
-            ->with(['price_products', 'traders_places' => function($query) use($type, $placeType, $author_id){
-            $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
-        }])
+        foreach ($price[1] as $index => $prices){
+            $price[1][$index] = collect($price[1][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
+            foreach ($prices as $index_p => $place){
+                if(empty($place['traders_places'])){
+                    unset($price[1][$index][$index_p]);
+                }
+            }
+            if(empty($price[1][$index])){
+                unset($price[1][$index]);
+            }
+        }
+
+
+        $price2 = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
+            'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+                $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
+            }
+        ])
             ->get()
-            ->groupBy('place_id')
+            ->groupBy(['place_id'])
             ->toArray();
 
-        return $this->prices;
+        foreach ($price2 as $index => $prices){
+            foreach ($prices as $index_p => $place){
+                if(empty($place['traders_places'])){
+                    unset($price2[$index][$index_p]);
+                }
+            }
+            $price2[$index] = collect($price2[$index])->sortBy('culture.name')->groupBy('curtype')->toArray();
+            $price2[$index] = array_values($price2[$index]);
+            if(empty($price2[$index])){
+                unset($price2[$index]);
+            }
+
+        }
+
+        //dd($price2, $price);
+
+        return $price;
     }
 
 
@@ -346,22 +392,14 @@ class CompanyService
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
 
-//        $pricesPorts = $this->getPlaces($author_id, 2, $type);
-//        $pricesRegions = $this->getPlaces($author_id, 0, $type);
-
-
-        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
         }
 
-        if ($issetT1 > 0 && $company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
-            $type = 0;
-        }
-
-//        $prices = $this->getPrices($author_id, $type, $placeType);
+        //dd($this->setDataPrices($id, $placeType));
+        //dd($this->getPlaces($author_id, $placeType, $type));
 
         return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
             ->with([

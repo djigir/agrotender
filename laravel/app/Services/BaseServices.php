@@ -50,7 +50,7 @@ class BaseServices
         {
             $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'. '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>',
                 'url' => !empty($data['region_translit']) ? route('traders.region', $data['region_translit']) :
-                route('traders.traders_port', $data['port_translit'])];
+                route('traders.port', $data['port_translit'])];
             $breadcrumbs_trad[1] = ['name' => !empty($data['region_translit']) ?
                 "Закупочная цена {$data['culture_name']} на сегодня в Украине" : "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
@@ -58,7 +58,7 @@ class BaseServices
         if (($data['region'] || $data['port']) && $data['culture_id'] && $data['region_translit'] != 'ukraine' && $data['port_translit'] != 'all'){
             $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region', 'ukraine') :
-                    route('traders.traders_port', 'all')];
+                    route('traders.port', 'all')];
 
             $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region_culture', ['ukraine', $data['culture']]) :

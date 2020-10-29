@@ -54,66 +54,6 @@ class TraderController extends Controller
     }
 
 
-    public function mobileFilter(Request $request)
-    {
-        $route_name = null;
-        $route_params = null;
-        $route_name = \Route::getCurrentRoute()->getName();
-        $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
-
-        if(!empty($request->get('region')) && $prefix != 'traders_forwards.'){
-            $route_name = $prefix.'region';
-            $route_params = ['region' => $request->get('region'), 'currency' => $request->get('currency')];
-        }
-
-        if(!empty($request->get('port')) && $prefix != 'traders_forwards.'){
-            $route_name = $prefix.'port';
-            $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
-        }
-
-        if(!empty($request->get('region')) && !empty($request->get('rubric'))){
-            $route_name = $prefix.'region_culture';
-            $route_params = [$request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
-        }
-
-        if(!empty($request->get('port')) && !empty($request->get('rubric'))){
-            $route_name = $prefix.'port_culture';
-            $route_params = ['port' => $request->get('port'), 'culture' => $request->get('rubric'), 'currency' => $request->get('currency')];
-        }
-
-       return redirect()->route($route_name, $route_params);
-    }
-
-    public function setTradersBreadcrumbs($data, $data_breadcrumbs)
-    {
-        $type_traders = 0;
-        $breadcrumbs = [];
-        $traders = [];
-
-        if (isset($data['forwards'])) {
-            $traders = $this->traderService->getTradersForward($data['region'], $data['culture']);
-            $breadcrumbs = $this->baseServices->setBreadcrumbsTradersForward($data_breadcrumbs);
-            $type_traders = 1;
-
-
-        } elseif (isset($data['sell'])) {
-            $traders = [];
-            $breadcrumbs = $this->baseServices->setBreadcrumbsTradersSell($data_breadcrumbs);
-            $type_traders = 2;
-
-        } else {
-
-            $traders = $this->traderService->getTradersRegionPortCulture([
-                'port' => $data['port'],
-                'culture' => $data['culture'], 'region' => $data['region'], 'query' => $data['query']
-            ]);
-
-            $breadcrumbs = $this->baseServices->setBreadcrumbsTraders($data_breadcrumbs);
-        }
-
-        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
-    }
-
     public function setDataForTraders($data)
     {
         $rubrics = $this->traderService->getRubricsGroup();
@@ -122,13 +62,9 @@ class TraderController extends Controller
         $currencies = $this->traderService->getCurrencies();
         $culture_meta = null;
         $currency = isset($data['query']['currency']) ? $data['query']['currency'] : null;
-        $region_all = $data['region'];
+        $region_all = ($data['region'] != 'ukraine' && $data['region']) ? Regions::where('translit', $data['region'])->get()->toArray()[0] : $data['region'];
         $port_all = $data['port'];
-
-
-        if($data['region'] != 'ukraine' && $data['region']) {
-            $region_all = Regions::where('translit', $data['region'])->get()->toArray()[0];
-        }
+        $culture_name = 'Выбрать продукцию';
 
         if($data['port'] != 'all' && $data['port']) {
             $id_port = TradersPorts::where('url', $data['port'])->value('id');
@@ -139,20 +75,20 @@ class TraderController extends Controller
         : $this->traderService->getNamePortRegion(null, $data['port'])['port'];
 
         $culture = TradersProducts::where('url', $data['culture'])->get()->toArray();
-
         $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture[0]['id'])->value('id') : null;
 
         if (!empty($culture)) {
             $culture_meta = Traders_Products_Lang::where('item_id', $culture[0]['id'])->get()->toArray()[0];
             $culture_name = $culture_meta['name'];
-        }else {
-            $culture_name = 'Выбрать продукцию';
         }
 
-        $meta = $this->seoService->getTradersMeta(['rubric' => $culture_meta, 'region' => $region_all,
-            'port' => $port_all, 'type' => 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
+        $meta = $this->seoService->getTradersMeta([
+            'rubric' => $culture_meta, 'region' => $region_all,
+            'port' => $port_all, 'type' => 0, 'page' => 1,
+            'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
 
-        $data_breadcrumbs =  [ 'region_translit' => $data['region'],
+        $data_breadcrumbs =  [
+            'region_translit' => $data['region'],
             'port_translit' => $data['port'],
             'region' => $region_all,
             'port' => $port_all,
@@ -160,12 +96,11 @@ class TraderController extends Controller
             'culture_id' => $culture_id,
             'culture_name' =>  !empty($culture) ? $culture[0]['culture']['name'] : null];
 
-        $traders = $this->setTradersBreadcrumbs($data, $data_breadcrumbs)['traders'];
-        $breadcrumbs = $this->setTradersBreadcrumbs($data, $data_breadcrumbs)['breadcrumbs'];
-        $type_traders = $this->setTradersBreadcrumbs($data, $data_breadcrumbs)['type_traders'];
+        $traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['traders'];
+        $breadcrumbs = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['breadcrumbs'];
+        $type_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['type_traders'];
 
         return view('traders.traders', [
-//            'viewmod' => $request->get('viewmod'),
             'regions' => $regions,
             'traders' => $traders,
             'onlyPorts' => $ports,
@@ -188,94 +123,192 @@ class TraderController extends Controller
     }
 
 
+    /**
+     * @param  Request  $request
+     * @param $region
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function index(Request $request, $region)
     {
-        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => ''];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-           return $this->mobileFilter($request);
+           return $this->traderService->mobileFilter($request);
         }
 
         return $this->setDataForTraders($data_traders);
     }
 
+
     /**
-     * Remove the specified resource from storage.
-     *
      * @param  Request  $request
-     * @param  string  $region
-     * @param  string  $culture
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @param $region
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
     public function regionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'type' => ''];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
         return $this->setDataForTraders($data_traders);
     }
 
+
+    /**
+     * @param  Request  $request
+     * @param $port
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function port(Request $request, $port)
     {
-        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'type' => ''];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
         return $this->setDataForTraders($data_traders);
     }
 
 
+    /**
+     * @param  Request  $request
+     * @param $port
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function portCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => ''];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
         return $this->setDataForTraders($data_traders);
     }
 
 
-    public function forwardsCulture(Request $request, $region, $culture)
+    /**
+     * @param  Request  $request
+     * @param $region
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function forwardsRegionCulture(Request $request, $region, $culture)
     {
+        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+
+
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true];
         return $this->setDataForTraders($data_traders);
     }
 
+
+    /**
+     * @param  Request  $request
+     * @param $port
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function forwardsPortCulture(Request $request, $port, $culture)
+    {
+        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+
+        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        {
+            return $this->traderService->mobileFilter($request);
+        }
+
+
+        return $this->setDataForTraders($data_traders);
+    }
+
+
+    /**
+     * @param  Request  $request
+     * @param $region
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
     public function sellRegion(Request $request, $region)
     {
+        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => null, 'sell' => true, 'type' => 'sell'];
+
+
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => null, 'sell' => true];
         return $this->setDataForTraders($data_traders);
     }
 
-    public function sellCulture(Request $request, $region, $culture)
+
+    /**
+     * @param  Request  $request
+     * @param $port
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function sellPort(Request $request, $port)
     {
-        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => null, 'sell' => true, 'type' => 'sell'];
+
+
+        if(!empty($request->get('region')) || !empty($request->get('port')))
         {
-            return $this->mobileFilter($request);
+            return $this->traderService->mobileFilter($request);
         }
 
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'sell' => true];
+        return $this->setDataForTraders($data_traders);
+    }
+
+
+    /**
+     * @param  Request  $request
+     * @param $region
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function sellRegionCulture(Request $request, $region, $culture)
+    {
+        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
+
+
+        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        {
+            return $this->traderService->mobileFilter($request);
+        }
+
+        return $this->setDataForTraders($data_traders);
+    }
+
+
+    /**
+     * @param  Request  $request
+     * @param $port
+     * @param $culture
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
+     */
+    public function sellPortCulture(Request $request, $port, $culture)
+    {
+        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
+
+        if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
+            return $this->traderService->mobileFilter($request);
+        }
+
         return $this->setDataForTraders($data_traders);
     }
 

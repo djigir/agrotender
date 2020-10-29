@@ -41,15 +41,17 @@ class TradersPrices extends Model
         'comment',
     ];
 
-    /* Mutations */
-//    protected $appends = ['places'];
+//    /* Mutations */
+    protected $appends = ['culture'];
 //
 //
-//    public function getPlacesAttribute()
-//    {
-//        $place = TradersPlaces::where([['id', $this->place_id], ['type_id', '!=', 1]])->get()->toArray();
-//        return !empty($place) ? $place[0] : null;
-//    }
+    public function getCultureAttribute()
+    {
+        $culture = Traders_Products_Lang::where([['id', $this->cult_id]])->select('id', 'name', 'descr', 'item_id')->get()->toArray();
+
+        return !empty($culture) ? $culture[0] : null;
+    }
+
 
     /* Relations */
 

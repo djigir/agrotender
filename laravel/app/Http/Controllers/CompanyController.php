@@ -308,9 +308,12 @@ class CompanyController extends Controller
         ])
             ->with([
                 'traders_prices' => function ($query) {
-                    $query->where('acttype', 3)->with(['traders_places' => function($query){
-                        $query->where('type_id', 2)->with('traders_ports.traders_ports_lang');
-                    }], 'traders_products');
+                    $query->where('acttype', 3)
+                        ->with([
+                            'traders_places' => function ($query) {
+                                $query->where('type_id', 2)->with('traders_ports.traders_ports_lang');
+                            }
+                        ], 'traders_products');
                 }
             ])
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',

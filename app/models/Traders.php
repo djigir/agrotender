@@ -1164,6 +1164,9 @@ $sql = "
       order by ci.trader_premium{$type} desc,ch_dt desc,ci.trader_sort{$type}, ci.rate_formula desc, ci.title
       limit $start, $count");
     // group by
+//      echo '<pre>';
+//      print_r($traders);
+//      echo '</pre>';die();
     $groupBy = 'tpr.cult_id';
     if ($rubric != null && $region != null) {
       $groupBy = 'tpl.obl_id';

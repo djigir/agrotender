@@ -1,5 +1,5 @@
 @extends('layout.layout', ['meta' => $meta])
-
+{{--{{dd($traders)}}--}}
 @section('content')
     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     <div class="container mt-3 "></div>
@@ -22,61 +22,60 @@
         </div>
     </div>
 
+
     <div class="new_container container mt-3 traders_dev">
         @if(!empty($traders))
             <div class="new_traders">
                 @foreach($traders as $trader)
                     <div class="traders__item-wrap">
-                        <a href="{{route('company.index', $trader['id']) }}" class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}} ">
-                            <div class="traders__item__header" style="background-color: rgb(255, 255, 255);">
-                                <img class="traders__item__image" src="{{ $trader['logo_file'] }}" data-primary-color="255,255,255">
+                        <a href="{{route('company.index', $trader['id']) }}"
+                           class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}}">
+                            <div class="traders__item__header">
+                                <img class="traders__item__image" src="{{ $trader['logo_file'] }}" alt="">
                             </div>
                             <div class="traders__item__content">
                                 <div href="#" class="traders__item__content-title">
                                     {{ $trader['title'] }}
                                 </div>
-                                @if(isset($trader['cultures']))
-                                    @foreach($trader['cultures'] as $index => $culture)
+                                @if($type_traders != 1 && !$culture_translit)
+                                    @foreach($trader['traders_prices'] as $index => $price_culture)
                                         <div class="traders__item__content-description">
-                                            @if($index < 3)
-                                            <p class="traders__item__content-p">
-                                                <span class="traders__item__content-p-title">{{ $culture['name'] }}</span>
-                                                    <span class="right">
-                                                    <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                                                          title="Старая цена: 6010">{{--{{ $prices['costval'] }}--}}</span>
-                                                    <span class="traders__item__content-p-icon">
-{{--                                                        <img src="/app/assets/img/price-down.svg">--}}
-                                                    </span>
-                                                </span>
-                                            </p>
-                                            @endif
-                                        </div>
-                                    @endforeach
-                                @else
-                                    @foreach($trader['traders_prices'] as $index => $prices)
-                                        <div class="traders__item__content-description">
-                                            @if($index < 3)
+                                            @if($index < 2)
                                                 <p class="traders__item__content-p">
-                                                    <span class="traders__item__content-p-title">
-                                                        {{$prices['region']['name']}} обл.
-{{--                                         <span style="color: black; font-weight: bold; margin-left: 2px">{{ $prices['place_name'] }}</span>--}}
-                                                    </span>
+                                                    <span
+                                                        class="traders__item__content-p-title">{{ $price_culture['culture']['name'] }}</span>
                                                     <span class="right">
-                                                        <span class="traders__item__content-p-price price-down" data-toggle="tooltip" data-placement="right"
-                                                              title="Старая цена: 6010">{{$prices['costval']}}</span>
-{{--                                                        <span class="traders__item__content-p-icon">--}}
-{{--                                                            <img src="/app/assets/img/price-down.svg">--}}
-{{--                                                        </span>--}}
-                                                    </span>
+                                                  <span
+                                                      class="traders__item__content-p-price ">{{ $price_culture['costval'] }}</span>
+                                                  <span class="traders__item__content-p-icon">
+                                                    {{--  <img src="/app/assets/img/price-not-changed.svg">  --}}
+                                                  </span>
+                                                </span>
                                                 </p>
                                             @endif
                                         </div>
                                     @endforeach
+                                @else
+                                @foreach($trader['traders_prices'] as $index => $prices)
+                                    <div class="traders__item__content-description">
+                                        @if($index < 2)
+                                            <p class="traders__item__content-p">
+                                                <span class="traders__item__content-p-title">{{!empty($prices['port']) ? $prices['port']['lang']['portname'] : $prices['region']['name'].' обл.'}} </span>
+                                                <span class="right">
+                                          <span
+                                              class="traders__item__content-p-price ">{{$prices['costval']}}</span>
+                                          <span class="traders__item__content-p-icon">
+                                            {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
+                                          </span>
+                                        </span>
+                                            </p>
+                                        @endif
+                                    </div>
+                                @endforeach
                                 @endif
-{{--                                <div class="traders__item__content-date">--}}
-{{--                                    <!-- <span class="traders__item__content-date-more">+ ещё 0 отзывов</span> -->--}}
-{{--                                    <span class="green">{{ 'дата' }}</span>--}}
-{{--                                </div>--}}
+                                <div class="traders__item__content-date">
+                                    <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">{{mb_convert_case($trader['date_price']->format('d F'), MB_CASE_TITLE, "UTF-8")}}</span>
+                                </div>
                             </div>
                         </a>
                     </div>
