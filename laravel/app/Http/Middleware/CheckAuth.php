@@ -19,14 +19,14 @@ class CheckAuth
      */
     public function handle($request, Closure $next)
     {
-        if (!isset($_SESSION)){
+        /*if (!isset($_SESSION)){
             session_start();
         }
 //        session_start();
         $user_id = $_SESSION['id'];
         $user = TorgBuyer::find($user_id);
 
-//        app()->instance('user', $user);
+//        app()->instance('user', $user);*/
         return $next($request);
     }
 }
