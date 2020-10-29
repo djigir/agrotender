@@ -23,6 +23,7 @@ use  App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use Jenssegers\Date\Date;
 use Illuminate\Support\Facades\Validator;
@@ -135,7 +136,10 @@ class CompanyController extends Controller
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
-
+//        dd(\auth());
+        //$user = resolve('user');
+        //dd($user->where('login', 'test2@gmail.com')->get());
+        //dd(\auth()->user());
         return $this->setDataForCompanies($data_companies);
     }
 

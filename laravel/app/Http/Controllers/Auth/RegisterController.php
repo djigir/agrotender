@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,10 +50,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:agt_torg_buyer'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
             'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required','regex:/^([0-9\s\-\+\(\)]*)$/', 'min:10'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }
 
@@ -66,19 +64,6 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-//        return User::create([
-//            'name' => $data['name'],
-//            'add_date' => Carbon::now(),
-//            'login' => $data['email'],
-//            'obl_id' => null,
-//            'avail_adv_posts' => 50,
-//            'phone' => $data['phone'],
-//            'email' => $data['email'],
-//            'hash' => null,
-//            'smschecked' => 1,
-//            'password' => Hash::make($data['password']),
-//        ]);
-
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

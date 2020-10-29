@@ -58,7 +58,7 @@ class BaseServices
         if (($data['region'] || $data['port']) && $data['culture_id'] && $data['region_translit'] != 'ukraine' && $data['port_translit'] != 'all'){
             $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region', 'ukraine') :
-                    route('traders.traders_port', 'all')];
+                    route('traders.port', 'all')];
 
             $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region_culture', ['ukraine', $data['culture']]) :

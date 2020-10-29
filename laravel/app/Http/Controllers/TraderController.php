@@ -125,7 +125,6 @@ class TraderController extends Controller
         $region_all = $data['region'];
         $port_all = $data['port'];
 
-
         if($data['region'] != 'ukraine' && $data['region']) {
             $region_all = Regions::where('translit', $data['region'])->get()->toArray()[0];
         }
@@ -148,9 +147,8 @@ class TraderController extends Controller
         }else {
             $culture_name = 'Выбрать продукцию';
         }
-
         $meta = $this->seoService->getTradersMeta(['rubric' => $culture_meta, 'region' => $region_all,
-            'port' => $port_all, 'type' => 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
+            'port' => $port_all, 'type' => isset($data['forwards']) ? 1 : 0, 'page' => 1, 'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
 
         $data_breadcrumbs =  [ 'region_translit' => $data['region'],
             'port_translit' => $data['port'],

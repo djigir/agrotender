@@ -111,17 +111,22 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaForward($region, $culture)
+    public function getTradersMetaForward($region, $culture, $port)
     {
         if(empty($region)){
             return false;
         }
+        $year = date('Y');
+        $yearsText = $year . '-' . ($year + 1);
 
-        $h1 =  '';
-        $title = '';
-        $keywords = '';
-        $description = '';
+        $h1 =  $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине" : "Форвардная цена на {$culture['name']} в {$culture['name']} области";
+        $title = $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине на {$yearsText}" : "Форвардная цена на {$culture['name']} в {$region['parental']} области на {$yearsText}";
+        $keywords = $region == "ukraine" ? "Форварды, цена, стоимость, экспорт, {$culture['name']}, Украина" : "Форварды, цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область";
+        $description = $region == "ukraine" ? "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров Украины. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}." : "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров {$region['name']} области. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}.";
         $text = '';
+        if ($port != null) {
+            dd('f port');
+        }
 
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
@@ -132,13 +137,14 @@ class SeoService
         if(empty($region)){
             return false;
         }
+        $year = date('Y');
+        $yearsText = $year . '-' . ($year + 1);
 
         $h1 =  '';
-        $title = '';
+        $title = "";
         $keywords = '';
         $description = '';
         $text = '';
-
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
@@ -147,13 +153,11 @@ class SeoService
     {
         $meta_region = $this->getTradersMetaRegion($data['region'], $data['rubric']);
         $meta_port = $this->getTradersMetaPort($data['port'], $data['rubric']);
-        $meta_forward = $this->getTradersMetaForward($data['region'], $data['rubric']);
+        $meta_forward = $this->getTradersMetaForward($data['region'], $data['rubric'], $data['port']);
         $meta_sell = $this->getTradersMetaSell($data['region'], $data['rubric']);
-
         if ($meta_forward && $data['type'] == 1) {
             return $meta_forward;
         }
-
         if($meta_sell && $data['type'] == 2) {
             return $meta_sell;
         }
