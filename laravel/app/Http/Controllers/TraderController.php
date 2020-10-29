@@ -96,13 +96,11 @@ class TraderController extends Controller
             'culture_id' => $culture_id,
             'culture_name' =>  !empty($culture) ? $culture[0]['culture']['name'] : null];
 
-        $traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['traders'];
-        $breadcrumbs = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['breadcrumbs'];
-        $type_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs)['type_traders'];
+        $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
 
         return view('traders.traders', [
             'regions' => $regions,
-            'traders' => $traders,
+            'traders' => $data_traders['traders'],
             'onlyPorts' => $ports,
             'currencies' => $currencies,
             'region_port_name' => $region_port_name,
@@ -117,8 +115,8 @@ class TraderController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
             'page_type' => 1,
-            'breadcrumbs' => $breadcrumbs,
-            'type_traders' => $type_traders,
+            'breadcrumbs' => $data_traders['breadcrumbs'],
+            'type_traders' => $data_traders['type_traders'],
         ]);
     }
 

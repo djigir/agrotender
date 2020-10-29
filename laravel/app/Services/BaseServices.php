@@ -79,9 +79,7 @@ class BaseServices
             !$data['culture_name'] ?
             ['name' =>  "Форварды", 'url' => null] : ['name' =>  "Форварды". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => null];
 
-
-        $breadcrumbs_trad_forward[1] = $data['culture_name'] ?
-            ['name' => "Форвардная цена на {$data['culture_name']} в". $data['port'] ? 'портах Укрины' : 'Украине' , 'url' => null] : null;
+        $breadcrumbs_trad_forward[1] = $data['port_translit'] != 'all' ? ['name' => "Форвардная цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null] : ['name' => "Форвардная цена на {$data['culture_name']} в портах Украины", 'url' => null];
 
         if($data['region'] && $data['culture_id'] && $data['region_translit'] != 'ukraine')
         {

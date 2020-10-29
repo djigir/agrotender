@@ -58,16 +58,18 @@
                                 @foreach($trader['traders_prices'] as $index => $prices)
                                     <div class="traders__item__content-description">
                                         @if($index < 2)
-                                            <p class="traders__item__content-p">
-                                                <span class="traders__item__content-p-title">{{ $port != null ? $prices['port']['lang']['portname'] : $prices['region']['name'].' обл.'}} </span>
-                                                <span class="right">
-                                          <span
-                                              class="traders__item__content-p-price ">{{$prices['costval']}}</span>
-                                          <span class="traders__item__content-p-icon">
-                                            {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
-                                          </span>
-                                        </span>
-                                            </p>
+                                            @if(isset($prices['port']) && isset($prices['region']))
+                                                 <p class="traders__item__content-p">
+                                                        <span class="traders__item__content-p-title">{{ $port != null ? $prices['port']['lang']['portname']  : $prices['region']['name'].' обл.'}} </span>
+                                                        <span class="right">
+                                                  <span
+                                                      class="traders__item__content-p-price ">{{$prices['costval']}}</span>
+                                                  <span class="traders__item__content-p-icon">
+                                                    {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
+                                                  </span>
+                                                </span>
+                                                </p>
+                                            @endif
                                         @endif
                                     </div>
                                 @endforeach
