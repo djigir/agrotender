@@ -10,17 +10,13 @@ class BaseServices
 {
     public function getRegions()
     {
-        $regions = Regions::get()->toArray();
-        array_push($regions, ['name' => 'Вся Украина', 'translit' => 'ukraine']);
-
-        return $regions;
+        return Regions::get()->push(['name' => 'Вся Украина', 'translit' => 'ukraine'])->toArray();
     }
 
     public function removeEmpty($array, $key)
     {
 
     }
-
 
     public function new_unique($array, $key)
     {

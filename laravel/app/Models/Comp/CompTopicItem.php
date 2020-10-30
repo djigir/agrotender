@@ -19,12 +19,12 @@ class CompTopicItem extends Model
 
     public function comp_items()
     {
-        return $this->belongsTo(CompItems::class, 'id', 'item_id');
+        return $this->hasMany(CompItems::class, 'id', 'item_id');
     }
 
     public function comp_topic()
     {
-        return $this->belongsTo(CompTopic::class, 'id');
+        return $this->belongsTo(CompTopic::class, 'id', 'topic_id');
     }
 
 

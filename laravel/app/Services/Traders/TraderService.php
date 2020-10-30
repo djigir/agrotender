@@ -22,12 +22,14 @@ class TraderService
     protected $companyService;
     protected $baseService;
     protected $treders;
+    protected $groups;
 
     public function __construct(CompanyService $companyService, BaseServices $baseService)
     {
         $this->companyService = $companyService;
         $this->baseService = $baseService;
         $this->treders = null;
+        $this->groups = null;
     }
 
     public function mobileFilter(Request $request)
@@ -65,7 +67,7 @@ class TraderService
     {
         $type_traders = 0;
 
-        $this->setInitQuery($data);
+        $this->InitQuery($data);
 
         if (isset($data['forwards'])) {
             $traders = $this->getTradersForward($data);
@@ -120,78 +122,65 @@ class TraderService
         }
 
         return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
-
     }
 
     public function getPorts()
     {
-        $ports = TradersPorts::select('id', 'url')->with(['traders_ports_lang' => function($query){
-            $query->select('portname', 'p_title', 'p_h1', 'p_descr', 'port_id');
-        }])
-            ->where('active', 1)
-            ->get()
-            ->toArray();
-
-        foreach ($ports as $index => $port){
-            $ports[$index] = array_merge($port, $port['traders_ports_lang'][0]);
-            unset($ports[$index]["traders_ports_lang"]);
-        }
-
-        $ports = collect($ports)->sortBy('portname')->toArray();
-        $ports = array_values($ports);
-        array_push($ports, ['portname' => 'Все порты', 'url' => 'all']);
+        $ports = TradersPorts::select('id', 'url')->where('active', 1)->get();
+        $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
 
         return $ports;
-
     }
 
-
-    public function getRubricsGroup()
+    public function getRubrics($traders, $port_id, $obl_id)
     {
-        $groups = TradersProductGroups::where("acttype", 0)->get();
-
-        $topic_counts = CompTopicItem::select(['item_id', \DB::raw('count(*) as cnt')])
-            ->groupBy('item_id')
-            ->get()
-            ->keyBy('item_id')
-            ->toArray();
-
-
-        foreach ($groups as $index_group => $group){
-            $groups[$index_group]['index_group'] = $index_group;
-        }
-
-        $groups = collect($groups)->groupBy("index_group")->toArray();
+        $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
 
         foreach ($groups as $index => $group) {
-            $groups[$index] = $groups[$index][0];
-            $groups[$index]['products'] = $groups[$index]['groups']['traders_products'];
-            $groups[$index]['products'] = collect($groups[$index]['products'])->sortBy('culture.name')->toArray();
-
-            unset($groups[$index]['groups']['traders_products']);
+            $groups[$index]['index_group'] = $index + 1;
+            $groups[$index]['products'] = collect($groups[$index]['groups']['products'])->sortBy('culture')->toArray();
+            unset($groups[$index]['groups']['products']);
         }
 
-        foreach ($groups as $index => $rubric) {
-            foreach ($rubric['products'] as $index2 =>  &$topic) {
-                if (!isset($topic_counts[$topic['id']])) {
-                    continue;
-                }
-                $groups[$index]['products'][$index2]['cnt'] = $topic_counts[$topic['id']]['cnt'];
+        foreach ($traders as $index => $cnt){
+            $traders[$index]['traders_prices'] = collect($traders[$index]['traders_prices'])->groupBy('cult_id')->toArray();
+        }
+
+        foreach ($groups as $index_g => $group) {
+            foreach ($group['products'] as $index_c => $culture) {
+                $groups[$index_g]['products'][$index_c]['count'] = 0;
+                    foreach ($traders as $index => $item) {
+                        if(isset($item['traders_prices'][$culture['id']])){
+                            $groups[$index_g]['products'][$index_c]['count']++;
+                        }
+                    }
+//                if($groups[$index_g]['products'][$index_c]['count'] == 0){
+//                    unset($groups[$index_g]['products'][$index_c]);
+//                }
             }
-            $rubrics[$index] = $rubric;
         }
-
 
         return $groups;
     }
 
-    public function setInitQuery($data)
+    public function getRubricsGroup()
     {
-        $type = $data['type'] != '' ? '_'.$data['type'] : '';
-
-        $this->treders = CompItems::where([["trader_price{$type}_avail", 1], ["trader_price{$type}_visible", 1], ["visible", 1]]);
+//        $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
+//
+//        foreach ($groups as $index => $group) {
+//            $groups[$index]['index_group'] = $index + 1;
+//            $groups[$index]['products'] = collect($groups[$index]['groups']['products'])->sortBy('culture.name')->toArray();
+//            unset($groups[$index]['groups']['products']);
+//        }
+//        dd($groups);
+        return $this->groups;
     }
 
+    public function InitQuery($data)
+    {
+        $type = $data['type'] != '' ? '_'.$data['type'] : '';
+        $this->treders = CompItems::where([["trader_price{$type}_avail", 1], ["trader_price{$type}_visible", 1], ["visible", 1]]);
+    }
 
 
     public function getTradersForward($data)
@@ -260,6 +249,7 @@ class TraderService
         return $traders;
     }
 
+
     public function getTradersRegionPortCulture($data)
     {
         $port_id=($data['port'] && $data['port'] != 'all') ? TradersPorts::where('url', $data['port'])->value('id') : null;
@@ -270,45 +260,45 @@ class TraderService
         $currency = ($data['query'] && isset($data['query']['currency'])) ? (int)$data['query']['currency'] : 2;
 
         $traders = $this->treders->with([
-                'traders_prices' => function ($query) use ($culture, $obl_id, $port_id, $currency) {
-                    $query->where([['acttype', 0],
-                        [
-                            function ($check) use ($currency) {
-                                if($currency != 2){
-                                    $check->where('curtype', $currency);
-                                }
-                            }
-                        ],
-                        [
-                            function ($check) use ($culture, $obl_id, $port_id) {
-                                if ($culture) {
-                                    $check->where('cult_id', $culture);
-                                }
-                            }
-                        ]
-                    ])->with(['traders_places' => function ($check) use ($obl_id, $port_id) {
-                            if($obl_id != null || $port_id != null){
-                                $check->where([
-                                    [
-                                        function ($check) use ($obl_id) {
-                                            if ($obl_id) {
-                                                $check->where('obl_id', $obl_id);
-                                            }
-                                        }
-                                    ],
-                                    [
-                                        function ($check) use ($port_id) {
-                                            if ($port_id) {
-                                                $check->where('port_id', $port_id);
-                                            }
-                                        }
-                                    ]
-                                ]);
+            'traders_prices' => function ($query) use ($culture, $obl_id, $port_id, $currency) {
+                $query->where([['acttype', 0],
+                    [
+                        function ($check) use ($currency) {
+                            if($currency != 2){
+                                $check->where('curtype', $currency);
                             }
                         }
-                    ])->select('id', 'buyer_id', 'cult_id', 'place_id', 'curtype', 'acttype', 'costval', 'costval_old', 'add_date', 'dt', 'comment');
+                    ],
+                    [
+                        function ($check) use ($culture, $obl_id, $port_id) {
+                            if ($culture) {
+                                $check->where('cult_id', $culture);
+                            }
+                        }
+                    ]
+                ])->with(['traders_places' => function ($check) use ($obl_id, $port_id) {
+                    if($obl_id != null || $port_id != null){
+                        $check->where([
+                            [
+                                function ($check) use ($obl_id) {
+                                    if ($obl_id) {
+                                        $check->where('obl_id', $obl_id);
+                                    }
+                                }
+                            ],
+                            [
+                                function ($check) use ($port_id) {
+                                    if ($port_id) {
+                                        $check->where('port_id', $port_id);
+                                    }
+                                }
+                            ]
+                        ]);
+                    }
                 }
-            ])
+                ])->select('id', 'buyer_id', 'cult_id', 'place_id', 'curtype', 'acttype', 'costval', 'costval_old', 'add_date', 'dt', 'comment');
+            }
+        ])
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->orderBy('trader_premium', 'desc')
@@ -318,7 +308,20 @@ class TraderService
             ->get()
             ->toArray();
 
+        $transform_traders = $this->TradersReformation($traders, $data);
 
+        $this->groups = $this->getRubrics($transform_traders, $obl_id, $port_id);
+
+        if(empty($transform_traders)){
+            $this->groups = $this->getRubrics($traders, $obl_id, $port_id);
+        }
+
+        return $transform_traders;
+    }
+
+
+    public function TradersReformation($traders, $data)
+    {
         foreach ($traders as $index => $trader){
             foreach ($trader['traders_prices'] as $index_place => $place){
                 $traders[$index]['traders_prices'] = collect($traders[$index]['traders_prices'])->sortBy('culture.name')->toArray();
@@ -346,23 +349,7 @@ class TraderService
 
         $traders = array_values($traders);
 
-
         return $traders;
     }
 
-//    public function add_data_traders($traders)
-//    {
-//        foreach ($traders as $index => $trader) {
-//            $traders[$index]['cultures'] = [];
-//            $traders[$index]['cultures'] = $this->companyService->getPortsRegionsCulture($trader['id'], 0);
-//
-//            if (empty($traders[$index]['cultures'])){
-//                unset($traders[$index]);
-//            }
-//        }
-//
-//        $traders = array_values($traders);
-//
-//        return $traders;
-//    }
 }

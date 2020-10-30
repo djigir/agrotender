@@ -767,6 +767,7 @@ class Traders extends \Core\Model {
         $placeSql
       where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && ci.visible = 1
     ")[0]['count'] ?? 0;
+
     return $cost;
   }
   public function getForwardRubrics($type, $priceType, $region = null, $port = null, $onlyPorts = null, $currency = null) {
