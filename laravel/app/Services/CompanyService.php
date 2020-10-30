@@ -419,7 +419,6 @@ class CompanyService
 
     public function setRubricsGroup($company = [])
     {
-
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
         }
@@ -497,17 +496,19 @@ class CompanyService
                     }
                 }
             ]
-        ])->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-            'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
-            'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-            'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3', 'comp_item2topic.topic_id', 'comp_item2topic.item_id')
+        ])
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
             ->distinct();
 
-        $dataForRubric = $obl_id ? $companies->get() : [];
+        $dataForRubric = $obl_id ? $companies->select('comp_items.id', 'comp_items.author_id','comp_item2topic.topic_id')->get() : [];
 
         $this->rubrics = $this->setRubricsGroup($dataForRubric);
+
+        $companies = $companies->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
+            'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
+            'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
+            'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
 
         return $companies->paginate(self::PER_PAGE);
     }

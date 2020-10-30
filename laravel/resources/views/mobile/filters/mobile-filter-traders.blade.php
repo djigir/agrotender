@@ -165,10 +165,9 @@
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                     @endforeach
-
                     @foreach(array_reverse($onlyPorts) as $index_port  => $port)
                         <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" style="color: #1e56b2" port="{{$port['url']}}">
-                            <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['portname']}}</span>
+                            <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['lang']['portname']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                     @endforeach
