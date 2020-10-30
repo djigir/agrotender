@@ -92,13 +92,13 @@ class BaseServices
         $breadcrumbs_trad_sell[0] = ['name' => "Продажи трейдеров", 'url' => null];
 
         if($data['region_translit'] != 'ukraine' && $data['region']){
-            $breadcrumbs_trad_sell[0]['utl'] = route('traders_sell.region', 'ukraine');
+            $breadcrumbs_trad_sell[0] = ['name' => "Продажи трейдеров". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('traders_sell.region', 'ukraine')];
             $breadcrumbs_trad_sell[1] = ['name' => "Аграрная продукция: предложения от трейдеров и переработчиков в {$data['region']['parental']} области", 'url' => null];
         }
 
         if($data['region_translit'] != 'ukraine' && $data['region'] && $data['culture_id'])
         {
-            $breadcrumbs_trad_sell[0]['utl'] = route('traders_sell.region', 'ukraine');
+            $breadcrumbs_trad_sell[0] = ['name' => "Продажи трейдеров". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('traders_sell.region', 'ukraine')];
             $breadcrumbs_trad_sell[1] = ['name' => "{$data['culture_name']}: предложения от трейдеров и переработчиков в {$data['region']['parental']} области", 'url' => ''];
         }
 

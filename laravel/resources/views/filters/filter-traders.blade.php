@@ -57,9 +57,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                                 @if(!empty($port))
                                                     <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
-                                                        @if(isset($item['cnt']))
-                                                            <span class="companyCount small">({{$item['count']}})</span>
-                                                        @endif
+                                                        <span class="companyCount small">({{$item['count']}})</span>
                                                     </a>
                                                 @endif
                                             </li>

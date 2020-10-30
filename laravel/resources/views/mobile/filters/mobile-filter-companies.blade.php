@@ -62,6 +62,7 @@
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$rubricGroup['id']}}">
                                 <span>{{$rubricGroup['title']}}</span>
+
                                 <span><i class="far fa-chevron-right"></i></span>
                             </span>
                         @endforeach
@@ -80,9 +81,8 @@
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
                                 <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between " group="{{$rubricGroup['id']}}" rubric="{{$culture['id']}}">
-                                    <span style="color: #1e56b2">{{$culture['title']}} &nbsp;
-    {{--                                            <span class="companyCount small">({$rgi['count']})</span>--}}
-                                    </span>
+                                    <span style="color: #1e56b2">{{$culture['title']}} &nbsp;</span>
+                                    <span class="companyCount small">({{$culture['cnt']}})</span>
                                     <span><i class="far fa-chevron-right"></i></span>
                                 </span>
                             @endforeach

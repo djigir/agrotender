@@ -240,7 +240,7 @@ window.onload = function (){
 
     $(".region").click(function (event) {
         let region = event.currentTarget.getAttribute('region');
-        let region_name = event.target.innerHTML;
+        let region_name = event.target.innerHTML+ ' область';
 
         $('#span-mobile-region').html(region_name);
         $('#input-mobile-region').attr('value', region);
