@@ -246,6 +246,8 @@ class TraderService
 
         $traders = array_values($traders);
 
+        $this->groups = $this->getRubrics($traders, $obl_id, $port_id);
+
         return $traders;
     }
 

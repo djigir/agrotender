@@ -203,7 +203,7 @@ class TraderController extends Controller
      */
     public function forwardsRegionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
 
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
@@ -222,7 +222,7 @@ class TraderController extends Controller
      */
     public function forwardsPortCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
 
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
@@ -241,7 +241,7 @@ class TraderController extends Controller
      */
     public function sellRegion(Request $request, $region)
     {
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => null, 'sell' => true, 'type' => 'sell'];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'sell' => true, 'type' => 'sell'];
 
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
@@ -260,7 +260,7 @@ class TraderController extends Controller
      */
     public function sellPort(Request $request, $port)
     {
-        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => null, 'sell' => true, 'type' => 'sell'];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'sell' => true, 'type' => 'sell'];
 
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
@@ -280,7 +280,7 @@ class TraderController extends Controller
      */
     public function sellRegionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
 
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
@@ -300,7 +300,7 @@ class TraderController extends Controller
      */
     public function sellPortCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => null, 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
             return $this->traderService->mobileFilter($request);
