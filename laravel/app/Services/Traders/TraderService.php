@@ -160,7 +160,6 @@ class TraderService
             }
         }
 
-        dd($groups);
         return $groups;
     }
 

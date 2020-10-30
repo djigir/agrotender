@@ -76,14 +76,15 @@
                     <div class="section text-left">
                         <div class="row">
                             <div class="col" style="column-count: 3">
+
                                 @foreach($regions as $index => $region)
-                                    @if(isset($rubric_id) and isset($region))
-                                        <a class="regionLink {{($region == $region['translit']) ? 'active' : '' }}"
+                                    @if($rubric_id and $region)
+                                        <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"
                                            href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                         </a>
                                     @else
-                                        <a class="regionLink {{($region == $region['translit']) ? 'active' : ''}}"
+                                        <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : ''}}"
                                            href="{{route('company.region', $region['translit'])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                         </a>

@@ -398,6 +398,7 @@ class CompanyService
 
     public function searchCompanies($value)
     {
+
         return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
@@ -416,8 +417,9 @@ class CompanyService
             ->toArray();
     }
 
-    public function setRubricsGroup($company)
+    public function setRubricsGroup($company = [])
     {
+
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
                 $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
             }
@@ -425,7 +427,8 @@ class CompanyService
 
         $topic_counts = CompTopicItem::select(['topic_id', \DB::raw('count(*) as cnt')])->groupBy('topic_id')->get()->keyBy('topic_id')->toArray();
 
-        if(!empty($company)){
+        if(!empty($company))
+        {
             $company = $company->groupBy('topic_id');
             foreach ($rubrics as $index_r => $rubric){
                 $rubrics[$index_r] = $rubrics[$index_r][0];
@@ -436,22 +439,27 @@ class CompanyService
                     }
                 }
             }
+
+            $this->rubrics = $rubrics;
+
             return $rubrics;
         }
 
         foreach ($rubrics as $index => $rubric) {
-                $rubric = reset($rubric);
-                foreach ($rubric['comp_topic'] as &$topic) {
-                    if(!isset($topic_counts[$topic['id']])){
-                        continue;
-                    }
-                    $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
+            $rubric = reset($rubric);
+            foreach ($rubric['comp_topic'] as &$topic) {
+                if (!isset($topic_counts[$topic['id']])) {
+                    continue;
                 }
-                unset($topic);
-                $rubrics[$index] = $rubric;
+                $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
             }
+            unset($topic);
+            $rubrics[$index] = $rubric;
+        }
 
-       return $rubrics;
+        $this->rubrics = $rubrics;
+
+        return $rubrics;
     }
 
     public function getRubricsGroup()
@@ -463,6 +471,7 @@ class CompanyService
     public function getCompanies($data)
     {
         if ($data['query']) {
+            $this->setRubricsGroup();
             return $this->searchCompanies($data['query']);
         }
 

@@ -79,7 +79,7 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = $this->baseServices->getRegions();
+        $regions = array_slice($this->baseServices->getRegions(), 1, -1);
         $region_name = $this->regionName($data['region']);
         $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
         $region_id = null;
@@ -104,6 +104,7 @@ class CompanyController extends Controller
             'rubricGroups' => $groups, 'settings_for_page' => $companies,
             'region_name' => $region_name,
             'region' => $data['region'],
+            'obj_region' => $data['region'] != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
             'region_id' => $region_id,
