@@ -53,7 +53,7 @@
                         <div class="row lh-1">
                             <div class="col">
                                 <span class="title">
-                                    <a href="{{route('company.index', $company['id'])}}">{{  str_replace('\\', '', $company['title']) }}
+                                    <a href="{{route('company.index', $company['id'])}}">{!!  str_replace('\\', '', $company['title']) !!}
                                     </a>
                                 </span>
                             </div>

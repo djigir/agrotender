@@ -26,14 +26,10 @@ class TradersProductGroupLanguage extends Model
         'descr',
     ];
 
+    protected $appends = ['products'];
 
-    public function traders_product_group()
+    public function getProductsAttribute()
     {
-        return $this->belongsTo(TradersProductGroups::class, 'item_id');
-    }
-
-    public function traders_products()
-    {
-        return $this->hasMany(TradersProducts::class, 'group_id');
+        return TradersProducts::where('group_id', $this->item_id)->get()->toArray();
     }
 }

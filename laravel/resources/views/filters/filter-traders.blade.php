@@ -1,7 +1,7 @@
 <?php
 $route_name = \Route::getCurrentRoute()->getName();
 $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
-//dd($prefix);
+
 ?>
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
@@ -37,29 +37,28 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                             <div class="new_filters_dropdown-column">
                                 <ul>
                                     @foreach($rubricsGroup as $group => $item)
-                                        <li class="group-culture {{$item['index_group']+1 == $group_id ? 'active': ''}}" group="{{$group+1}}">
+                                        <li class="group-culture {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
                                             <a href="#">{{$item['groups']['name']}}</a>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
                             @foreach($rubricsGroup as $group => $item)
-                                <div class="new_filters_dropdown-content culture-group {{$item['index_group']+1 == $group_id ? 'active': ''}}" group="{{$group+1}}">
+                                <div class="new_filters_dropdown-content culture-group {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
                                     <ul>
                                         @foreach($rubricsGroup[$group]["products"] as $index => $item)
                                             <li>
                                                 @if(!empty($region))
                                                     <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
-{{--                                                        <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
+                                                        <span class="companyCount small">({{$item['count']}})</span>
                                                     </a>
                                                 @endif
-
                                                 @if(!empty($port))
                                                     <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
                                                         @if(isset($item['cnt']))
-{{--                                                            <span class="companyCount small">({{isset($item['cnt']) ? $item['cnt'] : 0}})</span>--}}
+                                                            <span class="companyCount small">({{$item['count']}})</span>
                                                         @endif
                                                     </a>
                                                 @endif
@@ -123,11 +122,11 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                             @else
                                                 @if(!empty($culture_translit))
                                                     <a href="{{route('traders.port_culture', [$port['url'], $culture_translit])}}">
-                                                        {{$port['portname']}}
+                                                        {{$port['lang']['portname']}}
                                                     </a>
                                                 @else
                                                     <a href="{{$prefix != 'traders_forward.' ? route( $prefix.'port', $port['url']) : route('traders.port', $port['url'])}}">
-                                                        {{$port['portname']}}
+                                                        {{$port['lang']['portname']}}
                                                     </a>
                                                 @endif
                                             @endif

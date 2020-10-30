@@ -79,7 +79,6 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $groups = $this->companyService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $region_name = $this->regionName($data['region']);
         $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
@@ -94,7 +93,7 @@ class CompanyController extends Controller
         }
 
         $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
-
+        $groups = $this->companyService->getRubricsGroup();
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
 
         $breadcrumbs = $this->baseServices->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);

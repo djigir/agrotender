@@ -174,7 +174,7 @@ class CompItems extends Model
 
     public function comp_items_rubrics()
     {
-        return $this->hasMany(CompTopicItem::class, 'item_id', 'id');
+        return $this->belongsTo(CompTopicItem::class, 'item_id', 'id');
     }
 
     public function comp_items_contact()
