@@ -111,8 +111,9 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaForward($region, $culture, $port)
+    public function getTradersMetaForward($region, $culture, $port = null)
     {
+
         if(empty($region)){
             return false;
         }

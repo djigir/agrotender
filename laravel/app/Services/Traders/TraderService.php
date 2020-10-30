@@ -347,7 +347,6 @@ class TraderService
         $traders = array_values($traders);
 
 
-
         return $traders;
     }
 

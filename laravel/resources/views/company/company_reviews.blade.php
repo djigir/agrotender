@@ -94,51 +94,54 @@
     </div>
 
 
-    <div class="modal fade show" id="reviewModal" tabindex="-1" role="dialog" style="display: none">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <form class="form modal-content"  action="{{route('company.create_review', $id)}}" method="POST">
-                @csrf
-                <div class="modal-header">
-                    <h5 class="modal-title ml-3">Оставить отзыв</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body pr-5 mt-4">
-                    <div class="form-group row mb-4 pb-1">
-                        <label class="col-sm-3 col-form-label text-left text-sm-right">Достоинства <span class="text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Достоинства" name="content_plus" required minlength="20">
+    @auth()
+        <div class="modal fade show" id="reviewModal" tabindex="-1" role="dialog" style="display: none">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <form class="form modal-content"  action="{{route('company.create_review', $id)}}" method="POST">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title ml-3">Оставить отзыв</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body pr-5 mt-4">
+                        <div class="form-group row mb-4 pb-1">
+                            <label class="col-sm-3 col-form-label text-left text-sm-right">Достоинства <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Достоинства" name="content_plus" required minlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4 pb-1">
+                            <label class="col-sm-3 col-form-label text-left text-sm-right">Недостатки <span class="text-danger">*</span></label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" placeholder="Недостатки" name="content_minus" required minlength="20">
+                            </div>
+                        </div>
+                        <div class="form-group row mb-4 pb-1">
+                            <label class="col-sm-3 col-form-label text-left text-sm-right">Комментарий</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" name="content" rows="7"></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group row mb-4 pb-1">
-                        <label class="col-sm-3 col-form-label text-left text-sm-right">Недостатки <span class="text-danger">*</span></label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Недостатки" name="content_minus" required minlength="20">
+                    <div class="modal-footer d-block text-center text-sm-left d-sm-flex justify-content-end pt-2 mb-2 px-5">
+                        <div id="colorstar" data-rate="3" class="starrr ratable text-center mr-3 d-block d-sm-inline-block mb-3 mb-sm-0">
+                            <span rate="1" data-num="1" class="fas fa-star" id="first-rate"></span>
+                            <span rate="2" data-num="2" class="fas fa-star add_rate"></span>
+                            <span rate="3" data-num="3" class="fas fa-star add_rate"></span>
+                            <span rate="4" data-num="4" class="far fa-star add_rate"></span>
+                            <span rate="5" data-num="5" class="far fa-star add_rate"></span>
+                            <input type="text" class="rate_input" name="rate" value="3" style="opacity: 0; border: none; outline: none">
                         </div>
+                        <button type="submit" class="btn btn-primary px-5 send-review">Отправить отзыв</button>
                     </div>
-                    <div class="form-group row mb-4 pb-1">
-                        <label class="col-sm-3 col-form-label text-left text-sm-right">Комментарий</label>
-                        <div class="col-sm-9">
-                            <textarea class="form-control" name="content" rows="7"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer d-block text-center text-sm-left d-sm-flex justify-content-end pt-2 mb-2 px-5">
-                    <div id="colorstar" data-rate="3" class="starrr ratable text-center mr-3 d-block d-sm-inline-block mb-3 mb-sm-0">
-                        <span rate="1" data-num="1" class="fas fa-star" id="first-rate"></span>
-                        <span rate="2" data-num="2" class="fas fa-star add_rate"></span>
-                        <span rate="3" data-num="3" class="fas fa-star add_rate"></span>
-                        <span rate="4" data-num="4" class="far fa-star add_rate"></span>
-                        <span rate="5" data-num="5" class="far fa-star add_rate"></span>
-                        <input type="text" class="rate_input" name="rate" value="3" style="opacity: 0; border: none; outline: none">
-                    </div>
-                    <button type="submit" class="btn btn-primary px-5 send-review">Отправить отзыв</button>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
+    @endauth
 
+    @if(!auth()->user())
     <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: none">
         <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
              class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
@@ -146,6 +149,7 @@
             <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
         </div>
     </div>
+    @endif
 
     @if ($errors->any())
         <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: block">
@@ -156,5 +160,9 @@
             </div>
         </div>
     @endif
+
+    @auth()
     <div class="fade" id="bg-modal"></div>
+    @endauth
+
 @endsection

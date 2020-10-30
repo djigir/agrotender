@@ -331,38 +331,38 @@ class CompanyService
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
         ])->get()->groupBy(['curtype', 'place_id'])->toArray();
-
-        foreach ($price[0] as $index => $prices){
-            $price[0][$index] = collect($price[0][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
-            foreach ($prices as $index_p => $place){
-                if(empty($place['traders_places'])){
-                    unset($price[0][$index][$index_p]);
+        if(isset($price[0])) {
+            foreach ($price[0] as $index => $prices) {
+                $price[0][$index] = collect($price[0][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
+                foreach ($prices as $index_p => $place) {
+                    if (empty($place['traders_places'])) {
+                        unset($price[0][$index][$index_p]);
+                    }
+                }
+                if (empty($price[0][$index])) {
+                    unset($price[0][$index]);
                 }
             }
-            if(empty($price[0][$index])){
-                unset($price[0][$index]);
-            }
         }
-
-        foreach ($price[1] as $index => $prices){
-            $price[1][$index] = collect($price[1][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
-            foreach ($prices as $index_p => $place){
-                if(empty($place['traders_places'])){
-                    unset($price[1][$index][$index_p]);
+        if(isset($price[1])){
+            foreach ($price[1] as $index => $prices){
+                $price[1][$index] = collect($price[1][$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
+                foreach ($prices as $index_p => $place){
+                    if(empty($place['traders_places'])){
+                        unset($price[1][$index][$index_p]);
+                    }
+                }
+                if(empty($price[1][$index])){
+                    unset($price[1][$index]);
                 }
             }
-            if(empty($price[1][$index])){
-                unset($price[1][$index]);
-            }
         }
-
 
         $price2 = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
             'traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
-        ])
-            ->get()
+        ])->get()
             ->groupBy(['place_id'])
             ->toArray();
 
@@ -380,7 +380,7 @@ class CompanyService
 
         }
 
-        //dd($price2, $price);
+//        dd($price2, $price);
 
         return $price;
     }
@@ -399,7 +399,7 @@ class CompanyService
         }
 
         //dd($this->setDataPrices($id, $placeType));
-        //dd($this->getPlaces($author_id, $placeType, $type));
+//        dd($this->getPlaces($author_id, $placeType, $type));
 
         return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
             ->with([
@@ -442,11 +442,6 @@ class CompanyService
             ->orderBy('comp_comment.id', 'desc')
             ->get()
             ->toArray();
-    }
-
-    public function addReviews($data)
-    {
-
     }
 
 

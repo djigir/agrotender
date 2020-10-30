@@ -136,10 +136,7 @@ class CompanyController extends Controller
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
-//        dd(\auth());
-        //$user = resolve('user');
-        //dd($user->where('login', 'test2@gmail.com')->get());
-        //dd(\auth()->user());
+
         return $this->setDataForCompanies($data_companies);
     }
 
@@ -392,17 +389,18 @@ class CompanyController extends Controller
                 ->withErrors($validator)
                 ->withInput();
         }
+        $author_comment = \auth()->user();
 
         $author = CompComment::create([
             'item_id' => $id,
             'visible' => 1,
             'rate' => $request->get('rate'),
             'add_date' => Carbon::now(),
-            'author' => 'TEST',
-            'author_email' => 'test@gmail.com',
+            'author' => $author_comment->name,
+            'author_email' => $author_comment->email,
             'ddchk_guid' => '',
             'reply_to_id' => 0,
-            'author_id' => 9999,
+            'author_id' => $author_comment->id,
             'like_yes' => 0,
             'like_no' => 0
         ]);

@@ -205,7 +205,6 @@ class TraderController extends Controller
     {
         $data_traders = ['region' => $region, 'query' => null, 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
 
-
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
             return $this->traderService->mobileFilter($request);
