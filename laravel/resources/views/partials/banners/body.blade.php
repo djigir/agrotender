@@ -51,51 +51,51 @@
 
 <style>
 
-    /*    left    */
-    .img_explode {
-        width: 400px;
-        height: 500px;
-        margin: 50px auto;
-        letter-spacing: -.36em;
-    }
-    .img_explode div {
-        display: inline-block;
-        width: 15%;
-        height: 80%;
-        background-image: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}});
-        background-repeat: no-repeat;
-        vertical-align: top;
-        border: 2px solid red;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .img_explode div:nth-of-type(1) {
-        background-position: 28% 69%;
-    }
+    {{--/*    left    */--}}
+    {{--.img_explode {--}}
+    {{--    width: 400px;--}}
+    {{--    height: 500px;--}}
+    {{--    margin: 50px auto;--}}
+    {{--    letter-spacing: -.36em;--}}
+    {{--}--}}
+    {{--.img_explode div {--}}
+    {{--    display: inline-block;--}}
+    {{--    width: 15%;--}}
+    {{--    height: 80%;--}}
+    {{--    background-image: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}});--}}
+    {{--    background-repeat: no-repeat;--}}
+    {{--    vertical-align: top;--}}
+    {{--    border: 2px solid red;--}}
+    {{--    -webkit-box-sizing: border-box;--}}
+    {{--    -moz-box-sizing: border-box;--}}
+    {{--    box-sizing: border-box;--}}
+    {{--}--}}
+    {{--.img_explode div:nth-of-type(1) {--}}
+    {{--    background-position: 28% 69%;--}}
+    {{--}--}}
 
-    /*    right     */
-    .img_explode2 {
-        width: 400px;
-        height: 500px;
-        margin: 50px auto;
-        letter-spacing: -.36em;
-    }
-    .img_explode2 div {
-        display: inline-block;
-        width: 15%;
-        height: 80%;
-        background-image: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}});
-        background-repeat: no-repeat;
-        vertical-align: top;
-        border: 2px solid blue;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        box-sizing: border-box;
-    }
-    .img_explode2 div:nth-of-type(1) {
-        background-position: 73% 69%;
-    }
+    {{--/*    right     */--}}
+    {{--.img_explode2 {--}}
+    {{--    width: 400px;--}}
+    {{--    height: 500px;--}}
+    {{--    margin: 50px auto;--}}
+    {{--    letter-spacing: -.36em;--}}
+    {{--}--}}
+    {{--.img_explode2 div {--}}
+    {{--    display: inline-block;--}}
+    {{--    width: 15%;--}}
+    {{--    height: 80%;--}}
+    {{--    background-image: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}});--}}
+    {{--    background-repeat: no-repeat;--}}
+    {{--    vertical-align: top;--}}
+    {{--    border: 2px solid blue;--}}
+    {{--    -webkit-box-sizing: border-box;--}}
+    {{--    -moz-box-sizing: border-box;--}}
+    {{--    box-sizing: border-box;--}}
+    {{--}--}}
+    {{--.img_explode2 div:nth-of-type(1) {--}}
+    {{--    background-position: 73% 69%;--}}
+    {{--}--}}
 
 </style>
 

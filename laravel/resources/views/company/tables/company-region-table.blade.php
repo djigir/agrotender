@@ -178,3 +178,10 @@
         </div>
     @endif
 @endif
+<style>
+    .region-port-table{
+        cursor: pointer;
+        color: white !important;
+    }
+
+</style>
