@@ -1,4 +1,22 @@
 window.onload = function (){
+
+    $(window).scroll(function() {
+        var height = $(window).scrollTop();
+        if(height > 110){
+            $('#scroll-header').css('display', '');
+        }else{
+            $('#scroll-header').css('display', 'none');
+        }
+
+        if(height > 300){
+            $('.new_filters-wrap').addClass('active');
+        } else{
+            $('.new_filters-wrap').removeClass('active');
+        }
+    });
+
+
+
     if($('#active-region').attr('check_active')){
         $('#active-region').addClass('active');
         $('#active-port').removeClass('active');

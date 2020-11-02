@@ -8,7 +8,8 @@
     <div class="d-sm-none container pt-4">
         @if($region_id)
             <div>
-                <span class="searchTag regionTag d-inline-block">{{$region_name}}<a href="{{route('company.region', 'ukraine')}}">
+                <span class="searchTag regionTag d-inline-block">{{$region_name}}
+                    <a href="{{!$rubric_id ? route('company.region', 'ukraine') : route('company.region_culture', ['ukraine', $rubric_id])}}">
                         <i class="far fa-times close ml-3"></i>
                     </a>
                 </span>

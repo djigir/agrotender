@@ -33,6 +33,7 @@ Route::prefix('traders_forwards')
         Route::get('/tport_{port}', 'TraderController@forwardsPort')->name('port');*/
     });
 
+
 Route::prefix('traders_sell')
     ->name('traders_sell.')
     ->group(function (){
@@ -43,6 +44,7 @@ Route::prefix('traders_sell')
         Route::get('/tport_{port}/{culture}', 'TraderController@sellPortCulture')->name('port_culture');
     });
 
+
 /* routes for company */
 Route::prefix('kompanii')
     ->name('company.')
@@ -51,7 +53,6 @@ Route::prefix('kompanii')
         Route::get('/region_{region}', 'CompanyController@companiesRegion')->name('region');
         Route::get('/s/{query}', 'CompanyController@companiesFilter')->name('filter');
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@companiesRegionRubric')->name('region_culture');
-
 
         Route::get('/comp-{id_company}-prices', 'CompanyController@companyPrices')->name('prices');
         Route::get('/comp-{id_company}-cont', 'CompanyController@companyContact')->name('cont');
@@ -62,12 +63,14 @@ Route::prefix('kompanii')
         Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');
     });
 
-Route::get('/home', 'HomeController@index')->name('home');
 
+Route::prefix('info')
+    ->name('info.')
+    ->group(function () {
+        Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
+        Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
+        Route::get('/contacts', 'InfoController@companies')->name('contacts');
+});
+
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

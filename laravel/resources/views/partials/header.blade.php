@@ -50,7 +50,7 @@
     <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TJXZ542" height="0" width="0"
             style="display:none;visibility:hidden"></iframe>
 </noscript>
-<div class="header__wrap">
+<div class="">
     <header class="header">
         <div class="top container">
             <div class="row" style="{{$isMobile ? 'flex-wrap: nowrap' : ''}}">
@@ -128,6 +128,7 @@
             @include('mobile.filters.mobile-filter-traders')
         @endif
     @endif
+    @include('partials.header-scroll')
     <style>
         .remove-input{
             position: absolute;
