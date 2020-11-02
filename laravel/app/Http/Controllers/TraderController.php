@@ -194,7 +194,18 @@ class TraderController extends Controller
         return $this->setDataForTraders($data_traders);
     }
 
+    public function forwardsRegion(Request $request, $region)
+    {
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => ''];
 
+        dd($data_traders);
+        return $this->setDataForTraders($data_traders);
+    }
+
+    public function forwardsPort()
+    {
+        dd('forwards port');
+    }
     /**
      * @param  Request  $request
      * @param $region

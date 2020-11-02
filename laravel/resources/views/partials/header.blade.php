@@ -78,6 +78,7 @@
                 @if(!$isMobile)
                     @include('partials.auth')
                 @endif
+
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
                         @if(isset($id))
@@ -111,9 +112,9 @@
         </div>
         @include('mobile.mobile_menu')
     </header>
-{{--    @if(!$isMobile && !isset($id))--}}
+    @if(!$isMobile && !isset($id))
         @include('partials.banners.body')
-{{--    @endif--}}
+    @endif
 </div>
 <main class="main" role="main" data-page="{$page}">
     <div id="loading"></div>

@@ -29,7 +29,8 @@ Route::prefix('traders_forwards')
     ->group(function (){
         Route::get('/region_{region}/{culture}', 'TraderController@forwardsRegionCulture')->name('region_culture');
         Route::get('/tport_{port}/{culture}', 'TraderController@forwardsPortCulture')->name('port_culture');
-
+        Route::get('/region_{region}', 'TraderController@forwardsRegion')->name('region');
+        Route::get('/tport_{port}', 'TraderController@forwardsPort')->name('port');
     });
 
 Route::prefix('traders_sell')

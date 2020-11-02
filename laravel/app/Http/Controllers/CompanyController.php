@@ -20,7 +20,7 @@ use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
 use  App\Http\Controllers\Controller;
-use DebugBar\DebugBar;
+use Barryvdh\Debugbar\Facade as DebugBar;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -136,7 +136,6 @@ class CompanyController extends Controller
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
-        app('debugbar')->error('Watch out..');
         return $this->setDataForCompanies($data_companies);
     }
 
@@ -436,6 +435,7 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
         ]);
+
     }
 
     /**
@@ -454,7 +454,6 @@ class CompanyController extends Controller
             ->with('traders_contacts')
             ->get()
             ->toArray();
-
         $meta = $this->seoService->getMetaCompanyContacts($id);
 
         return view('company.company_cont', [
