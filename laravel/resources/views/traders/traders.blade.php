@@ -3,6 +3,20 @@
     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
+        @if(!$isMobile)
+            <span class="popular" style="margin: 20px 0 ;display: block;">
+                <span style="font-weight: 600; color: #707070;">
+                <img src="/app/assets/img/speaker.svg" style="width: 24px; height: 24px">
+                    Популярные культуры:
+                </span>
+                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}" class="popular__block">Пшеница 2 кл.</a>
+                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}" class="popular__block">Пшеница 3 кл.</a>
+                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_4_kl'])}}" class="popular__block">Пшеница 4 кл.</a>
+                <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}" class="popular__block">Подсолнечник</a>
+                <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}" class="popular__block">Соя</a>
+                <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}" class="popular__block">Ячмень</a>
+            </span>
+        @endif
         <div class="row mt-sm-0 pt-sm-0 mb-sm-4">
             <div class="position-relative w-100">
                 <div class="col-12 col-md-9 float-md-right text-center text-md-right">

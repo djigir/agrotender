@@ -1,4 +1,4 @@
-@if(isset($banner_body))
+@if(isset($banner_body) && $banner_body)
 
 {{--    <div style="position: absolute; opacity: 1; height: 100%;">--}}
 

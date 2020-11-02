@@ -32,6 +32,7 @@ Route::prefix('traders_forwards')
 
     });
 
+
 Route::prefix('traders_sell')
     ->name('traders_sell.')
     ->group(function (){
@@ -42,6 +43,7 @@ Route::prefix('traders_sell')
         Route::get('/tport_{port}/{culture}', 'TraderController@sellPortCulture')->name('port_culture');
     });
 
+
 /* routes for company */
 Route::prefix('kompanii')
     ->name('company.')
@@ -50,7 +52,6 @@ Route::prefix('kompanii')
         Route::get('/region_{region}', 'CompanyController@companiesRegion')->name('region');
         Route::get('/s/{query}', 'CompanyController@companiesFilter')->name('filter');
         Route::get('/region_{region}/t{rubric_number}', 'CompanyController@companiesRegionRubric')->name('region_culture');
-
 
         Route::get('/comp-{id_company}-prices', 'CompanyController@companyPrices')->name('prices');
         Route::get('/comp-{id_company}-cont', 'CompanyController@companyContact')->name('cont');
