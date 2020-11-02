@@ -565,7 +565,7 @@ class User extends \Core\Model {
       $this->response->redirect('/');
     }
   }
-
+/*  СМС */
   public function sendConfirmCode($phone, $code = null) {
     if (!$this->getNumSmsSending($phone)) {
 //      $code = $code ?? mt_rand(1000, 9999);

@@ -195,10 +195,6 @@ class User extends \Core\Controller {
     if ($this->user->ip != '109.86.1.55') {
       // exit;
     }
-    var_dump($_SESSION);
-      echo '<pre>';
-      var_dump($_COOKIE);die();
-      echo '</pre>';
     // selected type
     $type = $this->request->get['type'] ?? 0;
     if ($type < 0 or $type > 1) {
