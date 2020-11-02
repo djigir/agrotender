@@ -1428,14 +1428,14 @@ class Main extends \Core\Controller
 
     public function signup()
     {
-        var_dump($this->action);
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
         // send confirm code to sms
         if ($this->action == 'send-code') {
             $phone = $this->request->post['phone'];
-            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
+//            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
+            ;$checkPhone = null;
             if ($checkPhone == null) {
                 $this->user->sendConfirmCode($phone);
             } else {
@@ -1457,7 +1457,8 @@ class Main extends \Core\Controller
                 // register process
                 $this->user->register($email, $password, 0, $name, $phone); // without region
             } else {
-                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
+                return true;
+//                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
             }
         }
         // repeat confirm sms
