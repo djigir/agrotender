@@ -1,12 +1,11 @@
 @if(auth()->user())
-
     <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
         <div class="d-none d-sm-block float-right right-links p-3">
 
             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false" class="head-name d-flex align-items-center position-relative">
                 <i class="fas fa-chevron-down mr-1"></i>
-                <span>Test</span>
+                <span>{{ auth()->user()->name }}</span>
                 <img alt="" src="/app/assets/img/noavatar.png" class="ml-2 head-logo">
                 <span class="notification-badge top-badge"></span>
             </a>
