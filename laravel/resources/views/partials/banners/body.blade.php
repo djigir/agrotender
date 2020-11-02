@@ -67,8 +67,10 @@
         box-sizing: border-box;
     }
 
-
-    @media (max-width: 1400px) {
+    @media (max-height: 768px) and  (max-width: 1400px){
+        #left_banner, #right_banner{
+            background-position-y: 30%;
+        }
         #left_banner{
             background-size: auto 108%;
             background-position-x: 8%;
@@ -77,11 +79,6 @@
         #right_banner{
             background-size: auto 108%;
             background-position-x: 90%;
-        }
-    }
-    @media (max-height: 768px) {
-        #left_banner, #right_banner{
-            background-position-y: 30%;
         }
     }
 
