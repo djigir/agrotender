@@ -215,13 +215,14 @@ class Utils extends \Core\Model {
     $sms_path = "members/sms/xml.php";
     $sms = new \Core\SmsAPI($sms_host, $sms_login, $sms_pass, $sms_path);
     // send sms
-    $sms->sendRequest("send", ['phones' => [$phone], 'sender' => $sms_sender, 'msg' => $message]);
-    if ($sms->request_status > 0) {
+//    $sms->sendRequest("send", ['phones' => [$phone], 'sender' => $sms_sender, 'msg' => $message]);
+      if ($sms->request_status > 0) {
       // add to logs
-      $this->db->insert('agt_sms_log', ['phone' => $phone, 'msg' => $message, 'ip' => $ip]);
+//      $this->db->insert('agt_sms_log', ['phone' => $phone, 'msg' => $message, 'ip' => $ip]);
       return true;
     } else {
-      $this->response->json(['code' => 0, 'text' => 'Ошибка при отправке смс. <br>Попробуйте снова.']);
+          return true;
+//      $this->response->json(['code' => 0, 'text' => 'Ошибка при отправке смс. <br>Попробуйте снова.']);
     }
 
   }
