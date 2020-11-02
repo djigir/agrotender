@@ -61,12 +61,14 @@ Route::prefix('kompanii')
         Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');
     });
 
-Route::get('/home', 'HomeController@index')->name('home');
 
+Route::prefix('info')
+    ->name('info.')
+    ->group(function () {
+        Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
+        Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
+        Route::get('/contacts', 'InfoController@companies')->name('contacts');
+});
+
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
