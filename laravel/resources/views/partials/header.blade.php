@@ -111,9 +111,9 @@
         </div>
         @include('mobile.mobile_menu')
     </header>
-    @if(!$isMobile && !isset($id))
+{{--    @if(!$isMobile && !isset($id))--}}
         @include('partials.banners.body')
-    @endif
+{{--    @endif--}}
 </div>
 <main class="main" role="main" data-page="{$page}">
     <div id="loading"></div>
