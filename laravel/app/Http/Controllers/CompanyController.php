@@ -20,6 +20,7 @@ use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
 use  App\Http\Controllers\Controller;
+use DebugBar\DebugBar;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
@@ -127,7 +128,6 @@ class CompanyController extends Controller
     public function companies(Request $request)
     {
         $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies'];
-
         if(!empty($request->get('query'))){
             $data_companies['query'] = $request->get('query');
             return $this->IsDesktopFilter($request);
@@ -136,7 +136,7 @@ class CompanyController extends Controller
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
-
+        app('debugbar')->error('Watch out..');
         return $this->setDataForCompanies($data_companies);
     }
 
