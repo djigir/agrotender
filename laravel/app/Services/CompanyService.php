@@ -249,7 +249,7 @@ class CompanyService
                     if (!isset($prices[$index_cur][$index_place][$key])) {
                         $prices[$index_cur][$index_place][$key] = [];
                         if (isset($assoc_array[$key])) {
-                            $prices[$index_cur][$index_place][$key] = array('culture' => $assoc_array[$key]['name']);
+                            $prices[$index_cur][$index_place][$key] = array('culture' => $assoc_array[$key]['name']['name'], 'cult_id' => $assoc_array[$key]['name']['id']);
                         }
                     }
                 }
@@ -276,6 +276,7 @@ class CompanyService
         }
         return $prices[$currency_type];
     }
+
 
     public function setDataPrices($id, $placeType)
     {
@@ -317,7 +318,6 @@ class CompanyService
                 unset($price[1][$index]);
             }
         }
-
 
         $price2 = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
             'traders_places' => function ($query) use ($type, $author_id, $placeType) {
@@ -398,7 +398,6 @@ class CompanyService
 
     public function searchCompanies($value)
     {
-
         return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
