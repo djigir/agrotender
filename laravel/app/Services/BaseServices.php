@@ -71,18 +71,18 @@ class BaseServices
 
     public function setBreadcrumbsTradersForward($data)
     {
-        $breadcrumbs_trad_forward[0] =
-            !$data['culture_name'] ?
-            ['name' =>  "Форварды", 'url' => null] : ['name' =>  "Форварды". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => null];
-
-        $breadcrumbs_trad_forward[1] = $data['port_translit'] != 'all' ? ['name' => "Форвардная цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null] : ['name' => "Форвардная цена на {$data['culture_name']} в портах Украины", 'url' => null];
-
-        if($data['region'] && $data['culture_id'] && $data['region_translit'] != 'ukraine')
-        {
-            $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>' , 'url' => route('traders_forward.region_culture',['ukraine', $data['culture']])];
-            $breadcrumbs_trad_forward[2] = ['name' => "Форвардная цена на {$data['culture_name']} в {$data['region']['parental']} области" , 'url' => null];
-        }
-
+//        $breadcrumbs_trad_forward[0] =
+//            !$data['culture_name'] ?
+//            ['name' =>  "Форварды", 'url' => null] : ['name' =>  "Форварды". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => null];
+//
+//        $breadcrumbs_trad_forward[1] = $data['port_translit'] != 'all' ? ['name' => "Форвардная цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null] : ['name' => "Форвардная цена на {$data['culture_name']} в портах Украины", 'url' => null];
+//
+//        if($data['region'] && $data['culture_id'] && $data['region_translit'] != 'ukraine')
+//        {
+//            $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>' , 'url' => route('traders_forward.region_culture',['ukraine', $data['culture']])];
+//            $breadcrumbs_trad_forward[2] = ['name' => "Форвардная цена на {$data['culture_name']} в {$data['region']['parental']} области" , 'url' => null];
+//        }
+        $breadcrumbs_trad_forward = [];
         return $breadcrumbs_trad_forward;
     }
 

@@ -4,6 +4,7 @@ namespace App\Models\Traders;
 
 use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
+use Jenssegers\Date\Date;
 
 /**
  * @property  integer $id;
@@ -41,10 +42,9 @@ class TradersPrices extends Model
         'comment',
     ];
 
-//    /* Mutations */
-    protected $appends = ['culture'];
-//
-//
+    protected $appends = ['culture', 'date'];
+    /* Mutations */
+
     public function getCultureAttribute()
     {
         $culture = Traders_Products_Lang::where([['id', $this->cult_id]])->select('id', 'name', 'descr', 'item_id')->get()->toArray();
@@ -52,7 +52,10 @@ class TradersPrices extends Model
         return !empty($culture) ? $culture[0] : null;
     }
 
-
+    public function getDateAttribute()
+    {
+        return Date::parse($this->dt);
+    }
     /* Relations */
 
     public function product_lang()

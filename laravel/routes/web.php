@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
@@ -24,16 +25,20 @@ Route::prefix('traders')
 
     });
 
+
+/* routes for traders forwards  */
 Route::prefix('traders_forwards')
     ->name('traders_forward.')
     ->group(function (){
+        Route::get('/region_{region}', 'TraderController@forwardsRegion')->name('region');
         Route::get('/region_{region}/{culture}', 'TraderController@forwardsRegionCulture')->name('region_culture');
+
+        Route::get('/tport_{port}', 'TraderController@forwardsPort')->name('port');
         Route::get('/tport_{port}/{culture}', 'TraderController@forwardsPortCulture')->name('port_culture');
-        /*Route::get('/region_{region}', 'TraderController@forwardsRegion')->name('region');
-        Route::get('/tport_{port}', 'TraderController@forwardsPort')->name('port');*/
     });
 
 
+/* routes for traders sell  */
 Route::prefix('traders_sell')
     ->name('traders_sell.')
     ->group(function (){
@@ -72,5 +77,5 @@ Route::prefix('info')
         Route::get('/contacts', 'InfoController@companies')->name('contacts');
 });
 
-Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes();
+
+
