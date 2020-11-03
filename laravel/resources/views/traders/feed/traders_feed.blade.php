@@ -8,16 +8,16 @@
                     <div class="swiper-slide swiper-slide-active" style="width: 207.5px; margin-right: 20px;">
                         <a href="{{ route('company.index', $item['comp_id']) }}" class="new_feed-item">
                             <span class="new_feed-item-title">{{ $item['comp_title'] }}</span>
-                            <div class="new_feed-item-state changed">{{ $item['onchange'] }}</div>
+                            <div class="new_feed-item-state {{ $item['onchange_class']  }}">{{ $item['onchange'] }}</div>
                             <ul>
                                 <li>
                                     <span>{{ $item['tpl_name'] }}</span>
                                     <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
                                 </li>
-                                {{--<li>
+                                <li>
                                     <span>Пшеница 4 кл.</span>
                                     <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
-                                </li>--}}
+                                </li>
                             </ul>
                             <div class="new_feed-item-bottom">
                                 <span class="more">+ ещё</span>
