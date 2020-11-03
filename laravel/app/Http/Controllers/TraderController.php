@@ -98,6 +98,7 @@ class TraderController extends Controller
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
 
+
         return view('traders.traders', [
             'regions' => $regions,
             'traders' => $data_traders['traders'],
@@ -117,6 +118,7 @@ class TraderController extends Controller
             'page_type' => 1,
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
+            'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card'
         ]);
     }
 
@@ -195,18 +197,18 @@ class TraderController extends Controller
         return $this->setDataForTraders($data_traders);
     }
 
-//    public function forwardsRegion(Request $request, $region)
-//    {
-//        /*$data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => ''];
-//
-//        dd($data_traders);
-//        return $this->setDataForTraders($data_traders);*/
-//    }
+    public function forwardsRegion(Request $request, $region)
+    {
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => 'forward', 'forwards' => true];
+        $this->setDataForTraders($data_traders);
+    }
 
-//    public function forwardsPort()
-//    {
-////        dd('forwards port');
-//    }
+    public function forwardsPort(Request $request, $port)
+    {
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'type' => 'forward', 'forwards' => true];
+        $this->setDataForTraders($data_traders);
+
+    }
     /**
      * @param  Request  $request
      * @param $region
@@ -215,7 +217,7 @@ class TraderController extends Controller
      */
     public function forwardsRegionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'forwards' => true, 'type' => 'forward', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
@@ -234,7 +236,7 @@ class TraderController extends Controller
      */
     public function forwardsPortCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'forwards' => true, 'type' => 'forward'];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'forwards' => true, 'type' => 'forward', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) && !empty($request->get('rubric')))
         {
