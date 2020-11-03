@@ -50,6 +50,7 @@
 {{--    {/if}--}}
 {{--</div>--}}
 
+{{--@if(!empty($feed))
 <div class="container mt-3 mt-sm-4 mb-3 mb-sm-0">
     <div class="content-block feed py-3 position-relative">
         <div class="swiper-container swiper-container-horizontal">
@@ -76,7 +77,7 @@
                             </div>
                         </div>
                         <div class="col-12 d-flex align-items-center justify-content-between mt-1">
-                            <a href="{{ route('company.index', $item['comp_id']) }}" class="more">+ ещё 2</a>
+                            <a href="{{ route('company.index', $item['comp_id']) }}" class="more">+ ещё</a>
                             <span class="time">{{ \Carbon\Carbon::parse($item['tf_change_date'])->format('H:i') }}</span>
                         </div>
                     </div>
@@ -89,3 +90,40 @@
         <button class="new_feed-button prev" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="false"></button>
     </div>
 </div>
+@endif--}}
+
+@if(!empty($feed))
+    <div class="new_container">
+        <div class="new_feed">
+            <button class="new_feed-button prev swiper-button-disabled" tabindex="0" role="button" aria-label="Previous slide" aria-disabled="true"></button>
+            <div class="swiper-container swiper-container-horizontal">
+                <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+                    @foreach ($feed as $item)
+                    <div class="swiper-slide swiper-slide-active" style="width: 207.5px; margin-right: 20px;">
+                        <a href="{{ route('company.index', $item['comp_id']) }}" class="new_feed-item">
+                            <span class="new_feed-item-title">{{ $item['comp_title'] }}</span>
+                            <div class="new_feed-item-state changed">{{ $item['onchange'] }}</div>
+                            <ul>
+                                <li>
+                                    <span>Масло подсолнечное</span>
+                                    <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                                </li>
+                                <li>
+                                    <span>Пшеница 4 кл.</span>
+                                    <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
+                                </li>
+                            </ul>
+                            <div class="new_feed-item-bottom">
+                                <span class="more">+ ещё</span>
+                                <span>{{ \Carbon\Carbon::parse($item['tf_change_date'])->format('H:i') }}</span>
+                            </div>
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+                <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div>
+            <button class="new_feed-button next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></button>
+        </div>
+    </div>
+@endif
+
