@@ -84,15 +84,17 @@ class TraderFeedService
         foreach ($feed as $key => $value) {
             $feed[$key]['onchange'] = 'Подтвердил цены';
             $feed[$key]['onchange_class'] = 'approve';
-            foreach (explode(', ', $value['tf_rubric']) as $key2 => $value2) {
+            foreach (explode(', ', $value['tf_change_price']) as $key2 => $value2) {
                 $explode = explode(':', $value2);
                 if ($explode[0] == '2') {
                     $explode[1] = 4;
                 }
+
                 if ($explode[0] != '4') {
                     $feed[$key]['onchange'] = 'Изменил цены';
                     $feed[$key]['onchange_class'] = 'change';
                 }
+
                 if (!isset($feed[$key]['r'][$explode[0]]['change'])) {
                     $feed[$key]['r'][$explode[0]]['change'] = [];
                 }
@@ -103,4 +105,26 @@ class TraderFeedService
         return $feed;
 
     }
+    /*
+     * foreach ($feed as $key => $value) {
+      $feed[$key]['onchange'] = 'Подтвердил цены';
+      $feed[$key]['onchange_class'] = 'approve';
+      foreach (explode(', ', $value['rubrics']) as $key2 => $value2) {
+        $explode = explode(':', $value2);
+        if ($explode[1] == '2') {
+          $explode[1] = 4;
+        }
+        if ($explode[1] != '4') {
+          $feed[$key]['onchange'] = 'Изменил цены';
+          $feed[$key]['onchange_class'] = 'change';
+        }
+        if (!isset($feed[$key]['r'][$explode[0]]['change'])) {
+          $feed[$key]['r'][$explode[0]]['change'] = [];
+        }
+        // array_push($feed[$key]['r'][$explode[0]]['change'], $explode[1]);
+        $feed[$key]['r'][$explode[0]]['change'][] = $explode[1];
+      }
+    }
+    return $feed;
+  }*/
 }

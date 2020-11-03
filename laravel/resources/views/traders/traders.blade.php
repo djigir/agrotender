@@ -5,6 +5,7 @@
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
         @if(!$isMobile)
+            @if($type_traders == 0 || $type_traders == 2)
             <span class="popular" style="margin: 20px 0 ;display: block;">
                 <span style="font-weight: 600; color: #707070;">
                 <img src="/app/assets/img/speaker.svg" style="width: 24px; height: 24px">
@@ -17,24 +18,15 @@
                 <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}" class="popular__block">Соя</a>
                 <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}" class="popular__block">Ячмень</a>
             </span>
+            @endif
         @endif
-        <div class="row mt-sm-0 pt-sm-0 mb-sm-4">
-            <div class="position-relative w-100">
-                <div class="col-12 col-md-9 float-md-right text-center text-md-right">
-                    <a id="addCompanny" href="/tarif20.html"
-                       class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">
-                        <i class="far fa-plus mr-2"></i>
-                        <span class="pl-1 pr-1">Разместить компанию</span>
-                    </a>
-                </div>
-                @if($type_traders == 0)
-                    @include('traders.block-info.traders')
-                @elseif(empty($traders) && ($type_traders == 1 || $type_traders == 2 ))
-                    @include('traders.block-info.traders_forwards')
-                @endif
-            </div>
-        </div>
-    </div>
+
+        @if($type_traders == 0 || $type_traders == 2)
+            @include('traders.block-info.traders')
+                @elseif($type_traders == 1)
+            @include('traders.block-info.forwards-block-info')
+        @endif
+
     @if($type_view == 'table')
         @include('traders.traders_forward_table')
     @else
