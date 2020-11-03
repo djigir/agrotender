@@ -42,7 +42,7 @@
 </footer>
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/my_js/events.js"></script>
-<script src="/app/assets/my_js/banners.js"></script>
+<script src="/app/assets/js/jquery.dataTables.min.js"></script>
 <script src="/app/assets/js/popper.min.js"></script>
 <script src="/app/assets/js/bootstrap.min.js"></script>
 <script src="/app/assets/js/clamp.min.js"></script>
@@ -53,7 +53,7 @@
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
 <script src="/app/assets/js/respond.min.js"></script>
-<script src="/app/assets/js/sides.js"></script>
+{{--<script src="/app/assets/js/sides.js"></script>--}}
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>
@@ -61,6 +61,5 @@
 <script src="/app/assets/js/bootstrap-datepicker.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>
 <script src="/app/assets/js/color-thief.min.js"></script>
-<script src="/app/assets/my_js/app_new.js"></script>
 </body>
 </html>

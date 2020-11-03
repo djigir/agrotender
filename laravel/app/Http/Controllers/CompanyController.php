@@ -273,12 +273,9 @@ class CompanyController extends Controller
         return $data;
     }
 
-    public function getPricesForwards($user, $type, $dtStart, $placeType) {
-        return TradersPrices::where([['buyer_id', $user], ['acttype', $type]])
-            ->whereDate('dt', '>=', $dtStart)
-            ->with(['traders_places' => function($query) use($placeType){
-                $query->where('type_id', $placeType);
-            }])
+    public function getPricesForwards($author_id, $type, $dtStart, $placeType) {
+        return TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+            ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
             ->get()
             ->toArray();
     }
@@ -292,7 +289,14 @@ class CompanyController extends Controller
                             $query->where([['buyer_id', $user], ['type_id', $placeType]]);
                     }]);
                 }]);
-}])->get()->toArray();
+        }])->get()->toArray();
+
+        foreach ($rubrics as $index_rubric => $rubric){
+            $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
+        }
+
+        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name')->toArray();
+
         return $rubrics;
     }
     /**
@@ -302,32 +306,9 @@ class CompanyController extends Controller
      */
     public function companyForwards($id)
     {
-        $company = CompItems::where([
-            ['id', $id], ['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1], ['visible', 1]
-        ])
-            ->with([
-                'traders_prices' => function ($query) {
-                    $query->where('acttype', 3)
-                        ->with([
-                            'traders_places' => function ($query) {
-                                $query->where('type_id', 2)->with('traders_ports.traders_ports_lang');
-                            }
-                        ], 'traders_products');
-                }
-            ])
-            ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
-                'short', 'add_date', 'visible', 'title', 'trader_price_avail',
-                'trader_price_visible')
-            ->get()
-            ->toArray()[0];
+        $company = CompItems::find($id);
 
-        foreach ($company['traders_prices'] as $index => $comp){
-            if(empty($comp['traders_places'])){
-                unset($company['traders_prices'][$index]);
-            }
-        }
         $forward_months = $this->getForwardsMonths();
-        $company['traders_prices'] = array_values($company['traders_prices']);
 
         $rubrics_port = $this->getTraderPricesRubrics($company['author_id'], 2, 3);
         $prices_port = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 2);
@@ -337,13 +318,13 @@ class CompanyController extends Controller
 
 
         foreach ($rubrics_port as $index => $rubric){
-            if(empty($rubric['traders_products'][0]['traders_prices'])){
+            if(empty($rubric['traders_products']['traders_prices'])){
                 unset($rubrics_port[$index]);
             }
         }
 
         foreach ($rubrics_region as $index => $rubric){
-            if(empty($rubric['traders_products'][0]['traders_prices'])){
+            if(empty($rubric['traders_products']['traders_prices'])){
                 unset($rubrics_region[$index]);
             }
         }
@@ -360,7 +341,7 @@ class CompanyController extends Controller
             }
         }
 
-
+        //dd($prices_port);
         return view('company.company_forwards', [
             'company' => $company,
             'prices_port' => $prices_port,

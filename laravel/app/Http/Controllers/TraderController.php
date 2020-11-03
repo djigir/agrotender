@@ -202,13 +202,25 @@ class TraderController extends Controller
     public function forwardsRegion(Request $request, $region)
     {
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => 'forward', 'forwards' => true];
-        $this->setDataForTraders($data_traders);
+
+        if(!empty($request->get('region')) || !empty($request->get('port')))
+        {
+            return $this->traderService->mobileFilter($request);
+        }
+
+        return $this->setDataForTraders($data_traders);
     }
 
     public function forwardsPort(Request $request, $port)
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'type' => 'forward', 'forwards' => true];
-        $this->setDataForTraders($data_traders);
+
+        if(!empty($request->get('region')) || !empty($request->get('port')))
+        {
+            return $this->traderService->mobileFilter($request);
+        }
+
+        return $this->setDataForTraders($data_traders);
 
     }
     /**

@@ -6,7 +6,7 @@ $check_forwards = \App\Models\Comp\CompItems::where([
 ?>
 <div class="company-bg d-none d-sm-block">
     <img class="avatar" src="/pics/comp/5608_54749.jpg">
-    <h1 class="title d-block mt-2">{!! !empty($company)  ? str_replace('\\', '', $company['title']) : '' !!} - Закупочные цены</h1>
+    <h1 class="title d-block mt-2">{!! $current_page == 'main'  ? str_replace('\\', '', $company['title']).' - Закупочные цены' : $company['title'] !!} </h1>
     <div class="company-menu-container d-none d-sm-block">
         <div class="company-menu">
             <a href="{{route('company.index', $id)}}" class="{{$current_page == 'main' ? 'active' : ''}}" >Главная</a>

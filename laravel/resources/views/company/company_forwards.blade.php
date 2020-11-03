@@ -13,7 +13,7 @@
                         <tr>
                             <th>Порты/переходы</th>
                             @foreach($rubrics_port as $index => $rubric)
-                                <th rubric="{{$rubric['traders_products'][0]['id']}}">{{$rubric['traders_products'][0]['culture']['name']}}</th>
+                                <th rubric="{{$rubric['traders_products']['id']}}">{{$rubric['traders_products']['culture']['name']}}</th>
                             @endforeach
                         </tr>
                     </thead>
@@ -23,11 +23,12 @@
                             <td place="6443" class="py-1">
                                 <span class="place-title">{{$price['traders_places'][0]['port']['lang']['portname']}}</span>
                                 <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
-                                <span class="popular">{{$price['dt']}}</span>
+                                <b class="popular">{{mb_convert_case($price['date']->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
                             </td>
                             <td place="6443" rubric="14" currency="1" class="currency-1 d-table-cell">
                                 <div class="d-flex align-items-center justify-content-center lh-1">
-                                    <span class="font-weight-600">{{round($price['costval'], 1)}}</span></div>
+                                    <span class="font-weight-600">{{round($price['costval'], 1)}}</span>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -37,40 +38,40 @@
         </div>
         @endif
         @if(!empty($prices_region))
-        <div class="regions-tabs table-tabs">
-            <a href="#" currency="1" class="active">Закупки USD</a>
-        </div>
-        <div class="content-block prices-block">
-            <div class="price-table-wrap regions scroll-x">
-                <table class="sortTable price-table regions-table">
-                    <thead>
-                    <tr>
-                        <th>Регионы/элеваторы</th>
-                        @foreach($rubrics_region as $index => $rubric)
-                            <th rubric="{{$rubric['traders_products'][0]['id']}}">{{$rubric['traders_products'][0]['culture']['name']}}</th>
-                        @endforeach
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($prices_region as $index => $price)
-                        <tr>
-                            <td place="8085" class="py-1">
-                                <span class="place-title">{{$price['traders_places'][0]['region']['name']}} обл</span>
-                                <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
-                                <span class="popular">{{$price['dt']}}</span>
-                            </td>
-                            <td place="6443" rubric="14" currency="1" class="currency-1 d-table-cell">
-                                <div class="d-flex align-items-center justify-content-center lh-1">
-                                 <span class="font-weight-600">{{round($price['costval'], 1)}}</span>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
+            <div class="regions-tabs table-tabs">
+                <a href="#" currency="1" class="active">Закупки USD</a>
             </div>
-        </div>
+            <div class="content-block prices-block">
+                <div class="price-table-wrap regions scroll-x">
+                    <table class="sortTable price-table regions-table">
+                        <thead>
+                        <tr>
+                            <th>Регионы/элеваторы</th>
+                            @foreach($rubrics_region as $index => $rubric)
+                                <th rubric="{{$rubric['traders_products']['id']}}">{{$rubric['traders_products']['culture']['name']}}</th>
+                            @endforeach
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($prices_region as $index => $price)
+                            <tr>
+                                <td place="8085" class="py-1">
+                                    <span class="place-title">{{$price['traders_places'][0]['region']['name']}} обл</span>
+                                    <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
+                                    <b class="popular">{{mb_convert_case($price['date']->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
+                                </td>
+                                <td place="6443" rubric="14" currency="1" class="currency-1 d-table-cell">
+                                    <div class="d-flex align-items-center justify-content-center lh-1">
+                                     <span class="font-weight-600">{{round($price['costval'], 1)}}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         @endif
     </div>
 @endsection
