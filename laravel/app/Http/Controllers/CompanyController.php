@@ -341,7 +341,6 @@ class CompanyController extends Controller
             }
         }
 
-        //dd($prices_port);
         return view('company.company_forwards', [
             'company' => $company,
             'prices_port' => $prices_port,
