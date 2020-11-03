@@ -135,13 +135,13 @@ class TraderService
         return $ports;
     }
 
-    public function getRubrics($traders, $port_id, $obl_id)
+    public function getRubrics($traders)
     {
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
 
         foreach ($groups as $index => $group) {
             $groups[$index]['index_group'] = $index + 1;
-            $groups[$index]['products'] = collect($groups[$index]['groups']['products'])->sortBy('culture')->toArray();
+            $groups[$index]['products'] = collect($groups[$index]['groups']['products'])->sortBy('culture.name')->toArray();
             unset($groups[$index]['groups']['products']);
         }
 
@@ -186,18 +186,15 @@ class TraderService
 
         $culture = TradersProducts::where('url', $data['culture'])->value('id');
 
-
         $traders =  $this->treders->with([
                 'traders_prices' => function ($prices) use ($culture, $obl_id, $port_id) {
-                    $prices->where([
-                        ['acttype', 3], ['active', 1], [function($check) use($culture){
+                    $prices->where([['acttype', 3], ['active', 1], [function($check) use($culture){
                            if($culture){
                                $check->where('cult_id', $culture);
                            }
                         }]
-                    ])
-                        ->with(['traders_places' => function ($places) use($culture, $obl_id, $port_id){
-                            $places->where([
+                    ])->with(['traders_places' => function ($places) use($culture, $obl_id, $port_id){
+                            $places->where([['type_id', '!=', 1],
                                 [
                                     function ($check) use ($obl_id) {
                                         if ($obl_id) {
@@ -211,16 +208,15 @@ class TraderService
                                             $check->where('port_id', $port_id);
                                         }
                                     }
-                                ],
-                                ['type_id', '!=', 1]
+                                ]
                             ]);
                         }]);
                 }
             ])
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula', 'trader_premium_forward', 'trader_sort_forward')
-            ->orderBy('trader_premium_forward', 'desc')
-            ->orderBy('rate_formula', 'desc')
+            ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort_forward')
+            ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
             ->get()
             ->toArray();
@@ -249,7 +245,7 @@ class TraderService
 
         $traders = array_values($traders);
 
-        $this->groups = $this->getRubrics($traders, $obl_id, $port_id);
+        $this->groups = $this->getRubrics($traders);
 
         return $traders;
     }
@@ -315,11 +311,7 @@ class TraderService
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
-        $this->groups = $this->getRubrics($transform_traders, $obl_id, $port_id);
-
-        if(empty($transform_traders)){
-            $this->groups = $this->getRubrics($traders, $obl_id, $port_id);
-        }
+        $this->groups = !empty($transform_traders) ? $this->getRubrics($transform_traders) : $this->getRubrics($traders);
 
         return $transform_traders;
     }
