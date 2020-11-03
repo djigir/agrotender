@@ -118,7 +118,7 @@
 </div>
 <main class="main" role="main" data-page="{$page}">
     <div id="loading"></div>
-    @if(!isset($id))
+    @if(!isset($id) && $page_type != 1)
         @include('partials.banners.head')
     @endif
     @if($isMobile)

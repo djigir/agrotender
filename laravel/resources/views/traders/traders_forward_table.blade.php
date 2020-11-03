@@ -1,5 +1,6 @@
 {{--{{dd($traders)}}--}}
 <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
+    @if(!$isMobile)
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
         <table class="sortTable sortable dTable dataTable no-footer" cellspacing="0" id="DataTables_Table_0"
                role="grid">
@@ -51,7 +52,7 @@
                         </td>
                         <td data-sorttable-customkey="20201101"><span data-date="20201101">{{mb_convert_case($price['date']->format('F y'), MB_CASE_TITLE, "UTF-8")}}</span></td>
                         <td>
-                            <span class="location">{{$price['region']['name'].' обл.'}} </span>
+                            <span class="location">{{$price['region']['name'].' обл.'}}</span>
                             <br>
                             <span class="place">{{$price['place']}}</span>
                         </td>
@@ -61,6 +62,40 @@
             </tbody>
         </table>
     </div>
+    @else
+        <table class="sortTable sortable" cellspacing="0">
+            <tbody>
+            @foreach($traders as $index_tr => $trader)
+                @foreach($trader['traders_prices'] as $index_price => $price)
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center price-div">
+                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{{$trader['title']}}">
+                                <a class="flex-1" href="/kompanii/comp-2468-forwards">
+                                    <span class="m-price">{{$price['curtype'] == 1 ? 'USD: ' : 'UAH: '}} <span class="price">{{round($price['costval'], 1)}}
+                                        </span>
+                                    </span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="t2">
+                        <td style="border-bottom: 1px solid #295ca1;">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <span data-toggle="tooltip" data-placement="top" class="d-block">{{mb_convert_case($price['date']->format('F y'), MB_CASE_TITLE, "UTF-8")}}</span>
+                                <a href="/kompanii/comp-2468-forwards" class="d-block flex-1">
+                                    <span class="location d-block">{{$price['region']['name'].' обл.'}}</span>
+                                    <span class="place d-block">{{$price['place']}}</span>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            @endforeach
+
+            </tbody>
+        </table>
+    @endif
     <div class="text-center mt-5">
     </div>
 </div>

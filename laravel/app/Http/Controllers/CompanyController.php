@@ -98,12 +98,11 @@ class CompanyController extends Controller
 
         $breadcrumbs = $this->baseServices->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
-
         return view('company.companies', [
             'companies' => $companies, 'regions' => $regions,
             'rubricGroups' => $groups, 'settings_for_page' => $companies,
             'region_name' => $region_name,
-            'region' => $data['region'],
+            'region' => empty($data['region']) ? 'ukraine' : $data['region'],
             'obj_region' => $data['region'] != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
@@ -195,6 +194,7 @@ class CompanyController extends Controller
      */
     public function companiesFilter(Request $request, $query = null)
     {
+
         $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies'];
 
         if(!empty($request->get('query'))){
