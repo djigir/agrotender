@@ -384,4 +384,20 @@ window.onload = function (){
         $('#port-usd').addClass('active');
         $('#port-uah').removeClass('active');
     });
+
+    /* feed slider */
+
+    $(".next").data('counter', 1).click(function() {
+            let counter = $(this).data('counter');
+            $(this).data('counter', counter + 1);
+            let swiper = $(".swiper-slide");
+            console.log(swiper);
+            for (i = 0; i < swiper.length; i++){
+                console.log(swiper[i]);
+            }
+            /*if (counter === 1){
+                $(".swiper-wrapper").css({"transform": "translate3d(-212.5px, 0px, 0px)", "transition-duration": "300ms"});
+                $(".swiper-slide-active").removeClass("swiper-slide-active").addClass("swiper-slide-prev");
+            }*/
+    });
 };

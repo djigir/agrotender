@@ -98,6 +98,7 @@ class TraderController extends Controller
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
 
+        $feed = $this->traderFeedService->getFeed();
 
         return view('traders.traders', [
             'regions' => $regions,
@@ -118,7 +119,8 @@ class TraderController extends Controller
             'page_type' => 1,
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
-            'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card'
+            'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
+            'feed' => $feed
         ]);
     }
 
@@ -130,14 +132,14 @@ class TraderController extends Controller
      */
     public function index(Request $request, $region)
     {
+
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'type' => ''];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
            return $this->traderService->mobileFilter($request);
         }
-        $feed = $this->traderFeedService->getFeed();
-        dd($feed);
+
         return $this->setDataForTraders($data_traders);
     }
 

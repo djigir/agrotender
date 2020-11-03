@@ -6,6 +6,7 @@ use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TraderFeed;
+use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
@@ -42,35 +43,53 @@ class TraderFeedService
 //      where tp.acttype = $type && date(f.change_date) = curdate() && ci.trader_price{$sell}_avail = 1 && ci.trader_price{$sell}_visible = 1 && tp.type_id != 1 && ci.visible = 1
 //      group by f.user
 //      order by f.change_date desc");
-
         $price_field = 'trader_price'.$type_text;
         $traders = TraderFeed::
-            join('traders_products_lang','traders_products_lang.id', '=','traders_feed.rubric')
+        join('agt_traders_products_lang','agt_traders_products_lang.id', '=','traders_feed.rubric')
 
 
-            ->join('traders_places','traders_places.id', '=','traders_feed.place')
+            ->join('agt_traders_places','agt_traders_places.id', '=','traders_feed.place')
 
-            ->join('comp_items','comp_items.author_id', '=','traders_feed.user')
-            ->where('traders_places.acttype',$type)
+            ->join('agt_comp_items','agt_comp_items.author_id', '=','traders_feed.user')
+            ->where('agt_traders_places.acttype',$type)
 //            ->whereDate('traders_feed.change_date', Carbon::now())
-            ->where('comp_items.'.$price_field.'_avail',1)
-            ->where('comp_items.'.$price_field.'_visible',1)
-            ->where('traders_places.acttype',$type)
-            ->where('traders_places.type_id','!=',1)
-            ->where('comp_items.visible',1)
+            ->where('agt_comp_items.'.$price_field.'_avail',1)
+            ->where('agt_comp_items.'.$price_field.'_visible',1)
+            ->where('agt_traders_places.acttype',$type)
+            ->where('agt_traders_places.type_id','!=',1)
+            ->where('agt_comp_items.visible',1)
+            ->select('agt_traders_products_lang.id as tpl_id',
+                'agt_traders_products_lang.item_id as tpl_item_id',
+                'agt_traders_products_lang.name as tpl_name',
+                'traders_feed.id as tf_id',
+                'traders_feed.rubric as tf_rubric',
+                'traders_feed.place as tf_place',
+                'traders_feed.change_price as tf_change_price',
+                'traders_feed.user as tf_user',
+                'traders_feed.change_date as tf_change_date',
+                'agt_comp_items.id as comp_id',
+                'agt_comp_items.topic_id as comp_topic_id',
+                'agt_comp_items.type_id as comp_type_id',
+                'agt_comp_items.author_id as comp_author_id',
+                'agt_comp_items.visible as comp_visible',
+                'agt_comp_items.add_date as comp_add_date',
+                'agt_comp_items.title as comp_title'
+            )
             ->groupBy('traders_feed.user')
             ->orderBy('traders_feed.change_date','DESC')
-        ;
-dd($traders->get());
+            ->get()
+            ->toArray();
+//dd($traders->get());
+        $feed = $traders;
         foreach ($feed as $key => $value) {
             $feed[$key]['onchange'] = 'Подтвердил цены';
             $feed[$key]['onchange_class'] = 'approve';
-            foreach (explode(', ', $value['rubrics']) as $key2 => $value2) {
+            foreach (explode(', ', $value['tf_rubric']) as $key2 => $value2) {
                 $explode = explode(':', $value2);
-                if ($explode[1] == '2') {
+                if ($explode[0] == '2') {
                     $explode[1] = 4;
                 }
-                if ($explode[1] != '4') {
+                if ($explode[0] != '4') {
                     $feed[$key]['onchange'] = 'Изменил цены';
                     $feed[$key]['onchange_class'] = 'change';
                 }
@@ -78,7 +97,7 @@ dd($traders->get());
                     $feed[$key]['r'][$explode[0]]['change'] = [];
                 }
                 // array_push($feed[$key]['r'][$explode[0]]['change'], $explode[1]);
-                $feed[$key]['r'][$explode[0]]['change'][] = $explode[1];
+                $feed[$key]['r'][$explode[0]]['change'][] = $explode[0];
             }
         }
         return $feed;
