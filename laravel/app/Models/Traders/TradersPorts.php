@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property  \DateTime $add_date;
  * @property  string $url;
  */
-
 class TradersPorts extends Model
 {
     protected $table = 'traders_ports';
@@ -29,6 +28,9 @@ class TradersPorts extends Model
 
     public function getLangAttribute()
     {
+        if ($this->relationLoaded('traders_ports_lang')) {
+            return $this->traders_ports_lang->first();
+        }
         $lang = TradersPortsLang::where('port_id', $this->id)->select('id', 'port_id', 'portname')->get()->toArray();
         return !empty($lang) ? $lang[0] : [];
     }

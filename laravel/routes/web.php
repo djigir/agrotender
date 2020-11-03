@@ -77,5 +77,3 @@ Route::prefix('info')
         Route::get('/contacts', 'InfoController@companies')->name('contacts');
 });
 
-
-
