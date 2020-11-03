@@ -126,7 +126,10 @@ class TraderService
 
     public function getPorts()
     {
-        $ports = TradersPorts::select('id', 'url')->where('active', 1)->get();
+        $ports = TradersPorts::select('id', 'url')
+            ->with('traders_ports_lang')
+            ->where('active', 1)
+            ->get();
         $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
 
         return $ports;

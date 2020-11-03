@@ -20,7 +20,6 @@ use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
 use  App\Http\Controllers\Controller;
-use Barryvdh\Debugbar\Facade as DebugBar;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;

@@ -2,7 +2,6 @@
 
 namespace App\Models\Traders;
 
-use App\Models\Traders\Traders_Products_Lang;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -30,7 +29,7 @@ class TradersProducts extends Model
 
     public function getCultureAttribute()
     {
-        return Traders_Products_Lang::where('item_id', $this->id)->select('name', 'id')->get()->toArray()[0];
+        return $this->traders_product_lang->first()->toArray();
     }
 
     public function traders_prices()
@@ -41,6 +40,11 @@ class TradersProducts extends Model
     public function traders_product_groups_lang()
     {
         return $this->hasMany(TradersProductGroupLanguage::class, 'item_id');
+    }
+
+    public function traders_product_lang()
+    {
+        return $this->hasMany(Traders_Products_Lang::class, 'item_id');
     }
 
     public function traders_products2buyer()
