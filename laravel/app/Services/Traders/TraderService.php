@@ -39,12 +39,12 @@ class TraderService
         $route_name = \Route::getCurrentRoute()->getName();
         $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 
-        if(!empty($request->get('region')) && $prefix != 'traders_forwards.'){
+        if(!empty($request->get('region'))){
             $route_name = $prefix.'region';
             $route_params = ['region' => $request->get('region'), 'currency' => $request->get('currency')];
         }
 
-        if(!empty($request->get('port')) && $prefix != 'traders_forwards.'){
+        if(!empty($request->get('port'))){
             $route_name = $prefix.'port';
             $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
         }
