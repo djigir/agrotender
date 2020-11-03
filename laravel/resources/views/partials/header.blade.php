@@ -128,7 +128,9 @@
             @include('mobile.filters.mobile-filter-traders')
         @endif
     @endif
-    @include('partials.header-scroll')
+    @if(!isset($id))
+        @include('partials.header-scroll')
+    @endif
     <style>
         .remove-input{
             position: absolute;

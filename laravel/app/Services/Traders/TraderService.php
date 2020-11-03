@@ -297,21 +297,25 @@ class TraderService
                         ]);
                     }
                 }
-                ])->select('id', 'buyer_id', 'cult_id', 'place_id', 'curtype', 'acttype', 'costval', 'costval_old', 'add_date', 'dt', 'comment');
+                ])
+                    ->select('id', 'buyer_id', 'cult_id', 'place_id', 'curtype', 'acttype', 'costval', 'costval_old',
+                        'add_date', 'dt', 'comment', 'change_date');
             }
-        ])
-            ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
+        ])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort')
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
+            ->groupBy('id')
             ->get()
             ->toArray();
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
         $this->groups = !empty($transform_traders) ? $this->getRubrics($transform_traders) : $this->getRubrics($traders);
+
+
 
         return $transform_traders;
     }
@@ -321,7 +325,7 @@ class TraderService
     {
         foreach ($traders as $index => $trader){
             foreach ($trader['traders_prices'] as $index_place => $place){
-                $traders[$index]['traders_prices'] = collect($traders[$index]['traders_prices'])->sortBy('culture.name')->toArray();
+
                 if(empty($place['traders_places'])){
                     unset($traders[$index]['traders_prices'][$index_place]);
                 }
@@ -336,12 +340,25 @@ class TraderService
                     unset($traders[$index]['traders_prices'][$index_place]['traders_places']['region']);
                     unset($traders[$index]['traders_prices'][$index_place]['traders_places']['port']);
                 }
+
             }
-            $traders[$index]['traders_prices'] = array_values($traders[$index]['traders_prices']);
+
             if(empty($traders[$index]['traders_prices'])){
                 unset($traders[$index]);
             }
-
+//            else{
+//                $traders[$index]['traders_prices'] = collect($traders[$index]['traders_prices'])->sortBy('culture.name')
+//                    ->groupBy(['curtype', 'culture.id'])
+//                    ->toArray();
+////                foreach ($traders[$index]['traders_prices'] as $index_curtype => $curtype){
+////                    foreach ($curtype as $index_culture => $culture){
+////                        $traders[$index]['traders_prices'][$index_curtype][$index_culture] = collect($traders[$index]['traders_prices'][$index_curtype][$index_culture])->toArray();
+////                    }
+////
+////                }
+//
+//                //$traders[$index]['traders_prices'] = array_values($traders[$index]['traders_prices']);
+//            }
         }
 
         $traders = array_values($traders);
