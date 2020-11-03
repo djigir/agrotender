@@ -154,6 +154,6 @@
         </div>
         {{ $settings_for_page->links() }}
     </div>
-        @include('partials.banners.bottom')
+    @include('partials.banners.bottom')
 @endsection
 

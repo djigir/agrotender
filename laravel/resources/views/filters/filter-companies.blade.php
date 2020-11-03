@@ -65,10 +65,10 @@
             <div class="dropdown-wrapper position-absolute regionDrop">
                 <div class="dropdown" id="regionDrop" style="display: none;">
                     <span class="d-block">
-                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{route('company.region', 'ukraine')}}">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">
                             <span style="cursor: pointer">Вся Украина</span>
                         </a>
-                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{route('company.region', 'crimea')}}">
+                        <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['crimea', $rubric_id]) : route('company.region', 'crimea')}}">
                             <span>АР Крым</span>
                         </a>
                     </span>
@@ -76,7 +76,6 @@
                     <div class="section text-left">
                         <div class="row">
                             <div class="col" style="column-count: 3">
-
                                 @foreach($regions as $index => $region)
                                     @if($rubric_id and $region)
                                         <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"

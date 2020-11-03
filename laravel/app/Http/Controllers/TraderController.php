@@ -308,8 +308,7 @@ class TraderController extends Controller
     {
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
-
-        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        if(!empty($request->get('region')) || !empty($request->get('port')))
         {
             return $this->traderService->mobileFilter($request);
         }
@@ -328,7 +327,7 @@ class TraderController extends Controller
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
-        if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
+        if (!empty($request->get('port')) || !empty($request->get('port'))) {
             return $this->traderService->mobileFilter($request);
         }
 
