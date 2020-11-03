@@ -70,12 +70,12 @@
                                                    <p class="traders__item__content-p">
                                                        <span class="traders__item__content-p-title">{{ $port != null ? $prices['port']['lang']['portname']  : $prices['region']['name'].' обл.'}} </span>
                                                        <span class="right">
-                                             <span
-                                                 class="traders__item__content-p-price ">{{$price_culture['curtype'] == 1 ? '$ ' : ''}}{{$prices['costval']}}</span>
-                                             <span class="traders__item__content-p-icon">
-                                               {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
-                                             </span>
-                                           </span>
+                                                         <span
+                                                             class="traders__item__content-p-price ">{{$prices['curtype'] == 1 ? '$ ' : ''}}{{$prices['costval']}}</span>
+                                                         <span class="traders__item__content-p-icon">
+                                                           {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
+                                                         </span>
+                                                       </span>
                                                    </p>
                                                @endif
                                            @endif

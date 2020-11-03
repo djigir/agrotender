@@ -40,26 +40,26 @@ class TraderService
         $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 
         if(!empty($request->get('region'))){
-            $route_name = $prefix.'region';
+            $route_name = 'region';
             $route_params = ['region' => $request->get('region'), 'currency' => $request->get('currency')];
         }
 
         if(!empty($request->get('port'))){
-            $route_name = $prefix.'port';
+            $route_name = 'port';
             $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
         }
 
         if(!empty($request->get('region')) && !empty($request->get('rubric'))){
-            $route_name = $prefix.'region_culture';
+            $route_name = 'region_culture';
             $route_params = [$request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
         if(!empty($request->get('port')) && !empty($request->get('rubric'))){
-            $route_name = $prefix.'port_culture';
+            $route_name = 'port_culture';
             $route_params = ['port' => $request->get('port'), 'culture' => $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
-        return redirect()->route($route_name, $route_params);
+        return redirect()->route($prefix.$route_name, $route_params);
     }
 
 
