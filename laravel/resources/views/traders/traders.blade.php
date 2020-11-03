@@ -1,5 +1,6 @@
 @extends('layout.layout', ['meta' => $meta])
 @section('content')
+    @include('traders.feed.traders_feed')
     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">

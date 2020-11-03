@@ -134,7 +134,8 @@ class TraderController extends Controller
         {
            return $this->traderService->mobileFilter($request);
         }
-
+        $feed = $this->traderFeedService->getFeed();
+        dd($feed);
         return $this->setDataForTraders($data_traders);
     }
 
