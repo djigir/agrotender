@@ -98,8 +98,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                                         {{$region['name']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{$prefix != 'traders_forward.' ? route($prefix.'region', $region['translit']) :
-                                                    route('traders.region', $region['translit'])}}">
+                                                    <a href="{{route($prefix.'region', $region['translit'])}}">
                                                         {{$region['name']}}
                                                     </a>
                                                 @endif
@@ -114,16 +113,16 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                     @foreach($onlyPorts as $index => $port)
                                         <li>
                                             @if(!empty($culture) && !empty($port))
-                                                <a href="{{route('traders.port_culture', [$port['url'], $culture_translit])}}">
+                                                <a href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
                                                     {{$port['portname']}}
                                                 </a>
                                             @else
                                                 @if(!empty($culture_translit))
-                                                    <a href="{{route('traders.port_culture', [$port['url'], $culture_translit])}}">
+                                                    <a href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
                                                         {{$port['lang']['portname']}}
                                                     </a>
                                                 @else
-                                                    <a href="{{$prefix != 'traders_forward.' ? route( $prefix.'port', $port['url']) : route('traders.port', $port['url'])}}">
+                                                    <a href="{{route($prefix.'port', $port['url'])}}">
                                                         {{$port['lang']['portname']}}
                                                     </a>
                                                 @endif
