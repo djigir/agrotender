@@ -13,7 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users2', function (Blueprint $table) {
+        Schema::create('auth_users_laravel', function (Blueprint $table) {
             $table->integer('id');
             $table->string('login');
             $table->string('passwd');
@@ -70,6 +70,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users2');
+        Schema::dropIfExists('auth_users_laravel');
     }
 }

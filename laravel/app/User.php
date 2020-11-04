@@ -9,7 +9,8 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
-    protected $table = 'users2';
+
+    protected $table = 'auth_users_laravel';
     public $timestamps = false;
     /**
      * The attributes that are mass assignable.

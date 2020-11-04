@@ -1435,7 +1435,7 @@ class Main extends \Core\Controller
         if ($this->action == 'send-code') {
             $phone = $this->request->post['phone'];
 //            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
-            ;$checkPhone = null;
+            $checkPhone = null;
             if ($checkPhone == null) {
                 $this->user->sendConfirmCode($phone);
             } else {
