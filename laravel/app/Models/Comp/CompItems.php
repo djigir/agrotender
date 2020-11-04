@@ -100,49 +100,36 @@ class CompItems extends Model
     /* Accessor */
     public function getActivitiesAttribute()
     {
-        $temp = [];
         $activities = CompTopicItem::where('item_id', $this->id)
             ->join('comp_topic', 'comp_item2topic.topic_id', '=', 'comp_topic.id')
-            ->select('comp_topic.title')
-            ->get();
-        foreach ($activities as $index => $activity){
-          array_push($temp, $activity->title);
-        }
+            ->pluck('title');
 
-        $activities = implode(',', $temp);
-
-        return $activities;
+        return implode(',', $activities->toArray());
     }
 
     public function getPurchasesAttribute()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 1], ['author_id', '=', $this->author_id]])
-            ->get()
-            ->count();
+        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 1], ['author_id', '=', $this->author_id]])->count();
     }
 
 
     public function getSalesAttribute()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 2], ['author_id', '=', $this->author_id]])
-            ->get()
-            ->count();
+        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 2], ['author_id', '=', $this->author_id]])->count();
     }
 
 
     public function getServicesAttribute()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 3], ['author_id', '=', $this->author_id]])
-            ->get()
-            ->count();
+        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 3], ['author_id', '=', $this->author_id]])->count();
     }
 
     public function getDateAttribute()
     {
-
         if($this->add_date===null){
             return '';
         }
+
         return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
     }
 

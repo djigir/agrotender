@@ -53,7 +53,7 @@
                                                         class="traders__item__content-p-title">{{ $price_culture['culture']['name'] }}</span>
                                                         <span class="right">
                                                   <span
-                                                      class="traders__item__content-p-price ">{{$price_culture['curtype'] == 1 ? '$ ' : ''}}{{$price_culture['costval'] }}</span>
+                                                      class="traders__item__content-p-price ">{{$price_culture['curtype'] == 1 ? '$ ' : ''}}{{ round($price_culture['costval'], 1) }}</span>
                                                   <span class="traders__item__content-p-icon">
                                                     {{--  <img src="/app/assets/img/price-not-changed.svg">  --}}
                                                   </span>
@@ -71,7 +71,7 @@
                                                        <span class="traders__item__content-p-title">{{ $port != null ? $prices['port']['lang']['portname']  : $prices['region']['name'].' обл.'}} </span>
                                                        <span class="right">
                                                          <span
-                                                             class="traders__item__content-p-price ">{{$prices['curtype'] == 1 ? '$ ' : ''}}{{$prices['costval']}}</span>
+                                                             class="traders__item__content-p-price ">{{$prices['curtype'] == 1 ? '$ ' : ''}}{{ round($prices['costval'], 1) }}</span>
                                                          <span class="traders__item__content-p-icon">
                                                            {{--  <img src="/app/assets/img/price-not-changed.svg"> --}}
                                                          </span>

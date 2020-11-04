@@ -92,20 +92,20 @@
                     @endif
                     @if($port)
                         @if($culture_translit && $port && $type_traders != 1)
-                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{($culture_translit && $port) ? route('traders_forward.port_culture', [$port , $culture_translit]) : route('traders_forward.port',  $port)}}">
+                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_forward.port_culture', [$port , $culture_translit]) : route('traders_forward.port',  $port)}}">
                                 <span>Форварды</span>
                                 <span><i class="far fa-chevron-right"></i></span>
                             </a>
                         @endif
                         @if($type_traders != 0)
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{($culture_translit && $port) ? route('traders.port_culture',  [$port, $culture_translit]) : route('traders.port',  $port)}}">
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders.port_culture',  [$port, $culture_translit]) : route('traders.port',  $port)}}">
                                 <span>Закупки</span>
                                 <span><i class="far fa-chevron-right"></i></span>
                             </a>
                         @endif
                         @if($type_traders != 2)
 
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href=" {{($culture_translit && $port) ? route('traders_sell.port_culture',  [$port, $culture_translit]) : route('traders_sell.port', $port)}}">
+                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href=" {{$culture_translit ? route('traders_sell.port_culture',  [$port, $culture_translit]) : route('traders_sell.port', $port)}}">
                              <span>Продажи</span>
                              <span><i class="far fa-chevron-right"></i></span>
                             </a>
