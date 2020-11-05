@@ -199,6 +199,7 @@ class TraderController extends Controller
      * @param $culture
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
+
     public function portCulture(Request $request, $port, $culture)
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => ''];
