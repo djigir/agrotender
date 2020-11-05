@@ -17,8 +17,7 @@ class Db {
   public static $host = 'localhost';
   public static $db_name = 'agrotender';
   public static $user = 'root';
-//  public static $password = '';
-public static $password = 'root';
+  public static $password = 'root';
 
 
 

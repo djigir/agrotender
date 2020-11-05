@@ -9,16 +9,19 @@
                         <a href="{{ route('company.index', $item['comp_id']) }}" class="new_feed-item">
                             <span class="new_feed-item-title">{{ $item['comp_title'] }}</span>
                             <div class="new_feed-item-state {{ $item['onchange_class']  }}">{{ $item['onchange'] }}</div>
+                            @foreach($item['tpl_name'] as $culture)
                             <ul>
                                 <li>
-                                    <span>{{ $item['tpl_name'] }}</span>
-                                    <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
-                                </li>
-                                <li>
-                                    <span>Пшеница 4 кл.</span>
+                                    <span>{{ $culture }}</span>
+                                        <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
+                                    {{--@if($item['tf_change_price'] == 0)
                                     <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
+                                    @elseif($item['tf_change_price'] == 1)
+                                    <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                                    @endif--}}
                                 </li>
                             </ul>
+                            @endforeach
                             <div class="new_feed-item-bottom">
                                 <span class="more">+ ещё</span>
                                 <span>{{ \Carbon\Carbon::parse($item['tf_change_date'])->format('H:i') }}</span>

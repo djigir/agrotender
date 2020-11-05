@@ -26,7 +26,7 @@
                 <tr>
                     <td class="py-1">
                         <span class="place-title">{{$place['portname']}}</span>
-                        <span class="place-comment">{{$place['place']}}</span>
+                        <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                     </td>
                     @if(isset($port_price['UAH'][$place['place_id']]))
                         @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
@@ -79,7 +79,7 @@
                     <tr>
                         <td class="py-1">
                             <span class="place-title">{{$place['portname']}}</span>
-                            <span class="place-comment">{{$place['place']}}</span>
+                            <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                         </td>
                         @if(isset($port_price['UAH'][$place['place_id']]))
                             @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)
@@ -134,7 +134,7 @@
                 <tr>
                     <td class="py-1">
                         <span class="place-title">{{$place['portname']}}</span>
-                        <span class="place-comment">{{$place['place']}}</span>
+                        <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                     </td>
                     @if(isset($port_price['UAH'][$place['place_id']]))
                         @foreach($port_price['UAH'][$place['place_id']] as $index_price => $price)

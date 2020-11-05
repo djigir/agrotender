@@ -1,0 +1,54 @@
+{
+    "company" : {
+        "ukraine": {
+            "name" : "Комании в Украине"
+        },
+
+        "ukraine_culture": {
+            "start_text" : "Каталог - ",
+            "end_text" : " хозяйства Украины"
+        },
+
+        "culture": {
+
+        },
+
+        "region": {
+            "start_text" : "Комании в",
+            "end_text" : "области"
+        },
+
+        "region_culture": {
+            "start_text" : "Каталог - ",
+            "end_text" : "хозяйства"
+        }
+    },
+
+
+    "traders_forward" : {
+        "region" : {
+
+        },
+        "port" : {
+
+        }
+    },
+
+    "traders_sell" : {
+        "region" : {
+
+        },
+        "port" : {
+
+        }
+    },
+
+    "traders" : {
+        "region" : {
+
+        },
+        "port" : {
+
+        }
+    }
+}

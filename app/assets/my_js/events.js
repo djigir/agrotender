@@ -9,7 +9,7 @@ window.onload = function (){
 
     $(window).scroll(function() {
         var height = $(window).scrollTop();
-        if(height > 110){
+        if(height < 90){
             $('#scroll-header').css('display', '');
         }else{
             $('#scroll-header').css('display', 'none');
@@ -276,7 +276,8 @@ window.onload = function (){
 
     $(".region").click(function (event) {
         let region = event.currentTarget.getAttribute('region');
-        let region_name = event.target.innerHTML+ ' область';
+        let region_name = event.target.innerHTML;
+            // + ' область';
 
         $('#span-mobile-region').html(region_name);
         $('#input-mobile-region').attr('value', region);

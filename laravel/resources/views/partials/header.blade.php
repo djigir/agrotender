@@ -118,7 +118,7 @@
 </div>
 <main class="main" role="main" data-page="{$page}">
     <div id="loading"></div>
-    @if(!isset($id) && $page_type != 1)
+    @if(!isset($id))
         @include('partials.banners.head')
     @endif
     @if($isMobile)
@@ -128,9 +128,9 @@
             @include('mobile.filters.mobile-filter-traders')
         @endif
     @endif
-    @if(!isset($id))
-        @include('partials.header-scroll')
-    @endif
+{{--    @if(!isset($id))--}}
+{{--        @include('partials.header-scroll')--}}
+{{--    @endif--}}
     <style>
         .remove-input{
             position: absolute;

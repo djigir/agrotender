@@ -12,6 +12,7 @@ use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProducts;
 use App\Services\BaseServices;
+use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use App\Services\Traders\TraderFeedService;
@@ -24,6 +25,7 @@ class TraderController extends Controller
     protected $traderService;
     protected $companyService;
     protected $baseServices;
+    protected $breadcrumbService;
     protected $seoService;
     protected $traderFeedService;
     protected $agent;
@@ -31,16 +33,18 @@ class TraderController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  TraderService  $traderService
-     * @param  CompanyService  $companyService
-     * @param  BaseServices  $baseServices
-     * @param  SeoService  $seoService
-     * @param  TraderFeedService  $traderFeedService
+     * @param TraderService $traderService
+     * @param CompanyService $companyService
+     * @param BaseServices $baseServices
+     * @param BreadcrumbService $breadcrumbService
+     * @param SeoService $seoService
+     * @param TraderFeedService $traderFeedService
      */
     public function __construct(
         TraderService $traderService,
         CompanyService $companyService,
         BaseServices $baseServices,
+        BreadcrumbService $breadcrumbService,
         SeoService $seoService,
         TraderFeedService $traderFeedService
     ) {
@@ -48,6 +52,7 @@ class TraderController extends Controller
         $this->traderService = $traderService;
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->traderFeedService = $traderFeedService;
         $this->agent = new \Jenssegers\Agent\Agent;
@@ -85,6 +90,15 @@ class TraderController extends Controller
             'rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1,
             'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
+        if ($data['type'] == 'forward') {
+            $meta = $this->seoService->getTradersMetaForward($region_all, $culture_meta, $port_all);
+        }elseif ($data['type'] == 'sell') {
+            // изменить текстовку
+            $meta = $this->seoService->getTradersMeta([
+                'rubric' => $culture_meta, 'region' => $region_all,
+                'port' => $port_all, 'type' => 0, 'page' => 1,
+                'onlyPorts' => $this->traderService->getNamePortRegion(null, $data['port'])['onlyPorts']]);
+        }
 
         $data_breadcrumbs =  [
             'region_translit' => $data['region'],
@@ -185,6 +199,7 @@ class TraderController extends Controller
      * @param $culture
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\View\View
      */
+
     public function portCulture(Request $request, $port, $culture)
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => ''];
@@ -308,8 +323,7 @@ class TraderController extends Controller
     {
         $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
-
-        if(!empty($request->get('region')) && !empty($request->get('rubric')))
+        if(!empty($request->get('region')) || !empty($request->get('port')))
         {
             return $this->traderService->mobileFilter($request);
         }
@@ -328,7 +342,7 @@ class TraderController extends Controller
     {
         $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell'];
 
-        if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
+        if (!empty($request->get('port')) || !empty($request->get('port'))) {
             return $this->traderService->mobileFilter($request);
         }
 

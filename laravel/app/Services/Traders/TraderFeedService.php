@@ -44,23 +44,19 @@ class TraderFeedService
 //      group by f.user
 //      order by f.change_date desc");
         $price_field = 'trader_price'.$type_text;
-        $traders = TraderFeed::
-        join('agt_traders_products_lang','agt_traders_products_lang.id', '=','traders_feed.rubric')
+        $traders = TraderFeed::join('agt_traders_products_lang','agt_traders_products_lang.id', '=', 'traders_feed.rubric')
+            ->join('agt_traders_places','agt_traders_places.id', '=', 'traders_feed.place')
+            ->join('agt_comp_items','agt_comp_items.author_id', '=', 'traders_feed.user')
 
-
-            ->join('agt_traders_places','agt_traders_places.id', '=','traders_feed.place')
-
-            ->join('agt_comp_items','agt_comp_items.author_id', '=','traders_feed.user')
-            ->where('agt_traders_places.acttype',$type)
+            ->where('agt_traders_places.acttype', $type)
 //            ->whereDate('traders_feed.change_date', Carbon::now())
-            ->where('agt_comp_items.'.$price_field.'_avail',1)
-            ->where('agt_comp_items.'.$price_field.'_visible',1)
-            ->where('agt_traders_places.acttype',$type)
-            ->where('agt_traders_places.type_id','!=',1)
-            ->where('agt_comp_items.visible',1)
+            ->where('agt_comp_items.'.$price_field.'_avail', 1)
+            ->where('agt_comp_items.'.$price_field.'_visible', 1)
+            ->where('agt_traders_places.type_id','!=', 1)
+            ->where('agt_comp_items.visible', 1)
             ->select('agt_traders_products_lang.id as tpl_id',
                 'agt_traders_products_lang.item_id as tpl_item_id',
-                'agt_traders_products_lang.name as tpl_name',
+//                'agt_traders_products_lang.name as tpl_name',
                 'traders_feed.id as tf_id',
                 'traders_feed.rubric as tf_rubric',
                 'traders_feed.place as tf_place',
@@ -75,11 +71,13 @@ class TraderFeedService
                 'agt_comp_items.add_date as comp_add_date',
                 'agt_comp_items.title as comp_title'
             )
+//            ->selectRaw('GROUP_CONCAT(DISTINCT traders_feed.change_price SEPARATOR ",") as tf_change_price')
+            ->selectRaw('GROUP_CONCAT(DISTINCT agt_traders_products_lang.name SEPARATOR ",") as tpl_name')
             ->groupBy('traders_feed.user')
-            ->orderBy('traders_feed.change_date','DESC')
+            ->orderBy('tf_change_date','DESC')
             ->get()
             ->toArray();
-//dd($traders->get());
+
         $feed = $traders;
         foreach ($feed as $key => $value) {
             $feed[$key]['onchange'] = 'Подтвердил цены';
@@ -93,15 +91,23 @@ class TraderFeedService
                 if ($explode[0] != '4') {
                     $feed[$key]['onchange'] = 'Изменил цены';
                     $feed[$key]['onchange_class'] = 'changed';
+
                 }
 
                 if (!isset($feed[$key]['r'][$explode[0]]['change'])) {
                     $feed[$key]['r'][$explode[0]]['change'] = [];
                 }
+//                dump($feed[$key]['tpl_name']);
+                $all_culture = explode(',', $feed[$key]['tpl_name']);
+
+                // беру только две культуры
+                $culture = array_slice($all_culture, 0, 2);
+                $feed[$key]['tpl_name'] = $culture;
                 // array_push($feed[$key]['r'][$explode[0]]['change'], $explode[1]);
                 $feed[$key]['r'][$explode[0]]['change'][] = $explode[0];
             }
         }
+//        dd($feed);
         return $feed;
     }
 }
