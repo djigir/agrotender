@@ -229,7 +229,6 @@ class CompanyController extends Controller
         $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
-
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
 
