@@ -9,7 +9,7 @@ window.onload = function (){
 
     $(window).scroll(function() {
         var height = $(window).scrollTop();
-        if(height > 110){
+        if(height < 90){
             $('#scroll-header').css('display', '');
         }else{
             $('#scroll-header').css('display', 'none');
