@@ -12,6 +12,7 @@ use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
 use App\Services\BaseServices;
+use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,13 +22,15 @@ class TraderService
 {
     protected $companyService;
     protected $baseService;
+    protected $breadcrumbService;
     protected $treders;
     protected $groups;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseService)
+    public function __construct(CompanyService $companyService, BaseServices $baseService, BreadcrumbService $breadcrumbService)
     {
         $this->companyService = $companyService;
         $this->baseService = $baseService;
+        $this->breadcrumbService = $breadcrumbService;
         $this->treders = null;
         $this->groups = null;
     }
@@ -71,18 +74,18 @@ class TraderService
 
         if (isset($data['forwards'])) {
             $traders = $this->getTradersForward($data);
-            $breadcrumbs = $this->baseService->setBreadcrumbsTradersForward($data_breadcrumbs);
+            $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
             $type_traders = 1;
 
 
         } elseif (isset($data['sell'])) {
             $traders = $this->getTradersRegionPortCulture($data);
-            $breadcrumbs = $this->baseService->setBreadcrumbsTradersSell($data_breadcrumbs);
+            $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersSell($data_breadcrumbs);
             $type_traders = 2;
 
         } else {
             $traders = $this->getTradersRegionPortCulture($data);
-            $breadcrumbs = $this->baseService->setBreadcrumbsTraders($data_breadcrumbs);
+            $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders($data_breadcrumbs);
         }
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];

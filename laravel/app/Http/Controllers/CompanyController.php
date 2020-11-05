@@ -16,6 +16,7 @@ use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Torg\TorgBuyer;
+use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
@@ -33,15 +34,17 @@ class CompanyController extends Controller
 
     protected $companyService;
     protected $baseServices;
+    protected $breadcrumbService;
     protected $seoService;
     protected $agent;
     protected $company;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
     {
         parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->company = null;
         $this->agent = new \Jenssegers\Agent\Agent;
@@ -79,12 +82,12 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = array_slice($this->baseServices->getRegions(), 1, -1);
+        $regions = $this->companyService->setRegions(array_slice($this->baseServices->getRegions(), 1, -1), $data['rubric_id']);
         $region_name = $this->regionName($data['region']);
         $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
         $region_id = null;
         $region = $data['region'];
-        $culture_name = isset($data['rubric_id']) ? CompTopic::where('id', $rubric_id)->get()->toArray() : null;
+        $culture_name = $data['rubric_id'] ? CompTopic::where('id', $rubric_id)->get()->toArray() : null;
         $culture_name = !empty($culture_name) ? $culture_name[0]['title'] : 'Все рубрики';
 
         if($data['region'] != 'ukraine' && $data['region']) {
@@ -93,10 +96,9 @@ class CompanyController extends Controller
         }
 
         $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
-        $groups = $this->companyService->getRubricsGroup();
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
-
-        $breadcrumbs = $this->baseServices->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
+        $groups = $this->companyService->setRubricsGroup($region_id);
+        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
         return view('company.companies', [
             'companies' => $companies, 'regions' => $regions,
@@ -125,7 +127,8 @@ class CompanyController extends Controller
 
     public function companies(Request $request)
     {
-        $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies'];
+        $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
+
         if(!empty($request->get('query'))){
             $data_companies['query'] = $request->get('query');
             return $this->IsDesktopFilter($request);
@@ -134,6 +137,7 @@ class CompanyController extends Controller
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
         }
+
         return $this->setDataForCompanies($data_companies);
     }
 
@@ -146,7 +150,7 @@ class CompanyController extends Controller
      */
     public function companiesRegion(string $region, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies'];
+        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -170,8 +174,7 @@ class CompanyController extends Controller
      */
     public function companiesRegionRubric(string $region, $rubric_id, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies',
-            'rubric_id' => $rubric_id];
+        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => $rubric_id];
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -195,7 +198,7 @@ class CompanyController extends Controller
     public function companiesFilter(Request $request, $query = null)
     {
 
-        $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies'];
+        $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null];
 
         if(!empty($request->get('query'))){
             return $this->IsDesktopFilter($request);
@@ -240,19 +243,19 @@ class CompanyController extends Controller
         $meta = $this->seoService->getMetaForOneCompany($id);
 
         return view('company.company', [
-            'company' => $this->company,
-            'id' => $id,
-            'port_culture' => $port_culture,
-            'port_place' => $port_place,
-            'port_price' => $port_price,
-            'region_culture' => $region_culture,
-            'region_place' => $region_place,
-            'region_price' => $region_price,
-            'meta' => $meta,
-            'updateDate' => $updateDate,
-            'current_page' => 'main',
-            'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
+                'company' => $this->company,
+                'id' => $id,
+                'port_culture' => $port_culture,
+                'port_place' => $port_place,
+                'port_price' => $port_price,
+                'region_culture' => $region_culture,
+                'region_place' => $region_place,
+                'region_price' => $region_price,
+                'meta' => $meta,
+                'updateDate' => $updateDate,
+                'current_page' => 'main',
+                'isMobile' => $this->agent->isMobile(),
+                'page_type' => 0
             ]
         );
     }
@@ -287,9 +290,9 @@ class CompanyController extends Controller
                     $query->where([['acttype', $type], ['buyer_id', $user]])
                         ->with(['traders_places' => function($query)use($user, $placeType, $type){
                             $query->where([['buyer_id', $user], ['type_id', $placeType]]);
-                    }]);
+                        }]);
                 }]);
-        }])->get()->toArray();
+            }])->get()->toArray();
 
         foreach ($rubrics as $index_rubric => $rubric){
             $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
@@ -354,7 +357,7 @@ class CompanyController extends Controller
         ]);
     }
 
- public function createReviews(Request $request, $id)
+    public function createReviews(Request $request, $id)
     {
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
@@ -390,7 +393,7 @@ class CompanyController extends Controller
             'content_minus' => $request->get('content_minus')
         ]);
 
-      return redirect()->route('company.reviews', ['id_company' => $id]);
+        return redirect()->route('company.reviews', ['id_company' => $id]);
     }
 
     /**

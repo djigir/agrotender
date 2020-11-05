@@ -31,4 +31,5 @@ class TradersPorts2buyer extends Model
     {
         return $this->hasMany(TradersPorts2buyer::class, 'buyer_id', 'author_id');
     }
+
 }

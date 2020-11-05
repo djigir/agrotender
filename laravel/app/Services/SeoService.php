@@ -111,23 +111,39 @@ class SeoService
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
 
-    public function getTradersMetaForward($region, $culture, $port = null)
+    public function getTradersMetaForward($region, $culture, $port)
     {
-
-        if(empty($region)){
+        /*if(empty($region) || empty($port)){
             return false;
-        }
+        }*/
         $year = date('Y');
         $yearsText = $year . '-' . ($year + 1);
 
-        $h1 =  $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине" : "Форвардная цена на {$culture['name']} в {$culture['name']} области";
-        $title = $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине на {$yearsText}" : "Форвардная цена на {$culture['name']} в {$region['parental']} области на {$yearsText}";
-        $keywords = $region == "ukraine" ? "Форварды, цена, стоимость, экспорт, {$culture['name']}, Украина" : "Форварды, цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область";
-        $description = $region == "ukraine" ? "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров Украины. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}." : "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров {$region['name']} области. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}.";
-        $text = '';
-        if ($port != null) {
-            dd('f port');
+        if ($culture == null ) {
+            $h1 = $region == "ukraine" ? "Форвардная цена на Аграрную продукцию в Украине" : "Форвардная цена на Аграрную продукцию в {$region['name']} области";
+            $title = $region == "ukraine" ?  "Форвардная цена на Аграрную продукцию в Украине на {$yearsText}" : "Форвардная цена на Аграрную продукцию в {$region['parental']} области на {$yearsText}";
+            $keywords = $region == "ukraine" ?  "Форварды, цена, стоимость, экспорт, Аграрная продукция, Украина" : "Форварды, цена, стоимость, экспорт, Аграрная продукция, {$region['name']} область";
+            $description = $region == "ukraine" ?  "Актуальные форвардные цены на аграрную продукцию от крупнейших зернотрейдеров Украины. Стоимость аграрной продукции в гривне и долларе на {$yearsText}." :
+                "Актуальные форвардные цены на Аграрную продукцию от крупнейших зернотрейдеров {$region['name']} области. Стоимость Аграрной продукции в гривне и долларе на {$yearsText}.";
+            $text = '';
         }
+
+        if ($culture != null) {
+            $h1 =  $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине" : "Форвардная цена на {$culture['name']} в {$region['name']} области";
+            $title = $region == "ukraine" ? "Форвардная цена на {$culture['name']} в Украине на {$yearsText}" : "Форвардная цена на {$culture['name']} в {$region['parental']} области на {$yearsText}";
+            $keywords = $region == "ukraine" ? "Форварды, цена, стоимость, экспорт, {$culture['name']}, Украина" : "Форварды, цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область";
+            $description = $region == "ukraine" ? "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров Украины. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}." :
+                "Актуальные форвардные цены на {$culture['name']} от крупнейших зернотрейдеров {$region['name']} области. Стоимость {$culture['name']} в гривне и долларе на {$yearsText}.";
+            $text = '';
+        }
+       if ($port != null) {
+           $h1 =  $port == "all" ? "Форвардная цена на Аграрную продукцию в портах Украины" : "Форвардная цена на Аграрную продукцию в {$port['portname']}";
+           $title = $port == "all" ? "Форвардная цена на Аграрную продукцию в Украине на {$yearsText}" : "Форвардная цена на Аграрную продукцию в {$port['portname']} области на {$yearsText}";
+           $keywords = $port == "all" ? "Форварды, цена, стоимость, экспорт, Аграрная продукция, Украина" : "Форварды, цена, стоимость, экспорт, Аграрная продукцию, {$port['portname']} область";
+           $description = $port == "all" ? "Актуальные форвардные цены на на аграрную продукцию от крупнейших зернотрейдеров Украины. Стоимость аграрной продукции в гривне и долларе на {$yearsText}." :
+               "Актуальные форвардные цены на Аграрную продукцию от крупнейших зернотрейдеров {$port['portname']} области. Стоимость аграрной продукции в гривне и долларе на {$yearsText}.";
+           $text = '';
+       }
 
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];

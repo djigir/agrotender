@@ -4,38 +4,9 @@
 namespace App\Services;
 
 
-use App\Models\Regions\Regions;
-
-class BaseServices
+class BreadcrumbService
 {
-    public function getRegions()
-    {
-        return \Cache::get('REGIONS', function () {
-            return Regions::get();
-        })->push(['name' => 'Вся Украина', 'translit' => 'ukraine'])->toArray();
-    }
-
-    public function removeEmpty($array, $key)
-    {
-
-    }
-
-    public function new_unique($array, $key)
-    {
-        $temp_array = [];
-
-        foreach ($array as $v) {
-            if (!isset($temp_array[$v[$key]]))
-                $temp_array[$v[$key]] = $v;
-        }
-
-        $array = array_values($temp_array);
-
-        return $array;
-
-    }
-
-    /*public function setBreadcrumbsTraders($data)
+    public function setBreadcrumbsTraders($data)
     {
         $breadcrumbs_trad[0] = ['name' => !empty($data['region_translit']) ? 'Цены трейдеров в Украине' : 'Цена на Аграрную продукцию в портах Украины', 'url' => null];
 
@@ -48,7 +19,7 @@ class BaseServices
         {
             $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'. '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>',
                 'url' => !empty($data['region_translit']) ? route('traders.region', $data['region_translit']) :
-                route('traders.port', $data['port_translit'])];
+                    route('traders.port', $data['port_translit'])];
             $breadcrumbs_trad[1] = ['name' => !empty($data['region_translit']) ?
                 "Закупочная цена {$data['culture_name']} на сегодня в Украине" : "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
@@ -60,11 +31,11 @@ class BaseServices
 
             $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region_culture', ['ukraine', $data['culture']]) :
-                route('traders.port_culture', ['all', $data['culture']])];
+                    route('traders.port_culture', ['all', $data['culture']])];
 
             $breadcrumbs_trad[2] = ['name' =>
                 !empty($data['region_translit']) ? "Оптовые цены трейдеров на {$data['culture_name']} в {$data['region']['city_adverb']}" :
-                "Цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null];
+                    "Цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null];
         }
 
         return $breadcrumbs_trad;
@@ -143,5 +114,5 @@ class BaseServices
         }
 
         return $breadcrumbs_comp;
-    }*/
+    }
 }

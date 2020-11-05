@@ -42,6 +42,11 @@ class Traders_Products_Lang extends Model
     {
         return $this->hasMany(TradersPrices::class, 'cult_id', 'item_id');
     }
+
+    public function traders_feed()
+    {
+        return $this->hasMany(TraderFeed::class, 'rubric');
+    }
 }
 
 

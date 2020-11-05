@@ -1,5 +1,4 @@
 @if(isset($banner_body) && $banner_body)
-
 {{--    <div style="position: absolute; opacity: 1; height: 100%;">--}}
 
 {{--        <a href="{{$banner_body->ban_link}}" id="body{{$banner_body->id}}" class="sidesLink bodyBanners"--}}
@@ -34,7 +33,7 @@
 {{--    </div>--}}
 
     <div style="position: absolute; bottom: 0;">
-        <a href="{{$banner_body->ban_link}}">
+        <a href="{{$banner_body->ban_link}}" @if(strpos($banner_body->ban_link, "agrotender.com.ua")===false) target="_blank"@endif>
             <div id="left_banner" style="position:fixed; height: 100%;  z-index: 1;
             right: calc((100% - 978px) / 1.92 + 965px);
             top: 0;">
@@ -44,13 +43,11 @@
     </div>
 
     <div style="position: absolute; left: 76%; bottom: 0">
-        <a href="{{$banner_body->ban_link}}">
+        <a href="{{$banner_body ? $banner_body->ban_link : '#'}}" @if(strpos($banner_body ? $banner_body->ban_link : '', "agrotender.com.ua")===false) target="_blank" @endif>
             <div id="right_banner" style="position:fixed; height: 100%; top: 0; z-index: 1;
             left: calc((100% - 978px) / 1.92 + 965px); "></div>
         </a>
     </div>
-@endif
-
 
 <style>
     #left_banner{
@@ -83,3 +80,4 @@
     }
 
 </style>
+@endif

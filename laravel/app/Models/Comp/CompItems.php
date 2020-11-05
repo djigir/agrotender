@@ -5,6 +5,7 @@ namespace App\Models\Comp;
 use App\Models\ADV\AdvTorgPost;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
+use App\Models\Traders\TraderFeed;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPlaces;
 use App\Models\Traders\TradersPorts2buyer;
@@ -75,9 +76,13 @@ use Jenssegers\Date\Date;
  */
 class CompItems extends Model
 {
+    const PURCHASES_TYPE_ID = 1;
+    const SALES_TYPE_ID = 2;
+    const SERVICES_TYPE_ID = 3;
+
     protected $table = 'comp_items';
 
-    protected $appends = ['activities', 'purchases', 'sales', 'services', 'date', 'date_price'];
+    protected $appends = ['date', 'date_price', 'activities_text'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -98,30 +103,55 @@ class CompItems extends Model
 
 
     /* Accessor */
-    public function getActivitiesAttribute()
+    public function activities()
     {
-        $activities = CompTopicItem::where('item_id', $this->id)
-            ->join('comp_topic', 'comp_item2topic.topic_id', '=', 'comp_topic.id')
-            ->pluck('title');
-
-        return implode(',', $activities->toArray());
+        return $this->belongsToMany(CompTopic::class, 'comp_item2topic',
+            'item_id', 'topic_id', 'id');
     }
 
-    public function getPurchasesAttribute()
+    /* Accessor */
+    public function getActivitiesTextAttribute()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 1], ['author_id', '=', $this->author_id]])->count();
-    }
+        $activities = $this->activities->pluck('title');
 
-
-    public function getSalesAttribute()
-    {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 2], ['author_id', '=', $this->author_id]])->count();
+        return trim(implode(',', $activities->toArray()));
     }
 
 
-    public function getServicesAttribute()
+    public function purchases()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 3], ['author_id', '=', $this->author_id]])->count();
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::PURCHASES_TYPE_ID
+                ]
+            );
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::SALES_TYPE_ID
+                ]
+            );
+    }
+
+    public function services()
+    {
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::SERVICES_TYPE_ID
+                ]
+            );
     }
 
     public function getDateAttribute()
@@ -182,6 +212,11 @@ class CompItems extends Model
     public function traders_products2_buyer()
     {
         return $this->hasMany(TradersProducts2buyer::class, 'buyer_id', 'author_id');
+    }
+
+    public function trader_feed()
+    {
+        return $this->belongsTo(TraderFeed::class, 'user');
     }
 
 }
