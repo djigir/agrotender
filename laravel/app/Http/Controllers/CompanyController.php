@@ -247,7 +247,7 @@ class CompanyController extends Controller
 //        $this->companyService->getPriceRegionsPorts($id, 0);
 
 
-
+        //dd($region_culture, $region_place, $region_price);
         $meta = $this->seoService->getMetaForOneCompany($id);
        //dd($port_culture, $port_place, $port_price);
         return view('company.company', [

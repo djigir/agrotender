@@ -16,10 +16,10 @@
             @include('company.tables.company-port-table2')
         @endif
 
-{{--        @if(!empty($region_place))--}}
+        @if(!empty($region_place))
 {{--            @include('company.tables.company-region-table')--}}
-{{--            @include('company.tables.company-region-table2')--}}
-{{--        @endif--}}
+            @include('company.tables.company-region-table2')
+        @endif
         <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
             {!! $company['content'] !!}

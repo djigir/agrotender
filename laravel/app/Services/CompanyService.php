@@ -108,6 +108,7 @@ class CompanyService
 
     public function getPrices($author_id, $type, $placeType)
     {
+
         $prices = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
             'traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
@@ -142,11 +143,15 @@ class CompanyService
         }
 
         $places = TradersPlaces::whereIn('id', $place_id)
-            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')
-            ->orderBy('obl_id', 'asc')
-            ->orderBy('place', 'asc')
-            ->get()
-            ->toArray();
+            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get()->toArray();
+
+        $sortBy = 'region.id';
+
+        if($placeType == 2){
+            $sortBy = 'port.lang.portname';
+        }
+
+        $places = collect($places)->sortBy($sortBy)->toArray();
 
         return ['prices' => $prices, 'places'=> $places];
     }
