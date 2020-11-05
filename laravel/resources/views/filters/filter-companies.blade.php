@@ -81,11 +81,13 @@
                                         <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"
                                            href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
+                                            <span class="companyCount small">({{$region['count_items']}})</span>
                                         </a>
                                     @else
                                         <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : ''}}"
                                            href="{{route('company.region', $region['translit'])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
+                                            <span class="companyCount small">({{$region['count_items']}})</span>
                                         </a>
                                     @endif
                                 @endforeach

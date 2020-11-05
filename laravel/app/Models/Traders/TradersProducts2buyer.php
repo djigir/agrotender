@@ -37,4 +37,9 @@ class TradersProducts2buyer extends Model
     {
         return $this->belongsTo(CompItems::class, 'author_id', 'buyer_id');
     }
+
+    public function traders_prices()
+    {
+        return $this->hasMany(TradersPrices::class, 'cult_id', 'cult_id');
+    }
 }

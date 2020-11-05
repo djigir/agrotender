@@ -79,8 +79,14 @@ class TradersPrices extends Model
     }
 
 
-    public function price_products()
+//    public function price_products()
+//    {
+//        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
+//    }
+
+
+    public function traders_products_buyer()
     {
-        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
+        return $this->belongsTo(TradersProducts2buyer::class, 'id', 'cult_id');
     }
 }

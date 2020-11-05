@@ -5,6 +5,7 @@ namespace App\Models\Comp;
 use App\Models\ADV\AdvTorgPost;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
+use App\Models\Traders\TraderFeed;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPlaces;
 use App\Models\Traders\TradersPorts2buyer;
@@ -75,9 +76,14 @@ use Jenssegers\Date\Date;
  */
 class CompItems extends Model
 {
+    const PURCHASES_TYPE_ID = 1;
+    const SALES_TYPE_ID = 2;
+    const SERVICES_TYPE_ID = 3;
+
+
     protected $table = 'comp_items';
 
-    protected $appends = ['activities', 'purchases', 'sales', 'services', 'date', 'date_price'];
+    protected $appends = ['date', 'date_price', 'activities_text'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -94,43 +100,65 @@ class CompItems extends Model
 
     protected $dates = ['add_date'];
 
-    /* Mutations */
-
+    public function activities()
+    {
+        return $this->belongsToMany(CompTopic::class, 'comp_item2topic',
+            'item_id', 'topic_id', 'id');
+    }
 
     /* Accessor */
-    public function getActivitiesAttribute()
+    public function getActivitiesTextAttribute()
     {
-        $activities = CompTopicItem::where('item_id', $this->id)
-            ->join('comp_topic', 'comp_item2topic.topic_id', '=', 'comp_topic.id')
-            ->pluck('title');
+        $activities = $this->activities->pluck('title');
 
-        return implode(',', $activities->toArray());
-    }
-
-    public function getPurchasesAttribute()
-    {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 1], ['author_id', '=', $this->author_id]])->count();
+        return trim(implode(',', $activities->toArray()));
     }
 
 
-    public function getSalesAttribute()
+    public function purchases()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 2], ['author_id', '=', $this->author_id]])->count();
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::PURCHASES_TYPE_ID
+                ]
+            );
     }
 
-
-    public function getServicesAttribute()
+    public function sales()
     {
-        return AdvTorgPost::where([['active', 1], ['archive', 0], ['moderated', 1], ['type_id', 3], ['author_id', '=', $this->author_id]])->count();
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::SALES_TYPE_ID
+                ]
+            );
     }
+
+    public function services()
+    {
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
+            ->where([
+                    'active' => 1,
+                    'archive' => 0,
+                    'moderated' => 1,
+                    'type_id' => self::SERVICES_TYPE_ID
+                ]
+            );
+    }
+
 
     public function getDateAttribute()
     {
-        if($this->add_date===null){
+        if ($this->add_date === null) {
             return '';
         }
 
-        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
+        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(), true);
     }
 
     public function getDatePriceAttribute()
@@ -144,25 +172,25 @@ class CompItems extends Model
         return $this->hasMany(TorgBuyer::class, 'author_id');
     }
 
-    public function traders_culture()
-    {
-        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
-    }
-
-    public function traders_places()
-    {
-        return $this->hasOne(TradersPlaces::class, 'id');
-    }
-
     public function traders_prices()
     {
         return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
 
-    public function comp_items_rubrics()
+
+    public function traders_places()
     {
-        return $this->belongsTo(CompTopicItem::class, 'item_id', 'id');
+        return $this->belongsToMany(TradersPlaces::class, 'traders_prices',
+            'buyer_id', 'place_id', 'author_id', 'id')->groupBy('place_id');
     }
+
+
+    public function traders_prices_traders()
+    {
+//        ->groupBy('place_id')
+        return $this->traders_prices()->where('acttype', 0);
+    }
+
 
     public function comp_items_contact()
     {
@@ -183,5 +211,4 @@ class CompItems extends Model
     {
         return $this->hasMany(TradersProducts2buyer::class, 'buyer_id', 'author_id');
     }
-
 }

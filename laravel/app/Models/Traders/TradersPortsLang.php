@@ -33,6 +33,6 @@ class TradersPortsLang extends Model
 
     public function traders_ports()
     {
-        return $this->belongsTo(TradersPorts::class, 'id');
+        return $this->belongsTo(TradersPorts::class, 'id', 'port_id');
     }
 }

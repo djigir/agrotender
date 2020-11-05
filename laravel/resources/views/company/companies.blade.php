@@ -73,20 +73,20 @@
                             <div class="col">
                                 <span class="a-bold d-none d-sm-inline-block">Виды деятельности:</span>
                                 <span class="activities d-none d-sm-block"
-                                      @if(strlen($company['activities']) > 75)
+                                      @if(strlen($company['activities_text']) > 75)
                                       data-toggle="tooltip"
                                       data-placement="top"
-                                      title="{{$company['activities']}}"
+                                      title="{{$company['activities_text']}}"
                                       @endif aria-describedby="tooltip">
-                                    {{ \Illuminate\Support\Str::limit($company['activities'], 75, $end='...') }}
+                                    {{ \Illuminate\Support\Str::limit($company['activities_text'], 75, $end='...') }}
                                 </span>
                                 <span class="activities d-block d-sm-none"
-                                      @if(strlen($company['activities']) > 57)
+                                      @if(strlen($company['activities_text']) > 57)
                                       data-toggle="tooltip"
                                       data-placement="top"
-                                      title="{{$company['activities']}}"
+                                      title="{{$company['activities_text']}}"
                               @endif>
-                            {{ \Illuminate\Support\Str::limit($company['activities'], 57, $end='...') }}
+                            {{ \Illuminate\Support\Str::limit($company['activities_text'], 57, $end='...') }}
                         </span>
                             </div>
                         </div>
@@ -96,17 +96,17 @@
                                     <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                                 @endif
 
-                                @if($company['purchases'] > 0)
-                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
-                                @endif
+{{--                                @if($company['purchases'] > 0)--}}
+{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
+{{--                                @endif--}}
 
-                                @if($company['sales'] > 0)
-                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
-                                @endif
+{{--                                @if($company['sales'] > 0)--}}
+{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>--}}
+{{--                                @endif--}}
 
-                                @if($company['services'] > 0)
-                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
-                                @endif
+{{--                                @if($company['services'] > 0)--}}
+{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>--}}
+{{--                                @endif--}}
                             </div>
                         </div>
                     </div>
@@ -131,15 +131,15 @@
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
                             <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                         @endif
-                        @if($company['purchases'] > 0)
-                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>
-                        @endif
-                        @if($company['sales'] > 0)
-                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>
-                        @endif
-                        @if($company['services'] > 0)
-                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>
-                        @endif
+{{--                        @if($company['purchases'] > 0)--}}
+{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
+{{--                        @endif--}}
+{{--                        @if($company['sales'] > 0)--}}
+{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>--}}
+{{--                        @endif--}}
+{{--                        @if($company['services'] > 0)--}}
+{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>--}}
+{{--                        @endif--}}
                     </div>
                 </div>
             </div>

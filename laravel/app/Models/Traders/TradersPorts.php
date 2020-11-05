@@ -28,16 +28,20 @@ class TradersPorts extends Model
 
     public function getLangAttribute()
     {
-        if ($this->relationLoaded('traders_ports_lang')) {
-            return $this->traders_ports_lang->first();
-        }
-        $lang = TradersPortsLang::where('port_id', $this->id)->select('id', 'port_id', 'portname')->get()->toArray();
-        return !empty($lang) ? $lang[0] : [];
+        //return TradersPortsLang::where('port_id', $this->id)->select('id', 'port_id', 'portname')->get()->toArray()[0];
+//        if ($this->relationLoaded('traders_ports_lang')) {
+//
+//        }
+
+        return \Cache::get('PORTS_LANG', function (){
+            return TradersPortsLang::where('port_id', $this->id)->select('id', 'port_id', 'portname')->get()->toArray()[0];
+        });
+
     }
 
     public function traders_ports_lang()
     {
-        return $this->hasMany(TradersPortsLang::class, 'port_id');
+        return $this->hasMany(TradersPortsLang::class, 'port_id', 'id');
     }
 
     public function traders_places()
