@@ -2707,7 +2707,7 @@
                     "email": "fabien@symfony.com"
                 },
                 {
-                    "name": "Jean-François Simon",
+                    "name": "Jean-Fran?ois Simon",
                     "email": "jeanfrancois.simon@sensiolabs.com"
                 },
                 {
@@ -4646,8 +4646,6 @@
             "time": "2020-09-07T19:32:39+00:00"
         },
         {
-<<<<<<< HEAD
-=======
             "name": "barryvdh/laravel-ide-helper",
             "version": "v2.8.1",
             "source": {
@@ -5072,7 +5070,6 @@
             "time": "2020-10-24T12:39:10+00:00"
         },
         {
->>>>>>> 7228b578e2add67ae30d735581a79c8f41dd126e
             "name": "doctrine/instantiator",
             "version": "1.3.1",
             "source": {
@@ -5404,7 +5401,7 @@
             ],
             "authors": [
                 {
-                    "name": "François Zaninotto"
+                    "name": "Fran?ois Zaninotto"
                 }
             ],
             "description": "Faker is a PHP library that generates fake data for you.",
@@ -5563,7 +5560,7 @@
             ],
             "authors": [
                 {
-                    "name": "Pádraic Brady",
+                    "name": "P?draic Brady",
                     "email": "padraic.brady@gmail.com",
                     "homepage": "http://blog.astrumfutura.com"
                 },
