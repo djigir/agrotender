@@ -13,6 +13,7 @@ use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
 use App\Services\BaseServices;
+use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
@@ -23,13 +24,15 @@ class TraderService
 {
     protected $companyService;
     protected $baseService;
+    protected $breadcrumbService;
     protected $treders;
     protected $groups;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseService)
+    public function __construct(CompanyService $companyService, BaseServices $baseService, BreadcrumbService $breadcrumbService)
     {
         $this->companyService = $companyService;
         $this->baseService = $baseService;
+        $this->breadcrumbService = $breadcrumbService;
         $this->treders = null;
         $this->groups = null;
     }
@@ -77,12 +80,13 @@ class TraderService
         $breadcrumbs = $this->baseService->setBreadcrumbsTraders($data_breadcrumbs);
 
         if (isset($data['forwards'])) {
-            $breadcrumbs = $this->baseService->setBreadcrumbsTradersForward($data_breadcrumbs);
+            $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
             $type_traders = 1;
         }
 
+
         if (isset($data['sell'])) {
-            $breadcrumbs = $this->baseService->setBreadcrumbsTradersSell($data_breadcrumbs);
+            $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersSell($data_breadcrumbs);
             $type_traders = 2;
         }
 
@@ -90,6 +94,7 @@ class TraderService
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
     }
+
 
 
     public function getCurrencies()

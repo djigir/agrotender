@@ -47,5 +47,13 @@ class TraderFeed extends Model
         return $this->belongsTo(CompItems::class, 'author_id');
     }
 
+    public function compItems()
+    {
+        return $this->hasMany(CompItems::class, 'author_id');
+    }
 
+    public function product_lang()
+    {
+        return $this->belongsTo(Traders_Products_Lang::class, 'id');
+    }
 }

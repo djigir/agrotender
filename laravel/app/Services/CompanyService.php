@@ -115,7 +115,7 @@ class CompanyService
             ->with(['traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
-        ])->get()->groupBy(['place_id']);
+            ])->get()->groupBy(['place_id']);
 
 
         foreach ($prices as $index => $price)
@@ -176,10 +176,10 @@ class CompanyService
     public function getCultures($author_id, $type, $placeType)
     {
         $cultures = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])->with(
-                ['traders_prices' => function ($query) use ($type, $author_id, $placeType) {
-                        $query->where([['buyer_id', $author_id], ['acttype', $type]]);
-                    }
-                ]
+            ['traders_prices' => function ($query) use ($type, $author_id, $placeType) {
+                $query->where([['buyer_id', $author_id], ['acttype', $type]]);
+            }
+            ]
         )->get()->toArray();
 
 
@@ -551,9 +551,9 @@ class CompanyService
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
             ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-            'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
-            'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-            'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
+                'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
+                'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
+                'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
 
         return $companies->paginate(self::PER_PAGE);
     }

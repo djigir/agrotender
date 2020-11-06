@@ -71,7 +71,7 @@
                 </a>
                 <div class="scroll">
                     @if($region)
-                        @if($culture_translit && $region && $type_traders != 1)
+                        @if($type_traders != 1)
                             <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_forward.region_culture', [$region , $culture_translit]) :  route('traders_forward.region',  $region)}}">
                                 <span>Форварды</span>
                                 <span><i class="far fa-chevron-right"></i></span>
@@ -91,7 +91,7 @@
                         @endif
                     @endif
                     @if($port)
-                        @if($culture_translit && $port && $type_traders != 1)
+                        @if($type_traders != 1)
                             <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_forward.port_culture', [$port , $culture_translit]) : route('traders_forward.port',  $port)}}">
                                 <span>Форварды</span>
                                 <span><i class="far fa-chevron-right"></i></span>

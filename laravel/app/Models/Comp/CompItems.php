@@ -85,7 +85,8 @@ class CompItems extends Model
 
     protected $table = 'comp_items';
 
-    protected $appends = ['date', 'date_price', 'activities_text', 'culture_prices', 'places'];
+    protected $appends = ['date', 'date_price', 'activities_text'];
+
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -123,8 +124,6 @@ class CompItems extends Model
         if (!$this->relationLoaded('traders_places')) {
             return [];
         }
-
-
         return $this->traders_places->unique('id');
     }
 
@@ -250,4 +249,10 @@ class CompItems extends Model
     {
         return $this->hasMany(TradersProducts2buyer::class, 'buyer_id', 'author_id');
     }
+
+    public function trader_feed()
+    {
+        return $this->belongsTo(TraderFeed::class, 'user');
+    }
+
 }

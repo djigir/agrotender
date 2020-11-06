@@ -130,9 +130,9 @@
             @include('mobile.filters.mobile-filter-traders')
         @endif
     @endif
-    @if(!isset($id))
-        @include('partials.header-scroll')
-    @endif
+{{--    @if(!isset($id))--}}
+{{--        @include('partials.header-scroll')--}}
+{{--    @endif--}}
     <style>
         .remove-input{
             position: absolute;

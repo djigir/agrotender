@@ -57,12 +57,12 @@
                         Назад
                     </span>
                 </span>
+
                 <div class="scroll">
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$rubricGroup['id']}}">
                                 <span>{{$rubricGroup['title']}}</span>
-
                                 <span><i class="far fa-chevron-right"></i></span>
                             </span>
                         @endforeach
@@ -104,8 +104,10 @@
                             <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ $region['translit'] }}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                     <span style="color: #1e56b2">{{$region['name']}}</span>
+                                    <span class="companyCount small">({{$region['count_items']}})</span>
                                 @else
                                     <span style="color: #1e56b2">{{$region['name']}} область</span>
+                                    <span class="companyCount small">({{$region['count_items']}})</span>
                                 @endif
                                 <span>
                                     <i class="far fa-chevron-right"></i>

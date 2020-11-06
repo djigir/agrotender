@@ -39,7 +39,7 @@ class Controller extends BaseController
             ->first();
 
         $banner_body = BannerRotate::where('dt_start' ,'<=', Carbon::now())
-            ->where('dt_end', '>=' ,Carbon::now()->addDay(-10))
+            ->where('dt_end', '>=' ,Carbon::now())
             ->where('archive', '=' ,'0')
             ->where('inrotate', '=' ,'1')
             ->where('place_id', '=' ,BannerRotate::TYPE_BODY)

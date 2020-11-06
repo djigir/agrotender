@@ -16,6 +16,7 @@ use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Torg\TorgBuyer;
+use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
@@ -33,15 +34,17 @@ class CompanyController extends Controller
 
     protected $companyService;
     protected $baseServices;
+    protected $breadcrumbService;
     protected $seoService;
     protected $agent;
     protected $company;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
     {
         parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->company = null;
         $this->agent = new \Jenssegers\Agent\Agent;
@@ -95,7 +98,7 @@ class CompanyController extends Controller
         $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
         $groups = $this->companyService->setRubricsGroup($region_id);
-        $breadcrumbs = $this->baseServices->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
+        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
         return view('company.companies', [
             'companies' => $companies, 'regions' => $regions,
@@ -267,6 +270,7 @@ class CompanyController extends Controller
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
+
             ]
         );
     }
@@ -301,9 +305,9 @@ class CompanyController extends Controller
                     $query->where([['acttype', $type], ['buyer_id', $user]])
                         ->with(['traders_places' => function($query)use($user, $placeType, $type){
                             $query->where([['buyer_id', $user], ['type_id', $placeType]]);
-                    }]);
+                        }]);
                 }]);
-        }])->get()->toArray();
+            }])->get()->toArray();
 
         foreach ($rubrics as $index_rubric => $rubric){
             $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
@@ -368,7 +372,7 @@ class CompanyController extends Controller
         ]);
     }
 
- public function createReviews(Request $request, $id)
+    public function createReviews(Request $request, $id)
     {
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
@@ -404,7 +408,7 @@ class CompanyController extends Controller
             'content_minus' => $request->get('content_minus')
         ]);
 
-      return redirect()->route('company.reviews', ['id_company' => $id]);
+        return redirect()->route('company.reviews', ['id_company' => $id]);
     }
 
     /**
