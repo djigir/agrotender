@@ -215,6 +215,7 @@ class Utils extends \Core\Model {
     $sms_path = "members/sms/xml.php";
     $sms = new \Core\SmsAPI($sms_host, $sms_login, $sms_pass, $sms_path);
     // send sms
+      // убрать комменты для работы смс
 //    $sms->sendRequest("send", ['phones' => [$phone], 'sender' => $sms_sender, 'msg' => $message]);
       if ($sms->request_status > 0) {
       // add to logs

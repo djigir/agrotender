@@ -273,13 +273,13 @@ class TraderService
                             }
                         }
                     ],
-                    [
+                   /* [
                         function ($check) use ($culture, $obl_id, $port_id) {
                             if ($culture) {
                                 $check->where('cult_id', $culture);
                             }
                         }
-                    ]
+                    ]*/
                 ])->with(['traders_places' => function ($check) use ($obl_id, $port_id) {
                     if($obl_id != null || $port_id != null){
                         $check->where([
