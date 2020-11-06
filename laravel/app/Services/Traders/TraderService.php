@@ -271,6 +271,7 @@ class TraderService
 
     public function getTradersRegionPortCulture($data)
     {
+        \DB::enableQueryLog();
         $port_id = ($data['port'] && $data['port'] != 'all') ? TradersPorts::where('url',
             $data['port'])->value('id') : null;
         $obl_id = ($data['region'] && $data['region'] != 'ukraine') ? Regions::where('translit',
@@ -279,8 +280,9 @@ class TraderService
         $culture = $data['culture'] ? TradersProducts::where('url', $data['culture'])->value('id') : null;
 
         $currency = ($data['query'] && isset($data['query']['currency'])) ? (int) $data['query']['currency'] : 2;
-        \DB::enableQueryLog();
+
         /** @var Builder $traders */
+
         $traders = $this->treders;
 
         if ($culture) {
@@ -300,9 +302,7 @@ class TraderService
             }
         }
 
-        $traders = $traders->with(['traders_prices_traders' => function($query){
-
-        }, 'traders_places'])
+        $traders = $traders->with('traders_prices_traders', 'traders_places')
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->orderBy('trader_premium', 'desc')
@@ -311,7 +311,7 @@ class TraderService
             ->orderBy('title')
             ->get()
             ->toArray();
-//        dd(\DB::getQueryLog());
+        dd(\DB::getQueryLog());
 //
 
 //        foreach ($traders as $index_tr => $trader){

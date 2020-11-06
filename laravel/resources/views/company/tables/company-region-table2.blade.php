@@ -48,7 +48,7 @@
             </table>
         </div>
 
-        <div class="tableSecond ">
+        <div class="tableSecond">
             <div class="tableScroll orange">
                 <table class="sortTable orange price-table regions-table" style="left: -240px; width: calc(100% + 240px)">
                     <thead>
