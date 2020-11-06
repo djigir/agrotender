@@ -101,7 +101,8 @@ class CompanyController extends Controller
         $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
         return view('company.companies', [
-            'companies' => $companies, 'regions' => $regions,
+            'companies' => $companies,
+            'regions' => $regions,
             'rubricGroups' => $groups,
             'region_name' => $region_name,
             'region' => empty($data['region']) ? 'ukraine' : $data['region'],
