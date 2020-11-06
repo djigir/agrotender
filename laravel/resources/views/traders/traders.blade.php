@@ -34,9 +34,9 @@
             @if(!empty($traders))
                 <div class="new_traders">
                     @foreach($traders as $trader)
-                        <div class="traders__item-wrap">
-                            <a href="{{route('company.index', $trader['id']) }}"
-                               class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}}">
+                        @if($trader->culture_prices->count() > 0)
+                            <div class="traders__item-wrap">
+                            <a href="{{route('company.index', $trader['id']) }}" class="traders__item {{($trader['trader_premium'] == 1 ? 'yellow' : '')}}">
                                 <div class="traders__item__header">
                                     <img class="traders__item__image" src="{{ $trader['logo_file'] }}" alt="">
                                 </div>
@@ -45,19 +45,18 @@
                                         {{ $trader['title'] }}
                                     </div>
                                     @if(!$culture_translit)
-                                        @foreach($trader['traders_prices'] as $index => $price_culture)
+                                        @foreach($trader['culture_prices'] as $index => $price_culture)
                                             <div class="traders__item__content-description">
                                                 @if($index < 2)
                                                     <p class="traders__item__content-p">
-                                                    <span
-                                                        class="traders__item__content-p-title">{{ $price_culture['culture']['name'] }}</span>
+                                                    <span class="traders__item__content-p-title">{!! isset($price_culture['cultures'][0]) ? $price_culture['cultures'][0]['name'] : '' !!}</span>
                                                         <span class="right">
-                                                  <span
-                                                      class="traders__item__content-p-price ">{{$price_culture['curtype'] == 1 ? '$ ' : ''}}{{ round($price_culture['costval'], 1) }}</span>
-                                                  <span class="traders__item__content-p-icon">
-                                                    {{--  <img src="/app/assets/img/price-not-changed.svg">  --}}
-                                                  </span>
-                                                </span>
+                                                          <span
+                                                              class="traders__item__content-p-price ">{{$price_culture['curtype'] == 1 ? '$ ' : ''}}{{ round($price_culture['costval'], 1) }}</span>
+                                                          <span class="traders__item__content-p-icon">
+                                                            {{--  <img src="/app/assets/img/price-not-changed.svg">  --}}
+                                                          </span>
+                                                        </span>
                                                     </p>
                                                 @endif
                                             </div>
@@ -88,6 +87,7 @@
                                 </div>
                             </a>
                         </div>
+                        @endif
                     @endforeach
                 </div>
             @endif
