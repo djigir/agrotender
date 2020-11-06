@@ -42,16 +42,11 @@
                                 </td>
                             @endif
                             @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
-                                @if(isset($port_price[$place['id']][$data_port['cult_id']][1][0]['costval']))
                                 <td class="port-USD" style="{{$statusCurtypePort == 'USD' ? '' : 'display: none'}}">
                                     <div class="d-flex align-items-center justify-content-center lh-1">
                                         <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                     </div>
                                 </td>
-                                @else
-                                    <td></td>
-                                @endif
-
                             @endif
                         @else
                             <td></td>

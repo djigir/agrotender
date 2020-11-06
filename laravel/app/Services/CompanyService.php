@@ -165,7 +165,7 @@ class CompanyService
             ->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get()->toArray();
 
         $sortBy = 'region.id';
-        dd($places);
+
         if($placeType == 2){
             $sortBy = 'port.lang.portname';
         }
