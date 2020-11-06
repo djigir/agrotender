@@ -77,7 +77,7 @@ class TraderService
 
         $this->InitQuery($data);
 
-        $breadcrumbs = $this->baseService->setBreadcrumbsTraders($data_breadcrumbs);
+        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders($data_breadcrumbs);
 
         if (isset($data['forwards'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
