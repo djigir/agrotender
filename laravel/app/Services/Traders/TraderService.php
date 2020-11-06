@@ -318,7 +318,7 @@ class TraderService
         $traders = $traders
             ->with(
                 'traders_prices_traders.cultures',
-                'traders_places.traders_prices'
+                'traders_places'
             )
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
@@ -327,13 +327,13 @@ class TraderService
             ->orderBy('trader_sort')
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
-            ->first();
-//            ->toArray();
+            ->get()
+            ->toArray();
 //        dd(\DB::getQueryLog());
 //
 
 
-        dd($traders);
+        dd($traders[0]);
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
