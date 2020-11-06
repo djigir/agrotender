@@ -426,7 +426,8 @@ class CompanyService
 
     public function setCompanies()
     {
-        $this->companies = CompItems::with('activities')->where('comp_items.visible', 1);
+        $this->companies = CompItems::with('activities')
+            ->where('comp_items.visible', 1);
     }
 
 
@@ -500,7 +501,8 @@ class CompanyService
         }
 
         if($region_id) {
-            $company = $this->companies->where('comp_items.obl_id', $region_id)
+            $company = $this->companies
+                ->where('comp_items.obl_id', $region_id)
                 ->select('comp_items.id', 'comp_items.author_id','comp_item2topic.topic_id')
                 ->get()->groupBy('topic_id');
 

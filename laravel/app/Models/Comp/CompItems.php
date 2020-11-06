@@ -212,8 +212,7 @@ class CompItems extends Model
     public function traders_prices_traders()
     {
         return $this->traders_prices()
-            ->where('acttype', 0)
-            ;
+            ->where('acttype', 0);
     }
 
 
