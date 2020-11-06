@@ -321,9 +321,7 @@ class TraderService
 //        dd(\DB::getQueryLog());
 //
 
-//        foreach ($traders as $index_tr => $trader){
-//            $traders[$index_tr]['traders_prices_traders'] = collect($traders[$index_tr]['traders_prices_traders'])->sortBy('culture.name')->unique('cult_id')->slice(0, 2)->toArray();
-//        }
+
 
 
         dd($traders[2], $traders[28]);
