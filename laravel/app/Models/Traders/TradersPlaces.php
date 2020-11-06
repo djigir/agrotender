@@ -33,18 +33,16 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
-    protected $appends = ['region', 'port'];
+    protected $appends = [ 'region','port'];
 
     public function getRegionAttribute()
     {
-        $region = Regions::where('id', $this->obl_id)->select('id', 'name', 'parental')->get()->toArray();
-        return !empty($region) ? $region[0] : [];
+        return $this->regions->first()->toArray();
     }
 
     public function getPortAttribute()
     {
-        $port = TradersPorts::where('id', $this->port_id)->get()->toArray();
-        return !empty($port) ? $port[0] : [];
+        return $this->traders_ports->toArray();
     }
 
     public function traders_prices()
@@ -54,7 +52,8 @@ class TradersPlaces extends Model
 
     public function traders_ports()
     {
-        return $this->hasMany(TradersPorts::class, 'id', 'port_id');
+        return $this->hasMany(TradersPorts::class, 'id', 'port_id')
+            ->with('traders_ports_lang');
     }
 
     public function regions()
