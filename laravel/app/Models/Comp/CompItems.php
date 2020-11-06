@@ -205,8 +205,7 @@ class CompItems extends Model
             TradersPlaces::class, 'traders_prices',
             'buyer_id', 'place_id',
             'author_id', 'id')
-            ->with('traders_ports')
-            ->groupBy('place_id');
+            ->with('traders_ports');
     }
 
 
@@ -214,7 +213,7 @@ class CompItems extends Model
     {
         return $this->traders_prices()
             ->where('acttype', 0)
-            ->groupBy('place_id');
+            ;
     }
 
 

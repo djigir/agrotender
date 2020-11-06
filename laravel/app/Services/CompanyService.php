@@ -116,7 +116,9 @@ class CompanyService
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
         ])->get()->groupBy(['place_id'])->toArray();
-        //dd($prices);
+
+
+
         foreach ($prices as $index => $price)
         {
             $check_curtype = array_merge($check_curtype, collect($prices[$index])->pluck('curtype')->toArray());
@@ -163,13 +165,13 @@ class CompanyService
             ->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get()->toArray();
 
         $sortBy = 'region.id';
-
+        dd($places);
         if($placeType == 2){
             $sortBy = 'port.lang.portname';
         }
 
         $places = collect($places)->sortBy($sortBy)->toArray();
-
+        //dd($prices);
         return ['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype];
     }
 

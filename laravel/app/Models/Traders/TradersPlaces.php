@@ -33,7 +33,7 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
-    protected $appends = [ 'region','port'];
+    protected $appends = ['region','port'];
 
     public function getRegionAttribute()
     {

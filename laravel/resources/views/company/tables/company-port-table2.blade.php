@@ -29,7 +29,7 @@
             @foreach($port_place as $index => $place)
                 <tr>
                     <td class="py-1">
-                        <span class="place-title">{{$place['port']['lang']['portname']}}</span>
+                        <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
                         <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                     </td>
                     @foreach($port_culture as $index => $data_port)
@@ -79,7 +79,7 @@
                 @foreach($port_place as $index => $place)
                     <tr>
                         <td class="py-1">
-                            <span class="place-title">{{$place['port']['lang']['portname']}}</span>
+                            <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
                             <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                         </td>
                         @foreach($port_culture as $index => $data_port)
@@ -127,7 +127,7 @@
             @foreach($port_place as $index => $place)
                 <tr>
                     <td class="py-1">
-                        <span class="place-title">{{$place['port']['lang']['portname']}}</span>
+                        <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
                         <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                     </td>
                     @foreach($port_culture as $index => $data_port)

@@ -272,7 +272,6 @@ class TraderService
     public function getTradersRegionPortCulture($data)
     {
 
-
         /** @var Builder $traders */
 
         $traders = $this->treders;
@@ -326,7 +325,7 @@ class TraderService
 //        }
 
 
-        dd($traders[2]);
+        dd($traders[2], $traders[28]);
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
