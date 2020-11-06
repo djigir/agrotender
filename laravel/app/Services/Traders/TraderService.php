@@ -8,6 +8,7 @@ use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
+use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
@@ -271,27 +272,28 @@ class TraderService
 
     public function getTradersRegionPortCulture($data)
     {
-
-
         /** @var Builder $traders */
-
         $traders = $this->treders;
+        $criteria_places = [];
+        $criteria_prices = [];
         $port_id = null;
+
         if ($data['port'] && $data['port'] != 'all') {
             $port_id = TradersPorts::where('url',
                 $data['port'])->value('id');
-            $traders = $traders->where([['port_id', $port_id], ['port_id', '!=', 0]]);
+            $criteria_places[] = ['port_id', $port_id];
+            $criteria_places[] = ['port_id', '!=', 0];
         }
         $obl_id = null;
         if ($data['region'] && $data['region'] != 'ukraine') {
             $obl_id = Regions::where('translit', $data['region'])->value('id');
-            $traders = $traders->where('obl_id', $obl_id);
+            $criteria_places[] = ['obl_id', $obl_id];
         }
 
         $culture = null;
         if ($data['culture']) {
             $culture = TradersProducts::where('url', $data['culture'])->value('id');
-            $traders = $traders->where('cult_id', $culture);
+            $criteria_prices[] = ['cult_id', $culture];
         }
 
         $currency = 2;
@@ -301,8 +303,16 @@ class TraderService
         }
 
         if ($currency != 2) {
-            $traders = $traders->where('curtype', $currency);
+            $criteria_prices[] = ['curtype', $currency];
         }
+
+        $author_ids =
+            TradersPrices::query()
+                ->select('traders_prices.buyer_id')
+                ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+                ->where($criteria_prices)
+                ->where($criteria_places)
+                ->pluck('buyer_id')->toArray();
 
         \DB::enableQueryLog();
         $traders = $traders
@@ -312,6 +322,7 @@ class TraderService
             )
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
+            ->whereIn('author_id',$author_ids)
             ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort')
             ->orderBy('rate_formula', 'desc')
@@ -322,9 +333,7 @@ class TraderService
 //
 
 
-
-
-        dd($traders[2], $traders[28]);
+        dd($traders);
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
