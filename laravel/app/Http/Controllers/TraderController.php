@@ -4,19 +4,16 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Regions\Regions;
-use App\Models\Traders\TraderFeed;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersProductGroupLanguage;
-use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProducts;
 use App\Services\BaseServices;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use App\Services\Traders\TraderFeedService;
 use App\Services\Traders\TraderService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TraderController extends Controller
@@ -118,7 +115,8 @@ class TraderController extends Controller
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
             'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
-            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
+//            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
+            'feed' =>  []
         ]);
     }
 
