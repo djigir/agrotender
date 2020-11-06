@@ -7,20 +7,20 @@ window.onload = function (){
     $('.dataTables_length').css('display', 'none');
     $('.dataTables_filter').css('display', 'none');
 
-    $(window).scroll(function() {
-        var height = $(window).scrollTop();
-        if(height < 90){
-            $('#scroll-header').css('display', '');
-        }else{
-            $('#scroll-header').css('display', 'none');
-        }
-
-        if(height > 300){
-            $('.new_filters-wrap').addClass('active');
-        } else{
-            $('.new_filters-wrap').removeClass('active');
-        }
-    });
+    // $(window).scroll(function() {
+    //     var height = $(window).scrollTop();
+    //     if(height < 90){
+    //         $('#scroll-header').css('display', '');
+    //     }else{
+    //         $('#scroll-header').css('display', 'none');
+    //     }
+    //
+    //     if(height > 300){
+    //         $('.new_filters-wrap').addClass('active');
+    //     } else{
+    //         $('.new_filters-wrap').removeClass('active');
+    //     }
+    // });
 
     $('.sorting').click(function (event) {
         if($(this).hasClass('sorting_desc')){

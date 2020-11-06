@@ -79,7 +79,7 @@
                                 @foreach($regions as $index => $region)
                                     @if($rubric_id and $region)
                                         <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"
-                                           href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">D
+                                           href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
                                             <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
                                             <span class="companyCount small">({{$region['count_items']}})</span>
                                         </a>

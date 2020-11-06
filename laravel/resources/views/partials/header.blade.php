@@ -110,7 +110,7 @@
                 </li>
             </ul>
         </div>
-        @if($isMobile)
+        @if($isMobile && isset($id))
             @include('mobile.mobile_menu')
         @endif
     </header>

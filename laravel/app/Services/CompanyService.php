@@ -105,7 +105,6 @@ class CompanyService
     }
 
 
-
     public function getPrices($author_id, $type, $placeType)
     {
         $statusCurtype = '';
@@ -425,7 +424,8 @@ class CompanyService
 
     public function setCompanies()
     {
-        $this->companies = CompItems::with('activities')
+        $this->companies = CompItems::
+            join('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')->with('activities')
             ->where('comp_items.visible', 1);
     }
 
@@ -453,14 +453,21 @@ class CompanyService
     public function setRegions($regions, $rubric = null)
     {
         $this->setCompanies();
+
         $region_counts = CompItems::select(['obl_id', \DB::raw('count(*) as obl')]);
 
+
         if($rubric){
-            $region_counts = $this->companies->where('comp_item2topic.topic_id', $rubric)
+            $region_counts = $this->companies
+                ->where('comp_item2topic.topic_id', $rubric)
                 ->select(['comp_items.obl_id', \DB::raw('count(*) as obl')]);
         }
 
-        $region_counts = $region_counts->groupBy('obl_id')->get()->keyBy('obl_id')->toArray();
+        $region_counts = $region_counts
+            ->groupBy('obl_id')
+            ->get()
+            ->keyBy('obl_id')
+            ->toArray();
 
         foreach ($regions as $index => $region) {
             $regions[$index]['count_items'] = 0;
@@ -550,6 +557,7 @@ class CompanyService
         $companies = $companies
             ->orderBy('trader_premium', 'desc')
             ->orderBy('rate_formula', 'desc')
+            ->distinct()
             ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
                 'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
                 'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',

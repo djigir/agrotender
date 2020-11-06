@@ -42,7 +42,7 @@
                                     </td>
                                 @endif
                                 @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                    <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
+                                    <td class="region-USD" style="{{($statusCurtypeRegion == "UAH" || $statusCurtypeRegion == "UAH_USD") ? 'display: none' : ''}}">
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                         </div>
@@ -87,7 +87,7 @@
                                         </td>
                                     @endif
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                        <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
+                                        <td class="region-USD" style="{{($statusCurtypeRegion == "UAH" || $statusCurtypeRegion == "UAH_USD") ? 'display: none' : ''}}">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
@@ -134,7 +134,7 @@
                                         </td>
                                     @endif
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                        <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
+                                        <td class="region-USD" style="{{($statusCurtypeRegion == "UAH" || $statusCurtypeRegion == "UAH_USD") ? 'display: none' : ''}}">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                             </div>

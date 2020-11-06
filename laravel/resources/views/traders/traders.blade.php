@@ -65,7 +65,9 @@
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                      <span class="traders__item__content-p-title">
-                                                        {{  $place['port'][0]['lang']['portname']}}
+                                                         @if(isset($place['port'][0]))
+                                                                {{ $place['port'][0]['lang']['portname']}}
+                                                         @endif
                                                      </span>
                                                      <span class="right">
                                                        <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
