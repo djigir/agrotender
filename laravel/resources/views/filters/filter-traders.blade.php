@@ -46,18 +46,18 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                             @foreach($rubricsGroup as $group => $item)
                                 <div class="new_filters_dropdown-content culture-group {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
                                     <ul>
-                                        @foreach($rubricsGroup[$group]["products"] as $index => $item)
+                                        @foreach($rubricsGroup[$group]['groups']["products"] as $index => $item)
                                             <li>
                                                 @if(!empty($region))
                                                     <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
-                                                        <span class="companyCount small">({{$item['count']}})</span>
+                                                        <span class="companyCount small">({{$item['count_item']}})</span>
                                                     </a>
                                                 @endif
                                                 @if(!empty($port))
                                                     <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
                                                         {{ $item['culture']['name']}}
-                                                        <span class="companyCount small">({{$item['count']}})</span>
+                                                        <span class="companyCount small">({{$item['count_item']}})</span>
                                                     </a>
                                                 @endif
                                             </li>

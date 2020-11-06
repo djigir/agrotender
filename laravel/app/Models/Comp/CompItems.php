@@ -85,7 +85,7 @@ class CompItems extends Model
 
     protected $table = 'comp_items';
 
-    protected $appends = ['date', 'date_price', 'activities_text', 'culture_prices','places'];
+    protected $appends = ['date', 'date_price', 'activities_text', 'culture_prices', 'places'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -100,7 +100,7 @@ class CompItems extends Model
 
     ];
 
-    protected $dates = ['add_date','culture_prices'];
+    protected $dates = ['add_date', 'culture_prices'];
 
     public function activities()
     {
@@ -117,6 +117,7 @@ class CompItems extends Model
 
         return $this->traders_prices_traders->unique('cult_id');
     }
+
     public function getPlacesAttribute()
     {
         if (!$this->relationLoaded('traders_places')) {
@@ -204,6 +205,20 @@ class CompItems extends Model
             TradersPlaces::class, 'traders_prices',
             'buyer_id', 'place_id',
             'author_id', 'id')
+            ->withPivot([
+                'id',
+                'buyer_id',
+                'cult_id',
+                'place_id',
+                'active',
+                'curtype',
+                'acttype',
+                'costval',
+                'costval_old',
+                'add_date',
+                'dt',
+                'change_date',
+            ])
             ->with('traders_ports');
     }
 
@@ -212,8 +227,7 @@ class CompItems extends Model
     {
         return $this->traders_prices()
             ->where('acttype', 0)
-            ->orderBy('change_date','DESC')
-            ;
+            ->orderBy('change_date', 'DESC');
     }
 
 

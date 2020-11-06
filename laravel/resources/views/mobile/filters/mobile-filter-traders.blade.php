@@ -141,10 +141,10 @@
                 <div class="scroll">
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $group => $item)
-                            @foreach($rubricGroups[$group]["products"] as $index => $item_culture)
+                            @foreach($rubricGroups[$group]['groups']["products"] as $index => $item_culture)
                                 <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
                                     <span style="color: #1e56b2">{{ $item_culture['culture']['name']}}</span>
-                                    <span class="companyCount small">({{$item_culture['count']}})</span>
+                                    <span class="companyCount small">({{$item_culture['count_item']}})</span>
                                     <span><i class="far fa-chevron-right"></i></span>
                                 </span>
                             @endforeach

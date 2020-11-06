@@ -27,32 +27,38 @@
             </thead>
             <tbody>
             @foreach($port_place as $index => $place)
+                @if(!empty($place->port))
                 <tr>
                     <td class="py-1">
-                        <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
-                        <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
+                        <span class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                        <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                     </td>
-                    @foreach($port_culture as $index => $data_port)
-                        @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
-                            @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
-                                <td class="port-UAH">
-                                    <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
-                                    </div>
-                                </td>
+                        @foreach($port_culture as $index => $data_port)
+                            @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
+                                @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
+                                    <td class="port-UAH">
+                                        <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">
+                                                {{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}
+                                            </span> &nbsp;
+                                        </div>
+                                    </td>
+                                @endif
+                                @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
+                                    <td class="port-USD" style="{{($statusCurtypePort == "UAH_USD" || $statusCurtypePort == "UAH") ? 'display: none' : ''}}">
+                                        <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">
+                                                {{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}
+                                            </span> &nbsp;
+                                        </div>
+                                    </td>
+                                @endif
+                            @else
+                                <td></td>
                             @endif
-                            @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
-                                <td class="port-USD" style="{{$statusCurtypePort == 'USD' ? '' : 'display: none'}}">
-                                    <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
-                                    </div>
-                                </td>
-                            @endif
-                        @else
-                            <td></td>
-                        @endif
-                    @endforeach
+                        @endforeach
                 </tr>
+                @endif
             @endforeach
             </tbody>
         </table>
@@ -72,34 +78,38 @@
                 </thead>
                 <tbody>
                 @foreach($port_place as $index => $place)
-                    <tr>
-                        <td class="py-1">
-                            <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
-                            <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
-                        </td>
-                        @foreach($port_culture as $index => $data_port)
-                            @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
-                                @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
-                                    <td class="port-UAH">
-                                        <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
-                                        </div>
-                                    </td>
-                                @endif
-                                @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
-                                    <td class="port-USD" style="{{$statusCurtypePort == 'USD' ? '' : 'display: none'}}">
-                                        <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
-                                        </div>
-                                    </td>
+                    @if(!empty($place->port))
+                        <tr>
+                            <td class="py-1">
+                                <span class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                <span class="place-comment">{!! strip_tags($place->place) !!}</span>
+                            </td>
+                            @foreach($port_culture as $index => $data_port)
+                                @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
+                                    @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
+                                        <td class="port-UAH">
+                                            <div class="d-flex align-items-center justify-content-center lh-1">
+                                                <span class="font-weight-600">
+                                                    {{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}
+                                                </span> &nbsp;
+                                            </div>
+                                        </td>
+                                    @endif
+                                    @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
+                                        <td class="port-USD" style="{{($statusCurtypePort == "UAH_USD" || $statusCurtypePort == "UAH") ? 'display: none' : ''}}">
+                                            <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">
+                                                {{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}
+                                            </span> &nbsp;
+                                            </div>
+                                        </td>
+                                    @endif
                                 @else
                                     <td></td>
                                 @endif
-                            @else
-                                <td></td>
-                            @endif
-                        @endforeach
-                    </tr>
+                            @endforeach
+                        </tr>
+                    @endif
                 @endforeach
                 </tbody>
             </table>
@@ -120,34 +130,39 @@
             </thead>
             <tbody>
             @foreach($port_place as $index => $place)
-                <tr>
-                    <td class="py-1">
-                        <span class="place-title">{{isset($place['port']['lang']) ? $place['port']['lang']['portname'] : ''}}</span>
-                        <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
-                    </td>
-                    @foreach($port_culture as $index => $data_port)
-                        @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
-                            @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
-                                <td class="port-UAH">
-                                    <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
-                                    </div>
-                                </td>
-                            @endif
-                            @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
-                                <td class="port-USD" style="{{$statusCurtypePort == 'USD' ? '' : 'display: none'}}">
-                                    <div class="d-flex align-items-center justify-content-center lh-1">
-                                        <span class="font-weight-600">{{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
-                                    </div>
-                                </td>
+                @if(!empty($place->port))
+                    <tr>
+                        <td class="py-1">
+                            <span class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                            <span class="place-comment">{!! strip_tags($place->place) !!}</span>
+                        </td>
+                        @foreach($port_culture as $index => $data_port)
+                            @if(isset($port_price[$place['id']]) && isset($port_price[$place['id']][$data_port['cult_id']]))
+                                @if(isset($port_price[$place['id']][$data_port['cult_id']][0]))
+                                    <td class="port-UAH">
+                                        <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">
+                                                {{round($port_price[$place['id']][$data_port['cult_id']][0][0]['costval'], 1)}}
+                                            </span> &nbsp;
+                                        </div>
+                                    </td>
+                                @endif
+
+                                @if(isset($port_price[$place['id']][$data_port['cult_id']][1]))
+                                    <td class="port-USD" style="{{($statusCurtypePort == "UAH_USD" || $statusCurtypePort == "UAH") ? 'display: none' : ''}}">
+                                        <div class="d-flex align-items-center justify-content-center lh-1">
+                                            <span class="font-weight-600">
+                                                {{round($port_price[$place['id']][$data_port['cult_id']][1][0]['costval'], 1)}}
+                                            </span> &nbsp;
+                                        </div>
+                                    </td>
+                                @endif
                             @else
                                 <td></td>
                             @endif
-                        @else
-                            <td></td>
-                        @endif
-                    @endforeach
-                </tr>
+                        @endforeach
+                    </tr>
+                @endif
             @endforeach
             </tbody>
         </table>

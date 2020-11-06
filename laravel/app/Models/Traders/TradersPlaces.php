@@ -47,7 +47,7 @@ class TradersPlaces extends Model
 
     public function traders_prices()
     {
-        return $this->belongsTo(TradersPrices::class, 'place_id', 'id');
+        return $this->belongsTo(TradersPrices::class, 'id','place_id');
     }
 
     public function traders_ports()

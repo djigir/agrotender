@@ -111,12 +111,11 @@ class CompanyService
         $statusCurtype = '';
         $check_curtype = [];
 
-        $prices = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
-            'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+        $prices = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])
+            ->with(['traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
-        ])->get()->groupBy(['place_id'])->toArray();
-
+        ])->get()->groupBy(['place_id']);
 
 
         foreach ($prices as $index => $price)
@@ -153,7 +152,6 @@ class CompanyService
             $statusCurtype = 'UAH_USD';
         }
 
-        //dd($check_curtype, in_array(0, $check_curtype), in_array(1, $check_curtype));
 
         $place_id = [];
 
@@ -161,17 +159,16 @@ class CompanyService
             $place_id[] = $index;
         }
 
-        $places = TradersPlaces::whereIn('id', $place_id)
-            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get()->toArray();
+        $places = TradersPlaces::whereIn('id', $place_id)->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get();
 
         $sortBy = 'region.id';
 
         if($placeType == 2){
-            $sortBy = 'port.lang.portname';
+            $sortBy = 'port.0.lang.portname';
         }
 
-        $places = collect($places)->sortBy($sortBy)->toArray();
-        //dd($prices);
+        $places = $places->sortBy($sortBy);
+
         return ['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype];
     }
 
@@ -185,9 +182,10 @@ class CompanyService
                 ]
         )->get()->toArray();
 
+
         foreach ($cultures as $index => $culture){
             if(!empty($culture['traders_prices'])){
-                $cultures[$index]['culture'] = $cultures[$index]['traders_prices'][0]['culture']['name'];
+                $cultures[$index]['culture'] = $cultures[$index]['traders_prices'][0]['cultures'][0]['name'];
                 $cultures[$index]['place_id'] = collect($cultures[$index]['traders_prices'])->pluck('place_id')->toArray();
             }
 
@@ -196,7 +194,8 @@ class CompanyService
             }
 
         }
-        $cultures= collect($cultures)->sortBy('culture')->toArray();
+
+        $cultures = collect($cultures)->sortBy('culture')->toArray();
         $cultures = array_values($cultures);
 
         return $cultures;

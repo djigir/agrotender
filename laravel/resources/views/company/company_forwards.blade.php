@@ -21,7 +21,7 @@
                     @foreach($prices_port as $index => $price)
                         <tr>
                             <td place="6443" class="py-1">
-                                <span class="place-title">{{$price['traders_places'][0]['port']['lang']['portname']}}</span>
+                                <span class="place-title">{{$price['traders_places'][0]['port'][0]['lang']['portname']}}</span>
                                 <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
                                 <b class="popular">{{mb_convert_case($price['date']->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
                             </td>

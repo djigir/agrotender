@@ -74,21 +74,19 @@ class TraderService
 
         $this->InitQuery($data);
 
+        $breadcrumbs = $this->baseService->setBreadcrumbsTraders($data_breadcrumbs);
+
         if (isset($data['forwards'])) {
-            $traders = $this->getTradersForward($data);
             $breadcrumbs = $this->baseService->setBreadcrumbsTradersForward($data_breadcrumbs);
             $type_traders = 1;
+        }
 
-
-        } elseif (isset($data['sell'])) {
-            $traders = $this->getTradersRegionPortCulture($data);
+        if (isset($data['sell'])) {
             $breadcrumbs = $this->baseService->setBreadcrumbsTradersSell($data_breadcrumbs);
             $type_traders = 2;
-
-        } else {
-            $traders = $this->getTradersRegionPortCulture($data);
-            $breadcrumbs = $this->baseService->setBreadcrumbsTraders($data_breadcrumbs);
         }
+
+        $traders = $this->getTradersRegionPortCulture($data);
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
     }
@@ -144,32 +142,38 @@ class TraderService
         return $ports;
     }
 
-    public function setRubrics($traders)
+    public function setRubrics($criteria_places, $acttype)
     {
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
+        //\DB::enableQueryLog();
 
-        foreach ($groups as $index => $group) {
-            $groups[$index]['index_group'] = $index + 1;
-            $groups[$index]['products'] = collect($groups[$index]['groups']['products'])->sortBy('culture.name')->toArray();
-            unset($groups[$index]['groups']['products']);
-        }
+        $group_items = \DB::table('traders_prices')
+            ->select(['traders_prices.cult_id',\DB::raw('count(distinct agt_traders_prices.buyer_id) as count_item')])
+            ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+            ->leftJoin('comp_items', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
+            ->where($criteria_places)
+            ->where([
+                'traders_prices.acttype' => $acttype,
+                'active' => 1,
+                'comp_items.trader_price_avail' => 1,
+                'comp_items.trader_price_visible' => 1,
+                'comp_items.visible' => 1
+            ])
+            ->groupBy('cult_id')
+            ->get()
+            ->keyBy('cult_id')
+            ->toArray();
 
-        foreach ($traders as $index => &$cnt) {
-            $traders[$index]['traders_prices_traders'] = collect($traders[$index]['traders_prices_traders'])->groupBy('cult_id');
-        }
 
         foreach ($groups as $index_g => $group) {
-            foreach ($group['products'] as $index_c => $culture) {
-                $groups[$index_g]['products'][$index_c]['count'] = 0;
-                foreach ($traders as $index => &$item) {
-                    if (isset($item['traders_prices_traders'][$culture['id']])) {
-                        $groups[$index_g]['products'][$index_c]['count']++;
-                    }
+            $groups[$index_g]['index_group'] = $index_g+1;
+            foreach ($group["groups"]['products'] as $index_c => $culture) {
+                $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = 0;
+                if(isset($group_items[$culture['id']])){
+                    $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = $group_items[$culture['id']]->count_item;
                 }
-//                if($groups[$index_g]['products'][$index_c]['count'] == 0){
-//                    unset($groups[$index_g]['products'][$index_c]);
-//                }
             }
+            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('culture.name')->toArray();
         }
 
         return $groups;
@@ -273,7 +277,6 @@ class TraderService
 
     public function getTradersRegionPortCulture($data)
     {
-        \DB::enableQueryLog();
         /** @var Builder $traders */
         $traders = $this->treders;
 
@@ -281,20 +284,26 @@ class TraderService
         $culture = null;
         $port_id = null;
         $currency = 2;
-        $criteria_places = [];
-        $criteria_prices = [];
+        $acttype = $data['type'] != 'forward' ? 0 : 3;
 
+        $criteria_places = [];
+        $criteria_prices = [['traders_prices.acttype', 0]];
+
+        if($data['type'] == 'forward'){
+            $criteria_prices[0] = ['traders_prices.acttype', 3];
+            $criteria_prices[] = ['active', 1];
+        }
 
         if ($data['port'] && $data['port'] != 'all') {
             $port_id = TradersPorts::where('url',
                 $data['port'])->value('id');
-            $criteria_places[] = ['port_id', $port_id];
-            $criteria_places[] = ['port_id', '!=', 0];
+            $criteria_places[] = ['traders_places.port_id', $port_id];
+            $criteria_places[] = ['traders_places.port_id', '!=', 0];
         }
 
         if ($data['region'] && $data['region'] != 'ukraine') {
             $obl_id = Regions::where('translit', $data['region'])->value('id');
-            $criteria_places[] = ['obl_id', $obl_id];
+            $criteria_places[] = ['traders_places.obl_id', $obl_id];
         }
 
         if ($data['culture']) {
@@ -315,11 +324,10 @@ class TraderService
                 ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
                 ->where($criteria_prices)
                 ->where($criteria_places)
-                ->pluck('buyer_id')->toArray();
+                ->pluck('buyer_id')
+            ->toArray();
 
-
-        $traders = $traders
-            ->with('traders_prices_traders.cultures', 'traders_places')
+        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
@@ -328,12 +336,8 @@ class TraderService
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
             ->get();
-//        $this->groups = $this->setRubrics($traders);
-        $this->groups = [];
-        //dd(\DB::getQueryLog());
 
-       // dd($traders->toArray()[2], $traders->toArray()[3], $traders->toArray()[5]);
-
+        $this->groups = $this->setRubrics($criteria_places, $acttype);
 
         return $traders;
     }

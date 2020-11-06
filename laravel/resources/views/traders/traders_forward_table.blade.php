@@ -28,33 +28,37 @@
             </thead>
             <tbody>
             @foreach($traders as $index_tr => $trader)
-                @foreach($trader['traders_prices'] as $index_price => $price)
-                    <tr role="row" class="{{$index_price%2 == 0 ? 'even' : 'odd'}}">
+                @foreach($trader->places as $index => $place)
+                    <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}}">
                         <td>
-                            <a class="d-flex align-items-center" href="{{route('company.forwards', $trader['id'])}}">
+                            <a class="d-flex align-items-center" href="{{route('company.forwards', $trader->id)}}">
                                 <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                                <span class="title">{{$trader['title']}}</span>
+                                <span class="title">{{$trader->title}}</span>
                             </a>
                         </td>
                         <td class="uah">
-                            @if($price['curtype'] == 0)
+                            @if($place->pivot->curtype == 0)
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <span class="price">{{round($price['costval'], 1)}}</span>
+                                    <span class="price">{{round($place->pivot->costval, 1)}}</span>
                                 </div>
                             @endif
                         </td>
                         <td class="usd">
-                            @if($price['curtype'] == 1)
+                            @if($place->pivot->curtype == 1)
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <span class="price">{{round($price['costval'], 1)}}</span>
+                                    <span class="price">{{round($place->pivot->costval, 1)}}</span>
                                 </div>
                             @endif
                         </td>
-                        <td data-sorttable-customkey="20201101"><span data-date="20201101">{{mb_convert_case($price['date']->format('F y'), MB_CASE_TITLE, "UTF-8")}}</span></td>
+                        <td data-sorttable-customkey="20201101">
+                            <span data-date="20201101">
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
+                            </span>
+                        </td>
                         <td>
-                            <span class="location">{{$price['region']['name'].' обл.'}}</span>
+                            <span class="location">{{$place['region']['name'].' обл.'}}</span>
                             <br>
-                            <span class="place">{{$price['place']}}</span>
+                            <span class="place">{{$place->place}}</span>
                         </td>
                     </tr>
                 @endforeach
@@ -66,13 +70,15 @@
         <table class="sortTable sortable" cellspacing="0">
             <tbody>
             @foreach($traders as $index_tr => $trader)
-                @foreach($trader['traders_prices'] as $index_price => $price)
+                @foreach($trader->places as $index => $place)
                     <tr>
                         <td>
                             <div class="d-flex align-items-center price-div">
-                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{{$trader['title']}}">
-                                <a class="flex-1" href="/kompanii/comp-2468-forwards">
-                                    <span class="m-price">{{$price['curtype'] == 1 ? 'USD: ' : 'UAH: '}} <span class="price">{{round($price['costval'], 1)}}
+                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{{$trader->title}}">
+                                <a class="flex-1" href="{{route('company.forwards', $trader->id)}}">
+                                    <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
+                                        <span class="price">
+                                            {{round($place->pivot->costval, 1)}}
                                         </span>
                                     </span>
                                 </a>
@@ -82,10 +88,12 @@
                     <tr class="t2">
                         <td style="border-bottom: 1px solid #295ca1;">
                             <div class="d-flex align-items-center justify-content-center">
-                                <span data-toggle="tooltip" data-placement="top" class="d-block">{{mb_convert_case($price['date']->format('F y'), MB_CASE_TITLE, "UTF-8")}}</span>
-                                <a href="/kompanii/comp-2468-forwards" class="d-block flex-1">
-                                    <span class="location d-block">{{$price['region']['name'].' обл.'}}</span>
-                                    <span class="place d-block">{{$price['place']}}</span>
+                                <span data-toggle="tooltip" data-placement="top" class="d-block">
+                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
+                                </span>
+                                <a href="{{route('company.forwards', $trader->id)}}" class="d-block flex-1">
+                                    <span class="location d-block">{{$place['region']['name'].' обл.'}}</span>
+                                    <span class="place d-block">{{$place->place}}</span>
                                 </a>
                             </div>
                         </td>
@@ -99,25 +107,3 @@
     <div class="text-center mt-5">
     </div>
 </div>
-{{--                @if($index_tr < 1)--}}
-{{--                    <tr class="t-sub odd" cspan="1" role="row">--}}
-{{--                        <td colspan="5">--}}
-{{--                            <div class="row align-items-center justify-content-center">--}}
-{{--                                <a href="/buyerreg" class="subscribe-table d-flex align-items-center">--}}
-{{--                                    <img src="/app/assets/img/envelope.png" class="ml-3 mr-3">--}}
-{{--                                    <span class="ml-3">Подписаться на изменения цен: Кукуруза</span>--}}
-{{--                                </a>--}}
-{{--                            </div>--}}
-{{--                        </td>--}}
-{{--                        <td style="display: none;">--}}
-{{--                            <div class="d-flex align-items-center justify-content-center"><span class="price">0</span>--}}
-{{--                            </div>--}}
-{{--                        </td>--}}
-{{--                        <td style="display: none;">--}}
-{{--                            <div class="d-flex align-items-center justify-content-center"><span class="price">0</span>--}}
-{{--                            </div>--}}
-{{--                        </td>--}}
-{{--                        <td style="display: none;"><span data-date="20170802"></span></td>--}}
-{{--                        <td style="display: none;"></td>--}}
-{{--                    </tr>--}}
-{{--                @endif--}}
