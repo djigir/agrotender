@@ -279,10 +279,11 @@ class TraderService
 
         $obl_id = null;
         $culture = null;
+        $port_id = null;
         $currency = 2;
         $criteria_places = [];
         $criteria_prices = [];
-        $port_id = null;
+
 
         if ($data['port'] && $data['port'] != 'all') {
             $port_id = TradersPorts::where('url',
@@ -309,12 +310,7 @@ class TraderService
             $criteria_prices[] = ['curtype', $currency];
         }
 
-
-//        \DB::enableQueryLog();
-//        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
-
-        $author_ids =
-            TradersPrices::query()
+        $author_ids = TradersPrices::query()
                 ->select('traders_prices.buyer_id')
                 ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
                 ->where($criteria_prices)
@@ -323,35 +319,22 @@ class TraderService
 
 
         $traders = $traders
-            ->with(
-                'traders_prices_traders.cultures',
-                'traders_places'
-            )
-
+            ->with('traders_prices_traders.cultures', 'traders_places')
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
-            ->whereIn('author_id',$author_ids)
+            ->whereIn('author_id', $author_ids)
             ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort')
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
             ->get();
-        //dd(\DB::getQueryLog());
-//
-//      $this->groups = $this->setRubrics($traders);
-
+//        $this->groups = $this->setRubrics($traders);
         $this->groups = [];
-        //dd($traders->toArray()[0]['places']);
+        //dd(\DB::getQueryLog());
+
+       // dd($traders->toArray()[2], $traders->toArray()[3], $traders->toArray()[5]);
+
+
         return $traders;
-
-
-//        dd($traders);
-//
-//        $transform_traders = $this->TradersReformation($traders, $data);
-//
-//        $this->groups = !empty($transform_traders) ? $this->getRubrics($transform_traders) : $this->getRubrics($traders);
-//
-//        return $transform_traders;
-
     }
 }
