@@ -8,6 +8,7 @@ use App\Models\Comp\CompTopicItem;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
+use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersProductGroups;
 use App\Models\Traders\TradersProductGroupLanguage;
 use App\Models\Traders\TradersProducts;
@@ -272,29 +273,32 @@ class TraderService
 
     public function getTradersRegionPortCulture($data)
     {
-
+        \DB::enableQueryLog();
         /** @var Builder $traders */
-
         $traders = $this->treders;
 
-        $port_id = null;
         $obl_id = null;
         $culture = null;
         $currency = 2;
+        $criteria_places = [];
+        $criteria_prices = [];
+        $port_id = null;
 
         if ($data['port'] && $data['port'] != 'all') {
-            $port_id = TradersPorts::where('url', $data['port'])->value('id');
-            $traders = $traders->where([['port_id', $port_id], ['port_id', '!=', 0]]);
+            $port_id = TradersPorts::where('url',
+                $data['port'])->value('id');
+            $criteria_places[] = ['port_id', $port_id];
+            $criteria_places[] = ['port_id', '!=', 0];
         }
 
         if ($data['region'] && $data['region'] != 'ukraine') {
             $obl_id = Regions::where('translit', $data['region'])->value('id');
-            $traders = $traders->where('obl_id', $obl_id);
+            $criteria_places[] = ['obl_id', $obl_id];
         }
 
         if ($data['culture']) {
             $culture = TradersProducts::where('url', $data['culture'])->value('id');
-            $traders = $traders->where('cult_id', $culture);
+            $criteria_prices[] = ['cult_id', $culture];
         }
 
         if ($data['query'] && isset($data['query']['currency'])) {
@@ -302,62 +306,52 @@ class TraderService
         }
 
         if ($currency != 2) {
-            $traders = $traders->where('curtype', $currency);
+            $criteria_prices[] = ['curtype', $currency];
         }
 
+
 //        \DB::enableQueryLog();
-        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
+//        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
+
+        $author_ids =
+            TradersPrices::query()
+                ->select('traders_prices.buyer_id')
+                ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+                ->where($criteria_prices)
+                ->where($criteria_places)
+                ->pluck('buyer_id')->toArray();
+
+
+        $traders = $traders
+            ->with(
+                'traders_prices_traders.cultures',
+                'traders_places'
+            )
+
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
+            ->whereIn('author_id',$author_ids)
             ->orderBy('trader_premium', 'desc')
             ->orderBy('trader_sort')
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
             ->get();
-//        dd(\DB::getQueryLog());
+        //dd(\DB::getQueryLog());
 //
 //      $this->groups = $this->setRubrics($traders);
 
         $this->groups = [];
-
+        //dd($traders->toArray()[0]['places']);
         return $traders;
+
+
+//        dd($traders);
+//
+//        $transform_traders = $this->TradersReformation($traders, $data);
+//
+//        $this->groups = !empty($transform_traders) ? $this->getRubrics($transform_traders) : $this->getRubrics($traders);
+//
+//        return $transform_traders;
+
     }
-
-
-    public function TradersReformation($traders, $data)
-    {
-        $date_expired_diff = Carbon::now()->addDay(-7)->format('Y-m-d');
-
-        foreach ($traders as $index => $trader) {
-            foreach ($trader['traders_prices_traders'] as $index_place => $place) {
-                $diff = $date_expired_diff <= $place['change_date'] ? round($place['costval'] - $place['costval_old']) : 0;
-                $traders[$index]['traders_prices_traders'][$index_place]['price_diff'] = $diff;
-                $traders[$index]['traders_prices_traders'][$index_place]['change_price'] = !$place['costval_old'] || !$diff ? '' : ($diff < 0 ? 'down' : 'up');
-
-                if (empty($place['traders_places'])) {
-                    unset($traders[$index]['traders_prices_traders'][$index_place]);
-                } elseif ($data['port'] == 'all' && $data['port'] && empty($place['traders_places'][0]['port'])) {
-                    unset($traders[$index]['traders_prices_traders'][$index_place]);
-                } else {
-                    $traders[$index]['traders_prices_traders'][$index_place]['traders_places'] = $traders[$index]['traders_prices_traders'][$index_place]['traders_places'][0];
-                    $traders[$index]['traders_prices_traders'][$index_place]['region'] = $traders[$index]['traders_prices_traders'][$index_place]['traders_places']['region'];
-                    $traders[$index]['traders_prices_traders'][$index_place]['port'] = $traders[$index]['traders_prices_traders'][$index_place]['traders_places']['port'];
-
-                    unset($traders[$index]['traders_prices_traders'][$index_place]['traders_places']['region']);
-                    unset($traders[$index]['traders_prices_traders'][$index_place]['traders_places']['port']);
-                }
-
-            }
-            $traders[$index]['traders_prices_traders'] = collect($traders[$index]['traders_prices_traders'])->sortBy('culture.name')->toArray();
-
-            if (empty($traders[$index]['traders_prices_traders'])) {
-                unset($traders[$index]);
-            }
-        }
-
-        $traders = array_values($traders);
-
-        return $traders;
-    }
-
 }

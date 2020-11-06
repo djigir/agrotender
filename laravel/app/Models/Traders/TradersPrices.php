@@ -21,8 +21,6 @@ use Jenssegers\Date\Date;
  * @property  \Datetime $dt;
  * @property  string $comment;
  */
-
-
 class TradersPrices extends Model
 {
     protected $table = 'traders_prices';
@@ -75,12 +73,6 @@ class TradersPrices extends Model
     {
         return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
     }
-
-
-//    public function price_products()
-//    {
-//        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
-//    }
 
 
     public function traders_products_buyer()
