@@ -99,7 +99,7 @@ class CompanyController extends Controller
 
         return view('company.companies', [
             'companies' => $companies, 'regions' => $regions,
-            'rubricGroups' => $groups, 'settings_for_page' => $companies,
+            'rubricGroups' => $groups,
             'region_name' => $region_name,
             'region' => empty($data['region']) ? 'ukraine' : $data['region'],
             'obj_region' => $data['region'] != 'ukraine' ? $region : [],

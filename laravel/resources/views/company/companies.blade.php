@@ -152,7 +152,7 @@
                 </div>
             </div>
         </div>
-        {{ $settings_for_page->links() }}
+        {{ $companies->links() }}
     </div>
     @include('partials.banners.bottom')
 @endsection
