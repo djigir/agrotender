@@ -326,7 +326,7 @@ class TraderService
 //        }
 
 
-        dd($traders[2]);
+        dd($traders[2], $traders[28]);
 
         $transform_traders = $this->TradersReformation($traders, $data);
 
