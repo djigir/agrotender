@@ -182,7 +182,7 @@ class TraderService
     public function InitQuery($data)
     {
         $type = $data['type'] != '' ? '_'.$data['type'] : '';
-        $this->treders = CompItems::where([
+        $this->treders = CompItems::with('activities')->where([
             ["trader_price{$type}_avail", 1], ["trader_price{$type}_visible", 1], ["visible", 1]
         ]);
     }
@@ -271,38 +271,45 @@ class TraderService
 
     public function getTradersRegionPortCulture($data)
     {
-        \DB::enableQueryLog();
-        $port_id = ($data['port'] && $data['port'] != 'all') ? TradersPorts::where('url',
-            $data['port'])->value('id') : null;
-        $obl_id = ($data['region'] && $data['region'] != 'ukraine') ? Regions::where('translit',
-            $data['region'])->value('id') : null;
 
-        $culture = $data['culture'] ? TradersProducts::where('url', $data['culture'])->value('id') : null;
-
-        $currency = ($data['query'] && isset($data['query']['currency'])) ? (int) $data['query']['currency'] : 2;
 
         /** @var Builder $traders */
 
         $traders = $this->treders;
+        $port_id = null;
+        if ($data['port'] && $data['port'] != 'all') {
+            $port_id = TradersPorts::where('url',
+                $data['port'])->value('id');
+            $traders = $traders->where([['port_id', $port_id], ['port_id', '!=', 0]]);
+        }
+        $obl_id = null;
+        if ($data['region'] && $data['region'] != 'ukraine') {
+            $obl_id = Regions::where('translit', $data['region'])->value('id');
+            $traders = $traders->where('obl_id', $obl_id);
+        }
 
-        if ($culture) {
+        $culture = null;
+        if ($data['culture']) {
+            $culture = TradersProducts::where('url', $data['culture'])->value('id');
             $traders = $traders->where('cult_id', $culture);
+        }
+
+        $currency = 2;
+
+        if ($data['query'] && isset($data['query']['currency'])) {
+            $currency = (int) $data['query']['currency'];
         }
 
         if ($currency != 2) {
             $traders = $traders->where('curtype', $currency);
         }
 
-        if ($obl_id != null || $port_id != null) {
-            if ($obl_id) {
-                $traders = $traders->where('obl_id', $obl_id);
-            }
-            if ($port_id) {
-                $traders = $traders->where([['port_id', $port_id], ['port_id', '!=', 0]]);
-            }
-        }
-
-        $traders = $traders->with('traders_prices_traders', 'traders_places')
+        \DB::enableQueryLog();
+        $traders = $traders
+            ->with(
+                'traders_prices_traders.cultures',
+                'traders_places'
+            )
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->orderBy('trader_premium', 'desc')
@@ -311,7 +318,7 @@ class TraderService
             ->orderBy('title')
             ->get()
             ->toArray();
-        dd(\DB::getQueryLog());
+//        dd(\DB::getQueryLog());
 //
 
 //        foreach ($traders as $index_tr => $trader){

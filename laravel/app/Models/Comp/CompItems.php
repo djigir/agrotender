@@ -15,6 +15,7 @@ use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersProducts2buyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Jenssegers\Date\Date;
 
 
@@ -65,6 +66,7 @@ use Jenssegers\Date\Date;
  * @property integer $trader_price_forward_avail;
  * @property integer $trader_sort_forward;
  * @property integer $trader_premium_forward;
+ * @property Collection $traders_prices_traders;
  *
  * @property Carbon $trader_price_dtupdt;
  * @property Carbon $trader_price_sell_dtupdt;
@@ -83,7 +85,7 @@ class CompItems extends Model
 
     protected $table = 'comp_items';
 
-    protected $appends = ['date', 'date_price', 'activities_text'];
+    protected $appends = ['date', 'date_price', 'activities_text', 'culture_prices','places'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -98,7 +100,7 @@ class CompItems extends Model
 
     ];
 
-    protected $dates = ['add_date'];
+    protected $dates = ['add_date','culture_prices'];
 
     public function activities()
     {
@@ -107,6 +109,24 @@ class CompItems extends Model
     }
 
     /* Accessor */
+    public function getCulturePricesAttribute()
+    {
+        if (!$this->relationLoaded('traders_prices_traders')) {
+            return [];
+        }
+
+        return $this->traders_prices_traders->unique('cult_id');
+    }
+    public function getPlacesAttribute()
+    {
+        if (!$this->relationLoaded('traders_places')) {
+            return [];
+        }
+
+
+        return $this->traders_places->unique('id');
+    }
+
     public function getActivitiesTextAttribute()
     {
         $activities = $this->activities->pluck('title');
@@ -174,21 +194,27 @@ class CompItems extends Model
 
     public function traders_prices()
     {
-        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id')
+            ->with('cultures');
     }
 
 
     public function traders_places()
     {
-        return $this->belongsToMany(TradersPlaces::class, 'traders_prices',
-            'buyer_id', 'place_id', 'author_id', 'id')->groupBy('place_id');
+        return $this->belongsToMany(
+            TradersPlaces::class, 'traders_prices',
+            'buyer_id', 'place_id',
+            'author_id', 'id')
+            ->with('traders_ports')
+            ->groupBy('place_id');
     }
 
 
     public function traders_prices_traders()
     {
-//        ->groupBy('place_id')
-        return $this->traders_prices()->where('acttype', 0);
+        return $this->traders_prices()
+            ->where('acttype', 0)
+            ->groupBy('place_id');
     }
 
 

@@ -42,14 +42,12 @@ class TradersPrices extends Model
         'comment',
     ];
 
-    protected $appends = ['culture', 'date'];
-    /* Mutations */
+    protected $appends = ['date','culture'];
+
 
     public function getCultureAttribute()
     {
-        $culture = Traders_Products_Lang::where([['id', $this->cult_id]])->select('id', 'name', 'descr', 'item_id')->get()->toArray();
-
-        return !empty($culture) ? $culture[0] : null;
+        $this->cultures->first();
     }
 
     public function getDateAttribute()
@@ -58,7 +56,7 @@ class TradersPrices extends Model
     }
     /* Relations */
 
-    public function product_lang()
+    public function cultures()
     {
         return $this->hasMany(Traders_Products_Lang::class, 'item_id', 'cult_id');
     }
