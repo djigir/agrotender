@@ -108,23 +108,26 @@ class CompanyService
 
     public function getPrices($author_id, $type, $placeType)
     {
+        $statusCurtype = '';
+        $check_curtype = [];
 
         $prices = TradersPrices::where([['acttype', $type], ['buyer_id', $author_id]])->with([
             'traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]]);
             }
         ])->get()->groupBy(['place_id'])->toArray();
-
+        //dd($prices);
         foreach ($prices as $index => $price)
         {
+            $check_curtype = array_merge($check_curtype, collect($prices[$index])->pluck('curtype')->toArray());
+
             foreach ($prices[$index] as $index_place => $place){
                 if(empty($place['traders_places'])){
                     unset($prices[$index][$index_place]);
                 }
             }
 
-            $prices[$index] = collect($prices[$index])->sortBy('culture.name')->groupBy('cult_id')->toArray();
-           // $prices[$index] = array_values($prices[$index]);
+            $prices[$index] = collect($prices[$index])->sortBy('culture.name')->groupBy(['cult_id', 'curtype'])->toArray();
 
             if(empty($price)){
                 unset($prices[$index]);
@@ -135,6 +138,20 @@ class CompanyService
             }
 
         }
+
+        if(in_array(0, $check_curtype)){
+            $statusCurtype = 'UAH';
+        }
+
+        if(in_array(1, $check_curtype)){
+            $statusCurtype = 'USD';
+        }
+
+        if(in_array(0, $check_curtype) && in_array(1, $check_curtype)){
+            $statusCurtype = 'UAH_USD';
+        }
+
+        //dd($check_curtype, in_array(0, $check_curtype), in_array(1, $check_curtype));
 
         $place_id = [];
 
@@ -153,7 +170,7 @@ class CompanyService
 
         $places = collect($places)->sortBy($sortBy)->toArray();
 
-        return ['prices' => $prices, 'places'=> $places];
+        return ['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype];
     }
 
 
@@ -373,10 +390,14 @@ class CompanyService
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
-        $prices = $this->getPrices($author_id, $type, $placeType)['prices'];
-        $places = $this->getPrices($author_id, $type, $placeType)['places'];
+        $prices_places_curtype = $this->getPrices($author_id, $type, $placeType);
 
-        return ['cultures' => $cultures, 'prices' => $prices, 'places' => $places];
+        return [
+            'cultures' => $cultures,
+            'prices' => $prices_places_curtype['prices'],
+            'places' => $prices_places_curtype['places'],
+            'statusCurtype' => $prices_places_curtype['statusCurtype']
+        ];
 
 //        return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
 //            ->with([

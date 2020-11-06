@@ -1,6 +1,16 @@
 <div class="regions-tabs table-tabs mt-5">
-    <a  id="region-uah" class="region-port-table">Закупки UAH</a>
-    <a  id="region-usd" class="region-port-table">Закупки USD</a>
+    @if($statusCurtypeRegion == 'UAH')
+        <a  id="region-uah" class="active region-port-table">Закупки UAH</a>
+    @endif
+
+    @if($statusCurtypeRegion == 'USD')
+        <a  id="region-usd" class="active region-port-table">Закупки USD</a>
+    @endif
+
+    @if($statusCurtypeRegion == 'UAH_USD')
+        <a  id="region-uah" class="active region-port-table">Закупки UAH</a>
+        <a  id="region-usd" class="region-port-table">Закупки USD</a>
+    @endif
 </div>
 @if(!empty($region_place))
     <div class="content-block prices-block  d-none d-sm-block" style="position: relative ">
@@ -19,7 +29,7 @@
                 @foreach($region_place as $index => $place)
                     <tr>
                         <td class="py-1">
-                            <span class="place-title">{{$place['region']['name']}}</span>
+                            <span class="place-title">{{$place['region']['name']}} обл.</span>
                             <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                         </td>
                         @foreach($region_culture as $index => $data_region)
@@ -27,14 +37,14 @@
                                 @if(isset($region_price[$place['id']][$data_region['cult_id']][0]))
                                     <td class="region-UAH">
                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
+                                            <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
                                         </div>
                                     </td>
                                 @endif
                                 @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                    <td class="region-USD" style="{{(!empty($port_price[$place['id']][$data_port['cult_id']][0])) ? 'display: none' : ''}}">
+                                    <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                            <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1]['costval'], 1)}}</span> &nbsp;
+                                            <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                         </div>
                                     </td>
                                 @endif
@@ -64,7 +74,7 @@
                     @foreach($region_place as $index => $place)
                         <tr>
                             <td class="py-1">
-                                <span class="place-title">{{$place['region']['name']}}</span>
+                                <span class="place-title">{{$place['region']['name']}} обл.</span>
                                 <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                             </td>
                             @foreach($region_culture as $index => $data_region)
@@ -72,14 +82,14 @@
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][0]))
                                         <td class="region-UAH">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
                                         </td>
                                     @endif
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                        <td class="region-USD" style="{{(!empty($port_price[$place['id']][$data_port['cult_id']][0])) ? 'display: none' : ''}}">
+                                        <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1]['costval'], 1)}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
                                         </td>
                                     @endif
@@ -111,7 +121,7 @@
                     @foreach($region_place as $index => $place)
                         <tr>
                             <td class="py-1">
-                                <span class="place-title">{{$place['region']['name']}}</span>
+                                <span class="place-title">{{$place['region']['name']}} обл.</span>
                                 <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                             </td>
                             @foreach($region_culture as $index => $data_region)
@@ -119,14 +129,14 @@
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][0]))
                                         <td class="region-UAH">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][0][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
                                         </td>
                                     @endif
                                     @if(isset($region_price[$place['id']][$data_region['cult_id']][1]))
-                                        <td class="region-USD" style="{{(!empty($port_price[$place['id']][$data_port['cult_id']][0])) ? 'display: none' : ''}}">
+                                        <td class="region-USD" style="{{(!empty($region_price[$place['id']][$data_region['cult_id']][0])) ? 'display: none' : ''}}">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
-                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1]['costval'], 1)}}</span> &nbsp;
+                                                <span class="font-weight-600">{{round($region_price[$place['id']][$data_region['cult_id']][1][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
                                         </td>
                                     @endif

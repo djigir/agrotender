@@ -246,10 +246,11 @@ class CompanyController extends Controller
         $region_price =   $data_region['prices'];
 //        $this->companyService->getPriceRegionsPorts($id, 0);
 
+        $statusCurtypePort =  $data_port['statusCurtype'];
+        $statusCurtypeRegion = $data_region['statusCurtype'];
 
-        //dd($region_culture, $region_place, $region_price);
         $meta = $this->seoService->getMetaForOneCompany($id);
-       //dd($port_culture, $port_place, $port_price);
+
         return view('company.company', [
             'company' => $this->company,
             'id' => $id,
@@ -259,6 +260,8 @@ class CompanyController extends Controller
             'region_culture' => $region_culture,
             'region_place' => $region_place,
             'region_price' => $region_price,
+            'statusCurtypePort' => $statusCurtypePort,
+            'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
             'updateDate' => $updateDate,
             'current_page' => 'main',
