@@ -267,6 +267,7 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
+            'check_forwards' => $checkForward,
             'updateDate' => $updateDate,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
@@ -276,48 +277,6 @@ class CompanyController extends Controller
         );
     }
 
-    public function getForwardsMonths() {
-        $data = [
-            'start' =>[],
-            'end' =>[],
-        ];
-
-        for ($i = 0; $i <= 6; $i++){
-            $dt_start = Carbon::now();
-            $dt_end = Carbon::now();
-            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
-            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
-        }
-
-        return $data;
-    }
-
-    public function getPricesForwards($author_id, $type, $dtStart, $placeType) {
-        return TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
-            ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
-            ->get()
-            ->toArray();
-    }
-
-    public function getTraderPricesRubrics($user, $placeType, $type) {
-        $rubrics = TradersProducts2buyer::where([['buyer_id', $user], ['acttype', $type], ['type_id', $placeType]])
-            ->with(['traders_products' => function($query)use($user, $placeType, $type){
-                $query->with(['traders_prices' => function($query)use($user, $placeType, $type){
-                    $query->where([['acttype', $type], ['buyer_id', $user]])
-                        ->with(['traders_places' => function($query)use($user, $placeType, $type){
-                            $query->where([['buyer_id', $user], ['type_id', $placeType]]);
-                        }]);
-                }]);
-            }])->get()->toArray();
-
-        foreach ($rubrics as $index_rubric => $rubric){
-            $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
-        }
-
-        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name')->toArray();
-
-        return $rubrics;
-    }
     /**
      * Display a listing of the resource.
      * @param $id
@@ -325,16 +284,17 @@ class CompanyController extends Controller
      */
     public function companyForwards($id)
     {
-        $company = CompItems::find($id);
+        $this->setCompany($id);
 
-        $forward_months = $this->getForwardsMonths();
+        $forward_months = $this->companyService->getForwardsMonths();
 
-        $rubrics_port = $this->getTraderPricesRubrics($company['author_id'], 2, 3);
-        $prices_port = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 2);
+        $rubrics_port = $this->companyService->getTraderPricesRubricsForward($this->company->author_id, 2, 3);
+        $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
 
-        $rubrics_region = $this->getTraderPricesRubrics($company['author_id'], 0, 3);
-        $prices_region = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 0);
+        $rubrics_region = $this->companyService->getTraderPricesRubricsForward($this->company->author_id, 0, 3);
+        $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
 
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         foreach ($rubrics_port as $index => $rubric){
             if(empty($rubric['traders_products']['traders_prices'])){
@@ -361,12 +321,13 @@ class CompanyController extends Controller
         }
 
         return view('company.company_forwards', [
-            'company' => $company,
+            'company' => $this->company,
             'prices_port' => $prices_port,
             'rubrics_port' => $rubrics_port,
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'check_forwards' => $checkForward,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -423,7 +384,7 @@ class CompanyController extends Controller
         $this->setCompany($id);
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
-
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $this->company,
@@ -431,7 +392,8 @@ class CompanyController extends Controller
             'meta' => $meta,
             'current_page' => 'reviews',
             'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
         ]);
 
     }
@@ -452,7 +414,9 @@ class CompanyController extends Controller
             ->with('traders_contacts')
             ->get()
             ->toArray();
+
         $meta = $this->seoService->getMetaCompanyContacts($id);
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company_cont', [
             'company' => $this->company,
@@ -464,7 +428,8 @@ class CompanyController extends Controller
             'meta' => $meta,
             'current_page' => 'contact',
             'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
         ]);
     }
 }

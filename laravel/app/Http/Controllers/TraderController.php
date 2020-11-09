@@ -67,8 +67,6 @@ class TraderController extends Controller
         $port_all = $data['port'];
         $culture_name = 'Выбрать продукцию';
 
-
-
         if($data['port'] != 'all' && $data['port']) {
             $id_port = TradersPorts::where('url', $data['port'])->value('id');
             $port_all = TradersPortsLang::where('port_id', $id_port)->get()->toArray()[0];
