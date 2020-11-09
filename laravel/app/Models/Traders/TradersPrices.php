@@ -45,7 +45,7 @@ class TradersPrices extends Model
 
     public function getCultureAttribute()
     {
-        $this->cultures->first();
+        $this->cultures->first()->toArray();
     }
 
     public function getDateAttribute()

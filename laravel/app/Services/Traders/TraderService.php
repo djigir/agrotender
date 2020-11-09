@@ -84,7 +84,6 @@ class TraderService
             $type_traders = 1;
         }
 
-
         if (isset($data['sell'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersSell($data_breadcrumbs);
             $type_traders = 2;
@@ -150,7 +149,6 @@ class TraderService
     public function setRubrics($criteria_places, $acttype)
     {
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
-        //\DB::enableQueryLog();
 
         $group_items = \DB::table('traders_prices')
             ->select(['traders_prices.cult_id',\DB::raw('count(distinct agt_traders_prices.buyer_id) as count_item')])
@@ -184,6 +182,7 @@ class TraderService
         return $groups;
     }
 
+
     public function getRubricsGroup()
     {
         return $this->groups;
@@ -196,87 +195,6 @@ class TraderService
         $this->treders = CompItems::with('activities')->where([
             ["trader_price{$type}_avail", 1], ["trader_price{$type}_visible", 1], ["visible", 1]
         ]);
-    }
-
-
-    public function getTradersForward($data)
-    {
-        $port_id = ($data['port'] && $data['port'] != 'all') ? TradersPorts::where('url',
-            $data['port'])->value('id') : null;
-
-        $obl_id = ($data['region'] && $data['region'] != 'ukraine') ? Regions::where('translit',
-            $data['region'])->value('id') : null;
-
-        $culture = TradersProducts::where('url', $data['culture'])->value('id');
-
-        $traders = $this->treders->with([
-            'traders_prices' => function ($prices) use ($culture, $obl_id, $port_id) {
-                $prices->where([
-                    ['acttype', 3], ['active', 1], [
-                        function ($check) use ($culture) {
-                            if ($culture) {
-                                $check->where('cult_id', $culture);
-                            }
-                        }
-                    ]
-                ])->with([
-                    'traders_places' => function ($places) use ($culture, $obl_id, $port_id) {
-                        $places->where([
-                            ['type_id', '!=', 1],
-                            [
-                                function ($check) use ($obl_id) {
-                                    if ($obl_id) {
-                                        $check->where('obl_id', $obl_id);
-                                    }
-                                }
-                            ],
-                            [
-                                function ($check) use ($port_id) {
-                                    if ($port_id) {
-                                        $check->where('port_id', $port_id);
-                                    }
-                                }
-                            ]
-                        ]);
-                    }
-                ]);
-            }
-        ])
-            ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
-                'trader_premium_forward', 'trader_sort_forward')
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('trader_sort_forward')
-            ->orderBy('rate_formula', 'desc')
-            ->orderBy('title')
-            ->get()
-            ->toArray();
-
-        foreach ($traders as $index_trader => $trader) {
-            foreach ($trader['traders_prices'] as $index => $prices) {
-                if (isset($prices['traders_places'][0])) {
-                    $traders[$index_trader]['traders_prices'][$index]['place'] = $prices['traders_places'][0]['place'];
-                    $traders[$index_trader]['traders_prices'][$index]['region'] = $prices['traders_places'][0]['region'];
-                    unset($traders[$index_trader]['traders_prices'][$index]['traders_places']);
-                }
-
-                if (empty($prices['traders_places'])) {
-                    unset($traders[$index_trader]['traders_prices'][$index]);
-                }
-            }
-
-            $traders[$index_trader]['traders_prices'] = collect($traders[$index_trader]['traders_prices'])->sortBy('dt')->toArray();
-            $traders[$index_trader]['traders_prices'] = array_values($traders[$index_trader]['traders_prices']);
-
-            if (empty($traders[$index_trader]['traders_prices'])) {
-                unset($traders[$index_trader]);
-            }
-        }
-
-        $traders = array_values($traders);
-
-        $this->groups = $this->setRubrics($traders);
-
-        return $traders;
     }
 
 

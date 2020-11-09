@@ -11,12 +11,12 @@
                 </div>
             @endif
         @endif
-        @if(!empty($port_place))
+        @if(!empty($port_place) && $port_place->count() > 0)
 {{--            @include('company.tables.company-port-table')--}}
             @include('company.tables.company-port-table2')
         @endif
 
-        @if(!empty($region_place))
+        @if(!empty($region_place) && $region_place->count() > 0)
 {{--            @include('company.tables.company-region-table')--}}
             @include('company.tables.company-region-table2')
         @endif
