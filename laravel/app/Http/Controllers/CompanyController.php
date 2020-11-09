@@ -59,11 +59,6 @@ class CompanyController extends Controller
         return redirect()->route('company.filter', [$request->get('query')]);
     }
 
-    private function checkName($translit = null)
-    {
-        return $translit == 'ukraine' or $translit == 'crimea';
-    }
-
     private function regionName($region)
     {
         $name = Regions::where('translit', $region)->value('name'). ' область';
@@ -96,7 +91,7 @@ class CompanyController extends Controller
 
         $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
-        $groups = $this->companyService->setRubricsGroup($region_id);
+        $groups = $this->companyService->setRubricsGroup($region_id, $rubric_id);
         $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
         return view('company.companies', [
@@ -122,7 +117,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      *
      * @param  Request  $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
 
     public function companies(Request $request)
@@ -146,7 +141,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param string $region
      * @param Request $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesRegion(string $region, Request $request)
     {
@@ -170,7 +165,7 @@ class CompanyController extends Controller
      * @param string $region
      * @param $rubric_id
      * @param Request $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesRegionRubric(string $region, $rubric_id, Request $request)
     {
@@ -193,7 +188,7 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param  Request  $request
      * @param $query
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesFilter(Request $request, $query = null)
     {
@@ -342,12 +337,14 @@ class CompanyController extends Controller
             'content_plus' => 'required',
             'content_minus' => 'required',
         ]);
+
         if ($validator->fails()){
             return redirect()
                 ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+
         $author_comment = \auth()->user();
 
         $author = CompComment::create([

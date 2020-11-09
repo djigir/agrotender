@@ -561,7 +561,7 @@ class CompanyService
     }
 
 
-    public function setRubricsGroup($region_id = null)
+    public function setRubricsGroup($region_id = null, $rubric_id = null)
     {
         $this->setCompanies();
 
@@ -590,6 +590,7 @@ class CompanyService
         if($region_id) {
             $company = $this->companies
                 ->where('comp_items.obl_id', $region_id)
+//                ->where('comp_item2topic.topic_id', $rubric_id)
                 ->select('comp_items.id', 'comp_items.author_id','comp_item2topic.topic_id')
                 ->get()->groupBy('topic_id');
 
