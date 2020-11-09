@@ -46,12 +46,13 @@ class CompanyService
             'trader_price_forward_visible' => 1,
             'visible' => 1
         ])->count();
+
         $forward_months = $this->getForwardsMonths();
 
         $prices_port = $this->getPricesForwards($author_id, 3, reset($forward_months), 2);
         $prices_region = $this->getPricesForwards($author_id, 3, reset($forward_months), 0);
 
-        if($check_forwards > 0 || !empty($prices_port) || !empty($prices_region)){
+        if($check_forwards > 0 && (!empty($prices_port) || !empty($prices_region))){
             return true;
         }
 
@@ -191,10 +192,8 @@ class CompanyService
 
         foreach ($prices as $index => $price)
         {
-            $check_curtype = array_merge($check_curtype, collect($prices[$index])->pluck('curtype')->toArray());
-
             foreach ($prices[$index] as $index_place => $place){
-                if(empty($place['traders_places'])){
+                if(!$place['traders_places']){
                     unset($prices[$index][$index_place]);
                 }
             }
@@ -208,7 +207,32 @@ class CompanyService
             if(empty($prices[$index])){
                 unset($prices[$index]);
             }
+        }
 
+        $place_id = [];
+
+        foreach ($prices as $index => $price){
+            $place_id[] = $index;
+        }
+
+        $places = TradersPlaces::whereIn('id', $place_id)
+            ->where('type_id', $placeType)
+            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')
+            ->get();
+
+        $id_place = $places->pluck('id');
+
+        foreach ($id_place as $index => $id){
+            if(isset($prices[$id])){
+                $check_curtype = array_merge($check_curtype, collect($prices[$id])->pluck('curtype')->toArray());
+            }
+        }
+
+
+        $sortBy = 'region.id';
+
+        if($placeType == 2){
+            $sortBy = 'port.0.lang.portname';
         }
 
         if(in_array(0, $check_curtype)){
@@ -221,21 +245,6 @@ class CompanyService
 
         if(in_array(0, $check_curtype) && in_array(1, $check_curtype)){
             $statusCurtype = 'UAH_USD';
-        }
-
-
-        $place_id = [];
-
-        foreach ($prices as $index => $price){
-            $place_id[] = $index;
-        }
-
-        $places = TradersPlaces::whereIn('id', $place_id)->where('type_id', $placeType)->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get();
-
-        $sortBy = 'region.id';
-
-        if($placeType == 2){
-            $sortBy = 'port.0.lang.portname';
         }
 
         $places = $places->sortBy($sortBy);
@@ -529,7 +538,6 @@ class CompanyService
 
         $region_counts = CompItems::select(['obl_id', \DB::raw('count(*) as obl')]);
 
-
         if($rubric){
             $region_counts = $this->companies
                 ->where('comp_item2topic.topic_id', $rubric)
@@ -609,15 +617,16 @@ class CompanyService
             return $this->searchCompanies($data['query']);
         }
 
-        $this->setCompanies();
-
         $obl_id = Regions::where('translit', $data['region'])->value('id');
         $rubric = $data['rubric'];
         $company_criteria = [];
-        $companies = $this->companies;
+        $topic_criteria = [];
+
+        $companies = CompItems::leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
+            ->with('activities')->where('comp_items.visible', 1);
 
         if($obl_id == null && $rubric){
-            $company_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];
+            $topic_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];
         }
 
         if($obl_id != null){
@@ -625,20 +634,28 @@ class CompanyService
         }
 
         if($obl_id != null && $rubric != null){
-            $company_criteria[] = ['comp_item2topic.topic_id', $rubric];
+            $topic_criteria[] = ['comp_item2topic.topic_id', $rubric];
             $company_criteria[] = ['comp_items.obl_id', $obl_id];
         }
 
-        $companies = CompItems::where($company_criteria)
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('rate_formula', 'desc')
-            ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-                'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
-                'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-                'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3')
-            ->paginate(self::PER_PAGE);
+        if(!empty($company_criteria)){
+            $companies = $companies->where($company_criteria);
+        }
+
+        if(!empty($topic_criteria))
+        {
+            $companies->leftJoin('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')->where($topic_criteria);
+        }
+
+        $companies = $companies->orderBy('comp_items.trader_premium', 'desc')
+            ->orderBy('comp_items.rate_formula', 'desc')
+            ->select('comp_items.id', 'comp_items.author_id',
+                'comp_items.trader_premium', 'comp_items.obl_id', 'comp_items.logo_file',
+                'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id',
+                'comp_items.title', 'comp_items.trader_price_avail', 'comp_items.trader_price_visible',
+                'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
 
 
-        return $companies;
+        return $companies->paginate(self::PER_PAGE);
     }
 }

@@ -31,7 +31,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-
     protected $companyService;
     protected $baseServices;
     protected $breadcrumbService;
@@ -253,7 +252,9 @@ class CompanyController extends Controller
         $statusCurtypePort =  $data_port['statusCurtype'];
         $statusCurtypeRegion = $data_region['statusCurtype'];
 
+
         $meta = $this->seoService->getMetaForOneCompany($id);
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company', [
             'company' => $this->company,
