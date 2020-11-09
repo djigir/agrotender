@@ -320,6 +320,7 @@ class Main extends \Core\Controller
 
     public function index()
     {
+//        var_dump($_SESSION);die();
         if ($this->action == 'sendR') {
             $name = $this->request->post['name'];
             $phone = $this->request->post['phone'];
@@ -1434,7 +1435,9 @@ class Main extends \Core\Controller
         // send confirm code to sms
         if ($this->action == 'send-code') {
             $phone = $this->request->post['phone'];
+            // убрать проверку на смс
 //            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
+
             $checkPhone = null;
             if ($checkPhone == null) {
                 $this->user->sendConfirmCode($phone);

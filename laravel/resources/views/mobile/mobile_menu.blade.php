@@ -1,3 +1,8 @@
+<?php
+$check_forwards = \App\Models\Comp\CompItems::where([
+    ['id', $id], ['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1], ['visible', 1]
+])->count();
+?>
 <div class="overlay"></div>
 <div class="mobileMenu">
     <div class="container p-0">
@@ -25,6 +30,9 @@
     <div class="items d-flex flex-column justify-content-between">
         @if(isset($id))
             <a href="{{route('company.index', $id)}}" class="menu-item" >Главная</a>
+            @if($check_forwards != 0)
+                <a href="{{route('company.forwards', $id)}}" class="menu-item" >Форварды</a>
+            @endif
             <a href="{{route('company.reviews', $id)}}" class="menu-item">Отзывы</a>
             <a href="{{route('company.cont', $id)}}" class="menu-item">Контакты</a>
         @endif

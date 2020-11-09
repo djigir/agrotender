@@ -66,4 +66,12 @@ class AdvTorgPost extends Model
 
     protected $dates = ['up_dt', 'upnotif_dt', 'add_date'];
 
+
+//    public function comp_items()
+//    {
+//        return $this->belongsTo(CompItems::class, 'author_id', 'author_id');
+//    }
+
+
+
 }

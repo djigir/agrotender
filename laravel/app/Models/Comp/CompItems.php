@@ -15,6 +15,7 @@ use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersProducts2buyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Jenssegers\Date\Date;
 
 
@@ -65,6 +66,7 @@ use Jenssegers\Date\Date;
  * @property integer $trader_price_forward_avail;
  * @property integer $trader_sort_forward;
  * @property integer $trader_premium_forward;
+ * @property Collection $traders_prices_traders;
  *
  * @property Carbon $trader_price_dtupdt;
  * @property Carbon $trader_price_sell_dtupdt;
@@ -80,9 +82,11 @@ class CompItems extends Model
     const SALES_TYPE_ID = 2;
     const SERVICES_TYPE_ID = 3;
 
+
     protected $table = 'comp_items';
 
     protected $appends = ['date', 'date_price', 'activities_text'];
+
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -97,12 +101,8 @@ class CompItems extends Model
 
     ];
 
-    protected $dates = ['add_date'];
+    protected $dates = ['add_date', 'culture_prices'];
 
-    /* Mutations */
-
-
-    /* Accessor */
     public function activities()
     {
         return $this->belongsToMany(CompTopic::class, 'comp_item2topic',
@@ -110,6 +110,23 @@ class CompItems extends Model
     }
 
     /* Accessor */
+    public function getCulturePricesAttribute()
+    {
+        if (!$this->relationLoaded('traders_prices_traders')) {
+            return [];
+        }
+
+        return $this->traders_prices_traders->unique('cult_id');
+    }
+
+    public function getPlacesAttribute()
+    {
+        if (!$this->relationLoaded('traders_places')) {
+            return [];
+        }
+        return $this->traders_places->unique('id');
+    }
+
     public function getActivitiesTextAttribute()
     {
         $activities = $this->activities->pluck('title');
@@ -154,13 +171,14 @@ class CompItems extends Model
             );
     }
 
+
     public function getDateAttribute()
     {
-        if($this->add_date===null){
+        if ($this->add_date === null) {
             return '';
         }
 
-        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(),true);
+        return $this->add_date->endOfYear()->diffForHumans(Carbon::now(), true);
     }
 
     public function getDatePriceAttribute()
@@ -174,25 +192,43 @@ class CompItems extends Model
         return $this->hasMany(TorgBuyer::class, 'author_id');
     }
 
-    public function traders_culture()
+    public function traders_prices()
     {
-        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id')->with('cultures');
     }
+
 
     public function traders_places()
     {
-        return $this->hasOne(TradersPlaces::class, 'id');
+        return $this->belongsToMany(
+            TradersPlaces::class, 'traders_prices',
+            'buyer_id', 'place_id',
+            'author_id', 'id')
+            ->withPivot([
+                'id',
+                'buyer_id',
+                'cult_id',
+                'place_id',
+                'active',
+                'curtype',
+                'acttype',
+                'costval',
+                'costval_old',
+                'add_date',
+                'dt',
+                'change_date',
+            ])
+            ->with('traders_ports');
     }
 
-    public function traders_prices()
+
+    public function traders_prices_traders()
     {
-        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
+        return $this->traders_prices()
+            ->where('acttype', 0)
+            ->orderBy('change_date', 'DESC');
     }
 
-    public function comp_items_rubrics()
-    {
-        return $this->belongsTo(CompTopicItem::class, 'item_id', 'id');
-    }
 
     public function comp_items_contact()
     {

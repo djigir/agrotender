@@ -422,6 +422,9 @@ class Traders extends \Core\Model {
         $pricesArr[$pKey]['rubrics'] = $tmp_rubrics;
       }
     }
+
+
+
     return $pricesArr;
   }
 

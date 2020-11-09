@@ -110,7 +110,9 @@
                 </li>
             </ul>
         </div>
-        @include('mobile.mobile_menu')
+        @if($isMobile && isset($id))
+            @include('mobile.mobile_menu')
+        @endif
     </header>
     @if(!$isMobile && !isset($id))
         @include('partials.banners.body')

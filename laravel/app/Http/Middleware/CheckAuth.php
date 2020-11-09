@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\Torg\TorgBuyer;
-use App\User;
+use App\Models\Users\User;
 use Closure;
-use Illuminate\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use function Symfony\Component\String\s;
 
@@ -35,6 +34,7 @@ class CheckAuth
         if($user_id){
             $user_old = TorgBuyer::find($user_id)->toArray();
             $user = User::firstOrCreate(['login' => $user_old['login']], $user_old);
+
             Auth::login($user);
         }
 

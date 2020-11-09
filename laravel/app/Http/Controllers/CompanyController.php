@@ -102,7 +102,7 @@ class CompanyController extends Controller
 
         return view('company.companies', [
             'companies' => $companies, 'regions' => $regions,
-            'rubricGroups' => $groups, 'settings_for_page' => $companies,
+            'rubricGroups' => $groups,
             'region_name' => $region_name,
             'region' => empty($data['region']) ? 'ukraine' : $data['region'],
             'obj_region' => $data['region'] != 'ukraine' ? $region : [],
@@ -232,30 +232,45 @@ class CompanyController extends Controller
         $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
-        $port_culture = $this->companyService->getPortsRegionsCulture($id, 2);
-        $port_place = $this->companyService->getPlacePortsRegions($id, 2);
-        $port_price = $this->companyService->getPriceRegionsPorts($id, 2);
+        $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
+        $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
 
-        $region_culture = $this->companyService->getPortsRegionsCulture($id, 0);
-        $region_place = $this->companyService->getPlacePortsRegions($id, 0);
-        $region_price = $this->companyService->getPriceRegionsPorts($id, 0);
+        $port_culture = $data_port['cultures'];
+//        $this->companyService->getPortsRegionsCulture($id, 2);
+        $port_place =   $data_port['places'];
+//        $this->companyService->getPlacePortsRegions($id, 2);
+        $port_price =   $data_port['prices'];
+//        $this->companyService->getPriceRegionsPorts($id, 2);
+
+        $region_culture = $data_region['cultures'];
+//        $this->companyService->getPortsRegionsCulture($id, 0);
+        $region_place =   $data_region['places'];
+//        $this->companyService->getPlacePortsRegions($id, 0);
+        $region_price =   $data_region['prices'];
+//        $this->companyService->getPriceRegionsPorts($id, 0);
+
+        $statusCurtypePort =  $data_port['statusCurtype'];
+        $statusCurtypeRegion = $data_region['statusCurtype'];
 
         $meta = $this->seoService->getMetaForOneCompany($id);
 
         return view('company.company', [
-                'company' => $this->company,
-                'id' => $id,
-                'port_culture' => $port_culture,
-                'port_place' => $port_place,
-                'port_price' => $port_price,
-                'region_culture' => $region_culture,
-                'region_place' => $region_place,
-                'region_price' => $region_price,
-                'meta' => $meta,
-                'updateDate' => $updateDate,
-                'current_page' => 'main',
-                'isMobile' => $this->agent->isMobile(),
-                'page_type' => 0
+            'company' => $this->company,
+            'id' => $id,
+            'port_culture' => $port_culture,
+            'port_place' => $port_place,
+            'port_price' => $port_price,
+            'region_culture' => $region_culture,
+            'region_place' => $region_place,
+            'region_price' => $region_price,
+            'statusCurtypePort' => $statusCurtypePort,
+            'statusCurtypeRegion' => $statusCurtypeRegion,
+            'meta' => $meta,
+            'updateDate' => $updateDate,
+            'current_page' => 'main',
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0
+
             ]
         );
     }

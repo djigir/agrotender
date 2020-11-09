@@ -21,8 +21,6 @@ use Jenssegers\Date\Date;
  * @property  \Datetime $dt;
  * @property  string $comment;
  */
-
-
 class TradersPrices extends Model
 {
     protected $table = 'traders_prices';
@@ -42,14 +40,12 @@ class TradersPrices extends Model
         'comment',
     ];
 
-    protected $appends = ['culture', 'date'];
-    /* Mutations */
+    protected $appends = ['date','culture'];
+
 
     public function getCultureAttribute()
     {
-        $culture = Traders_Products_Lang::where([['id', $this->cult_id]])->select('id', 'name', 'descr', 'item_id')->get()->toArray();
-
-        return !empty($culture) ? $culture[0] : null;
+        $this->cultures->first()->toArray();
     }
 
     public function getDateAttribute()
@@ -58,7 +54,7 @@ class TradersPrices extends Model
     }
     /* Relations */
 
-    public function product_lang()
+    public function cultures()
     {
         return $this->hasMany(Traders_Products_Lang::class, 'item_id', 'cult_id');
     }
@@ -79,8 +75,8 @@ class TradersPrices extends Model
     }
 
 
-    public function price_products()
+    public function traders_products_buyer()
     {
-        return $this->hasMany(TradersProducts::class, 'id', 'cult_id');
+        return $this->belongsTo(TradersProducts2buyer::class, 'id', 'cult_id');
     }
 }

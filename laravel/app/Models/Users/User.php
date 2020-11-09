@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models\Users;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,6 +11,7 @@ class User extends Authenticatable
     use Notifiable;
 
     protected $table = 'auth_users_laravel';
+
     public $timestamps = false;
     /**
      * The attributes that are mass assignable.

@@ -176,5 +176,4 @@
         cursor: pointer;
         color: white !important;
     }
-
 </style>
