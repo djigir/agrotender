@@ -63,7 +63,7 @@
                 </button>
             </div>
             <div class="dropdown-wrapper position-absolute regionDrop">
-                <div class="dropdown" id="regionDrop" style="display: none;">
+                <div class="dropdown" id="regionElevDrop" style="display: none;">
                     <span class="d-block">
                         <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">
                             <span style="cursor: pointer">Вся Украина</span>

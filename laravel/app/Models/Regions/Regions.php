@@ -3,6 +3,7 @@
 namespace App\Models\Regions;
 
 use App\Models\Comp\CompItems;
+use App\Models\Elevators\TorgElevator;
 use App\Models\Traders\TradersPlaces;
 use Illuminate\Database\Eloquent\Model;
 

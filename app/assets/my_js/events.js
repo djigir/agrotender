@@ -194,6 +194,10 @@ window.onload = function (){
         }
     });
 
+    $("#regionElev").click(function (event) {
+        $("#regionDrop").toggle();
+    });
+
     $(".getRubricGroup").click(function (event) {
         let group = event.currentTarget.attributes[1].nodeValue;
         console.log(group);
