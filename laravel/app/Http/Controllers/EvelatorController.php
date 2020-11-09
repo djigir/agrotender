@@ -66,7 +66,6 @@ class EvelatorController extends Controller
         $data = ['region' => null];
 
         return $this->setElevators($data);
-
     }
 
 
@@ -79,8 +78,9 @@ class EvelatorController extends Controller
 
     public function elevator($url)
     {
-        dd($url);
-        $elevator = TorgElevator::where('elev_url', $url)->first();
+        $elevator = TorgElevator::join('torg_elevator_lang', 'torg_elevator_lang.item_id', '=', 'torg_elevator.id')
+            ->where('torg_elevator.elev_url', $url)
+            ->first();
 
         return view('elevators.elevator', [
             'elevator' => $elevator,

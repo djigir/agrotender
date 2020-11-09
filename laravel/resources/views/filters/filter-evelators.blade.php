@@ -30,7 +30,7 @@
                             <div class="col" style="column-count: 3">
                                 @foreach($regions as $index => $region)
                                     <a class="regionLink {{($region_translit == $region['translit']) ? 'active' : ''}}"
-                                       href="{{route('elev.region', ['region' => $region['translit']])}}">
+                                       href="{{route('elev.region', $region['translit'])}}">
                                         <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}}</span>
                                     </a>
                                 @endforeach

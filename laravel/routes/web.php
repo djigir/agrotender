@@ -83,6 +83,6 @@ Route::prefix('elev')
     ->group(function () {
         Route::get('/', 'EvelatorController@elevators')->name('elevators');
         Route::get('/{region}', 'EvelatorController@elevatorsRegion')->name('region');
-        Route::get('/{elev-url}', 'EvelatorController@elevator')->name('elevator');
+        Route::get('/{url}', 'EvelatorController@elevator')->name('elevator');
 });
 
