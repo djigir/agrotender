@@ -108,7 +108,7 @@ class TraderController extends Controller
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
-
+        
         return view('traders.traders', [
             'regions' => $regions,
             'traders' => $data_traders['traders'],
@@ -162,7 +162,7 @@ class TraderController extends Controller
      */
     public function regionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'type' => ''];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'type' => '', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
@@ -200,7 +200,7 @@ class TraderController extends Controller
 
     public function portCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => ''];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => '', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {

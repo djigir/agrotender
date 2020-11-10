@@ -1,4 +1,3 @@
-{{--{{dd($traders)}}--}}
 <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
     @if(!$isMobile)
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -31,7 +30,7 @@
                 @foreach($trader->places as $index => $place)
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}}">
                         <td>
-                            <a class="d-flex align-items-center" href="{{route('company.forwards', $trader->id)}}">
+                            <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                 <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
                                 <span class="title">{{$trader->title}}</span>
                             </a>
