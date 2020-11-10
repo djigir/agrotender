@@ -51,6 +51,201 @@
             style="display:none;visibility:hidden"></iframe>
 </noscript>
 <div class="">
+
+<div class="bg_filters"></div>
+  <div class="header__wrap">
+    <header class="new_header">
+      <div class="new_container">
+        <div class="header__flex header__desktop">
+          <div class="logo-wrap">
+            <a href="/" class="logo">
+              <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="logo" class="logo_desktop">
+              <img src="https://agrotender.com.ua/app/assets/img/agromini.svg" alt="logo" class="logo_mobile">
+            </a>
+            <div class="hidden-links">
+              <a href="viber://pa?chatURI=agrotender_bot&text=">
+                <img src="https://agrotender.com.ua/app/assets/img/company/viber4.svg" alt="">
+              </a>
+              <a href="https://t.me/AGROTENDER_bot">
+                <img src="https://agrotender.com.ua/app/assets/img/company/telegram-white.svg" alt="">
+              </a>
+            </div>
+          </div>
+          <div class="header__center__buttons">
+            <a href="https://agrotender.com.ua/board" class="header__center__button">Объявления</a>
+            <div class="header__tradersPrice first">
+              <a href="https://agrotender.com.ua/traders" class="header__center__button withArrow">
+                Цены Трейдеров
+              </a>
+              <div class="header__hoverElem-wrap">
+                <div class="header__hoverElem">
+                  <ul>
+                    <li>
+                      <a href="https://agrotender.com.ua/traders" class="header_fw600">Закупки</a>
+                    </li>
+                    <li>
+                      <a href="https://agrotender.com.ua/traders_forwards/region_ukraine/pshenica_2_kl" class="header_fw600">Форварды</a>
+                    </li>
+                    <li>
+                      <a href="https://agrotender.com.ua/traders_sell" class="header_fw600">Продажи</a>
+                    </li>
+                    <li>
+                      <span class="line"></span>
+                    </li>
+                    <li>
+                      <a href="https://agrotender.com.ua/tarif20.html" class="header__yellowText">Разместить компанию</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="header__tradersPrice special">
+              <a href="https://agrotender.com.ua/traders" class="header__center__button withBg">
+                <span class="header__tradersPrice-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              </a>
+              <div class="header__hoverElem-wrap">
+                <div class="header__hoverElem">
+                  <ul>
+                    <li>
+                      <a href="/kompanii">Компании</a>
+                    </li>
+                    <li>
+                      <a href="/elev">Элеваторы</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="header__right">
+            <a href="#" class="header__right__button">
+              <span>Мой профиль</span>
+              <img src="https://agrotender.com.ua/app/assets/img/profile.svg" alt="profile">
+            </a>
+            <div class="header__hoverElem-wrap">
+              <div class="header__hoverElem">
+                @if(auth()->user())
+                <!-- if user authed -->
+                <ul>
+                    <li>
+                        <span>Цены трейдера:</span>
+                    </li>
+                    <li>
+                        <a href="/u/prices">Таблица закупок</a>
+                    </li>
+                    <li>
+                        <a href="/contacts">Контакты трейдера</a>
+                    </li>
+                    <li>
+                        <span>Моя Компания:</span>
+                    </li>
+                    <li>
+                        <a href="/u/company">Настройки</a>
+                    </li>
+                    <li>
+                        <a href="/u/contacts">Контакты</a>
+                    </li>
+                    <li>
+                        <a href="/u/posts">Объявления</a>
+                    </li>
+                    <li>
+                        <a href="/u/balance/pay">Пополнить баланс</a>
+                    </li>
+                    <li>
+                        <span>Мой профиль:</span>
+                    </li>
+                    <li>
+                        <a href="/u/">Настройки</a>
+                    </li>
+                    <li>
+                        <a href="/logout" class="header__exit">Выход</a>
+                    </li>
+                </ul>
+                @else
+                <!-- if user not authed -->
+                <ul>
+                    <li>
+                        <a href="/buyerreg"><b>Зарегистрироваться</b></a>
+                    </li>
+                    <li>
+                        <a href="/buyerlog">Войти</a>
+                    </li>
+                    <li>
+                    <span class="bordered_line"></span>
+                    </li>
+                    <li>
+                        <a href="http://agrotender.local/tarif20.html">Разместить компанию</a>
+                    </li>
+                </ul>
+                @endif
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="header__mobile">
+          <button class="header_drawerOpen-btn">
+            <img src="https://agrotender.com.ua/app/assets/img/menu.svg" alt="">
+          </button>
+          <a href="/" class="header_logo_mobile">
+            <img src="https://agrotender.com.ua/app/assets/img/logo_white.svg" alt="">
+          </a>
+        @if(auth()->user())
+            <a href="/u" class="header_profile">
+                <img src="https://agrotender.com.ua/app/assets/img/profile_white.svg" alt="">
+            </a>
+            @else
+            <a href="/buyerlog" class="header_profile">
+                <img src="https://agrotender.com.ua/app/assets/img/profile_white.svg" alt="">
+            </a>
+        @endif
+        </div>
+        <div class="drawer">
+          <div class="drawer_content">
+            <div class="drawer__header">
+              <a href="/" class="drawer__header-logo">
+                <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
+              </a>
+              <a href="https://t.me/AGROTENDER_bot" class="drawer__header-social first">
+                <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
+              </a>
+              <a href="viber://pa?chatURI=agrotender_bot&text=" class="drawer__header-social">
+                <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
+              </a>
+            </div>
+            <ul class="drawer__list">
+              <li>
+                <a href="/">Главная</a>
+              </li>
+              <li>
+                <a href="/board">Объявления</a>
+              </li>
+              <li>
+                <a href="/traders/region_ukraine">Цены трейдеров</a>
+              </li>
+              <li>
+                <a href="/kompanii">Компании</a>
+              </li>
+              <li>
+                <a href="/elev">Элеваторы</a>
+              </li>
+            </ul>
+            @if(auth()->user())
+                <div class="drawer_footer">
+                <ul class="drawer__list">
+                    <li><a href="/logout">Выход</a></li>
+                </ul>
+                </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+    <!--
     <header class="header">
         <div class="top container">
             <div class="row" style="{{$isMobile ? 'flex-wrap: nowrap' : ''}}">
@@ -114,6 +309,7 @@
             @include('mobile.mobile_menu')
         @endif
     </header>
+    -->
     @if(!$isMobile && !isset($id))
         @include('partials.banners.body')
     @endif

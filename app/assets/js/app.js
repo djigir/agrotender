@@ -4660,11 +4660,10 @@ if (isFilter) {
 }
 
 
-const $filter = document.querySelector('.mobile_filter')
 
 class NewFilter {
   constructor (filter) {
-    this.$filter = $filter
+    this.$filter = filter
     this.search_url = {
       base: '',
       region: '',
@@ -4884,6 +4883,7 @@ class NewFilter {
   }
 }
 
+const $filter = document.querySelector('.mobile_filter')
 if ($filter) {
   const filterExmp = new NewFilter($filter)  
   document.querySelector('.openFilter').onclick = () => filterExmp.open()
@@ -4894,3 +4894,4 @@ $('.traders__item.yellow .traders__item__image').primaryColor({
   $(this).parents('.traders__item__header').css('background-color', 'rgb('+color+')');
   }
 });
+
