@@ -1,8 +1,7 @@
 <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
     @if(!$isMobile)
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
-        <table class="sortTable sortable dTable dataTable no-footer" cellspacing="0" id="DataTables_Table_0"
-               role="grid">
+        <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
             <thead>
             <tr role="row">
                 <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
