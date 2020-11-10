@@ -16,7 +16,7 @@
                 <img src="/app/assets/img/granary-4.png" class="logo">
             </div>
             <div class="col pl-1 text-left d-flex align-items-center">
-                <span class="title">{{$elevator->orgname}}</span>
+                <span class="title">{!! $elevator->orgname !!}</span>
             </div>
         </div>
         <div class="content-block w-100 mt-3 mt-sm-5 py-2">
@@ -52,7 +52,7 @@
                     <b>Телефоны:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator['phone']}}</span>
+                    <span>{{$elevator->phone}}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -70,7 +70,7 @@
                     <b>Email:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator['email']}}</span>
+                    <span>{{$elevator->email}}</span>
                 </div>
             </div>
             <hr class="m-0">

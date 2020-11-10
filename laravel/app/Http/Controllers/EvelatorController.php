@@ -35,6 +35,7 @@ class EvelatorController extends Controller
 
     public function setElevators($data)
     {
+//        \DB::enableQueryLog();
         $region = $data['region'];
         $region_name = $this->regionName($data['region']);
 
@@ -49,7 +50,7 @@ class EvelatorController extends Controller
 
         $elevators = $elevators->orderBy('torg_elevator.id', 'desc')->get();
         $regions = array_slice($this->baseServices->getRegions(), 1, -1);
-
+//        dd(\DB::getQueryLog());
 
         return view('elevators.elevators', [
             'elevators' => $elevators,
