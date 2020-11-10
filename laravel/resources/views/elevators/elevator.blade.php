@@ -16,7 +16,7 @@
                 <img src="/app/assets/img/granary-4.png" class="logo">
             </div>
             <div class="col pl-1 text-left d-flex align-items-center">
-                <span class="title">{!! $elevator->orgname !!}</span>
+                <span class="title">{!! $elevator->lang_elevator[0]['name'] !!}</span>
             </div>
         </div>
         <div class="content-block w-100 mt-3 mt-sm-5 py-2">
@@ -25,7 +25,7 @@
                     <b>Адрес:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{!! $elevator->addr !!}</span>
+                    <span>{!! $elevator->lang_elevator[0]->addr !!}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -34,7 +34,7 @@
                     <b>Юридический адрес:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{!! $elevator->addr !!}</span>
+                    <span>{!! $elevator->lang_elevator[0]->orgaddr !!}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -43,7 +43,7 @@
                     <b>Директор:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator->director}}</span>
+                    <span>{{$elevator->lang_elevator[0]->director}}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -61,7 +61,7 @@
                     <b>Хранение:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator->holdcond}}</span>
+                    <span>{{$elevator->lang_elevator[0]->holdcond}}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -79,7 +79,7 @@
                     <b>Услуги по подработке:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator->descr_podr}}</span>
+                    <span>{{$elevator->lang_elevator[0]->descr_podr}}</span>
                 </div>
             </div>
             <hr class="m-0">
@@ -88,7 +88,7 @@
                     <b>Услуги по определению качества:</b>
                 </div>
                 <div class="col-12 col-sm-7">
-                    <span>{{$elevator->descr_qual}}</span>
+                    <span>{{$elevator->lang_elevator[0]->descr_qual}}</span>
                 </div>
             </div>
         </div>
