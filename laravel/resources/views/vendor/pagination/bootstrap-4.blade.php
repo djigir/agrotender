@@ -1,23 +1,23 @@
 <?php
     $agent = new \Jenssegers\Agent\Agent;
-    $isMobiel = $agent->isMobile();
+    $isMobile = $agent->isMobile();
 ?>
 <div class="row  mt-4 mobile-paginate">
     <div style="margin: 0 auto">
         @if ($paginator->hasPages())
             <nav>
-                <ul class="pagination">
+                <ul class="pagination" style="{{ $isMobile ? 'width: 280px;': ''}}">
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
                             <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">
                                 <i class="far fa-chevron-left mr-1"></i>
-                                @if(!$isMobiel)Предыдущая @endif
+                                @if(!$isMobile)Предыдущая @endif
                             </span>
                         </li>
                     @else
                         <li class="page-item">
                             <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">
-                                <i class="far fa-chevron-left mr-1"></i>@if(!$isMobiel)Предыдущая @endif
+                                <i class="far fa-chevron-left mr-1"></i>@if(!$isMobile)Предыдущая @endif
                             </a>
                         </li>
                     @endif
@@ -45,7 +45,7 @@
                                         <?php
                                         $flag = false;
                                         ?>
-                                        <li class="page-item disabled" aria-disabled="true">
+                                        <li class="page-item disabled" aria-disabled="true" >
                                             <span style="background-color: #eff1f5" class="page-link">...</span>
                                         </li>
                                     @endif
@@ -66,11 +66,11 @@
                     @if ($paginator->hasMorePages())
                         <li class="page-item">
                             <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next"
-                               aria-label="@lang('pagination.next')">@if(!$isMobiel)Следующая @endif<i class="far fa-chevron-right mr-1"></i></a>
+                               aria-label="@lang('pagination.next')">@if(!$isMobile)Следующая @endif<i class="far fa-chevron-right mr-1"></i></a>
                         </li>
                     @else
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">@if(!$isMobiel)Следующая  @endif<i
+                            <span class="page-link" aria-hidden="true">@if(!$isMobile)Следующая  @endif<i
                                     class="far fa-chevron-right mr-1"></i></span>
                         </li>
                     @endif

@@ -43,14 +43,10 @@ class TradersPrices extends Model
 
     protected $appends = ['date','culture', 'change_price', 'change_price_type'];
 
-    //!$price['costval_old'] || !$diff ? '' : ($diff < 0 ? 'down' : 'up'),
-//$diff = $date_expired_diff <= $price['change_date'] ? round($price['costval'] - $price['costval_old']) : 0;
-//$date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
-//    public $countDaysExpiredDiff = '-7 day'; // количество дней для отображения разниц diff изменения цен
-
     public function calculatingPriceChange()
     {
         $date_expired_diff = Carbon::now()->addDay(-7)->format('Y-m-d');
+
         return $date_expired_diff <= $this->change_date ? round($this->costval - $this->costval_old) : 0;
     }
 
