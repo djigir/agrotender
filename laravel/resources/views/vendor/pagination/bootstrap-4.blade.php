@@ -1,3 +1,7 @@
+<?php
+    $agent = new \Jenssegers\Agent\Agent;
+    $isMobiel = $agent->isMobile();
+?>
 <div class="row  mt-4 mobile-paginate">
     <div style="margin: 0 auto">
         @if ($paginator->hasPages())
@@ -6,13 +10,14 @@
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
                             <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">
-                                <i class="far fa-chevron-left mr-1"></i> Предыдущая
+                                <i class="far fa-chevron-left mr-1"></i>
+                                @if(!$isMobiel)Предыдущая @endif
                             </span>
                         </li>
                     @else
                         <li class="page-item">
                             <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">
-                                <i class="far fa-chevron-left mr-1"></i>Предыдущая
+                                <i class="far fa-chevron-left mr-1"></i>@if(!$isMobiel)Предыдущая @endif
                             </a>
                         </li>
                     @endif
@@ -34,15 +39,6 @@
                                     @continue
                                 @elseif($paginator->currentPage() > 2 && $loop->index >= ($paginator->currentPage()+2))
                                     @continue
-{{--                                @elseif($paginator->currentPage() >= 8 && $page >= ($paginator->currentPage()+3))--}}
-{{--                                   --}}{{--@if($flag2 !== false)--}}
-{{--                                       <?php--}}
-{{--                                       $flag2 = false;--}}
-{{--                                       ?>--}}
-{{--                                           <li class="page-item"><a class="page-link" href="{{ $elements[4][$paginator->lastPage()] }}">{{ $paginator->lastPage() }}</a></li>--}}
-
-{{--                                   @endif--}}
-{{--                                    @continue--}}
                                 @endif
                                 @if($paginator->currentPage() >= 4 && $page !== 1 && $page < ($paginator->currentPage()-2))
                                     @if($flag !== false)
@@ -70,11 +66,11 @@
                     @if ($paginator->hasMorePages())
                         <li class="page-item">
                             <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next"
-                               aria-label="@lang('pagination.next')">Следующая <i class="far fa-chevron-right mr-1"></i></a>
+                               aria-label="@lang('pagination.next')">@if(!$isMobiel)Следующая @endif<i class="far fa-chevron-right mr-1"></i></a>
                         </li>
                     @else
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">Следующая <i
+                            <span class="page-link" aria-hidden="true">@if(!$isMobiel)Следующая  @endif<i
                                     class="far fa-chevron-right mr-1"></i></span>
                         </li>
                     @endif

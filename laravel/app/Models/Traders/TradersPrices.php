@@ -3,6 +3,7 @@
 namespace App\Models\Traders;
 
 use App\Models\Comp\CompItems;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Jenssegers\Date\Date;
 
@@ -15,7 +16,7 @@ use Jenssegers\Date\Date;
  * @property  integer $active;
  * @property  integer $acttype;
  * @property  float $costval;
- * @property  float $costva_old;
+ * @property  float $costval_old;
  * @property  \Datetime  $add_date;
  * @property  \Datetime  $change_date;
  * @property  \Datetime $dt;
@@ -33,19 +34,51 @@ class TradersPrices extends Model
         'active',
         'acttype',
         'costval',
-        'costva_old',
+        'costval_old',
         'add_date',
         'change_date',
         'dt',
         'comment',
     ];
 
-    protected $appends = ['date','culture'];
+    protected $appends = ['date','culture', 'change_price', 'change_price_type'];
+
+    //!$price['costval_old'] || !$diff ? '' : ($diff < 0 ? 'down' : 'up'),
+//$diff = $date_expired_diff <= $price['change_date'] ? round($price['costval'] - $price['costval_old']) : 0;
+//$date_expired_diff = date('Y-m-d', strtotime($this->countDaysExpiredDiff));
+//    public $countDaysExpiredDiff = '-7 day'; // количество дней для отображения разниц diff изменения цен
+
+    public function calculatingPriceChange()
+    {
+        $date_expired_diff = Carbon::now()->addDay(-7)->format('Y-m-d');
+        return $date_expired_diff <= $this->change_date ? round($this->costval - $this->costval_old) : 0;
+    }
+
+
+    public function getChangePriceAttribute()
+    {
+        return $this->calculatingPriceChange();
+    }
+
+
+    public function getChangePriceTypeAttribute()
+    {
+        if(!$this->change_date || !$this->calculatingPriceChange()){
+            return '';
+        }
+
+        if($this->calculatingPriceChange() > 0)
+        {
+            return 'up';
+        }
+
+        return 'down';
+    }
 
 
     public function getCultureAttribute()
     {
-        $this->cultures->first()->toArray();
+        $this->cultures->first();
     }
 
     public function getDateAttribute()

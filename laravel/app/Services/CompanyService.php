@@ -176,18 +176,21 @@ class CompanyService
     {
         $statusCurtype = '';
         $check_curtype = [];
+        $place_id = [];
+        $sortBy = 'region.id';
 
         $prices = TradersPrices::where([
             'acttype' => $type,
             'buyer_id' => $author_id
-        ])->with(['traders_places' => function ($query) use ($type, $author_id, $placeType) {
+        ])->with([
+            'traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([
                     'acttype' => $type,
                     'type_id' => $placeType,
                     'buyer_id' => $author_id
                 ]);
             }
-            ])->get()->groupBy(['place_id']);
+        ])->get()->groupBy(['place_id']);
 
 
         foreach ($prices as $index => $price)
@@ -209,27 +212,24 @@ class CompanyService
             }
         }
 
-        $place_id = [];
 
         foreach ($prices as $index => $price){
             $place_id[] = $index;
         }
 
-        $places = TradersPlaces::whereIn('id', $place_id)
-            ->where('type_id', $placeType)
+        $places = TradersPlaces::where('type_id', $placeType)->whereIn('id', $place_id)
             ->select('id', 'type_id', 'place', 'port_id', 'obl_id')
             ->get();
 
         $id_place = $places->pluck('id');
 
         foreach ($id_place as $index => $id){
-            if(isset($prices[$id])){
-                $check_curtype = array_merge($check_curtype, collect($prices[$id])->pluck('curtype')->toArray());
+            if(isset($prices[$id]))
+            {
+                $check_curtype = array_merge($check_curtype, array_keys($prices[$id]));
             }
         }
 
-
-        $sortBy = 'region.id';
 
         if($placeType == 2){
             $sortBy = 'port.0.lang.portname';
@@ -655,7 +655,6 @@ class CompanyService
                 'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id',
                 'comp_items.title', 'comp_items.trader_price_avail', 'comp_items.trader_price_visible',
                 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
-
 
         return $companies->paginate(self::PER_PAGE);
     }

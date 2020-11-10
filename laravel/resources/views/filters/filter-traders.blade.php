@@ -1,7 +1,6 @@
 <?php
 $route_name = \Route::getCurrentRoute()->getName();
 $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
-
 ?>
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
@@ -50,14 +49,12 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                             <li>
                                                 @if(!empty($region))
                                                     <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
-                                                        {{ $item['culture']['name']}}
-                                                        <span class="companyCount small">({{$item['count_item']}})</span>
+                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
                                                     </a>
                                                 @endif
                                                 @if(!empty($port))
                                                     <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
-                                                        {{ $item['culture']['name']}}
-                                                        <span class="companyCount small">({{$item['count_item']}})</span>
+                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
                                                     </a>
                                                 @endif
                                             </li>
