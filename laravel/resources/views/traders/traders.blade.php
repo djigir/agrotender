@@ -28,7 +28,7 @@
         @endif
 
     @if($type_view == 'table')
-        @include('traders.traders_forward_table')
+        @include('traders.traders_forward_table', ['type_traders' => $type_traders])
     @else
         <div class="new_container container mt-3 traders_dev">
             @if(!empty($traders))

@@ -108,6 +108,7 @@ class TraderFeedService
             }
         }
 //        dd($feed);
+
         return $feed;
     }
 }
