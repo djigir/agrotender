@@ -8,21 +8,25 @@ Auth::routes();
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
 
+
+
 /* routes for traders  */
 Route::prefix('traders')
     ->name('traders.')
     ->group(function () {
         Route::redirect('/', '/traders/region_ukraine', 301);
         Route::redirect('/tport_producers', '/traders/region_ukraine', 301);
+        Route::redirect('/tport_export', '/traders/region_ukraine', 301);
         Route::redirect('/tport_export/index', '/traders/region_ukraine', 301);
         Route::redirect('/tport_producers/index', '/traders/region_ukraine', 301);
+        Route::redirect('/tport_tradecomps', '/traders/region_ukraine', 301);
+        Route::redirect('/tport_tradecomps/index', '/traders/region_ukraine', 301);
 
         Route::get('/region_{region}', 'TraderController@index')->name('region');
         Route::get('/region_{region}/{culture}', 'TraderController@regionCulture')->name('region_culture');
 
         Route::get('/tport_{port_name}', 'TraderController@port')->name('port');
         Route::get('/tport_{port}/{culture}', 'TraderController@portCulture')->name('port_culture');
-
     });
 
 
