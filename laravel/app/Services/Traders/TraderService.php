@@ -231,7 +231,7 @@ class TraderService
 
         if ($data['culture']) {
             $culture = TradersProducts::where('url', $data['culture'])->value('id');
-            $criteria_prices[] = ['cult_id', $culture];
+            $criteria_prices[] = ['traders_prices.cult_id', $culture];
         }
 
         if ($data['query'] && isset($data['query']['currency'])) {
@@ -239,7 +239,7 @@ class TraderService
         }
 
         if ($currency != 2) {
-            $criteria_prices[] = ['curtype', $currency];
+            $criteria_prices[] = ['traders_prices.curtype', $currency];
         }
 
         $author_ids = TradersPrices::query()

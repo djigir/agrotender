@@ -45,7 +45,7 @@
                                         {{ $trader->title }}
                                     </div>
                                     @if(!$culture_translit)
-                                        @foreach($trader->culture_prices->take(3) as $index => $price_culture)
+                                        @foreach($trader->culture_prices->take($trader->trader_premium == 1 ? 3 : 2) as $index => $price_culture)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                 <span class="traders__item__content-p-title">{!! isset($price_culture->cultures[0]) ? $price_culture->cultures[0]->name : '' !!}</span>
@@ -61,7 +61,7 @@
                                         @endforeach
                                     @else
                                     @if($port)
-                                        @foreach($trader->places->take(3) as $index => $place)
+                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                      <span class="traders__item__content-p-title">
@@ -80,7 +80,7 @@
                                         @endforeach
                                     @endif
                                         @if($region)
-                                            @foreach($trader->places->take(3) as $index => $place)
+                                            @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
                                                 <div class="traders__item__content-description">
                                                     <p class="traders__item__content-p">
                                                         <span class="traders__item__content-p-title">
