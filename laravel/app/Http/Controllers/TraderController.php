@@ -108,7 +108,7 @@ class TraderController extends Controller
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
-        
+
         return view('traders.traders', [
             'regions' => $regions,
             'traders' => $data_traders['traders'],
@@ -129,8 +129,8 @@ class TraderController extends Controller
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
             'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
-//            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
-            'feed' =>  []
+            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
+//            'feed' =>  []
         ]);
     }
 
