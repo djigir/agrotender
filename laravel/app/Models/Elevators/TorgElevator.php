@@ -29,24 +29,6 @@ class TorgElevator extends Model
         'rate', 'phone', 'elev_url', 'email', 'filename'
     ];
 
-//    protected $appends = ['lang_elevator', 'region', 'lang_rayon'];
-//    protected $appends = ['region'];
-
-
-//    public function getLangRayonAttribute()
-//    {
-//        return $this->lang_rayon()->first();
-//    }
-//
-//    public function getLangElevatorAttribute()
-//    {
-//        return $this->lang_elevator()->first();
-//    }
-//
-    public function getRegionAttribute()
-    {
-        return $this->region()->first();
-    }
 
     public function lang_elevator()
     {
