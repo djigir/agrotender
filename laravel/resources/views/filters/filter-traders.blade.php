@@ -23,6 +23,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 </div>
 <div class="bg_filters"></div>
 <div class="new_filters-wrap">
+    <div class="replacement"></div>
     <div class="fixed-item">
         <div class="new_container">
             <div class="new_filters">

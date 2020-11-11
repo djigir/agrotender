@@ -6213,7 +6213,7 @@ table.proposedTable tr.not-viewed td {
   left: 0;
   top: 0;
   right: 0;
-  z-index: 10;
+  z-index: 9999;
   transition: 300ms top ease;
   transition-delay: 300ms;
 }

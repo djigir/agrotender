@@ -4481,49 +4481,9 @@ if ($new_feed_item_title.length) {
 
 
 const $headerWrap = document.querySelector('.header__wrap')
-
 const $headerWrap_container = $headerWrap.querySelector('.new_container')
 
 window.onload = () => {
-  // $headerWrap_container.insertAdjacentHTML('beforeend', `
-  //   <div class="drawer">
-  //     <div class="drawer_content">
-  //       <div class="drawer__header">
-  //         <a href="/" class="drawer__header-logo">
-  //           <img src="https://agrotender.com.ua/app/assets/img/logo.svg" alt="">
-  //         </a>
-  //         <a href="#" class="drawer__header-social first">
-  //           <img src="https://agrotender.com.ua/app/assets/img/company/telegram_m.svg" alt="">
-  //         </a>
-  //         <a href="#" class="drawer__header-social">
-  //           <img src="https://agrotender.com.ua/app/assets/img/company/viber_m.svg" alt="">
-  //         </a>
-  //       </div>
-  //       <ul class="drawer__list">
-  //         <li>
-  //           <a href="#">Главная</a>
-  //         </li>
-  //         <li>
-  //           <a href="#">Объявления</a>
-  //         </li>
-  //         <li>
-  //           <a href="#">Цены трейдеров</a>
-  //         </li>
-  //         <li>
-  //           <a href="#">Компании</a>
-  //         </li>
-  //         <li>
-  //           <a href="#">Элеваторы</a>
-  //         </li>
-  //       </ul>
-  //       <div class="drawer_footer">
-  //         <ul class="drawer__list">
-  //           <li><a href="#">Выход</a></li>
-  //         </ul>
-  //       </div>
-  //     </div>
-  //   </div>
-  // `)
   if ($headerWrap) {
     const headerOffset = $headerWrap.offsetTop
   
@@ -4562,10 +4522,7 @@ window.onload = () => {
   
 }
 
-
-
 const isFilter = document.querySelector('.new_filters')
-
 if (isFilter) {
   const $filterButtons = document.querySelectorAll('.filter__button')
   const filter_Background =  document.querySelector('.bg_filters')
@@ -4604,10 +4561,8 @@ if (isFilter) {
       if (c1) {
         flagPath = true
       }
-      if (c2) {
-        if (c3) {
-          close = true
-        }
+      if (c2 && c3) {
+        close = true
       }
     })
     if (flagPath && !close) {
@@ -4618,7 +4573,6 @@ if (isFilter) {
   })
 
   const choseProduction = document.querySelector('#choseProduct')
-
   const allUkraine = document.querySelector('#all_ukraine')
 
   function fff ($el) {
@@ -4640,9 +4594,10 @@ if (isFilter) {
   fff(allUkraine)
   
   const $filterOffset = document.querySelector('.new_filters-wrap')
-  const filterOffset = $filterOffset.offsetTop 
+  const filterOffset = $filterOffset.offsetTop + $filterOffset.offsetHeight
 
-  window.addEventListener('scroll', function(e) {
+  window.addEventListener('scroll', function(e) {    
+    console.log('$filterOffset', $filterOffset.offsetHeight)
     if (this.scrollY > filterOffset && this.oldScroll < this.scrollY) {
       $filterOffset.classList.add("active");
       $filterOffset.classList.remove("hidden");
@@ -4658,8 +4613,6 @@ if (isFilter) {
     this.oldScroll = this.scrollY;
   })
 }
-
-
 
 class NewFilter {
   constructor (filter) {
@@ -4776,7 +4729,6 @@ class NewFilter {
 
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', (e) => {
-        console.log(idx)
         this.openScreen('third', idx)
       })
     })
@@ -4785,7 +4737,6 @@ class NewFilter {
 
     clickableLinks.forEach((a, idx) => {
       a.addEventListener('click', (e) => {
-        console.log(idx)
         this.openScreen('first')
         this.changeTextOnFirstScreen(a.dataset.id, a.textContent, a.dataset.url)
       })
@@ -4794,8 +4745,6 @@ class NewFilter {
 
   thirdScreen() {
     const clickableItems = this.third_screen.querySelectorAll('a')
-
-    console.log('clickableItems', clickableItems)
 
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', (e) => {
