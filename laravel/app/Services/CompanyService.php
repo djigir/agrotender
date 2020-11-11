@@ -78,31 +78,32 @@ class CompanyService
 
     public function getPricesForwards($author_id, $type, $dtStart, $placeType)
     {
-        return TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+         $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
             ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
-            ->get()
-            ->toArray();
+            ->get();
+
+        return $prices->sortBy('cultures.0.name');
     }
 
-    public function getTraderPricesRubricsForward($user, $placeType, $type) {
-        $rubrics = TradersProducts2buyer::where([['buyer_id', $user], ['acttype', $type], ['type_id', $placeType]])
-            ->with(['traders_products' => function($query)use($user, $placeType, $type){
-                $query->with(['traders_prices' => function($query)use($user, $placeType, $type){
-                    $query->where([['acttype', $type], ['buyer_id', $user]])
-                        ->with(['traders_places' => function($query)use($user, $placeType, $type){
-                            $query->where([['buyer_id', $user], ['type_id', $placeType]]);
-                        }]);
-                }]);
-            }])->get()->toArray();
-
-        foreach ($rubrics as $index_rubric => $rubric){
-            $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
-        }
-
-        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name')->toArray();
-
-        return $rubrics;
-    }
+//    public function getTraderPricesRubricsForward($user, $placeType, $type) {
+//        $rubrics = TradersProducts2buyer::where([['buyer_id', $user], ['acttype', $type], ['type_id', $placeType]])
+//            ->with(['traders_products' => function($query)use($user, $placeType, $type){
+//                $query->with(['traders_prices' => function($query)use($user, $placeType, $type){
+//                    $query->where([['acttype', $type], ['buyer_id', $user]])
+//                        ->with(['traders_places' => function($query)use($user, $placeType, $type){
+//                            $query->where([['buyer_id', $user], ['type_id', $placeType]]);
+//                        }]);
+//                }]);
+//            }])->get()->toArray();
+//
+//        foreach ($rubrics as $index_rubric => $rubric){
+//            $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
+//        }
+//
+//        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name')->toArray();
+//
+//        return $rubrics;
+//    }
 
 
     public function mobileFilter(\Illuminate\Http\Request $request)

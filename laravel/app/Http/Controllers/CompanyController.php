@@ -192,7 +192,6 @@ class CompanyController extends Controller
      */
     public function companiesFilter(Request $request, $query = null)
     {
-
         $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null];
 
         if(!empty($request->get('query'))){
@@ -283,38 +282,33 @@ class CompanyController extends Controller
         $this->setCompany($id);
 
         $forward_months = $this->companyService->getForwardsMonths();
-
-        $rubrics_port = $this->companyService->getTraderPricesRubricsForward($this->company->author_id, 2, 3);
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
-
-        $rubrics_region = $this->companyService->getTraderPricesRubricsForward($this->company->author_id, 0, 3);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
-
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
-        foreach ($rubrics_port as $index => $rubric){
-            if(empty($rubric['traders_products']['traders_prices'])){
-                unset($rubrics_port[$index]);
-            }
-        }
-
-        foreach ($rubrics_region as $index => $rubric){
-            if(empty($rubric['traders_products']['traders_prices'])){
-                unset($rubrics_region[$index]);
-            }
-        }
-
         foreach ($prices_port as $index => $price){
-            if(empty($price['traders_places'])){
+            if($price['traders_places']->count() == 0){
                 unset($prices_port[$index]);
             }
         }
 
         foreach ($prices_region as $index => $price){
-            if(empty($price['traders_places'])){
+            if($price['traders_places']->count() == 0){
                 unset($prices_region[$index]);
             }
         }
+
+        $rubrics_port = $prices_port
+            ->unique('cultures.0.name')
+            ->sortBy('cultures.0.name')
+            ->pluck('cultures.0.name', 'cult_id');
+
+        $rubrics_region = $prices_region
+            ->unique('cultures.0.name')
+            ->sortBy('cultures.0.name')
+            ->pluck('cultures.0.name', 'cult_id');
+
+
 
         return view('company.company_forwards', [
             'company' => $this->company,

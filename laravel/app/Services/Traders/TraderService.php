@@ -280,7 +280,6 @@ class TraderService
             ->orderBy('title')
             ->get();
 
-
         $this->groups = $this->setRubrics($criteria_places, $acttype);
 
         return $traders;

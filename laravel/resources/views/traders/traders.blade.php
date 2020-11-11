@@ -1,7 +1,10 @@
 @extends('layout.layout', ['meta' => $meta])
 @section('content')
-    @include('traders.feed.traders_feed', ['feed' => $feed])
-    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+    @if($isMobile)
+        @include('traders.feed.traders_feed', ['feed' => $feed])
+    @else
+        @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+    @endif
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
         @if(!$isMobile)
