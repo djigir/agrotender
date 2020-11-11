@@ -269,8 +269,9 @@ class TraderService
 
         $name_relationship = $this->checkNameRelationship($currency);
 
-        $traders = $traders->with($name_relationship, 'traders_places')
-            ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
+        $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id){
+            $query->place($obl_id, $port_id);
+        }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
             ->orderBy('trader_premium', 'desc')
@@ -278,6 +279,7 @@ class TraderService
             ->orderBy('rate_formula', 'desc')
             ->orderBy('title')
             ->get();
+
 
         $this->groups = $this->setRubrics($criteria_places, $acttype);
 

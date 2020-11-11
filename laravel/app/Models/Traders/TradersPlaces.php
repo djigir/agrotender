@@ -62,4 +62,17 @@ class TradersPlaces extends Model
     }
 
 
+    public function scopePlace($query, $obl_id, $port_id)
+    {
+        if($obl_id){
+            return $query->where('obl_id', $obl_id);
+        }
+
+        if($port_id){
+            return $query->where('port_id', $port_id);
+        }
+
+        return $query;
+    }
+
 }
