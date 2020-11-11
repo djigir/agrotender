@@ -1,6 +1,7 @@
 window.onload = function (){
     $('#DataTables_Table_0').DataTable({
-        "pageLength": 150
+        "pageLength": 150,
+        "aaSorting": []
     });
     $('.dataTables_paginate').css('display', 'none');
     $('.dataTables_info').css('display', 'none');
