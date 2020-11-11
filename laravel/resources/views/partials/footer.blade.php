@@ -42,12 +42,18 @@
             <a href="mailto:info@agrotender.com.ua">email: <span class="white">info@agrotender.com.ua</span></a>
           </li>
           <li  class="footer__telephone">
-            <a href="#">050 401 84 77</a>
+            <a href="tel:0504018477">050 401 84 77</a>
             <p>Звонить по будням с 10:00 до 17:00</p>
           </li>
-          <li>
-            <a href="/">
+          <li class="footer__logo_and_messangers">
+            <a href="/" class="footer__logo_img">
               <img src="/app/assets/img/logo_white.svg" alt="">                
+            </a>
+            <a href="viber://pa?chatURI=agrotender_bot&text=" class="messanger_item">
+              <img src="/app/assets/img/company/viber4.svg" alt="">
+            </a>
+            <a href="https://t.me/AGROTENDER_bot" class="messanger_item">
+              <img src="/app/assets/img/company/telegram-white.svg" alt="">
             </a>
           </li>
         </ul>

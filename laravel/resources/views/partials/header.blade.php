@@ -111,7 +111,7 @@
                 <div class="header__hoverElem">
                   <ul>
                     <li>
-                      <a href="/kompanii">Компании</a>
+                      <a href="{{route('company.companies')}}">Компании</a>
                     </li>
                     <li>
                       <a href="/elev">Элеваторы</a>
