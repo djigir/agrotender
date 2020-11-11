@@ -1,4 +1,6 @@
 window.onload = function (){
+    $('#new_filters_currency_uah').attr('checked', 'true');
+    $('#new_filters_currency_usd').attr('checked', 'true');
     $('#DataTables_Table_0').DataTable({
         "pageLength": 150,
         "aaSorting": []
@@ -50,11 +52,14 @@ window.onload = function (){
         $('#show-region').removeClass('active');
     }
 
-    if($('#new_filters_currency_uah').attr('currency') != '' && $('#new_filters_currency_uah').attr('currency') == 0){
+
+    if($('#new_filters_currency_uah').attr('currency') === 0){
+        $('#new_filters_currency_usd').removeAttr('checked');
         $('#new_filters_currency_uah').attr('checked', 'true');
     }
 
-    if ($('#new_filters_currency_usd').attr('currency') != '' && $('#new_filters_currency_usd').attr('currency') == 1) {
+    if ($('#new_filters_currency_usd').attr('currency') === 1) {
+        $('#new_filters_currency_uah').removeAttr('checked');
         $('#new_filters_currency_usd').attr('checked', 'true');
     }
 
