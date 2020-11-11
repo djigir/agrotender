@@ -13,8 +13,6 @@
                                 <span style="color: #1e56b2">Закупки</span>
                             @elseif($type_traders == 1)
                                 <span style="color: #1e56b2">Форварды</span>
-                            @else
-                                <span style="color: #1e56b2">Продажи</span>
                             @endif
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
@@ -83,12 +81,6 @@
                                 <span><i class="far fa-chevron-right"></i></span>
                             </a>
                         @endif
-                        @if($type_traders != 2)
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_sell.region_culture',  [$region , $culture_translit]) : route('traders_sell.region',  $region)}}">
-                                <span>Продажи</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
                     @endif
                     @if($port)
                         @if($type_traders != 1)
@@ -101,13 +93,6 @@
                             <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders.port_culture',  [$port, $culture_translit]) : route('traders.port',  $port)}}">
                                 <span>Закупки</span>
                                 <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
-                        @if($type_traders != 2)
-
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href=" {{$culture_translit ? route('traders_sell.port_culture',  [$port, $culture_translit]) : route('traders_sell.port', $port)}}">
-                             <span>Продажи</span>
-                             <span><i class="far fa-chevron-right"></i></span>
                             </a>
                         @endif
                     @endif

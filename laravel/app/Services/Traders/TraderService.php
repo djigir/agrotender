@@ -197,6 +197,22 @@ class TraderService
         ]);
     }
 
+    private function checkNameRelationship($currency)
+    {
+        $name = 'traders_prices_traders';
+
+        if($currency == 0)
+        {
+            $name = 'traders_prices_traders_uah';
+        }
+
+        if($currency == 1)
+        {
+            $name = 'traders_prices_traders_usd';
+        }
+
+        return $name;
+    }
 
     public function getTradersRegionPortCulture($data)
     {
@@ -231,7 +247,7 @@ class TraderService
 
         if ($data['culture']) {
             $culture = TradersProducts::where('url', $data['culture'])->value('id');
-            $criteria_prices[] = ['cult_id', $culture];
+            $criteria_prices[] = ['traders_prices.cult_id', $culture];
         }
 
         if ($data['query'] && isset($data['query']['currency'])) {
@@ -239,7 +255,7 @@ class TraderService
         }
 
         if ($currency != 2) {
-            $criteria_prices[] = ['curtype', $currency];
+            $criteria_prices[] = ['traders_prices.curtype', $currency];
         }
 
         $author_ids = TradersPrices::query()
@@ -250,8 +266,12 @@ class TraderService
                 ->pluck('buyer_id')
             ->toArray();
 
-        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
-            ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
+
+        $name_relationship = $this->checkNameRelationship($currency);
+
+        $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id){
+            $query->place($obl_id, $port_id);
+        }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
             ->orderBy('trader_premium', 'desc')

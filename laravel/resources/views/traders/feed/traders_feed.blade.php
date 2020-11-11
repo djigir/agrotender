@@ -13,12 +13,11 @@
                             <ul>
                                 <li>
                                     <span>{{ $culture }}</span>
+                                    @if($item['tf_change_price'] == 0)
                                         <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
-                                    {{--@if($item['tf_change_price'] == 0)
-                                    <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
                                     @elseif($item['tf_change_price'] == 1)
-                                    <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
-                                    @endif--}}
+                                        <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                                    @endif
                                 </li>
                             </ul>
                             @endforeach

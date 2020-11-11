@@ -21,6 +21,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
     @endforeach
 </ol>
 </div>
+@include('traders.feed.traders_feed', ['feed' => $feed])
 <div class="bg_filters"></div>
 <div class="new_filters-wrap">
     <div class="fixed-item">
