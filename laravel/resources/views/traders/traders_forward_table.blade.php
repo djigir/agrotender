@@ -31,7 +31,7 @@
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                 <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                                <span class="title">{{$trader->title}}</span>
+                                <span class="title">{!! $trader->title !!}</span>
                             </a>
                         </td>
                         <td class="uah">
@@ -56,7 +56,7 @@
                         <td>
                             <span class="location">{{$place['region']['name'].' обл.'}}</span>
                             <br>
-                            <span class="place">{{$place->place}}</span>
+                            <span class="place">{!! $place->place !!}</span>
                         </td>
                     </tr>
                 @endforeach
@@ -72,7 +72,7 @@
                     <tr>
                         <td>
                             <div class="d-flex align-items-center price-div">
-                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{{$trader->title}}">
+                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
                                 <a class="flex-1" href="{{route('company.forwards', $trader->id)}}">
                                     <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
                                         <span class="price">
@@ -91,7 +91,7 @@
                                 </span>
                                 <a href="{{route('company.forwards', $trader->id)}}" class="d-block flex-1">
                                     <span class="location d-block">{{$place['region']['name'].' обл.'}}</span>
-                                    <span class="place d-block">{{$place->place}}</span>
+                                    <span class="place d-block">{!! $place->place !!}</span>
                                 </a>
                             </div>
                         </td>
