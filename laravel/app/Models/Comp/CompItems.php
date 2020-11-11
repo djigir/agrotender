@@ -67,6 +67,8 @@ use Jenssegers\Date\Date;
  * @property integer $trader_sort_forward;
  * @property integer $trader_premium_forward;
  * @property Collection $traders_prices_traders;
+ * @property Collection $traders_prices_traders_uah;
+ * @property Collection $traders_prices_traders_usd;
  *
  * @property Carbon $trader_price_dtupdt;
  * @property Carbon $trader_price_sell_dtupdt;
@@ -112,8 +114,18 @@ class CompItems extends Model
     /* Accessor */
     public function getCulturePricesAttribute()
     {
-        if (!$this->relationLoaded('traders_prices_traders')) {
+        if (!$this->relationLoaded('traders_prices_traders') && !$this->relationLoaded('traders_prices_traders_uah') && !$this->relationLoaded('traders_prices_traders_usd')) {
             return [];
+        }
+
+        if($this->relationLoaded('traders_prices_traders_uah'))
+        {
+            return $this->traders_prices_traders_uah->unique('cult_id');
+        }
+
+        if($this->relationLoaded('traders_prices_traders_usd'))
+        {
+            return $this->traders_prices_traders_usd->unique('cult_id');
         }
 
         return $this->traders_prices_traders->unique('cult_id');
@@ -228,6 +240,27 @@ class CompItems extends Model
             ->where('acttype', 0)
             ->orderBy('change_date', 'DESC');
     }
+
+    public function traders_prices_traders_uah()
+    {
+        return $this->traders_prices()
+            ->where([
+                'acttype' => 0,
+                'curtype' => 0,
+            ])
+            ->orderBy('change_date', 'DESC');
+    }
+
+    public function traders_prices_traders_usd()
+    {
+        return $this->traders_prices()
+            ->where([
+                'acttype' => 0,
+                'curtype' => 1,
+            ])
+            ->orderBy('change_date', 'DESC');
+    }
+
 
 
     public function comp_items_contact()

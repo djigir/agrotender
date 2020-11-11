@@ -197,6 +197,22 @@ class TraderService
         ]);
     }
 
+    private function checkNameRelationship($currency)
+    {
+        $name = 'traders_prices_traders';
+
+        if($currency == 0)
+        {
+            $name = 'traders_prices_traders_uah';
+        }
+
+        if($currency == 1)
+        {
+            $name = 'traders_prices_traders_usd';
+        }
+
+        return $name;
+    }
 
     public function getTradersRegionPortCulture($data)
     {
@@ -250,7 +266,10 @@ class TraderService
                 ->pluck('buyer_id')
             ->toArray();
 
-        $traders = $traders->with('traders_prices_traders.cultures', 'traders_places')
+
+        $name_relationship = $this->checkNameRelationship($currency);
+
+        $traders = $traders->with($name_relationship, 'traders_places')
             ->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
