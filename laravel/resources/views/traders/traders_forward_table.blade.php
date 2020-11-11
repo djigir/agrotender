@@ -1,3 +1,6 @@
+@if($traders->count() == 0)
+    @include('traders.block-info.traders_forwards')
+@else
 <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
     @if(!$isMobile)
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
@@ -105,3 +108,4 @@
     <div class="text-center mt-5">
     </div>
 </div>
+@endif
