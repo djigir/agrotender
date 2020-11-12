@@ -1456,9 +1456,10 @@ class Main extends \Core\Controller
 
             $code = $this->request->post['code'];
             // check if correct confirm code
+            $this->user->register($email, $password, 0, $name, $phone);
             if ($code == $this->session->get('code')) {
                 // register process
-                $this->user->register($email, $password, 0, $name, $phone); // without region
+                 // without region
             } else {
                 return true;
 //                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
