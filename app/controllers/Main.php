@@ -1429,7 +1429,7 @@ class Main extends \Core\Controller
 
     public function signup()
     {
-        $this->user->register('tass@gmail.com', '123456', 0, 'toxa', '380933333333');
+
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
