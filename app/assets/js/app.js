@@ -67,6 +67,7 @@ function truncate(text, limit, userParams) {
     }
     return text + options.ending;
 }
+
 var agrotender = new(function () {
 
   var app = {};
@@ -4844,3 +4845,12 @@ $('.traders__item.yellow .traders__item__image').primaryColor({
   }
 });
 
+function tradersPageScripts() {
+  $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
+    callback: function(color) {
+      $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
+    }
+  });
+}
+
+tradersPageScripts()

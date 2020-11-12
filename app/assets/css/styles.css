@@ -560,17 +560,20 @@ body[data-page="main/home"] .swiper-scrollbar {
   color: #1056B2;
 }
 .popular__block {
-  padding: 4px 10px;
+  padding: 6px 12px;
+  font-size: 14px;
   border-radius: 6px;
   color: #1056B2;
   background-color: #ffffff;
   box-shadow: 0px 0px 20px 1px rgba(0,0,0,0.05);
   transition: 300ms background-color ease,  300ms color ease;
   margin: 0 5px;
+  border: 1px solid #E7E9EB;
 }
 .popular__block:hover {
-  color: #fff;
-  background-color: #1056B2;
+  border: 1px solid transparent;
+  box-shadow: 0px 0px 18px rgba(4, 22, 45, 0.14);
+  background-color: #E5EEF9;
 }
 
 .dropdown {
@@ -5575,16 +5578,17 @@ table.proposedTable tr.not-viewed td {
 }
 .new_traders.vip  {
   margin: 0 -13px;
-  margin-top: 50px;
   margin-bottom: 20px;
 }
 .new_traders.vip .traders__item-wrap {
   width: calc(25% - 26px);
   margin: 0 13px;
-  margin-bottom: 30px;
+  margin-bottom: 0;
+  height: 245px;
 }
 .new_traders.vip .traders__item {
   background-color: #FFE974;
+  height: 245px;
 }
 .new_traders .traders__item-wrap {
   margin: 0 7.5px;
@@ -5771,10 +5775,13 @@ table.proposedTable tr.not-viewed td {
 }
 @media screen and (max-width: 568px) {
   .new_traders .traders__item-wrap  {
-    width: calc(50% - 15px);    
+    width: calc(50% - 15px);  
   }
 }
 @media screen and (max-width: 480px) {
+  .new_traders.vip .traders__item {
+    height: 120px;
+  }
   .new_traders .traders__item-wrap  {
     width: 100%;    
     height: 100px;
@@ -5782,6 +5789,7 @@ table.proposedTable tr.not-viewed td {
   .new_traders.vip .traders__item-wrap {
     width: calc(100%);   
     margin-bottom: 20px;
+    height: 120px;
   }
 
   .new_traders.vip .traders__item-wrap:nth-child(3) {
@@ -5822,6 +5830,9 @@ table.proposedTable tr.not-viewed td {
   .new_traders .traders__item__content-date {
     display: flex;
     justify-content: space-between;
+    position: static;
+    left: 0;
+    transform: translate(0);
   }
   .new_traders .traders__item__content-date-more {
     display: block;
@@ -5830,7 +5841,6 @@ table.proposedTable tr.not-viewed td {
     font-size: 12px;
     letter-spacing: 0.02em;
     color: #46556A;
-
   }
   .new_traders .traders__item__content-date {
     margin-top: 10px;
@@ -6199,7 +6209,7 @@ table.proposedTable tr.not-viewed td {
   background-color: #143573;
   width: 100%;
   position: relative;
-  z-index: 4;
+  z-index: 99999;
   top: 0;
 }
 .new_header .logo_mobile {
@@ -6239,7 +6249,7 @@ table.proposedTable tr.not-viewed td {
 .new_header .header__hoverElem ul li span.bordered_line {
   height: 1px;
   padding: 0;
-  margin: 10px 0;
+  margin: 0;
   width: 100%;
   background-color: #cccccc;
 }
@@ -6481,7 +6491,7 @@ table.proposedTable tr.not-viewed td {
 .new_header .drawer_content {
   position: relative;
   background-color: #fff;
-  height: 100vh;
+  height: 100%;
   width: 240px;
   transition: 400ms transform ease;
   transform: translateX(-240px)
@@ -6941,17 +6951,18 @@ table.proposedTable tr.not-viewed td {
   min-width: 160px;
   max-width: 160px;
   padding-left: 22px;
-  border-left: 1px solid #E5EEF9  ;
+  border-left: 1px solid #E5EEF9;
 }
 .filter__item.second .new_filters_dropdown-content ul.small li {
   margin-left: 0;
 }
 .filter__item.second .new_filters_dropdown-content ul li {
-  max-width: 170px;
+  max-width: 225px;
   width: 100%;
   margin-left: 18px;
 }
 .filter__item.producrion .new_filters_dropdown-content {
+  height: 100%;
   display: none;
 }
 .filter__item.producrion .new_filters_dropdown-content.active {
@@ -7427,4 +7438,68 @@ table.proposedTable tr.not-viewed td {
 .new_footer .footer__logo_and_messangers .messanger_item img {
   width: 20px;
   height: 20px;
+}
+
+.new_page_title {
+  text-transform: uppercase;
+  font-family: Montserrat;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #031E4D;
+}
+@media screen and (max-width: 991px) {
+  .new_page_title {
+    font-size: 18px;
+  }
+}
+
+.flex {
+  display: flex;
+}
+
+.flex.align-center {
+  align-items: center;
+}
+.flex.justify-between {
+  justify-content: space-between;
+}
+
+.traders_add_company {
+  padding: 12px 22px;
+  background-color: #009750;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
+  display: inline-block;
+}
+
+.traders_add_company:hover {
+  color: #fff;
+}
+
+@media screen and (max-width: 991px) {
+  .traders_add_company {
+    display: none;
+  }
+}
+
+.mt2d4 {
+  margin-top: 24px;
+}
+.mb2 {
+  margin-bottom: 20px;
+}
+
+.top_traders_title {
+  margin-top: 36px;
+  margin-bottom: 30px;
+}
+
+.mt2 {
+  margin-top: 20px;
 }
