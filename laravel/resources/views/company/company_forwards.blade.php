@@ -56,7 +56,7 @@
                         @foreach($prices_region as $index => $price)
                             <tr>
                                 <td place="8085" class="py-1">
-                                    <span class="place-title">{{$price->traders_places[0]->region['name']}} обл</span>
+                                    <span class="place-title">{{$price->traders_places[0]->region[0]['name']}} обл</span>
                                     <span class="place-comment">{{$price->traders_places[0]->place}}</span>
                                     <b class="popular">{{mb_convert_case($price->date->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
                                 </td>

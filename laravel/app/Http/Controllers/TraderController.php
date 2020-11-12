@@ -75,11 +75,12 @@ class TraderController extends Controller
         $region_port_name = !empty($data['region']) ? $this->traderService->getNamePortRegion($data['region'])['region']
             : $this->traderService->getNamePortRegion(null, $data['port'])['port'];
 
-        $culture = TradersProducts::where('url', $data['culture'])->get()->toArray();
+        $culture = TradersProducts::where('url', $data['culture'])->with('traders_product_lang')->first();
+
         $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture[0]['id'])->value('id') : null;
 
         if (!empty($culture)) {
-            $culture_meta = Traders_Products_Lang::where('item_id', $culture[0]['id'])->get()->toArray()[0];
+            $culture_meta = Traders_Products_Lang::where('item_id', $culture->id)->get()->toArray()[0];
             $culture_name = $culture_meta['name'];
         }
 
@@ -104,7 +105,7 @@ class TraderController extends Controller
             'port' => $port_all,
             'culture' => $data['culture'],
             'culture_id' => $culture_id,
-            'culture_name' =>  !empty($culture) ? $culture[0]['culture']['name'] : null];
+            'culture_name' =>  !empty($culture)? $culture->traders_product_lang[0]->name : null];
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
@@ -130,7 +131,6 @@ class TraderController extends Controller
             'type_traders' => $data_traders['type_traders'],
             'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
             'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
-//            'feed' =>  []
         ]);
     }
 

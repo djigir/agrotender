@@ -229,7 +229,7 @@ class CompanyController extends Controller
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
-
+        //dd($data_port->get('places'));
         $port_culture = $data_port->get('cultures');
         $port_place =   $data_port->get('places');
         $port_price =   $data_port->get('prices');

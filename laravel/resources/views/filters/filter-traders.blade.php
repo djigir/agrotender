@@ -50,12 +50,12 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                             <li>
                                                 @if(!empty($region))
                                                     <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
-                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
+                                                        {{ $item['traders_product_lang'][0]['name']}} ({{$item['count_item']}})
                                                     </a>
                                                 @endif
                                                 @if(!empty($port))
                                                     <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
-                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
+                                                        {{ $item['traders_product_lang'][0]['name']}} ({{$item['count_item']}})
                                                     </a>
                                                 @endif
                                             </li>

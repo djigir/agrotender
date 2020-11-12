@@ -30,7 +30,7 @@
                     @if(!empty($place->region))
                         <tr>
                             <td class="py-1">
-                                <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                 <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                             </td>
                             @foreach($region_culture as $index => $data_region)
@@ -72,7 +72,7 @@
                         @if(!empty($place->region))
                             <tr>
                                 <td class="py-1">
-                                    <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                    <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                     <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                                 </td>
                                 @foreach($region_culture as $index => $data_region)
@@ -115,7 +115,7 @@
                         @if(!empty($place->region))
                             <tr>
                                 <td class="py-1">
-                                    <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                    <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                     <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                                 </td>
                                 @foreach($region_culture as $index => $data_region)
@@ -161,7 +161,7 @@
                     @if(!empty($place->region))
                         <tr>
                             <td class="py-1">
-                                <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                 <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                             </td>
                             @foreach($region_culture as $index => $data_region)
@@ -204,7 +204,7 @@
                         @if(!empty($place->region))
                             <tr>
                                 <td class="py-1">
-                                    <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                    <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                     <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                                 </td>
                                 @foreach($region_culture as $index => $data_region)
@@ -248,7 +248,7 @@
                         @if(!empty($place->region))
                             <tr>
                                 <td class="py-1">
-                                    <span class="place-title">{{$place['region']['name']}} обл.</span>
+                                    <span class="place-title">{{$place['region'][0]['name']}} обл.</span>
                                     <span class="place-comment">{!! strip_tags($place['place']) !!}</span>
                                 </td>
                                 @foreach($region_culture as $index => $data_region)

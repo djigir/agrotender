@@ -176,7 +176,7 @@ class TraderService
                     $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = $group_items[$culture['id']]->count_item;
                 }
             }
-            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('culture.name')->toArray();
+            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('traders_product_lang.0.name')->toArray();
         }
 
         return $groups;
@@ -265,7 +265,6 @@ class TraderService
                 ->where($criteria_places)
                 ->pluck('buyer_id')
             ->toArray();
-
 
         $name_relationship = $this->checkNameRelationship($currency);
 

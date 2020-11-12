@@ -128,7 +128,7 @@
                         @foreach($rubricGroups as $group => $item)
                             @foreach($rubricGroups[$group]['groups']["products"] as $index => $item_culture)
                                 <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
-                                    <span style="color: #1e56b2">{{ $item_culture['culture']['name']}}</span>
+                                    <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}</span>
                                     <span class="companyCount small">({{$item_culture['count_item']}})</span>
                                     <span><i class="far fa-chevron-right"></i></span>
                                 </span>
@@ -145,9 +145,9 @@
                     </span>
                 </a>
                 <div class="scroll">
-                    @foreach(array_reverse($regions) as $index_region  => $region)
+                    @foreach($regions->reverse() as $index_region  => $region)
                         <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}">
-                            <span style="{{$index_region < 1 ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
+                            <span style="{{$region['translit'] == 'ukraine' ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
                             <span><i class="far fa-chevron-right"></i></span>
                         </span>
                     @endforeach

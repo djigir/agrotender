@@ -57,7 +57,7 @@
                             </span>
                         </td>
                         <td>
-                            <span class="location">{{$place['region']['name'].' обл.'}}</span>
+                            <span class="location">{{$place['region'][0]['name'].' обл.'}}</span>
                             <br>
                             <span class="place">{!! $place->place !!}</span>
                         </td>
@@ -68,15 +68,15 @@
         </table>
     </div>
     @else
-        <table class="sortTable sortable" cellspacing="0">
+        <table class="sortTable sortable">
             <tbody>
             @foreach($traders as $index_tr => $trader)
                 @foreach($trader->places as $index => $place)
-                    <tr>
+                    <tr class="{{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td>
                             <div class="d-flex align-items-center price-div">
                                 <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
-                                <a class="flex-1" href="{{route('company.forwards', $trader->id)}}">
+                                <a class="flex-1" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
                                         <span class="price">
                                             {{round($place->pivot->costval, 1)}}
@@ -86,14 +86,14 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="t2">
+                    <tr class="t2 {{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td style="border-bottom: 1px solid #295ca1;">
                             <div class="d-flex align-items-center justify-content-center">
                                 <span data-toggle="tooltip" data-placement="top" class="d-block">
                                     {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
                                 </span>
-                                <a href="{{route('company.forwards', $trader->id)}}" class="d-block flex-1">
-                                    <span class="location d-block">{{$place['region']['name'].' обл.'}}</span>
+                                <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="d-block flex-1">
+                                    <span class="location d-block">{{$place['region'][0]['name'].' обл.'}}</span>
                                     <span class="place d-block">{!! $place->place !!}</span>
                                 </a>
                             </div>

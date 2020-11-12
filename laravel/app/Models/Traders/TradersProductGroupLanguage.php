@@ -30,6 +30,6 @@ class TradersProductGroupLanguage extends Model
 
     public function getProductsAttribute()
     {
-        return TradersProducts::where('group_id', $this->item_id)->get()->toArray();
+        return TradersProducts::where('group_id', $this->item_id)->with('traders_product_lang')->get();
     }
 }

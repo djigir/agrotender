@@ -197,10 +197,20 @@ class CompanyService
         foreach ($prices as $index => $price){
             $place_id[] = $index;
         }
+//    regions
+//    traders_ports
+        $places = TradersPlaces::where('type_id', $placeType)->whereIn('id', $place_id);
 
-        $places = TradersPlaces::where('type_id', $placeType)->whereIn('id', $place_id)
-            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')
-            ->get();
+        if($placeType == 0){
+            $places->with('region');
+        }
+
+        if($placeType == 2){
+            $places->with('port');
+        }
+
+
+        $places =  $places->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get();
 
         $id_place = $places->pluck('id');
 
@@ -211,9 +221,12 @@ class CompanyService
             }
         }
 
-
         if($placeType == 2){
             $sortBy = 'port.0.lang.portname';
+        }
+
+        if($placeType == 0){
+            $sortBy = 'region.0.name';
         }
 
         if(in_array(0, $check_curtype)){

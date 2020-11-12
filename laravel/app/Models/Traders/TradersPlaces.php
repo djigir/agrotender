@@ -33,16 +33,26 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
-    protected $appends = ['region','port'];
+//    protected $appends = ['region','port'];
+//
+//    public function getRegionAttribute()
+//    {
+//        return $this->regions->first();
+//    }
+//
+//    public function getPortAttribute()
+//    {
+//        return $this->traders_ports->first();
+//    }
 
-    public function getRegionAttribute()
+    public function region()
     {
-        return $this->regions->first()->toArray();
+        return $this->regions();
     }
 
-    public function getPortAttribute()
+    public function port()
     {
-        return $this->traders_ports->toArray();
+        return $this->traders_ports();
     }
 
     public function traders_prices()
