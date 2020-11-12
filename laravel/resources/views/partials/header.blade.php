@@ -81,10 +81,12 @@
 
                 <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
                     <div class="float-right d-inline-block d-sm-none">
-                        @if(isset($id))
-                            <i class="far fa-chevron-circle-down userIcon mr-3"></i>
-                        @else
-                            <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
+                        @if($page_type != 2)
+                            @if(isset($id))
+                                <i class="far fa-chevron-circle-down userIcon mr-3"></i>
+                            @else
+                                <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
+                            @endif
                         @endif
                     </div>
                 </div>
@@ -125,7 +127,9 @@
     @if($isMobile)
         @if($page_type == 0)
             @include('mobile.filters.mobile-filter-companies')
-        @else
+        @endif
+
+        @if($page_type == 1)
             @include('mobile.filters.mobile-filter-traders')
         @endif
     @endif

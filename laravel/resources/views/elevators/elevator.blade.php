@@ -5,11 +5,8 @@
         <ul class="breadcrumbs small p-0">
             <li><a href="/"><span>Агротендер</span></a></li>
             <i class="fas fa-chevron-right extra-small"></i>
-            <li><a href="/elev"><span>Элеваторы</span></a></li>
+            <li><a href="{{route('elev.elevators')}}"><span>Элеваторы</span></a></li>
             <i class="fas fa-chevron-right extra-small"></i>
-            <li><a href="/elev/dnepr"><span>Днепропетровской область</span></a></li>
-            <i class="fas fa-chevron-right extra-small"></i>
-            <li><h1>Зерно-Агро</h1></li>
         </ul>
         <div class="row mx-0 d-flex pt-2 pt-sm-5">
             <div class="col-auto pl-1">

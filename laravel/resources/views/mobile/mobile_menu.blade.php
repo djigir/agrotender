@@ -16,7 +16,7 @@ $check_forwards = \App\Models\Comp\CompItems::where([
             <a href="#">Обьявления</a>
             <a href="{{route('company.companies')}}">Компании</a>
             <a href="{{route('traders.region', 'ukraine')}}">Цены Трейдеров</a>
-            <a href="#">Элеваторы</a>
+            <a href="{{route('elev.elevators')}}">Элеваторы</a>
             <a href="#">Форварды</a>
         </div>
     </div>

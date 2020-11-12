@@ -52,6 +52,7 @@ class EvelatorController extends Controller
             'region_translit' => $data->get('region'),
             'region_name' => $region_name,
             'regions' => $regions,
+            'page_type' => 2,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -78,6 +79,7 @@ class EvelatorController extends Controller
 
         return view('elevators.elevator', [
             'elevator' => $elevator,
+            'page_type' => 2,
             'isMobile' => $this->agent->isMobile()
         ]);
     }
