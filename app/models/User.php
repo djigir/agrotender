@@ -469,11 +469,9 @@ class User extends \Core\Model {
   }
 
   public function register($email, $password, $rePassword, $name, $phone) { //// without region
-      $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-      $hash = $this->utils->getHash(12);
-      $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()', 'login' => $email, 'passwd' => $passwordHash, 'obl_id' => null, 'avail_adv_posts' => 50, 'name' => $name, 'phone' => $phone, 'email' => $email, 'hash' => $hash, 'smschecked' => 1]);
+      //
 
-      if ($email == null) {
+    if ($email == null) {
       $this->response->json(['code' => 0, 'text' => 'Введите email.']);
     }
     if (!$this->utils->emailValidate($email)) {
@@ -517,10 +515,9 @@ class User extends \Core\Model {
     // get hash from password
     $passwordHash = password_hash($password, PASSWORD_DEFAULT);
     // get random string hash
-    $hash = $this->utils->getHash(12);
+    $hash         = $this->utils->getHash(12);
     // add user to database
-   // $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()', 'login' => $email, 'passwd' => $passwordHash, 'obl_id' => null, 'avail_adv_posts' => 50, 'name' => $name, 'phone' => $phone, 'email' => $email, 'hash' => $hash, 'smschecked' => 1]);
-
+    $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()', 'login' => $email, 'passwd' => $passwordHash, 'obl_id' => null, 'avail_adv_posts' => 50, 'name' => $name, 'phone' => $phone, 'email' => $email, 'hash' => $hash, 'smschecked' => 1]);
     // fetch email template
     $emailTemplate = $this->view->setData(['hash' => $hash])->fetch('email/activateEmail');
     $this->utils->mail($email, 'Подтверждение регистрации на Агротендере', $emailTemplate);
