@@ -50,8 +50,7 @@
                                                         @endif
 
                                                     </div>
-                                                    <span
-                                                        class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
+                                                    <span class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
                                                 </td>
                                             @else
                                                 <td></td>

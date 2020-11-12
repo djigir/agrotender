@@ -1,3 +1,4 @@
+{{--{{dd($traders->toArray()[0])}}--}}
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
@@ -57,8 +58,8 @@
                             </span>
                         </td>
                         <td>
-                            <span class="location">{{$place['region'][0]['name'].' обл.'}}</span>
-                            <br>
+                           <span class="location">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                           <br>
                             <span class="place">{!! $place->place !!}</span>
                         </td>
                     </tr>
@@ -93,7 +94,7 @@
                                     {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
                                 </span>
                                 <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="d-block flex-1">
-                                    <span class="location d-block">{{$place['region'][0]['name'].' обл.'}}</span>
+                                    <span class="location d-block">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
                                     <span class="place d-block">{!! $place->place !!}</span>
                                 </a>
                             </div>

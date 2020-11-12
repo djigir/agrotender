@@ -1467,11 +1467,11 @@ class Main extends \Core\Controller
             }
         }
         // repeat confirm sms
-        if ($this->action == 'repeat-code') {
-            $phone = $this->request->post['phone'];
-            $code = $this->session->get('code');
-            $this->user->sendConfirmCode($phone, $code);
-        }
+//        if ($this->action == 'repeat-code') {
+//            $phone = $this->request->post['phone'];
+//            $code = $this->session->get('code');
+//            $this->user->sendConfirmCode($phone, $code);
+//        }
         // async validate
         if ($this->action == 'check-email') {
             $email = $this->request->post['email'];

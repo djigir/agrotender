@@ -224,6 +224,7 @@ class TraderService
         $port_id = null;
         $currency = 2;
         $acttype = $data['type'] != 'forward' ? 0 : 3;
+        $type_place = $data['region'] != null ? 0 : 2;
 
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
@@ -268,8 +269,8 @@ class TraderService
 
         $name_relationship = $this->checkNameRelationship($currency);
 
-        $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id){
-            $query->place($obl_id, $port_id);
+        $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id, $type_place){
+            $query->place($obl_id, $port_id, $type_place);
         }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)

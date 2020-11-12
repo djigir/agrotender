@@ -469,6 +469,8 @@ class User extends \Core\Model {
   }
 
   public function register($email, $password, $rePassword, $name, $phone) { //// without region
+      //
+
     if ($email == null) {
       $this->response->json(['code' => 0, 'text' => 'Введите email.']);
     }

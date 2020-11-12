@@ -66,7 +66,7 @@ class TraderController extends Controller
         $region_all = ($data['region'] != 'ukraine' && $data['region']) ? Regions::where('translit', $data['region'])->get()->toArray()[0] : $data['region'];
         $port_all = $data['port'];
         $culture_name = 'Выбрать продукцию';
-
+        $type_place = $data['region'] != null ? 0 : 2;
         if($data['port'] != 'all' && $data['port']) {
             $id_port = TradersPorts::where('url', $data['port'])->value('id');
             $port_all = TradersPortsLang::where('port_id', $id_port)->get()->toArray()[0];
@@ -127,6 +127,7 @@ class TraderController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
             'page_type' => 1,
+            'type_place' => $type_place,
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
             'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
