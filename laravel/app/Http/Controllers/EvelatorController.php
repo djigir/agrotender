@@ -35,14 +35,13 @@ class EvelatorController extends Controller
 
     public function setElevators($data)
     {
-        $regions = array_slice($this->baseServices->getRegions(), 1, -1);
-        $region = $data['region'];
-        $region_name = $this->regionName($data['region']);
+        $regions = $this->baseServices->getRegions()->slice(1, -1);
+        $region_name = $this->regionName($data->get('region'));
 
         $elevators = TorgElevator::with('region', 'lang_rayon',  'lang_elevator');
 
-        if($region != null){
-            $region = Regions::where('translit', $data['region'])->value('id');
+        if($data->get('region') != null){
+            $region = Regions::where('translit', $data->get('region'))->value('id');
             $elevators->where('obl_id', $region);
         }
 
@@ -50,7 +49,7 @@ class EvelatorController extends Controller
 
         return view('elevators.elevators', [
             'elevators' => $elevators->chunk(2),
-            'region_translit' => $data['region'],
+            'region_translit' => $data->get('region'),
             'region_name' => $region_name,
             'regions' => $regions,
             'isMobile' => $this->agent->isMobile(),
@@ -60,7 +59,7 @@ class EvelatorController extends Controller
 
     public function elevators()
     {
-        $data = ['region' => null];
+        $data = collect(['region' => null]);
 
         return $this->setElevators($data);
     }
@@ -68,7 +67,7 @@ class EvelatorController extends Controller
 
     public function elevatorsRegion($region)
     {
-        $data = ['region' => $region];
+        $data = collect(['region' => $region]);
 
         return $this->setElevators($data);
     }

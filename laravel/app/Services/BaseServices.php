@@ -12,7 +12,7 @@ class BaseServices
     {
         return \Cache::get('REGIONS', function () {
             return Regions::get();
-        })->push(['name' => 'Вся Украина', 'translit' => 'ukraine'])->toArray();
+        })->push(['name' => 'Вся Украина', 'translit' => 'ukraine']);
     }
 
     public function removeEmpty($array, $key)
