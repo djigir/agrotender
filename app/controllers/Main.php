@@ -1463,10 +1463,11 @@ class Main extends \Core\Controller
                 // register process
                  // without region
                 $this->user->register($email, $password, 0, $name, $phone);
-            } else {
-                return true;
-//                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
             }
+// else {
+//                return true;
+////                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
+//            }
         }
         // repeat confirm sms
         if ($this->action == 'repeat-code') {
