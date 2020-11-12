@@ -1394,6 +1394,7 @@ class Main extends \Core\Controller {
     }
 
     public function signup() {
+        print_r('signup');die();
         $passwordHash = password_hash('123456', PASSWORD_DEFAULT);
         $hash         = $this->utils->getHash(12);
         $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()',
