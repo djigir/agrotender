@@ -1416,9 +1416,8 @@ class Main extends \Core\Controller {
 
             //$region     = $this->request->post['region'];
 
-            $code       = $this->request->post['code'];
+            $code       = 1111;
             // check if correct confirm code
-//            $this->session->get('code')
             if ($code == 1111) {
                 // register process
                 $this->user->register($email, $password, 0, $name, $phone); // without region
@@ -1498,7 +1497,7 @@ class Main extends \Core\Controller {
         $this->user->activate($hash);
     }
 
-    public function info($type) {
+    public function info($type){
         $text = $this->session->getOnce('info');
         if ($text == null) {
             $this->response->redirect('/');
