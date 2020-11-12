@@ -1,9 +1,8 @@
 @extends('layout.layout')
 
 @section('content')
-    @if(!$isMobile)
-        @include('filters.filter-evelators', ['regions' => $regions])
-    @endif
+   @include('filters.filter-evelators', ['regions' => $regions])
+
 <div class="container elev">
     @foreach($elevators as $index => $elevator)
         <div class="row mb-0 mb-sm-5 mx-0">
