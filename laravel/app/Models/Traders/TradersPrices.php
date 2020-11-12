@@ -41,7 +41,7 @@ class TradersPrices extends Model
         'comment',
     ];
 
-    protected $appends = ['date','culture', 'change_price', 'change_price_type'];
+    protected $appends = ['date', 'change_price', 'change_price_type'];
 
     public function calculatingPriceChange()
     {
@@ -69,12 +69,6 @@ class TradersPrices extends Model
         }
 
         return 'down';
-    }
-
-
-    public function getCultureAttribute()
-    {
-        $this->cultures->first();
     }
 
     public function getDateAttribute()

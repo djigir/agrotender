@@ -40,6 +40,6 @@ class TradersProducts2buyer extends Model
 
     public function traders_prices()
     {
-        return $this->hasMany(TradersPrices::class, 'cult_id', 'cult_id');
+        return $this->hasMany(TradersPrices::class, 'cult_id', 'cult_id')->with('cultures');
     }
 }

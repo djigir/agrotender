@@ -1,7 +1,7 @@
 @extends('layout.layout', ['meta' => $meta])
+
 @section('content')
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
-
     <div class="container mt-4 mb-5">
         <h2 class="mt-4">Контакты</h2>
         <div class="content-block trader-contact py-3 px-4">

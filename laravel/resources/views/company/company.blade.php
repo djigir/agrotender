@@ -3,7 +3,8 @@
 @section('content')
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
     <div class="container company mb-5">
-        @if(!empty($port_place) || !empty($region_place))
+
+        @if(!$port_place->isEmpty() || !$region_place->isEmpty())
             <h2 class="d-inline-block mt-4">Цены трейдера</h2>
             @if($updateDate != null)
                 <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
@@ -11,12 +12,12 @@
                 </div>
             @endif
         @endif
-        @if(!empty($port_place) && $port_place->count() > 0)
+        @if(!$port_place->isEmpty())
 {{--            @include('company.tables.company-port-table')--}}
             @include('company.tables.company-port-table2')
         @endif
 
-        @if(!empty($region_place) && $region_place->count() > 0)
+        @if(!$region_place->isEmpty())
 {{--            @include('company.tables.company-region-table')--}}
             @include('company.tables.company-region-table2')
         @endif
