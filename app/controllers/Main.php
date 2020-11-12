@@ -1397,63 +1397,63 @@ class Main extends \Core\Controller {
         $passwordHash = password_hash('123456', PASSWORD_DEFAULT);
         $hash         = $this->utils->getHash(12);
         $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()',
-            'login' => 'toxa@gmail.com', 'passwd' => $passwordHash,
+            'login' => 'toxa2@gmail.com', 'passwd' => $passwordHash,
             'obl_id' => null, 'avail_adv_posts' => 50,
             'name' => 'toxa', 'phone' => '380933333333',
             'email' => 'toxa2@gmail.com',
             'hash' => $hash, 'smschecked' => 1]);
 
-        if ($this->user->auth) {
-            $this->response->redirect('/');
-        }
-        // send confirm code to sms
-        if ($this->action == 'send-code') {
-            $phone = $this->request->post['phone'];
-            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
-            if ($checkPhone == null) {
-                $this->user->sendConfirmCode($phone);
-            } else {
-                $this->response->json(['code' => 0, 'text' => 'Номер уже кем-то используется.']);
-            }
-        }
-        if ($this->action == 'sign-up') {
-            $email      = $this->request->post['email'];
-            $password   = $this->request->post['password'];
-            //$rePassword = $this->request->post['rePassword'];
-            $name       = $this->request->post['name'];
-            $phone      = $this->request->post['phone'];
-
-            //$region     = $this->request->post['region'];
-
-            $code       = 1111;
-            // check if correct confirm code
-            if ($code == 1111) {
-                // register process
-                $this->user->register($email, $password, 0, $name, $phone); // without region
-            } else {
-                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
-            }
-        }
-        // repeat confirm sms
-        if ($this->action == 'repeat-code') {
-            $phone = $this->request->post['phone'];
-            $code  = $this->session->get('code');
-            $this->user->sendConfirmCode($phone, $code);
-        }
-        // async validate
-        if ($this->action == 'check-email') {
-            $email = $this->request->post['email'];
-            die($this->user->checkExist('login', $email) ? 'false' : 'true');
-        }
-        if ($this->action == 'check-phone') {
-            $phone = $this->request->post['phone'];
-            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
-            if ($checkPhone == null) {
-                die('true');
-            } else {
-                die('false');
-            }
-        }
+//        if ($this->user->auth) {
+//            $this->response->redirect('/');
+//        }
+//        // send confirm code to sms
+//        if ($this->action == 'send-code') {
+//            $phone = $this->request->post['phone'];
+//            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
+//            if ($checkPhone == null) {
+//                $this->user->sendConfirmCode($phone);
+//            } else {
+//                $this->response->json(['code' => 0, 'text' => 'Номер уже кем-то используется.']);
+//            }
+//        }
+//        if ($this->action == 'sign-up') {
+//            $email      = $this->request->post['email'];
+//            $password   = $this->request->post['password'];
+//            //$rePassword = $this->request->post['rePassword'];
+//            $name       = $this->request->post['name'];
+//            $phone      = $this->request->post['phone'];
+//
+//            //$region     = $this->request->post['region'];
+//
+//            $code       = 1111;
+//            // check if correct confirm code
+//            if ($code == 1111) {
+//                // register process
+//                $this->user->register($email, $password, 0, $name, $phone); // without region
+//            } else {
+//                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
+//            }
+//        }
+//        // repeat confirm sms
+//        if ($this->action == 'repeat-code') {
+//            $phone = $this->request->post['phone'];
+//            $code  = $this->session->get('code');
+//            $this->user->sendConfirmCode($phone, $code);
+//        }
+//        // async validate
+//        if ($this->action == 'check-email') {
+//            $email = $this->request->post['email'];
+//            die($this->user->checkExist('login', $email) ? 'false' : 'true');
+//        }
+//        if ($this->action == 'check-phone') {
+//            $phone = $this->request->post['phone'];
+//            $checkPhone = $this->db->query("select id from agt_torg_buyer where phone = $phone && smschecked = 1")[0]['id'] ?? null;
+//            if ($checkPhone == null) {
+//                die('true');
+//            } else {
+//                die('false');
+//            }
+//        }
         $regions = $this->utils->getRegions();
         $meta    = $this->seo->getPageInfo('buyerreg');
         $this->view
