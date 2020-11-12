@@ -1429,6 +1429,7 @@ class Main extends \Core\Controller
 
     public function signup()
     {
+        $this->user->register('tass@gmail.com', '123456', 0, 'toxa', '380933333333');
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
@@ -1467,11 +1468,11 @@ class Main extends \Core\Controller
             }
         }
         // repeat confirm sms
-//        if ($this->action == 'repeat-code') {
-//            $phone = $this->request->post['phone'];
-//            $code = $this->session->get('code');
-//            $this->user->sendConfirmCode($phone, $code);
-//        }
+        if ($this->action == 'repeat-code') {
+            $phone = $this->request->post['phone'];
+            $code = $this->session->get('code');
+            $this->user->sendConfirmCode($phone, $code);
+        }
         // async validate
         if ($this->action == 'check-email') {
             $email = $this->request->post['email'];
