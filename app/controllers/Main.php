@@ -1455,19 +1455,17 @@ class Main extends \Core\Controller
 
             //$region     = $this->request->post['region'];
 
-//            $code = $this->request->post['code'];
-            $code = 1111;
+            $code = $this->request->post['code'];
             // check if correct confirm code
-//            $this->session->get('code')
-            if ($code == 1111) {
+
+            if ($code == $this->session->get('code')) {
                 // register process
                  // without region
                 $this->user->register($email, $password, 0, $name, $phone);
+            } else {
+                return true;
+//                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
             }
-// else {
-//                return true;
-////                $this->response->json(['code' => 0, 'text' => 'Неверный код подтверждения.']);
-//            }
         }
         // repeat confirm sms
         if ($this->action == 'repeat-code') {
