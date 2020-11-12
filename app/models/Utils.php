@@ -219,7 +219,7 @@ class Utils extends \Core\Model {
 //    $sms->sendRequest("send", ['phones' => [$phone], 'sender' => $sms_sender, 'msg' => $message]);
       if ($sms->request_status > 0) {
       // add to logs
-//      $this->db->insert('agt_sms_log', ['phone' => $phone, 'msg' => $message, 'ip' => $ip]);
+      $this->db->insert('agt_sms_log', ['phone' => $phone, 'msg' => $message, 'ip' => $ip]);
       return true;
     } else {
           return true;
