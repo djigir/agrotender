@@ -15,12 +15,14 @@
                     <span class="pl-1 pr-1">Разместить компанию</span>
                 </a>
             </div>
-            <div class="col-12 col-md-3 float-left mt-4 mt-md-0 d-block">
-                <h2 class="d-inline-block text-uppercase">{{ $culture_translit ? $culture_name : "Все трейдеры"}}</h2>
-                <div class="lh-1">
-                    <a href="/add_buy_trader" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
+            @if($traders->count() > 0)
+                <div class="col-12 col-md-3 float-left mt-4 mt-md-0 d-block">
+                    <h2 class="d-inline-block text-uppercase">{{ $culture_translit ? $culture_name : "Все трейдеры"}}</h2>
+                    <div class="lh-1">
+                        <a href="/add_buy_trader" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>

@@ -1,7 +1,10 @@
 @extends('layout.layout', ['meta' => $meta])
 @section('content')
-    @include('traders.feed.traders_feed', ['feed' => $feed])
-    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+    @if($isMobile)
+        @include('traders.feed.traders_feed', ['feed' => $feed])
+    @else
+        @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+    @endif
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
         @if(!$isMobile)
@@ -28,7 +31,7 @@
         @endif
 
     @if($type_view == 'table')
-        @include('traders.traders_forward_table')
+        @include('traders.traders_forward_table', ['type_traders' => $type_traders])
     @else
         <div class="new_container container mt-3 traders_dev">
             @if(!empty($traders))
@@ -45,7 +48,7 @@
                                         {{ $trader->title }}
                                     </div>
                                     @if(!$culture_translit)
-                                        @foreach($trader->culture_prices->take(3) as $index => $price_culture)
+                                        @foreach($trader->culture_prices->take($trader->trader_premium == 1 ? 3 : 2) as $index => $price_culture)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                 <span class="traders__item__content-p-title">{!! isset($price_culture->cultures[0]) ? $price_culture->cultures[0]->name : '' !!}</span>
@@ -61,7 +64,7 @@
                                         @endforeach
                                     @else
                                     @if($port)
-                                        @foreach($trader->places->take(3) as $index => $place)
+                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                      <span class="traders__item__content-p-title">
@@ -80,7 +83,7 @@
                                         @endforeach
                                     @endif
                                         @if($region)
-                                            @foreach($trader->places->take(3) as $index => $place)
+                                            @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
                                                 <div class="traders__item__content-description">
                                                     <p class="traders__item__content-p">
                                                         <span class="traders__item__content-p-title">

@@ -31,7 +31,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-
     protected $companyService;
     protected $baseServices;
     protected $breadcrumbService;
@@ -60,11 +59,6 @@ class CompanyController extends Controller
         return redirect()->route('company.filter', [$request->get('query')]);
     }
 
-    private function checkName($translit = null)
-    {
-        return $translit == 'ukraine' or $translit == 'crimea';
-    }
-
     private function regionName($region)
     {
         $name = Regions::where('translit', $region)->value('name'). ' область';
@@ -82,34 +76,35 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = $this->companyService->setRegions(array_slice($this->baseServices->getRegions(), 1, -1), $data['rubric_id']);
-        $region_name = $this->regionName($data['region']);
-        $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
+        $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
+        $region_name = $this->regionName($data->get('region'));
+        $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
-        $region = $data['region'];
-        $culture_name = $data['rubric_id'] ? CompTopic::where('id', $rubric_id)->get()->toArray() : null;
-        $culture_name = !empty($culture_name) ? $culture_name[0]['title'] : 'Все рубрики';
+        $region = $data->get('region');
+        $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
+        $culture_name = $culture_name  ? $culture_name->title : 'Все рубрики';
 
-        if($data['region'] != 'ukraine' && $data['region']) {
-            $region = Regions::where('translit', $data['region'])->get()->toArray()[0];
-            $region_id = $region['id'];
+        if($data->get('region') != 'ukraine' && $data->get('region')) {
+            $region = Regions::where('translit', $data->get('region'))->first();
+            $region_id = $region->id;
         }
 
-        $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
+        $companies = $this->companyService->getCompanies(['region' => $data->get('region'), 'rubric' => $rubric_id, 'query' => $data->get('query')]);
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
-        $groups = $this->companyService->setRubricsGroup($region_id);
+        $groups = $this->companyService->setRubricsGroup($region_id, $rubric_id);
         $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
         return view('company.companies', [
-            'companies' => $companies, 'regions' => $regions,
+            'companies' => $companies,
+            'regions' => $regions,
             'rubricGroups' => $groups,
             'region_name' => $region_name,
-            'region' => empty($data['region']) ? 'ukraine' : $data['region'],
-            'obj_region' => $data['region'] != 'ukraine' ? $region : [],
+            'region' => !$data->get('region') ? 'ukraine' : $data->get('region'),
+            'obj_region' => $data->get('region') != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
             'region_id' => $region_id,
-            'query' => $data['query'],
+            'query' => $data->get('query'),
             'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
             'breadcrumbs' => $breadcrumbs,
@@ -122,12 +117,12 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      *
      * @param  Request  $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
 
     public function companies(Request $request)
     {
-        $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies =  collect(['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if(!empty($request->get('query'))){
             $data_companies['query'] = $request->get('query');
@@ -146,11 +141,11 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param string $region
      * @param Request $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesRegion(string $region, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies = collect(['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -170,11 +165,11 @@ class CompanyController extends Controller
      * @param string $region
      * @param $rubric_id
      * @param Request $request
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesRegionRubric(string $region, $rubric_id, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => $rubric_id];
+        $data_companies = collect(['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => $rubric_id]);
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -193,12 +188,11 @@ class CompanyController extends Controller
      * Display a listing of the resource.
      * @param  Request  $request
      * @param $query
-     * @return Factory|View
+     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
      */
     public function companiesFilter(Request $request, $query = null)
     {
-
-        $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies = collect(['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if(!empty($request->get('query'))){
             return $this->IsDesktopFilter($request);
@@ -219,9 +213,10 @@ class CompanyController extends Controller
             App::abort(404);
         }
     }
+
     /**
      * Display a listing of the resource.
-     * @param  integer  $id;
+     * @param $id ;
      *
      * @return Factory|View
      */
@@ -229,30 +224,27 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
+        $updateDate = TradersPrices::where(['buyer_id' => $this->company->author_id, 'acttype' => 0])->limit(1)->value('change_date');
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
-        $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
+        $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
 
-        $port_culture = $data_port['cultures'];
-//        $this->companyService->getPortsRegionsCulture($id, 2);
-        $port_place =   $data_port['places'];
-//        $this->companyService->getPlacePortsRegions($id, 2);
-        $port_price =   $data_port['prices'];
-//        $this->companyService->getPriceRegionsPorts($id, 2);
+        $port_culture = $data_port->get('cultures');
+        $port_place =   $data_port->get('places');
+        $port_price =   $data_port->get('prices');
 
-        $region_culture = $data_region['cultures'];
-//        $this->companyService->getPortsRegionsCulture($id, 0);
-        $region_place =   $data_region['places'];
-//        $this->companyService->getPlacePortsRegions($id, 0);
-        $region_price =   $data_region['prices'];
-//        $this->companyService->getPriceRegionsPorts($id, 0);
+        $region_culture = $data_region->get('cultures');
+        $region_place =   $data_region->get('places');
+        $region_price =   $data_region->get('prices');
 
-        $statusCurtypePort =  $data_port['statusCurtype'];
-        $statusCurtypeRegion = $data_region['statusCurtype'];
+
+        $statusCurtypePort =  $data_port->get('statusCurtype');
+        $statusCurtypeRegion = $data_region->get('statusCurtype');
+
 
         $meta = $this->seoService->getMetaForOneCompany($id);
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company', [
             'company' => $this->company,
@@ -266,57 +258,14 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
+            'check_forwards' => $checkForward,
             'updateDate' => $updateDate,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
-
-            ]
-        );
+        ]);
     }
 
-    public function getForwardsMonths() {
-        $data = [
-            'start' =>[],
-            'end' =>[],
-        ];
-
-        for ($i = 0; $i <= 6; $i++){
-            $dt_start = Carbon::now();
-            $dt_end = Carbon::now();
-            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
-            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
-        }
-
-        return $data;
-    }
-
-    public function getPricesForwards($author_id, $type, $dtStart, $placeType) {
-        return TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
-            ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
-            ->get()
-            ->toArray();
-    }
-
-    public function getTraderPricesRubrics($user, $placeType, $type) {
-        $rubrics = TradersProducts2buyer::where([['buyer_id', $user], ['acttype', $type], ['type_id', $placeType]])
-            ->with(['traders_products' => function($query)use($user, $placeType, $type){
-                $query->with(['traders_prices' => function($query)use($user, $placeType, $type){
-                    $query->where([['acttype', $type], ['buyer_id', $user]])
-                        ->with(['traders_places' => function($query)use($user, $placeType, $type){
-                            $query->where([['buyer_id', $user], ['type_id', $placeType]]);
-                        }]);
-                }]);
-            }])->get()->toArray();
-
-        foreach ($rubrics as $index_rubric => $rubric){
-            $rubrics[$index_rubric]['traders_products'] = $rubrics[$index_rubric]['traders_products'][0];
-        }
-
-        $rubrics = collect($rubrics)->sortBy('traders_products.culture.name')->toArray();
-
-        return $rubrics;
-    }
     /**
      * Display a listing of the resource.
      * @param $id
@@ -324,48 +273,45 @@ class CompanyController extends Controller
      */
     public function companyForwards($id)
     {
-        $company = CompItems::find($id);
+        $this->setCompany($id);
 
-        $forward_months = $this->getForwardsMonths();
-
-        $rubrics_port = $this->getTraderPricesRubrics($company['author_id'], 2, 3);
-        $prices_port = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 2);
-
-        $rubrics_region = $this->getTraderPricesRubrics($company['author_id'], 0, 3);
-        $prices_region = $this->getPricesForwards($company['author_id'], 3, reset($forward_months), 0);
-
-
-        foreach ($rubrics_port as $index => $rubric){
-            if(empty($rubric['traders_products']['traders_prices'])){
-                unset($rubrics_port[$index]);
-            }
-        }
-
-        foreach ($rubrics_region as $index => $rubric){
-            if(empty($rubric['traders_products']['traders_prices'])){
-                unset($rubrics_region[$index]);
-            }
-        }
+        $forward_months = $this->companyService->getForwardsMonths();
+        $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
+        $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         foreach ($prices_port as $index => $price){
-            if(empty($price['traders_places'])){
+            if($price['traders_places']->count() == 0){
                 unset($prices_port[$index]);
             }
         }
 
         foreach ($prices_region as $index => $price){
-            if(empty($price['traders_places'])){
+            if($price['traders_places']->count() == 0){
                 unset($prices_region[$index]);
             }
         }
 
+        $rubrics_port = $prices_port
+            ->unique('cultures.0.name')
+            ->sortBy('cultures.0.name')
+            ->pluck('cultures.0.name', 'cult_id');
+
+        $rubrics_region = $prices_region
+            ->unique('cultures.0.name')
+            ->sortBy('cultures.0.name')
+            ->pluck('cultures.0.name', 'cult_id');
+
+
+
         return view('company.company_forwards', [
-            'company' => $company,
+            'company' => $this->company,
             'prices_port' => $prices_port,
             'rubrics_port' => $rubrics_port,
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'check_forwards' => $checkForward,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -379,12 +325,14 @@ class CompanyController extends Controller
             'content_plus' => 'required',
             'content_minus' => 'required',
         ]);
+
         if ($validator->fails()){
             return redirect()
                 ->back()
                 ->withErrors($validator)
                 ->withInput();
         }
+
         $author_comment = \auth()->user();
 
         $author = CompComment::create([
@@ -422,7 +370,7 @@ class CompanyController extends Controller
         $this->setCompany($id);
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
-
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $this->company,
@@ -430,7 +378,8 @@ class CompanyController extends Controller
             'meta' => $meta,
             'current_page' => 'reviews',
             'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
         ]);
 
     }
@@ -451,7 +400,9 @@ class CompanyController extends Controller
             ->with('traders_contacts')
             ->get()
             ->toArray();
+
         $meta = $this->seoService->getMetaCompanyContacts($id);
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company_cont', [
             'company' => $this->company,
@@ -463,7 +414,8 @@ class CompanyController extends Controller
             'meta' => $meta,
             'current_page' => 'contact',
             'isMobile' => $this->agent->isMobile(),
-            'page_type' => 0
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
         ]);
     }
 }

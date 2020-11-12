@@ -3,7 +3,7 @@
 @section('content')
     @include('company.company-header', ['id' => $id])
     <div class="container mt-4 mb-5">
-        @if(!empty($prices_port))
+        @if($prices_port->count() != 0)
         <div class="ports-tabs table-tabs mt-3">
             <a href="#" currency="1" class="active">Закупки USD</a>  </div>
         <div class="content-block prices-block mb-3">
@@ -13,21 +13,21 @@
                         <tr>
                             <th>Порты/переходы</th>
                             @foreach($rubrics_port as $index => $rubric)
-                                <th rubric="{{$rubric['traders_products']['id']}}">{{$rubric['traders_products']['culture']['name']}}</th>
+                                <th rubric="{{$index}}">{{$rubric}}</th>
                             @endforeach
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($prices_port as $index => $price)
                         <tr>
-                            <td place="6443" class="py-1">
-                                <span class="place-title">{{$price['traders_places'][0]['port'][0]['lang']['portname']}}</span>
-                                <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
-                                <b class="popular">{{mb_convert_case($price['date']->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
+                            <td class="py-1">
+                                <span class="place-title">{{$price->traders_places[0]->port[0]['lang']['portname']}}</span>
+                                <span class="place-comment">{{$price->traders_places[0]->place}}</span>
+                                <b class="popular">{{mb_convert_case($price->date->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
                             </td>
-                            <td place="6443" rubric="14" currency="1" class="currency-1 d-table-cell">
+                            <td class="currency-1 d-table-cell">
                                 <div class="d-flex align-items-center justify-content-center lh-1">
-                                    <span class="font-weight-600">{{round($price['costval'], 1)}}</span>
+                                    <span class="font-weight-600">{{round($price->costval, 1)}}</span>
                                 </div>
                             </td>
                         </tr>
@@ -37,7 +37,7 @@
             </div>
         </div>
         @endif
-        @if(!empty($prices_region))
+        @if($prices_region->count() != 0)
             <div class="regions-tabs table-tabs">
                 <a href="#" currency="1" class="active">Закупки USD</a>
             </div>
@@ -48,7 +48,7 @@
                         <tr>
                             <th>Регионы/элеваторы</th>
                             @foreach($rubrics_region as $index => $rubric)
-                                <th rubric="{{$rubric['traders_products']['id']}}">{{$rubric['traders_products']['culture']['name']}}</th>
+                                <th rubric="{{$index}}">{{$rubric}}</th>
                             @endforeach
                         </tr>
                         </thead>
@@ -56,13 +56,13 @@
                         @foreach($prices_region as $index => $price)
                             <tr>
                                 <td place="8085" class="py-1">
-                                    <span class="place-title">{{$price['traders_places'][0]['region']['name']}} обл</span>
-                                    <span class="place-comment">{{$price['traders_places'][0]['place']}}</span>
-                                    <b class="popular">{{mb_convert_case($price['date']->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
+                                    <span class="place-title">{{$price->traders_places[0]->region['name']}} обл</span>
+                                    <span class="place-comment">{{$price->traders_places[0]->place}}</span>
+                                    <b class="popular">{{mb_convert_case($price->date->format('F Y'), MB_CASE_TITLE, "UTF-8")}}</b>
                                 </td>
                                 <td place="6443" rubric="14" currency="1" class="currency-1 d-table-cell">
                                     <div class="d-flex align-items-center justify-content-center lh-1">
-                                     <span class="font-weight-600">{{round($price['costval'], 1)}}</span>
+                                     <span class="font-weight-600">{{round($price->costval, 1)}}</span>
                                     </div>
                                 </td>
                             </tr>

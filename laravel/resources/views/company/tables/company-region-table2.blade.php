@@ -39,6 +39,10 @@
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                         </div>
+                                        @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                            <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                            <span class="price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
+                                        @endif
                                         <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['comment']}}</span>
                                     </td>
                                 @else
@@ -77,6 +81,10 @@
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
+                                            @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                                <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                                <span class="price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
+                                            @endif
                                             <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['comment']}}</span>
                                         </td>
                                     @else
@@ -116,6 +124,10 @@
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
+                                            @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                                <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                                <span class="price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
+                                            @endif
                                             <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['comment']}}</span>
                                         </td>
                                     @else
@@ -158,6 +170,10 @@
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                         </div>
+                                        @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                            <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                            <span class="price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
+                                        @endif
                                         <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['comment']}}</span>
                                     </td>
                                 @else
@@ -197,6 +213,10 @@
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
+                                            @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                                <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                                <span class="price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
+                                            @endif
                                             <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['comment']}}</span>
                                         </td>
                                     @else
@@ -237,6 +257,10 @@
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
                                             </div>
+                                            @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                                <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
+                                                <span class="price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
+                                            @endif
                                             <span class="d-block lh-1 pb-1 extra-small">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['comment']}}</span>
                                         </td>
                                     @else
@@ -252,8 +276,6 @@
         </div>
     @endif
 </div>
-
-
 
 <style>
     .region-port-table{

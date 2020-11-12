@@ -67,8 +67,6 @@ class TraderController extends Controller
         $port_all = $data['port'];
         $culture_name = 'Выбрать продукцию';
 
-
-
         if($data['port'] != 'all' && $data['port']) {
             $id_port = TradersPorts::where('url', $data['port'])->value('id');
             $port_all = TradersPortsLang::where('port_id', $id_port)->get()->toArray()[0];
@@ -131,8 +129,8 @@ class TraderController extends Controller
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
             'type_view' => isset($data['type_view']) ? $data['type_view'] : 'card',
-//            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
-            'feed' =>  []
+            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
+//            'feed' =>  []
         ]);
     }
 
@@ -164,7 +162,7 @@ class TraderController extends Controller
      */
     public function regionCulture(Request $request, $region, $culture)
     {
-        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'type' => ''];
+        $data_traders = ['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => $culture, 'type' => '', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {
@@ -202,7 +200,7 @@ class TraderController extends Controller
 
     public function portCulture(Request $request, $port, $culture)
     {
-        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => ''];
+        $data_traders = ['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'type' => '', 'type_view' => 'table'];
 
         if(!empty($request->get('region')) || !empty($request->get('port')))
         {

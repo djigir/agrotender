@@ -38,6 +38,54 @@ class CompanyService
         $this->rubrics = null;
     }
 
+    public function checkForward($author_id, $id)
+    {
+        $check_forwards = CompItems::where([
+            'id' => $id,
+            'trader_price_forward_avail' => 1,
+            'trader_price_forward_visible' => 1,
+            'visible' => 1
+        ])->count();
+
+        $forward_months = $this->getForwardsMonths();
+
+        $prices_port = $this->getPricesForwards($author_id, 3, reset($forward_months), 2);
+        $prices_region = $this->getPricesForwards($author_id, 3, reset($forward_months), 0);
+
+        if($check_forwards > 0 && (!$prices_port->isEmpty() || !$prices_region->isEmpty())){
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getForwardsMonths()
+    {
+        $data = [
+            'start' =>[],
+            'end' =>[],
+        ];
+
+        for ($i = 0; $i <= 6; $i++){
+            $dt_start = Carbon::now();
+            $dt_end = Carbon::now();
+            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
+            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
+        }
+
+        return $data;
+    }
+
+    public function getPricesForwards($author_id, $type, $dtStart, $placeType)
+    {
+         $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+            ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
+            ->get();
+
+        return $prices->sortBy('cultures.0.name');
+    }
+
+
     public function mobileFilter(\Illuminate\Http\Request $request)
     {
         $route_name = null;
@@ -109,26 +157,27 @@ class CompanyService
     {
         $statusCurtype = '';
         $check_curtype = [];
+        $place_id = [];
+        $sortBy = 'region.id';
 
         $prices = TradersPrices::where([
             'acttype' => $type,
             'buyer_id' => $author_id
-        ])->with(['traders_places' => function ($query) use ($type, $author_id, $placeType) {
+        ])->with([
+            'traders_places' => function ($query) use ($type, $author_id, $placeType) {
                 $query->where([
                     'acttype' => $type,
                     'type_id' => $placeType,
                     'buyer_id' => $author_id
                 ]);
             }
-            ])->get()->groupBy(['place_id']);
+        ])->get()->groupBy(['place_id']);
 
 
         foreach ($prices as $index => $price)
         {
-            $check_curtype = array_merge($check_curtype, collect($prices[$index])->pluck('curtype')->toArray());
-
             foreach ($prices[$index] as $index_place => $place){
-                if(empty($place['traders_places'])){
+                if(!$place['traders_places']){
                     unset($prices[$index][$index_place]);
                 }
             }
@@ -142,7 +191,29 @@ class CompanyService
             if(empty($prices[$index])){
                 unset($prices[$index]);
             }
+        }
 
+
+        foreach ($prices as $index => $price){
+            $place_id[] = $index;
+        }
+
+        $places = TradersPlaces::where('type_id', $placeType)->whereIn('id', $place_id)
+            ->select('id', 'type_id', 'place', 'port_id', 'obl_id')
+            ->get();
+
+        $id_place = $places->pluck('id');
+
+        foreach ($id_place as $index => $id){
+            if(isset($prices[$id]))
+            {
+                $check_curtype = array_merge($check_curtype, array_keys($prices[$id]));
+            }
+        }
+
+
+        if($placeType == 2){
+            $sortBy = 'port.0.lang.portname';
         }
 
         if(in_array(0, $check_curtype)){
@@ -157,230 +228,40 @@ class CompanyService
             $statusCurtype = 'UAH_USD';
         }
 
-
-        $place_id = [];
-
-        foreach ($prices as $index => $price){
-            $place_id[] = $index;
-        }
-
-        $places = TradersPlaces::whereIn('id', $place_id)->where('type_id', $placeType)->select('id', 'type_id', 'place', 'port_id', 'obl_id')->get();
-
-        $sortBy = 'region.id';
-
-        if($placeType == 2){
-            $sortBy = 'port.0.lang.portname';
-        }
-
         $places = $places->sortBy($sortBy);
 
-        return ['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype];
+        return collect(['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype]);
     }
 
 
     public function getCultures($author_id, $type, $placeType)
     {
-        $cultures = TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])->with(
-            ['traders_prices' => function ($query) use ($type, $author_id, $placeType) {
-                $query->where([['buyer_id', $author_id], ['acttype', $type]]);
-            }
-            ]
-        )->get()->toArray();
+        $cultures = TradersProducts2buyer::where([
+            'buyer_id' => $author_id,
+            'acttype' => $type,
+            'type_id' => $placeType
+        ])->with(['traders_prices' => function ($query) use ($type, $author_id, $placeType) {
+                $query->where([
+                    'buyer_id' => $author_id,
+                    'acttype' => $type
+                ]);
+            }]
+        )->get();
 
 
         foreach ($cultures as $index => $culture){
-            if(!empty($culture['traders_prices'])){
-                $cultures[$index]['culture'] = $cultures[$index]['traders_prices'][0]['cultures'][0]['name'];
-                $cultures[$index]['culture_id'] = $cultures[$index]['traders_prices'][0]['cultures'][0]['id'];
-                $cultures[$index]['place_id'] = collect($cultures[$index]['traders_prices'])->pluck('place_id')->toArray();
+            if(!$culture->traders_prices->isEmpty()){
+                $cultures[$index]['culture'] = $culture->traders_prices->first()->cultures[0]->name;
             }
 
-            if(empty($culture['traders_prices'])){
+            if($culture->traders_prices->isEmpty()){
                 unset($cultures[$index]);
             }
-
         }
 
-        $cultures = collect($cultures)->sortBy('culture')->toArray();
-        $cultures = array_values($cultures);
+        $cultures = $cultures->sortBy('culture');
 
         return $cultures;
-    }
-
-    public function getPortsRegionsCulture($id, $placeType)
-    {
-
-        $get_culture = $this->getTraderPricesRubrics($id, $placeType);
-        $culture = [];
-
-        foreach ($get_culture as $index => $cult) {
-            if (empty($cult['traders_products']) || empty($get_culture[$index]['traders_products'][0]['traders_prices'])) {
-                continue;
-            }
-
-            array_push($culture, $get_culture[$index]['traders_products'][0]['culture']);
-        }
-
-        $culture = collect($culture)->sortBy('name')->toArray();
-        $culture = array_values($culture);
-
-        return $culture;
-    }
-
-
-    public function getPlacePortsRegions($id, $placeType)
-    {
-        $get_places = $this->getTraderPricesRubrics($id, $placeType);
-        $places = [];
-
-        foreach ($get_places as $index => $place) {
-            if (empty($place['traders_products']) || empty($get_places[$index]['traders_products'][0]['traders_prices'])) {
-                continue;
-            }
-            foreach ($get_places[$index]['traders_products'][0]['traders_prices'] as $index_pr => $prices) {
-                if (empty($prices['traders_places'])) {
-                    continue;
-                }
-                if (!empty($prices['traders_places'][0]['traders_ports'])) {
-                    array_push($places, array(
-                        'portname' => $prices['traders_places'][0]['traders_ports'][0]['traders_ports_lang'][0]['portname'],
-                        'place' => $prices['traders_places'][0]['place'],
-                        'place_id' => $prices['traders_places'][0]['id']
-                    ));
-                    continue;
-                }
-                array_push($places, array(
-                    'region' => $prices['traders_places'][0]['regions'][0]['name'],
-                    'place' => $prices['traders_places'][0]['place'],
-                    'place_id' => $prices['traders_places'][0]['id']
-                ));
-            }
-        }
-
-
-        $places = collect($places)->sortBy($placeType == 0 ? 'place' : 'portname')->toArray();
-        $places = array_values($places);
-        $places = $this->baseService->new_unique($places, 'place');
-
-
-        return $places;
-    }
-
-
-    public function getPriceRegionsPorts($id, $placeType)
-    {
-        $get_prices = $this->getTraderPricesRubrics($id, $placeType);
-        $cultures = $this->getPortsRegionsCulture($id, $placeType);
-        $assoc_array = [];
-
-        foreach ($cultures as $index => $culture) {
-            $assoc_array[$culture['id']] = ['index' => $index, 'name' => $culture];
-        }
-
-        $prices = $this->price_formation($get_prices);
-        $prices = $this->sort_group($prices, $assoc_array);
-
-        $prices['UAH'] = $this->parsing_array($prices, 'UAH');
-        $prices['USD'] = $this->parsing_array($prices, 'USD');
-
-
-        return $prices;
-    }
-
-    public function price_formation($sourceData)
-    {
-        $prices = [
-            'UAH' => [],
-            'USD' => []
-        ];
-
-        $currency = [
-            0 => 'UAH',
-            1 => 'USD',
-        ];
-
-        foreach ($sourceData as $index => $price) {
-            if (empty($price['traders_products']) && empty($sourceData[$index]['traders_products'][0]['traders_prices'])) {
-                continue;
-            }
-            foreach ($price['traders_products'][0]['traders_prices'] as $index_price => $price_product) {
-                if (empty($price_product['traders_places'])) {
-                    continue;
-                }
-                array_push($prices[$currency[$price_product['curtype']]], array(
-                    'place_id' => $price_product['place_id'],
-                    'costval' => $price_product['costval'],
-                    'costval_old' => $price_product['costval_old'],
-                    'add_date' => $price_product['add_date'],
-                    'comment' => $price_product['comment'],
-                    'traders_places' => $price_product['traders_places'],
-                    'curtype' => $price_product['curtype'],
-                    'culture' => $sourceData[$index]['traders_products'][0]['culture']['name'],
-                    'culture_id' => $sourceData[$index]['traders_products'][0]['culture']['id']
-                ));
-            }
-        }
-
-
-        if (!empty($prices['UAH'])) {
-            $prices['UAH'] = collect($prices['UAH'])->groupBy('place_id')->toArray();
-        }
-
-        if (!empty($prices['USD'])) {
-            $prices['USD'] = collect($prices['USD'])->groupBy('place_id')->toArray();
-        }
-
-        return $prices;
-    }
-
-    public function sort_group($prices, $assoc_array)
-    {
-        foreach ($prices as $index_currency => $currency) {
-            foreach ($currency as $index_place => $places) {
-                foreach ($places as $index => $price) {
-                    $prices[$index_currency][$index_place] = collect($prices[$index_currency][$index_place])->sortBy('culture')->toArray();
-                    $prices[$index_currency][$index_place] = array_values($prices[$index_currency][$index_place]);
-                }
-                $prices[$index_currency][$index_place] = collect($prices[$index_currency][$index_place])->groupBy('culture_id')->toArray();
-            }
-        }
-
-        foreach ($assoc_array as $index_assoc => $assoc) {
-            foreach ($prices as $index_cur => $currency) {
-                foreach ($currency as $index_place => $price) {
-                    $key = key(array_diff_key($assoc_array, $prices[$index_cur][$index_place]));
-                    if (!isset($prices[$index_cur][$index_place][$key])) {
-                        $prices[$index_cur][$index_place][$key] = [];
-                        if (isset($assoc_array[$key])) {
-                            $prices[$index_cur][$index_place][$key] = array(
-                                'culture' => $assoc_array[$key]['name']['name'],
-                                'cult_id' => $assoc_array[$key]['name']['id']
-                            );
-                        }
-                    }
-                }
-            }
-        }
-
-        return $prices;
-    }
-
-    public function parsing_array($prices, $currency_type)
-    {
-        foreach ($prices[$currency_type] as $index_cur => $currency) {
-            foreach ($currency as $index => $price) {
-                if ($index == '' or empty($prices[$currency_type][$index_cur][$index])) {
-                    unset($prices[$currency_type][$index_cur][$index]);
-                    continue;
-                }
-                if (isset($prices[$currency_type][$index_cur][$index][0])) {
-                    $prices[$currency_type][$index_cur][$index] = $prices[$currency_type][$index_cur][$index][0];
-                }
-            }
-            $prices[$currency_type][$index_cur] = collect($prices[$currency_type][$index_cur])->sortBy('culture')->toArray();
-            $prices[$currency_type][$index_cur] = array_values($prices[$currency_type][$index_cur]);
-        }
-        return $prices[$currency_type];
     }
 
 
@@ -399,33 +280,12 @@ class CompanyService
         $cultures = $this->getCultures($author_id, $type, $placeType);
         $prices_places_curtype = $this->getPrices($author_id, $type, $placeType);
 
-        return [
+        return collect([
             'cultures' => $cultures,
-            'prices' => $prices_places_curtype['prices'],
-            'places' => $prices_places_curtype['places'],
-            'statusCurtype' => $prices_places_curtype['statusCurtype']
-        ];
-
-//        return TradersProducts2buyer::where([['buyer_id', $author_id], ['acttype', $type], ['type_id', $placeType]])
-//            ->with([
-//                'traders_products' => function ($query) use ($type, $author_id, $placeType) {
-//                    $query->with([
-//                        'traders_prices' => function ($query) use ($type, $author_id, $placeType) {
-//                            $query->where([['buyer_id', $author_id], ['acttype', $type]])
-//                                ->with([
-//                                    'traders_places' => function ($query) use ($type, $placeType, $author_id) {
-//                                        $query->where([
-//                                            ['acttype', $type], ['type_id', $placeType], ['buyer_id', $author_id]
-//                                        ])
-//                                            ->with('traders_ports',
-//                                                'regions')->with('traders_ports.traders_ports_lang');
-//                                    }
-//                                ]);
-//                        }
-//                    ]);
-//                }
-//            ])
-//            ->get()->toArray();
+            'prices' => $prices_places_curtype->get('prices'),
+            'places' => $prices_places_curtype->get('places'),
+            'statusCurtype' => $prices_places_curtype->get('statusCurtype')
+        ]);
     }
 
 
@@ -463,7 +323,6 @@ class CompanyService
 
         $region_counts = CompItems::select(['obl_id', \DB::raw('count(*) as obl')]);
 
-
         if($rubric){
             $region_counts = $this->companies
                 ->where('comp_item2topic.topic_id', $rubric)
@@ -487,7 +346,7 @@ class CompanyService
     }
 
 
-    public function setRubricsGroup($region_id = null)
+    public function setRubricsGroup($region_id = null, $rubric_id = null)
     {
         $this->setCompanies();
 
@@ -543,15 +402,16 @@ class CompanyService
             return $this->searchCompanies($data['query']);
         }
 
-        $this->setCompanies();
-
         $obl_id = Regions::where('translit', $data['region'])->value('id');
         $rubric = $data['rubric'];
         $company_criteria = [];
-        $companies = $this->companies;
+        $topic_criteria = [];
+
+        $companies = CompItems::leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
+            ->with('activities')->where('comp_items.visible', 1);
 
         if($obl_id == null && $rubric){
-            $company_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];
+            $topic_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];
         }
 
         if($obl_id != null){
@@ -559,20 +419,27 @@ class CompanyService
         }
 
         if($obl_id != null && $rubric != null){
-            $company_criteria[] = ['comp_item2topic.topic_id', $rubric];
+            $topic_criteria[] = ['comp_item2topic.topic_id', $rubric];
             $company_criteria[] = ['comp_items.obl_id', $obl_id];
         }
 
-        $companies = CompItems::where($company_criteria)
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('rate_formula', 'desc')
-            ->select('comp_items.id', 'comp_items.author_id', 'comp_items.trader_premium',
-                'comp_items.obl_id', 'comp_items.logo_file', 'comp_items.short', 'comp_items.add_date',
-                'comp_items.visible', 'comp_items.obl_id', 'comp_items.title', 'comp_items.trader_price_avail',
-                'comp_items.trader_price_visible', 'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3')
-            ->paginate(self::PER_PAGE);
+        if(!empty($company_criteria)){
+            $companies = $companies->where($company_criteria);
+        }
 
+        if(!empty($topic_criteria))
+        {
+            $companies->leftJoin('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')->where($topic_criteria);
+        }
 
-        return $companies;
+        $companies = $companies->orderBy('comp_items.trader_premium', 'desc')
+            ->orderBy('comp_items.rate_formula', 'desc')
+            ->select('comp_items.id', 'comp_items.author_id',
+                'comp_items.trader_premium', 'comp_items.obl_id', 'comp_items.logo_file',
+                'comp_items.short', 'comp_items.add_date', 'comp_items.visible', 'comp_items.obl_id',
+                'comp_items.title', 'comp_items.trader_price_avail', 'comp_items.trader_price_visible',
+                'comp_items.phone', 'comp_items.phone2', 'comp_items.phone3');
+
+        return $companies->paginate(self::PER_PAGE);
     }
 }

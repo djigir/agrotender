@@ -1,6 +1,9 @@
 <?php
 $check_forwards = \App\Models\Comp\CompItems::where([
-    ['id', $id], ['trader_price_forward_avail', 1], ['trader_price_forward_visible', 1], ['visible', 1]
+    'id' => $id,
+    'trader_price_forward_avail' => 1,
+    'trader_price_forward_visible' => 1,
+    'visible' => 1
 ])->count();
 ?>
 <div class="overlay"></div>
