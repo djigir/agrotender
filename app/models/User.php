@@ -568,8 +568,7 @@ class User extends \Core\Model {
 
     public function sendConfirmCode($phone, $code = null) {
         if (!$this->getNumSmsSending($phone)) {
-//            $code = $code ?? mt_rand(1000, 9999);
-            $code = 1111;
+            $code = $code ?? mt_rand(1000, 9999);
             $this->session->set('code', $code);
             $this->session->set('phone', $phone);
             $this->utils->sendSms($phone, $code, $this->ip);

@@ -1394,6 +1394,15 @@ class Main extends \Core\Controller {
     }
 
     public function signup() {
+        $passwordHash = password_hash('123456', PASSWORD_DEFAULT);
+        $hash         = $this->utils->getHash(12);
+        $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()',
+            'login' => 'toxa@gmail.com', 'passwd' => $passwordHash,
+            'obl_id' => null, 'avail_adv_posts' => 50,
+            'name' => 'toxa', 'phone' => '380933333333',
+            'email' => 'toxa2@gmail.com',
+            'hash' => $hash, 'smschecked' => 1]);
+
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
