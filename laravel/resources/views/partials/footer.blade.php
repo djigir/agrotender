@@ -1,47 +1,5 @@
 </main>
 </div>
-<!--
-<footer class="footer" xmlns="http://www.w3.org/1999/html">
-    <div class="container">
-        <div class="row">
-            <div class="d-none d-sm-block col-sm-3">
-                <img src="/app/assets/img/logo-grey.png" alt="Аграрный сайт Украины №1">
-                <br>
-                <span class="extra-small">© «АгротендерTM» 2011–{{Carbon\Carbon::now()->format('Y')}}</span>
-                <br>
-                <span>info@agrotender.com.ua</span>
-            </div>
-            <div class="col-12 col-sm-4">
-                <ol class="footer-links m-0 p-0">
-                    <li><a href="/info/orfeta">Пользовательское соглашение</a></li>
-                    <li><a href="/info/limit_adv">Правила размещения объявлений</a></li>
-                    <li><a href="/tarif20.html">Как попасть в Цены трейдеров</a></li>
-                </ol>
-            </div>
-            <div class="col-12 col-sm-2">
-                <ol class="footer-links m-0 p-0">
-                    <li><a href="/info/contacts">Контакты</a></li>
-                    <li><a href="/reklama">Реклама</a></li>
-                    <li><a href="/news">Новости</a></li>
-                </ol>
-            </div>
-            <div class="d-none d-sm-block col-12 col-sm-2">
-                <ol class="footer-links m-0 p-0">
-                    <li><a href="/faq">Библиотека</a></li>
-                    <li><a href="/faq/12/index">ГОСТы</a></li>
-                    <li><a href="/sitemap">Карта сайта</a></li>
-                </ol>
-            </div>
-            <div class="col-12 col-sm-1 d-flex align-items-center pt-1 p-sm-0">
-                <a href="https://www.facebook.com/agrotender.com.ua/"><img src="/app/assets/img/fb-icon.png" alt="Агротендер на Facebook"></a>
-            </div>
-        </div>
-    </div>
-    <div class="d-flex d-md-none align-items-center justify-content-center mt-2">
-        <span class="tm small">© «АгротендерTM» 2011–{{Carbon\Carbon::now()->format('Y')}}</span>
-    </div>
-</footer>
--->
 
 <footer class="new_footer">
   <div class="new_container">
@@ -84,12 +42,18 @@
             <a href="mailto:info@agrotender.com.ua">email: <span class="white">info@agrotender.com.ua</span></a>
           </li>
           <li  class="footer__telephone">
-            <a href="#">050 401 84 77</a>
+            <a href="tel:0504018477">050 401 84 77</a>
             <p>Звонить по будням с 10:00 до 17:00</p>
           </li>
-          <li>
-            <a href="/">
+          <li class="footer__logo_and_messangers">
+            <a href="/" class="footer__logo_img">
               <img src="/app/assets/img/logo_white.svg" alt="">                
+            </a>
+            <a href="viber://pa?chatURI=agrotender_bot&text=" class="messanger_item">
+              <img src="/app/assets/img/company/viber4.svg" alt="">
+            </a>
+            <a href="https://t.me/AGROTENDER_bot" class="messanger_item">
+              <img src="/app/assets/img/company/telegram-white.svg" alt="">
             </a>
           </li>
         </ul>

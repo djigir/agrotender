@@ -5,8 +5,12 @@
     @else
         @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     @endif
-    <div class="container mt-3 "></div>
-    <div class="container traders mt-3 mt-sm-5">
+{{--    <div class="container mt-3 "></div>--}}
+{{--    <div class="container traders mt-3 mt-sm-5">--}}
+    <div class="new_container">
+        <div class="new_page_title">ОБНОВЛЕНИЯ ЗЕРНОТРЕЙДЕРОВ</div>
+    </div>
+    <div class="new_container traders mt2">
         @if(!$isMobile)
             @if($type_traders == 0 || $type_traders == 2)
             <span class="popular" style="margin: 20px 0 ;display: block;">
@@ -24,17 +28,195 @@
             @endif
         @endif
 
-        @if($type_traders == 0 || $type_traders == 2)
-            @include('traders.block-info.traders')
-                @elseif($type_traders == 1)
-            @include('traders.block-info.forwards-block-info')
-        @endif
-
-    @if($type_view == 'table')
-        @include('traders.traders_forward_table', ['type_traders' => $type_traders])
-    @else
-        <div class="new_container container mt-3 traders_dev">
+        @if($type_view == 'table')
+            @include('traders.traders_forward_table', ['type_traders' => $type_traders])
+        @else
+        <div class="mt-3 traders_dev">
+            <div class="new_page_title top_traders_title">ТОП ЗЕРНОТРЕЙДЕРЫ</div>
+            <div class="new_traders vip">
+                <div class="traders__item-wrap">
+                <a href="#" class="traders__item">
+                    <div class="traders__item__header filled">
+                    <span class="vip">ТОП</span>
+                    <img class="traders__item__image" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                    <div href="#" class="traders__item__content-title">
+                        GrainCorp Ukraine
+                    </div>
+                    <div class="traders__item__content-description">
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-up.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                    </div>
+                    <div class="traders__item__content-date">
+                        <span class="traders__item__content-date-more">+ ещё</span>
+                        <span class="orange">вчера</span>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <div class="traders__item-wrap">
+                <a href="#" class="traders__item">
+                    <div class="traders__item__header filled">
+                    <span class="vip">ТОП</span>
+                    <img  class="traders__item__image" src="https://agrotender.com.ua/pics/c/p7KovMuRtsOV.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                    <div href="#" class="traders__item__content-title">
+                        Пiвденна Зернова Столиця
+                    </div>
+                    <div class="traders__item__content-description">
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img
+                                class="tyre" src="https://agrotender.com.ua/app/assets/img/price-not-changed.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon"></span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                    </div>
+                    <div class="traders__item__content-date">
+                        <span class="traders__item__content-date-more">+ ещё</span>
+                        <span class="green">сегодня</span>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <div class="traders__item-wrap">
+                <a href="#" class="traders__item">
+                    <div class="traders__item__header filled">
+                    <span class="vip">ТОП</span>
+                    <img class="traders__item__image"  src="https://agrotender.com.ua/pics/comp/1105_96102.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                    <div href="#" class="traders__item__content-title">
+                        Рамбурс
+                    </div>
+                    <div class="traders__item__content-description">
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon"></span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon"></span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                    </div>
+                    <div class="traders__item__content-date">
+                        <span class="traders__item__content-date-more">+ ещё</span>
+                        <span class="black">04 июня</span>
+                    </div>
+                    </div>
+                </a>
+                </div>
+                <div class="traders__item-wrap">
+                <a href="#" class="traders__item">
+                    <div class="traders__item__header filled">
+                    <span class="vip">ТОП</span>
+                    <img class="traders__item__image"  src="https://agrotender.com.ua/pics/comp/5576_41048.jpg" alt="">
+                    </div>
+                    <div class="traders__item__content">
+                    <div href="#" class="traders__item__content-title">
+                        Solagro
+                    </div>
+                    <div class="traders__item__content-description">
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon"></span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon"></span>
+                        </span>
+                        </p>
+                        <p class="traders__item__content-p">
+                        <span class="traders__item__content-p-title">Жмых подсолнечный ггг</span>
+                        <span class="right">
+                            <span class="traders__item__content-p-price">24 050</span>
+                            <span class="traders__item__content-p-icon">
+                            <img src="https://agrotender.com.ua/app/assets/img/price-down.svg" alt="">
+                            </span>
+                        </span>
+                        </p>
+                    </div>
+                    <div class="traders__item__content-date">
+                        <span class="traders__item__content-date-more">+ ещё</span>
+                        <span class="black">04 июня</span>
+                    </div>
+                    </div>
+                </a>
+                </div>
+            </div>
             @if(!empty($traders))
+                <!-- Перенёс сюда эту секцию, т.к. секция "Все зернотренйдеры" должна быть тут -->
+                @if($type_traders == 0 || $type_traders == 2)
+                    @include('traders.block-info.traders')
+                        @elseif($type_traders == 1)
+                    @include('traders.block-info.forwards-block-info')
+                @endif
                 <div class="new_traders">
                     @foreach($traders as $trader)
                         @if($trader->culture_prices->count() > 0)
@@ -112,6 +294,6 @@
             @endif
         </div>
     @endif
-
+</div>
 
 @endsection
