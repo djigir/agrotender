@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileCompany;
+//use App\Http\Requests\ProfileCompany;
 use App\Models\Comp\CompTgroups;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
-use App\Services\User\ApplicationService;
 use Illuminate\Http\Request;
+use App\Services\User\ApplicationService;
 use App\Services\User\ProfileService;
 use App\Services\User\TariffService;
 
@@ -107,10 +107,7 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompany
     public function profile_company(Request $request)
     {
-
-        if(!empty($request->get('title'))){
-            $this->profileService->createCompany($request);
-        }
+        $this->profileService->createCompany($request);
 
         $regions = $this->baseServices->getRegions()->forget(25);
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {

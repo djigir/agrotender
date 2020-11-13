@@ -76,7 +76,7 @@ use Jenssegers\Date\Date;
  * @property Carbon $rate_admin2;
  * @property Carbon $rate_formula;
  * @property Carbon $add_date;
- *
+ * @method static create(array $data)
  */
 class CompItems extends Model
 {
