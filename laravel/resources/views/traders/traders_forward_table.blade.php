@@ -59,9 +59,9 @@
                             </span>
                         </td>
                         <td>
-                           <span class="location">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                           <span class="location">{{$type_place == 0 ? $place['regions'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
                            <br>
-                            <span class="place">{!! $place->place !!}</span>
+                           <span class="place">{!! $place->place !!}</span>
                         </td>
                     </tr>
                     @else
@@ -93,7 +93,7 @@
                             </span>
                             </td>
                             <td>
-                                <span class="location">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                                <span class="location">{{$type_place == 0 ? $place['regions'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
                                 <br>
                                 <span class="place">{!! $place->place !!}</span>
                             </td>

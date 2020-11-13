@@ -45,15 +45,15 @@ class TradersPlaces extends Model
 //        return $this->traders_ports->first();
 //    }
 
-    public function region()
-    {
-        return $this->regions();
-    }
-
-    public function port()
-    {
-        return $this->traders_ports();
-    }
+//    public function region()
+//    {
+//        return $this->regions();
+//    }
+//
+//    public function port()
+//    {
+//        return $this->traders_ports();
+//    }
 
     public function traders_prices()
     {
