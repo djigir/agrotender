@@ -81,3 +81,29 @@ Route::prefix('info')
         Route::get('/contacts', 'InfoController@companies')->name('contacts');
 });
 
+
+Route::prefix('u')
+    ->name('user.')
+    ->group(function () {
+        Route::prefix('/')->name('profile.')->group(function () {
+            Route::get('/', 'UserController@profile')->name('profile');
+            Route::get('/contacts', 'UserController@profile_contacts')->name('contacts');
+            Route::get('/notify', 'UserController@profile_notify')->name('notify');
+            Route::get('/reviews', 'UserController@profile_reviews')->name('reviews');
+            Route::get('/company', 'UserController@profile_company')->name('company');
+        });
+
+        Route::prefix('/posts')->name('advert.')->group(function () {
+            Route::get('/', 'UserController@advert')->name('advert');
+            Route::get('/limits', 'UserController@advert_limits')->name('limits');
+            Route::get('/upgrade', 'UserController@advert_upgrade')->name('upgrade');
+        });
+
+        Route::prefix('/balance')->name('tariff.')->group(function () {
+            Route::get('/pay', 'UserController@balance_pay')->name('pay');
+            Route::get('/history', 'UserController@balance_history')->name('history');
+            Route::get('/docs', 'UserController@balance_docs')->name('docs');
+        });
+
+        Route::get('/proposeds', 'UserController@applications')->name('applications');
+});

@@ -19,8 +19,6 @@ class Db {
   public static $user = 'root';
   public static $password = 'root';
 
-
-
   public function __construct() {
     // building data source name from config
     $dsn = 'mysql:host='.static::$host.';dbname='.static::$db_name.';port=3306;connect_timeout=25';
