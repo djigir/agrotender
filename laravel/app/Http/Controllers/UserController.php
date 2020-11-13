@@ -108,7 +108,7 @@ class UserController extends Controller
     public function profile_company(Request $request)
     {
 
-        if($request->get('title')){
+        if(!empty($request->get('title'))){
             $this->profileService->createCompany($request);
         }
 

@@ -9,6 +9,6 @@ class ProfileService
 {
     public function createCompany(Request $request)
     {
-
+        dd($request->all());
     }
 }
