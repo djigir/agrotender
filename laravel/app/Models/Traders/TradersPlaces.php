@@ -71,18 +71,22 @@ class TradersPlaces extends Model
     }
 
 
-    public function scopePlace($query, $obl_id, $port_id, $type_place)
+    public function scopePlace($query, $obl_id, $port_id, $type_place, $currency)
     {
         if($obl_id){
             return $query->where('obl_id', $obl_id);
         }
 
         if($port_id){
-            return $query->where('port_id', $port_id)->where('type_id', 2);
+            return $query->where(['port_id' => $port_id, 'type_id' => 2]);
         }
 
-        if($type_place == 2){
+        if(!$port_id && $type_place == 2){
             return $query->where('type_id', 2);
+        }
+
+        if($currency != 2){
+            $query->wherePivot('curtype', $currency);
         }
 
         return $query;
