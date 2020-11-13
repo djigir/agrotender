@@ -1,3 +1,4 @@
+@if(isset($banners_top) && $banners_top)
 <div class="container text-center mt-3 mb-3 tradersImages position-relative">
     @if($banners_top->count()>0)
         @foreach($banners_top as $banner)
@@ -22,3 +23,4 @@
         </div>
     @endfor
 </div>
+@endif
