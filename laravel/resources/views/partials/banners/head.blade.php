@@ -6,11 +6,8 @@
                     <a class="topBanners" href="{{$banner->ban_link}}" rel="nofollow"
                        @if(strpos($banner->ban_link, "agrotender.com.ua")===false)
                        target="_blank"
-                            @endif
-                    >
-                        <img
-                                style="width:310px; height:70px;" id="topBan'.$banner['id'].'"
-                                src="/files/{{$banner->ban_file}}" class="img-responsive tradersImg" alt=""/>
+                            @endif>
+                        <img style="width:310px; height:70px;" id="topBan" src="/files/{{$banner->ban_file}}" class="img-responsive tradersImg" alt=""/>
                     </a>
                 </noindex>
             </div>

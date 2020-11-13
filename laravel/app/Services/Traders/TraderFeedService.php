@@ -31,9 +31,7 @@ class TraderFeedService
      */
     public function getFeed($type = self::TYPE_FORWARD)
     {
-        $seconds = 86400;
-
-        return \Cache::remember('FEED', $seconds, function () use($type){
+        return \Cache::remember('FEED', Carbon::today(), function () use($type){
             $type_text = self::TYPES_TEXT[$type];
 
             $price_field = 'trader_price'.$type_text;
