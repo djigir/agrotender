@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileCompany;
+use App\Models\Comp\CompTgroups;
+use App\Services\User\AdvertService;
+use App\Services\BaseServices;
+use App\Services\User\ApplicationService;
 use Illuminate\Http\Request;
+use App\Services\User\ProfileService;
+use App\Services\User\TariffService;
 
 class UserController extends Controller
 {
@@ -19,6 +26,8 @@ class UserController extends Controller
         2 => 'notify',
         3 => 'reviews',
         4 => 'company',
+        5 => 'news',
+        6 => 'vacancy',
     ];
 
     const TYPE_PAGE_TARIFF = [
@@ -31,11 +40,26 @@ class UserController extends Controller
 
 
     protected $agent;
+    protected $advertService;
+    protected $applicationService;
+    protected $profileService;
+    protected $tariffService;
+    protected $baseServices;
 
-
-    public function __construct()
+    public function __construct(
+        AdvertService $advertService,
+        ApplicationService $applicationService,
+        ProfileService $profileService,
+        TariffService $tariffService,
+        BaseServices $baseServices
+    )
     {
         $this->agent = new \Jenssegers\Agent\Agent;
+        $this->advertService = $advertService;
+        $this->applicationService = $applicationService;
+        $this->profileService = $profileService;
+        $this->tariffService = $tariffService;
+        $this->baseServices = $baseServices;
     }
 
     //М-д для страницы профиля (авторизация)
@@ -68,6 +92,7 @@ class UserController extends Controller
         ]);
     }
 
+
     //М-д для страницы профиля (отзывы)
     public function profile_reviews()
     {
@@ -78,12 +103,46 @@ class UserController extends Controller
         ]);
     }
 
-    //М-д для страницы профиля (компании)
-    public function profile_company()
+
+    //М-д для страницы профиля (компании) ProfileCompany
+    public function profile_company(Request $request)
     {
+
+        if($request->get('title')){
+            $this->profileService->createCompany($request);
+        }
+
+        $regions = $this->baseServices->getRegions()->forget(25);
+        $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
+            $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
+        }])->orderBy('sort_num')->orderBy('title')->get();
+
         return view('private_cabinet.profile.company', [
+            'regions' => $regions,
+            'rubrics' => $rubrics,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[4],
+            'isMobile' => $this->agent->isMobile(),
+        ]);
+    }
+
+
+    //Если есть созданая компания тогда + новая страница профиля (новости)
+    public function profile_news()
+    {
+        return view('private_cabinet.profile.news', [
+            'type_page' => self::TYPE_PAGE[0],
+            'type_page_profile' => self::TYPE_PAGE_PROFILE[5],
+            'isMobile' => $this->agent->isMobile(),
+        ]);
+    }
+
+    //Если есть созданая компания тогда + новая страница профиля (вакансии)
+    public function profile_vacancy()
+    {
+        return view('private_cabinet.profile.vacancy', [
+            'type_page' => self::TYPE_PAGE[0],
+            'type_page_profile' => self::TYPE_PAGE_PROFILE[6],
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

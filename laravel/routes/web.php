@@ -91,6 +91,8 @@ Route::prefix('u')
             Route::get('/notify', 'UserController@profile_notify')->name('notify');
             Route::get('/reviews', 'UserController@profile_reviews')->name('reviews');
             Route::get('/company', 'UserController@profile_company')->name('company');
+            Route::get('/news', 'UserController@profile_news')->name('news');
+            Route::get('/vacancy', 'UserController@profile_vacancy')->name('vacancy');
         });
 
         Route::prefix('/posts')->name('advert.')->group(function () {
@@ -106,4 +108,5 @@ Route::prefix('u')
         });
 
         Route::get('/proposeds', 'UserController@application')->name('application');
+
 });
