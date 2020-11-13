@@ -1,12 +1,9 @@
-@extends('layout.layout')
+<div class="submenu d-none d-sm-block text-center">
+    <a href="{{route('user.profile.profile')}}" class="active">Авторизация</a>
+    <a href="{{route('user.profile.contacts')}}">Контакты</a>
+    <a href="{{route('user.profile.notify')}}">Уведомления</a>
+    <a href="{{route('user.profile.reviews')}}">Отзывы</a>
+    <a href="{{route('user.profile.company')}}">Компания</a>
+</div>
 
-@section('content')
-    @include('private_cabinet.cabinet-header')
-    <div class="submenu d-none d-sm-block text-center">
-        <a href="/u/" class="active">Авторизация</a>
-        <a href="/u/contacts">Контакты</a>
-        <a href="/u/notify">Уведомления</a>
-        <a href="/u/reviews">Отзывы</a>
-        <a href="/u/company">Компания</a>
-    </div>
-@endsection
+

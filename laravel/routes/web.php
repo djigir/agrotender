@@ -95,7 +95,7 @@ Route::prefix('u')
 
         Route::prefix('/posts')->name('advert.')->group(function () {
             Route::get('/', 'UserController@advert')->name('advert');
-            Route::get('/limits', 'UserController@advert_limits')->name('limits');
+            Route::get('/limits', 'UserController@advert_limit')->name('limit');
             Route::get('/upgrade', 'UserController@advert_upgrade')->name('upgrade');
         });
 
