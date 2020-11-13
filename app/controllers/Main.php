@@ -1394,7 +1394,7 @@ class Main extends \Core\Controller {
     }
 
     public function signup() {
-
+        $this->db->insert('agt_comp_rate_byday', ['item_id' => 5608, 'metrictype' => 0, 'amount' => 1, 'dt' => 'curdate()', 'add_time' => 'now()', 'ip' => '127.0.0.1']);
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
