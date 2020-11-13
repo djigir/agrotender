@@ -1,3 +1,4 @@
+{{--{{dd($traders->toArray()[0])}}--}}
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
@@ -30,6 +31,7 @@
             <tbody>
             @foreach($traders as $index_tr => $trader)
                 @foreach($trader->places as $index => $place)
+                    @if($currency != null)
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
@@ -57,26 +59,62 @@
                             </span>
                         </td>
                         <td>
-                            <span class="location">{{$place['region']['name'].' обл.'}}</span>
-                            <br>
-                            <span class="place">{!! $place->place !!}</span>
+                           <span class="location">{{$type_place == 0 ? $place['regions'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                           <br>
+                           <span class="place">{!! $place->place !!}</span>
                         </td>
                     </tr>
+                    @else
+                        @if($place->pivot->curtype == $currency)
+                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
+                            <td>
+                                <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                    <span class="title">{!! $trader->title !!}</span>
+                                </a>
+                            </td>
+                            <td class="uah">
+                                @if($place->pivot->curtype == 0)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                    </div>
+                                @endif
+                            </td>
+                            <td class="usd">
+                                @if($place->pivot->curtype == 1)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                    </div>
+                                @endif
+                            </td>
+                            <td data-sorttable-customkey="20201101">
+                            <span data-date="20201101">
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
+                            </span>
+                            </td>
+                            <td>
+                                <span class="location">{{$type_place == 0 ? $place['regions'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                                <br>
+                                <span class="place">{!! $place->place !!}</span>
+                            </td>
+                        </tr>
+                        @endif
+                    @endif
                 @endforeach
             @endforeach
             </tbody>
         </table>
     </div>
     @else
-        <table class="sortTable sortable" cellspacing="0">
+        <table class="sortTable sortable">
             <tbody>
             @foreach($traders as $index_tr => $trader)
                 @foreach($trader->places as $index => $place)
-                    <tr>
+                    <tr class="{{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td>
                             <div class="d-flex align-items-center price-div">
                                 <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
-                                <a class="flex-1" href="{{route('company.forwards', $trader->id)}}">
+                                <a class="flex-1" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
                                         <span class="price">
                                             {{round($place->pivot->costval, 1)}}
@@ -86,14 +124,14 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="t2">
+                    <tr class="t2 {{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td style="border-bottom: 1px solid #295ca1;">
                             <div class="d-flex align-items-center justify-content-center">
                                 <span data-toggle="tooltip" data-placement="top" class="d-block">
                                     {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
                                 </span>
-                                <a href="{{route('company.forwards', $trader->id)}}" class="d-block flex-1">
-                                    <span class="location d-block">{{$place['region']['name'].' обл.'}}</span>
+                                <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="d-block flex-1">
+                                    <span class="location d-block">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
                                     <span class="place d-block">{!! $place->place !!}</span>
                                 </a>
                             </div>

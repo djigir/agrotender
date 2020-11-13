@@ -230,7 +230,7 @@ class CompItems extends Model
                 'dt',
                 'change_date',
             ])
-            ->with('traders_ports');
+            ->with('traders_ports', 'regions');
     }
 
 

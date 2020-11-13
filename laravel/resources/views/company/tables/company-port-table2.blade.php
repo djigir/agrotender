@@ -29,11 +29,10 @@
                         </thead>
                         <tbody>
                         @foreach($port_place as $index => $place)
-                            @if(!empty($place->port))
+                            @if(!empty($place->traders_ports))
                                 <tr>
                                     <td class="py-1">
-                                        <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                        <span class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                         <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                     </td>
                                     @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][0]))
@@ -50,8 +49,7 @@
                                                         @endif
 
                                                     </div>
-                                                    <span
-                                                        class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
+                                                    <span class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
                                                 </td>
                                             @else
                                                 <td></td>
@@ -80,11 +78,11 @@
                             </thead>
                             <tbody>
                             @foreach($port_place as $index => $place)
-                                @if(!empty($place->port))
+                                @if(!empty($place->traders_ports))
                                     <tr>
                                         <td class="py-1">
                                         <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                            class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                             <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                         </td>
                                         @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][0]))
@@ -131,11 +129,11 @@
                     </thead>
                     <tbody>
                     @foreach($port_place as $index => $place)
-                        @if(!empty($place->port))
+                        @if(!empty($place->traders_ports))
                             <tr>
                                 <td class="py-1">
                                         <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                            class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                     <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                 </td>
                                 @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][0]))
@@ -185,11 +183,11 @@
                         </thead>
                         <tbody>
                         @foreach($port_place as $index => $place)
-                            @if(!empty($place->port))
+                            @if(!empty($place->traders_ports))
                                 <tr>
                                     <td class="py-1">
                                         <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                            class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                         <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                     </td>
                                     @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][1]))
@@ -236,11 +234,11 @@
                             </thead>
                             <tbody>
                             @foreach($port_place as $index => $place)
-                                @if(!empty($place->port))
+                                @if(!empty($place->traders_ports))
                                     <tr>
                                         <td class="py-1">
                                         <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                            class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                             <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                         </td>
                                         @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][1]))
@@ -287,11 +285,11 @@
                     </thead>
                     <tbody>
                     @foreach($port_place as $index => $place)
-                        @if(!empty($place->port))
+                        @if(!empty($place->traders_ports))
                             <tr>
                                 <td class="py-1">
                                         <span
-                                            class="place-title">{{isset($place->port[0]['lang']) ? $place->port[0]['lang']['portname'] : ''}}</span>
+                                            class="place-title">{{isset($place->traders_ports[0]['lang']) ? $place->traders_ports[0]['lang']['portname'] : ''}}</span>
                                     <span class="place-comment">{!! strip_tags($place->place) !!}</span>
                                 </td>
                                 @if(isset($port_price[$place['id']]) && !empty($port_price[$place['id']][1]))

@@ -76,20 +76,20 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = $this->companyService->setRegions(array_slice($this->baseServices->getRegions(), 1, -1), $data['rubric_id']);
-        $region_name = $this->regionName($data['region']);
-        $rubric_id = isset($data['rubric_id']) ? $data['rubric_id'] : null;
+        $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
+        $region_name = $this->regionName($data->get('region'));
+        $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
-        $region = $data['region'];
-        $culture_name = $data['rubric_id'] ? CompTopic::where('id', $rubric_id)->get()->toArray() : null;
-        $culture_name = !empty($culture_name) ? $culture_name[0]['title'] : 'Все рубрики';
+        $region = $data->get('region');
+        $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
+        $culture_name = $culture_name  ? $culture_name->title : 'Все рубрики';
 
-        if($data['region'] != 'ukraine' && $data['region']) {
-            $region = Regions::where('translit', $data['region'])->get()->toArray()[0];
-            $region_id = $region['id'];
+        if($data->get('region') != 'ukraine' && $data->get('region')) {
+            $region = Regions::where('translit', $data->get('region'))->first();
+            $region_id = $region->id;
         }
 
-        $companies = $this->companyService->getCompanies(['region' => $data['region'], 'rubric' => $rubric_id, 'query' => $data['query']]);
+        $companies = $this->companyService->getCompanies(['region' => $data->get('region'), 'rubric' => $rubric_id, 'query' => $data->get('query')]);
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
         $groups = $this->companyService->setRubricsGroup($region_id, $rubric_id);
         $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
@@ -99,12 +99,12 @@ class CompanyController extends Controller
             'regions' => $regions,
             'rubricGroups' => $groups,
             'region_name' => $region_name,
-            'region' => empty($data['region']) ? 'ukraine' : $data['region'],
-            'obj_region' => $data['region'] != 'ukraine' ? $region : [],
+            'region' => !$data->get('region') ? 'ukraine' : $data->get('region'),
+            'obj_region' => $data->get('region') != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
             'region_id' => $region_id,
-            'query' => $data['query'],
+            'query' => $data->get('query'),
             'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
             'breadcrumbs' => $breadcrumbs,
@@ -122,7 +122,7 @@ class CompanyController extends Controller
 
     public function companies(Request $request)
     {
-        $data_companies = ['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies =  collect(['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if(!empty($request->get('query'))){
             $data_companies['query'] = $request->get('query');
@@ -145,7 +145,7 @@ class CompanyController extends Controller
      */
     public function companiesRegion(string $region, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies = collect(['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -169,7 +169,7 @@ class CompanyController extends Controller
      */
     public function companiesRegionRubric(string $region, $rubric_id, Request $request)
     {
-        $data_companies = ['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => $rubric_id];
+        $data_companies = collect(['region' => $region, 'query' => null, 'page_type' => 'companies', 'rubric_id' => $rubric_id]);
 
         if ($this->isMobileFilter($request) && $this->agent->isMobile()) {
             return $this->companyService->mobileFilter($request);
@@ -192,7 +192,7 @@ class CompanyController extends Controller
      */
     public function companiesFilter(Request $request, $query = null)
     {
-        $data_companies = ['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null];
+        $data_companies = collect(['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null]);
 
         if(!empty($request->get('query'))){
             return $this->IsDesktopFilter($request);
@@ -213,9 +213,10 @@ class CompanyController extends Controller
             App::abort(404);
         }
     }
+
     /**
      * Display a listing of the resource.
-     * @param  integer  $id;
+     * @param $id ;
      *
      * @return Factory|View
      */
@@ -223,28 +224,23 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->limit(1)->value('change_date');
+        $updateDate = TradersPrices::where(['buyer_id' => $this->company->author_id, 'acttype' => 0])->limit(1)->value('change_date');
         $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
+        //dd($data_port->get('places'));
+        $port_culture = $data_port->get('cultures');
+        $port_place =   $data_port->get('places');
+        $port_price =   $data_port->get('prices');
 
-        $port_culture = $data_port['cultures'];
-//        $this->companyService->getPortsRegionsCulture($id, 2);
-        $port_place =   $data_port['places'];
-//        $this->companyService->getPlacePortsRegions($id, 2);
-        $port_price =   $data_port['prices'];
-//        $this->companyService->getPriceRegionsPorts($id, 2);
+        $region_culture = $data_region->get('cultures');
+        $region_place =   $data_region->get('places');
+        $region_price =   $data_region->get('prices');
 
-        $region_culture = $data_region['cultures'];
-//        $this->companyService->getPortsRegionsCulture($id, 0);
-        $region_place =   $data_region['places'];
-//        $this->companyService->getPlacePortsRegions($id, 0);
-        $region_price =   $data_region['prices'];
-//        $this->companyService->getPriceRegionsPorts($id, 0);
 
-        $statusCurtypePort =  $data_port['statusCurtype'];
-        $statusCurtypeRegion = $data_region['statusCurtype'];
+        $statusCurtypePort =  $data_port->get('statusCurtype');
+        $statusCurtypeRegion = $data_region->get('statusCurtype');
 
 
         $meta = $this->seoService->getMetaForOneCompany($id);
@@ -267,9 +263,7 @@ class CompanyController extends Controller
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
-
-            ]
-        );
+        ]);
     }
 
     /**
