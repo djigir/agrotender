@@ -1415,7 +1415,6 @@ class Main extends \Core\Controller {
             $phone      = $this->request->post['phone'];
 
             //$region     = $this->request->post['region'];
-
             $code = $this->request->post['code'];
             // check if correct confirm code
 //            if ($code == $this->session->get('code')) {
