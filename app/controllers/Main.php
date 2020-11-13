@@ -1364,13 +1364,6 @@ class Main extends \Core\Controller {
     }
 
     public function signin() {
-        $passwordHash = password_hash('123456', PASSWORD_DEFAULT);
-        // get random string hash
-        $hash         = $this->utils->getHash(12);
-        // add user to database
-        $this->db->insert('agt_torg_buyer', ['add_date' => 'NOW()',
-            'login' => 'toxa@gmail.com', 'passwd' => $passwordHash, 'obl_id' => null, 'avail_adv_posts' => 50,
-            'name' => 'toxa', 'phone' => '38093333333', 'email' => 'toxa@gmail.com', 'hash' => $hash, 'smschecked' => 1]);
         if ($this->user->auth) {
             $this->response->redirect('/');
         }
