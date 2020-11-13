@@ -27,10 +27,10 @@ class ProfileService
 //                'contacts' => '',
 //                'logo_file' => $filename]);
 //        $compId = $this->db->getLastId();
-        $company = CompItems::create($request->only([
-            ''
-        ]));
+//        $company = CompItems::create($request->only([
+//            ''
+//        ]));
 
-        dd($request->all());
+        dump($request->all());
     }
 }
