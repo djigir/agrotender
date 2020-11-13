@@ -5,13 +5,12 @@
     </a>
     <div class="company-menu-container d-none d-sm-block">
         <div class="company-menu">
-            <a href="/u/" class=" active">Профиль</a>
-            <a href="/u/posts" class="">Объявления</a>
-            <a href="/u/proposeds" class="position-relative">
-                Заявки
+            <a href="{{route('user.profile.profile')}}" class="{{$type_page == 'profile' ? 'active' : ''}}">Профиль</a>
+            <a href="{{route('user.advert.advert')}}" class="{{$type_page == 'advert' ? 'active' : ''}}">Объявления</a>
+            <a href="{{route('user.application')}}" class="position-relative {{$type_page == 'application' ? 'active' : ''}}">Заявки
                 <span class="notification-badge top-badge"></span>
             </a>
-            <a href="/u/posts/limits" class="">Тарифы</a>
+            <a href="{{route('user.advert.limit')}}" class="{{$type_page == 'tariff' ? 'active' : ''}}">Тарифы</a>
         </div>
     </div>
 </div>

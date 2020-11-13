@@ -105,5 +105,5 @@ Route::prefix('u')
             Route::get('/docs', 'UserController@balance_docs')->name('docs');
         });
 
-        Route::get('/proposeds', 'UserController@applications')->name('applications');
+        Route::get('/proposeds', 'UserController@application')->name('application');
 });
