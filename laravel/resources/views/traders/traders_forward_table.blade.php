@@ -31,7 +31,7 @@
             <tbody>
             @foreach($traders as $index_tr => $trader)
                 @foreach($trader->places as $index => $place)
-                    @if($currency == null)
+                    @if($currency != null)
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
