@@ -107,7 +107,9 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompany
     public function profileCompany(Request $request)
     {
-        $this->profileService->createCompany($request);
+        if($request->get('title') != null) {
+            $this->profileService->createCompany($request);
+        }
 
         $regions = $this->baseServices->getRegions()->forget(25);
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {

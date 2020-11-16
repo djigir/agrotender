@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static updateOrCreate(array $array, array $data)
+ * @method static create(array $data)
 */
 class CompTopicItem extends Model
 {

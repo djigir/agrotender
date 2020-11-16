@@ -41,7 +41,7 @@
                 <div class="form-group row mt-4">
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Область <span class="text-danger">*</span></label>
                     <div class="col-sm-4 pl-1">
-                        <select class="form-control" name="region">
+                        <select class="form-control" name="obl_id">
                             @foreach($regions as $index => $region)
                                 <option value="{{$region['id']}}">{{$region['translit'] != 'crimea' ? $region['name'].' область' : $region['name']}}</option>
                             @endforeach

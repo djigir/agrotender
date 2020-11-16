@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Jenssegers\Date\Date;
+use phpDocumentor\Reflection\Types\Object_;
 
 
 /**
@@ -85,6 +86,7 @@ class CompItems extends Model
     const SALES_TYPE_ID = 2;
     const SERVICES_TYPE_ID = 3;
 
+    public $timestamps = false;
 
     protected $table = 'comp_items';
 
