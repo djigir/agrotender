@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //use App\Http\Requests\ProfileCompany;
 use App\Models\Comp\CompTgroups;
+use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
@@ -12,6 +13,7 @@ use App\Services\User\ApplicationService;
 use App\Services\User\ProfileService;
 use App\Services\User\TariffService;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -83,10 +85,14 @@ class UserController extends Controller
         $user_id = Auth::id();
         $user = User::where('id', $user_id)->get()[0];
         $old_pass = $request->get('oldPassword');
-
-        if ($old_pass){
-            dd($user);
+        $new_pass = $request->get('password');
+        if (Hash::check($old_pass, $user->passwd) && $new_pass){
+            /*User::where('id', $user->id)->update(['passwd' => $new_pass]);
+            TorgBuyer::where('id', $user->user_id)->updated(['passwd' => $new_pass]);*/
+        }else {
+            dd('no');
         }
+
 
         $new_pass = $request->get('password');
         dd($old_pass, $new_pass);
