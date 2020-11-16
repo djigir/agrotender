@@ -85,7 +85,6 @@ Route::prefix('kompanii')
 Route::prefix('u')
     ->name('user.')
     ->group(function () {
-
         Route::prefix('/')
             ->name('profile.')
             ->group(function () {
