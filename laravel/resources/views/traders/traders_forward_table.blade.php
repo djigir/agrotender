@@ -53,7 +53,7 @@
                         </td>
                         <td data-sorttable-customkey="20201101">
                             <span class="{{$place->pivot->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
                             </span>
                         </td>
                         <td>
