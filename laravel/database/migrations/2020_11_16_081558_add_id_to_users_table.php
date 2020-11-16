@@ -15,8 +15,8 @@ class AddIdToUsersTable extends Migration
     public function up()
     {
         Schema::table('auth_users_laravel', function (Blueprint $table) {
-            $table->bigIncrements('id')->unsigned();
-            $table->primary('id');
+            $table->bigIncrements('id')->unsigned()->primary();
+//            $table->primary('id');
         });
     }
 
