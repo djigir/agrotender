@@ -3,11 +3,30 @@
 @section('content')
     @include('private_cabinet.cabinet-header')
     @include('private_cabinet.profile.profile_header')
+
+    {{-- временый вывод  ошибок --}}
+    @if ($errors->all())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
+        </div>
+    @endif
+
+    @if(session('success'))
+        <div class="alert alert-success">
+                <p>{{session('success')}}</p>
+        </div>
+    @endif
+    {{-- временый вывод  ошибок --}}
+
+
+
     <div class="container mt-4 mb-5">
         <h2 class="mx-0 mx-sm-5">Ваши личные данные</h2>
         <div class="content-block mt-4 px-5 py-3 personal mx-0 mx-sm-5">
             <div class="pt-2 row d-block d-sm-flex mx-sm-0">
-                <b>Ваш текущий логин:</b> &nbsp;<span class="d-block d-sm-inline-block">{{ $login ?? '' }}</span>
+                <b>Ваш текущий логин:</b> &nbsp;<span class="d-block d-sm-inline-block">{{ $login }}</span>
             </div>
             <hr class="my-4">
             <h5>Сменить пароль</h5>

@@ -10,7 +10,7 @@ class TorgBuyer extends Model
     protected $table = 'torg_buyer';
 
     protected $fillable = [
-        'id', 'login', 'passwd', 'new_password', 'isactive', 'isactive_web', 'isactive_ban', 'discount_level_id',
+        'id', 'login', 'passwd', 'new_password', 'isactive', 'isactive_web', 'isactive_ban', 'discount_level_id', 'add_date',
         'last_login', 'avail_adv_posts', 'max_adv_posts', 'max_fishka', 'name', 'name2', 'name3', 'city_id', 'obl_id',
         'ray_id', 'rate', 'postdone', 'orgname', 'city', 'address', 'phone', 'phone2',
         'phone3', 'newphone', 'email', 'icq', 'telegram', 'guid_deact', 'viber', 'last_visit_url',
@@ -19,6 +19,8 @@ class TorgBuyer extends Model
     ];
 
     protected $dates = ['add_date'];
+
+    public $timestamps = false;
 
     public function comp_item()
     {

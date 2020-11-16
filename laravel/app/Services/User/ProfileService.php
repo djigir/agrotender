@@ -94,12 +94,5 @@ class ProfileService
         }else {
             return  null;
         }
-
-
-    }
-
-    public function authorization(Request $request)
-    {
-        dd($request);
     }
 }

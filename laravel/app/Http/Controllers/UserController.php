@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewLoginRequest;
 use App\Models\Comp\CompTgroups;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
@@ -13,6 +14,7 @@ use App\Services\User\ProfileService;
 use App\Services\User\TariffService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -81,29 +83,47 @@ class UserController extends Controller
     // изменить пароль
     public function changePass(Request $request)
     {
-        $user_id = Auth::id();
-        $user = User::where('id', $user_id)->get()[0];
+        $user = User::where('id', Auth::id())->get()[0];
+        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()[0];
+
         $old_pass = $request->get('oldPassword');
         $new_pass = $request->get('password');
         if (Hash::check($old_pass, $user->passwd) && $new_pass){
-            /*User::where('id', $user->id)->update(['passwd' => $new_pass]);
-            TorgBuyer::where('id', $user->user_id)->updated(['passwd' => $new_pass]);*/
+            $torg_buyer->passwd = bcrypt($new_pass);
+            $torg_buyer->save();
+            $user->passwd = bcrypt($new_pass);
+            $user->save();
         }else {
             dd('no');
         }
-
-
-        $new_pass = $request->get('password');
-        dd($old_pass, $new_pass);
 
     }
 
 
     // изменить login
-    public function newLogin(Request $request)
+    public function newLogin(NewLoginRequest $newLoginRequest)
     {
-        dd($request->all());
+        $user = User::where('id', Auth::id())->get()[0];
+        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()[0];
+        $new_login = $newLoginRequest->get('email');
+
+        $validate = $newLoginRequest->validated();
+        if ($validate) {
+            $torg_buyer->login = $new_login;
+            $torg_buyer->email = $new_login;
+            $torg_buyer->save();
+            $user->login = $new_login;
+            $user->email = $new_login;
+            $user->save();
+            return  redirect()->route('user.profile.profile')
+                ->with(['success' => 'Email успешно изменен!']);
+        }else {
+            return redirect()->back()
+                ->withInput($newLoginRequest->all())
+                ->withErrors(['msg' => 'Ошибка']);
+        }
     }
+
 
 
     //М-д для страницы профиля (контакты)
