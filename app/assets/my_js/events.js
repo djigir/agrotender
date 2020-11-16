@@ -2,13 +2,13 @@ window.onload = function (){
     $('#new_filters_currency_uah').attr('checked', 'true');
     $('#new_filters_currency_usd').attr('checked', 'true');
     $('#DataTables_Table_0').DataTable({
-        "pageLength": 50,
+        "pageLength": 5000,
         "aaSorting": []
     });
-    // $('.dataTables_paginate').css('display', 'none');
-    // $('.dataTables_info').css('display', 'none');
-    // $('.dataTables_length').css('display', 'none');
-    // $('.dataTables_filter').css('display', 'none');
+    $('.dataTables_paginate').css('display', 'none');
+    $('.dataTables_info').css('display', 'none');
+    $('.dataTables_length').css('display', 'none');
+    $('.dataTables_filter').css('display', 'none');
 
     // $(window).scroll(function() {
     //     var height = $(window).scrollTop();
