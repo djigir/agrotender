@@ -86,12 +86,10 @@ class CompItems extends Model
     const SALES_TYPE_ID = 2;
     const SERVICES_TYPE_ID = 3;
 
-    public $timestamps = false;
 
     protected $table = 'comp_items';
 
     protected $appends = ['date', 'date_price', 'activities_text'];
-
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
@@ -102,11 +100,14 @@ class CompItems extends Model
         'rate_formula', 'trader_pricecmp_transpon', 'msngr_mail_notify', 'site_pack_id',
         'trader_price_sell_visible', 'trader_price_sell_transpon', 'trader_price_sell_dtupdt',
         'trader_price_sell_avail', 'trader_sort_sell', 'trader_premium_sell',
-        'trader_price_forward_visible', 'trader_price_forward_avail', 'trader_sort_forward', 'trader_premium_forward'
+        'trader_price_forward_visible', 'trader_price_forward_avail', 'trader_sort_forward', 'trader_premium_forward', 'add_date'
 
     ];
 
     protected $dates = ['add_date', 'culture_prices'];
+
+    public $timestamps = false;
+
 
     public function activities()
     {

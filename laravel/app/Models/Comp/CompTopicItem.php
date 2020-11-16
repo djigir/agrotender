@@ -18,9 +18,10 @@ class CompTopicItem extends Model
         'topic_id',
         'item_id',
         'sort_num',
+        'add_date'
     ];
 
-    protected $dates = ['add_date'];
+    public $timestamps = false;
 
     public function comp_items()
     {

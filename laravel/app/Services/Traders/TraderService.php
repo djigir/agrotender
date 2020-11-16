@@ -271,6 +271,9 @@ class TraderService
 
         $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id, $type_place, $currency){
             $query->place($obl_id, $port_id, $type_place);
+            if($currency != 2){
+                $query->wherePivot('curtype', $currency);
+            }
         }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
