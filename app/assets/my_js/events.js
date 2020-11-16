@@ -9,6 +9,7 @@ window.onload = function (){
         "pageLength": 50,
         "aaSorting": []
     });
+
     $('.dataTables_paginate').css('display', 'none');
     $('.dataTables_info').css('display', 'none');
     $('.dataTables_length').css('display', 'none');

@@ -13,6 +13,7 @@ use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
 use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersProducts2buyer;
+use App\models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -292,4 +293,9 @@ class CompItems extends Model
         return $this->belongsTo(TraderFeed::class, 'user');
     }
 
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id','author_id');
+    }
 }

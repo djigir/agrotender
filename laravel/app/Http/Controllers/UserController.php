@@ -107,8 +107,9 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompanyRequest
     public function profileCompany(Request $request)
     {
-        $this->profileService->createCompany($request);
+        $user = auth()->user();
 
+        $company = $user->company;
         $regions = $this->baseServices->getRegions()->forget(25);
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
@@ -116,6 +117,7 @@ class UserController extends Controller
 
         return view('private_cabinet.profile.company', [
             'regions' => $regions,
+            'company' => $company,
             'rubrics' => $rubrics,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[4],
@@ -125,11 +127,13 @@ class UserController extends Controller
 
     public function createCompanyProfile(ProfileCompanyRequest $request)
     {
-        if ($request->validated()->fails()){
-            return redirect()->back()->withInput($request->input())->withErrors($request->validated());
+        //dump($request->all());
+        if ($request->errors == null){
+            $this->profileService->createCompany($request);
+            return redirect()->route('user.profile.company');
         }
 
-        return redirect()->route('user.profile.company');
+        return redirect()->back()->withInput($request->input())->withErrors($request->validated());
     }
 
 

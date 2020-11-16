@@ -16,15 +16,15 @@
                     </label>
                     <div class="col-sm-4 pl-1">
                         <input type="text" class="form-control {{$errors->first('title') ? 'error-input' : ''}}"
-                               placeholder="Город" name="title" value="{{old('title')}}">
+                               placeholder="Город" name="title" value="{{$company ? $company->title : old('title')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Логотип</label>
                     <div class="col-sm-4 pl-1 d-flex align-items-center">
-                        <img class="logo" src="/app/assets/img/noavatar.png">
+                        <img class="logo" src="{{$company ? $company->logo_file : '/app/assets/img/noavatar.png'}}">
                         <span class="ml-3 select-image">Выбрать изображение</span>
-                        <input type="file" name="logo" class="d-block">
+                        <input type="file" name="logo" class="d-block" value="{{$company ? $company->logo_file : ''}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -34,7 +34,7 @@
                     <div class="col-sm-7 d-flex align-items-center pl-1">
                         <textarea class="form-control {{$errors->first('content') ? 'error-input' : ''}}" name="content"
                                   id="content" rows="9"
-                                  placeholder="Введите Ваше описание">{{old('zipcode')}}</textarea>
+                                  placeholder="Введите Ваше описание">{{$company ? $company->content : old('content')}}</textarea>
                     </div>
                 </div>
                 <hr class="my-4">
@@ -42,7 +42,7 @@
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Индекс</label>
                     <div class="col-sm-4 pl-1">
                         <input type="text" class="form-control" placeholder="Индекс" name="zipcode"
-                               value="{{old('zipcode')}}">
+                               value="{{$company ? $company->zipcode : old('zipcode')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -60,13 +60,13 @@
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Город <span
                             class="text-danger">*</span></label>
                     <div class="col-sm-4 pl-1">
-                        <input type="text" class="form-control" placeholder="Город" name="city" value="{{old('city')}}">
+                        <input type="text" class="form-control" placeholder="Город" name="city" value="{{$company ? $company->city : old('city')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Адрес</label>
                     <div class="col-sm-4 pl-1">
-                        <input type="text" class="form-control" placeholder="Адрес" name="addr" value="{{old('addr')}}">
+                        <input type="text" class="form-control" placeholder="Адрес" name="addr" value="{{$company ? $company->addr : old('addr')}}">
                     </div>
                 </div>
                 <hr class="my-4">

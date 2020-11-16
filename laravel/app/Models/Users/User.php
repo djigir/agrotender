@@ -2,10 +2,38 @@
 
 namespace App\Models\Users;
 
+use App\Models\Comp\CompItems;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+
+/**
+ * Class User
+ * @package App\Models
+ * @property  integer id
+ * @property  $name
+ * @property  string last_name
+ * @property  $email
+ * @property  $email_verified_at
+ * @property  $password
+ * @property  $remember_token
+ * @property  $created_at
+ * @property  $updated_at
+ * @property  $role
+ * @property  $time_zone
+ * @property  $phone
+ * @property  $ylogin
+ * @property  $ypassword
+ * @property  $y_key_api
+ * @property  $parent_id
+ *
+ * @property string avatar
+ * @property string avatar_url
+ * @property string full_name
+ *
+ * @property CompItems company
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -49,6 +77,6 @@ class User extends Authenticatable
 
     public function company()
     {
-        return $this->hasOne();
+        return $this->hasOne(CompItems::class, 'author_id', 'user_id');
     }
 }
