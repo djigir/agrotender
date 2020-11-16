@@ -278,9 +278,9 @@ class TraderService
                 'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
             ->whereIn('author_id', $author_ids)
             ->orderBy('trader_premium', 'desc')
-            ->orderBy('trader_sort')
-            ->orderBy('rate_formula', 'desc')
-            ->orderBy('title')
+//            ->orderBy('trader_sort')
+//            ->orderBy('rate_formula', 'desc')
+//            ->orderBy('title')
             ->get();
 
         $this->groups = $this->setRubrics($criteria_places, $acttype);
