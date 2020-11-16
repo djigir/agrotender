@@ -104,7 +104,7 @@ class CompItems extends Model
 
     ];
 
-    protected $dates = ['culture_prices'];
+    protected $dates = ['add_date', 'culture_prices'];
 
     public $timestamps = false;
 

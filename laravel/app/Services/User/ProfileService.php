@@ -3,18 +3,35 @@
 namespace App\Services\User;
 
 
+
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
+use App\Models\Users\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+
 
 class ProfileService
 {
     const PART_FILE_NAME = '/var/www/agrotender/pics/c/';
 
+    public function validator(array $data)
+    {
+        /** @var Validator $validator */
+        $validator = Validator::make($data, [
+            'title' => 'required|string',
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg',
+            'content' => 'required|string',
+            'obl_id' => 'required',
+            'rubrics' => 'min:1|max:5',
+        ])->validate();
+        return $validator;
+    }
 
+//$data = $this->constructApiData($client);
     public function createCompany(Request $request)
     {
 //        $this->db->insert(
@@ -35,7 +52,7 @@ class ProfileService
 //                'logo_file' => $filename]);
 //        $compId = $this->db->getLastId();
         /** TODO id поменять на user_id */
-        $author_id = auth()->user()->id;
+        $author_id = auth()->user()->user_id;
         $file = $request->file('logo');
         $fileName = '';
 
