@@ -7,6 +7,7 @@ use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class ProfileService
@@ -62,5 +63,22 @@ class ProfileService
 
         //dd($request->all());
         //$file->move('var/www/agrotender'.self::PART_FILE_NAME, $file->getFilename());
+    }
+
+    public function getLogin()
+    {
+        if (Auth::user()){
+            $get_login = Auth::user()->login;
+            return $get_login;
+        }else {
+            return  null;
+        }
+
+
+    }
+
+    public function authorization(Request $request)
+    {
+        dd($request);
     }
 }

@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 //use App\Http\Requests\ProfileCompany;
 use App\Models\Comp\CompTgroups;
+use App\Models\Users\User;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
 use Illuminate\Http\Request;
 use App\Services\User\ApplicationService;
 use App\Services\User\ProfileService;
 use App\Services\User\TariffService;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -65,12 +67,39 @@ class UserController extends Controller
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
+        $login = $this->profileService->getLogin();
+
         return view('private_cabinet.profile.profile', [
+            'login' => $login,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
+
+    // изменить пароль
+    public function changePass(Request $request)
+    {
+        $user_id = Auth::id();
+        $user = User::where('id', $user_id)->get()[0];
+        $old_pass = $request->get('oldPassword');
+
+        if ($old_pass){
+            dd($user);
+        }
+
+        $new_pass = $request->get('password');
+        dd($old_pass, $new_pass);
+
+    }
+
+
+    // изменить login
+    public function newLogin(Request $request)
+    {
+        dd($request->all());
+    }
+
 
     //М-д для страницы профиля (контакты)
     public function profileContacts()
