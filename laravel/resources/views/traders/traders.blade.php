@@ -24,11 +24,11 @@
             @endif
         @endif
 
-        @if($type_traders == 0 || $type_traders == 2)
-            @include('traders.block-info.traders')
-                @elseif($type_traders == 1)
-            @include('traders.block-info.forwards-block-info')
-        @endif
+    @if($type_traders == 0)
+        @include('traders.block-info.traders')
+    @elseif($type_traders == 1)
+        @include('traders.block-info.forwards-block-info')
+    @endif
 
     @if($type_view == 'table')
         @include('traders.traders_forward_table', ['type_traders' => $type_traders])

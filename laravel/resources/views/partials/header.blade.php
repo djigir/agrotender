@@ -39,6 +39,7 @@
           integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
           crossorigin="anonymous"/>
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
+{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
     <!-- Required CSS -->
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
