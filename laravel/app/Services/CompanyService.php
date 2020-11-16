@@ -324,8 +324,7 @@ class CompanyService
     {
         return CompComment::where('item_id', $id_company)
             ->orderBy('comp_comment.id', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
     }
 
     public function setRegions($regions, $rubric = null)
