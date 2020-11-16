@@ -5,10 +5,10 @@ window.onload = function (){
         "pageLength": 50,
         "aaSorting": []
     });
-    // $('.dataTables_paginate').css('display', 'none');
-    // $('.dataTables_info').css('display', 'none');
-    // $('.dataTables_length').css('display', 'none');
-    // $('.dataTables_filter').css('display', 'none');
+    $('.dataTables_paginate').css('display', 'none');
+    $('.dataTables_info').css('display', 'none');
+    $('.dataTables_length').css('display', 'none');
+    $('.dataTables_filter').css('display', 'none');
 
     // $(window).scroll(function() {
     //     var height = $(window).scrollTop();
