@@ -348,6 +348,7 @@ class CompanyController extends Controller
             'like_yes' => 0,
             'like_no' => 0
         ]);
+
         $comment = CompCommentLang::create([
             'item_id' => $author['id'],
             'lang_id' => 1,

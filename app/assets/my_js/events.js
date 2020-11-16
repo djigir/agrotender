@@ -1,4 +1,8 @@
 window.onload = function (){
+
+    $('.rubric-input').click(function (event) {
+        console.log($('.rubric-input').prop('checked').length);
+    });
     $('#new_filters_currency_uah').attr('checked', 'true');
     $('#new_filters_currency_usd').attr('checked', 'true');
     $('#DataTables_Table_0').DataTable({

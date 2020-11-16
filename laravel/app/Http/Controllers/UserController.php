@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileCompanyRequest;
 use App\Models\Comp\CompTgroups;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
@@ -106,11 +107,7 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompanyRequest
     public function profileCompany(Request $request)
     {
-        dump($request->validated());
-        //$this->profileService->createCompany($request);
-//        if($request->get('title') != null) {
-//            $this->profileService->createCompany($request);
-//        }
+        $this->profileService->createCompany($request);
 
         $regions = $this->baseServices->getRegions()->forget(25);
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
@@ -124,6 +121,15 @@ class UserController extends Controller
             'type_page_profile' => self::TYPE_PAGE_PROFILE[4],
             'isMobile' => $this->agent->isMobile(),
         ]);
+    }
+
+    public function createCompanyProfile(ProfileCompanyRequest $request)
+    {
+        if ($request->validated()->fails()){
+            return redirect()->back()->withInput($request->input())->withErrors($request->validated());
+        }
+
+        return redirect()->route('user.profile.company');
     }
 
 

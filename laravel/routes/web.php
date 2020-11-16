@@ -89,7 +89,8 @@ Route::prefix('u')
         Route::prefix('/')
             ->name('profile.')
             ->group(function () {
-                Route::match(['get', 'post'],'/company', 'UserController@profileCompany')->name('company');
+                Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
+                Route::get('/company', 'UserController@profileCompany')->name('company');
                 Route::get('/', 'UserController@profile')->name('profile');
                 Route::get('/contacts', 'UserController@profileContacts')->name('contacts');
                 Route::get('/notify', 'UserController@profileNotify')->name('notify');

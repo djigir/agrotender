@@ -2,8 +2,6 @@
 
 namespace App\Services\User;
 
-
-
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Users\User;
@@ -16,22 +14,23 @@ use Illuminate\Support\Facades\Validator;
 
 class ProfileService
 {
-    const PART_FILE_NAME = '/var/www/agrotender/pics/c/';
+    const PART_FILE_NAME = '/pics/';
 
-    public function validator(array $data)
+    public function createCompanyValidator(array $data)
     {
         /** @var Validator $validator */
         $validator = Validator::make($data, [
-            'title' => 'required|string',
+            'title' => 'required',
             'logo' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'content' => 'required|string',
+            'content' => 'required',
             'obl_id' => 'required',
             'rubrics' => 'min:1|max:5',
         ])->validate();
+
         return $validator;
     }
 
-//$data = $this->constructApiData($client);
+//
     public function createCompany(Request $request)
     {
 //        $this->db->insert(
@@ -51,6 +50,11 @@ class ProfileService
 //                'contacts' => '',
 //                'logo_file' => $filename]);
 //        $compId = $this->db->getLastId();
+        //$data = $request->all();
+        //$data = $this->createCompanyValidator($data);
+
+
+        if(!empty($request->all())){
         /** TODO id поменять на user_id */
         $author_id = auth()->user()->user_id;
         $file = $request->file('logo');
@@ -58,8 +62,8 @@ class ProfileService
 
         if($file->getError() == 0)
         {
-            $fileName = $file->getFilename();
-            $file->move(self::PART_FILE_NAME, $fileName.'.'.$file->getClientOriginalExtension());
+            $fileName = $file->getClientOriginalName();
+            $file->move('/var/www/agrotender'.self::PART_FILE_NAME, $fileName);
         }
 
         $compshort = strlen($request->get('content')) > 210 ? Str::limit($request->get('content'), 200) : $request->get('content');
@@ -82,6 +86,6 @@ class ProfileService
                 ]);
             }
         \DB::commit();
-
+        }
     }
 }

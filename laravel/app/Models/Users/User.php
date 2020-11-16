@@ -45,8 +45,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    const API_FIELDS = [
-        'author_id', 'topic_id', 'api_id', 'status'
-    ];
 
+    public function company()
+    {
+        return $this->hasOne();
+    }
 }
