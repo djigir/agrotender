@@ -73,7 +73,7 @@ class UserController extends Controller
     }
 
     //М-д для страницы профиля (контакты)
-    public function profile_contacts()
+    public function profileContacts()
     {
         return view('private_cabinet.profile.contacts', [
             'type_page' => self::TYPE_PAGE[0],
@@ -83,7 +83,7 @@ class UserController extends Controller
     }
 
     //М-д для страницы профиля (уведомления)
-    public function profile_notify()
+    public function profileNotify()
     {
         return view('private_cabinet.profile.notify', [
             'type_page' => self::TYPE_PAGE[0],
@@ -94,7 +94,7 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (отзывы)
-    public function profile_reviews()
+    public function profileReviews()
     {
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
@@ -105,7 +105,7 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (компании) ProfileCompany
-    public function profile_company(Request $request)
+    public function profileCompany(Request $request)
     {
         $this->profileService->createCompany($request);
 
@@ -125,7 +125,7 @@ class UserController extends Controller
 
 
     //Если есть созданая компания тогда + новая страница профиля (новости)
-    public function profile_news()
+    public function profileNews()
     {
         return view('private_cabinet.profile.news', [
             'type_page' => self::TYPE_PAGE[0],
@@ -135,7 +135,7 @@ class UserController extends Controller
     }
 
     //Если есть созданая компания тогда + новая страница профиля (вакансии)
-    public function profile_vacancy()
+    public function profileVacancy()
     {
         return view('private_cabinet.profile.vacancy', [
             'type_page' => self::TYPE_PAGE[0],
@@ -156,7 +156,7 @@ class UserController extends Controller
 
 
     //М-д для страницы тарифы/лимитивные тарифы
-    public function advert_limit()
+    public function advertLimit()
     {
         return view('private_cabinet.advert.limits', [
             'type_page' => self::TYPE_PAGE[3],
@@ -167,7 +167,7 @@ class UserController extends Controller
 
 
     //М-д для страницы тарифы/улучшения обьявлений
-    public function advert_upgrade()
+    public function advertUpgrade()
     {
         return view('private_cabinet.advert.upgrade', [
             'type_page' => self::TYPE_PAGE[3],
@@ -178,7 +178,7 @@ class UserController extends Controller
 
 
     //М-ды для страницы тарифы/поплнить балансе
-    public function balance_pay()
+    public function balancePay()
     {
         return view('private_cabinet.tariff.balance_pay', [
             'type_page' => self::TYPE_PAGE[3],
@@ -189,7 +189,7 @@ class UserController extends Controller
 
 
     //М-ды для страницы тарифы/история платежей
-    public function balance_history()
+    public function balanceHistory()
     {
         return view('private_cabinet.tariff.balance_history', [
             'type_page' => self::TYPE_PAGE[3],
@@ -200,7 +200,7 @@ class UserController extends Controller
 
 
     //М-ды для страницы тарифы/счета-акты
-    public function balance_docs()
+    public function balanceDocs()
     {
         return view('private_cabinet.tariff.balance_docs', [
             'type_page' => self::TYPE_PAGE[3],

@@ -11,16 +11,18 @@
             </a>
             <div class="dropdown-menu mt-2 head-dropdown" aria-labelledby="dropdownMenuLink">
 
-                <a class="dropdown-item" href="/u/proposeds">Заявки <span class="notification-badge"></span></a>
+                <a class="dropdown-item" href="{{route('user.application')}}">
+                    Заявки
+                    <span class="notification-badge"></span>
+                </a>
                 <h6 class="dropdown-header">Объявления:</h6>
-                <a class="dropdown-item" href="/u/posts">Объявления</a>
+                <a class="dropdown-item" href="{{route('user.advert.advert')}}">Объявления</a>
                 <a class="dropdown-item" href="">Баланс: 0 грн</a>
-                <a class="dropdown-item" href="/u/balance/pay">Пополнить баланс</a>
-
-                <a class="dropdown-item" href="/u/posts/limits">Лимит объявлений</a>
+                <a class="dropdown-item" href="{{route('user.tariff.pay')}}">Пополнить баланс</a>
+                <a class="dropdown-item" href="{{route('user.advert.limit')}}">Лимит объявлений</a>
                 <h6 class="dropdown-header">Профиль:</h6>
-                <a class="dropdown-item" href="/u/company">Компания</a>
-                <a class="dropdown-item" href="/u/contacts">Контакты</a>
+                <a class="dropdown-item" href="{{route('user.profile.company')}}">Компания</a>
+                <a class="dropdown-item" href="{{route('user.profile.contacts')}}">Контакты</a>
                 <a class="dropdown-item" href="/logout">Выход</a>
             </div>
         </div>

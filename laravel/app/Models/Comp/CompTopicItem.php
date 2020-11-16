@@ -4,6 +4,10 @@ namespace App\Models\Comp;
 
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * @method static updateOrCreate(array $array, array $data)
+*/
 class CompTopicItem extends Model
 {
     protected $table = 'comp_item2topic';

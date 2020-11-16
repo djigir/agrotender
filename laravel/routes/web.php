@@ -73,40 +73,46 @@ Route::prefix('kompanii')
     });
 
 
-Route::prefix('info')
-    ->name('info.')
-    ->group(function () {
-        Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
-        Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
-        Route::get('/contacts', 'InfoController@companies')->name('contacts');
-});
+//Route::prefix('info')
+//    ->name('info.')
+//    ->group(function () {
+//        Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
+//        Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
+//        Route::get('/contacts', 'InfoController@companies')->name('contacts');
+//});
 
 
 Route::prefix('u')
     ->name('user.')
     ->group(function () {
-        Route::prefix('/')->name('profile.')->group(function () {
-            Route::get('/', 'UserController@profile')->name('profile');
-            Route::get('/contacts', 'UserController@profile_contacts')->name('contacts');
-            Route::get('/notify', 'UserController@profile_notify')->name('notify');
-            Route::get('/reviews', 'UserController@profile_reviews')->name('reviews');
-            Route::get('/company', 'UserController@profile_company')->name('company');
-            Route::get('/news', 'UserController@profile_news')->name('news');
-            Route::get('/vacancy', 'UserController@profile_vacancy')->name('vacancy');
+
+        Route::prefix('/')
+            ->name('profile.')
+            ->group(function () {
+                Route::match(['get', 'post'],'/company', 'UserController@profileCompany')->name('company');
+                Route::get('/', 'UserController@profile')->name('profile');
+                Route::get('/contacts', 'UserController@profileContacts')->name('contacts');
+                Route::get('/notify', 'UserController@profileNotify')->name('notify');
+                Route::get('/reviews', 'UserController@profileReviews')->name('reviews');
+                Route::get('/news', 'UserController@profileNews')->name('news');
+                Route::get('/vacancy', 'UserController@profileVacancy')->name('vacancy');
         });
 
-        Route::prefix('/posts')->name('advert.')->group(function () {
-            Route::get('/', 'UserController@advert')->name('advert');
-            Route::get('/limits', 'UserController@advert_limit')->name('limit');
-            Route::get('/upgrade', 'UserController@advert_upgrade')->name('upgrade');
+        Route::prefix('/posts')
+            ->name('advert.')
+            ->group(function () {
+                Route::get('/', 'UserController@advert')->name('advert');
+                Route::get('/limits', 'UserController@advertLimit')->name('limit');
+                Route::get('/upgrade', 'UserController@advertUpgrade')->name('upgrade');
         });
 
-        Route::prefix('/balance')->name('tariff.')->group(function () {
-            Route::get('/pay', 'UserController@balance_pay')->name('pay');
-            Route::get('/history', 'UserController@balance_history')->name('history');
-            Route::get('/docs', 'UserController@balance_docs')->name('docs');
+        Route::prefix('/balance')
+            ->name('tariff.')
+            ->group(function () {
+                Route::get('/pay', 'UserController@balancePay')->name('pay');
+                Route::get('/history', 'UserController@balanceHistory')->name('history');
+                Route::get('/docs', 'UserController@balanceDocs')->name('docs');
         });
 
         Route::get('/proposeds', 'UserController@application')->name('application');
-
 });

@@ -6,9 +6,13 @@
     <div class="container mt-4 mb-5">
         <div class="content-block px-5 py-4 company-settings position-relative">
             <h2>Настройки компании</h2>
-            <form class="form company-form mt-4" novalidate="novalidate">
+            <form class="form company-form mt-4" method="POST" novalidate="novalidate"  action="{{route('user.profile.company')}}" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group row mt-4">
-                    <label class="col-sm-4 col-form-label text-left text-sm-right">Название компании <span class="text-danger">*</span></label>
+                    <label class="col-sm-4 col-form-label text-left text-sm-right">
+                        Название компании
+                        <span class="text-danger">*</span>
+                    </label>
                     <div class="col-sm-4 pl-1">
                         <input type="text" class="form-control" placeholder="Город" name="title">
                     </div>
@@ -18,7 +22,7 @@
                     <div class="col-sm-4 pl-1 d-flex align-items-center">
                         <img class="logo" src="/app/assets/img/noavatar.png">
                         <span class="ml-3 select-image">Выбрать изображение</span>
-                        <input type="file" name="logo" class="d-none">
+                        <input type="file" name="logo" class="d-block">
                     </div>
                 </div>
                 <div class="form-group row mt-4">

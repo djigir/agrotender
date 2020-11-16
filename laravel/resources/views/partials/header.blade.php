@@ -105,8 +105,9 @@
                     <a href="/elev" class="menu-link">Элеваторы</a>
                 </li>
                 <li>
-                    <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}"
-                       class="menu-link">Форварды</a>
+                    <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}" class="menu-link">
+                        Форварды
+                    </a>
                 </li>
             </ul>
         </div>
