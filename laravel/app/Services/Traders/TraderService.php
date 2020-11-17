@@ -262,7 +262,6 @@ class TraderService
         $author_ids = TradersPrices::query()
                 ->select('traders_prices.buyer_id')
                 ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
-                ->orderBy('traders_prices.change_date', 'desc')
                 ->where($criteria_prices)
                 ->where($criteria_places)
                 ->pluck('buyer_id')
@@ -270,36 +269,64 @@ class TraderService
 
         $name_relationship = $this->checkNameRelationship($currency);
 
-        if ($culture != null) {
-            $traders = $traders->with(['traders_places' => function ($query) use ($obl_id, $port_id, $type_place, $currency, $culture) {
-                $query->place($obl_id, $port_id, $type_place);
-                if ($currency != 2) {
-                    $query->wherePivot('curtype', $currency);
-                }
-                if ($culture != null) {
-                    $query->wherePivot('cult_id', $culture);
-                }
-            }]);
-        }
+//        if ($culture != null) {
+//            $traders = $traders->with(['traders_places' => function ($query) use ($obl_id, $port_id, $type_place, $currency, $culture) {
+//                $query->place($obl_id, $port_id, $type_place);
+//                if ($currency != 2) {
+//                    $query->wherePivot('curtype', $currency);
+//                }
+//                if ($culture != null) {
+//                    $query->wherePivot('cult_id', $culture);
+//                }
+//            }]);
+//        }
 
-        $traders = $traders->with($name_relationship)
-            ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
-            ->whereIn('author_id', $author_ids)
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('trader_sort')
-            ->orderBy('rate_formula', 'desc')
-            ->orderBy('title')
-            ->get();
-        //order by ci.trader_premium{$type} desc,change_date desc, ci.rate_formula desc, ci.trader_sort{$type}, ci.title, tpr.dt")
+        if ($culture) {
+            $traders = $this->treders->whereIn('author_id', $author_ids)
+                ->leftJoin('traders_prices', 'comp_items.author_id',    '=', 'traders_prices.buyer_id')
+                ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
+                ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
+                ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
+                ->where($criteria_prices)
+                ->where($criteria_places)
+                ->orderBy('comp_items.trader_premium', 'desc')
+                ->orderBy('traders_prices.change_date', 'desc')
+                ->orderBy('comp_items.rate_formula', 'desc')
+                ->orderBy('comp_items.trader_sort')
+                ->orderBy('comp_items.title')
+                ->orderBy('traders_prices.dt')
+                ->select('comp_items.id', 'comp_items.title',
+                    'comp_items.logo_file', 'comp_items.author_id',
+                    'comp_items.trader_premium', 'traders_prices.cult_id',
+                    'traders_prices.place_id', 'traders_prices.costval',
+                    'traders_prices.costval_old', 'traders_prices.comment',
+                    'traders_prices.curtype', 'traders_prices.dt',
+                    'traders_prices.change_date', 'traders_places.port_id',
+                    'traders_places.place', 'traders_ports_lang.portname',
+                    \DB::raw('regions.name as region')
+                )->get();
 
-        if(isset($data['type_view']) && $data['type_view'] == 'table')
-        {
-            foreach ($traders as $index => $trader)
-            {
-                $traders[$index]['price_group'] = $trader[$name_relationship];
-                $traders[$index]['price_group'] = $traders[$index]['price_group']->groupBy(['place_id', 'curtype', 'cult_id']);
+            foreach ($traders as $index => $trader) {
+                if($traders->where('place_id',$trader->place_id)->count() > 1)
+                {
+                    $where_place_id = $traders->where('place_id',$trader->place_id)->chunk(1);
+                    $traders[$index]['costval_usd'] = $where_place_id[1]->first()->costval;
+                    $traders[$index]['costval_old_usd'] = $where_place_id[1]->first()->costval_old;
+                    unset($traders[$where_place_id[1]->keys()[0]]);
+                }
             }
+
+        }else{
+            $traders = $traders->with($name_relationship)
+                ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
+                ->whereIn('author_id', $author_ids)
+                ->orderBy('trader_premium', 'desc')
+                ->orderBy('trader_sort')
+                ->orderBy('rate_formula', 'desc')
+                ->orderBy('title')
+                ->get();
         }
+
 
         $this->groups = $this->setRubrics($criteria_places, $acttype);
 

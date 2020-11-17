@@ -28,8 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    @foreach($traders as $index_tr => $trader)
-                        @foreach($trader->places as $index => $place)
+                    @foreach($traders as $index => $trader)
                             <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
                                 <td>
                                     <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
@@ -37,6 +36,62 @@
                                         <span class="title">{!! $trader->title !!}</span>
                                     </a>
                                 </td>
+                                <td class="uah">
+                                    @if($trader->curtype == 0)
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <span class="price">{{round($trader->costval, 1)}}</span>
+                                            {{-- @if($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price'] != 0)--}}
+                                            {{--     <span class="price-up">  &nbsp;--}}
+                                            {{--             <img src="/app/assets/img/price-{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
+                                            {{--             <span>{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price']}}</span>--}}
+                                            {{--    </span>--}}
+                                            {{-- @endif--}}
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="usd">
+                                    @if($trader->curtype == 1)
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <span class="price">{{round($trader->costval, 1)}}</span>
+                                            {{--@if($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price'] != 0)--}}
+                                            {{--    <span class="price-up">  &nbsp;--}}
+                                            {{--            <img src="/app/assets/img/price-{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
+                                            {{--            <span>{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price']}}</span>--}}
+                                            {{--        </span>--}}
+                                            {{--@endif--}}
+                                        </div>
+                                    @elseif(isset($trader->costval_usd))
+                                        <div class="d-flex align-items-center justify-content-center">
+                                            <span class="price">{{round($trader->costval_usd, 1)}}</span>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td data-sorttable-customkey="20201101">
+                            <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                            </span>
+                                </td>
+                                <td>
+                                    @if($type_place == 0)
+                                        <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                    @else
+                                        <span class="location">{{$trader->portname}}</span>
+                                    @endif
+                                    <br>
+                                    <span class="place">{!! $trader->place !!}</span>
+                                </td>
+                            </tr>
+{{--                        @endif--}}
+                    @endforeach
+{{--                    @foreach($traders as $index_tr => $trader)--}}
+{{--                        @foreach($trader->places as $index => $place)--}}
+{{--                            <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">--}}
+{{--                                <td>--}}
+{{--                                    <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">--}}
+{{--                                        <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">--}}
+{{--                                        <span class="title">{!! $trader->title !!}</span>--}}
+{{--                                    </a>--}}
+{{--                                </td>--}}
 {{--                                <td class="uah">--}}
 {{--                                    @if($place->pivot->curtype == 0)--}}
 {{--                                        <div class="d-flex align-items-center justify-content-center">--}}
@@ -51,49 +106,49 @@
 {{--                                        </div>--}}
 {{--                                    @endif--}}
 {{--                                </td>--}}
-                                <td class="uah">
-                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][0]) && isset($trader->price_group[$place->id][0][$place->pivot->cult_id]))
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="price">{{round($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['costval'], 1)}}</span>
-                                            @if($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price'] != 0)
-                                                <span class="price-up">  &nbsp;
-                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price_type']}}.svg">
-                                                    <span>{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price']}}</span>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="usd">
-                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][1]) && isset($trader->price_group[$place->id][1][$place->pivot->cult_id]))
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            <span class="price">{{round($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['costval'], 1)}}</span>
-                                            @if($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price'] != 0)
-                                                <span class="price-up">  &nbsp;
-                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price_type']}}.svg">
-                                                    <span>{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price']}}</span>
-                                                </span>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </td>
-                                <td data-sorttable-customkey="20201101">
-                            <span class="{{$place->pivot->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                            </span>
-                                </td>
-                                <td>
-                                    @if($type_place == 0)
-                                        <span class="location">{{isset($place['traders_ports'][0]) ? $place['traders_ports'][0]['lang']['portname'] : $place['regions'][0]['name'].' обл.'}}</span>
-                                    @else
-                                        <span class="location">{{$place['traders_ports'][0]['lang']['portname']}}</span>
-                                    @endif
-                                    <br>
-                                    <span class="place">{!! $place->place !!}</span>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endforeach
+{{--                                <td class="uah">--}}
+{{--                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][0]) && isset($trader->price_group[$place->id][0][$place->pivot->cult_id]))--}}
+{{--                                        <div class="d-flex align-items-center justify-content-center">--}}
+{{--                                            <span class="price">{{round($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['costval'], 1)}}</span>--}}
+{{--                                            @if($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price'] != 0)--}}
+{{--                                                <span class="price-up">  &nbsp;--}}
+{{--                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
+{{--                                                    <span>{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price']}}</span>--}}
+{{--                                                </span>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
+{{--                                <td class="usd">--}}
+{{--                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][1]) && isset($trader->price_group[$place->id][1][$place->pivot->cult_id]))--}}
+{{--                                        <div class="d-flex align-items-center justify-content-center">--}}
+{{--                                            <span class="price">{{round($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['costval'], 1)}}</span>--}}
+{{--                                            @if($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price'] != 0)--}}
+{{--                                                <span class="price-up">  &nbsp;--}}
+{{--                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
+{{--                                                    <span>{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price']}}</span>--}}
+{{--                                                </span>--}}
+{{--                                            @endif--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
+{{--                                <td data-sorttable-customkey="20201101">--}}
+{{--                            <span class="{{$place->pivot->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">--}}
+{{--                                {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}--}}
+{{--                            </span>--}}
+{{--                                </td>--}}
+{{--                                <td>--}}
+{{--                                    @if($type_place == 0)--}}
+{{--                                        <span class="location">{{isset($place['traders_ports'][0]) ? $place['traders_ports'][0]['lang']['portname'] : $place['regions'][0]['name'].' обл.'}}</span>--}}
+{{--                                    @else--}}
+{{--                                        <span class="location">{{$place['traders_ports'][0]['lang']['portname']}}</span>--}}
+{{--                                    @endif--}}
+{{--                                    <br>--}}
+{{--                                    <span class="place">{!! $place->place !!}</span>--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
+{{--                    @endforeach--}}
                     </tbody>
                 </table>
             </div>
