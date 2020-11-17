@@ -262,7 +262,6 @@ class CompItems extends Model
     }
 
 
-
     public function comp_items_contact()
     {
         return $this->hasMany(CompItemsContact::class, 'comp_id');

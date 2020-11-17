@@ -287,7 +287,8 @@ class TraderService
 //            ->orderBy('title')
             ->get();
 
-        if(isset($data['type_view']) && $data['type_view'] == 'table'){
+        if(isset($data['type_view']) && $data['type_view'] == 'table')
+        {
             foreach ($traders as $index => $trader)
             {
                 $traders[$index]['price_group'] = $trader[$name_relationship];
