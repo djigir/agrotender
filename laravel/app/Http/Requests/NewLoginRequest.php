@@ -24,6 +24,8 @@ class NewLoginRequest extends FormRequest
     public function rules()
     {
         return [
+            'oldPassword' => 'required|min:6|max:20',
+            'password' => 'required|min:6|max:20',
             'email' => 'required|email|unique:torg_buyer',
         ];
     }
