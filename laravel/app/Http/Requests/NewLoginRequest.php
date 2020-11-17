@@ -24,9 +24,18 @@ class NewLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'oldPassword' => 'required|min:6|max:20',
-            'password' => 'required|min:6|max:20',
-            'email' => 'required|email|unique:torg_buyer',
+            'oldPassword' => 'min:6|max:20',
+            'password' => 'min:6|max:20|different:имя таблицы',
+            'email' => 'email|unique:torg_buyer',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'oldPassword.min' => 'Минимальная длина пароля 6 символов',
+            'email.email' => 'Вы указали не коректный email',
+            'email.unique' => 'Данный Email адрес уже зарегистрирован на сайте',
         ];
     }
 
