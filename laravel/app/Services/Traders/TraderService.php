@@ -270,29 +270,34 @@ class TraderService
 
         $name_relationship = $this->checkNameRelationship($currency);
 
-        $traders = $traders->with($name_relationship)->with(['traders_places' => function($query) use($obl_id, $port_id, $type_place, $currency, $culture){
-            $query->place($obl_id, $port_id, $type_place);
-            if($currency != 2){
-                $query->wherePivot('curtype', $currency);
-            }
-            if($culture != null){
-                $query->wherePivot('cult_id', $culture);
-            }
-        }])->select('title', 'author_id', 'id', 'logo_file', 'trader_premium', 'trader_sort', 'rate_formula',
-                'trader_price_visible', 'visible', 'trader_price_avail', 'obl_id', 'add_date')
+        if ($culture != null) {
+            $traders = $traders->with(['traders_places' => function ($query) use ($obl_id, $port_id, $type_place, $currency, $culture) {
+                $query->place($obl_id, $port_id, $type_place);
+                if ($currency != 2) {
+                    $query->wherePivot('curtype', $currency);
+                }
+                if ($culture != null) {
+                    $query->wherePivot('cult_id', $culture);
+                }
+            }]);
+        }
+
+        $traders = $traders->with($name_relationship)
+            ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
             ->whereIn('author_id', $author_ids)
             ->orderBy('trader_premium', 'desc')
-//            ->orderBy('trader_sort')
-//            ->orderBy('rate_formula', 'desc')
-//            ->orderBy('title')
+            ->orderBy('trader_sort')
+            ->orderBy('rate_formula', 'desc')
+            ->orderBy('title')
             ->get();
+        //order by ci.trader_premium{$type} desc,change_date desc, ci.rate_formula desc, ci.trader_sort{$type}, ci.title, tpr.dt")
 
         if(isset($data['type_view']) && $data['type_view'] == 'table')
         {
             foreach ($traders as $index => $trader)
             {
                 $traders[$index]['price_group'] = $trader[$name_relationship];
-                $traders[$index]['price_group'] = $traders[$index]['price_group']->groupBy(['place_id', 'curtype', 'cult_id'])->toArray();
+                $traders[$index]['price_group'] = $traders[$index]['price_group']->groupBy(['place_id', 'curtype', 'cult_id']);
             }
         }
 
