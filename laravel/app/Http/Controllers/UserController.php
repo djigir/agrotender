@@ -81,20 +81,22 @@ class UserController extends Controller
     }
 
     // изменить пароль
-    public function changePass(Request $request)
+    public function changePass(NewLoginRequest $newLoginRequest)
     {
         $user = User::where('id', Auth::id())->get()[0];
         $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()[0];
 
-        $old_pass = $request->get('oldPassword');
-        $new_pass = $request->get('password');
+        $old_pass = $newLoginRequest->get('oldPassword');
+        $new_pass = $newLoginRequest->get('password');
         if (Hash::check($old_pass, $user->passwd) && $new_pass){
             $torg_buyer->passwd = bcrypt($new_pass);
             $torg_buyer->save();
             $user->passwd = bcrypt($new_pass);
             $user->save();
         }else {
-            dd('no');
+            return redirect()->back()
+                ->withInput($newLoginRequest->all())
+                ->withErrors(['msg' => 'Ошибка']);
         }
 
     }
