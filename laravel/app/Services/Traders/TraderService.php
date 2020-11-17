@@ -286,10 +286,12 @@ class TraderService
 //            ->orderBy('title')
             ->get();
 
-        foreach ($traders as $index => $trader)
-        {
-            $traders[$index]['price_group'] = $trader[$name_relationship];
-            $traders[$index]['price_group'] = $traders[$index]['price_group']->groupBy(['place_id', 'curtype', 'cult_id'])->toArray();
+        if($data['type_view'] == 'table'){
+            foreach ($traders as $index => $trader)
+            {
+                $traders[$index]['price_group'] = $trader[$name_relationship];
+                $traders[$index]['price_group'] = $traders[$index]['price_group']->groupBy(['place_id', 'curtype', 'cult_id'])->toArray();
+            }
         }
 
         $this->groups = $this->setRubrics($criteria_places, $acttype);
