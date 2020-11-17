@@ -22,6 +22,7 @@
 
 
 
+
     <div class="container mt-4 mb-5">
         <h2 class="mx-0 mx-sm-5">Ваши личные данные</h2>
         <div class="content-block mt-4 px-5 py-3 personal mx-0 mx-sm-5">
@@ -78,4 +79,13 @@
             </form>
         </div>
     </div>
+
+
+    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
+         class="noty_bar noty_type__info noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar noty_effects_close animate__animated animate__fadeInRightBig animate__faster"
+         style="display: block">
+        <div class="noty_body">Старый пароль указан неправильно.</div>
+        <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
+    </div>
+
 @endsection
