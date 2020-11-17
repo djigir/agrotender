@@ -1,4 +1,3 @@
-{{dd()}}
 <div class="container mt-0 mt-sm-3">
     <div class="row pt-sm-3">
         <div class="position-relative w-100">
