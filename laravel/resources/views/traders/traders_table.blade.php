@@ -6,26 +6,26 @@
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                 <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
                     <thead>
-                    <tr role="row">
-                        <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="Компании: activate to sort column ascending" style="width: 249px;">Компании
-                        </th>
-                        <th class="sth sorting" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="UAH : activate to sort column descending" style="width: 77px;">UAH
-                            <i class="fas fa-sort" style="font-size: 12px;"></i>
-                        </th>
-                        <th class="sth sorting" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="USD : activate to sort column descending" style="width: 76px;">USD
-                            <i class="fas fa-sort" style="font-size: 12px;"></i>
-                        </th>
-                        <th class="sth sorting" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="Дата : activate to sort column descending" style="width: 101px;">Дата
-                            <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
-                        </th>
-                        <th class="sth sorting" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                            aria-label="Место закупки: activate to sort column ascending" style="width: 195px;">Место закупки
-                        </th>
-                    </tr>
+                        <tr role="row">
+                            <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Компании: activate to sort column ascending" style="width: 249px;">Компании
+                            </th>
+                            <th class="sth sorting" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="UAH : activate to sort column descending" style="width: 77px;">UAH
+                                <i class="fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="USD : activate to sort column descending" style="width: 76px;">USD
+                                <i class="fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Дата : activate to sort column descending" style="width: 101px;">Дата
+                                <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Место закупки: activate to sort column ascending" style="width: 195px;">Место закупки
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach($traders as $index_tr => $trader)
@@ -37,17 +37,43 @@
                                         <span class="title">{!! $trader->title !!}</span>
                                     </a>
                                 </td>
+{{--                                <td class="uah">--}}
+{{--                                    @if($place->pivot->curtype == 0)--}}
+{{--                                        <div class="d-flex align-items-center justify-content-center">--}}
+{{--                                            <span class="price">{{round($place->pivot->costval, 1)}}</span>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
+{{--                                <td class="usd">--}}
+{{--                                    @if($place->pivot->curtype == 1)--}}
+{{--                                        <div class="d-flex align-items-center justify-content-center">--}}
+{{--                                            <span class="price">{{round($place->pivot->costval, 1)}}</span>--}}
+{{--                                        </div>--}}
+{{--                                    @endif--}}
+{{--                                </td>--}}
                                 <td class="uah">
-                                    @if($place->pivot->curtype == 0)
+                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][0]) && isset($trader->price_group[$place->id][0][$place->pivot->cult_id]))
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                            <span class="price">{{round($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['costval'], 1)}}</span>
+                                            @if($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price'] != 0)
+                                                <span class="price-up">  &nbsp;
+                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price_type']}}.svg">
+                                                    <span>{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price']}}</span>
+                                                </span>
+                                            @endif
                                         </div>
                                     @endif
                                 </td>
                                 <td class="usd">
-                                    @if($place->pivot->curtype == 1)
+                                    @if(isset($trader->price_group[$place->id]) && isset($trader->price_group[$place->id][1]) && isset($trader->price_group[$place->id][1][$place->pivot->cult_id]))
                                         <div class="d-flex align-items-center justify-content-center">
-                                            <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                            <span class="price">{{round($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['costval'], 1)}}</span>
+                                            @if($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price'] != 0)
+                                                <span class="price-up">  &nbsp;
+                                                    <img src="/app/assets/img/price-{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price_type']}}.svg">
+                                                    <span>{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price']}}</span>
+                                                </span>
+                                            @endif
                                         </div>
                                     @endif
                                 </td>
@@ -60,7 +86,7 @@
                                     @if($type_place == 0)
                                         <span class="location">{{isset($place['traders_ports'][0]) ? $place['traders_ports'][0]['lang']['portname'] : $place['regions'][0]['name'].' обл.'}}</span>
                                     @else
-                                        <span class="location">{{$type_place == 0 ? $place['regions'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                                        <span class="location">{{$place['traders_ports'][0]['lang']['portname']}}</span>
                                     @endif
                                     <br>
                                     <span class="place">{!! $place->place !!}</span>
@@ -100,9 +126,8 @@
                                         @if($type_place == 0)
                                             <span class="location d-block">{{isset($place['traders_ports'][0]) ? $place['traders_ports'][0]['lang']['portname'] : $place['regions'][0]['name'].' обл.'}}</span>
                                         @else
-                                            <span class="location d-block">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>
+                                            <span class="location d-block">{{$place['traders_ports'][0]['lang']['portname']}}</span>
                                         @endif
-                                        {{--                                    <span class="location d-block">{{$type_place == 0 ? $place['region'][0]['name'].' обл.' : $place['traders_ports'][0]['lang']['portname']}}</span>--}}
                                         <span class="place d-block">{!! $place->place !!}</span>
                                     </a>
                                 </div>
