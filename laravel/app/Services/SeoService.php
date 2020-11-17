@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
+use App\Models\Rayon\Rayon;
+use App\Models\Rayon\RayonLang;
 use App\Models\Regions\Regions;
 
 use App\Models\Pages\Pages;
@@ -12,6 +14,8 @@ use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersProductGroupLanguage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\File;
 
 
 class SeoService
@@ -221,6 +225,39 @@ class SeoService
         return   ['title' => "Отзывы о {$company->title} на сайте Agrotender",
             'keywords' => $company->title,
             'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
+    }
+
+    /*public function getElevMeta()
+    {
+        $file_path = public_path('seo/seo_breadcrumbs_text.json');
+        $file = fopen($file_path, 'r');
+        $content = file_get_contents($file_path);
+        $meta = json_decode($content);
+
+        dd($meta);
+    }*/
+
+    public function getMetaElevators()
+    {
+        $h1 = "Элеваторы";
+        $title = "Элеваторы Украины. ХПП, КХП.";
+        $description = "Уважаемые пользователи сайта АГРОТЕНДЕР, позвольте предоставить вашему вниманию Элеваторы Украины. Здесь вы найдете всю необходимую информацию по контактным данным хлебоприемных предприятий нашей страны.";
+        $keywords = "Элеваторы Украины, список элеваторов, каталог элеваторов, КХП, ХПП.";
+
+        return ['h1' => $h1, 'title' => $title, 'description' => $description, 'keywords' => $keywords];
+    }
+
+    public function getMetaElev($data)
+    {
+        $region = Regions::where('id', $data->obl_id)->get()[0];
+        $rayon = RayonLang::where('ray_id', $data->ray_id)->get()[0];
+
+        $h1 = "{$data['lang_elevator'][0]['name']}";
+        $title = "{$data['lang_elevator'][0]['name']} в {$region['name']} области, {$rayon->name}. Тендерные торги Агротендер";
+        $description = "{$data['lang_elevator'][0]['orgname']}, {$region['name']} области";
+        $keywords = "элеватор, {$data['lang_elevator'][0]['name']} в {$region['name']} области";
+
+        return ['h1' => $h1, 'title' => $title, 'description' => $description, 'keywords' => $keywords];
     }
 
     public function parseSeoText($region, $str)

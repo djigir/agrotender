@@ -5,17 +5,23 @@ namespace App\Http\Controllers;
 use App\Models\Elevators\TorgElevator;
 use App\Models\Regions\Regions;
 use App\Services\BaseServices;
+use App\Services\BreadcrumbService;
+use App\Services\SeoService;
 use Illuminate\Http\Request;
 
 class EvelatorController extends Controller
 {
     protected $agent;
     protected $baseServices;
+    protected $seoServices;
+    protected $breadcrumbsServices;
 
-    public function __construct(BaseServices $baseServices)
+    public function __construct(BaseServices $baseServices, SeoService $seoServices, BreadcrumbService $breadcrumbService)
     {
         $this->agent = new \Jenssegers\Agent\Agent;
         $this->baseServices = $baseServices;
+        $this->seoServices = $seoServices;
+        $this->breadcrumbsServices = $breadcrumbService;
     }
 
     private function regionName($region)
@@ -40,16 +46,22 @@ class EvelatorController extends Controller
 
         $elevators = TorgElevator::with('region', 'lang_rayon',  'lang_elevator');
 
+
         if($data->get('region') != null){
             $region = Regions::where('translit', $data->get('region'))->value('id');
             $elevators->where('obl_id', $region);
         }
-
         $elevators = $elevators->orderBy('torg_elevator.id', 'desc')->get();
+
+        $data_breadcrumbs = ['region' => $region ?? null];
+        $breadcrumbs = $this->breadcrumbsServices->setBreadcrumbsElev($data_breadcrumbs);
+        $meta = $this->seoServices->getMetaElevators();
 
         return view('elevators.elevators', [
             'elevators' => $elevators->chunk(2),
             'region_translit' => $data->get('region'),
+            'meta' => $meta,
+            'breadcrumbs' => $breadcrumbs,
             'region_name' => $region_name,
             'regions' => $regions,
             'page_type' => 2,
@@ -77,9 +89,15 @@ class EvelatorController extends Controller
     {
         $elevator = TorgElevator::with('lang_elevator')->where('elev_url', $url)->first();
 
+        $data_breadcrumbs = ['elevator' => $elevator, 'region' => $region ?? null];
+        $meta = $this->seoServices->getMetaElev($elevator);
+        $breadcrumbs = $this->breadcrumbsServices->setBreadcrumbsElev($data_breadcrumbs);
+
         return view('elevators.elevator', [
             'elevator' => $elevator,
             'page_type' => 2,
+            'meta' => $meta,
+            'breadcrumbs' => $breadcrumbs,
             'isMobile' => $this->agent->isMobile()
         ]);
     }

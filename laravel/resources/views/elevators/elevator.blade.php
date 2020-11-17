@@ -7,6 +7,17 @@
             <i class="fas fa-chevron-right extra-small"></i>
             <li><a href="{{route('elev.elevators')}}"><span>Элеваторы</span></a></li>
             <i class="fas fa-chevron-right extra-small"></i>
+            @foreach($breadcrumbs as $index_bread => $breadcrumb)
+                <li>
+                    @if($breadcrumb['url'])
+                        <a href="{{$breadcrumb['url']}}">
+                            <h1>{!! $breadcrumb['name'] !!}</h1>
+                        </a>
+                    @else
+                        <h1>{!! $breadcrumb['name'] !!}</h1>
+                    @endif
+                </li>
+            @endforeach
         </ul>
         <div class="row mx-0 d-flex pt-2 pt-sm-5">
             <div class="col-auto pl-1">
