@@ -262,6 +262,7 @@ class TraderService
         $author_ids = TradersPrices::query()
                 ->select('traders_prices.buyer_id')
                 ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+                ->orderBy('traders_prices.change_date', 'desc')
                 ->where($criteria_prices)
                 ->where($criteria_places)
                 ->pluck('buyer_id')
