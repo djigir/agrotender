@@ -224,24 +224,26 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where(['buyer_id' => $this->company->author_id, 'acttype' => 0])->limit(1)->value('change_date');
-        $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
+            ->orderBy('dt')
+            ->limit(1)
+            ->value('change_date');
+
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
-        //dd($data_port->get('places'));
+
         $port_culture = $data_port->get('cultures');
-        $port_place =   $data_port->get('places');
-        $port_price =   $data_port->get('prices');
+        $port_place = $data_port->get('places');
+        $port_price = $data_port->get('prices');
 
         $region_culture = $data_region->get('cultures');
-        $region_place =   $data_region->get('places');
-        $region_price =   $data_region->get('prices');
+        $region_place = $data_region->get('places');
+        $region_price = $data_region->get('prices');
 
-
-        $statusCurtypePort =  $data_port->get('statusCurtype');
+        $statusCurtypePort = $data_port->get('statusCurtype');
         $statusCurtypeRegion = $data_region->get('statusCurtype');
-
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
@@ -258,8 +260,8 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
-            'check_forwards' => $checkForward,
             'updateDate' => $updateDate,
+            'check_forwards' => $checkForward,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
