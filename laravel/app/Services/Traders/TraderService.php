@@ -145,9 +145,8 @@ class TraderService
             ->with('traders_ports_lang')
             ->where('active', 1)
             ->get();
-        $ports = array_values($ports->sortBy('lang.portname')->push([
-            'lang' => ['portname' => 'Все порты'], 'url' => 'all'
-        ])->toArray());
+
+        $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
 
         return $ports;
     }
@@ -157,7 +156,6 @@ class TraderService
         $type = $acttype == 0  ? '' : '_forward';
 
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
-
 
         $group_items = \DB::table('traders_prices')
             ->select(['traders_prices.cult_id', \DB::raw('count(distinct agt_traders_prices.buyer_id) as count_item')])

@@ -1,16 +1,11 @@
-<?php
-$check_forwards = \App\Models\Comp\CompItems::where([
-    'id' => $id,
-    'trader_price_forward_avail' => 1,
-    'trader_price_forward_visible' => 1,
-    'visible' => 1
-])->count();
-?>
 <div class="overlay"></div>
 <div class="mobileMenu">
     <div class="container p-0">
         <div class="mobileHeader row mx-0 px-3">
             <a class="col-9" href="/u/">
+                @if(auth()->user())
+                    {{auth()->user()->name}}
+                @endif
                 {{--{if $user->company neq null}{$user->company['title']}{else}{$user->name}{/if}--}}
             </a>
             <a href="/logout" class="right float-right logout col-3">Выход</a>
@@ -33,7 +28,7 @@ $check_forwards = \App\Models\Comp\CompItems::where([
     <div class="items d-flex flex-column justify-content-between">
         @if(isset($id))
             <a href="{{route('company.index', $id)}}" class="menu-item" >Главная</a>
-            @if($check_forwards != 0)
+            @if($check_forwards)
                 <a href="{{route('company.forwards', $id)}}" class="menu-item" >Форварды</a>
             @endif
             <a href="{{route('company.reviews', $id)}}" class="menu-item">Отзывы</a>
