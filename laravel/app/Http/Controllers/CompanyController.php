@@ -394,14 +394,13 @@ class CompanyController extends Controller
     public function companyContact($id)
     {
         $this->setCompany($id);
-        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get()->toArray();
-        $departments_type = CompItemsContact::where('comp_id', $id)->get()->toArray();
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
+        $departments_type = CompItemsContact::where('comp_id', $id)->get();
         $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
         $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
             ->with('traders_contacts')
-            ->get()
-            ->toArray();
+            ->get();
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
