@@ -124,7 +124,7 @@ class UserController extends Controller
         }else {
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
-                ->withErrors(['msg' => 'Ошибка']);
+                ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
     }
 
