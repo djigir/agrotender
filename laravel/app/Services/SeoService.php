@@ -29,15 +29,7 @@ class SeoService
         return $info;
     }
 
-    public function getMetaText()
-    {
-        $file_path = public_path('seo/seo_breadcrumbs_text.json');
-        $content = file_get_contents($file_path);
-        $meta = json_decode($content);
-        return $meta;
-    }
-
-    /*public function getCompaniesMeta($data)
+    public function getCompaniesMeta($data)
     {
         $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
         $rubric = !$rubric ? null : $rubric[0];
@@ -66,51 +58,7 @@ class SeoService
         }
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
-    }*/
-
-    public function getCompaniesMeta($data)
-    {
-        $meta_text = $this->getMetaText();
-        $rubric = $data['rubric'] != null ? $rubric = CompTopic::where('id', $data['rubric'])->get()[0] : null;
-        $region = $data['region'] != null ? Regions::where('id', $data['region'])->get()[0] : null;
-
-        //$transform_rubric_title = $this->cutRubricText($rubric['title'], $meta_text->seo->company->title->rubric);
-
-        $transform_h1 = $this->parseSeoText($region, $meta_text->seo->company->h1->region);
-        $transform_title = $this->parseSeoText($region, $meta_text->seo->company->title->region);
-        $transform_keywords = $this->parseSeoText($region, $meta_text->seo->company->keywords->region);
-        $transform_description = $this->parseSeoText($region, $meta_text->seo->company->description->region);
-
-
-        $h1 = !$region ? $meta_text->seo->company->h1->default : $transform_h1;
-        $text = "";
-        $t3seo = "";
-        $title = !$region ? $meta_text->seo->company->title->default  : $transform_title;
-        $keywords = !$region ? $meta_text->seo->company->keywords->default : $transform_keywords;
-        $description = !$region ? $meta_text->seo->company->description->default : $transform_description;
-
-
-        if ($rubric != null) {
-            $title = !$region? $this->parseSeoText($region, $rubric['page_title']) : "{$rubric['title']} хозяйства {$region['city_parental']} {$region['parental']} области. Каталог компаний от Агротендер";
-            $keywords = !$region != null ? $this->parseSeoText($region, $rubric['page_keywords']) : "Каталог, {$rubric['title']} хозяйства, {$region['city_parental']}, {$region['parental']} области";
-            $description = !$region ? $this->parseSeoText($region, $rubric['page_descr']) : "В каталоге компаний от Агротендер Вы всегда сможете найти информацию про {$rubric['title']} хозяйствам {$region['city_parental']} {$region['parental']} области, а так же их актуальные закупки и продажи.";
-            $h1 = !$region ? $this->parseSeoText($region, $rubric['page_h1']) : '';
-            $text = !$region ? $this->parseSeoText($region, $rubric['page_descr']) : '';
-        }
-
-        if ($region != null && !empty($rubric)) {
-            $title = $this->parseSeoText($region, $rubric['page_title']);
-            $keywords = $this->parseSeoText($region, $rubric['page_keywords']);
-            $description = $this->parseSeoText($region, $rubric['page_descr']);
-            $h1 = $this->parseSeoText($region, $rubric['page_h1']);
-            $text = $this->parseSeoText($region, $rubric['page_descr']);
-        }
-
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
-
-//        dd(['h1' => $h1, 'keywords' => $keywords, 'title' => $title, 'description' => $description]);
     }
-
 
     public function getTradersMetaRegion($region, $culture)
     {
@@ -296,12 +244,6 @@ class SeoService
         $keywords = "элеватор, {$data['lang_elevator'][0]['name']} в {$region['name']} области";
 
         return ['h1' => $h1, 'title' => $title, 'description' => $description, 'keywords' => $keywords];
-    }
-
-    public function cutRubricText($rubric, $str)
-    {
-        $seostr = str_replace("__rubric_title__", $rubric, $str);
-        return $seostr;
     }
 
     public function parseSeoText($region, $str)
