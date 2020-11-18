@@ -5,6 +5,7 @@ namespace App\Services\User;
 
 
 use App\Models\Comp\CompComment;
+use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Users\User;
@@ -101,10 +102,10 @@ class ProfileService
     {
         $company_comments = CompComment::where('author_id', \auth()->user()->user_id)->get();
         $company_names = [];
-        for ($i = 0; $i < count($company_comments); $i++){
-            $company_names[] = CompItems::select('title')->where('id', $company_comments[$i]->item_id)->get();
+        foreach ($company_comments as $key => $company_comment) {
+            $company_names[] = CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0];
         }
-
-        dd($company_names);
+        dd($company_comments[0]->id);
+        dd($company_comments, $company_names);
     }
 }
