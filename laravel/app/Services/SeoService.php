@@ -25,15 +25,7 @@ class SeoService
         return $info;
     }
 
-    public function getMetaText()
-    {
-        $file_path = public_path('seo/seo_breadcrumbs_text.json');
-        $content = file_get_contents($file_path);
-        $meta = json_decode($content);
-        return $meta;
-    }
-
-    /*public function getCompaniesMeta($data)
+    public function getCompaniesMeta($data)
     {
         $rubric = CompTopic::where('id', $data['rubric'])->get()->toArray();
         $rubric = !$rubric ? null : $rubric[0];
@@ -61,71 +53,38 @@ class SeoService
             $text = $this->parseSeoText($region, $rubric['page_descr']);
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
-    }*/
-
-    /* new seo */
-    public function getCompaniesMeta($data)
-    {
-        $meta_text = $this->getMetaText();
-        $rubric = $data['rubric'] != null ? $rubric = CompTopic::where('id', $data['rubric'])->get()[0] : null;
-        $region = $data['region'] != null ? Regions::where('id', $data['region'])->get()[0] : null;
-
-        $h1 = !$region ? $meta_text->seo->companies->h1->default : $this->parseSeoText($region, $meta_text->seo->companies->h1->region, null);
-        $text = "";
-        $t3seo = "";
-        $title = !$region ? $meta_text->seo->companies->title->default  : $this->parseSeoText($region, $meta_text->seo->companies->title->region, null);
-        $keywords = !$region ? $meta_text->seo->companies->keywords->default : $this->parseSeoText($region, $meta_text->seo->companies->keywords->region, null);
-        $description = !$region ? $meta_text->seo->companies->description->default : $this->parseSeoText($region, $meta_text->seo->companies->description->region, null);;
-
-        if ($rubric != null) {
-            $title = !$region ? $this->parseSeoText($region, $rubric['page_title'], null) : $this->parseSeoText($region, $meta_text->seo->companies->title->region_rubric, $rubric);
-            $keywords = !$region != null ? $this->parseSeoText($region, $rubric['page_keywords'], null) : $this->parseSeoText($region, $meta_text->seo->companies->keywords->region_rubric, $rubric);
-            $description = !$region ? $this->parseSeoText($region, $rubric['page_descr'], null) : $this->parseSeoText($region, $meta_text->seo->companies->description->region_rubric, $rubric);
-            $h1 = !$region ? $this->parseSeoText($region, $rubric['page_h1'], null) : '';
-            $text = !$region ? $this->parseSeoText($region, $rubric['page_descr'], null) : '';
-        }
-
-        if ($region != null && !empty($rubric)) {
-            $title = $this->parseSeoText($region, $rubric['page_title'], null);
-            $keywords = $this->parseSeoText($region, $rubric['page_keywords'], null);
-            $description = $this->parseSeoText($region, $rubric['page_descr'], null);
-            $h1 = $this->parseSeoText($region, $rubric['page_h1'], null);
-            $text = $this->parseSeoText($region, $rubric['page_descr'], null);
-        }
-
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
-
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
-    /* new seo */
 
-    /* new seo */
+
     public function getTradersMetaRegion($region, $culture)
     {
         if(empty($region)){
             return false;
         }
-        $meta_text = $this->getMetaText();
 
         $year = date('Y');
+        $yearsText = $year . '-' . ($year + 1);
 
-        $h1 =  "";
-        $title =  $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->title : $this->parseSeoText($region, $meta_text->seo->traders_region->region->title, $culture) . " {$year}";
-        $keywords = $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->keywords : $this->parseSeoText($region, $meta_text->seo->traders_region->region->keywords, $culture);
-        $description = $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->description : $this->parseSeoText($region, $meta_text->seo->traders_region->region->description, $culture);
+        $h1 =  $region == 'ukraine' ? "Цены трейдеров в Украине" : "Цена Аграрной продукции в {$region['parental']} области";
+        $title =  $region == 'ukraine' ?  "Закупочные цены зернотрейдеров Украины на сегодня - Agrotender.ua"
+            : "Цена Аграрной продукции за тонну в {$region['parental']} области сегодня. Закупочные цены трейдеров {$year}";
+        $keywords = $region == 'ukraine' ?  "Закупочные, цены, трейдеры, Украина" : "Цена, стоимость, экспорт, Аграрная продукция, {$region['name']} область";
+        $description = $region == 'ukraine' ?  "Продажа аграрной продукции крупнейшим трейдерам и переработчикам Украины. Только свежие и актуальные закупки без посредников. Динамика закупочных цен на сегодня."
+            : "Стоимость Аграрной продукции на портале Agrotender. Продажа Аграрной продукции крупнейшим зернотрейдерам в {$region['parental']} области без посредников за гривну и валюту.";
         $text = '';
 
         if ($culture) {
-            $h1 = "";
-            $title = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->title, $culture) : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->title, $culture);
-            $keywords = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->keywords, $culture) : $meta_text->seo->traders_region->rubric_ukraine->keywords;
-            $description = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->description, $culture) : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->description, $culture);
-            $text = "";
+            $h1 = $region != 'ukraine' ? "Цена {$culture['name']} в {$region['parental']} области" : "Цена {$culture['name']} в Украине";
+            $title = $region != 'ukraine' ? "Цена {$culture['name']} за тонну в {$region['parental']} области сегодня. Закупочные цены трейдеров {$year}" : "Цена {$culture['name']} за тонну в Украине сегодня. Закупочные цены трейдеров {$year}";
+            $keywords = $region != 'ukraine' ? "Цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область" : "Цена, стоимость, экспорт, {$culture['name']}, Украина";
+            $description = $region != 'ukraine' ? "Стоимость {$culture['name']} на портале Agrotender. Продажа {$culture['name']} крупнейшим зернотрейдерам в {$region['parental']} области без посредников за гривну и валюту."
+                : "Стоимость {$culture['name']} на портале Agrotender. Продажа {$culture['name']} крупнейшим зернотрейдерам в Украине без посредников за гривну и валюту.";
+            $text = '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
-    /* new seo */
 
     public function getTradersMetaPort($port, $culture)
     {
@@ -149,7 +108,7 @@ class SeoService
             $text = $port != "all" ? $port['p_content'] : '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaForward($region, $culture, $port)
@@ -187,7 +146,7 @@ class SeoService
        }
 
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaSell($region, $culture)
@@ -204,7 +163,7 @@ class SeoService
         $description = '';
         $text = '';
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMeta($data)
@@ -230,7 +189,7 @@ class SeoService
 
     }
 
-    /*public function getMetaForOneCompany($company)
+    public function getMetaForOneCompany($company)
     {
         $company = CompItems::find($company)->toArray();
 
@@ -243,76 +202,31 @@ class SeoService
         $keywords = $company['title'];
         $description = mb_substr(strip_tags($company['content']), 0, 200);
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
-    }*/
-
-    /* new seo */
-    public function getMetaForOneCompany($company)
-    {
-        $meta_text = $this->getMetaText();
-        $company = CompItems::find($company);
-
-        $title = str_replace("__company_title__", $company->title, $meta_text->seo->one_company->title);
-
-        if ($company['trader_price_avail'] == 1 && $company['trader_price_visible'] == 1) {
-            $title = str_replace("__company_title__", $company->title, $meta_text->seo->one_company->title_price_avail);
-        }
-
-        $keywords = $company['title'];
-        $description = mb_substr(strip_tags($company['content']), 0, 200);
-
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description];
     }
-    /* new seo */
 
 
-    /*public function getMetaCompanyContacts($id_company)
-    {
-        $company = CompItems::find($id_company);
-
-        return ['title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
-            'keywords' => $company->title,
-            'description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
-    }*/
-
-
-    /* new seo */
     public function getMetaCompanyContacts($id_company)
     {
-        $meta_text = $this->getMetaText();
         $company = CompItems::find($id_company);
 
-        return ['title' => str_replace("__company_title__", $company->title, $meta_text->seo->company_contacts->title),
-            'keywords' => $company->title,
-            'description' => str_replace("__company_title__", $company->title, $meta_text->seo->company_contacts->description)];
+        return ['meta_title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
     }
-    /* new seo */
 
 
-    /*public function getMetaCompanyReviews($id_company)
-    {
-        $company = CompItems::find($id_company);
-
-        return   ['title' => "Отзывы о {$company->title} на сайте Agrotender",
-            'keywords' => $company->title,
-            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
-    }*/
-
-
-    /* new seo */
     public function getMetaCompanyReviews($id_company)
     {
-        $meta_text = $this->getMetaText();
         $company = CompItems::find($id_company);
 
-        return   ['title' => str_replace("__company_title__", $company->title, $meta_text->seo->company_reviews->title),
-            'keywords' => $company->title,
-            'description' => str_replace("__company_title__", $company->title, $meta_text->seo->company_reviews->description)];
+        return   ['meta_title' => "Отзывы о {$company->title} на сайте Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
     }
-    /* new seo */
 
 
-    public function parseSeoText($region, $str, $rubric)
+    public function parseSeoText($region, $str)
     {
         $obl1 = (!empty($region['name'])) ? $region['name'] . ' область' : 'Украина';
         $obl2 = (!empty($region['parental'])) ?  $region['parental']. ' области' : '';
@@ -326,7 +240,7 @@ class SeoService
         $seostr = str_replace("__cityname__", $city1, $seostr);
         $seostr = str_replace("__cityname2__", $city2, $seostr);
         $seostr = str_replace("__cityname3__", $city3, $seostr);
-        $seostr = str_replace("__rubric_title__", isset($rubric['title']) ? : $rubric['name'], $seostr);
+//        $seostr = str_replace("__rubric_title__", isset($rubric['title']) ? : $rubric['name'], $seostr);
 
         $year = date("Y", time());
 

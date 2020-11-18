@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Banner\BannerRotate;
+use App\Services\SeoService;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -15,7 +16,8 @@ class Controller extends BaseController
 
     public function __construct()
     {
-       $this->setBanners();
+        $this->setBanners();
+        $this->setMeta();
     }
 
     private function setBanners() {
@@ -67,6 +69,14 @@ class Controller extends BaseController
         \View::share('banner_body', $banner_body);
         \View::share('banner_header', $banner_header);
         \View::share('banner_traders', $banner_traders);
+
+    }
+
+    private function setMeta() {
+
+        $meta_text = 'seo';
+
+        \View::share('meta_text', $meta_text);
 
     }
 
