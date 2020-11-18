@@ -74,6 +74,7 @@ class CompanyController extends Controller
         return $name;
     }
 
+
     public function setDataForCompanies($data)
     {
         $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
@@ -114,12 +115,11 @@ class CompanyController extends Controller
 
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
-     */
-
+    * Display a listing of the resource.
+    *
+    * @param  Request  $request
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+    */
     public function companies(Request $request)
     {
         $data_companies =  collect(['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
@@ -185,11 +185,11 @@ class CompanyController extends Controller
 
 
     /**
-     * Display a listing of the resource.
-     * @param  Request  $request
-     * @param $query
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
-     */
+    * Display a listing of the resource.
+    * @param  Request  $request
+    * @param $query
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+    */
     public function companiesFilter(Request $request, $query = null)
     {
         $data_companies = collect(['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null]);
@@ -214,12 +214,13 @@ class CompanyController extends Controller
         }
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id ;
-     *
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id ;
+    *
+    * @return Factory|View
+    */
     public function company($id)
     {
         $this->setCompany($id);
@@ -268,11 +269,12 @@ class CompanyController extends Controller
         ]);
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id
+    * @return Factory|View
+    */
     public function companyForwards($id)
     {
         $this->setCompany($id);
@@ -320,6 +322,7 @@ class CompanyController extends Controller
         ]);
     }
 
+
     public function createReviews(Request $request, $id)
     {
         /** @var Validator $validator */
@@ -361,12 +364,13 @@ class CompanyController extends Controller
         return redirect()->route('company.reviews', ['id_company' => $id]);
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    * Display a listing of the resource.
+    * @param int $id
+    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    * @throws \Illuminate\Validation\ValidationException
+    */
     public function companyReviews(int $id)
     {
         $this->setCompany($id);
@@ -386,11 +390,12 @@ class CompanyController extends Controller
 
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id
+    * @return Factory|View
+    */
     public function companyContact($id)
     {
         $this->setCompany($id);
