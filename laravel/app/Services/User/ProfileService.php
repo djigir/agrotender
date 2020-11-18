@@ -105,6 +105,5 @@ class ProfileService
             $company_names = CompItems::select('title')->where('id', $company_comments[$i]->item_id)->get();
         }
 
-
     }
 }
