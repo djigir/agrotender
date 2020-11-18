@@ -105,7 +105,10 @@ class ProfileService
         foreach ($company_comments as $key => $company_comment) {
             $company_names[] = CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0];
         }
-        dd($company_comments[0]->id);
-        dd($company_comments, $company_names);
+        $comment = [];
+        foreach ($company_comments as $key => $company_comment) {
+            $comment[] = CompCommentLang::where('id', $company_comments[$key]->id)->get()[0];
+        }
+        dd($comment);
     }
 }
