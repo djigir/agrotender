@@ -91,6 +91,7 @@ class CompanyController extends Controller
 
         $companies = $this->companyService->getCompanies(['region' => $data->get('region'), 'rubric' => $rubric_id, 'query' => $data->get('query')]);
         $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
+//        $meta = $this->seoService->getCompaniesMeta(['rubric' => $rubric_id, 'region' => $region_id, 'page' => $companies->currentPage()]);
         $groups = $this->companyService->setRubricsGroup($region_id, $rubric_id);
         $breadcrumbs = $this->breadcrumbService->setBreadcrumbsCompanies(['region' => $region, 'culture_name' => $culture_name,'rubric_id' => $rubric_id]);
 
