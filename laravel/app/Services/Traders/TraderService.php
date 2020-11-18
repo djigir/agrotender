@@ -355,24 +355,22 @@ class TraderService
             ->get();
     }
 
-    public function getTraders($data)
+    public function setCriteriaTraders($data)
     {
-
         $obl_id = null;
         $culture = null;
         $port_id = null;
         $currency = 2;
         $acttype = $data->get('type') != 'forward' ? 0 : 3;
-        $type_place = $data->get('region') != null ? 0 : 2;
 
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
 
-        if($data->get('port')){
+        if ($data->get('port')) {
             $criteria_places[] = ['traders_places.type_id', 2];
         }
 
-        if($data->get('type') == 'forward'){
+        if ($data->get('type') == 'forward') {
             $criteria_prices[0] = ['traders_prices.acttype', 3];
             $criteria_prices[] = ['active', 1];
         }
@@ -394,28 +392,35 @@ class TraderService
         }
 
         if ($data->get('query') && isset($data->get('query')['currency'])) {
-            $currency = (int) $data['query']['currency'];
+            $currency = (int)$data['query']['currency'];
         }
 
         if ($currency != 2) {
             $criteria_prices[] = ['traders_prices.curtype', $currency];
         }
 
+        return collect(['criteria_places' => $criteria_places, 'criteria_prices' => $criteria_prices, 'acttype' => $acttype, 'currency' => $currency]);
+    }
+
+    public function getTraders($data)
+    {
+        $criteria_traders = $this->setCriteriaTraders($data);
+
         $author_ids = TradersPrices::query()
                 ->select('traders_prices.buyer_id')
                 ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
-                ->where($criteria_prices)
-                ->where($criteria_places)
+                ->where($criteria_traders->get('criteria_prices'))
+                ->where($criteria_traders->get('criteria_places'))
                 ->pluck('buyer_id')
             ->toArray();
 
-        $name_relationship = self::NAME_RELATIONSHIP[$currency];
+        $name_relationship = self::NAME_RELATIONSHIP[$criteria_traders->get('currency')];
 
-        $this->groups = $this->setRubrics($criteria_places, $acttype);
+        $this->groups = $this->setRubrics($criteria_traders->get('criteria_places'), $criteria_traders->get('acttype'));
 
         if($data->get('type_view') == 'table' && $data->get('type') != 'forward')
         {
-            return $this->getTradersTable($author_ids, $criteria_prices, $criteria_places);
+            return $this->getTradersTable($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
         }
 
         if($data->get('type_view') == 'card')
@@ -425,7 +430,7 @@ class TraderService
 
         if($data->get('type') == 'forward')
         {
-            return $this->getTradersForward($author_ids, $criteria_prices, $criteria_places);
+            return $this->getTradersForward($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
         }
 
         return [];
