@@ -107,23 +107,21 @@ class SeoService
         $meta_text = $this->getMetaText();
 
         $year = date('Y');
-        $yearsText = $year . '-' . ($year + 1);
 
         $h1 =  "";
-        $title =  $region == 'ukraine' ?  "sss"
-            : "aaa";
-        $keywords = $region == 'ukraine' ?  "sss" : "aaa";
-        $description = $region == 'ukraine' ?  "sss"
-            : "aaa";
+        $title =  $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->title : $this->parseSeoText($region, $meta_text->seo->traders_region->region->title, $culture) . " {$year}";
+        $keywords = $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->keywords : $this->parseSeoText($region, $meta_text->seo->traders_region->region->keywords, $culture);
+        $description = $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->description : $this->parseSeoText($region, $meta_text->seo->traders_region->region->description, $culture);
         $text = '';
 
+        $a = [];
+//        dd($a);
         if ($culture) {
-            $h1 = $region != 'ukraine' ? "Цена {$culture['name']} в {$region['parental']} области" : "Цена {$culture['name']} в Украине";
-            $title = $region != 'ukraine' ? "Цена {$culture['name']} за тонну в {$region['parental']} области сегодня. Закупочные цены трейдеров {$year}" : "Цена {$culture['name']} за тонну в Украине сегодня. Закупочные цены трейдеров {$year}";
-            $keywords = $region != 'ukraine' ? "Цена, стоимость, экспорт, {$culture['name']}, {$region['name']} область" : "Цена, стоимость, экспорт, {$culture['name']}, Украина";
-            $description = $region != 'ukraine' ? "Стоимость {$culture['name']} на портале Agrotender. Продажа {$culture['name']} крупнейшим зернотрейдерам в {$region['parental']} области без посредников за гривну и валюту."
-                : "Стоимость {$culture['name']} на портале Agrotender. Продажа {$culture['name']} крупнейшим зернотрейдерам в Украине без посредников за гривну и валюту.";
-            $text = '';
+            $h1 = "";
+            $title = $region != 'ukraine' ? "not ukr {$year}" : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->title, $culture);
+            $keywords = $region != 'ukraine' ? "not ukr" : $meta_text->seo->traders_region->rubric_ukraine->keywords;
+            $description = $region != 'ukraine' ? "not" : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->description, $culture);
+            $text = "";
         }
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
@@ -328,7 +326,7 @@ class SeoService
         $seostr = str_replace("__cityname__", $city1, $seostr);
         $seostr = str_replace("__cityname2__", $city2, $seostr);
         $seostr = str_replace("__cityname3__", $city3, $seostr);
-        $seostr = str_replace("__rubric_title__", $rubric['title'], $seostr);
+        $seostr = str_replace("__rubric_title__", isset($rubric['title']) ? : $rubric['name'], $seostr);
 
         $year = date("Y", time());
 
