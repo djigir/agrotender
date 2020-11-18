@@ -99,6 +99,7 @@ class SeoService
     }
     /* new seo */
 
+    /* new seo */
     public function getTradersMetaRegion($region, $culture)
     {
         if(empty($region)){
@@ -114,18 +115,17 @@ class SeoService
         $description = $region == 'ukraine' ?  $meta_text->seo->traders_region->ukraine->description : $this->parseSeoText($region, $meta_text->seo->traders_region->region->description, $culture);
         $text = '';
 
-        $a = [];
-//        dd($a);
         if ($culture) {
             $h1 = "";
-            $title = $region != 'ukraine' ? "not ukr {$year}" : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->title, $culture);
-            $keywords = $region != 'ukraine' ? "not ukr" : $meta_text->seo->traders_region->rubric_ukraine->keywords;
-            $description = $region != 'ukraine' ? "not" : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->description, $culture);
+            $title = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->title, $culture) : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->title, $culture);
+            $keywords = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->keywords, $culture) : $meta_text->seo->traders_region->rubric_ukraine->keywords;
+            $description = $region != 'ukraine' ? $this->parseSeoText($region, $meta_text->seo->traders_region->region_rubric->description, $culture) : $this->parseSeoText($region, $meta_text->seo->traders_region->rubric_ukraine->description, $culture);
             $text = "";
         }
 
         return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
     }
+    /* new seo */
 
     public function getTradersMetaPort($port, $culture)
     {

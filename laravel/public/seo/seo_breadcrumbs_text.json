@@ -62,9 +62,9 @@
             },
 
             "region_rubric" : {
-                "title" : "Цена __rubric_title__ за тонну в __oblname2__ области сегодня. Закупочные цены трейдеров ",
-                "keywords" : "Цена, стоимость, экспорт, __rubric_title__, __oblname2__ область",
-                "description" : "Стоимость __rubric_title__ на портале Agrotender. Продажа __rubric_title__ крупнейшим зернотрейдерам в __oblname2__ области без посредников за гривну и валюту."
+                "title" : "Цена __rubric_title__ за тонну в __oblname2__ сегодня. Закупочные цены трейдеров __year__",
+                "keywords" : "Цена, стоимость, экспорт, __rubric_title__, __oblname__",
+                "description" : "Стоимость __rubric_title__ на портале Agrotender. Продажа __rubric_title__ крупнейшим зернотрейдерам в __oblname2__ без посредников за гривну и валюту."
             }
         },
 
