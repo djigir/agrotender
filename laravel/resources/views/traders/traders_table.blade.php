@@ -40,12 +40,12 @@
                                     @if($trader->curtype == 0)
                                         <div class="d-flex align-items-center justify-content-center">
                                             <span class="price">{{round($trader->costval, 1)}}</span>
-                                            {{-- @if($trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price'] != 0)--}}
-                                            {{--     <span class="price-up">  &nbsp;--}}
-                                            {{--             <img src="/app/assets/img/price-{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
-                                            {{--             <span>{{$trader->price_group[$place->id][0][$place->pivot->cult_id][0]['change_price']}}</span>--}}
-                                            {{--    </span>--}}
-                                            {{-- @endif--}}
+                                             @if($trader->change_price != 0)
+                                                 <span class="price-up">  &nbsp;
+                                                         <img src="/app/assets/img/price-{{$trader->change_price_type}}.svg">
+                                                         <span>{{$trader->change_price}}</span>
+                                                </span>
+                                             @endif
                                         </div>
                                     @endif
                                 </td>
@@ -57,12 +57,12 @@
                                             @else
                                                 <span class="price">{{round($trader->costval, 1)}}</span>
                                             @endif
-                                            {{--@if($trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price'] != 0)--}}
-                                            {{--    <span class="price-up">  &nbsp;--}}
-                                            {{--            <img src="/app/assets/img/price-{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price_type']}}.svg">--}}
-                                            {{--            <span>{{$trader->price_group[$place->id][1][$place->pivot->cult_id][0]['change_price']}}</span>--}}
-                                            {{--        </span>--}}
-                                            {{--@endif--}}
+                                            @if(isset($trader->change_price_usd) && $trader->change_price_usd != 0)
+                                                <span class="price-up">  &nbsp;
+                                                        <img src="/app/assets/img/price-{{ $trader->change_price_type_usd}}.svg">
+                                                        <span>{{$trader->change_price_usd}}</span>
+                                                    </span>
+                                            @endif
                                         </div>
                                     @endif
                                 </td>
@@ -79,7 +79,7 @@
                                     @if($type_place == 0)
                                         <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
                                     @else
-                                        <span class="location">{{$trader->portname}}</span>
+                                        <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
                                     @endif
                                     <br>
                                     <span class="place">{!! $trader->place !!}</span>

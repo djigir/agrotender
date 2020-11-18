@@ -158,9 +158,10 @@ class TraderService
 
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
 
+
         $group_items = \DB::table('traders_prices')
-            ->select(['traders_prices.cult_id',\DB::raw('count(distinct agt_traders_prices.buyer_id) as count_item')])
-            ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+            ->select(['traders_prices.cult_id', \DB::raw('count(distinct agt_traders_prices.buyer_id) as count_item')])
+            ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('comp_items', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->where($criteria_places)
             ->where([
@@ -242,6 +243,8 @@ class TraderService
                 \DB::raw('regions.name as region')
             )->get();
 
+        $date_expired_diff = Carbon::now()->subDays(7)->format('Y-m-d');
+
         foreach ($traders as $index => $trader)
         {
             if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
@@ -254,13 +257,37 @@ class TraderService
                 if(isset($key_uah[0])){
                     $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
                     $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
-
                 }
 
                 if(isset($key_usd[0])){
                     unset($traders[$key_usd[0]]);
                 }
             }
+
+            if(isset($traders[$index]))
+            {
+                $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
+                $traders[$index]['change_price'] = $change;
+
+                $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
+
+                if(!$traders[$index]->change_date || !$change){
+                    $traders[$index]['change_price_type'] = '';
+                }
+
+                if(isset($traders[$index]['costval_usd']))
+                {
+                    $change_usd = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+                    $traders[$index]['change_price_usd'] = $change_usd;
+
+                    if(!$traders[$index]->change_date || !$change_usd){
+                        $traders[$index]['change_price_type_usd'] = '';
+                    }
+
+                    $traders[$index]['change_price_type_usd'] = $change_usd > 0 ? 'up' : 'down';
+                }
+            }
+
         }
 
         return $traders;
@@ -292,6 +319,7 @@ class TraderService
     */
     public function getTradersForward($author_ids, $criteria_prices, $criteria_places)
     {
+        //dd($criteria_places);
         $forward_months = $this->baseService->getForwardsMonths();
 
         return $this->treders->whereIn('author_id', $author_ids)
@@ -307,10 +335,12 @@ class TraderService
                 })
             ->where($criteria_prices)
             ->where($criteria_places)
-            ->where('traders_prices.dt', '>=', $forward_months)
+            ->whereDate('traders_prices.dt', '>=', $forward_months)
             ->where('traders_places.type_id', '!=', 1)
+            ->where('traders_places.port_id', '!=', 0)
             ->orderBy('comp_items.trader_premium_forward', 'desc')
             ->orderBy('comp_items.rate_formula', 'desc')
+            ->orderBy('comp_items.trader_sort_forward')
             ->orderBy('comp_items.title')
             ->orderBy('traders_prices.dt')
             ->select('comp_items.id', 'comp_items.title',
@@ -319,8 +349,8 @@ class TraderService
                 'traders_prices.place_id', 'traders_prices.costval',
                 'traders_prices.costval_old', 'traders_prices.comment',
                 'traders_prices.curtype', 'traders_prices.dt',
-                'traders_prices.change_date', 'traders_places.port_id',
-                'traders_places.place','traders_places.type_id',
+                'traders_places.port_id', 'traders_places.place',
+                'traders_places.type_id', 'traders_places.port_id',
                 \DB::raw('regions.name as region'))
             ->get();
     }
@@ -337,6 +367,10 @@ class TraderService
 
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
+
+        if($data->get('port')){
+            $criteria_places[] = ['traders_places.type_id', 2];
+        }
 
         if($data->get('type') == 'forward'){
             $criteria_prices[0] = ['traders_prices.acttype', 3];
