@@ -317,7 +317,6 @@ class TraderService
     */
     public function getTradersForward($author_ids, $criteria_prices, $criteria_places)
     {
-        //dd($criteria_places);
         $forward_months = $this->baseService->getForwardsMonths();
 
         return $this->treders->whereIn('author_id', $author_ids)
@@ -413,6 +412,10 @@ class TraderService
             ->toArray();
 
         $name_relationship = self::NAME_RELATIONSHIP[$criteria_traders->get('currency')];
+
+        if($data->get('type') == 'forward'){
+            $name_relationship = $name_relationship.'_forward';
+        }
 
         $this->groups = $this->setRubrics($criteria_traders->get('criteria_places'), $criteria_traders->get('acttype'));
 

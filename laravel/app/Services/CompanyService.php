@@ -67,11 +67,10 @@ class CompanyService
 
     public function getPricesForwards($author_id, $type, $dtStart, $placeType)
     {
-         $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
-            ->with(['traders_places' => function($query) use($placeType){
+        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+            ->with(['traders_places' => function ($query) use ($placeType) {
                 $query->where('type_id', $placeType)->with('traders_ports', 'regions');
-            }])
-            ->get();
+            }])->get();
 
         return $prices->sortBy('cultures.0.name');
     }
@@ -150,7 +149,6 @@ class CompanyService
         $check_curtype = [];
         $place_id = [];
         $sortBy = self::SORT_BY[$placeType];
-
 
         $prices = TradersPrices::where([
             'acttype' => $type,

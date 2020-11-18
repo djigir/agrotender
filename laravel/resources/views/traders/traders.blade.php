@@ -55,13 +55,13 @@
                                                 <span class="right">
                                                   <span
                                                       class="traders__item__content-p-price ">{{$price_culture->curtype == 1 ? '$ ' : ''}}{{ round($price_culture->costval, 1) }}</span>
-                                                  <span class="traders__item__content-p-icon">
-{{--                                                      @if(isset($trader->culture_prices->change_price) && $trader->culture_prices->change_price == 0)--}}
+{{--                                                  <span class="traders__item__content-p-icon">--}}
+{{--                                                      @if(!isset($trader->culture_prices->change_price))--}}
 {{--                                                          <img src="/app/assets/img/price-not-changed.svg">--}}
-{{--                                                      @else--}}
-{{--                                                          <img src="/app/assets/img/price-{{$trader->culture_prices['change_price_type']}}.svg">&nbsp;--}}
+{{--                                                      @elseif(isset($trader->culture_prices->change_price))--}}
+{{--                                                          <img src="/app/assets/img/price-{{$trader->culture_prices->change_price_type}}.svg">&nbsp;--}}
 {{--                                                      @endif--}}
-                                                  </span>
+{{--                                                  </span>--}}
                                                 </span>
                                             </p>
                                         </div>
