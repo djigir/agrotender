@@ -58,7 +58,6 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
-        $rubrics = $this->traderService->getRubricsGroup();
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
@@ -116,7 +115,7 @@ class TraderController extends Controller
         ];
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
-
+        $rubrics = $this->traderService->getRubricsGroup();
 
         return view('traders.traders', [
             'regions' => $regions,
