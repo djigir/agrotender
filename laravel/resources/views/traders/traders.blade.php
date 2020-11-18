@@ -67,49 +67,49 @@
                                         </div>
                                     @endforeach
                                 @else
-                                @if($port)
-                                    @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
-                                        <div class="traders__item__content-description">
-                                            <p class="traders__item__content-p">
-                                                 <span class="traders__item__content-p-title">
-                                                     @if(isset($place['port'][0]))
-                                                            {{ $place['port'][0]['lang']['portname']}}
-                                                     @endif
-                                                 </span>
-                                                 <span class="right">
-                                                   <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
+{{--                                @if($port)--}}
+{{--                                    @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)--}}
+{{--                                        <div class="traders__item__content-description">--}}
+{{--                                            <p class="traders__item__content-p">--}}
+{{--                                                 <span class="traders__item__content-p-title">--}}
+{{--                                                     @if(isset($place['port'][0]))--}}
+{{--                                                            {{ $place['port'][0]['lang']['portname']}}--}}
+{{--                                                     @endif--}}
+{{--                                                 </span>--}}
+{{--                                                 <span class="right">--}}
+{{--                                                   <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>--}}
 {{--                                                    @if($trader->culture_prices->change_price == 0)--}}
 {{--                                                         <img src="/app/assets/img/price-not-changed.svg">--}}
 {{--                                                    @else--}}
 {{--                                                         <img src="/app/assets/img/price-{{$trader->culture_prices->change_price_type}}.svg">&nbsp;--}}
 {{--                                                    @endif--}}
-                                                 </span>
-                                            </p>
-                                        </div>
-                                    @endforeach
-                                @endif
-                                    @if($region)
-                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
-                                            <div class="traders__item__content-description">
-                                                <p class="traders__item__content-p">
-                                                    <span class="traders__item__content-p-title">
-                                                        {{  $place->region['name'].' обл.' }}
-                                                    </span>
-                                                    <span class="right">
-                                                       <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
+{{--                                                 </span>--}}
+{{--                                            </p>--}}
+{{--                                        </div>--}}
+{{--                                    @endforeach--}}
+{{--                                @endif--}}
+{{--                                    @if($region)--}}
+{{--                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)--}}
+{{--                                            <div class="traders__item__content-description">--}}
+{{--                                                <p class="traders__item__content-p">--}}
+{{--                                                    <span class="traders__item__content-p-title">--}}
+{{--                                                        {{  $place->region['name'].' обл.' }}--}}
+{{--                                                    </span>--}}
+{{--                                                    <span class="right">--}}
+{{--                                                       <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>--}}
 {{--                                                        @if($trader->culture_prices->change_price == 0)--}}
 {{--                                                            <img src="/app/assets/img/price-not-changed.svg">--}}
 {{--                                                        @else--}}
 {{--                                                            <img src="/app/assets/img/price-{{$trader->culture_prices->change_price_type}}.svg">&nbsp;--}}
 {{--                                                        @endif--}}
-                                                     </span>
-                                                </p>
-                                            </div>
-                                        @endforeach
-                                    @endif
+{{--                                                     </span>--}}
+{{--                                                </p>--}}
+{{--                                            </div>--}}
+{{--                                        @endforeach--}}
+{{--                                    @endif--}}
                                 @endif
                                 <div class="traders__item__content-date">
-                                    <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">{{mb_convert_case($trader['date_price']->format('d F'), MB_CASE_TITLE, "UTF-8")}}</span>
+                                    <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">{{mb_convert_case(\Date::parse($trader->culture_prices[0]->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}</span>
                                 </div>
                             </div>
                         </a>

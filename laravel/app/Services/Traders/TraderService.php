@@ -22,6 +22,12 @@ use Illuminate\Http\Request;
 
 class TraderService
 {
+    const NAME_RELATIONSHIP = [
+        0 => 'traders_prices_traders_uah',
+        1 => 'traders_prices_traders_usd',
+        2 => 'traders_prices_traders',
+    ];
+
     protected $companyService;
     protected $baseService;
     protected $breadcrumbService;
@@ -89,7 +95,7 @@ class TraderService
             $type_traders = 2;
         }
 
-        $traders = $this->getTradersRegionPortCulture($data);
+        $traders = $this->getTraders($data);
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
     }
@@ -148,6 +154,8 @@ class TraderService
 
     public function setRubrics($criteria_places, $acttype)
     {
+        $type = $acttype == 0  ? '' : '_forward';
+
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
 
         $group_items = \DB::table('traders_prices')
@@ -157,9 +165,9 @@ class TraderService
             ->where($criteria_places)
             ->where([
                 'traders_prices.acttype' => $acttype,
-                'active' => 1,
-                'comp_items.trader_price_avail' => 1,
-                'comp_items.trader_price_visible' => 1,
+                'traders_prices.active' => 1,
+                "comp_items.trader_price{$type}_avail" => 1,
+                "comp_items.trader_price{$type}_visible" => 1,
                 'comp_items.visible' => 1
             ])
             ->groupBy('cult_id')
@@ -192,66 +200,119 @@ class TraderService
     public function InitQuery($data)
     {
         $type = $data['type'] != '' ? '_'.$data['type'] : '';
+
         $this->treders = CompItems::with('activities')->where([
-            ["trader_price{$type}_avail", 1], ["trader_price{$type}_visible", 1], ["visible", 1]
+            "trader_price{$type}_avail" => 1,
+            "trader_price{$type}_visible" => 1,
+            "visible" => 1
         ]);
     }
 
-    private function checkNameRelationship($currency)
-    {
-        $name = 'traders_prices_traders';
 
-        if($currency == 0)
-        {
-            $name = 'traders_prices_traders_uah';
-        }
-
-        if($currency == 1)
-        {
-            $name = 'traders_prices_traders_usd';
-        }
-
-        return $name;
-    }
-
-    public function getTradersRegionPortCulture($data)
+    public function getTradersTable($author_ids, $criteria_prices, $criteria_places)
     {
         /** @var Builder $traders */
-        $traders = $this->treders;
 
+        $traders = $this->treders->whereIn('author_id', $author_ids)
+            ->leftJoin('traders_prices', 'comp_items.author_id',    '=', 'traders_prices.buyer_id')
+            ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
+            ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
+            ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
+            ->where($criteria_prices)
+            ->where($criteria_places)
+            ->orderBy('comp_items.trader_premium', 'desc')
+            ->orderBy('traders_prices.change_date', 'desc')
+            ->orderBy('comp_items.rate_formula', 'desc')
+            ->orderBy('comp_items.trader_sort')
+            ->orderBy('comp_items.title')
+            ->orderBy('traders_prices.dt')
+            ->select('comp_items.id', 'comp_items.title',
+                'comp_items.logo_file', 'comp_items.author_id',
+                'comp_items.trader_premium', 'traders_prices.cult_id',
+                'traders_prices.place_id', 'traders_prices.costval',
+                'traders_prices.costval_old', 'traders_prices.comment',
+                'traders_prices.curtype', 'traders_prices.dt',
+                'traders_prices.change_date', 'traders_places.port_id',
+                'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
+                \DB::raw('regions.name as region')
+            )->get();
+
+        foreach ($traders as $index => $trader)
+        {
+            if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
+            {
+                $where_place_id = $traders->where('place_id', $trader->place_id);
+
+                $key_uah = $where_place_id->where('curtype', 0)->keys();
+                $key_usd = $where_place_id->where('curtype', 1)->keys();
+
+                if(isset($key_uah[0])){
+                    $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
+                    $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
+
+                }
+
+                if(isset($key_usd[0])){
+                    unset($traders[$key_usd[0]]);
+                }
+            }
+        }
+
+        return $traders;
+    }
+
+    public function getTradersCard($name_relationship, $author_ids)
+    {
+        return $this->treders->with($name_relationship)
+            ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
+            ->whereIn('author_id', $author_ids)
+            ->orderBy('trader_premium', 'desc')
+            ->orderBy('trader_sort')
+            ->orderBy('rate_formula', 'desc')
+            ->orderBy('title')
+            ->get();
+    }
+
+    public function getTradersForward()
+    {
+        $traders = $this->treders;
+        return $traders;
+    }
+
+    public function getTraders($data)
+    {
         $obl_id = null;
         $culture = null;
         $port_id = null;
         $currency = 2;
-        $acttype = $data['type'] != 'forward' ? 0 : 3;
-        $type_place = $data['region'] != null ? 0 : 2;
+        $acttype = $data->get('type') != 'forward' ? 0 : 3;
+        $type_place = $data->get('region') != null ? 0 : 2;
 
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
 
-        if($data['type'] == 'forward'){
+        if($data->get('type') == 'forward'){
             $criteria_prices[0] = ['traders_prices.acttype', 3];
             $criteria_prices[] = ['active', 1];
         }
 
-        if ($data['port'] && $data['port'] != 'all') {
-            $port_id = TradersPorts::where('url',
-                $data['port'])->value('id');
+        if ($data->get('port') && $data->get('port') != 'all') {
+            $port_id = TradersPorts::where('url', $data->get('port'))->value('id');
             $criteria_places[] = ['traders_places.port_id', $port_id];
             $criteria_places[] = ['traders_places.port_id', '!=', 0];
         }
 
-        if ($data['region'] && $data['region'] != 'ukraine') {
-            $obl_id = Regions::where('translit', $data['region'])->value('id');
+        if ($data->get('region') && $data->get('region') != 'ukraine') {
+            $obl_id = Regions::where('translit', $data->get('region'))->value('id');
             $criteria_places[] = ['traders_places.obl_id', $obl_id];
         }
 
-        if ($data['culture']) {
-            $culture = TradersProducts::where('url', $data['culture'])->value('id');
+        if ($data->get('culture')) {
+            $culture = TradersProducts::where('url', $data->get('culture'))->value('id');
             $criteria_prices[] = ['traders_prices.cult_id', $culture];
         }
 
-        if ($data['query'] && isset($data['query']['currency'])) {
+        if ($data->get('query') && isset($data->get('query')['currency'])) {
             $currency = (int) $data['query']['currency'];
         }
 
@@ -267,69 +328,25 @@ class TraderService
                 ->pluck('buyer_id')
             ->toArray();
 
-        $name_relationship = $this->checkNameRelationship($currency);
-
-//        if ($culture != null) {
-//            $traders = $traders->with(['traders_places' => function ($query) use ($obl_id, $port_id, $type_place, $currency, $culture) {
-//                $query->place($obl_id, $port_id, $type_place);
-//                if ($currency != 2) {
-//                    $query->wherePivot('curtype', $currency);
-//                }
-//                if ($culture != null) {
-//                    $query->wherePivot('cult_id', $culture);
-//                }
-//            }]);
-//        }
-
-        if ($culture) {
-            $traders = $this->treders->whereIn('author_id', $author_ids)
-                ->leftJoin('traders_prices', 'comp_items.author_id',    '=', 'traders_prices.buyer_id')
-                ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
-                ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
-                ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
-                ->where($criteria_prices)
-                ->where($criteria_places)
-                ->orderBy('comp_items.trader_premium', 'desc')
-                ->orderBy('traders_prices.change_date', 'desc')
-                ->orderBy('comp_items.rate_formula', 'desc')
-                ->orderBy('comp_items.trader_sort')
-                ->orderBy('comp_items.title')
-                ->orderBy('traders_prices.dt')
-                ->select('comp_items.id', 'comp_items.title',
-                    'comp_items.logo_file', 'comp_items.author_id',
-                    'comp_items.trader_premium', 'traders_prices.cult_id',
-                    'traders_prices.place_id', 'traders_prices.costval',
-                    'traders_prices.costval_old', 'traders_prices.comment',
-                    'traders_prices.curtype', 'traders_prices.dt',
-                    'traders_prices.change_date', 'traders_places.port_id',
-                    'traders_places.place', 'traders_ports_lang.portname',
-                    \DB::raw('regions.name as region')
-                )->get();
-
-            foreach ($traders as $index => $trader) {
-                if($traders->where('place_id',$trader->place_id)->count() > 1)
-                {
-                    $where_place_id = $traders->where('place_id',$trader->place_id)->chunk(1);
-                    $traders[$index]['costval_usd'] = $where_place_id[1]->first()->costval;
-                    $traders[$index]['costval_old_usd'] = $where_place_id[1]->first()->costval_old;
-                    unset($traders[$where_place_id[1]->keys()[0]]);
-                }
-            }
-
-        }else{
-            $traders = $traders->with($name_relationship)
-                ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
-                ->whereIn('author_id', $author_ids)
-                ->orderBy('trader_premium', 'desc')
-                ->orderBy('trader_sort')
-                ->orderBy('rate_formula', 'desc')
-                ->orderBy('title')
-                ->get();
-        }
-
+        $name_relationship = self::NAME_RELATIONSHIP[$currency];
 
         $this->groups = $this->setRubrics($criteria_places, $acttype);
 
-        return $traders;
+        if($data->get('type_view') == 'table')
+        {
+            return $this->getTradersTable($author_ids, $criteria_prices, $criteria_places);
+        }
+
+        if($data->get('type_view') == 'card')
+        {
+            return $this->getTradersCard($name_relationship, $author_ids);
+        }
+
+        if($data->get('type') == 'forward')
+        {
+            return $this->getTradersForward();
+        }
+
+        return [];
     }
 }

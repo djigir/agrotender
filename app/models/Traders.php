@@ -862,6 +862,7 @@ class Traders extends \Core\Model {
     }
 
     public function getTableList($rubric, $type = null, $region = null, $port = null, $onlyPorts = false, $currency = null) {
+
         $typeInt         = ($type == 'buy') ? 0 : 1;
         $type            = ($type == 'buy') ? "" : "_sell";
         $currencySql     = ($currency !== null) ? "&& tpr.curtype = $currency" : "";
