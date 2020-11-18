@@ -39,13 +39,12 @@
                             <td class="uah">
                                 @if($trader->curtype == 0)
                                     <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($trader->costval, 1)}}</span>
                                          @if($trader->change_price != 0)
                                              <span class="price-{{$trader->change_price_type}}">  &nbsp;
                                                 <img src="/app/assets/img/price-{{$trader->change_price_type}}.svg">
                                                 <span>{{$trader->change_price}}</span>
                                             </span>
-                                         @else
-                                            <span class="price">{{round($trader->costval, 1)}}</span>
                                          @endif
                                     </div>
                                 @endif
