@@ -130,6 +130,7 @@ class TraderController extends Controller
             'culture_translit' => $data->get('culture'),
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'forward_months' => $forward_months,
             'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
             'currency' => $currency,
             'culture_id' => $culture_id,

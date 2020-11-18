@@ -296,16 +296,57 @@ class TraderService
     * @param $name_relationship
     * @return Builder
     */
-    public function getTradersCard($name_relationship, $author_ids)
+    public function getTradersCard($author_ids, $criteria_prices, $criteria_places)
     {
-        return $this->treders->with($name_relationship)
-            ->select('title', 'author_id', 'id', 'trader_premium', 'trader_sort', 'rate_formula')
-            ->whereIn('author_id', $author_ids)
-            ->orderBy('trader_premium', 'desc')
-            ->orderBy('trader_sort')
-            ->orderBy('rate_formula', 'desc')
-            ->orderBy('title')
+        $traders = $this->treders->whereIn('author_id', $author_ids)
+            ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
+            ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
+            ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
+            ->where($criteria_prices)
+            ->where($criteria_places)
+            ->orderBy('comp_items.trader_premium', 'desc')
+            ->orderBy('traders_prices.change_date', 'desc')
+            ->orderBy('comp_items.trader_sort')
+            ->orderBy('comp_items.rate_formula', 'desc')
+            ->orderBy('comp_items.title')
+            ->select('comp_items.title', 'comp_items.author_id',
+                'comp_items.logo_file', 'comp_items.id',
+                'comp_items.trader_premium', 'comp_items.trader_sort',
+                'comp_items.rate_formula', 'traders_prices.cult_id',
+                'traders_prices.place_id', 'traders_prices.change_date',
+                'traders_prices.dt', 'traders_products_lang.name as culture'
+            )
+            ->groupBy('comp_items.id')
             ->get();
+
+        $prices = TradersPrices::leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
+            ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
+            ->where($criteria_prices)
+            ->where($criteria_places)
+            ->orderBy('traders_prices.change_date', 'desc')
+            ->select('traders_prices.buyer_id', 'traders_prices.cult_id', 'traders_prices.curtype',
+            'traders_prices.change_date',
+            'traders_prices.dt',
+            'traders_prices.costval',
+            'traders_prices.costval_old',
+            'traders_prices.curtype',
+            'traders_prices.comment',
+            'traders_places.place',
+            'traders_products_lang.name',
+            'traders_places.obl_id',
+            'traders_places.port_id',
+            'traders_places.type_id')
+            ->get();
+
+        foreach ($traders as $index => $trader)
+        {
+            if($prices->where('buyer_id', $trader['author_id'])->count() > 0)
+            {
+                $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('cult_id')->take(3);
+            }
+        }
+
+        return $traders;
     }
 
 
@@ -360,6 +401,7 @@ class TraderService
         $currency = 2;
         $acttype = $data->get('type') != 'forward' ? 0 : 3;
 
+
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
 
@@ -396,7 +438,14 @@ class TraderService
             $criteria_prices[] = ['traders_prices.curtype', $currency];
         }
 
-        return collect(['criteria_places' => $criteria_places, 'criteria_prices' => $criteria_prices, 'acttype' => $acttype, 'currency' => $currency]);
+        return collect([
+            'criteria_places' => $criteria_places,
+            'criteria_prices' => $criteria_prices,
+            'acttype' => $acttype,
+            'currency' => $currency,
+            'port_id' => $port_id,
+            'obl_id' => $obl_id,
+        ]);
     }
 
     public function getTraders($data)
@@ -426,7 +475,7 @@ class TraderService
 
         if($data->get('type_view') == 'card')
         {
-            return $this->getTradersCard($name_relationship, $author_ids);
+            return $this->getTradersCard($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
         }
 
         if($data->get('type') == 'forward')
