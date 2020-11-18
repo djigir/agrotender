@@ -102,8 +102,9 @@ class ProfileService
         $company_comments = CompComment::where('author_id', \auth()->user()->user_id)->get();
         $company_names = [];
         for ($i = 0; $i < count($company_comments); $i++){
-            $company_names = CompItems::select('title')->where('id', $company_comments[$i]->item_id)->get();
+            $company_names[] = CompItems::select('title')->where('id', $company_comments[$i]->item_id)->get();
         }
 
+        dd($company_names);
     }
 }
