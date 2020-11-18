@@ -11,6 +11,7 @@ use App\Models\Comp\CompTopicItem;
 use App\Models\Users\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -101,14 +102,21 @@ class ProfileService
     public function getUserReviews()
     {
         $company_comments = CompComment::where('author_id', \auth()->user()->user_id)->get();
-        $company_names = [];
+
+        $company_names = collect();
+
         foreach ($company_comments as $key => $company_comment) {
-            $company_names[] = CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0];
+            $company_names->add(CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0]);
         }
-        $comment = [];
+
+        $comments = collect();
         foreach ($company_comments as $key => $company_comment) {
-            $comment[] = CompCommentLang::where('id', $company_comments[$key]->id)->get()[0];
+            $comments->add(CompCommentLang::where('id', $company_comments[$key]->id)->get()[0]);
         }
-        dd($comment);
+
+        $reviews = new Collection;
+        $reviews->push($company_comments)->push($company_names)->push($comments);
+
+        return $reviews;
     }
 }

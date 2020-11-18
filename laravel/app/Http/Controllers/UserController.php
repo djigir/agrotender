@@ -154,8 +154,7 @@ class UserController extends Controller
     //М-д для страницы профиля (отзывы)
     public function profileReviews()
     {
-        $a = $this->profileService->getUserReviews();
-        dd($a);
+        $review = $this->profileService->getUserReviews();
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[3],
