@@ -29,62 +29,63 @@
                     </thead>
                     <tbody>
                     @foreach($traders as $index => $trader)
-                            <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
-                                <td>
-                                    <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                        <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                                        <span class="title">{!! $trader->title !!}</span>
-                                    </a>
-                                </td>
-                                <td class="uah">
-                                    @if($trader->curtype == 0)
-                                        <div class="d-flex align-items-center justify-content-center">
+                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
+                            <td>
+                                <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                    <span class="title">{!! $trader->title !!}</span>
+                                </a>
+                            </td>
+                            <td class="uah">
+                                @if($trader->curtype == 0)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                         @if($trader->change_price != 0)
+                                             <span class="price-{{$trader->change_price_type}}">  &nbsp;
+                                                <img src="/app/assets/img/price-{{$trader->change_price_type}}.svg">
+                                                <span>{{$trader->change_price}}</span>
+                                            </span>
+                                         @else
                                             <span class="price">{{round($trader->costval, 1)}}</span>
-                                             @if($trader->change_price != 0)
-                                                 <span class="price-up">  &nbsp;
-                                                         <img src="/app/assets/img/price-{{$trader->change_price_type}}.svg">
-                                                         <span>{{$trader->change_price}}</span>
-                                                </span>
-                                             @endif
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="usd">
-                                    @if($trader->curtype == 1 || isset($trader->costval_usd))
-                                        <div class="d-flex align-items-center justify-content-center">
-                                            @if(isset($trader->costval_usd))
-                                                <span class="price">{{round($trader->costval_usd, 1)}}</span>
-                                            @else
-                                                <span class="price">{{round($trader->costval, 1)}}</span>
-                                            @endif
-                                            @if(isset($trader->change_price_usd) && $trader->change_price_usd != 0)
-                                                <span class="price-up">  &nbsp;
-                                                        <img src="/app/assets/img/price-{{ $trader->change_price_type_usd}}.svg">
-                                                        <span>{{$trader->change_price_usd}}</span>
-                                                    </span>
-                                            @endif
-                                        </div>
-                                    @endif
-                                </td>
-                                <td data-sorttable-customkey="20201101">
-                            <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                                @if($type_traders == 1)
-                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
-                                @else
-                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                         @endif
+                                    </div>
                                 @endif
-                            </span>
-                                </td>
-                                <td>
-                                    @if($type_place == 0)
-                                        <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
-                                    @else
-                                        <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
-                                    @endif
-                                    <br>
-                                    <span class="place">{!! $trader->place !!}</span>
-                                </td>
-                            </tr>
+                            </td>
+                            <td class="usd">
+                                @if($trader->curtype == 1 || isset($trader->costval_usd))
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        @if(isset($trader->costval_usd))
+                                            <span class="price">{{round($trader->costval_usd, 1)}}</span>
+                                        @else
+                                            <span class="price">{{round($trader->costval, 1)}}</span>
+                                        @endif
+                                        @if(isset($trader->change_price_usd) && $trader->change_price_usd != 0)
+                                            <span class="price-{{ $trader->change_price_type_usd}}">  &nbsp;
+                                                <img src="/app/assets/img/price-{{ $trader->change_price_type_usd}}.svg">
+                                                <span>{{$trader->change_price_usd}}</span>
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+                            </td>
+                            <td data-sorttable-customkey="20201101">
+                        <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
+                            @if($type_traders == 1)
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
+                            @else
+                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                            @endif
+                        </span>
+                            </td>
+                            <td>
+                                @if($type_place == 0)
+                                    <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                @else
+                                    <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                @endif
+                                <br>
+                                <span class="place">{!! $trader->place !!}</span>
+                            </td>
+                        </tr>
                     @endforeach
                     </tbody>
                 </table>
@@ -92,18 +93,52 @@
         @else
             <table class="sortTable sortable">
                 <tbody>
-                @foreach($traders as $index_tr => $trader)
-                    @foreach($trader->places as $index => $place)
+                    @foreach($traders as $index => $trader)
                         <tr class="{{$trader->trader_premium == 1 ? 'vip': ''}}">
                             <td>
                                 <div class="d-flex align-items-center price-div">
                                     <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
                                     <a class="flex-1" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                    <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
-                                        <span class="price">
-                                            {{round($place->pivot->costval, 1)}}
+                                        @if($trader->curtype == 0)
+                                        <span class="m-price">
+                                                UAH:
+                                                @if($trader->change_price != 0)
+                                                    <span class="price-{{$trader->change_price_type}}">{{round($trader->costval, 1)}}  &nbsp;
+                                                        <i class="fas fa-chevron-{{$trader->change_price_type}}"></i>{{$trader->change_price}}
+                                                    </span>
+                                                @else
+                                                    <span class="price">
+                                                        {{round($trader->costval, 1)}}
+                                                    </span>
+                                                @endif
                                         </span>
-                                    </span>
+                                        @endif
+
+                                        @if($trader->curtype == 1 || isset($trader->costval_usd))
+                                            <span>
+                                                USD:
+                                                @if(isset($trader->costval_usd))
+                                                    @if($trader->change_price != 0)
+                                                        <span class="price-{{$trader->change_price_type_usd}}">{{round($trader->costval_usd, 1)}}  &nbsp;
+                                                            <i class="fas fa-chevron-{{$trader->change_price_type_usd}}"></i>{{$trader->change_price_usd}}
+                                                        </span>
+                                                    @else
+                                                        <span class="price">{{round($trader->costval_usd, 1)}}</span>
+                                                    @endif
+
+                                                @else
+                                                    @if($trader->change_price != 0)
+                                                        <span class="price-{{$trader->change_price_type}}">{{round($trader->costval, 1)}}  &nbsp;
+                                                            <i class="fas fa-chevron-{{$trader->change_price_type}}"></i>{{$trader->change_price}}
+                                                        </span>
+                                                    @else
+                                                        <span class="price">{{round($trader->costval, 1)}}</span>
+                                                    @endif
+                                                @endif
+
+                                            </span>
+                                        @endif
+
                                     </a>
                                 </div>
                             </td>
@@ -112,22 +147,20 @@
                             <td style="border-bottom: 1px solid #295ca1;">
                                 <div class="d-flex align-items-center justify-content-center">
                                 <span data-toggle="tooltip" data-placement="top" class="d-block">
-                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('d.m.Y'), MB_CASE_TITLE, "UTF-8")}}
                                 </span>
                                     <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="d-block flex-1">
                                         @if($type_place == 0)
-                                            <span class="location d-block">{{isset($place['traders_ports'][0]) ? $place['traders_ports'][0]['lang']['portname'] : $place['regions'][0]['name'].' обл.'}}</span>
+                                            <span class="location d-block">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
                                         @else
-                                            <span class="location d-block">{{$place['traders_ports'][0]['lang']['portname']}}</span>
+                                            <span class="location d-block">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
                                         @endif
-                                        <span class="place d-block">{!! $place->place !!}</span>
+                                        <span class="place d-block">{!! $trader->place !!}</span>
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     @endforeach
-                @endforeach
-
                 </tbody>
             </table>
         @endif
