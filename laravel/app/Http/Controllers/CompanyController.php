@@ -277,7 +277,7 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $forward_months = $this->companyService->getForwardsMonths();
+        $forward_months = $this->baseServices->getForwardsMonths();
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);

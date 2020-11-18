@@ -52,7 +52,7 @@ class CompanyService
             'visible' => 1
         ])->count();
 
-        $forward_months = $this->getForwardsMonths();
+        $forward_months = $this->baseService->getForwardsMonths();
 
         $prices_port = $this->getPricesForwards($author_id, 3, reset($forward_months), 2);
         $prices_region = $this->getPricesForwards($author_id, 3, reset($forward_months), 0);
@@ -64,22 +64,6 @@ class CompanyService
         return false;
     }
 
-    public function getForwardsMonths()
-    {
-        $data = [
-            'start' =>[],
-            'end' =>[],
-        ];
-
-        for ($i = 0; $i <= 6; $i++){
-            $dt_start = Carbon::now();
-            $dt_end = Carbon::now();
-            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
-            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
-        }
-
-        return $data;
-    }
 
     public function getPricesForwards($author_id, $type, $dtStart, $placeType)
     {
