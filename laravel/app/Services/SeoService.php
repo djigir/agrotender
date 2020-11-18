@@ -70,24 +70,23 @@ class SeoService
         $rubric = $data['rubric'] != null ? $rubric = CompTopic::where('id', $data['rubric'])->get()[0] : null;
         $region = $data['region'] != null ? Regions::where('id', $data['region'])->get()[0] : null;
 
-        //$transform_rubric_title = $this->cutRubricText($rubric['title'], $meta_text->seo->company->title->rubric);
+        dd($this->parseSeoText($region, $rubric, $meta_text->seo->companies->title->region_rubric));
+        $transform_h1 = $this->parseSeoText($region, $meta_text->seo->companies->h1->region);
+        $transform_title = $this->parseSeoText($region, $meta_text->seo->companies->title->region);
+        $transform_keywords = $this->parseSeoText($region, $meta_text->seo->companies->keywords->region);
+        $transform_description = $this->parseSeoText($region, $meta_text->seo->companies->description->region);
 
-        $transform_h1 = $this->parseSeoText($region, $meta_text->seo->company->h1->region);
-        $transform_title = $this->parseSeoText($region, $meta_text->seo->company->title->region);
-        $transform_keywords = $this->parseSeoText($region, $meta_text->seo->company->keywords->region);
-        $transform_description = $this->parseSeoText($region, $meta_text->seo->company->description->region);
 
-
-        $h1 = !$region ? $meta_text->seo->company->h1->default : $transform_h1;
+        $h1 = !$region ? $meta_text->seo->companies->h1->default : $transform_h1;
         $text = "";
         $t3seo = "";
-        $title = !$region ? $meta_text->seo->company->title->default  : $transform_title;
-        $keywords = !$region ? $meta_text->seo->company->keywords->default : $transform_keywords;
-        $description = !$region ? $meta_text->seo->company->description->default : $transform_description;
+        $title = !$region ? $meta_text->seo->companies->title->default  : $transform_title;
+        $keywords = !$region ? $meta_text->seo->companies->keywords->default : $transform_keywords;
+        $description = !$region ? $meta_text->seo->companies->description->default : $transform_description;
 
 
         if ($rubric != null) {
-            $title = !$region? $this->parseSeoText($region, $rubric['page_title']) : "{$rubric['title']} хозяйства {$region['city_parental']} {$region['parental']} области. Каталог компаний от Агротендер";
+            $title = !$region ? $this->parseSeoText($region, $rubric['page_title']) : "";
             $keywords = !$region != null ? $this->parseSeoText($region, $rubric['page_keywords']) : "Каталог, {$rubric['title']} хозяйства, {$region['city_parental']}, {$region['parental']} области";
             $description = !$region ? $this->parseSeoText($region, $rubric['page_descr']) : "В каталоге компаний от Агротендер Вы всегда сможете найти информацию про {$rubric['title']} хозяйствам {$region['city_parental']} {$region['parental']} области, а так же их актуальные закупки и продажи.";
             $h1 = !$region ? $this->parseSeoText($region, $rubric['page_h1']) : '';
@@ -280,19 +279,21 @@ class SeoService
         return $seostr;
     }
 
-    public function parseSeoText($region, $str)
+    public function parseSeoText($region, $rubric, $str)
     {
         $obl1 = (!empty($region['name'])) ? $region['name'] . ' область' : 'Украина';
         $obl2 = (!empty($region['parental'])) ?  $region['parental']. ' области' : '';
         $city1 = $region['city'] ?? '';
         $city2 = $region['city_adverb'] ?? 'Украине';
         $city3 = $region['city_parental'] ?? 'Украины';
+
         $seostr = $str;
         $seostr = str_replace("__oblname__", $obl1, $seostr);
         $seostr = str_replace("__oblname2__", $obl2, $seostr);
         $seostr = str_replace("__cityname__", $city1, $seostr);
         $seostr = str_replace("__cityname2__", $city2, $seostr);
         $seostr = str_replace("__cityname3__", $city3, $seostr);
+        $seostr = str_replace("__rubric_title__", $rubric['title'], $str);
 
         $year = date("Y", time());
 
