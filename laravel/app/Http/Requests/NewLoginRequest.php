@@ -25,7 +25,7 @@ class NewLoginRequest extends FormRequest
     {
         return [
             'oldPassword' => 'min:6|max:20',
-            'password' => 'min:6|max:20|different:имя таблицы',
+            'password' => 'min:6|max:20',
             'email' => 'email|unique:torg_buyer',
         ];
     }

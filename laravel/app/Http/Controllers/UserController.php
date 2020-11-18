@@ -93,10 +93,12 @@ class UserController extends Controller
             $torg_buyer->save();
             $user->passwd = bcrypt($new_pass);
             $user->save();
+            return  redirect()->route('user.profile.profile')
+                ->with(['success' => 'Пароль изменён']);
         }else {
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
-                ->withErrors(['msg' => 'Ошибка']);
+                ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
     }

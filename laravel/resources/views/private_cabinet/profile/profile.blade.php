@@ -4,26 +4,6 @@
     @include('private_cabinet.cabinet-header')
     @include('private_cabinet.profile.profile_header')
 
-    {{-- временый вывод  ошибок --}}
-    {{--@if ($errors->all())
-        <div class="alert alert-danger">
-            --}}{{--@foreach($errors->first() as $error)
-                <p>{{ $error }}</p>
-            @endforeach--}}{{--
-            <p>{{ $errors->first() }}</p>
-        </div>
-    @endif--}}
-
-    @if(session('success'))
-        <div class="alert alert-success">
-                <p>{{session('success')}}</p>
-        </div>
-    @endif
-    {{-- временый вывод  ошибок --}}
-
-
-
-
     <div class="container mt-4 mb-5">
         <h2 class="mx-0 mx-sm-5">Ваши личные данные</h2>
         <div class="content-block mt-4 px-5 py-3 personal mx-0 mx-sm-5">
@@ -82,12 +62,13 @@
     </div>
 
 
-    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
-         class="noty_bar noty_type__info noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar noty_effects_close animate__animated animate__fadeInRightBig animate__faster"
-         style="display: block">
-{{--        <div class="noty_body">Старый пароль указан неправильно.</div>--}}
-        <div class="noty_body">{{ $errors->first() }}</div>
-        <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
-    </div>
+    @if($errors->any() || session('success'))
+        <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
+             class="noty_bar noty_type__info noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar noty_effects_close animate__animated animate__fadeInRightBig animate__faster"
+             style="display: block">
+            <div class="noty_body">{{ $errors->first() ? $errors->first() :  session('success') }}</div>
+            <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
+        </div>
+    @endif
 
 @endsection
