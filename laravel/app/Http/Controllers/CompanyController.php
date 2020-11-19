@@ -344,7 +344,7 @@ class CompanyController extends Controller
             'author_email' => $author_comment->email,
             'ddchk_guid' => '',
             'reply_to_id' => 0,
-            'author_id' => $author_comment->id,
+            'author_id' => $author_comment->user_id,
             'like_yes' => 0,
             'like_no' => 0
         ]);

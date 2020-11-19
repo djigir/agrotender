@@ -91,6 +91,8 @@ Route::prefix('u')
                 Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
                 Route::get('/company', 'UserController@profileCompany')->name('company');
                 Route::get('/', 'UserController@profile')->name('profile');
+                Route::post('/change_pass', 'UserController@changePass')->name('change_pass');
+                Route::post('/new_login', 'UserController@newLogin')->name('new_login');
                 Route::get('/contacts', 'UserController@profileContacts')->name('contacts');
                 Route::get('/notify', 'UserController@profileNotify')->name('notify');
                 Route::get('/reviews', 'UserController@profileReviews')->name('reviews');

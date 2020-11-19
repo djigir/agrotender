@@ -2,14 +2,21 @@
 
 namespace App\Services\User;
 
+
+use App\Models\Comp\CompComment;
+use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Users\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use function React\Promise\all;
 
 
 class ProfileService
@@ -67,5 +74,29 @@ class ProfileService
                 }
             \DB::commit();
         }
+    }
+
+    public function getLogin()
+    {
+        if (Auth::user()){
+            $get_login = Auth::user()->login;
+            return $get_login;
+        }else {
+            return  null;
+        }
+    }
+
+    public function getUserReviews()
+    {
+        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
+        $company_names = collect();
+        foreach ($company_comments as $key => $company_comment) {
+            $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()[0]);
+            $company_comments[$key]->comp_title = $company_names[$key]->title;
+            $company_comments[$key]->comp_id = $company_names[$key]->id;
+            $company_comments[$key]->comp_logo = $company_names[$key]->logo_file;
+        }
+
+        return $company_comments;
     }
 }
