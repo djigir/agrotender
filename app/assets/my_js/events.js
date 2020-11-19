@@ -6,7 +6,7 @@ window.onload = function (){
     $('#new_filters_currency_uah').attr('checked', 'true');
     $('#new_filters_currency_usd').attr('checked', 'true');
     $('#DataTables_Table_0').DataTable({
-        "pageLength": 50,
+        "pageLength": 5000,
         "aaSorting": []
     });
 
@@ -97,12 +97,16 @@ window.onload = function (){
     });
 
     $('.burger').click(function () {
+
         if(!$('.overlay').hasClass('open')){
+            console.log('if');
             $('.overlay').addClass('open');
             $('.mobileMenu').addClass('open');
+            $('body').addClass('open');
         }else{
             $('.overlay').removeClass('open');
             $('.mobileMenu').removeClass('open');
+            $('body').removeClass('open');
         }
 
         if($('.filters-wrap').css('display') == 'block'){

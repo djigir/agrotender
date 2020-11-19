@@ -74,6 +74,7 @@ class CompanyController extends Controller
         return $name;
     }
 
+
     public function setDataForCompanies($data)
     {
         $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
@@ -114,12 +115,11 @@ class CompanyController extends Controller
 
 
     /**
-     * Display a listing of the resource.
-     *
-     * @param  Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
-     */
-
+    * Display a listing of the resource.
+    *
+    * @param  Request  $request
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+    */
     public function companies(Request $request)
     {
         $data_companies =  collect(['region' => null, 'query' => null, 'page_type' => 'companies', 'rubric_id' => null]);
@@ -185,11 +185,11 @@ class CompanyController extends Controller
 
 
     /**
-     * Display a listing of the resource.
-     * @param  Request  $request
-     * @param $query
-     * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
-     */
+    * Display a listing of the resource.
+    * @param  Request  $request
+    * @param $query
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+    */
     public function companiesFilter(Request $request, $query = null)
     {
         $data_companies = collect(['region' => null, 'query' => $query, 'page_type' => 'companies', 'rubric_id' => null]);
@@ -214,34 +214,37 @@ class CompanyController extends Controller
         }
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id ;
-     *
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id ;
+    *
+    * @return Factory|View
+    */
     public function company($id)
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where(['buyer_id' => $this->company->author_id, 'acttype' => 0])->limit(1)->value('change_date');
-        $updateDate = !empty($updateDate) ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
+            ->orderBy('dt')
+            ->limit(1)
+            ->value('change_date');
+
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
-        //dd($data_port->get('places'));
+
         $port_culture = $data_port->get('cultures');
-        $port_place =   $data_port->get('places');
-        $port_price =   $data_port->get('prices');
+        $port_place = $data_port->get('places');
+        $port_price = $data_port->get('prices');
 
         $region_culture = $data_region->get('cultures');
-        $region_place =   $data_region->get('places');
-        $region_price =   $data_region->get('prices');
+        $region_place = $data_region->get('places');
+        $region_price = $data_region->get('prices');
 
-
-        $statusCurtypePort =  $data_port->get('statusCurtype');
+        $statusCurtypePort = $data_port->get('statusCurtype');
         $statusCurtypeRegion = $data_region->get('statusCurtype');
-
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
@@ -258,24 +261,25 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
-            'check_forwards' => $checkForward,
             'updateDate' => $updateDate,
+            'check_forwards' => $checkForward,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
         ]);
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id
+    * @return Factory|View
+    */
     public function companyForwards($id)
     {
         $this->setCompany($id);
 
-        $forward_months = $this->companyService->getForwardsMonths();
+        $forward_months = $this->baseServices->getForwardsMonths();
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
@@ -317,6 +321,7 @@ class CompanyController extends Controller
             'page_type' => 0
         ]);
     }
+
 
     public function createReviews(Request $request, $id)
     {
@@ -360,12 +365,13 @@ class CompanyController extends Controller
         return redirect()->route('company.reviews', ['id_company' => $id]);
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param int $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     * @throws \Illuminate\Validation\ValidationException
-     */
+    * Display a listing of the resource.
+    * @param int $id
+    * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+    * @throws \Illuminate\Validation\ValidationException
+    */
     public function companyReviews(int $id)
     {
         $this->setCompany($id);
@@ -385,22 +391,22 @@ class CompanyController extends Controller
 
     }
 
+
     /**
-     * Display a listing of the resource.
-     * @param $id
-     * @return Factory|View
-     */
+    * Display a listing of the resource.
+    * @param $id
+    * @return Factory|View
+    */
     public function companyContact($id)
     {
         $this->setCompany($id);
-        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get()->toArray();
-        $departments_type = CompItemsContact::where('comp_id', $id)->get()->toArray();
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
+        $departments_type = CompItemsContact::where('comp_id', $id)->get();
         $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
         $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
             ->with('traders_contacts')
-            ->get()
-            ->toArray();
+            ->get();
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);

@@ -33,31 +33,10 @@ class TradersPlaces extends Model
         'is_port',
     ];
 
-//    protected $appends = ['region','port'];
-//
-//    public function getRegionAttribute()
-//    {
-//        return $this->regions->first();
-//    }
-//
-//    public function getPortAttribute()
-//    {
-//        return $this->traders_ports->first();
-//    }
-
-//    public function region()
-//    {
-//        return $this->regions();
-//    }
-//
-//    public function port()
-//    {
-//        return $this->traders_ports();
-//    }
 
     public function traders_prices()
     {
-        return $this->belongsTo(TradersPrices::class, 'id','place_id');
+        return $this->belongsTo(TradersPrices::class, 'place_id','id');
     }
 
     public function traders_ports()
@@ -71,7 +50,7 @@ class TradersPlaces extends Model
     }
 
 
-    public function scopePlace($query, $obl_id, $port_id, $type_place)
+    public function scopePlace($query, $obl_id, $port_id)
     {
         if($obl_id){
             return $query->where('obl_id', $obl_id);
@@ -81,9 +60,9 @@ class TradersPlaces extends Model
             return $query->where(['port_id' => $port_id, 'type_id' => 2]);
         }
 
-        if(!$port_id && $type_place == 2){
-            return $query->where('type_id', 2);
-        }
+//        if(!$port_id && $type_place == 2){
+//            return $query->where('type_id', 2);
+//        }
 
         return $query;
     }

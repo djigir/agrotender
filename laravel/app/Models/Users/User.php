@@ -2,7 +2,9 @@
 
 namespace App\Models\Users;
 
+
 use App\Models\Comp\CompItems;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,6 +12,7 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * Class User
+<<<<<<< HEAD
  * @package App\Models
  * @property  integer id
  * @property  $name
@@ -33,6 +36,58 @@ use Illuminate\Notifications\Notifiable;
  * @property string full_name
  *
  * @property CompItems company
+=======
+ * @package App\Models\User
+ * @property integer $discount_level_id
+ * @property integer $max_adv_posts
+ * @property string $passwd
+ * @property integer $obl_id
+ * @property string $name3
+ * @property integer $max_fishka
+ * @property integer $rate
+ * @property integer $user_id
+ * @property integer $avail_adv_posts
+ * @property integer $isactive_web
+ * @property string $last_login
+ * @property string $name
+ * @property string $isactive
+ * @property string $new_password
+ * @property string $login
+ * @property integer $city_id
+ * @property string $name2
+ * @property string $isactive_ban
+ * @property integer $ray_id
+ * @property string $orgname
+ * @property string $postdone
+ * @property string $city
+ * @property string $address
+ * @property string $phone2
+ * @property string $newphone
+ * @property string $icq
+ * @property string $viber
+ * @property string $comments
+ * @property string $deact_up_mails
+ * @property string $subscr_adv_deact
+ * @property string $skype
+ * @property string $last_visit_url
+ * @property string $guid_deact
+ * @property string $email
+ * @property string $phone3
+ * @property string $phone
+ * @property string $telegram
+ * @property string $guid_act
+ * @property integer $smschecked
+ * @property string $subscr_adv_up
+ * @property string $old_login
+ * @property string $new_login
+ * @property string $subscr_tr_price
+ * @property string $new_login_guid
+ * @property integer $last_ip
+ * @property string $hash
+ * @property Carbon $add_date
+ * @property integer $id
+ *
+>>>>>>> master
  */
 class User extends Authenticatable
 {

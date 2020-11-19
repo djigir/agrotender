@@ -24,21 +24,71 @@
             @endif
         @endif
 
-    @if($type_traders == 0)
-        @include('traders.block-info.traders')
-    @elseif($type_traders == 1)
+    @if($type_traders != 0)
         @include('traders.block-info.forwards-block-info')
     @endif
 
     @if($type_view == 'table')
-        @include('traders.traders_forward_table', ['type_traders' => $type_traders])
+        @include('traders.traders_table', ['type_traders' => $type_traders])
     @else
-        <div class="new_container container mt-3 traders_dev">
-            @if(!empty($traders))
-                <div class="new_traders">
-                    @foreach($traders as $trader)
-                        @if($trader->culture_prices->count() > 0)
-                            <div class="traders__item-wrap">
+    @if(!empty($topTraders))
+        @include('traders.block-info.traders_top')
+    @endif
+    <div class="new_container container mt-3 traders_dev">
+        @if(!empty($topTraders))
+            <div class="new_traders">
+                @foreach($topTraders as $trader)
+                    <div class="traders__item-wrap">
+                        <a href="{{route('company.index', $trader->id) }}" class="traders__item yellow">
+                            <div class="traders__item__header">
+                                <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
+                            </div>
+                            <div class="traders__item__content">
+                                <div href="#" class="traders__item__content-title">
+                                    {{ $trader->title }}
+                                </div>
+                                @if($trader->prices)
+                                    @foreach($trader->prices as $index => $price)
+                                        <div class="traders__item__content-description">
+                                            <p class="traders__item__content-p">
+                                    <span class="traders__item__content-p-title">
+                                        {!! $price->name !!}
+                                    </span>
+                                                <span class="right">
+                                      <span class="traders__item__content-p-price ">
+                                          {{ $price->curtype == 1 ? '$ ' : ''}}
+                                          {{ round($price->costval, 1) }}
+                                      </span>
+                                      <span class="traders__item__content-p-icon">
+                                        @if($price->change_price == 0)
+                                              <img src="/app/assets/img/price-not-changed.svg">
+                                          @else
+                                              <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
+                                          @endif
+                                      </span>
+                                    </span>
+                                            </p>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                <div class="traders__item__content-date">
+                                    <span style="{{Carbon\Carbon::today() == $trader->prices->first()->change_date ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader->prices->first()->change_date ? 'color:#009750' : 'color: #001430'}}">
+                                        {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+    @include('traders.block-info.traders')
+    <div class="new_container container mt-3 traders_dev">
+        @if(!empty($traders))
+            <div class="new_traders">
+                @foreach($traders as $trader)
+                        <div class="traders__item-wrap">
                             <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
                                 <div class="traders__item__header">
                                     <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
@@ -47,71 +97,49 @@
                                     <div href="#" class="traders__item__content-title">
                                         {{ $trader->title }}
                                     </div>
-                                    @if(!$culture_translit)
-                                        @foreach($trader->culture_prices->take($trader->trader_premium == 1 ? 3 : 2) as $index => $price_culture)
+                                    @if($trader->prices)
+                                        @foreach($trader->prices->take(2) as $index => $price)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
-                                                <span class="traders__item__content-p-title">{!! isset($price_culture->cultures[0]) ? $price_culture->cultures[0]->name : '' !!}</span>
+                                                    <span class="traders__item__content-p-title">
+                                                        {!! $price->name !!}
+                                                    </span>
                                                     <span class="right">
-                                                      <span
-                                                          class="traders__item__content-p-price ">{{$price_culture->curtype == 1 ? '$ ' : ''}}{{ round($price_culture->costval, 1) }}</span>
+                                                      <span class="traders__item__content-p-price ">
+                                                          {{ $price->curtype == 1 ? '$ ' : ''}}
+                                                          {{ round($price->costval, 1) }}
+                                                      </span>
                                                       <span class="traders__item__content-p-icon">
-{{--                                                              <img src="/app/assets/img/price-not-changed.svg">--}}
+                                                        @if($price->change_price == 0)
+                                                            <img src="/app/assets/img/price-not-changed.svg">
+                                                        @else
+                                                              <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
+                                                        @endif
                                                       </span>
                                                     </span>
                                                 </p>
                                             </div>
                                         @endforeach
-                                    @else
-                                    @if($port)
-                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
-                                            <div class="traders__item__content-description">
-                                                <p class="traders__item__content-p">
-                                                     <span class="traders__item__content-p-title">
-                                                         @if(isset($place['port'][0]))
-                                                                {{ $place['port'][0]['lang']['portname']}}
-                                                         @endif
-                                                     </span>
-                                                     <span class="right">
-                                                       <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
-{{--                                                       <span class="traders__item__content-p-icon">  --}}
-{{--                                                           <img src="/app/assets/img/price-not-changed.svg"> --}}
-{{--                                                       </span>--}}
-                                                     </span>
-                                                </p>
-                                            </div>
-                                        @endforeach
-                                    @endif
-                                        @if($region)
-                                            @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
-                                                <div class="traders__item__content-description">
-                                                    <p class="traders__item__content-p">
-                                                        <span class="traders__item__content-p-title">
-                                                            {{  $place->region['name'].' обл.' }}
-                                                        </span>
-                                                        <span class="right">
-                                                           <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
-    {{--                                                       <span class="traders__item__content-p-icon">  --}}
-    {{--                                                           <img src="/app/assets/img/price-not-changed.svg"> --}}
-    {{--                                                       </span>--}}
-                                                         </span>
-                                                    </p>
-                                                </div>
-                                            @endforeach
-                                        @endif
                                     @endif
                                     <div class="traders__item__content-date">
-                                        <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">{{mb_convert_case($trader['date_price']->format('d F'), MB_CASE_TITLE, "UTF-8")}}</span>
+                                        @if(!isset($trader->min_date))
+                                            <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">
+                                                {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                            </span>
+                                        @else
+                                            <span style="display: flex; color: #001430">
+                                               <span>{{\Carbon\Carbon::parse($trader->min_date)->format('m.Y')}}</span> <span style="margin: 0 2px">-</span> <span>{{\Carbon\Carbon::parse($trader->max_date)->format('m.Y')}}</span>
+{{--                                               <span>{{mb_convert_case(\Date::parse($trader->min_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span> <span style="margin: 0 2px">-</span> <span style="margin-right: 2px" >{{mb_convert_case(\Date::parse($trader->max_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span>  <span>{{\Date::parse($trader->max_date)->format('y')}}</span>--}}
+                                           </span>
+                                        @endif
+                                       </span>
                                     </div>
                                 </div>
                             </a>
                         </div>
-                        @endif
-                    @endforeach
-                </div>
-            @endif
-        </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
     @endif
-
-
 @endsection
