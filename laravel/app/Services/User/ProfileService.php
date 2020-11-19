@@ -3,16 +3,19 @@
 namespace App\Services\User;
 
 
+use App\Http\Requests\NewLoginRequest;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopicItem;
+use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
