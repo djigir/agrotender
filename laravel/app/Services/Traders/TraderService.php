@@ -226,6 +226,7 @@ class TraderService
             ->where($criteria_places)
             ->orderBy('comp_items.trader_premium', 'desc')
             ->orderBy('traders_prices.change_date', 'desc')
+            ->orderBy('traders_prices.costval', 'desc')
             ->orderBy('comp_items.rate_formula', 'desc')
             ->orderBy('comp_items.trader_sort')
             ->orderBy('comp_items.title')
@@ -238,8 +239,8 @@ class TraderService
                 'traders_prices.curtype', 'traders_prices.dt',
                 'traders_prices.change_date', 'traders_places.port_id',
                 'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
-                \DB::raw('regions.name as region')
-            )->get();
+                \DB::raw('regions.name as region'))
+            ->get();
 
         $date_expired_diff = Carbon::now()->subDays(7)->format('Y-m-d');
 
@@ -292,12 +293,20 @@ class TraderService
     }
 
     /**
-    * @param $author_ids
-    * @param $name_relationship
-    * @return Builder
-    */
-    public function getTradersCard($author_ids, $criteria_prices, $criteria_places)
+     * @param $author_ids
+     * @param $criteria_prices
+     * @param $criteria_places
+     * @return Builder
+     */
+    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places)
     {
+        $forward_months = $this->baseService->getForwardsMonths();
+
+        if($type == 'forward')
+        {
+            $criteria_prices[] = ['traders_prices.dt', '>=', $forward_months];
+        }
+
         $traders = $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
@@ -336,6 +345,10 @@ class TraderService
         foreach ($traders as $index => $trader) {
             if($prices->where('buyer_id', $trader['author_id'])->count() > 0) {
                 $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('cult_id')->take(3);
+
+                if($type == 'forward'){
+                    $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('costval')->take(3);
+                }
             }
         }
 
@@ -382,8 +395,7 @@ class TraderService
                 'traders_prices.curtype', 'traders_prices.dt',
                 'traders_places.port_id', 'traders_places.place',
                 'traders_places.type_id', 'traders_places.port_id',
-                \DB::raw('regions.name as region'))
-            ->get();
+                \DB::raw('regions.name as region'))->get();
     }
 
     public function setCriteriaTraders($data)
@@ -453,12 +465,6 @@ class TraderService
                 ->pluck('buyer_id')
             ->toArray();
 
-//        $name_relationship = self::NAME_RELATIONSHIP[$criteria_traders->get('currency')];
-//
-//        if($data->get('type') == 'forward'){
-//            $name_relationship = $name_relationship.'_forward';
-//        }
-
         $this->groups = $this->setRubrics($criteria_traders->get('criteria_places'), $criteria_traders->get('acttype'));
 
         if($data->get('type_view') == 'table' && $data->get('type') != 'forward')
@@ -468,7 +474,7 @@ class TraderService
 
         if($data->get('type_view') == 'card')
         {
-            return $this->getTradersCard($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
+            return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
         }
 
         if($data->get('type') == 'forward')
