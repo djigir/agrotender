@@ -298,6 +298,7 @@ class TraderService
     */
     public function getTradersCard($author_ids, $criteria_prices, $criteria_places)
     {
+
         $traders = $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
@@ -319,7 +320,8 @@ class TraderService
             ->groupBy('comp_items.id')
             ->get();
 
-        $prices = TradersPrices::leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
+        $prices = TradersPrices::whereIn('traders_prices.buyer_id', $traders->pluck('author_id'))
+            ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
             ->where($criteria_prices)
             ->where($criteria_places)
@@ -340,8 +342,7 @@ class TraderService
 
         foreach ($traders as $index => $trader)
         {
-            if($prices->where('buyer_id', $trader['author_id'])->count() > 0)
-            {
+            if($prices->where('buyer_id', $trader['author_id'])->count() > 0) {
                 $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('cult_id')->take(3);
             }
         }

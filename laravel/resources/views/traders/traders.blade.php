@@ -83,12 +83,4 @@
         @endif
     </div>
     @endif
-
-    {{--                                                      <span class="traders__item__content-p-icon">--}}
-    {{--                                                          @if(!isset($trader->culture_prices->change_price))--}}
-    {{--                                                              <img src="/app/assets/img/price-not-changed.svg">--}}
-    {{--                                                          @elseif(isset($trader->culture_prices->change_price))--}}
-    {{--                                                              <img src="/app/assets/img/price-{{$trader->culture_prices->change_price_type}}.svg">&nbsp;--}}
-    {{--                                                          @endif--}}
-    {{--                                                      </span>--}}
 @endsection
