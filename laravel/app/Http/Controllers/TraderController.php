@@ -141,7 +141,7 @@ class TraderController extends Controller
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
             'type_view' => $data['type_view'],
-            'feed' => $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
+            'feed' =>  $data_traders['type_traders'] == 0 ? $this->traderFeedService->getFeed() : []
         ]);
     }
 
