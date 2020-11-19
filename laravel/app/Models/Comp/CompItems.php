@@ -91,6 +91,7 @@ class CompItems extends Model
     const SALES_TYPE_ID = 2;
     const SERVICES_TYPE_ID = 3;
 
+    public $timestamps = false;
 
     protected $table = 'comp_items';
 
