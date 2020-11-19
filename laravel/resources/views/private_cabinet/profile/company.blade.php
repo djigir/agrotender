@@ -1,11 +1,22 @@
 @extends('layout.layout')
-@dump($errors)
+
 @section('content')
+
     @include('private_cabinet.cabinet-header')
     @include('private_cabinet.profile.profile_header')
     <div class="container mt-4 mb-5">
         <div class="content-block px-5 py-4 company-settings position-relative">
-            <h2>Настройки компании</h2>
+            <h2>Настройки компании
+                @if($company)
+                    <form action="{{route('user.profile.toggle_visible')}}" method="POST" style="margin-top: -26px;">
+                        @csrf
+                        <button type="submit" class="btn setVisible {{$company->visible == 0 ? 'green' : 'red'}} float-right d-none d-sm-inline-block" id="changeVisibleCompany">
+                            {{$company->visible == 0 ? 'Показывать компанию' : 'Скрыть компанию'}}
+                        </button>
+                        <input type="text" name="visible" value="{{$company->visible}}" style="opacity: 0; border: none; outline: none; width: 0" id="visible" visible="1">
+                    </form>
+                @endif
+            </h2>
             <form class="form company-form mt-4" method="POST" novalidate="novalidate"
                   action="{{route('user.profile.create_company')}}" enctype="multipart/form-data">
                 @csrf
@@ -51,7 +62,8 @@
                     <div class="col-sm-4 pl-1">
                         <select class="form-control" name="obl_id">
                             @foreach($regions as $index => $region)
-                                <option value="{{$region['id']}}">{{$region['translit'] != 'crimea' ? $region['name'].' область' : $region['name']}}</option>
+                                <option
+                                    value="{{$region['id']}}">{{$region['translit'] != 'crimea' ? $region['name'].' область' : $region['name']}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -60,13 +72,15 @@
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Город <span
                             class="text-danger">*</span></label>
                     <div class="col-sm-4 pl-1">
-                        <input type="text" class="form-control" placeholder="Город" name="city" value="{{$company ? $company->city : old('city')}}">
+                        <input type="text" class="form-control" placeholder="Город" name="city"
+                               value="{{$company ? $company->city : old('city')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
                     <label class="col-sm-4 col-form-label text-left text-sm-right">Адрес</label>
                     <div class="col-sm-4 pl-1">
-                        <input type="text" class="form-control" placeholder="Адрес" name="addr" value="{{$company ? $company->addr : old('addr')}}">
+                        <input type="text" class="form-control" placeholder="Адрес" name="addr"
+                               value="{{$company ? $company->addr : old('addr')}}">
                     </div>
                 </div>
                 <hr class="my-4">
@@ -81,7 +95,7 @@
                                     <div class="rubric-item">
                                         <input class="custom-control-input rubric-input" type="checkbox"
                                                value="{{$rubric_item->id}}" name="rubrics[]"
-                                               id="rubric{{$rubric_item->id}}" {{$select_rubric->has($rubric_item->id) ? 'checked' : ''}}>
+                                               id="rubric{{$rubric_item->id}}" {{!empty($select_rubric) && $select_rubric->has($rubric_item->id) ? 'checked' : ''}}>
                                         <label class="custom-control-label" for="rubric{{$rubric_item->id}}">
                                             {{$rubric_item->title}}
                                         </label>
@@ -104,7 +118,8 @@
         {{--            <button type="submit" class="btn btn-primary px-5 text-center mt-3 save-comp">Сохранить</button>--}}
         {{--        </div>--}}
     </div>
-    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: none">
+    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
+         class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: none">
         <div id="noty_bar_0927b968-3a85-4457-bf37-d3b3d7644f63"
              class="noty_bar noty_type__warning noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
             <div class="noty_body">{{$errors->first('rubrics')}}</div>
@@ -112,7 +127,8 @@
         </div>
     </div>
     @if(!$errors->any())
-        <div style="display: none" id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster">
+        <div style="display: none" id="noty_layout__bottomLeft" role="alert" aria-live="polite"
+             class="noty_layout animate__animated animate__fadeInRightBig animate__faster">
             <div id="noty_bar_ca950bc5-dadd-4e3c-9ed3-e89a747899c8"
                  class="noty_bar noty_type__success noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
                 <div class="noty_body">Компания обновлена.</div>

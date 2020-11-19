@@ -1,12 +1,16 @@
 @if(auth()->user())
     <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
         <div class="d-none d-sm-block float-right right-links p-3">
-
             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false" class="head-name d-flex align-items-center position-relative">
                 <i class="fas fa-chevron-down mr-1"></i>
-                <span>{{ auth()->user()->name }}</span>
-                <img alt="" src="/app/assets/img/noavatar.png" class="ml-2 head-logo">
+                <?php
+                    $user = auth()->user();
+                    $name = $user->company ? $user->company->title : $user->name;
+                    $logo = $user->company ? $user->company->logo_file : '/app/assets/img/noavatar.png';
+                ?>
+                <span>{{ $name }}</span>
+                <img alt="" src="{{$logo}}" class="ml-2 head-logo">
                 <span class="notification-badge top-badge"></span>
             </a>
             <div class="dropdown-menu mt-2 head-dropdown" aria-labelledby="dropdownMenuLink">

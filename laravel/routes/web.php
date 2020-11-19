@@ -88,16 +88,18 @@ Route::prefix('u')
         Route::prefix('/')
             ->name('profile.')
             ->group(function () {
-                Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
                 Route::get('/company', 'UserController@profileCompany')->name('company');
                 Route::get('/', 'UserController@profile')->name('profile');
-                Route::post('/change_pass', 'UserController@changePass')->name('change_pass');
-                Route::post('/new_login', 'UserController@newLogin')->name('new_login');
                 Route::get('/contacts', 'UserController@profileContacts')->name('contacts');
                 Route::get('/notify', 'UserController@profileNotify')->name('notify');
                 Route::get('/reviews', 'UserController@profileReviews')->name('reviews');
                 Route::get('/news', 'UserController@profileNews')->name('news');
                 Route::get('/vacancy', 'UserController@profileVacancy')->name('vacancy');
+
+                Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
+                Route::post('/change_pass', 'UserController@changePass')->name('change_pass');
+                Route::post('/new_login', 'UserController@newLogin')->name('new_login');
+                Route::post('/toggle_visible', 'UserController@toggleVisible')->name('toggle_visible');
         });
 
         Route::prefix('/posts')
