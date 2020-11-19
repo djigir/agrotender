@@ -6,13 +6,15 @@
     <div class="container mt-4 mb-5">
         <div class="dep mx-sm-5 text-center text-sm-left">
             <a href="{{ route('user.profile.reviews') }}" class="active">Мои отзывы</a>
+{{--            {if $user->company neq null}--}}
+            <a href="/u/reviews?type=1" class="active">Моя компания</a>
+{{--            {/if}--}}
         </div>
 
         @foreach($reviews as $review)
         <div class="content-block mt-4 review py-3 px-4 mx-0 mx-sm-5">
             <div class="row m-0">
                 <div class="col-auto pl-0">
-{{--                    <img src="/pics/comp/4593_70690.jpg" class="avatar">--}}
                     <img src="{{ !empty($review->comp_logo) ? $review->comp_logo : "/app/assets/img/noavatar.png" }}" class="avatar">
                 </div>
                 <div class="col pl-0">
