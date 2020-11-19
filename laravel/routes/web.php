@@ -86,6 +86,7 @@ Route::prefix('u')
     ->name('user.')
     ->group(function () {
         Route::prefix('/')
+            ->middleware('check_auth_user')
             ->name('profile.')
             ->group(function () {
                 Route::get('/company', 'UserController@profileCompany')->name('company');
