@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\ProfileCompanyRequest;
-use App\Http\Requests\NewLoginRequest;
+use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
@@ -83,14 +83,14 @@ class UserController extends Controller
     }
 
     // изменить пароль
-    public function changePass(NewLoginRequest $newLoginRequest)
+    public function changePass(LoginPasswordRequest $loginPasswordRequest)
     {
-        $old_pass = $newLoginRequest->get('oldPassword');
-        $new_pass = $newLoginRequest->get('passwd');
+        $old_pass = $loginPasswordRequest->get('oldPassword');
+        $new_pass = $loginPasswordRequest->get('passwd');
 
         if (!Hash::check($old_pass, auth()->user()->passwd) && $new_pass){
             return redirect()->back()
-                ->withInput($newLoginRequest->all())
+                ->withInput($loginPasswordRequest->all())
                 ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
@@ -103,20 +103,20 @@ class UserController extends Controller
 
 
     // изменить login
-    public function newLogin(NewLoginRequest $newLoginRequest)
+    public function newLogin(LoginPasswordRequest $loginPasswordRequest)
     {
-        if (!$newLoginRequest->validated()) {
+        if (!$loginPasswordRequest->validated()) {
             return redirect()->back()
-                ->withInput($newLoginRequest->all())
+                ->withInput($loginPasswordRequest->all())
                 ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
 
-        TorgBuyer::where('id', auth()->user()->user_id)->update($newLoginRequest->only(['login']) +
-            ['email' => $newLoginRequest->get('login')]
+        TorgBuyer::where('id', auth()->user()->user_id)->update($loginPasswordRequest->only(['login']) +
+            ['email' => $loginPasswordRequest->get('login')]
         );
 
-        User::where('id', \auth()->user()->id)->update($newLoginRequest->only(['login']) +
-            ['email' => $newLoginRequest->get('login')]
+        User::where('id', \auth()->user()->id)->update($loginPasswordRequest->only(['login']) +
+            ['email' => $loginPasswordRequest->get('login')]
         );
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
