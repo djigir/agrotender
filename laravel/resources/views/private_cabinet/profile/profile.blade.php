@@ -8,7 +8,7 @@
         <h2 class="mx-0 mx-sm-5">Ваши личные данные</h2>
         <div class="content-block mt-4 px-5 py-3 personal mx-0 mx-sm-5">
             <div class="pt-2 row d-block d-sm-flex mx-sm-0">
-                <b>Ваш текущий логин:</b> &nbsp;<span class="d-block d-sm-inline-block">{{ $login }}</span>
+                <b>Ваш текущий логин:</b> &nbsp;<span class="d-block d-sm-inline-block">{{ auth()->user()->login }}</span>
             </div>
             <hr class="my-4">
             <h5>Сменить пароль</h5>

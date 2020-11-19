@@ -72,10 +72,7 @@ class UserController extends Controller
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
-        $login = $this->profileService->getLogin();
-
         return view('private_cabinet.profile.profile', [
-            'login' => $login,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
             'isMobile' => $this->agent->isMobile(),
@@ -157,11 +154,12 @@ class UserController extends Controller
     public function profileReviews()
     {
         $reviews = $this->profileService->getUserReviews();
-//        dd($reviews);
+        $user_company = $this->profileService->userHasCompany();
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[3],
             'reviews' => $reviews,
+            'user_company' => $user_company,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

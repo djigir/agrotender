@@ -6,9 +6,9 @@
     <div class="container mt-4 mb-5">
         <div class="dep mx-sm-5 text-center text-sm-left">
             <a href="{{ route('user.profile.reviews') }}" class="active">Мои отзывы</a>
-{{--            {if $user->company neq null}--}}
+            @if($user_company)
             <a href="/u/reviews?type=1" class="active">Моя компания</a>
-{{--            {/if}--}}
+            @endif
         </div>
 
         @foreach($reviews as $review)
