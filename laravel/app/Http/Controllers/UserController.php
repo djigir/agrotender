@@ -85,22 +85,18 @@ class UserController extends Controller
     // изменить пароль
     public function changePass(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', \auth()->id())->get()->first();
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
-
         $old_pass = $newLoginRequest->get('oldPassword');
-        $new_pass = $newLoginRequest->get('password');
+        $new_pass = $newLoginRequest->get('passwd');
 
-        if (!Hash::check($old_pass, $user->passwd) && $new_pass){
+        if (!Hash::check($old_pass, auth()->user()->passwd) && $new_pass){
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
-        $torg_buyer->passwd = bcrypt($new_pass);
-        $torg_buyer->save();
-        $user->passwd = bcrypt($new_pass);
-        $user->save();
+        TorgBuyer::where('id', auth()->user()->user_id)->update(['passwd' => Hash::make($new_pass)]);
+
+        User::where('id', auth()->user()->id)->update(['passwd' => Hash::make($new_pass)]);
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Пароль изменён']);
     }
@@ -119,7 +115,7 @@ class UserController extends Controller
             ['email' => $newLoginRequest->get('login')]
         );
 
-        User::where('id', \auth()->id())->update($newLoginRequest->only(['login']) +
+        User::where('id', \auth()->user()->id)->update($newLoginRequest->only(['login']) +
             ['email' => $newLoginRequest->get('login')]
         );
 
