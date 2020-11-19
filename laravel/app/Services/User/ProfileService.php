@@ -103,18 +103,15 @@ class ProfileService
 
     public function getUserReviews()
     {
-
         $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
-
         $company_names = collect();
-
         foreach ($company_comments as $key => $company_comment) {
-            $company_names->add(CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0]);
+            $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()[0]);
+            $company_comments[$key]->comp_title = $company_names[$key]->title;
+            $company_comments[$key]->comp_id = $company_names[$key]->id;
+            $company_comments[$key]->comp_logo = $company_names[$key]->logo_file;
         }
 
-        $reviews = new Collection;
-        $reviews->push($company_comments)->push($company_names);
-
-        return $reviews;
+        return $company_comments;
     }
 }
