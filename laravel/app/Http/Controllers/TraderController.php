@@ -19,6 +19,10 @@ use Illuminate\Http\Request;
 
 class TraderController extends Controller
 {
+    const TYPE_REGION = 0;
+    const TYPE_PORT = 2;
+
+
     protected $traderService;
     protected $companyService;
     protected $baseServices;
@@ -59,25 +63,25 @@ class TraderController extends Controller
     public function setDataForTraders($data)
     {
         $forward_months = $this->baseServices->getForwardsMonths();
-
         $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
+
         $culture_meta = null;
         $currency = isset($data->get('query')['currency']) ? $data->get('query')['currency'] : null;
         $region_all = ($data->get('region') != 'ukraine' && $data->get('region')) ? Regions::where('translit', $data->get('region'))->get()->toArray()[0] : $data->get('region');
         $port_all = $data->get('port');
         $culture_name = 'Выбрать продукцию';
-        $type_place = $data->get('region') != null ? 0 : 2;
+        $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
 
         if($data->get('port') != 'all' && $data->get('port'))
         {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
-            $port_all = TradersPortsLang::where('port_id', $id_port)->get()->toArray()[0];
+            $port_all = TradersPortsLang::where('port_id', $id_port)->first();
         }
 
-        $region_port_name = !empty($data->get('region')) ? $this->traderService->getNamePortRegion($data->get('region'))['region']
-            : $this->traderService->getNamePortRegion(null, $data->get('port'))['port'];
+        $region_port_name = !empty($data->get('region')) ? $this->baseServices->getNamePortRegion($data->get('region'))['region']
+            : $this->baseServices->getNamePortRegion(null, $data->get('port'))['port'];
 
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
 
@@ -85,14 +89,14 @@ class TraderController extends Controller
 
         if (!empty($culture))
         {
-            $culture_meta = Traders_Products_Lang::where('item_id', $culture->id)->get()->toArray()[0];
-            $culture_name = $culture_meta['name'];
+            $culture_meta = Traders_Products_Lang::where('item_id', $culture->id)->first();
+            $culture_name = $culture_meta->name;
         }
 
         $meta = $this->seoService->getTradersMeta([
             'rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1,
-            'onlyPorts' => $this->traderService->getNamePortRegion(null, $data->get('port'))['onlyPorts']]);
+            'onlyPorts' => $this->baseServices->getNamePortRegion(null, $data->get('port'))['onlyPorts']]);
 
         if ($data->get('type') == 'forward')
         {

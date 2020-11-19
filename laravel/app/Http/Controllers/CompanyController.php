@@ -7,26 +7,18 @@ use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
-use App\Models\Traders\TradersPorts2buyer;
 use App\Models\Traders\TradersPrices;
-use App\Models\Traders\TradersProducts2buyer;
-use App\models\User;
-use App\Models\Users\Users;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
-use App\Models\Torg\TorgBuyer;
 use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
-use  App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Jenssegers\Date\Date;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
@@ -59,26 +51,12 @@ class CompanyController extends Controller
         return redirect()->route('company.filter', [$request->get('query')]);
     }
 
-    private function regionName($region)
-    {
-        $name = Regions::where('translit', $region)->value('name'). ' область';
-
-        if($region == 'crimea'){
-            $name = 'АР Крым';
-        }
-
-        if($region == 'ukraine' || !$region){
-            $name = 'Вся Украина';
-        }
-
-        return $name;
-    }
 
 
     public function setDataForCompanies($data)
     {
         $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
-        $region_name = $this->regionName($data->get('region'));
+        $region_name = $this->baseServices->getNamePortRegion($data->get('region'), null);
         $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
         $region = $data->get('region');
@@ -99,7 +77,7 @@ class CompanyController extends Controller
             'companies' => $companies,
             'regions' => $regions,
             'rubricGroups' => $groups,
-            'region_name' => $region_name,
+            'region_name' => $region_name['region'],
             'region' => !$data->get('region') ? 'ukraine' : $data->get('region'),
             'obj_region' => $data->get('region') != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,

@@ -28,6 +28,15 @@ class TraderService
         2 => 'traders_prices_traders',
     ];
 
+    const TYPE_TRADERS = 0;
+    const TYPE_TRADERS_FORWARD = 1;
+    const TYPE_TRADERS_SELL = 2;
+
+    const ACTTYPE_TRADERS = 0;
+    const ACTTYPE_TRADERS_FORWARD = 3;
+
+
+
     protected $companyService;
     protected $baseService;
     protected $breadcrumbService;
@@ -79,7 +88,7 @@ class TraderService
 
     public function setTradersBreadcrumbs($data, $data_breadcrumbs)
     {
-        $type_traders = 0;
+        $type_traders = self::TYPE_TRADERS;
 
         $this->InitQuery($data);
 
@@ -87,12 +96,12 @@ class TraderService
 
         if (isset($data['forwards'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
-            $type_traders = 1;
+            $type_traders = self::TYPE_TRADERS_FORWARD;
         }
 
         if (isset($data['sell'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersSell($data_breadcrumbs);
-            $type_traders = 2;
+            $type_traders = self::TYPE_TRADERS_SELL;
         }
 
         $traders = $this->getTraders($data);
@@ -119,25 +128,7 @@ class TraderService
     }
 
 
-    public function getNamePortRegion($region = null, $port = null)
-    {
-        $onlyPorts = null;
-        $id_port = TradersPorts::where('url', $port)->value('id');
-        $port_name = ($port != 'all') ? TradersPortsLang::where('port_id', $id_port)->value('portname') : [
-            'Все порты', $onlyPorts = 'yes'
-        ][0];
-        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
-        if ($region == 'crimea') {
-            $name_region = 'АР Крым';
-        }
-
-        if ($region == 'ukraine') {
-            $name_region = 'Вся Украина';
-        }
-
-        return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
-    }
 
     public function getPorts()
     {
@@ -217,7 +208,7 @@ class TraderService
     */
     public function getTradersTable($author_ids, $criteria_prices, $criteria_places)
     {
-        $traders = $this->treders->whereIn('author_id', $author_ids)
+        return $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
@@ -241,55 +232,6 @@ class TraderService
                 'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
                 \DB::raw('regions.name as region'))
             ->get();
-
-        $date_expired_diff = Carbon::now()->subDays(7)->format('Y-m-d');
-
-        foreach ($traders as $index => $trader)
-        {
-            if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
-            {
-                $where_place_id = $traders->where('place_id', $trader->place_id);
-
-                $key_uah = $where_place_id->where('curtype', 0)->keys();
-                $key_usd = $where_place_id->where('curtype', 1)->keys();
-
-                if(isset($key_uah[0])){
-                    $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
-                    $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
-                }
-
-                if(isset($key_usd[0])){
-                    unset($traders[$key_usd[0]]);
-                }
-            }
-
-            if(isset($traders[$index]))
-            {
-                $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
-                $traders[$index]['change_price'] = $change;
-
-                $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
-
-                if(!$traders[$index]->change_date || !$change){
-                    $traders[$index]['change_price_type'] = '';
-                }
-
-                if(isset($traders[$index]['costval_usd']))
-                {
-                    $change_usd = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
-                    $traders[$index]['change_price_usd'] = $change_usd;
-
-                    if(!$traders[$index]->change_date || !$change_usd){
-                        $traders[$index]['change_price_type_usd'] = '';
-                    }
-
-                    $traders[$index]['change_price_type_usd'] = $change_usd > 0 ? 'up' : 'down';
-                }
-            }
-
-        }
-
-        return $traders;
     }
 
     /**
@@ -297,8 +239,8 @@ class TraderService
     * @param $author_ids
     * @param $criteria_prices
     * @param $criteria_places
-    * @return Builder
-    */
+    * @return \Illuminate\Support\Collection
+     */
     public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places)
     {
         $forward_months = $this->baseService->getForwardsMonths();
@@ -407,7 +349,7 @@ class TraderService
         $culture = null;
         $port_id = null;
         $currency = 2;
-        $acttype = $data->get('type') != 'forward' ? 0 : 3;
+        $acttype = $data->get('type') != 'forward' ? self::ACTTYPE_TRADERS : self::ACTTYPE_TRADERS_FORWARD;
 
 
         $criteria_places = [];

@@ -29,11 +29,11 @@
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
                 {{$company['trader_premium'] == 1 || $company['trader_premium'] == 2 ? 'companyTop' : ''}}"
                 {{$company['trader_premium'] == 2 ?? 'style ="overflow:hidden;'}}>
-                @if($company['trader_premium'] == 2)
-                    <div class="ribbonComp">
-                        VIP
-                    </div>
-                @endif
+{{--                @if($company['trader_premium'] == 2)--}}
+{{--                    <div class="ribbonComp">--}}
+{{--                        VIP--}}
+{{--                    </div>--}}
+{{--                @endif--}}
                 <div class="row mx-0 w-100">
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">
