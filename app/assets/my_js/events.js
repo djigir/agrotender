@@ -347,6 +347,14 @@ window.onload = function (){
         changeBG();
     });
 
+    $('#changeVisibleCompany').click(function (e) {
+        if($('#visible').val() == 1){
+            $('#visible').val(0)
+        }else{
+            $('#visible').val(1)
+        }
+    });
+
     /* закрыть модалльное окно по ESC */
     $(document).on('keydown', function (e) {
         if (e.keyCode == 27) {

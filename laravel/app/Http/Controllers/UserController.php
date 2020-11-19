@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\NewLoginRequest;
+use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
@@ -128,6 +129,14 @@ class UserController extends Controller
         return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
     }
 
+    public function toggleVisible(Request $request)
+    {
+        $user = auth()->user();
+
+        CompItems::find($user->company->id)->update($request->only(['visible']));
+
+        return redirect()->route('user.profile.company');
+    }
 
 
     //М-д для страницы профиля (контакты)
@@ -182,7 +191,7 @@ class UserController extends Controller
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
         }])->orderBy('sort_num')->orderBy('title')->get();
 
-        $select_rubric = CompTopicItem::where('item_id', $company->id)->pluck('topic_id', 'topic_id');
+        $select_rubric = !empty($company) ? CompTopicItem::where('item_id', $company->id)->pluck('topic_id', 'topic_id') : [];
 
         return view('private_cabinet.profile.company', [
             'regions' => $regions,
