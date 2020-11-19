@@ -88,6 +88,7 @@ class ProfileService
 
     public function getUserReviews()
     {
+        dd(\auth()->user());
         $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
         $company_names = collect();
         foreach ($company_comments as $key => $company_comment) {
