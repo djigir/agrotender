@@ -5,7 +5,6 @@
     @else
         @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
     @endif
-
     <div class="container mt-3 "></div>
     <div class="container traders mt-3 mt-sm-5">
         @if(!$isMobile)
@@ -47,7 +46,7 @@
                                     {{ $trader->title }}
                                 </div>
                                 @if($trader->prices)
-                                    @foreach($trader->prices->take(2) as $index => $price)
+                                    @foreach($trader->prices as $index => $price)
                                         <div class="traders__item__content-description">
                                             <p class="traders__item__content-p">
                                     <span class="traders__item__content-p-title">
@@ -97,7 +96,7 @@
                                         {{ $trader->title }}
                                     </div>
                                     @if($trader->prices)
-                                        @foreach($trader->prices as $index => $price)
+                                        @foreach($trader->prices->take(2) as $index => $price)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                     <span class="traders__item__content-p-title">
