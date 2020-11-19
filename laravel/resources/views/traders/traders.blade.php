@@ -51,22 +51,22 @@
                                     @foreach($trader->prices as $index => $price)
                                         <div class="traders__item__content-description">
                                             <p class="traders__item__content-p">
-                                    <span class="traders__item__content-p-title">
-                                        {!! $price->name !!}
-                                    </span>
+                                                <span class="traders__item__content-p-title">
+                                                    {!! $price->name !!}
+                                                </span>
                                                 <span class="right">
-                                      <span class="traders__item__content-p-price ">
-                                          {{ $price->curtype == 1 ? '$ ' : ''}}
-                                          {{ round($price->costval, 1) }}
-                                      </span>
-                                      <span class="traders__item__content-p-icon">
-                                        @if($price->change_price == 0)
-                                              <img src="/app/assets/img/price-not-changed.svg">
-                                          @else
-                                              <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
-                                          @endif
-                                      </span>
-                                    </span>
+                                                  <span class="traders__item__content-p-price ">
+                                                      {{ $price->curtype == 1 ? '$ ' : ''}}
+                                                      {{ round($price->costval, 1) }}
+                                                  </span>
+                                                  <span class="traders__item__content-p-icon">
+                                                    @if($price->change_price == 0)
+                                                          <img src="/app/assets/img/price-not-changed.svg">
+                                                      @else
+                                                          <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
+                                                      @endif
+                                                  </span>
+                                                </span>
                                             </p>
                                         </div>
                                     @endforeach

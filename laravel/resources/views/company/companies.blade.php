@@ -66,7 +66,7 @@
                         </div>
                         <div class="row d-none d-sm-flex">
                             <div class="col mt-1">
-                                <p class="desc">{{ strip_tags($company['short']) }}</p>
+                                <p class="desc">{!! strip_tags($company['short']) !!}</p>
                             </div>
                         </div>
                         <div class="row lh-1-2">
@@ -78,7 +78,7 @@
                                       data-placement="top"
                                       title="{{$company['activities_text']}}"
                                       @endif aria-describedby="tooltip">
-                                    {{ \Illuminate\Support\Str::limit($company['activities_text'], 75, $end='...') }}
+                                    {!! \Illuminate\Support\Str::limit($company['activities_text'], 75, $end='...') !!}
                                 </span>
                                 <span class="activities d-block d-sm-none"
                                       @if(strlen($company['activities_text']) > 57)
@@ -86,7 +86,7 @@
                                       data-placement="top"
                                       title="{{$company['activities_text']}}"
                               @endif>
-                            {{ \Illuminate\Support\Str::limit($company['activities_text'], 57, $end='...') }}
+                            {!! \Illuminate\Support\Str::limit($company['activities_text'], 57, $end='...') !!}
                         </span>
                             </div>
                         </div>
@@ -95,8 +95,6 @@
                                 @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
                                     <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                                 @endif
-
-
 {{--                                @if($company['purchases'] > 0)--}}
 {{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
 {{--                                @endif--}}
@@ -133,7 +131,6 @@
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
                             <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                         @endif
-
 {{--                        @if($company['purchases'] > 0)--}}
 {{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
 {{--                        @endif--}}

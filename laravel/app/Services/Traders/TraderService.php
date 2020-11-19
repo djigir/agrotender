@@ -144,7 +144,15 @@ class TraderService
 
     public function setRubrics($criteria_places, $acttype)
     {
+        $forward_months = $this->baseService->getForwardsMonths();
+
         $type = $acttype == 0  ? '' : '_forward';
+        $criteria_prices = [];
+
+        if($acttype == 3)
+        {
+            $criteria_prices[] = ['traders_prices.dt', '>=', $forward_months];
+        }
 
         $groups = TradersProductGroups::where("acttype", 0)->get()->toArray();
 
@@ -160,6 +168,7 @@ class TraderService
                 "comp_items.trader_price{$type}_visible" => 1,
                 'comp_items.visible' => 1
             ])
+            ->where($criteria_prices)
             ->groupBy('cult_id')
             ->get()
             ->keyBy('cult_id')
@@ -247,7 +256,7 @@ class TraderService
 
         if($type == 'forward')
         {
-            $criteria_prices[] = ['traders_prices.dt', '>=', $forward_months];
+            $criteria_prices[] = ['traders_prices.dt', '>=', reset($forward_months)];
         }
 
         $traders = $this->treders->whereIn('author_id', $author_ids)

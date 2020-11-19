@@ -51,12 +51,26 @@ class CompanyController extends Controller
         return redirect()->route('company.filter', [$request->get('query')]);
     }
 
+    private function regionName($region)
+    {
+        $name = Regions::where('translit', $region)->value('name'). ' область';
+
+        if($region == 'crimea'){
+            $name = 'АР Крым';
+        }
+
+        if($region == 'ukraine' || !$region){
+            $name = 'Вся Украина';
+        }
+
+        return $name;
+    }
 
 
     public function setDataForCompanies($data)
     {
         $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
-        $region_name = $this->baseServices->getNamePortRegion($data->get('region'), null);
+        $region_name = $this->regionName($data->get('region'));
         $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
         $region = $data->get('region');
@@ -77,7 +91,7 @@ class CompanyController extends Controller
             'companies' => $companies,
             'regions' => $regions,
             'rubricGroups' => $groups,
-            'region_name' => $region_name['region'],
+            'region_name' => $region_name,
             'region' => !$data->get('region') ? 'ukraine' : $data->get('region'),
             'obj_region' => $data->get('region') != 'ukraine' ? $region : [],
             'rubric_id' => $rubric_id,
