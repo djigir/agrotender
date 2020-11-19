@@ -3,7 +3,7 @@
 namespace App\Services\User;
 
 
-use App\Http\Requests\NewLoginRequest;
+use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
@@ -87,7 +87,7 @@ class ProfileService
         }
     }
 
-    public function getUserReviews()
+    public function getUserReviews($type)
     {
         $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
         $company_names = collect();
@@ -103,7 +103,7 @@ class ProfileService
 
     public function userHasCompany()
     {
-        $user_company = CompItems::where('author_id', \auth()->user()->user_id)->get();
+        $user_company = CompItems::where('author_id', \auth()->user()->user_id)->get()->first();
         return $user_company;
     }
 }

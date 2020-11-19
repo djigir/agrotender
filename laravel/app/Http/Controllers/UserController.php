@@ -161,9 +161,11 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (отзывы)
-    public function profileReviews()
+    public function profileReviews(Request $request)
     {
-        $reviews = $this->profileService->getUserReviews();
+        $type = $request->get('type');
+
+        $reviews = $this->profileService->getUserReviews($type);
         $user_company = $this->profileService->userHasCompany();
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
