@@ -97,7 +97,7 @@ class TraderService
 
         $traders = $this->getTraders($data);
 
-        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
+        return ['traders' => $traders->where('trader_premium', '!=', 2), 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
     }
 
 

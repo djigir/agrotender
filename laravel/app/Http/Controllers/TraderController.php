@@ -122,6 +122,7 @@ class TraderController extends Controller
         return view('traders.traders', [
             'regions' => $regions,
             'traders' => $data_traders['traders'],
+            'topTraders' => $data_traders['top_traders'],
             'onlyPorts' => $ports,
             'currencies' => $currencies,
             'region_port_name' => $region_port_name,
