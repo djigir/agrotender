@@ -31,7 +31,9 @@
     @if($type_view == 'table')
         @include('traders.traders_table', ['type_traders' => $type_traders])
     @else
-    @include('traders.block-info.traders_top')
+    @if(!empty($topTraders))
+        @include('traders.block-info.traders_top')
+    @endif
     <div class="new_container container mt-3 traders_dev">
         @if(!empty($topTraders))
             <div class="new_traders">
