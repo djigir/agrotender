@@ -84,16 +84,6 @@ class ProfileService
         }
     }
 
-    public function getLogin()
-    {
-        if (Auth::user()){
-            $get_login = Auth::user()->login;
-            return $get_login;
-        }else {
-            return  null;
-        }
-    }
-
     public function getUserReviews()
     {
         $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
@@ -106,5 +96,11 @@ class ProfileService
         }
 
         return $company_comments;
+    }
+
+    public function userHasCompany()
+    {
+        $user_company = CompItems::where('author_id', \auth()->user()->user_id)->get();
+        return $user_company;
     }
 }
