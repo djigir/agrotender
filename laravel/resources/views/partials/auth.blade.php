@@ -5,14 +5,8 @@
             <a href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false" class="head-name d-flex align-items-center position-relative">
                 <i class="fas fa-chevron-down mr-1"></i>
-                {{ $user_company =2 }}
-                @if($user_company == 1)
-                    <span>{{ 'Test' }}</span>
-                    <img alt="" src="/app/assets/img/noavatar.png" class="ml-2 head-logo">
-                @else
                     <span>{{ auth()->user()->name }}</span>
                     <img alt="" src="/app/assets/img/noavatar.png" class="ml-2 head-logo">
-                @endif
 
                 <span class="notification-badge top-badge"></span>
             </a>
