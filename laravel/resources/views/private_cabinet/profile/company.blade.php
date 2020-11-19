@@ -35,7 +35,7 @@
                     <div class="col-sm-4 pl-1 d-flex align-items-center">
                         <img class="logo" src="{{$company ? $company->logo_file : '/app/assets/img/noavatar.png'}}">
                         <span class="ml-3 select-image">Выбрать изображение</span>
-                        <input type="file" name="logo" class="d-block" value="{{$company ? $company->logo_file : ''}}">
+                        <input type="file" name="logo" class="d-block">
                     </div>
                 </div>
                 <div class="form-group row mt-4">

@@ -109,22 +109,19 @@ class UserController extends Controller
     // изменить login
     public function newLogin(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', \auth()->id())->get()->first();
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
-        $new_login = $newLoginRequest->get('email');
-
-        $validate = $newLoginRequest->validated();
-        if (!$validate) {
+        if (!$newLoginRequest->validated()) {
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
-        $torg_buyer->login = $new_login;
-        $torg_buyer->email = $new_login;
-        $torg_buyer->save();
-        $user->login = $new_login;
-        $user->email = $new_login;
-        $user->save();
+
+        TorgBuyer::where('id', auth()->user()->user_id)->update($newLoginRequest->only(['login']) +
+            ['email' => $newLoginRequest->get('login')]
+        );
+
+        User::where('id', \auth()->id())->update($newLoginRequest->only(['login']) +
+            ['email' => $newLoginRequest->get('login')]
+        );
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
     }
@@ -176,11 +173,11 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (компании) ProfileCompanyRequest
-    public function profileCompany(Request $request)
+    public function profileCompany()
     {
         $company = [];
 
-        if(auth()->user()){
+        if (auth()->user()) {
             $user = auth()->user();
             $company = $user->company;
         }

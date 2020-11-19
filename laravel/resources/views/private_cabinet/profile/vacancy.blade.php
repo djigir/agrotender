@@ -25,4 +25,63 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="addVacancy" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form class="form modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ml-3">Добавить вакансию</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body pt-4">
+                <div class="form-group">
+                    <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
+                    <div class="col pl-1">
+                        <input type="text" class="form-control" placeholder="Заголовок" name="title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col col-form-label">Описание <span class="text-danger">*</span></label>
+                    <div class="col pl-1">
+                        <textarea class="form-control" rows="7" name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-block btn-primary px-5 add-news">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal fade" id="editVacancy" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <form class="form modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title ml-3">Редактирование вакансии</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body pt-4">
+                <div class="form-group">
+                    <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
+                    <div class="col pl-1">
+                        <input type="text" class="form-control" placeholder="Заголовок" name="title">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col col-form-label">Описание <span class="text-danger">*</span></label>
+                    <div class="col pl-1">
+                        <textarea class="form-control" rows="7" name="description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="submit" class="btn btn-block btn-primary px-5 edit-vacancy">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
 @endsection
