@@ -85,22 +85,18 @@ class UserController extends Controller
     // изменить пароль
     public function changePass(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', \auth()->id())->get()->first();
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
-
         $old_pass = $newLoginRequest->get('oldPassword');
-        $new_pass = $newLoginRequest->get('password');
+        $new_pass = $newLoginRequest->get('passwd');
 
-        if (!Hash::check($old_pass, $user->passwd) && $new_pass){
+        if (!Hash::check($old_pass, auth()->user()->passwd) && $new_pass){
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
-        $torg_buyer->passwd = bcrypt($new_pass);
-        $torg_buyer->save();
-        $user->passwd = bcrypt($new_pass);
-        $user->save();
+        TorgBuyer::where('id', auth()->user()->user_id)->update(['passwd' => Hash::make($new_pass)]);
+
+        User::where('id', auth()->user()->id)->update(['passwd' => Hash::make($new_pass)]);
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Пароль изменён']);
     }
@@ -109,22 +105,19 @@ class UserController extends Controller
     // изменить login
     public function newLogin(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', \auth()->id())->get()->first();
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
-        $new_login = $newLoginRequest->get('email');
-
-        $validate = $newLoginRequest->validated();
-        if (!$validate) {
+        if (!$newLoginRequest->validated()) {
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
-        $torg_buyer->login = $new_login;
-        $torg_buyer->email = $new_login;
-        $torg_buyer->save();
-        $user->login = $new_login;
-        $user->email = $new_login;
-        $user->save();
+
+        TorgBuyer::where('id', auth()->user()->user_id)->update($newLoginRequest->only(['login']) +
+            ['email' => $newLoginRequest->get('login')]
+        );
+
+        User::where('id', \auth()->user()->id)->update($newLoginRequest->only(['login']) +
+            ['email' => $newLoginRequest->get('login')]
+        );
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
     }
@@ -178,11 +171,11 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (компании) ProfileCompanyRequest
-    public function profileCompany(Request $request)
+    public function profileCompany()
     {
         $company = [];
 
-        if(auth()->user()){
+        if (auth()->user()) {
             $user = auth()->user();
             $company = $user->company;
         }

@@ -31,7 +31,7 @@
                     <label class="col-12 col-sm-4 col-form-label text-left text-sm-right px-0"><b>Новый пароль:</b></label>
                     <div class="col-12 col-sm-5 pl-0 pl-sm-2">
                         <div class="input-group">
-                            <input type="password" class="form-control password" placeholder="Новый пароль" name="password" id="password">
+                            <input type="password" class="form-control password" placeholder="Новый пароль" name="passwd" id="password">
                             <span class="input-group-btn">
               <button type="button" class="form-control show-password">
                 <i class="far fa-eye"></i>
@@ -51,7 +51,7 @@
                 <div class="form-group row d-flex align-items-center py-1 mb-2 mt-2">
                     <label class="col-12 col-sm-4 col-form-label text-left text-sm-right px-0"><b>Новый логин:</b></label>
                     <div class="col-12 col-sm-5 pl-0 pl-sm-2">
-                        <input type="email" class="form-control" placeholder="Новый логин" name="email" id="email">
+                        <input type="email" class="form-control" placeholder="Новый логин" name="login" id="email">
                     </div>
                 </div>
                 <div class="text-center col-12 col-sm-4 offset-sm-4 pt-3 pb-2">
