@@ -1,5 +1,8 @@
 @extends('layout.layout', ['meta' => $meta])
 @section('content')
+    <div class="new_container">
+        <div class="new_page_title mt2">ОБНОВЛЕНИЯ ЗЕРНОТРЕЙДЕРОВ</div>
+    </div>
     @if($isMobile)
         @include('traders.feed.traders_feed', ['feed' => $feed])
     @else
@@ -7,9 +10,6 @@
     @endif
 {{--    <div class="container mt-3 "></div>--}}
 {{--    <div class="container traders mt-3 mt-sm-5">--}}
-    <div class="new_container">
-        <div class="new_page_title">ОБНОВЛЕНИЯ ЗЕРНОТРЕЙДЕРОВ</div>
-    </div>
     <div class="new_container traders mt2">
         @if(!$isMobile)
             @if($type_traders == 0 || $type_traders == 2)
@@ -32,7 +32,7 @@
             @include('traders.traders_forward_table', ['type_traders' => $type_traders])
         @else
         <div class="mt-3 traders_dev">
-            <div class="new_page_title top_traders_title">ТОП ЗЕРНОТРЕЙДЕРЫ</div>
+            <div class="new_page_title top_traders_title mt4">ТОП ЗЕРНОТРЕЙДЕРЫ</div>
             <div class="new_traders vip">
                 <div class="traders__item-wrap">
                 <a href="#" class="traders__item">

@@ -2,7 +2,7 @@
 $route_name = \Route::getCurrentRoute()->getName();
 $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 ?>
-<div class="d-none d-sm-block container mt-3">
+<!-- <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
     <li>
         <a href="/reklama">Главная</a>
@@ -20,7 +20,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
         </li>
     @endforeach
 </ol>
-</div>
+</div> -->
 @include('traders.feed.traders_feed', ['feed' => $feed])
 <div class="bg_filters"></div>
 <div class="new_filters-wrap">
@@ -133,7 +133,19 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                         </div>
                     </div>
                 </div>
-                <form style="display:flex;">
+                <div class="filter__item main">
+                  <button class="filter__button main">USD</button>
+                  <div class="new_filters_dropdown-wrap">
+                    <div class="new_filters_dropdown">
+                      <ul>
+                        <li>
+                          <a href="#">UAH</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <!-- <form style="display:flex;">
                     <div class="new_filters_checkbox first">
                         <button type="submit" class="btn-remove mt-0" name="currency" value="0">
                             <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox"  currency="{{$currency}}">
@@ -160,7 +172,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                         </label>
                         </button>
                     </div>
-                </form>
+                </form> -->
             </div>
         </div>
     </div>

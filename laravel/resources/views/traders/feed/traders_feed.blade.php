@@ -33,6 +33,25 @@
             <button class="new_feed-button next" tabindex="0" role="button" aria-label="Next slide" aria-disabled="false"></button>
         </div>
     </div>
+    <div class="d-none d-sm-block container mt-3">
+    <ol class="breadcrumbs small p-0">
+        <li>
+            <a href="/reklama">Главная</a>
+        </li>
+        <i class="fas fa-chevron-right extra-small"></i>
+        @foreach($breadcrumbs as $index_bread => $breadcrumb)
+            <li>
+                @if($breadcrumb['url'])
+                    <a href="{{$breadcrumb['url']}}">
+                        <h1>{!! $breadcrumb['name'] !!}</h1>
+                    </a>
+                @else
+                    <h1>{!! $breadcrumb['name'] !!}</h1>
+                @endif
+            </li>
+        @endforeach
+    </ol>
+    </div>
 @endif
 
 <style>

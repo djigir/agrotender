@@ -9,22 +9,22 @@
             <thead>
             <tr role="row">
                 <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="Компании: activate to sort column ascending" style="width: 249px;">Компании
+                    aria-label="Компании: activate to sort column ascending" style="width: 350px;text-align: left;">Компании
                 </th>
                 <th class="sth sorting" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="UAH : activate to sort column descending" style="width: 77px;">UAH
+                    aria-label="UAH : activate to sort column descending" style="width: auto;">UAH
                     <i class="fas fa-sort" style="font-size: 12px;"></i>
                 </th>
                 <th class="sth sorting" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="USD : activate to sort column descending" style="width: 76px;">USD
+                    aria-label="USD : activate to sort column descending" style="width: auto;">USD
                     <i class="fas fa-sort" style="font-size: 12px;"></i>
                 </th>
                 <th class="sth sorting" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="Дата : activate to sort column descending" style="width: 101px;">Дата
+                    aria-label="Дата : activate to sort column descending" style="width: auto;">Дата
                     <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
                 </th>
                 <th class="sth sorting" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="Место закупки: activate to sort column ascending" style="width: 195px;">Место закупки
+                    aria-label="Место закупки: activate to sort column ascending" style="text-align: left;width: 260px;">Место закупки
                 </th>
             </tr>
             </thead>
@@ -33,8 +33,8 @@
                 @foreach($trader->places as $index => $place)
                     @if($currency != null)
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
-                        <td>
-                            <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                        <td class="text-left">
+                            <a class="d-inline-block" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                 <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
                                 <span class="title">{!! $trader->title !!}</span>
                             </a>
@@ -67,8 +67,8 @@
                     @else
                         @if($place->pivot->curtype == $currency)
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
-                            <td>
-                                <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                            <td class="text-left">
+                                <a class="d-inline-block" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
                                     <span class="title">{!! $trader->title !!}</span>
                                 </a>

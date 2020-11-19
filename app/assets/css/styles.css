@@ -2071,6 +2071,7 @@ table.price-table td {
 
 .sortTable tbody tr td:last-child {
     max-width: 240px;
+    text-align: left;
   }
 
 .sortTable .status {
@@ -2084,19 +2085,19 @@ table.price-table td {
 
 .sortTable .logo {
     float: left;
-    width: 32px;
-    height: 32px;
-    border-radius: 5px;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
     border: 1px solid rgba(0,0,0,.1);
 }
 
 .sortTable .title {
-    display: inline-block;
-    line-height: 1.2;
-    color: #1056b2;
-    font-weight: 600;
-    text-align: left;
-    max-width: 200px
+  display: inline-block;
+  line-height: 42px;
+  color: #1056b2;
+  font-weight: 600;
+  text-align: left;
+  max-width: 200px
 }
 
 .sortTable .place {
@@ -6766,10 +6767,20 @@ table.proposedTable tr.not-viewed td {
   border-radius: 8px 0 0  8px;
   border-right: 1px solid #E5EEF9;
 }
-.new_filters .filter__item .filter__button.main:after {
+.new_filters .filter__item .filter__button.last {
+  text-align: center;
+  width: 236px;
+  cursor: default;
+  border-radius: 0 8px 8px 0;
+  padding-left: 8px;
+}
+
+.new_filters .filter__item .filter__button.main:after,
+.new_filters .filter__item .filter__button.last::after {
   content: none
 }
-.new_filters .filter__item .filter__button.main:before {
+.new_filters .filter__item .filter__button.main:before,
+.new_filters .filter__item .filter__button.last::before {
   content: '';
   width: 14px;
   height: 10px;
