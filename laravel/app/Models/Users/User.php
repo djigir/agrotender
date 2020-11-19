@@ -12,31 +12,6 @@ use Illuminate\Notifications\Notifiable;
 
 /**
  * Class User
-<<<<<<< HEAD
- * @package App\Models
- * @property  integer id
- * @property  $name
- * @property  string last_name
- * @property  $email
- * @property  $email_verified_at
- * @property  $password
- * @property  $remember_token
- * @property  $created_at
- * @property  $updated_at
- * @property  $role
- * @property  $time_zone
- * @property  $phone
- * @property  $ylogin
- * @property  $ypassword
- * @property  $y_key_api
- * @property  $parent_id
- *
- * @property string avatar
- * @property string avatar_url
- * @property string full_name
- *
- * @property CompItems company
-=======
  * @package App\Models\User
  * @property integer $discount_level_id
  * @property integer $max_adv_posts
