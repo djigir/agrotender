@@ -80,10 +80,10 @@
                                 @foreach($rubric->comp_topic as $index_item => $rubric_item)
                                     <div class="rubric-item">
                                         <input class="custom-control-input rubric-input" type="checkbox"
-                                               value="{{$rubric_item['id']}}" name="rubrics[]"
-                                               id="rubric{{$rubric_item['id']}}">
-                                        <label class="custom-control-label" for="rubric{{$rubric_item['id']}}">
-                                            {{$rubric_item['title']}}
+                                               value="{{$rubric_item->id}}" name="rubrics[]"
+                                               id="rubric{{$rubric_item->id}}" {{$select_rubric->has($rubric_item->id) ? 'checked' : ''}}>
+                                        <label class="custom-control-label" for="rubric{{$rubric_item->id}}">
+                                            {{$rubric_item->title}}
                                         </label>
                                     </div>
                                 @endforeach

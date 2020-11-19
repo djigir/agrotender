@@ -6,6 +6,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\NewLoginRequest;
 use App\Models\Comp\CompTgroups;
+use App\Models\Comp\CompTopic;
+use App\Models\Comp\CompTopicItem;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use App\Services\User\AdvertService;
@@ -170,18 +172,26 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompanyRequest
     public function profileCompany(Request $request)
     {
-        $user = auth()->user();
+        $company = [];
 
-        $company = $user->company;
+        if(auth()->user()){
+            $user = auth()->user();
+            $company = $user->company;
+        }
+
         $regions = $this->baseServices->getRegions()->forget(25);
+
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
         }])->orderBy('sort_num')->orderBy('title')->get();
+
+        $select_rubric = CompTopicItem::where('item_id', $company->id)->pluck('topic_id', 'topic_id');
 
         return view('private_cabinet.profile.company', [
             'regions' => $regions,
             'company' => $company,
             'rubrics' => $rubrics,
+            'select_rubric' => $select_rubric,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[4],
             'isMobile' => $this->agent->isMobile(),
@@ -190,9 +200,8 @@ class UserController extends Controller
 
     public function createCompanyProfile(ProfileCompanyRequest $request)
     {
-        //dump($request->all());
         if ($request->errors == null){
-            $this->profileService->createCompany($request);
+            $this->profileService->createOrUpdateCompany($request);
             return redirect()->route('user.profile.company');
         }
 

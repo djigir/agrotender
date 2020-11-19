@@ -38,9 +38,11 @@ class ProfileService
     }
 
 
-    public function createCompany(Request $request)
+    public function createOrUpdateCompany(Request $request)
     {
-        /** var User $user */
+        /** @var User $user */
+        $user = auth()->user();
+
         if($request->isMethod('post'))
         {
             $author_id = auth()->user()->user_id;
@@ -51,6 +53,12 @@ class ProfileService
             {
                 $fileName = $file->getClientOriginalName();
                 $file->move('/var/www/agrotender'.self::PART_FILE_NAME, $fileName);
+                $fileName = self::PART_FILE_NAME.$fileName;
+            }
+
+            if($file == null && $user->company)
+            {
+                $fileName = $user->company->logo_file;
             }
 
             $compshort = strlen($request->get('content')) > 210 ? Str::limit($request->get('content'), 200) : $request->get('content');
@@ -59,7 +67,7 @@ class ProfileService
                 'author_id' => $author_id, 'topic_id' => 0, 'type_id' => 0,
                 'ray_id' => 0, 'title_full' => '', 'phone' => '', 'short' => $compshort,
                 'phone2' => '', 'phone3' => '', 'www' => '', 'add_date' => Carbon::now()->toDateTimeString(),
-                'contacts' => '', 'logo_file' => self::PART_FILE_NAME.$fileName
+                'contacts' => '', 'logo_file' => $fileName
             ], $request->toArray());
 
             CompTopicItem::where('item_id', $company->id)->delete();
