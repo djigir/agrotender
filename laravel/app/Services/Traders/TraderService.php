@@ -293,11 +293,12 @@ class TraderService
     }
 
     /**
-     * @param $author_ids
-     * @param $criteria_prices
-     * @param $criteria_places
-     * @return Builder
-     */
+    * @param $type
+    * @param $author_ids
+    * @param $criteria_prices
+    * @param $criteria_places
+    * @return Builder
+    */
     public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places)
     {
         $forward_months = $this->baseService->getForwardsMonths();
@@ -336,7 +337,7 @@ class TraderService
             ->where('traders_places.type_id', '!=', 1)
             ->orderBy('traders_prices.change_date', 'desc')
             ->select('traders_prices.buyer_id', 'traders_prices.cult_id', 'traders_prices.curtype',
-                'traders_prices.change_date', 'traders_prices.costval',
+                'traders_prices.change_date', 'traders_prices.dt','traders_prices.costval',
                 'traders_prices.costval_old', 'traders_prices.curtype',
                 'traders_products_lang.name', 'traders_places.obl_id',
                 'traders_places.port_id')
@@ -347,6 +348,8 @@ class TraderService
                 $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('cult_id')->take(3);
 
                 if($type == 'forward'){
+                    $traders[$index]['min_date'] =  $prices->where('buyer_id', $trader['author_id'])->min('dt');
+                    $traders[$index]['max_date'] = $prices->where('buyer_id', $trader['author_id'])->max('dt');
                     $traders[$index]['prices'] = $prices->where('buyer_id', $trader['author_id'])->unique('costval')->take(3);
                 }
             }

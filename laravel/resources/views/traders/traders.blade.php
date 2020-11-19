@@ -122,9 +122,17 @@
                                         @endforeach
                                     @endif
                                     <div class="traders__item__content-date">
-{{--                                       <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">--}}
-{{--                                           {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}--}}
-{{--                                       </span>--}}
+                                        @if(!isset($trader->min_date))
+                                            <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">
+                                                {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                            </span>
+                                        @else
+                                            <span style="display: flex; color: #001430">
+                                               <span>{{\Carbon\Carbon::parse($trader->min_date)->format('m.Y')}}</span> <span style="margin: 0 2px">-</span> <span>{{\Carbon\Carbon::parse($trader->max_date)->format('m.Y')}}</span>
+{{--                                               <span>{{mb_convert_case(\Date::parse($trader->min_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span> <span style="margin: 0 2px">-</span> <span style="margin-right: 2px" >{{mb_convert_case(\Date::parse($trader->max_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span>  <span>{{\Date::parse($trader->max_date)->format('y')}}</span>--}}
+                                           </span>
+                                        @endif
+                                       </span>
                                     </div>
                                 </div>
                             </a>
