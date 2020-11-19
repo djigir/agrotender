@@ -13,9 +13,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
+use function React\Promise\all;
 
 
 class ProfileService
@@ -101,7 +103,8 @@ class ProfileService
 
     public function getUserReviews()
     {
-        $company_comments = CompComment::where('author_id', \auth()->user()->user_id)->get();
+
+        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
 
         $company_names = collect();
 
@@ -109,13 +112,8 @@ class ProfileService
             $company_names->add(CompItems::select('id', 'title')->where('id', $company_comments[$key]->item_id)->get()[0]);
         }
 
-        $comments = collect();
-        foreach ($company_comments as $key => $company_comment) {
-            $comments->add(CompCommentLang::where('id', $company_comments[$key]->id)->get()[0]);
-        }
-
         $reviews = new Collection;
-        $reviews->push($company_comments)->push($company_names)->push($comments);
+        $reviews->push($company_comments)->push($company_names);
 
         return $reviews;
     }
