@@ -82,49 +82,48 @@ class UserController extends Controller
     // изменить пароль
     public function changePass(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', Auth::id())->get()[0];
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()[0];
+        $user = User::where('id', \auth()->id())->get()->first();
+        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
 
         $old_pass = $newLoginRequest->get('oldPassword');
         $new_pass = $newLoginRequest->get('password');
-        if (Hash::check($old_pass, $user->passwd) && $new_pass){
-            $torg_buyer->passwd = bcrypt($new_pass);
-            $torg_buyer->save();
-            $user->passwd = bcrypt($new_pass);
-            $user->save();
-            return  redirect()->route('user.profile.profile')
-                ->with(['success' => 'Пароль изменён']);
-        }else {
+
+        if (!Hash::check($old_pass, $user->passwd) && $new_pass){
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
+        $torg_buyer->passwd = bcrypt($new_pass);
+        $torg_buyer->save();
+        $user->passwd = bcrypt($new_pass);
+        $user->save();
+
+        return  redirect()->route('user.profile.profile')->with(['success' => 'Пароль изменён']);
     }
 
 
     // изменить login
     public function newLogin(NewLoginRequest $newLoginRequest)
     {
-        $user = User::where('id', Auth::id())->get()[0];
-        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()[0];
+        $user = User::where('id', \auth()->id())->get()->first();
+        $torg_buyer = TorgBuyer::where('id', $user->user_id)->get()->first();
         $new_login = $newLoginRequest->get('email');
 
         $validate = $newLoginRequest->validated();
-        if ($validate) {
-            $torg_buyer->login = $new_login;
-            $torg_buyer->email = $new_login;
-            $torg_buyer->save();
-            $user->login = $new_login;
-            $user->email = $new_login;
-            $user->save();
-            return  redirect()->route('user.profile.profile')
-                ->with(['success' => 'Email успешно изменен!']);
-        }else {
+        if (!$validate) {
             return redirect()->back()
                 ->withInput($newLoginRequest->all())
                 ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
+        $torg_buyer->login = $new_login;
+        $torg_buyer->email = $new_login;
+        $torg_buyer->save();
+        $user->login = $new_login;
+        $user->email = $new_login;
+        $user->save();
+
+        return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
     }
 
 
