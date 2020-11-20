@@ -324,6 +324,7 @@ window.onload = function (){
             $('#noty_layout__bottomLeft').hide();
         }, 5000);
     });
+
     function changeBG(type = ''){
         if(type == 'active'){
             $('#bg-modal').addClass("modal-backdrop");
@@ -336,7 +337,6 @@ window.onload = function (){
             $('#bg-modal').removeClass("show");
             $('#reviewModal').toggle();
         }
-
     }
         /* modal */
     $('#reviews').click(function () {

@@ -26,6 +26,7 @@ class ProfileService
 {
     const PART_FILE_NAME = '/pics/';
 
+
     public function createCompanyValidator(array $data)
     {
         /** @var Validator $validator */
@@ -48,7 +49,7 @@ class ProfileService
 
         if($request->isMethod('post'))
         {
-            $author_id = auth()->user()->user_id;
+            $author_id = $user->user_id;
             $file = $request->file('logo');
             $fileName = '';
 
@@ -89,7 +90,10 @@ class ProfileService
 
     public function getUserReviews($type)
     {
-        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', \auth()->user()->user_id)->get();
+        /** @var User $user */
+        $user = auth()->user();
+
+        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', $user->user_id)->get();
         $company_names = collect();
         foreach ($company_comments as $key => $company_comment) {
             $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()[0]);
@@ -106,4 +110,75 @@ class ProfileService
         $user_company = CompItems::where('author_id', \auth()->user()->user_id)->get()->first();
         return $user_company;
     }
+
+//    public function getNewsItem($newId, $company) {
+//        return $this->db->select('agt_comp_news', '*', ['id' => $newId, 'comp_id' => $company])[0] ?? null;
+//    }
+//
+//    public function getNews($company) {
+//        return $this->db->query("select * from agt_comp_news where comp_id = $company order by id desc");
+//    }
+//
+//    public function addNews($company, $title, $image, $description) {
+//        if ($title == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите заголовок.']);
+//        }
+//        if ($description == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите описание.']);
+//        }
+//        if ($image != null && $image['error'] == 0) {
+//            $tmp      = $image['tmp_name'];
+//            $type     = explode('/', $image['type'])[0];
+//            if ($type != 'image') {
+//                $this->response->json(['code' => 0, 'text' => 'Только картинка может быть логотипом.']);
+//            }
+//            $filename = $this->model('utils')->getHash(12).'.'.pathinfo($image['name'])['extension'];
+//            move_uploaded_file($tmp, PATH['root'].'/pics/n/'.$filename);
+//            $filename = 'pics/n/'.$filename;
+//        } else {
+//            $filename = '';
+//        }
+//        $this->db->insert('agt_comp_news', ['title' => $title, 'pic_src' => $filename, 'content' => $description, 'add_date' => 'now()', 'visible' => 1, 'comp_id' => $company]);
+//        $this->response->json(['code' => 1, 'text' => '']);
+//    }
+//
+//    public function editNews($company, $newsId, $title, $image, $description) {
+//        if ($title == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите заголовок.']);
+//        }
+//        if ($description == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите описание.']);
+//        }
+//        $newsItem = $this->getNewsItem($newsId, $company);
+//        if ($newsItem == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Новость ещё не создана.']);
+//        }
+//        if ($image != null && $image['error'] == 0) {
+//            $tmp      = $image['tmp_name'];
+//            $type     = explode('/', $image['type'])[0];
+//            if ($type != 'image') {
+//                $this->response->json(['code' => 0, 'text' => 'Только картинка может быть логотипом.']);
+//            }
+//            $filename = $this->model('utils')->getHash(12).'.'.pathinfo($image['name'])['extension'];
+//            move_uploaded_file($tmp, PATH['root'].'/pics/n/'.$filename);
+//            if ($newsItem['pic_src'] != '') {
+//                unlink(PATH['root'].'/'.$newsItem['pic_src']);
+//            }
+//            $filename = 'pics/n/'.$filename;
+//        } else {
+//            $filename = $newsItem['pic_src'];
+//        }
+//        $this->db->update('agt_comp_news', ['title' => $title, 'pic_src' => $filename, 'content' => $description], ['id' => $newsId, 'comp_id' => $company]);
+//        $this->response->json(['code' => 1, 'text' => '']);
+//    }
+//
+//    public function removeNews($company, $newsId) {
+//        $newsItem = $this->getNewsItem($newsId, $company);
+//        if ($newsItem == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Новость ещё не создана.']);
+//        }
+//        unlink(PATH['root'].'/'.$newsItem['pic_src']);
+//        $this->db->delete('agt_comp_news', ['id' => $newsId]);
+//        $this->response->json(['code' => 1, 'text' => '']);
+//    }
 }
