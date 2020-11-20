@@ -274,7 +274,7 @@ class CompanyService
 
         }
 
-        if ($issetT1 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
+        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
             $type = 0;
 
         }

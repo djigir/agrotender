@@ -358,7 +358,6 @@ class TraderService
         $currency = 2;
         $acttype = $data->get('type') != 'forward' ? self::ACTTYPE_TRADERS : self::ACTTYPE_TRADERS_FORWARD;
 
-
         $criteria_places = [];
         $criteria_prices = [['traders_prices.acttype', 0]];
 
