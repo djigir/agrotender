@@ -166,11 +166,12 @@ class UserController extends Controller
     {
         $type = $request->get('type');
 
-        $reviews = $this->profileService->getUserReviews($type);
+        $reviews = $this->profileService->getUserCompanyReviews($type);
         $user_company = $this->profileService->userHasCompany();
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[3],
+            'type' => $type,
             'reviews' => $reviews,
             'user_company' => $user_company,
             'isMobile' => $this->agent->isMobile(),

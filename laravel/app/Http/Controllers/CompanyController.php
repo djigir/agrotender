@@ -14,6 +14,7 @@ use App\Models\Comp\CompItemsContact;
 use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
+use App\Services\User\ProfileService;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
@@ -25,16 +26,18 @@ class CompanyController extends Controller
 {
     protected $companyService;
     protected $baseServices;
+    protected $profileService;
     protected $breadcrumbService;
     protected $seoService;
     protected $agent;
     protected $company;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService, ProfileService $profileService)
     {
         parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->profileService = $profileService;
         $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->company = null;
@@ -317,16 +320,12 @@ class CompanyController extends Controller
 
     public function createReviews(Request $request, $id)
     {
-        /** @var Validator $validator */
-        $validator = Validator::make($request->all(), [
-            'content_plus' => 'required',
-            'content_minus' => 'required',
-        ]);
-
-        if ($validator->fails()){
+        // запретить пользователю оставлять комментарии по своей компанией
+        $user_company = $this->profileService->userHasCompany();
+        if($user_company) {
             return redirect()
                 ->back()
-                ->withErrors($validator)
+                ->withErrors(['mgs' => "Вы не можете оставить отзыв для своей компании."])
                 ->withInput();
         }
 

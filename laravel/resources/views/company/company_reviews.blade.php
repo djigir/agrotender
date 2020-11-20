@@ -155,7 +155,7 @@
         <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: block">
             <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
                  class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
-                <div class="noty_body">Укажите достоинства и недостатки компании.</div>
+                <div class="noty_body">{{ $errors->first() }}</div>
                 <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
             </div>
         </div>

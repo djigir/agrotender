@@ -88,20 +88,34 @@ class ProfileService
         }
     }
 
-    public function getUserReviews($type)
+    public function getUserCompanyReviews($type)
     {
         /** @var User $user */
         $user = auth()->user();
 
+        // reviews for user company
+        if ($type) {
+            $company_reviews = CompComment::with('comp_comment_lang')->where('item_id', $this->userHasCompany()->id)->get();
+            $reviews = collect();
+
+            foreach ($company_reviews as $key => $company_comment) {
+                $reviews->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_reviews[$key]->item_id)->get()->first());
+                $company_reviews[$key]->comp_title = $reviews[$key]->title;
+                $company_reviews[$key]->comp_id = $reviews[$key]->id;
+                $company_reviews[$key]->comp_logo = $reviews[$key]->logo_file;
+            }
+            return $company_reviews;
+
+        }
+        // user reviews
         $company_comments = CompComment::with('comp_comment_lang')->where('author_id', $user->user_id)->get();
         $company_names = collect();
         foreach ($company_comments as $key => $company_comment) {
-            $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()[0]);
+            $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()->first());
             $company_comments[$key]->comp_title = $company_names[$key]->title;
             $company_comments[$key]->comp_id = $company_names[$key]->id;
             $company_comments[$key]->comp_logo = $company_names[$key]->logo_file;
         }
-
         return $company_comments;
     }
 
