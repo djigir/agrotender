@@ -103,7 +103,7 @@ class UserController extends Controller
 
 
     // изменить login
-    public function newLogin(LoginPasswordRequest $loginPasswordRequest)
+    public function changeLogin(LoginPasswordRequest $loginPasswordRequest)
     {
         if (!$loginPasswordRequest->validated()) {
             return redirect()->back()

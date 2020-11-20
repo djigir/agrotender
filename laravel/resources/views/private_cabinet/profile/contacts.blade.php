@@ -5,11 +5,11 @@
     @include('private_cabinet.profile.profile_header')
     <div class="container mt-4 mb-5">
         <div class="dep mx-sm-5 text-center text-sm-left">
-            <a href="/u/contacts" class="active">Главный офис</a>
-            <a href="/u/contacts?dep=1">Отдел закупок</a>
-            <a href="/u/contacts?dep=2">Отдел продаж</a>
-            <a href="/u/contacts?dep=3">Отдел услуг</a>
-            <a href="/u/contacts?dep=999">Telegram/Viber</a>
+            <a href="{{ route('user.profile.contacts') }}" class="active">Главный офис</a>
+            <a href="{{ route('user.profile.contacts', "dep=1") }}">Отдел закупок</a>
+            <a href="{{ route('user.profile.contacts', "dep=2") }}">Отдел продаж</a>
+            <a href="{{ route('user.profile.contacts', "dep=3") }}">Отдел услуг</a>
+            <a href="{{ route('user.profile.contacts', "dep=999") }}">Telegram/Viber</a>
         </div>
         <div class="content-block trader-contact mx-sm-5 py-3 px-4">
             <div class="place d-flex justify-content-between">
