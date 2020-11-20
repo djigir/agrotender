@@ -2,7 +2,6 @@
 
 namespace App\Models\Regions;
 
-use App\Models\Comp\CompItems;
 use App\Models\Traders\TradersPlaces;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,8 +19,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Regions extends Model
 {
-    protected $connection = 'mysql2';
     protected $table = 'regions';
+
 
     protected $fillable = [
         'id',

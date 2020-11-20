@@ -7,26 +7,18 @@ use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
-use App\Models\Traders\TradersPorts2buyer;
 use App\Models\Traders\TradersPrices;
-use App\Models\Traders\TradersProducts2buyer;
-use App\models\User;
-use App\Models\Users\Users;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
-use App\Models\Torg\TorgBuyer;
 use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
 use Carbon\Carbon;
-use  App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
-use Jenssegers\Date\Date;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller

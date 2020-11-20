@@ -421,7 +421,7 @@ class Board extends \Core\Model {
           on att.id = atp.topic_id 
         left join agt_torg_buyer tb
           on atp.author_id = tb.id  
-        left join regions as r
+        left join agt_regions as r
           on r.id = atp.obl_id
         left join agt_comp_items ci
           on atp.company_id = ci.id");
@@ -540,7 +540,7 @@ class Board extends \Core\Model {
   public function getRegions($rubric = null, $sitemap = null) {
     $regions = $this->db->query("
       select tr.*
-        from regions tr
+        from agt_regions tr
       group by tr.id");
     if ($sitemap != null) {
       $total = 0;
