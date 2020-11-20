@@ -216,7 +216,7 @@ class TraderService
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
-            ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
+            ->leftJoin('regions', 'traders_places.obl_id', '=', 'regions.id')
             ->where($criteria_prices)
             ->where($criteria_places)
             ->where('traders_places.type_id', '!=', 1)
@@ -235,7 +235,7 @@ class TraderService
                 'traders_prices.curtype', 'traders_prices.dt',
                 'traders_prices.change_date', 'traders_places.port_id',
                 'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
-                \DB::raw('regions.name as region'))
+                'regions.name as region')
             ->get();
     }
 
