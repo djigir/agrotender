@@ -103,6 +103,8 @@ Route::prefix('u')
                 Route::post('/toggle_visible', 'UserController@toggleVisible')->name('toggle_visible');
 
                 Route::post('/action_news', 'UserController@actionNews')->name('action_news');
+                Route::post('/edit_news', 'UserController@editNews')->name('edit_news');
+                Route::post('/print_news', 'UserController@printNews')->name('print_news');
                 Route::post('/action_vacancy', 'UserController@actionVacancy')->name('action_vacancy');
         });
 

@@ -4,9 +4,12 @@ namespace App\Services\User;
 
 
 use App\Http\Requests\LoginPasswordRequest;
+use App\Http\Requests\ProfileCompanyRequest;
+use App\Http\Requests\ProfileCompanyNewsRequest;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompNews;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
@@ -24,7 +27,8 @@ use function React\Promise\all;
 
 class ProfileService
 {
-    const PART_FILE_NAME = '/pics/';
+    const PART_FILE_LOGO_COMPANY = '/pics/c/';
+    const PART_FILE_LOGO_NEWS = '/pics/n/';
 
 
     public function createCompanyValidator(array $data)
@@ -41,59 +45,78 @@ class ProfileService
         return $validator;
     }
 
-
-    public function createOrUpdateCompany(Request $request)
+    public function putFileInDirectory($file, $path, $type)
     {
         /** @var User $user */
         $user = auth()->user();
 
-        if($request->isMethod('post'))
+        $fileName = '';
+
+        if($file && $file->getError() == 0)
         {
-            $author_id = $user->user_id;
-            $file = $request->file('logo');
-            $fileName = '';
-
-            if($file && $file->getError() == 0)
-            {
-                $fileName = $file->getClientOriginalName();
-                $file->move('/var/www/agrotender'.self::PART_FILE_NAME, $fileName);
-                $fileName = self::PART_FILE_NAME.$fileName;
-            }
-
-            if($file == null && $user->company)
-            {
-                $fileName = $user->company->logo_file;
-            }
-
-            $compshort = strlen($request->get('content')) > 210 ? Str::limit($request->get('content'), 200) : $request->get('content');
-
-            $company = CompItems::updateOrCreate(['author_id' => $author_id], $request->except(['_token', 'logo']) + [
-                'author_id' => $author_id, 'topic_id' => 0, 'type_id' => 0,
-                'ray_id' => 0, 'title_full' => '', 'phone' => '', 'short' => $compshort,
-                'phone2' => '', 'phone3' => '', 'www' => '', 'add_date' => Carbon::now()->toDateTimeString(),
-                'contacts' => '', 'logo_file' => $fileName
-            ], $request->toArray());
-
-            CompTopicItem::where('item_id', $company->id)->delete();
-
-            \DB::beginTransaction();
-                foreach ($request->get('rubrics') as $index => $rubric) {
-                    CompTopicItem::create([
-                        'topic_id' => (int)$rubric,
-                        'item_id' => $company->id,
-                        'add_date' => Carbon::now()->toDateTimeString()
-                    ]);
-                }
-            \DB::commit();
+            $fileName = $file->getClientOriginalName();
+            $file->move('/var/www/agrotender'.$path, $fileName);
+            $fileName = $path.$fileName;
         }
+
+        if($file == null && $user->company && $type != 'news')
+        {
+            $fileName = $user->company->logo_file;
+        }
+
+        return $fileName;
     }
 
-    public function createOrUpdateNewsCompany(Request $request)
+    public function createOrUpdateCompany(ProfileCompanyRequest $request)
     {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $author_id = $user->user_id;
+
+        $fileName = $this->putFileInDirectory($request->file('logo'), self::PART_FILE_LOGO_COMPANY, 'company');
+
+        $compshort = strlen($request->get('content')) > 210 ? Str::limit($request->get('content'), 200) : $request->get('content');
+
+        $company = CompItems::updateOrCreate(['author_id' => $author_id], $request->except(['_token', 'logo']) + [
+            'author_id' => $author_id, 'topic_id' => 0, 'type_id' => 0,
+            'ray_id' => 0, 'title_full' => '', 'phone' => '', 'short' => $compshort,
+            'phone2' => '', 'phone3' => '', 'www' => '', 'add_date' => Carbon::now()->toDateTimeString(),
+            'contacts' => '', 'logo_file' => $fileName
+        ], $request->toArray());
+
+        CompTopicItem::where('item_id', $company->id)->delete();
+
+        \DB::beginTransaction();
+            foreach ($request->get('rubrics') as $index => $rubric) {
+                CompTopicItem::create([
+                    'topic_id' => (int)$rubric,
+                    'item_id' => $company->id,
+                    'add_date' => Carbon::now()->toDateTimeString()
+                ]);
+            }
+        \DB::commit();
+    }
+
+    public function createOrUpdateNewsCompany(ProfileCompanyNewsRequest $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $fileName = $this->putFileInDirectory($request->file('logo'), self::PART_FILE_LOGO_NEWS, 'news');
+
+        CompNews::create($request->only(['title', 'content']) +
+            [
+                'comp_id' => $user->company->id,
+                'pic_src' => $fileName,
+                'visible' => 1,
+                'add_date' => Carbon::now()->toDateTimeString()
+            ]
+        );
 
     }
 
-    public function createOrUpdateVacancyCompany(Request $request)
+    public function createOrUpdateVacancyCompany(ProfileCompanyNewsRequest $request)
     {
 
     }
@@ -128,76 +151,4 @@ class ProfileService
         }
         return $company_comments;
     }
-
-
-//    public function getNewsItem($newId, $company) {
-//        return $this->db->select('agt_comp_news', '*', ['id' => $newId, 'comp_id' => $company])[0] ?? null;
-//    }
-//
-//    public function getNews($company) {
-//        return $this->db->query("select * from agt_comp_news where comp_id = $company order by id desc");
-//    }
-//
-//    public function addNews($company, $title, $image, $description) {
-//        if ($title == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Введите заголовок.']);
-//        }
-//        if ($description == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Введите описание.']);
-//        }
-//        if ($image != null && $image['error'] == 0) {
-//            $tmp      = $image['tmp_name'];
-//            $type     = explode('/', $image['type'])[0];
-//            if ($type != 'image') {
-//                $this->response->json(['code' => 0, 'text' => 'Только картинка может быть логотипом.']);
-//            }
-//            $filename = $this->model('utils')->getHash(12).'.'.pathinfo($image['name'])['extension'];
-//            move_uploaded_file($tmp, PATH['root'].'/pics/n/'.$filename);
-//            $filename = 'pics/n/'.$filename;
-//        } else {
-//            $filename = '';
-//        }
-//        $this->db->insert('agt_comp_news', ['title' => $title, 'pic_src' => $filename, 'content' => $description, 'add_date' => 'now()', 'visible' => 1, 'comp_id' => $company]);
-//        $this->response->json(['code' => 1, 'text' => '']);
-//    }
-//
-//    public function editNews($company, $newsId, $title, $image, $description) {
-//        if ($title == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Введите заголовок.']);
-//        }
-//        if ($description == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Введите описание.']);
-//        }
-//        $newsItem = $this->getNewsItem($newsId, $company);
-//        if ($newsItem == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Новость ещё не создана.']);
-//        }
-//        if ($image != null && $image['error'] == 0) {
-//            $tmp      = $image['tmp_name'];
-//            $type     = explode('/', $image['type'])[0];
-//            if ($type != 'image') {
-//                $this->response->json(['code' => 0, 'text' => 'Только картинка может быть логотипом.']);
-//            }
-//            $filename = $this->model('utils')->getHash(12).'.'.pathinfo($image['name'])['extension'];
-//            move_uploaded_file($tmp, PATH['root'].'/pics/n/'.$filename);
-//            if ($newsItem['pic_src'] != '') {
-//                unlink(PATH['root'].'/'.$newsItem['pic_src']);
-//            }
-//            $filename = 'pics/n/'.$filename;
-//        } else {
-//            $filename = $newsItem['pic_src'];
-//        }
-//        $this->db->update('agt_comp_news', ['title' => $title, 'pic_src' => $filename, 'content' => $description], ['id' => $newsId, 'comp_id' => $company]);
-//        $this->response->json(['code' => 1, 'text' => '']);
-//    }
-//
-//    public function removeNews($company, $newsId) {
-//        $newsItem = $this->getNewsItem($newsId, $company);
-//        if ($newsItem == null) {
-//            $this->response->json(['code' => 0, 'text' => 'Новость ещё не создана.']);
-//        }
-//        unlink(PATH['root'].'/'.$newsItem['pic_src']);
-//        $this->db->delete('agt_comp_news', ['id' => $newsId]);
-//        $this->response->json(['code' => 1, 'text' => '']);
-//    }
 }

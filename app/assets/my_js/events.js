@@ -427,6 +427,15 @@ window.onload = function (){
         $('#port-uah').removeClass('active');
     });
 
+
+
+    $('#close-modal').click(function (){
+        $('#editNews').css('display', 'none');
+    })
+    $('.close-form').click(function (){
+            $('#editNews').css('display', 'none');
+        })
+
     /* feed slider */
     if (document.querySelector('.new_feed')) {
         setTimeout(() => new Swiper('.swiper-container', {

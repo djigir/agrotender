@@ -23,6 +23,8 @@ class CompNews extends Model
 {
     protected $table = 'comp_news';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'id',
         'comp_id',
@@ -31,6 +33,7 @@ class CompNews extends Model
         'pic_ico',
         'title',
         'content',
+        'add_date',
     ];
 
     protected $dates = ['add_date'];
