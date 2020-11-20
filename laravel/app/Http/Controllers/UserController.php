@@ -229,7 +229,7 @@ class UserController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $news = CompNews::where('comp_id', $user->company->id)->get();
+        $news = CompNews::where('comp_id', $user->company->id)->orderBy('id', 'desc')->get();
 
         return view('private_cabinet.profile.news', [
             'type_page' => self::TYPE_PAGE[0],
@@ -238,10 +238,32 @@ class UserController extends Controller
         ]);
     }
 
+    //    public function addNews($company, $title, $image, $description) {
+//        if ($title == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите заголовок.']);
+//        }
+//        if ($description == null) {
+//            $this->response->json(['code' => 0, 'text' => 'Введите описание.']);
+//        }
+//        if ($image != null && $image['error'] == 0) {
+//            $tmp      = $image['tmp_name'];
+//            $type     = explode('/', $image['type'])[0];
+//            if ($type != 'image') {
+//                $this->response->json(['code' => 0, 'text' => 'Только картинка может быть логотипом.']);
+//            }
+//            $filename = $this->model('utils')->getHash(12).'.'.pathinfo($image['name'])['extension'];
+//            move_uploaded_file($tmp, PATH['root'].'/pics/n/'.$filename);
+//            $filename = 'pics/n/'.$filename;
+//        } else {
+//            $filename = '';
+//        }
+//        $this->db->insert('agt_comp_news', ['title' => $title, 'pic_src' => $filename, 'content' => $description, 'add_date' => 'now()', 'visible' => 1, 'comp_id' => $company]);
+//        $this->response->json(['code' => 1, 'text' => '']);
+//    }
 
-    public function actionNews()
+    public function actionNews(Request $request)
     {
-
+        dd($request->all());
     }
 
 

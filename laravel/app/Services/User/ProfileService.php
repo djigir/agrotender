@@ -88,6 +88,16 @@ class ProfileService
         }
     }
 
+    public function createOrUpdateNewsCompany(Request $request)
+    {
+
+    }
+
+    public function createOrUpdateVacancyCompany(Request $request)
+    {
+
+    }
+
     public function getUserCompanyReviews($type)
     {
         /** @var User $user */

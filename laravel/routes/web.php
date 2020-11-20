@@ -104,7 +104,6 @@ Route::prefix('u')
 
                 Route::post('/action_news', 'UserController@actionNews')->name('action_news');
                 Route::post('/action_vacancy', 'UserController@actionVacancy')->name('action_vacancy');
-
         });
 
         Route::prefix('/posts')

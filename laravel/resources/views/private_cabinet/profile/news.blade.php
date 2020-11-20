@@ -32,7 +32,8 @@
 
     <div class="modal fade" id="addNews" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="form modal-content">
+            <form class="form modal-content" method="POST" action="{{route('user.profile.action_news')}}">
+                @csrf
                 <div class="modal-header">
                     <h5 class="modal-title ml-3">Добавить новость</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
