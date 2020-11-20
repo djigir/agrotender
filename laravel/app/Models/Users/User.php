@@ -62,7 +62,8 @@ use Illuminate\Notifications\Notifiable;
  * @property Carbon $add_date
  * @property integer $id
  *
->>>>>>> master
+ *
+ * @property CompItems company
  */
 class User extends Authenticatable
 {

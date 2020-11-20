@@ -9,10 +9,13 @@
                 @if($company)
                     <form action="{{route('user.profile.toggle_visible')}}" method="POST" style="margin-top: -26px;">
                         @csrf
-                        <button type="submit" class="btn setVisible {{$company->visible == 0 ? 'green' : 'red'}} float-right d-none d-sm-inline-block" id="changeVisibleCompany">
+                        <button type="submit"
+                                class="btn setVisible {{$company->visible == 0 ? 'green' : 'red'}} float-right d-none d-sm-inline-block"
+                                id="changeVisibleCompany">
                             {{$company->visible == 0 ? 'Показывать компанию' : 'Скрыть компанию'}}
                         </button>
-                        <input type="text" name="visible" value="{{$company->visible}}" style="opacity: 0; border: none; outline: none; width: 0" id="visible" visible="1">
+                        <input type="text" name="visible" value="{{$company->visible}}"
+                               style="opacity: 0; border: none; outline: none; width: 0" id="visible" visible="1">
                     </form>
                 @endif
             </h2>
@@ -26,7 +29,8 @@
                     </label>
                     <div class="col-sm-4 pl-1">
                         <input type="text" class="form-control {{$errors->first('title') ? 'error-input' : ''}}"
-                               placeholder="Город" name="title" value="{{$company && !$errors->first('title') && !$errors->any() ? $company->title : old('title')}}">
+                               placeholder="Город" name="title"
+                               value="{{$company && !$errors->first('title') && !$errors->any() ? $company->title : old('title')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -105,10 +109,11 @@
                     </div>
                 </div>
                 <div class="comp-rules mt-4 text-center">
-                    <div><span>Я обязуюсь соблюдать</span> <a href="/info/orfeta#p4" target="_blank">правила размещения
-                            компании</a>.
+                    <div>
+                        <span>Я обязуюсь соблюдать</span>
+                        <a href="/info/orfeta#p4" target="_blank">правила размещения компании</a>.
                     </div>
-                    <button type="submit" class="btn btn-primary px-5 text-center mt-3 save-comp">Сохранить</button>
+                    <button type="submit" class="btn btn-primary px-5 text-center mt-3 save-comp" id="save-comp">Сохранить</button>
                 </div>
             </form>
         </div>
@@ -117,22 +122,4 @@
         {{--            <button type="submit" class="btn btn-primary px-5 text-center mt-3 save-comp">Сохранить</button>--}}
         {{--        </div>--}}
     </div>
-    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
-         class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: none">
-        <div id="noty_bar_0927b968-3a85-4457-bf37-d3b3d7644f63"
-             class="noty_bar noty_type__warning noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
-            <div class="noty_body">{{$errors->first('rubrics')}}</div>
-            <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
-        </div>
-    </div>
-    @if(!$errors->any())
-        <div style="display: none" id="noty_layout__bottomLeft" role="alert" aria-live="polite"
-             class="noty_layout animate__animated animate__fadeInRightBig animate__faster">
-            <div id="noty_bar_ca950bc5-dadd-4e3c-9ed3-e89a747899c8"
-                 class="noty_bar noty_type__success noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
-                <div class="noty_body">Компания обновлена.</div>
-                <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
-            </div>
-        </div>
-    @endif
 @endsection

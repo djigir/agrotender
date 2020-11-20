@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompNews;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
@@ -85,18 +86,21 @@ class UserController extends Controller
     // изменить пароль
     public function changePass(LoginPasswordRequest $loginPasswordRequest)
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         $old_pass = $loginPasswordRequest->get('oldPassword');
         $new_pass = $loginPasswordRequest->get('passwd');
 
-        if (!Hash::check($old_pass, auth()->user()->passwd) && $new_pass){
+        if (!Hash::check($old_pass, $user->passwd) && $new_pass){
             return redirect()->back()
                 ->withInput($loginPasswordRequest->all())
                 ->withErrors(['msg' => 'Старый пароль указан неправильно.']);
         }
 
-        TorgBuyer::where('id', auth()->user()->user_id)->update(['passwd' => Hash::make($new_pass)]);
+        TorgBuyer::where('id', $user->user_id)->update(['passwd' => Hash::make($new_pass)]);
 
-        User::where('id', auth()->user()->id)->update(['passwd' => Hash::make($new_pass)]);
+        User::where('id', $user->id)->update(['passwd' => Hash::make($new_pass)]);
 
         return  redirect()->route('user.profile.profile')->with(['success' => 'Пароль изменён']);
     }
@@ -105,17 +109,20 @@ class UserController extends Controller
     // изменить login
     public function changeLogin(LoginPasswordRequest $loginPasswordRequest)
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         if (!$loginPasswordRequest->validated()) {
             return redirect()->back()
                 ->withInput($loginPasswordRequest->all())
                 ->withErrors(['msg' => 'Ошибка изменения логина']);
         }
 
-        TorgBuyer::where('id', auth()->user()->user_id)->update($loginPasswordRequest->only(['login']) +
+        TorgBuyer::where('id', $user->user_id)->update($loginPasswordRequest->only(['login']) +
             ['email' => $loginPasswordRequest->get('login')]
         );
 
-        User::where('id', \auth()->user()->id)->update($loginPasswordRequest->only(['login']) +
+        User::where('id', $user->id)->update($loginPasswordRequest->only(['login']) +
             ['email' => $loginPasswordRequest->get('login')]
         );
 
@@ -124,6 +131,7 @@ class UserController extends Controller
 
     public function toggleVisible(Request $request)
     {
+        /** @var User $user */
         $user = auth()->user();
 
         CompItems::find($user->company->id)->update($request->only(['visible']));
@@ -174,10 +182,12 @@ class UserController extends Controller
     //М-д для страницы профиля (компании) ProfileCompanyRequest
     public function profileCompany()
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         $company = [];
 
-        if (auth()->user()) {
-            $user = auth()->user();
+        if ($user) {
             $company = $user->company;
         }
 
@@ -202,23 +212,40 @@ class UserController extends Controller
 
     public function createCompanyProfile(ProfileCompanyRequest $request)
     {
-        if ($request->errors == null){
-            $this->profileService->createOrUpdateCompany($request);
-            return redirect()->route('user.profile.company');
+        if (!$request->validated()){
+            return redirect()->back()->withInput($request->input())->withErrors($request->validated());
         }
 
-        return redirect()->back()->withInput($request->input())->withErrors($request->validated());
+        $this->profileService->createOrUpdateCompany($request);
+        return redirect()->route('user.profile.company');
     }
 
 
     //Если есть созданая компания тогда + новая страница профиля (новости)
     public function profileNews()
     {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $news = CompNews::where('comp_id', $user->company->id)->get();
+
         return view('private_cabinet.profile.news', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[5],
             'isMobile' => $this->agent->isMobile(),
         ]);
+    }
+
+
+    public function actionNews()
+    {
+
+    }
+
+
+    public function actionVacancy()
+    {
+
     }
 
     //Если есть созданая компания тогда + новая страница профиля (вакансии)

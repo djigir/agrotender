@@ -82,8 +82,6 @@ use phpDocumentor\Reflection\Types\Object_;
  * @property Carbon $rate_admin2;
  * @property Carbon $rate_formula;
  * @property Carbon $add_date;
- * @method static create(array $data)
- * @method static updateOrCreate(array $array, array $data)
  */
 class CompItems extends Model
 {
