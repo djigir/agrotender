@@ -1,6 +1,53 @@
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
+    <?php
+        $date_expired_diff = \Carbon\Carbon::now()->subDays(7)->format('Y-m-d');
+        if($type_traders != 1){
+            foreach ($traders as $index => $trader) {
+                if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
+                {
+                    $where_place_id = $traders->where('place_id', $trader->place_id);
+
+                    $key_uah = $where_place_id->where('curtype', 0)->keys();
+                    $key_usd = $where_place_id->where('curtype', 1)->keys();
+
+                    if(isset($key_uah[0])){
+                        $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
+                        $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
+                    }
+
+                    if(isset($key_usd[0])){
+                        unset($traders[$key_usd[0]]);
+                    }
+                }
+
+                if(isset($traders[$index]))
+                {
+                    $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
+                    $traders[$index]['change_price'] = $change;
+
+                    $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
+
+                    if(!$traders[$index]->change_date || !$change){
+                        $traders[$index]['change_price_type'] = '';
+                    }
+
+                    if(isset($traders[$index]['costval_usd']))
+                    {
+                        $change_usd = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+                        $traders[$index]['change_price_usd'] = $change_usd;
+
+                        if(!$traders[$index]->change_date || !$change_usd){
+                            $traders[$index]['change_price_type_usd'] = '';
+                        }
+
+                        $traders[$index]['change_price_type_usd'] = $change_usd > 0 ? 'up' : 'down';
+                    }
+                }
+            }
+        }
+    ?>
     <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
         @if(!$isMobile)
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">

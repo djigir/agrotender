@@ -102,7 +102,7 @@ return [
 
     'collectors' => [
         'phpinfo'         => false,  // Php version
-        'messages'        => false,  // Messages
+        'messages'        => true,  // Messages
         'time'            => true,  // Time Datalogger
         'memory'          => true,  // Memory usage
         'exceptions'      => true,  // Exception displayer
@@ -119,9 +119,9 @@ return [
         'events'          => true, // All events fired
         'default_request' => true, // Regular or special Symfony request logger
         'logs'            => true, // Add the latest log messages
-        'files'           => false, // Show the included files
+        'files'           => true, // Show the included files
         'config'          => true, // Display config settings
-        'cache'           => false, // Display cache events
+        'cache'           => true, // Display cache events
         'models'          => true,  // Display models
         'livewire'        => true,  // Display Livewire (when available)
     ],
@@ -145,10 +145,10 @@ return [
             'backtrace_exclude_paths' => [],   // Paths to exclude from backtrace. (in addition to defaults)
             'timeline'          => true,  // Add the queries to the timeline
             'explain' => [                 // Show EXPLAIN output on queries
-                'enabled' => false,
+                'enabled' => true,
                 'types' => ['SELECT'],     // Deprecated setting, is always only SELECT
             ],
-            'hints'             => false,    // Show hints for common mistakes
+            'hints'             => true,    // Show hints for common mistakes
             'show_copy'         => false,    // Show copy button next to the query
         ],
         'mail' => [
@@ -164,7 +164,7 @@ return [
             'file' => null,
         ],
         'cache' => [
-            'values' => false, // collect cache values
+            'values' => true, // collect cache values
         ],
     ],
 
