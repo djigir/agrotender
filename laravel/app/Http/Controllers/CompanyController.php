@@ -325,7 +325,8 @@ class CompanyController extends Controller
 
         // запретить пользователю оставлять комментарии по своей компанией
         $user_company = $user->company;
-        if($user_company) {
+
+        if($user_company && $user_company->id == $id) {
             return redirect()
                 ->back()
                 ->withErrors(['mgs' => "Вы не можете оставить отзыв для своей компании."])
