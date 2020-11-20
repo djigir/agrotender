@@ -50,7 +50,7 @@ class TradersPlaces extends Model
     }
 
 
-    public function scopePlace($query, $obl_id, $port_id, $type_place)
+    public function scopePlace($query, $obl_id, $port_id)
     {
         if($obl_id){
             return $query->where('obl_id', $obl_id);
@@ -60,9 +60,9 @@ class TradersPlaces extends Model
             return $query->where(['port_id' => $port_id, 'type_id' => 2]);
         }
 
-        if(!$port_id && $type_place == 2){
-            return $query->where('type_id', 2);
-        }
+//        if(!$port_id && $type_place == 2){
+//            return $query->where('type_id', 2);
+//        }
 
         return $query;
     }

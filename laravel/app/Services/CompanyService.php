@@ -67,11 +67,10 @@ class CompanyService
 
     public function getPricesForwards($author_id, $type, $dtStart, $placeType)
     {
-         $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
-            ->with(['traders_places' => function($query) use($placeType){
+        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+            ->with(['traders_places' => function ($query) use ($placeType) {
                 $query->where('type_id', $placeType)->with('traders_ports', 'regions');
-            }])
-            ->get();
+            }])->get();
 
         return $prices->sortBy('cultures.0.name');
     }
@@ -150,7 +149,6 @@ class CompanyService
         $check_curtype = [];
         $place_id = [];
         $sortBy = self::SORT_BY[$placeType];
-
 
         $prices = TradersPrices::where([
             'acttype' => $type,
@@ -268,10 +266,17 @@ class CompanyService
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
 
+        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
+
+        }
+
+        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+            $type = 0;
+
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
