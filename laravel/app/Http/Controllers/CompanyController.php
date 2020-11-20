@@ -320,17 +320,12 @@ class CompanyController extends Controller
 
     public function createReviews(Request $request, $id)
     {
-        $a = $this->profileService->userHasCompany();
-        /** @var Validator $validator */
-        $validator = Validator::make($request->all(), [
-            'content_plus' => 'required',
-            'content_minus' => 'required',
-        ]);
-
-        if ($validator->fails()){
+        // запретить пользователю оставлять комментарии по своей компанией
+        $user_company = $this->profileService->userHasCompany();
+        if($user_company) {
             return redirect()
                 ->back()
-                ->withErrors($validator)
+                ->withErrors(['mgs' => "Вы не можете оставить отзыв для своей компании."])
                 ->withInput();
         }
 
