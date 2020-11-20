@@ -161,6 +161,8 @@
         </div>
     @endif
 
+    {{-- Вы не можете оставить отзыв для своей компании. --}}
+
     @auth()
     <div class="fade" id="bg-modal"></div>
     @endauth

@@ -19,6 +19,7 @@ use App\Models\Torg\TorgBuyer;
 use App\Services\BreadcrumbService;
 use App\Services\CompanyService;
 use App\Services\SeoService;
+use App\Services\User\ProfileService;
 use Carbon\Carbon;
 use  App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
@@ -33,16 +34,18 @@ class CompanyController extends Controller
 {
     protected $companyService;
     protected $baseServices;
+    protected $profileService;
     protected $breadcrumbService;
     protected $seoService;
     protected $agent;
     protected $company;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService, ProfileService $profileService)
     {
         parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
+        $this->profileService = $profileService;
         $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->company = null;
@@ -325,6 +328,7 @@ class CompanyController extends Controller
 
     public function createReviews(Request $request, $id)
     {
+        $a = $this->profileService->userHasCompany();
         /** @var Validator $validator */
         $validator = Validator::make($request->all(), [
             'content_plus' => 'required',
