@@ -59,6 +59,27 @@ class TraderController extends Controller
         $this->agent = new \Jenssegers\Agent\Agent;
     }
 
+    public function getNamePortRegion($region = null, $port = null)
+    {
+        $onlyPorts = null;
+        $id_port = TradersPorts::where('url', $port)->value('id');
+        $port_name = ($port != 'all') ? TradersPortsLang::where('port_id', $id_port)->value('portname') : [
+            'Все порты', $onlyPorts = 'yes'
+        ][0];
+
+        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
+
+        if ($region == 'crimea') {
+            $name_region = 'АР Крым';
+        }
+
+        if ($region == 'ukraine') {
+            $name_region = 'Вся Украина';
+        }
+
+        return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
+    }
+
 
     public function setDataForTraders($data)
     {
@@ -80,8 +101,8 @@ class TraderController extends Controller
             $port_all = TradersPortsLang::where('port_id', $id_port)->first();
         }
 
-        $region_port_name = !empty($data->get('region')) ? $this->baseServices->getNamePortRegion($data->get('region'))['region']
-            : $this->baseServices->getNamePortRegion(null, $data->get('port'))['port'];
+        $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
+            : $this->getNamePortRegion(null, $data->get('port'))['port'];
 
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
 
@@ -96,7 +117,7 @@ class TraderController extends Controller
         $meta = $this->seoService->getTradersMeta([
             'rubric' => $culture_meta, 'region' => $region_all,
             'port' => $port_all, 'type' => 0, 'page' => 1,
-            'onlyPorts' => $this->baseServices->getNamePortRegion(null, $data->get('port'))['onlyPorts']]);
+            'onlyPorts' => $this->getNamePortRegion(null, $data->get('port'))['onlyPorts']]);
 
         if ($data->get('type') == 'forward')
         {

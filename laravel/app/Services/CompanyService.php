@@ -266,10 +266,17 @@ class CompanyService
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
 
+        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
+
+        }
+
+        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+            $type = 0;
+
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
