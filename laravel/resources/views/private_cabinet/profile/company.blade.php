@@ -26,7 +26,7 @@
                     </label>
                     <div class="col-sm-4 pl-1">
                         <input type="text" class="form-control {{$errors->first('title') ? 'error-input' : ''}}"
-                               placeholder="Город" name="title" value="{{$company && !$errors->first('title') ? $company->title : old('title')}}">
+                               placeholder="Город" name="title" value="{{$company && !$errors->first('title') && !$errors->any() ? $company->title : old('title')}}">
                     </div>
                 </div>
                 <div class="form-group row mt-4">
@@ -44,7 +44,7 @@
                     <div class="col-sm-7 d-flex align-items-center pl-1">
                         <textarea class="form-control {{$errors->first('content') ? 'error-input' : ''}}" name="content"
                                   id="content" rows="9"
-                                  placeholder="Введите Ваше описание">{{$company && !$errors->first('content') ? $company->content : old('content')}}</textarea>
+                                  placeholder="Введите Ваше описание">{{$company && !$errors->first('content') && !$errors->any() ? $company->content : old('content')}}</textarea>
                     </div>
                 </div>
                 <hr class="my-4">
