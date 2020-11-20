@@ -8,6 +8,7 @@ use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersPrices;
+use App\Models\Users\User;
 use App\Services\BaseServices;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -26,18 +27,16 @@ class CompanyController extends Controller
 {
     protected $companyService;
     protected $baseServices;
-    protected $profileService;
     protected $breadcrumbService;
     protected $seoService;
     protected $agent;
     protected $company;
 
-    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService, ProfileService $profileService)
+    public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
     {
         parent::__construct();
         $this->companyService = $companyService;
         $this->baseServices = $baseServices;
-        $this->profileService = $profileService;
         $this->breadcrumbService = $breadcrumbService;
         $this->seoService = $seoService;
         $this->company = null;
@@ -320,8 +319,12 @@ class CompanyController extends Controller
 
     public function createReviews(Request $request, $id)
     {
+
+        /** @var User $user */
+        $user = auth()->user();
+
         // запретить пользователю оставлять комментарии по своей компанией
-        $user_company = $this->profileService->userHasCompany();
+        $user_company = $user->company;
         if($user_company) {
             return redirect()
                 ->back()

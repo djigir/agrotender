@@ -95,7 +95,7 @@ class ProfileService
 
         // reviews for user company
         if ($type) {
-            $company_reviews = CompComment::with('comp_comment_lang')->where('item_id', $this->userHasCompany()->id)->get();
+            $company_reviews = CompComment::with('comp_comment_lang')->where('item_id', $user->company->id)->get();
             $reviews = collect();
 
             foreach ($company_reviews as $key => $company_comment) {
@@ -119,11 +119,6 @@ class ProfileService
         return $company_comments;
     }
 
-    public function userHasCompany()
-    {
-        $user_company = CompItems::where('author_id', \auth()->user()->user_id)->get()->first();
-        return $user_company;
-    }
 
 //    public function getNewsItem($newId, $company) {
 //        return $this->db->select('agt_comp_news', '*', ['id' => $newId, 'comp_id' => $company])[0] ?? null;
