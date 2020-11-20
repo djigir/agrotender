@@ -31,4 +31,9 @@ class TorgBuyer extends Model
     {
         return $this->belongsTo(CompItems::class, 'author_id');
     }
+
+    public function companyForBuyer()
+    {
+        return $this->hasOne(CompItems::class, 'author_id');
+    }
 }

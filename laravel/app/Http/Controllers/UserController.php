@@ -141,11 +141,18 @@ class UserController extends Controller
 
 
     //М-д для страницы профиля (контакты)
-    public function profileContacts()
+    public function profileContacts(Request $request)
     {
+        $type_department = $request->get('dep');
+        $contacts = $this->profileService->userCompanyContact($type_department);
+        $regions = $this->baseServices->getRegions()->forget(25);
+        
         return view('private_cabinet.profile.contacts', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[1],
+            'contacts' => $contacts,
+            'regions' => $regions,
+            'type' => $type_department,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -194,7 +201,6 @@ class UserController extends Controller
         }
 
         $regions = $this->baseServices->getRegions()->forget(25);
-
         $rubrics = CompTgroups::with(['comp_topic' => function ($query) {
             $query->select('menu_group_id', 'title', 'id')->where('parent_id', 0);
         }])->orderBy('sort_num')->orderBy('title')->get();

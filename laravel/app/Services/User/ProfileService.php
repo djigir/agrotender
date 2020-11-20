@@ -7,6 +7,7 @@ use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
@@ -117,6 +118,38 @@ class ProfileService
             $company_comments[$key]->comp_logo = $company_names[$key]->logo_file;
         }
         return $company_comments;
+    }
+
+    public function userCompanyContact($type)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        if ($type == 1){
+            $dep_name = "Отдел закупок";
+        }
+        if ($type == 2){
+            $dep_name = "Отдел продаж";
+        }
+        if ($type == 3){
+            $dep_name = "Отдел услуг";
+        }
+        if ($type == 999){
+            $dep_name = "Telegram/Viber";
+        }
+
+        if (!isset($type)) {
+            $contacts = TorgBuyer::with('companyForBuyer')->where('id', $user->user_id)->get()->first();
+            $contacts->dep_name = "Главный офис";
+        }
+        /* протестить добавить контакты с разными type_id  в  CompItemsContact*/
+        if ($type) {
+            $contacts = CompItemsContact::where('type_id', $type)->where('comp_id', $user->company->id)->get();
+            $contacts->dep_name = $dep_name;
+        }
+
+        return $contacts;
+
     }
 
 

@@ -318,4 +318,9 @@ class CompItems extends Model
     {
         return $this->belongsTo(User::class, 'user_id','author_id');
     }
+
+    public function torgBuyerForCompany()
+    {
+        $this->belongsTo(TorgBuyer::class, 'id');
+    }
 }
