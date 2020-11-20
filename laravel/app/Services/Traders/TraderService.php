@@ -22,12 +22,6 @@ use Illuminate\Http\Request;
 
 class TraderService
 {
-    const NAME_RELATIONSHIP = [
-        0 => 'traders_prices_traders_uah',
-        1 => 'traders_prices_traders_usd',
-        2 => 'traders_prices_traders',
-    ];
-
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;
@@ -36,12 +30,12 @@ class TraderService
     const ACTTYPE_TRADERS_FORWARD = 3;
 
 
-
     protected $companyService;
     protected $baseService;
     protected $breadcrumbService;
     protected $treders;
     protected $groups;
+
 
     public function __construct(CompanyService $companyService, BaseServices $baseService, BreadcrumbService $breadcrumbService)
     {
@@ -51,6 +45,7 @@ class TraderService
         $this->treders = null;
         $this->groups = null;
     }
+
 
     public function mobileFilter(Request $request)
     {
@@ -110,7 +105,6 @@ class TraderService
     }
 
 
-
     public function getCurrencies()
     {
         return [
@@ -128,8 +122,6 @@ class TraderService
     }
 
 
-
-
     public function getPorts()
     {
         $ports = TradersPorts::select('id', 'url')
@@ -141,6 +133,7 @@ class TraderService
 
         return $ports;
     }
+
 
     public function setRubrics($criteria_places, $acttype)
     {
@@ -195,6 +188,7 @@ class TraderService
         return $this->groups;
     }
 
+
     /**
      * @param $data
     */
@@ -208,6 +202,7 @@ class TraderService
             "visible" => 1
         ]);
     }
+
 
     /**
     * @param $author_ids
@@ -224,6 +219,7 @@ class TraderService
             ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
             ->where($criteria_prices)
             ->where($criteria_places)
+            ->where('traders_places.type_id', '!=', 1)
             ->orderBy('comp_items.trader_premium', 'desc')
             ->orderBy('traders_prices.change_date', 'desc')
             ->orderBy('traders_prices.costval', 'desc')
@@ -242,6 +238,7 @@ class TraderService
                 \DB::raw('regions.name as region'))
             ->get();
     }
+
 
     /**
     * @param $type
@@ -352,6 +349,7 @@ class TraderService
                 \DB::raw('regions.name as region'))->get();
     }
 
+
     public function setCriteriaTraders($data)
     {
         $obl_id = null;
@@ -406,6 +404,7 @@ class TraderService
             'obl_id' => $obl_id,
         ]);
     }
+
 
     public function getTraders($data)
     {

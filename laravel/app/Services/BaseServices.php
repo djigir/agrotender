@@ -55,24 +55,5 @@ class BaseServices
         return $data;
     }
 
-    public function getNamePortRegion($region = null, $port = null)
-    {
-        $onlyPorts = null;
-        $id_port = TradersPorts::where('url', $port)->value('id');
-        $port_name = ($port != 'all') ? TradersPortsLang::where('port_id', $id_port)->value('portname') : [
-            'Все порты', $onlyPorts = 'yes'
-        ][0];
 
-        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
-
-        if ($region == 'crimea') {
-            $name_region = 'АР Крым';
-        }
-
-        if ($region == 'ukraine') {
-            $name_region = 'Вся Украина';
-        }
-
-        return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
-    }
 }
