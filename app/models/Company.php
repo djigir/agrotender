@@ -271,7 +271,7 @@ class Company extends \Core\Model {
 
   public function getRegion($region) {
     $region = $this->db->query("
-      select * from regions where ".(is_int($region) ? "id = '$region' or " : "")."name = '$region' or translit = '$region'
+      select * from agt_regions where ".(is_int($region) ? "id = '$region' or " : "")."name = '$region' or translit = '$region'
     ")[0] ?? [
       "name"     => "Украина",
       "r"        => "Украине",

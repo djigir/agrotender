@@ -127,7 +127,7 @@ class Api extends \Core\Model {
   }
 
   public function getRegions() {
-    return $this->db->query("select * from regions");
+    return $this->db->query("select * from agt_regions");
   }
   public function getRubrics() {
     return $this->db->query("select tp.id, tpl.name, tp.url as translit from agt_traders_products tp inner join agt_traders_products_lang tpl on tp.id = tpl.item_id where tp.acttype = 0");

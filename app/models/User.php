@@ -173,7 +173,7 @@ class User extends \Core\Model {
           on tp.id = tpl.item_id
         inner join agt_torg_buyer tb
           on tb.id = m.from_id
-        inner join regions r
+        inner join agt_regions r
           on r.id = m.obl_id
         left join agt_comp_items ci
           on ci.author_id = tb.id
@@ -206,7 +206,7 @@ class User extends \Core\Model {
           on m.cult_id = tp.id
         inner join agt_traders_products_lang tpl
           on tp.id = tpl.item_id
-        inner join regions r
+        inner join agt_regions r
           on r.id = m.obl_id
       where m.from_id = {$this->id} $status
       order by m.add_date desc";

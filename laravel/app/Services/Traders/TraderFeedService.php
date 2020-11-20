@@ -2,17 +2,8 @@
 
 namespace App\Services\Traders;
 
-use App\Models\Comp\CompItems;
-use App\Models\Comp\CompTopic;
-use App\Models\Regions\Regions;
+
 use App\Models\Traders\TraderFeed;
-use App\Models\Traders\Traders_Products_Lang;
-use App\Models\Traders\TradersPlaces;
-use App\Models\Traders\TradersPorts;
-use App\Models\Traders\TradersPrices;
-use App\Models\Traders\TradersProductGroups;
-use App\Models\Traders\TradersProductGroupLanguage;
-use App\Models\Traders\TradersProducts;
 use Illuminate\Support\Carbon;
 
 class TraderFeedService
@@ -26,47 +17,49 @@ class TraderFeedService
     ];
 
     /**
-     * @param int $type
+     * @param  int  $type
      * @return mixed
      */
     public function getFeed($type = self::TYPE_FORWARD)
     {
-        return \Cache::remember('FEED', Carbon::today(), function () use($type){
+        return \Cache::remember('FEED', 60*60*24, function () use ($type) {
             $type_text = self::TYPES_TEXT[$type];
 
             $price_field = 'trader_price'.$type_text;
 
-            $traders = TraderFeed::join('agt_traders_products_lang','agt_traders_products_lang.id', '=', 'traders_feed.rubric')
-                ->join('agt_traders_places','agt_traders_places.id', '=', 'traders_feed.place')
-                ->join('agt_comp_items','agt_comp_items.author_id', '=', 'traders_feed.user')
-                ->where('agt_traders_places.acttype', $type)
-    //            ->whereDate('traders_feed.change_date', '=', Carbon::now())
-                ->where('agt_comp_items.'.$price_field.'_avail', 1)
-                ->where('agt_comp_items.'.$price_field.'_visible', 1)
-                ->where('agt_traders_places.type_id','!=', 1)
-                ->where('agt_comp_items.visible', 1)
-                ->select('agt_traders_products_lang.id as tpl_id',
-                    'agt_traders_products_lang.item_id as tpl_item_id',
+            $feed = TraderFeed::join('traders_products_lang', 'traders_products_lang.id', '=',
+                'traders_feed.rubric')
+                ->join('traders_places', 'traders_places.id', '=', 'traders_feed.place')
+                ->join('comp_items', 'comp_items.author_id', '=', 'traders_feed.user')
+                ->where('traders_places.acttype', $type)
+                //            ->whereDate('traders_feed.change_date', '=', Carbon::now())
+                ->where('comp_items.'.$price_field.'_avail', 1)
+                ->where('comp_items.'.$price_field.'_visible', 1)
+                ->where('traders_places.type_id', '!=', 1)
+                ->where('comp_items.visible', 1)
+                ->select('traders_products_lang.id as tpl_id',
+                    'traders_products_lang.item_id as tpl_item_id',
                     'traders_feed.id as tf_id',
                     'traders_feed.rubric as tf_rubric',
                     'traders_feed.place as tf_place',
                     'traders_feed.change_price as tf_change_price',
                     'traders_feed.user as tf_user',
                     'traders_feed.change_date as tf_change_date',
-                    'agt_comp_items.id as comp_id',
-                    'agt_comp_items.topic_id as comp_topic_id',
-                    'agt_comp_items.type_id as comp_type_id',
-                    'agt_comp_items.author_id as comp_author_id',
-                    'agt_comp_items.visible as comp_visible',
-                    'agt_comp_items.add_date as comp_add_date',
-                    'agt_comp_items.title as comp_title'
+                    'comp_items.id as comp_id',
+                    'comp_items.topic_id as comp_topic_id',
+                    'comp_items.type_id as comp_type_id',
+                    'comp_items.author_id as comp_author_id',
+                    'comp_items.visible as comp_visible',
+                    'comp_items.add_date as comp_add_date',
+                    'comp_items.title as comp_title'
                 )
                 ->selectRaw('GROUP_CONCAT(DISTINCT agt_traders_products_lang.name SEPARATOR ",") as tpl_name')
                 ->groupBy('traders_feed.user')
-                ->orderBy('tf_change_date','DESC')
-                ->get()->toArray();
+                ->orderBy('tf_change_date', 'DESC')
+                ->get()
+                ->toArray();
 
-            $feed = $traders;
+
             foreach ($feed as $key => $value) {
                 $feed[$key]['onchange'] = 'Подтвердил цены';
                 $feed[$key]['onchange_class'] = 'confirmed';
@@ -93,7 +86,7 @@ class TraderFeedService
                     $feed[$key]['r'][$explode[0]]['change'][] = $explode[0];
                 }
             }
-                return $feed;
+            return $feed;
         });
     }
 }
