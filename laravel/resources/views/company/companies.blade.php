@@ -95,18 +95,24 @@
                                 @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
                                     <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                                 @endif
-{{--                                @if($company['purchases'] > 0)--}}
-{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
-{{--                                @endif--}}
 
-{{--                                @if($company['sales'] > 0)--}}
-{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>--}}
-{{--                                @endif--}}
+                                @if(isset($company['purchases']) && count($company['purchases']) > 0)
+                                    <a class="link" href="{{route('company.index', $company['id'])}}">
+                                        <span>Закупки ({{count($company['purchases'])}})</span>
+                                    </a>
+                                @endif
 
-{{--                                @if($company['services'] > 0)--}}
-{{--                                    <a class="link" href="{{route('company.index', $company['id'])}}{{$company['id']}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>--}}
-{{--                                @endif--}}
+                                @if(isset($company['sales']) && count($company['sales']) > 0)
+                                    <a class="link" href="{{route('company.index', $company['id'])}}">
+                                        <span>Товары ({{count($company['sales'])}})</span>
+                                    </a>
+                                @endif
 
+                                @if(isset($company['services']) && count($company['services']) > 0)
+                                    <a class="link" href="{{route('company.index', $company['id'])}}">
+                                        <span>Услуги ({{count($company['services'])}})</span>
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -131,15 +137,23 @@
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
                             <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
                         @endif
-{{--                        @if($company['purchases'] > 0)--}}
-{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=1"><span>Закупки ({{$company['purchases']}})</span></a>--}}
-{{--                        @endif--}}
-{{--                        @if($company['sales'] > 0)--}}
-{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=2"><span>Товары ({{$company['sales']}})</span></a>--}}
-{{--                        @endif--}}
-{{--                        @if($company['services'] > 0)--}}
-{{--                            <a class="link" href="{{route('company.index', $company['id'])}}-adverts?type=3"><span>Услуги ({{$company['services']}})</span></a>--}}
-{{--                        @endif--}}
+                        @if(isset($company['purchases']) && count($company['purchases']) > 0)
+                            <a class="link" href="{{route('company.index', $company['id'])}}">
+                                <span>Закупки ({{count($company['purchases'])}})</span>
+                            </a>
+                        @endif
+
+                        @if(isset($company['sales']) && count($company['sales']) > 0)
+                            <a class="link" href="{{route('company.index', $company['id'])}}">
+                                <span>Товары ({{count($company['sales'])}})</span>
+                            </a>
+                        @endif
+
+                        @if(isset($company['services']) && count($company['services']) > 0)
+                            <a class="link" href="{{route('company.index', $company['id'])}}">
+                                <span>Услуги ({{count($company['services'])}})</span>
+                            </a>
+                        @endif
 
                     </div>
                 </div>

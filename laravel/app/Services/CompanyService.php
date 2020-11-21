@@ -238,6 +238,14 @@ class CompanyService
                 $query->where([
                     'buyer_id' => $author_id,
                     'acttype' => $type
+                ])->with([
+                    'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+                        $query->where([
+                            'acttype' => $type,
+                            'type_id' => $placeType,
+                            'buyer_id' => $author_id
+                        ]);
+                    }
                 ]);
             }]
         )->get();
@@ -245,12 +253,18 @@ class CompanyService
 
         foreach ($cultures as $index => $culture)
         {
+            foreach ($culture->traders_prices as $index_prices => $prices) {
+                if ($prices->traders_places->isEmpty()) {
+                    $culture->traders_prices->forget($index_prices);
+                }
+            }
+
             if(!$culture->traders_prices->isEmpty() && isset($culture->traders_prices->first()->cultures[0])){
                 $cultures[$index]['culture'] = $culture->traders_prices->first()->cultures[0]->name;
             }
 
             if($culture->traders_prices->isEmpty()){
-                unset($cultures[$index]);
+                $cultures->forget($index);
             }
         }
 
@@ -399,6 +413,7 @@ class CompanyService
     {
         if ($data['query']) {
             $this->setRubricsGroup();
+
             return $this->searchCompanies($data['query']);
         }
 
