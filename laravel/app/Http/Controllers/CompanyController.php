@@ -23,6 +23,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
+    const NAME_SECTION_RUBRIC = [
+        0 => 'Все рубрики',
+        1 => 'Выберите рубрики',
+    ];
+
+
     protected $companyService;
     protected $baseServices;
     protected $breadcrumbService;
@@ -75,7 +81,8 @@ class CompanyController extends Controller
         $region_id = null;
         $region = $data->get('region');
         $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
-        $culture_name = $culture_name  ? $culture_name->title : 'Все рубрики';
+        $check_phone = $this->agent->isMobile() ? 1 : 0;
+        $culture_name = $culture_name  ? $culture_name->title : self::NAME_SECTION_RUBRIC[$check_phone];
 
         if($data->get('region') != 'ukraine' && $data->get('region')) {
             $region = Regions::where('translit', $data->get('region'))->first();
