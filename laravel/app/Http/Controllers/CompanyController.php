@@ -222,7 +222,7 @@ class CompanyController extends Controller
             ->limit(1)
             ->value('change_date');
 
-        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
@@ -276,6 +276,13 @@ class CompanyController extends Controller
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 3]])
+            ->orderBy('change_date', 'desc')
+            ->limit(1)
+            ->value('change_date');
+
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
+
         foreach ($prices_port as $index => $price){
             if($price['traders_places']->count() == 0){
                 unset($prices_port[$index]);
@@ -298,8 +305,6 @@ class CompanyController extends Controller
             ->sortBy('cultures.0.name')
             ->pluck('cultures.0.name', 'cult_id');
 
-
-
         return view('company.company_forwards', [
             'company' => $this->company,
             'prices_port' => $prices_port,
@@ -307,6 +312,7 @@ class CompanyController extends Controller
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
