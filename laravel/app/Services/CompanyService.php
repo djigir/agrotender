@@ -271,12 +271,10 @@ class CompanyService
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
-
         }
 
         if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
             $type = 0;
-
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
@@ -302,6 +300,7 @@ class CompanyService
     public function searchCompanies($value)
     {
         return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
+            ->with('activities', 'purchases', 'sales', 'services')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
@@ -409,7 +408,7 @@ class CompanyService
         $topic_criteria = [];
 
         $companies = CompItems::leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
-            ->with('activities')->where('comp_items.visible', 1);
+            ->with('activities', 'purchases', 'sales', 'services')->where('comp_items.visible', 1);
 
         if($obl_id == null && $rubric){
             $topic_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];
