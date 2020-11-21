@@ -87,7 +87,9 @@
         border: none;
         border-radius: 7px;
     }
-
+    .page-item .page-link{
+        outline: none !important;
+    }
     .mobile-paginate {
         margin: 0 auto;
         margin-top: -4rem !important;

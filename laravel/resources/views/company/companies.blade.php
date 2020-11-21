@@ -1,4 +1,4 @@
-@extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups,'regions' => $regions])
+@extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups, 'regions' => $regions])
 
 @section('content')
     @if(!$isMobile)
@@ -93,7 +93,9 @@
                         <div class="row d-none d-sm-flex">
                             <div class="col pt-2 mt-1">
                                 @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
-                                    <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
+                                    <a class="link" href="{{route('company.index', $company['id'])}}">
+                                        <span>Цены Трейдера</span>
+                                    </a>
                                 @endif
 
                                 @if(isset($company['purchases']) && count($company['purchases']) > 0)
@@ -135,7 +137,9 @@
                 <div class="row mx-0 d-sm-none lh-1 w-100">
                     <div class="col mt-2 text-center">
                         @if($company['trader_price_avail'] == 1 and $company['trader_price_visible'] == 1)
-                            <a class="link" href="{{route('company.index', $company['id'])}}"><span>Цены Трейдера</span></a>
+                            <a class="link" href="{{route('company.index', $company['id'])}}">
+                                <span>Цены Трейдера</span>
+                            </a>
                         @endif
                         @if(isset($company['purchases']) && count($company['purchases']) > 0)
                             <a class="link" href="{{route('company.index', $company['id'])}}">
@@ -154,7 +158,6 @@
                                 <span>Услуги ({{count($company['services'])}})</span>
                             </a>
                         @endif
-
                     </div>
                 </div>
             </div>

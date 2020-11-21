@@ -97,19 +97,19 @@ class BreadcrumbService
 
     public function setBreadcrumbsCompanies($data)
     {
-        $breadcrumbs_comp[0] = ['name' => 'Комании в Украине', 'url' => null];
+        $breadcrumbs_comp[0] = ['name' => 'Компании в Украине', 'url' => null];
 
         if($data['region'] != 'ukraine' && $data['region']){
-            $breadcrumbs_comp[0] = ['name' => "Комании в {$data['region']['parental']} области " , 'url' => null];
+            $breadcrumbs_comp[0] = ['name' => "Компании в {$data['region']['parental']} области " , 'url' => null];
         }
 
         if($data['region'] == 'ukraine' && !empty($data['rubric_id'])) {
-            $breadcrumbs_comp[0] = ['name' => "Комании в Украине" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region'])];
+            $breadcrumbs_comp[0] = ['name' => "Компании в Украине" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region'])];
             $breadcrumbs_comp[1] = ['name' => "Каталог - {$data['culture_name']} хозяйства Украины", 'url' => null];
         }
 
         if ($data['region'] && $data['rubric_id'] && $data['region'] != 'ukraine'){
-            $breadcrumbs_comp[0] = ['name' => "Комании в {$data['region']['parental']} области " . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region']['translit'])];
+            $breadcrumbs_comp[0] = ['name' => "Компании в {$data['region']['parental']} области " . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region']['translit'])];
             $breadcrumbs_comp[1] = ['name' => "Каталог - {$data['culture_name']} хозяйства {$data['region']['city_parental']} ", 'url' => null];
         }
 

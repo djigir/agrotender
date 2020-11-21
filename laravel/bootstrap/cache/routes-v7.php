@@ -121,7 +121,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::q5RLTbfX56XDAlRs',
+            '_route' => 'generated::Z8AmKWjaUQcsL94b',
           ),
           1 => NULL,
           2 => 
@@ -176,7 +176,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::cmp8sG8e9qcRUrwn',
+            '_route' => 'generated::3yBPLwhZL2B3QcAA',
           ),
           1 => NULL,
           2 => 
@@ -267,7 +267,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::HUwZLBxIVhiiYJ2T',
+            '_route' => 'generated::xTYnGdXlblg2wqFq',
           ),
           1 => NULL,
           2 => 
@@ -286,7 +286,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'generated::7nfQKh4XXBMLropW',
+            '_route' => 'generated::cQDlpbHiOzqhe7Vt',
           ),
           1 => NULL,
           2 => 
@@ -336,7 +336,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::nYr7erxqkgtLA2V8',
+            '_route' => 'traders.generated::WhxoEXJGPTzE7HfQ',
           ),
           1 => NULL,
           2 => 
@@ -361,7 +361,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::2PeVK7gp8ekq5zwZ',
+            '_route' => 'traders.generated::3OvDxkgcGdC8qlKN',
           ),
           1 => NULL,
           2 => 
@@ -386,7 +386,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::p6UkGGuqwEGDpggK',
+            '_route' => 'traders.generated::DyPfZAZdajiLjlIZ',
           ),
           1 => NULL,
           2 => 
@@ -411,7 +411,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::IMnIgUK7s6YYNbOw',
+            '_route' => 'traders.generated::yH3ifDPAmRDjNp5c',
           ),
           1 => NULL,
           2 => 
@@ -436,7 +436,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::QnVJSWtzNnAb8WSr',
+            '_route' => 'traders.generated::xd5JCchlaJnby3NE',
           ),
           1 => NULL,
           2 => 
@@ -461,7 +461,7 @@ app('router')->setCompiledRoutes(
         array (
           0 => 
           array (
-            '_route' => 'traders.generated::eek5As94wDXL564N',
+            '_route' => 'traders.generated::PxKo27OmymyJAfnS',
           ),
           1 => NULL,
           2 => 
@@ -1420,7 +1420,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'generated::q5RLTbfX56XDAlRs' => 
+    'generated::Z8AmKWjaUQcsL94b' => 
     array (
       'methods' => 
       array (
@@ -1440,7 +1440,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::q5RLTbfX56XDAlRs',
+        'as' => 'generated::Z8AmKWjaUQcsL94b',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1526,7 +1526,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'generated::cmp8sG8e9qcRUrwn' => 
+    'generated::3yBPLwhZL2B3QcAA' => 
     array (
       'methods' => 
       array (
@@ -1546,7 +1546,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::cmp8sG8e9qcRUrwn',
+        'as' => 'generated::3yBPLwhZL2B3QcAA',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1739,7 +1739,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'generated::HUwZLBxIVhiiYJ2T' => 
+    'generated::xTYnGdXlblg2wqFq' => 
     array (
       'methods' => 
       array (
@@ -1759,7 +1759,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::HUwZLBxIVhiiYJ2T',
+        'as' => 'generated::xTYnGdXlblg2wqFq',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1774,7 +1774,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'generated::7nfQKh4XXBMLropW' => 
+    'generated::cQDlpbHiOzqhe7Vt' => 
     array (
       'methods' => 
       array (
@@ -1800,7 +1800,7 @@ app('router')->setCompiledRoutes(
         'where' => 
         array (
         ),
-        'as' => 'generated::7nfQKh4XXBMLropW',
+        'as' => 'generated::cQDlpbHiOzqhe7Vt',
       ),
       'fallback' => false,
       'defaults' => 
@@ -1860,7 +1860,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::nYr7erxqkgtLA2V8' => 
+    'traders.generated::WhxoEXJGPTzE7HfQ' => 
     array (
       'methods' => 
       array (
@@ -1881,7 +1881,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::nYr7erxqkgtLA2V8',
+        'as' => 'traders.generated::WhxoEXJGPTzE7HfQ',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 
@@ -1903,7 +1903,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::2PeVK7gp8ekq5zwZ' => 
+    'traders.generated::3OvDxkgcGdC8qlKN' => 
     array (
       'methods' => 
       array (
@@ -1924,7 +1924,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::2PeVK7gp8ekq5zwZ',
+        'as' => 'traders.generated::3OvDxkgcGdC8qlKN',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 
@@ -1946,7 +1946,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::p6UkGGuqwEGDpggK' => 
+    'traders.generated::DyPfZAZdajiLjlIZ' => 
     array (
       'methods' => 
       array (
@@ -1967,7 +1967,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::p6UkGGuqwEGDpggK',
+        'as' => 'traders.generated::DyPfZAZdajiLjlIZ',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 
@@ -1989,7 +1989,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::IMnIgUK7s6YYNbOw' => 
+    'traders.generated::yH3ifDPAmRDjNp5c' => 
     array (
       'methods' => 
       array (
@@ -2010,7 +2010,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::IMnIgUK7s6YYNbOw',
+        'as' => 'traders.generated::yH3ifDPAmRDjNp5c',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 
@@ -2032,7 +2032,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::QnVJSWtzNnAb8WSr' => 
+    'traders.generated::xd5JCchlaJnby3NE' => 
     array (
       'methods' => 
       array (
@@ -2053,7 +2053,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::QnVJSWtzNnAb8WSr',
+        'as' => 'traders.generated::xd5JCchlaJnby3NE',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 
@@ -2075,7 +2075,7 @@ app('router')->setCompiledRoutes(
       'lockSeconds' => NULL,
       'waitSeconds' => NULL,
     ),
-    'traders.generated::eek5As94wDXL564N' => 
+    'traders.generated::PxKo27OmymyJAfnS' => 
     array (
       'methods' => 
       array (
@@ -2096,7 +2096,7 @@ app('router')->setCompiledRoutes(
         ),
         'uses' => '\\Illuminate\\Routing\\RedirectController@__invoke',
         'controller' => '\\Illuminate\\Routing\\RedirectController',
-        'as' => 'traders.generated::eek5As94wDXL564N',
+        'as' => 'traders.generated::PxKo27OmymyJAfnS',
         'namespace' => 'App\\Http\\Controllers',
         'prefix' => '/traders',
         'where' => 

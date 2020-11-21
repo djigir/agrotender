@@ -369,6 +369,7 @@ class CompanyController extends Controller
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $this->company,
@@ -379,7 +380,6 @@ class CompanyController extends Controller
             'page_type' => 0,
             'check_forwards' => $checkForward,
         ]);
-
     }
 
 
