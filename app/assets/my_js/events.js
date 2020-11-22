@@ -94,14 +94,11 @@ window.onload = function (){
     $('.burger').click(function () {
 
         if(!$('.overlay').hasClass('open')){
-            console.log('if');
             $('.overlay').addClass('open');
             $('.mobileMenu').addClass('open');
-            $('body').addClass('open');
         }else{
             $('.overlay').removeClass('open');
             $('.mobileMenu').removeClass('open');
-            $('body').removeClass('open');
         }
 
         if($('.filters-wrap').css('display') == 'block'){
