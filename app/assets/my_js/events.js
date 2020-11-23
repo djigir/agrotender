@@ -283,7 +283,7 @@ window.onload = function (){
         let region_name = event.currentTarget.getAttribute('region_name');
 
         if(region_name){
-            if(region_name != 'Вся Украина'){
+            if(region_name != 'Вся Украина' || region_name != 'АР Крым'){
                 region_name += ' область';
             }
             $('#span-mobile-region').html(region_name);
