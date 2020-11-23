@@ -129,7 +129,7 @@ class TraderService
             ->where('active', 1)
             ->get();
 
-        $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
+        $ports = $ports->sortBy('lang.portname')->prepend(collect(['lang' => ['portname' => 'Все порты'], 'url' => 'all']));
 
         return $ports;
     }

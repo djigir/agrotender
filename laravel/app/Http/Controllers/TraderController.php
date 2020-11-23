@@ -85,7 +85,7 @@ class TraderController extends Controller
     public function setDataForTraders($data)
     {
         $forward_months = $this->baseServices->getForwardsMonths();
-        $regions = $this->baseServices->getRegions();
+        $regions = !$this->agent->isMobile() ? $this->baseServices->getRegions() : $this->baseServices->getRegions()->forget(25);
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
 
