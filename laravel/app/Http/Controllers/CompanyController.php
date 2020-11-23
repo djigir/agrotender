@@ -86,6 +86,11 @@ class CompanyController extends Controller
 
         if($data->get('region') != 'ukraine' && $data->get('region')) {
             $region = Regions::where('translit', $data->get('region'))->first();
+
+            if(!$region) {
+                App::abort(404);
+            }
+
             $region_id = $region->id;
         }
 
