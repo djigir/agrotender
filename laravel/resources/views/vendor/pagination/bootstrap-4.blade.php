@@ -6,7 +6,7 @@
     <div style="margin: 0 auto">
         @if ($paginator->hasPages())
             <nav>
-                <ul class="pagination" style="{{ $isMobile ? 'width: 280px;': ''}}">
+                <ul class="pagination" style="{{ $isMobile ? 'width: 180px;': ''}}">
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
 {{--                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">--}}
