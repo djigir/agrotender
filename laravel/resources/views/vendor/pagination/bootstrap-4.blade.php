@@ -88,7 +88,7 @@
         border-radius: 7px;
     }
 
-    .page-item.disabled {
+    .page-item.disabled .page-link {
         color: #6c757d;
         pointer-events: none;
         cursor: auto;
