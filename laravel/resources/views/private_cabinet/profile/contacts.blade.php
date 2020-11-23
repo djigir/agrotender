@@ -18,7 +18,8 @@
     {{-- modal --}}
     <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="form contact-form modal-content">
+            <form class="form contact-form modal-content" method="POST"  action="{{ route('user.profile.change_contacts', ['type' => $type]) }}">
+                @csrf
                 <div class="modal-header">
                     <h5 class="modal-title ml-3">Контактные данные</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -29,13 +30,13 @@
                     <div class="form-group row mb-4 pb-1">
                         <label class="col-sm-4 col-form-label text-left text-sm-right">Должность:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" placeholder="Должность" name="post">
+                            <input type="text" class="form-control" placeholder="Должность" name="dolg">
                         </div>
                     </div>
                     <div class="form-group row mb-4 pb-1">
                         <label class="col-sm-4 col-form-label text-left text-sm-right">Контактное лицо:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" placeholder="Контактное лицо" name="name">
+                            <input type="text" class="form-control" placeholder="Контактное лицо" name="fio">
                         </div>
                     </div>
                     <div class="form-group row mb-4 pb-1">
@@ -111,7 +112,7 @@
                     <div class="text-center mx-2">
                         Укажите Ваш новый номер номер телефона в поле ниже:
                         <div class="form-group my-3 col-12 col-sm-6 offset-sm-3">
-                            <input type="text" class="form-control newPhone" name="newPhone">
+                            <input type="text" class="form-control newPhone" name="newPhone" placeholder="+38 000 000 00 00">
                         </div>
                     </div>
                 </div>

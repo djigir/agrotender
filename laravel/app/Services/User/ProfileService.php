@@ -134,16 +134,17 @@ class ProfileService
         if ($type == 3){
             $dep_name = "Отдел услуг";
         }
-        if ($type == 999){
-            $dep_name = "Telegram/Viber";
-        }
 
-        if (!isset($type)) {
+        if (!isset($type) || $type == 999) {
             $contacts = TorgBuyer::with('companyForBuyer')->where('id', $user->user_id)->get()->first();
             $contacts->dep_name = "Главный офис";
+            if ($type == 999) {
+                $contacts->dep_name = "Telegram/Viber";
+            }
+
         }
-        /* протестить добавить контакты с разными type_id  в  CompItemsContact*/
-        if ($type) {
+
+        if ($type && $type != 999) {
             $contacts = CompItemsContact::where('type_id', $type)->where('comp_id', $user->company->id)->get();
             $contacts->dep_name = $dep_name;
         }
@@ -151,7 +152,7 @@ class ProfileService
         return $contacts;
 
     }
-
+    
 
 //    public function getNewsItem($newId, $company) {
 //        return $this->db->select('agt_comp_news', '*', ['id' => $newId, 'comp_id' => $company])[0] ?? null;

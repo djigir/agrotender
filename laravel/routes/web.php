@@ -101,6 +101,7 @@ Route::prefix('u')
                 Route::post('/change_pass', 'UserController@changePass')->name('change_pass');
                 Route::post('/new_login', 'UserController@newLogin')->name('new_login');
                 Route::post('/toggle_visible', 'UserController@toggleVisible')->name('toggle_visible');
+                Route::post('/change_contacts', 'UserController@changeContacts')->name('change_contacts');
 
                 Route::post('/action_news', 'UserController@actionNews')->name('action_news');
                 Route::post('/action_vacancy', 'UserController@actionVacancy')->name('action_vacancy');

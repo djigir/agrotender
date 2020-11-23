@@ -10,14 +10,14 @@
             <div class="form-group row mb-4 pb-1">
                 <label class="col-sm-4 col-form-label text-left text-sm-right" style="color: #1EACF8">Ники Telegram:<br><span class="small">формат: <b>@nickname1</b><br><b>@nickname2</b></span></label>
                 <div class="col-sm-5">
-                    <textarea class="form-control" name="telegram" rows="6">@test_nickname</textarea>
+                    <textarea class="form-control" name="telegram" rows="6">{{ $contacts->telegram }}</textarea>
                 </div>
             </div>
 
             <div class="form-group row mb-4 pb-1">
                 <label class="col-sm-4 col-form-label text-left text-sm-right" style="color: #7d50a2">Номера Viber:<br><span class="small">формат: <b>380501112233</b><br><b>380670001122</b></span></label>
                 <div class="col-sm-5">
-                    <textarea class="form-control" name="viber" rows="6">380888888888</textarea>
+                    <textarea class="form-control" name="viber" rows="6">{{ $contacts->viber }}</textarea>
                 </div>
             </div>
 

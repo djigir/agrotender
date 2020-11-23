@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompNews;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
@@ -146,7 +147,7 @@ class UserController extends Controller
         $type_department = $request->get('dep');
         $contacts = $this->profileService->userCompanyContact($type_department);
         $regions = $this->baseServices->getRegions()->forget(25);
-        
+
         return view('private_cabinet.profile.contacts', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[1],
@@ -155,6 +156,35 @@ class UserController extends Controller
             'type' => $type_department,
             'isMobile' => $this->agent->isMobile(),
         ]);
+    }
+
+    public function changeContacts(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $dep_type = $request->get('type');
+
+        $contacts_data = $request->only(['name', 'name2', 'phone2', 'name3', 'phone3', 'email', 'obl_id', 'city']);
+
+        // Главный офис
+        $contacts_torg = TorgBuyer::where('id', $user->user_id)->update($contacts_data);
+        $contacts_user = User::where('id', $user->id)->update($contacts_data);
+
+        // Отдел закупок
+
+        return redirect()->back()->with(['success' => 'Данные сохранены.']);
+    }
+
+    public function createContacts(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+
+        $dep_type = $request->get('type');
+
+        // Отдел закупок
+        $department_contacts = CompItemsContact::where('type_id', $dep_type)->create($request->only(['dolg', 'fio', 'phone', 'email']));
+
     }
 
     //М-д для страницы профиля (уведомления)

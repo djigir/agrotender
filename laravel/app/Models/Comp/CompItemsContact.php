@@ -30,6 +30,8 @@ class CompItemsContact extends Model
 {
     protected $connection = 'mysql';
 
+    public $timestamps = false;
+
     protected $table = 'comp_items_contact';
 
     protected $fillable = [
