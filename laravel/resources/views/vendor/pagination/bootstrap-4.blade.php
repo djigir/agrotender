@@ -87,6 +87,16 @@
         border: none;
         border-radius: 7px;
     }
+
+    .page-item.disabled {
+        color: #6c757d;
+        pointer-events: none;
+        cursor: auto;
+        background-color: #eff1f5;
+        border-color: #dee2e6;
+    }
+
+
     .page-item .page-link{
         outline: none !important;
     }
