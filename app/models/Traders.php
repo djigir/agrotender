@@ -206,7 +206,7 @@ class Traders extends \Core\Model {
             $change = $existPrice === null ? 3 : ($existPrice['costval'] == $price ? 4 : ($existPrice['costval'] > $price ? 1 : "0"));
             if ($existPrice == null) {
                 $this->db->insert('agt_traders_prices', ['buyer_id' => $user, 'cult_id' => $rubric, 'place_id' => $place, 'curtype' => $currency, 'acttype' => $type, 'active' => 1, 'costval' => $price, 'costval_old' => $price, 'comment' => $comment, 'dt' => 'curdate()', 'change_date' => 'now()', 'add_date' => 'now()']);
-                $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+                $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
                 // обновляем цены в случае первого сохранения цен за сутки или изменения цены
             } elseif ( $existPrice['dt'] != date('Y-m-d') || $existPrice['costval'] != $price ) {
                 \Cache::forget('FEED');

@@ -282,7 +282,8 @@
               <div class="row mx-0 w-100">
                 <div class="col-auto pr-0 pl-1 pl-sm-3">
                   <a href="/board/post-{$adv['id']}">
-                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">
+                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg">
+{*                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">*}
                   </a>
                   <span class="badge t{$adv['type_id']} align-self-center d-inline-block d-sm-none">{$adv['type']|substr:0:2}</span> 
                 </div>
@@ -379,8 +380,9 @@
               <div class="ribbon">ТОП</div>
                 <div class="row mx-0 w-100">
                   <div class="col-auto pr-0 pl-1 pl-sm-3">
-                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">
-                    <span class="badge t{$adv['type_id']} align-self-center d-inline-block d-sm-none">{$adv['type']|substr:0:2}</span> 
+                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg">
+{*                    <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">*}
+                    <span class="badge t{$adv['type_id']} align-self-center d-inline-block d-sm-none">{$adv['type']|substr:0:2}</span>
                   </div>
                   <div class="col pr-0 pl-2 pl-sm-3">
                     <div class="row m-0">
@@ -480,7 +482,8 @@
       <div class="row mx-0 w-100">
         <div class="col-auto pr-0 pl-1 pl-sm-3">
           <a href="/board/post-{$adv['id']}">
-            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">
+            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg">
+{*            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">*}
           </a>
           <span class="badge t{$adv['type_id']} align-self-center d-inline-block d-sm-none">{$adv['type']|substr:0:2}</span> 
         </div>
