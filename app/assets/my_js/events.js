@@ -303,6 +303,7 @@ window.onload = function (){
         let port = event.currentTarget.getAttribute('port');
         let port_name = event.currentTarget.getAttribute('port_name');
 
+
         $('#span-mobile-region').html(port_name);
         $('#input-mobile-port-t').attr('value', port);
         $('#input-mobile-region-t').attr('value', null);
