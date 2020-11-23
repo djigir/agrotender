@@ -269,7 +269,7 @@ window.onload = function (){
         let group = event.currentTarget.getAttribute('group');
         let rubric_name = event.target.innerText;
         let rubric = event.currentTarget.getAttribute('rubric');
-        console.log(rubric_name);
+
         $('#span-mobile-rubric').html(rubric_name);
         $('#input-mobile-rubric').attr('value', rubric);
 
@@ -280,9 +280,15 @@ window.onload = function (){
     
     $(".region").click(function (event) {
         let region = event.currentTarget.getAttribute('region');
-        let region_name = event.target.innerHTML;
+        let region_name = event.currentTarget.getAttribute('region_name');
 
-        $('#span-mobile-region').html(region_name);
+        if(region_name){
+            if(region_name != 'Вся Украина'){
+                region_name += ' область';
+            }
+            $('#span-mobile-region').html(region_name);
+        }
+
         $('#input-mobile-region').attr('value', region);
 
         $('#input-mobile-region-t').attr('value', region);
@@ -295,6 +301,9 @@ window.onload = function (){
 
     $('.port').click(function (event) {
         let port = event.currentTarget.getAttribute('port');
+        let port_name = event.currentTarget.getAttribute('port_name');
+
+        $('#span-mobile-region').html(port_name);
         $('#input-mobile-port-t').attr('value', port);
         $('#input-mobile-region-t').attr('value', null);
     });

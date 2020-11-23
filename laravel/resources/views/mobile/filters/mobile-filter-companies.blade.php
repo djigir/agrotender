@@ -107,22 +107,20 @@
                     @if(isset($regions))
                         @foreach($regions as $index_region => $region)
                             @if($index_region == 1)
-                                <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ 'ukraine' }}">
+                                <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ 'ukraine' }}" region_name="Вся Украина">
                                      <span style="color: #1e56b2">Вся Украина</span>
                                      <span style="pointer-events: none;">
                                         <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
                                      </span>
                                 </span>
                             @endif
-                            <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ $region['translit'] }}">
+                            <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ $region['translit'] }}" region_name="{{$region['name']}}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
-                                    <span style="color: #1e56b2">{{$region['name']}}</span>
-{{--                                    <span class="companyCount small">({{$region['count_items']}})</span>--}}
+                                    <span style="color: #1e56b2" >{{$region['name']}}</span>
                                 @else
-                                    <span style="color: #1e56b2">{{$region['name']}} область</span>
-{{--                                    <span class="companyCount small">({{$region['count_items']}})</span>--}}
+                                    <span style="color: #1e56b2" >{{$region['name']}} область</span>
                                 @endif
-                                <span style="pointer-events: none">
+                                <span style="pointer-events: none; cursor: default;">
                                     <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
                                 </span>
                             </span>

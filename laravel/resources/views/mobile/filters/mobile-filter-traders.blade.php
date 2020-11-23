@@ -128,10 +128,11 @@
                         @foreach($rubricGroups as $group => $item)
                             @foreach($rubricGroups[$group]['groups']["products"] as $index => $item_culture)
                                 <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
-                                    <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}</span>
-                                    @if($item_culture['count_item'] > 0)
-                                        <span class="companyCount small">({{$item_culture['count_item']}})</span>
-                                    @endif
+                                    <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}
+                                        @if($item_culture['count_item'] > 0)
+                                            <span class="companyCount small">({{$item_culture['count_item']}})</span>
+                                        @endif
+                                    </span>
                                     <span style="pointer-events: none">
                                         <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
                                     </span>
@@ -150,7 +151,7 @@
                 </a>
                 <div class="scroll">
                     @foreach($regions->reverse() as $index_region  => $region)
-                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}">
+                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}" region_name="{{$region['name']}}">
                             <span style="{{$region['translit'] == 'ukraine' ? 'font-weight: 600;' : ''}}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                     <span style="color: #1e56b2">{{$region['name']}}</span>
@@ -164,7 +165,7 @@
                         </span>
                     @endforeach
                     @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-                        <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" style="color: #1e56b2" port="{{$port['url']}}">
+                        <span  class="port region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" port="{{$port['url']}}" port_name="{{$port['url'] == 'all' ? 'Все порты' : $port['lang']['portname']}}">
                             <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['lang']['portname']}}</span>
                             <span style="pointer-events: none">
                                 <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
