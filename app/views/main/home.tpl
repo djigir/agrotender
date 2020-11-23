@@ -40,7 +40,7 @@
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {foreach $prices as $rubric}
-      <div class="swiper-slide">
+      <div class="swiper-slide" style="width: 464px; margin-right: 20px;">
         <div class="category-block">
           <span class="category-title d-inline-block">{$rubric['name']}</span>
           <div class="currency float-right d-flex">
@@ -145,9 +145,9 @@
 </div>
 <div class="container swiper trust-swipe">
   <div class="swiper-container">
-    <div class="swiper-wrapper">
+    <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
       {foreach $randomTraders as $trader}
-      <div class="swiper-slide d-flex">
+      <div class="swiper-slide d-flex" style="width: 101px; margin-right: 20px;">
         <a href="/kompanii/comp-{$trader['id']}" class="content-block p-2">
         <img alt="" src="/{$trader['logo_file']}" class="trust-img">
         </a>

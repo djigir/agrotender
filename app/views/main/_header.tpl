@@ -28,6 +28,7 @@
     {if $page eq 'main/companies' or $page eq 'main/companies-r'}
     <link rel="canonical" href="https://agrotender.com.ua/kompanii/{if $region neq null}region_{$region['translit']}/{/if}{if $rubric neq null}/t{$rubric['id']}{/if}"/>
     {/if}
+    <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
     <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
 
