@@ -214,9 +214,9 @@ class Traders extends \Core\Model {
 
                 $existFeed = $this->db->query("select id,change_price from agt_traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
                 if ($existFeed == null) {
-                    $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+                    $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
                 } elseif ( $existFeed['change_price'] != $change ) {
-                    $this->db->update('traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
+                    $this->db->update('agt_traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
                 }
                 $archId = $this->db->query("select id from agt_traders_prices_arc where buyer_id = $user && cult_id = $rubric && place_id = $place && curtype = $currency && acttype = $type && dt = curdate()")[0]['id'] ?? null;
                 if ($archId == null) {
@@ -239,16 +239,16 @@ class Traders extends \Core\Model {
             $change = $existPrice === null ? 3 : ($existPrice['costval'] == $price ? 4 : ($existPrice['costval'] > $price ? 1 : '0'));
             if ($existPrice == null) {
                 $this->db->insert('agt_traders_prices', ['buyer_id' => $user, 'cult_id' => $rubric, 'place_id' => $place, 'curtype' => $currency, 'acttype' => $type, 'active' => 1, 'costval' => $price, 'costval_old' => $price, 'comment' => $comment ?: '', 'dt' => $date, 'change_date' => 'now()', 'add_date' => 'now()']);
-                $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+                $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
                 // обновляем цены в случае первого сохранения цен за сутки или изменения цены
             } elseif ( strtotime($existPrice['change_date']) < strtotime(date('Y-m-d')) || $existPrice['costval'] != $price ) {
                 $this->db->update('agt_traders_prices', ['active' => 1, 'costval' => $price, 'costval_old' => $existPrice['costval'], 'comment' => $comment ?: '', 'dt' => $date, 'change_date' => 'now()'], ['id' => $existPrice['id']]);
 
                 $existFeed = $this->db->query("select id,change_price from agt_traders_feed where rubric = $rubric && place = $place && date(change_date) = curdate()")[0] ?? null;
                 if ($existFeed == null) {
-                    $this->db->insert('traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
+                    $this->db->insert('agt_traders_feed', ['rubric' => $rubric, 'place' => $place, 'change_price' => $change, 'user' => $user]);
                 } elseif ( $existFeed['change_price'] != $change ) {
-                    $this->db->update('traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
+                    $this->db->update('agt_traders_feed', ['change_price' => $change], ['id' => $existFeed['id']]);
                 }
                 // обновляем только коментарий, если цена не изменилась
             } elseif ( $existPrice['comment'] != $comment ) {
@@ -649,7 +649,7 @@ class Traders extends \Core\Model {
     public function getRegionsCompany($region) {
         $traders = $this->db->query("
       select tpl.name as product, (select count(buyer_id) as count from agt_traders_products2buyer where cult_id = tr.id) as count
-        from regions tr
+        from agt_regions tr
         left join agt_traders_products2buyer as tpb
           on tpb.cult_id = tp.id
       where tr.id = {$region} group by tr.name order by tr.name desc");
@@ -880,7 +880,7 @@ class Traders extends \Core\Model {
         from agt_comp_items ci
         inner join agt_traders_prices tpr on ci.author_id = tpr.buyer_id && tpr.acttype = '$typeInt' && tpr.cult_id = $rubric $currencySql
         inner join agt_traders_places tpl on tpr.place_id = tpl.id $placeSql
-        inner join regions r on r.id = tpl.obl_id
+        inner join agt_regions r on r.id = tpl.obl_id
         inner join agt_traders_products2buyer p2b on p2b.buyer_id = ci.author_id && p2b.acttype = tpr.acttype and p2b.type_id = tpl.type_id and p2b.cult_id = tpr.cult_id
         left join agt_traders_ports_lang pl on pl.port_id = tpl.port_id
       where ci.trader_price{$type}_avail = 1 && ci.trader_price{$type}_visible = 1 && tpr.active = 1 && tpl.type_id != 1 && ci.visible = 1
@@ -948,7 +948,7 @@ class Traders extends \Core\Model {
             inner join agt_traders_places tpl on tpr.place_id = tpl.id
             left join agt_traders_ports_lang pl
               on pl.port_id = tpl.port_id
-            left join regions r
+            left join agt_regions r
               on r.id = tpl.obl_id
           where tpr.buyer_id = {$traders[$key]['author_id']} && tpl.type_id != 1 && tpr.acttype = $typeInt $rubricSql
           group by tpr.cult_id
@@ -1094,7 +1094,7 @@ class Traders extends \Core\Model {
             inner join agt_traders_products_lang  as tp_l on tp_l.id = tpr.cult_id
             inner join agt_traders_places         as tpl  on tpr.place_id = tpl.id $regionSql $portSql $onlyPortsSql
             left join agt_traders_ports_lang      as pl   on pl.port_id = tpl.port_id
-            left join regions                     as r    on r.id = tpl.obl_id
+            left join agt_regions                     as r    on r.id = tpl.obl_id
           WHERE tpr.buyer_id = {$value['author_id']} && tpl.type_id != 1 && tpr.acttype = $typeInt $rubricSql $currencySql
           GROUP BY $groupBy
           ORDER BY tpr.change_date DESC
@@ -1206,7 +1206,7 @@ class Traders extends \Core\Model {
             inner join agt_traders_products_lang  as tp_l on tp_l.id = tpr.cult_id
             inner join agt_traders_places         as tpl  on tpr.place_id = tpl.id $regionSql $portSql $onlyPortsSql
             left join agt_traders_ports_lang      as pl   on pl.port_id = tpl.port_id
-            left join regions                     as r    on r.id = tpl.obl_id
+            left join agt_regions                     as r    on r.id = tpl.obl_id
           WHERE tpr.buyer_id = {$value['author_id']} && tpl.type_id != 1 && tpr.acttype = $typeInt $rubricSql $currencySql
           GROUP BY $groupBy
           ORDER BY tpr.change_date DESC
@@ -1292,7 +1292,7 @@ class Traders extends \Core\Model {
         from agt_comp_items ci
         inner join agt_traders_prices as tpr on ci.author_id = tpr.buyer_id
         inner join agt_traders_places as tpl on tpr.place_id = tpl.id
-        inner join regions r on r.id = tpl.obl_id
+        inner join agt_regions r on r.id = tpl.obl_id
         inner join agt_traders_products2buyer p2b on p2b.buyer_id = ci.author_id && p2b.acttype = tpr.acttype and p2b.type_id = tpl.type_id and p2b.cult_id = tpr.cult_id
       $where
       order by ci.trader_premium_forward desc, ci.rate_formula desc, ci.trader_sort_forward, ci.title, tpr.dt");
