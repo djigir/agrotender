@@ -151,8 +151,6 @@ window.onload = function (){
         $('#active-port').addClass('active');
     });
 
-
-
     $(".group-culture").click(function (event) {
         let group = event.currentTarget.attributes[1].nodeValue;
         let group_culture = $(".group-culture");
@@ -175,7 +173,6 @@ window.onload = function (){
         }
 
     });
-
 
 
     $(".rubricInput").click(function (event) {
@@ -272,7 +269,7 @@ window.onload = function (){
         let group = event.currentTarget.getAttribute('group');
         let rubric_name = event.target.innerText;
         let rubric = event.currentTarget.getAttribute('rubric');
-
+        console.log(rubric_name);
         $('#span-mobile-rubric').html(rubric_name);
         $('#input-mobile-rubric').attr('value', rubric);
 
@@ -280,11 +277,10 @@ window.onload = function (){
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', 'none');
     });
-
+    
     $(".region").click(function (event) {
         let region = event.currentTarget.getAttribute('region');
         let region_name = event.target.innerHTML;
-            // + ' область';
 
         $('#span-mobile-region').html(region_name);
         $('#input-mobile-region').attr('value', region);

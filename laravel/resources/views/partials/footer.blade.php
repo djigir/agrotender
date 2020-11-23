@@ -53,7 +53,6 @@
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
 <script src="/app/assets/js/respond.min.js"></script>
-{{--<script src="/app/assets/js/sides.js"></script>--}}
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>

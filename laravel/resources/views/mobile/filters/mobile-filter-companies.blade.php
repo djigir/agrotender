@@ -39,12 +39,12 @@
                     <span id="mobile-rubric" class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between">
                         <input type="text" class="remove-input" id='input-mobile-rubric' name="rubric" value='{{isset($rubric_id) ? $rubric_id : ''}}'>
                         <span style="color: #1e56b2" id="span-mobile-rubric">{{isset($culture_name) ? $culture_name : ''}}</span>
-                        <span><i class="far fa-chevron-right"></i></span>
+                        <span><i style="color: #1e56b2;" class="far fa-chevron-right"></i></span>
                     </span>
                     <span id="mobile-region" class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between">
                         <input type="text" class="remove-input" id='input-mobile-region' name="region" value='{{isset($region) ? $region: ''}}'>
                         <span style="color: #1e56b2"  id="span-mobile-region">{{isset($region_name) ? $region_name : ''}}</span>
-                        <span><i class="far fa-chevron-right"></i></span>
+                        <span><i style="color: #1e56b2;" class="far fa-chevron-right"></i></span>
                     </span>
                     <button class="remove-style-btn show showCompanies" type="submit">Показать компании</button>
                 </form>
@@ -62,7 +62,7 @@
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$rubricGroup['id']}}">
-                                <span>{{$rubricGroup['title']}}</span>
+                                <span style="color: #1e56b2">{{$rubricGroup['title']}}</span>
                                 <span><i class="far fa-chevron-right"></i></span>
                             </span>
                         @endforeach
@@ -81,11 +81,14 @@
                         @foreach($rubricGroups as $index_group => $rubricGroup)
                             @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
                                 <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between" group="{{$rubricGroup['id']}}" rubric="{{$culture['id']}}">
-                                    <span style="color: #1e56b2">{{$culture['title']}} &nbsp;</span>
-                                    @if($culture['cnt'] > 0)
-                                        <span class="companyCount small">({{$culture['cnt']}})</span>
-                                    @endif
-                                    <span><i class="far fa-chevron-right"></i></span>
+                                    <span style="color: #1e56b2">{{$culture['title']}} &nbsp;
+                                        @if($culture['cnt'] > 0)
+                                            <span style="pointer-events:none" class="companyCount small">({{$culture['cnt']}})</span>
+                                        @endif
+                                    </span>
+                                    <span style="pointer-events: none;">
+                                        <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                                    </span>
                                 </span>
                             @endforeach
                         @endforeach
@@ -103,17 +106,25 @@
                 <div class="scroll">
                     @if(isset($regions))
                         @foreach($regions as $index_region => $region)
+                            @if($index_region == 1)
+                                <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ 'ukraine' }}">
+                                     <span style="color: #1e56b2">Вся Украина</span>
+                                     <span style="pointer-events: none;">
+                                        <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                                     </span>
+                                </span>
+                            @endif
                             <span class="region px-4 py-3 my-3 content-block d-flex justify-content-between" region="{{ $region['translit'] }}">
                                 @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
                                     <span style="color: #1e56b2">{{$region['name']}}</span>
-                                    <span class="companyCount small">({{$region['count_items']}})</span>
+{{--                                    <span class="companyCount small">({{$region['count_items']}})</span>--}}
                                 @else
                                     <span style="color: #1e56b2">{{$region['name']}} область</span>
-                                    <span class="companyCount small">({{$region['count_items']}})</span>
+{{--                                    <span class="companyCount small">({{$region['count_items']}})</span>--}}
                                 @endif
-                                <span>
-                                    <i class="far fa-chevron-right"></i>
-                                 </span>
+                                <span style="pointer-events: none">
+                                    <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                                </span>
                             </span>
                         @endforeach
                     @endif

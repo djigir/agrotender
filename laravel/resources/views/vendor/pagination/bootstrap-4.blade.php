@@ -90,6 +90,14 @@
     .page-item .page-link{
         outline: none !important;
     }
+
+    .page-item.active .page-link {
+        z-index: 1;
+        color: black;
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
     .mobile-paginate {
         margin: 0 auto;
         margin-top: -4rem !important;
