@@ -16,6 +16,7 @@ use App\Services\SeoService;
 use App\Services\Traders\TraderFeedService;
 use App\Services\Traders\TraderService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 
 class TraderController extends Controller
 {
@@ -90,15 +91,29 @@ class TraderController extends Controller
 
         $culture_meta = null;
         $currency = isset($data->get('query')['currency']) ? $data->get('query')['currency'] : null;
-        $region_all = ($data->get('region') != 'ukraine' && $data->get('region')) ? Regions::where('translit', $data->get('region'))->get()->toArray()[0] : $data->get('region');
+        $region_all = $data->get('region');
         $port_all = $data->get('port');
         $culture_name = 'Выбрать продукцию';
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
 
-        if($data->get('port') != 'all' && $data->get('port'))
-        {
+        if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
+
+            if(!$id_port) {
+                App::abort(404);
+            }
+
             $port_all = TradersPortsLang::where('port_id', $id_port)->first();
+        }
+
+        if($data->get('region') != 'ukraine' && $data->get('region')) {
+            $id_region = Regions::where('translit', $data->get('region'))->value('id');
+
+            if(!$id_region) {
+                App::abort(404);
+            }
+
+            $region_all = Regions::where('id', $id_region)->first();
         }
 
         $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
@@ -123,13 +138,6 @@ class TraderController extends Controller
         {
             $meta = $this->seoService->getTradersMetaForward($region_all, $culture_meta, $port_all);
         }
-//        elseif ($data->get('type') == 'sell') {
-//            // изменить текстовку
-//            $meta = $this->seoService->getTradersMeta([
-//                'rubric' => $culture_meta, 'region' => $region_all,
-//                'port' => $port_all, 'type' => 0, 'page' => 1,
-//                'onlyPorts' => $this->traderService->getNamePortRegion(null, $data->get('port'))['onlyPorts']]);
-//        }
 
         $data_breadcrumbs =  [
             'region_translit' => $data->get('region'),

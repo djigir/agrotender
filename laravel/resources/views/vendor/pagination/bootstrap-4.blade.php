@@ -9,10 +9,10 @@
                 <ul class="pagination" style="{{ $isMobile ? 'width: 280px;': ''}}">
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                @if(!$isMobile)Предыдущая @endif
-                            </span>
+{{--                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">--}}
+{{--                                <i class="far fa-chevron-left mr-1"></i>--}}
+{{--                                @if(!$isMobile)Предыдущая @endif--}}
+{{--                            </span>--}}
                         </li>
                     @else
                         <li class="page-item">
