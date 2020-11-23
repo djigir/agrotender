@@ -367,7 +367,7 @@ class Board extends \Core\Model {
         on tb.id = atp.author_id
       left join agt_comp_items ci
         on ci.id = atp.company_id
-      left join regions r
+      left join agt_regions r
               on r.id = atp.obl_id
       inner join agt_adv_torg_topic att
               on att.id = atp.topic_id 
@@ -459,7 +459,7 @@ class Board extends \Core\Model {
           on att.id = atp.topic_id $parentJoin
         inner join agt_torg_buyer tb
           on atp.author_id = tb.id $author
-        inner join regions as r
+        inner join agt_regions as r
           on r.id = atp.obl_id
         left join agt_comp_items ci
           on atp.company_id = ci.id
@@ -496,7 +496,7 @@ class Board extends \Core\Model {
           on att.id = atp.topic_id $parentJoin
         inner join agt_torg_buyer tb
           on atp.author_id = tb.id $author
-        inner join regions as r
+        inner join agt_regions as r
           on r.id = atp.obl_id
         left join agt_comp_items ci
           on atp.company_id = ci.id
