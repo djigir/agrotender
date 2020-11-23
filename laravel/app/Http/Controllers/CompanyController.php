@@ -277,8 +277,8 @@ class CompanyController extends Controller
     /**
     * Display a listing of the resource.
     * @param $id
-    * @return Factory|View
-    */
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+     */
     public function companyForwards($id)
     {
         $this->setCompany($id);
@@ -288,6 +288,11 @@ class CompanyController extends Controller
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
+        if(!$checkForward){
+            return redirect()->route('company.index', $id);
+        }
+
+        $meta = $this->seoService->getMetaCompanyForward($id);
         $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 3]])
             ->orderBy('change_date', 'desc')
             ->limit(1)
@@ -324,6 +329,7 @@ class CompanyController extends Controller
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'meta' => $meta,
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
             'current_page' => 'forwards',
