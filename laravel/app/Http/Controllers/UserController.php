@@ -319,16 +319,48 @@ class UserController extends Controller
         return response()->json($newsItem, 200);
     }
 
+    public function deleteNews(Request $request)
+    {
+        CompNews::find($request->get('news_id'))->delete();
 
+        return response()->json($request->all(), 200);
+    }
+
+    /* no ajax */
     public function createVacancy(Request $request)
     {
         /** @var User $user */
         $user = auth()->user();
         $vacancies = CompVacancy::create($request->all() + ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
-        if ($vacancies){
-            return redirect()->back();
-        }
+        return redirect()->back();
+
     }
+
+    /* show for edit vacancy ajax */
+    public function printVacancy(Request $request)
+    {
+        $contactsItem = CompVacancy::find($request->get('vacancyId'));
+
+        return response()->json($contactsItem, 200);
+    }
+
+    public function editVacancy(Request $request)
+    {
+        CompVacancy::find($request->get('vacancyId'))->update($request->only([
+            'content', 'title'
+        ]));
+
+        return response()->json($request->all(), 200);
+    }
+
+    public function deleteVacancy(Request $request)
+    {
+        CompVacancy::find($request->get('vacancyId'))->delete();
+
+        return response()->json($request->all(), 200);
+    }
+
+
 
     //Если есть созданая компания тогда + новая страница профиля (вакансии)
     public function profileVacancy()

@@ -32,7 +32,7 @@
                     </div>
                     <div class="col-1 col-sm-auto">
                         <i class="fas fa-pencil-alt edit cursor-pointer mr-2 editNews" newsid="{{$newsItems->id}}"></i>
-                        <i class="fas fa-times remove text-danger cursor-pointer" newsid="{{$newsItems->id}}"></i>
+                        <i class="fas fa-times remove text-danger cursor-pointer deleteNews" newsid="{{$newsItems->id}}"></i>
                     </div>
                 </div>
             @endforeach

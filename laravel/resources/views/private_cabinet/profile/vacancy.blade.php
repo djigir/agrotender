@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div class="modal-footer justify-content-center">
-                    <button type="submit" class="btn btn-block btn-primary px-5 edit-vacancy">Сохранить</button>
+                    <button type="submit" class="btn btn-block btn-primary px-5 edit-vacancy" id="save-edit-vacancy">Сохранить</button>
                 </div>
             </form>
         </div>
