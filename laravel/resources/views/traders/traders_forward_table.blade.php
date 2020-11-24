@@ -2,28 +2,27 @@
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
-<div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
     @if(!$isMobile)
-    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer pb-5">
         <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
             <thead>
             <tr role="row">
-                <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                <th class="sth table_haeder_th_cell" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                     aria-label="Компании: activate to sort column ascending" style="width: 350px;text-align: left;">Компании
                 </th>
-                <th class="sth sorting" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                <th class="sth sorting table_haeder_th_cell" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                     aria-label="UAH : activate to sort column descending" style="width: auto;">UAH
                     <i class="fas fa-sort" style="font-size: 12px;"></i>
                 </th>
-                <th class="sth sorting" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                <th class="sth sorting table_haeder_th_cell" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                     aria-label="USD : activate to sort column descending" style="width: auto;">USD
                     <i class="fas fa-sort" style="font-size: 12px;"></i>
                 </th>
-                <th class="sth sorting" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                <th class="sth sorting table_haeder_th_cell" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                     aria-label="Дата : activate to sort column descending" style="width: auto;">Дата
                     <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
                 </th>
-                <th class="sth sorting" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                <th class="sth table_haeder_th_cell" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                     aria-label="Место закупки: activate to sort column ascending" style="text-align: left;width: 260px;">Место закупки
                 </th>
             </tr>
@@ -34,22 +33,26 @@
                     @if($currency != null)
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
                         <td class="text-left">
-                            <a class="d-inline-block" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                                <span class="title">{!! $trader->title !!}</span>
-                            </a>
+                            <div class="d-flex align-items-center">
+                                <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                </a>
+                                <a  href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                    <span class="title">{!! $trader->title !!}</span>
+                                </a>
+                            </div>
                         </td>
                         <td class="uah">
                             @if($place->pivot->curtype == 0)
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                    <span class="price table_price">{{round($place->pivot->costval, 1)}}</span>
                                 </div>
                             @endif
                         </td>
                         <td class="usd">
                             @if($place->pivot->curtype == 1)
                                 <div class="d-flex align-items-center justify-content-center">
-                                    <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                    <span class="price table_price">{{round($place->pivot->costval, 1)}}</span>
                                 </div>
                             @endif
                         </td>
@@ -68,22 +71,26 @@
                         @if($place->pivot->curtype == $currency)
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
                             <td class="text-left">
-                                <a class="d-inline-block" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
-                                    <span class="title">{!! $trader->title !!}</span>
-                                </a>
+                                <div class="d-flex align-items-center">
+                                    <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                        <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                    </a>
+                                    <a  href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                        <span class="title">{!! $trader->title !!}</span>
+                                    </a>
+                                </div>
                             </td>
                             <td class="uah">
                                 @if($place->pivot->curtype == 0)
                                     <div class="d-flex align-items-center justify-content-center">
-                                        <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                        <span class="price table_price">{{round($place->pivot->costval, 1)}}</span>
                                     </div>
                                 @endif
                             </td>
                             <td class="usd">
                                 @if($place->pivot->curtype == 1)
                                     <div class="d-flex align-items-center justify-content-center">
-                                        <span class="price">{{round($place->pivot->costval, 1)}}</span>
+                                        <span class="price table_price">{{round($place->pivot->costval, 1)}}</span>
                                     </div>
                                 @endif
                             </td>
@@ -116,7 +123,7 @@
                                 <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
                                 <a class="flex-1" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
-                                        <span class="price">
+                                        <span class="price table_price">
                                             {{round($place->pivot->costval, 1)}}
                                         </span>
                                     </span>
@@ -139,11 +146,7 @@
                     </tr>
                 @endforeach
             @endforeach
-
             </tbody>
         </table>
     @endif
-    <div class="text-center mt-5">
-    </div>
-</div>
 @endif

@@ -3,11 +3,9 @@
     <div class="new_container">
         <div class="new_page_title mt2">ОБНОВЛЕНИЯ ЗЕРНОТРЕЙДЕРОВ</div>
     </div>
-    @if($isMobile)
-        @include('traders.feed.traders_feed', ['feed' => $feed])
-    @else
-        @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-    @endif
+
+    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+
 {{--    <div class="container mt-3 "></div>--}}
 {{--    <div class="container traders mt-3 mt-sm-5">--}}
     <div class="new_container traders mt2">
@@ -41,9 +39,7 @@
                     <img class="traders__item__image" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg" alt="">
                     </div>
                     <div class="traders__item__content">
-                    <div href="#" class="traders__item__content-title">
-                        GrainCorp Ukraine
-                    </div>
+                    <div href="#" class="traders__item__content-title">GrainCorp Ukraine</div>
                     <div class="traders__item__content-description">
                         <p class="traders__item__content-p">
                         <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
@@ -87,9 +83,7 @@
                     <img  class="traders__item__image" src="https://agrotender.com.ua/pics/c/p7KovMuRtsOV.jpg" alt="">
                     </div>
                     <div class="traders__item__content">
-                    <div href="#" class="traders__item__content-title">
-                        Пiвденна Зернова Столиця
-                    </div>
+                    <div href="#" class="traders__item__content-title">Пiвденна Зернова Столиця</div>
                     <div class="traders__item__content-description">
                         <p class="traders__item__content-p">
                         <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
@@ -132,9 +126,7 @@
                     <img class="traders__item__image"  src="https://agrotender.com.ua/pics/comp/1105_96102.jpg" alt="">
                     </div>
                     <div class="traders__item__content">
-                    <div href="#" class="traders__item__content-title">
-                        Рамбурс
-                    </div>
+                    <div href="#" class="traders__item__content-title">Рамбурс</div>
                     <div class="traders__item__content-description">
                         <p class="traders__item__content-p">
                         <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
@@ -174,9 +166,7 @@
                     <img class="traders__item__image"  src="https://agrotender.com.ua/pics/comp/5576_41048.jpg" alt="">
                     </div>
                     <div class="traders__item__content">
-                    <div href="#" class="traders__item__content-title">
-                        Solagro
-                    </div>
+                    <div href="#" class="traders__item__content-title">Solagro</div>
                     <div class="traders__item__content-description">
                         <p class="traders__item__content-p">
                         <span class="traders__item__content-p-title">Пшеница 1 кл.</span>
@@ -226,11 +216,9 @@
                                     <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
                                 </div>
                                 <div class="traders__item__content">
-                                    <div href="#" class="traders__item__content-title">
-                                        {{ $trader->title }}
-                                    </div>
+                                    <div href="#" class="traders__item__content-title">{{ $trader->title }}</div>
                                     @if(!$culture_translit)
-                                        @foreach($trader->culture_prices->take($trader->trader_premium == 1 ? 3 : 2) as $index => $price_culture)
+                                        @foreach($trader->culture_prices->take(2) as $index => $price_culture)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                 <span class="traders__item__content-p-title">{!! isset($price_culture->cultures[0]) ? $price_culture->cultures[0]->name : '' !!}</span>
@@ -246,7 +234,7 @@
                                         @endforeach
                                     @else
                                     @if($port)
-                                        @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
+                                        @foreach($trader->places->take(2) as $index => $place)
                                             <div class="traders__item__content-description">
                                                 <p class="traders__item__content-p">
                                                      <span class="traders__item__content-p-title">
@@ -265,7 +253,7 @@
                                         @endforeach
                                     @endif
                                         @if($region)
-                                            @foreach($trader->places->take($trader->trader_premium == 1 ? 3 : 2) as $index => $place)
+                                            @foreach($trader->places->take(2) as $index => $place)
                                                 <div class="traders__item__content-description">
                                                     <p class="traders__item__content-p">
                                                         <span class="traders__item__content-p-title">
@@ -283,6 +271,7 @@
                                         @endif
                                     @endif
                                     <div class="traders__item__content-date">
+                                        <span class="traders__item__content-date-more">+ ещё</span>
                                         <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">{{mb_convert_case($trader['date_price']->format('d F'), MB_CASE_TITLE, "UTF-8")}}</span>
                                     </div>
                                 </div>

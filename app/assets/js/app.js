@@ -4427,15 +4427,14 @@ if ( $tradersCardTitle.length && document.documentElement.clientWidth < 480) {
   if (document.documentElement.clientWidth < 400) {
     $tradersCardTitle.forEach($el => {
       if ($el.textContent.length > 20) {
-        console.log($el.textContent.length)
-        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 20).join('') + '.'            
+        console.log('$el.textContent', $el.textContent)
+        $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 20).join('') + '.'            
       }
     }) 
   } else {
     $tradersCardTitle.forEach($el => {
       if ($el.textContent.length > 26) {
-        console.log($el.textContent.length)
-        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 26).join('') + '.'            
+        $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 26).join('') + '.'            
       }
     })
   }
@@ -4630,7 +4629,7 @@ class NewFilter {
   init() {
     this.search_url.product = this.findEl('#product').dataset.product
     this.search_url.region = this.findEl('#region').dataset.region
-    this.search_url.currency = this.findEl('.currency').dataset.currency
+    // this.search_url.currency = this.findEl('.currency').dataset.currency
     this.search_url.base = this.findEl('.mobile_filter-choose-items').dataset.current
 
     this.first_screen = this.findEl('.first')
@@ -4642,14 +4641,13 @@ class NewFilter {
     this.firstScreen()
     this.secondScreen()
     this.thirdScreen()
-    this.currency()
+    // this.currency()
 
     this.submitHandler()
     this.search()
   }
 
   open() {
-    console.log(this.$filter)
     this.$filter.parentNode.classList.add('active')
   }
 
@@ -4850,7 +4848,48 @@ function tradersPageScripts() {
     callback: function(color) {
       $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
     }
-  });
+  })
+
+  let prices = document.querySelectorAll('.traders__item__content-p-price')
+  prices = Array.prototype.slice.call(prices)
+
+  if (prices.length) {
+    prices.forEach(price => {
+      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+    })
+  }
+
+  
+  let pricesTable = document.querySelectorAll('.table_price')
+  pricesTable = Array.prototype.slice.call(pricesTable)
+  console.log(pricesTable)
+
+  if (pricesTable.length) {
+    pricesTable.forEach(price => {
+      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+    })
+  }
+
 }
 
 tradersPageScripts()
+
+function headerTraderPricesArrow() {
+  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
+  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
+  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
+
+  tradersButton.addEventListener('click', () => {
+    tradersDropdown.classList.toggle('active')
+
+    const listener = (e) => {
+      console.log(e)
+      tradersDropdown.classList.remove('active')
+      tradersDropdownParent.removeEventListener('mouseleave', listener)
+    }
+  
+    console.log('event listener added')
+    tradersDropdownParent.addEventListener('mouseleave', listener)
+  })
+}
+headerTraderPricesArrow()

@@ -71,14 +71,16 @@
               </a>
             </div>
           </div>
-          <div class="header__center__buttons">
+          <div class="header__center__buttons" id="traders_prices_dropdown_parent">
             <a href="/board" class="header__center__button">Объявления</a>
-            <div class="header__tradersPrice first">
-              <a href="/traders/region_ukraine" class="header__center__button withArrow">
+            <div class="header__tradersPrice first no_hoverable flex">
+              <a href="/traders/region_ukraine" class="header__center__button">
                 Цены Трейдеров
               </a>
+              <div class="header__tradersPrice-line"></div> 
+              <button class="header__tradersPrice-arrow"></button>
               <div class="header__hoverElem-wrap">
-                <div class="header__hoverElem">
+                <div class="header__hoverElem" id="traders_prices_dropdown">
                   <ul>
                     <li>
                       <a href="#" class="header_fw600">Закупки</a>

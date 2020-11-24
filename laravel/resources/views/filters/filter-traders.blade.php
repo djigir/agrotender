@@ -205,22 +205,12 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
             <div class="mobile_filter-subtitle">Категория</div>
             <div class="mobile_filter-choose-items" data-current="traders">
               <a href="#" class="mobile_filter-choose-item active">Закупки</a>
-              <a href="#" class="mobile_filter-choose-item">Продажи</a>
               <a href="#" class="mobile_filter-choose-item">Форварды</a>
             </div>
           </div>
           <div class="mobile_filter-content">
             <div class="mobile_filter-content-item withmargin" id="product" data-product="">Выбрать продукцию</div>
             <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">Вся Украина</div>
-
-            <div class="currency" data-currency="">
-              <span class="currency-t">Валюта:</span>
-              <div class="mobile_filter-choose-items">
-                <span class="mobile_filter-choose-item active" data-currency="">Все</span>
-                <span class="mobile_filter-choose-item" data-currency="uah">UAH</span>
-                <span class="mobile_filter-choose-item" data-currency="usd">USD</span>
-              </div>
-            </div>
           </div>
 
           <div class="mobile-filter-footer">

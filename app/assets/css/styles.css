@@ -2093,7 +2093,7 @@ table.price-table td {
 
 .sortTable .title {
   display: inline-block;
-  line-height: 42px;
+  /* line-height: 42px; */
   color: #1056b2;
   font-weight: 600;
   text-align: left;
@@ -2127,7 +2127,10 @@ table.sortTable tr td {
     background: #fff
 }
 
-table.sortTable tr:nth-child(2n) td {
+/* table.sortTable tr:nth-child(2n) td {
+  background: #f0f5fb;
+} */
+table.sortTable tr:hover td{
   background: #f0f5fb;
 }
 
@@ -2145,8 +2148,12 @@ table.sortTable.regions-table th:first-child {
 }
 
 table.sortTable tr.vip td {
-    background: #fffbd6
-} 
+  background: #fffbd6
+}
+table.sortTable tr.vip:hover td {
+  background: #fbf4b0
+}
+
 tr.vip + td {
     background-color:  #FFDA56;
 }
@@ -2197,7 +2204,7 @@ table.sortTable th a {
 */
 
 table.sortTable th:first-child {
-    background: #1056B2
+  background: #1056B2
 }
 
 .lh-1-1 {
@@ -6320,7 +6327,11 @@ table.proposedTable tr.not-viewed td {
   font-weight: 600;
   letter-spacing: 0.3px;
   color: #ffffff;
-  padding: 11px 20px;
+  padding-left: 22px;
+  padding-right: 13px;
+  height: 36px;
+  padding-top: 11px;
+  line-height: 1;
   transition: 300ms background ease;
 }
 .new_header .header__center__button:hover {
@@ -6351,6 +6362,34 @@ table.proposedTable tr.not-viewed td {
 .new_header .header__tradersPrice:hover .header__center__button.withArrow:before {
   background-image: url('https://agrotender.com.ua/app/assets/img/chevron_down_gray.svg');
 }
+.new_header .header__tradersPrice-arrow {
+  outline: none;
+  transition: 300ms background-color ease;
+  display: block;
+  border: none;
+  background-color: transparent;
+  width: 35px;
+  height: 36px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 10px;
+  background-image: url('https://agrotender.com.ua/app/assets/img/chevron_down_white.svg');
+  cursor: pointer;
+  border-radius: 9px;
+}
+.new_header .header__tradersPrice-line {
+  height: 22px;
+  width: 2px;
+  background-color: #fff;
+  opacity: .5;
+  border-radius: 12px;
+}
+.new_header .header__tradersPrice-arrow:hover {
+  background-color: #031F52;
+}
+.new_header .header__tradersPrice-arrow:hover + .new_header .header__tradersPrice-line {
+  display: none;
+}
 .new_header .header__right {
   font-size: 14px;
   position: relative;
@@ -6375,6 +6414,11 @@ table.proposedTable tr.not-viewed td {
   box-shadow: 0px 0px 14px rgba(38, 52, 100, 0.14);
 }
 
+.new_header .header__hoverElem.active {
+  height: auto;
+  padding-top: 16px;
+}
+
 .new_header .header__hoverElem.first .header__hoverElem-wrap{
   margin-top: -10px;
 }
@@ -6384,6 +6428,7 @@ table.proposedTable tr.not-viewed td {
   z-index: 9;
   padding-top: 10px;
   left: 50%;
+  top: 100%;
   transform: translateX(-50%);
 }
 .new_header .header__hoverElem ul {
@@ -6430,10 +6475,15 @@ table.proposedTable tr.not-viewed td {
   align-items: center;
   justify-content: center;
   height: 30px;
+  padding: 0;
 }
 .new_header .header__tradersPrice {
   position: relative;
   margin-left: 40px;
+}
+.new_header .header__tradersPrice.flex {
+  display: flex;
+  align-items: center;
 }
 .new_header .header__tradersPrice-mobile {
   display: none;
@@ -6452,8 +6502,19 @@ table.proposedTable tr.not-viewed td {
   height: auto;
   padding-top: 13px;
 }
+.new_header .header__tradersPrice.no_hoverable:hover .header__hoverElem {
+  height: 0px;
+  padding-top: 0;
+}
+.new_header .header__tradersPrice.no_hoverable:hover .header__hoverElem.active {
+  height: auto;
+  padding-top: 16px;
+}
 .new_header .header__tradersPrice:hover .header__center__button {
   color: #AAB7CD;
+}
+.new_header .header__tradersPrice.no_hoverable:hover .header__center__button {
+  color: #fff;
 }
 .new_header .header__yellowText {
   padding-bottom: 12px !important;      
@@ -6570,6 +6631,10 @@ table.proposedTable tr.not-viewed td {
   }
   .new_header .header__tradersPrice {
     margin-left: 10px;
+  }
+  .new_header .header__tradersPrice.flex {
+    display: flex;
+    align-items: center;
   }
   .new_header .header__tradersPrice .header__hoverElem-wrap {
     top: 40px;
@@ -7251,6 +7316,7 @@ table.proposedTable tr.not-viewed td {
   color: #FFFFFF;
 }
 .mobile_filter .currency {
+  width: 100%;
   border-bottom: 1px solid #DBE6F4;
   border-top: 1px solid #DBE6F4;
   padding: 16px 12px 14px 12px;
@@ -7513,4 +7579,13 @@ table.proposedTable tr.not-viewed td {
 
 .mt2 {
   margin-top: 20px;
+}
+
+.sth.sorting:hover {
+  background-color: #08295E;
+  cursor: pointer;
+}
+
+table.sortTable th.table_haeder_th_cell {
+  padding: 18px 25px;
 }
