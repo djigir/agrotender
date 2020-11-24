@@ -1,3 +1,11 @@
+@if($isMobile && $culture_translit && $culture_name != 'Выбрать продукцию')
+    <div class="d-sm-none container pt-2 pt-sm-4">
+        <span class="searchTag d-inline-block">
+            {{ $culture_name}}
+            <a href="{{route('traders_forward.region', 'ukraine')}}"><i class="far fa-times close ml-2"></i></a>
+        </span>
+    </div>
+@endif
 <div class="container mt-0 mt-sm-3">
     <div class="row pt-sm-3">
         <div class="position-relative w-100">
