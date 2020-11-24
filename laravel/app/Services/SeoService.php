@@ -226,6 +226,22 @@ class SeoService
     }
 
 
+    public function getMetaCompanyForward($id)
+    {
+        $company = CompItems::find($id);
+
+        if(!$company){
+            return ['title' => '', 'keywords' => '', 'description' => ''];
+        }
+
+        return [
+            'title' => $company->title,
+            'keywords' => $company->title,
+            'description' => "Сайт компании {$company->title}"
+        ];
+    }
+
+
     public function parseSeoText($region, $str)
     {
         $obl1 = (!empty($region['name'])) ? $region['name'] . ' область' : 'Украина';

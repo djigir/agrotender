@@ -61,7 +61,7 @@ class TraderService
 
         if (!empty($request->get('port'))) {
             $route_name = 'port';
-            $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
+            $route_params = ['port_name' => $request->get('port'), 'currency' => $request->get('currency')];
         }
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
@@ -129,7 +129,7 @@ class TraderService
             ->where('active', 1)
             ->get();
 
-        $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
+        $ports = $ports->sortBy('lang.portname')->prepend(collect(['lang' => ['portname' => 'Все порты'], 'url' => 'all']));
 
         return $ports;
     }
@@ -320,7 +320,7 @@ class TraderService
         return $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
-            ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
+            ->leftJoin('regions', 'traders_places.obl_id', '=', 'regions.id')
             ->leftJoin('traders_products2buyer', function ($join)
                 {
                     $join->on('comp_items.author_id', '=', 'traders_products2buyer.buyer_id');
@@ -346,7 +346,7 @@ class TraderService
                 'traders_prices.curtype', 'traders_prices.dt',
                 'traders_places.port_id', 'traders_places.place',
                 'traders_places.type_id', 'traders_places.port_id',
-                \DB::raw('regions.name as region'))->get();
+                'regions.name as region')->get();
     }
 
 

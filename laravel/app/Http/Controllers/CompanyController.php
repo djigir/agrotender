@@ -23,6 +23,12 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
+    const NAME_SECTION_RUBRIC = [
+        0 => 'Все рубрики',
+        1 => 'Выберите рубрики',
+    ];
+
+
     protected $companyService;
     protected $baseServices;
     protected $breadcrumbService;
@@ -75,10 +81,16 @@ class CompanyController extends Controller
         $region_id = null;
         $region = $data->get('region');
         $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
-        $culture_name = $culture_name  ? $culture_name->title : 'Все рубрики';
+        $check_phone = $this->agent->isMobile() ? 1 : 0;
+        $culture_name = $culture_name  ? $culture_name->title : self::NAME_SECTION_RUBRIC[$check_phone];
 
         if($data->get('region') != 'ukraine' && $data->get('region')) {
             $region = Regions::where('translit', $data->get('region'))->first();
+
+            if(!$region) {
+                App::abort(404);
+            }
+
             $region_id = $region->id;
         }
 
@@ -222,7 +234,7 @@ class CompanyController extends Controller
             ->limit(1)
             ->value('change_date');
 
-        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
@@ -265,8 +277,8 @@ class CompanyController extends Controller
     /**
     * Display a listing of the resource.
     * @param $id
-    * @return Factory|View
-    */
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+     */
     public function companyForwards($id)
     {
         $this->setCompany($id);
@@ -275,6 +287,18 @@ class CompanyController extends Controller
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+
+        if(!$checkForward){
+            return redirect()->route('company.index', $id);
+        }
+
+        $meta = $this->seoService->getMetaCompanyForward($id);
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 3]])
+            ->orderBy('change_date', 'desc')
+            ->limit(1)
+            ->value('change_date');
+
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         foreach ($prices_port as $index => $price){
             if($price['traders_places']->count() == 0){
@@ -298,8 +322,6 @@ class CompanyController extends Controller
             ->sortBy('cultures.0.name')
             ->pluck('cultures.0.name', 'cult_id');
 
-
-
         return view('company.company_forwards', [
             'company' => $this->company,
             'prices_port' => $prices_port,
@@ -307,6 +329,8 @@ class CompanyController extends Controller
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'meta' => $meta,
+            'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
@@ -369,6 +393,7 @@ class CompanyController extends Controller
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $this->company,
@@ -379,7 +404,6 @@ class CompanyController extends Controller
             'page_type' => 0,
             'check_forwards' => $checkForward,
         ]);
-
     }
 
 

@@ -88,9 +88,7 @@
     @if(!empty($traders_contacts))
     <div class="container mb-5">
         <h2 class="mt-4">Контакты трейдера</h2>
-
             @foreach($traders_contacts as $trader_contact)
-
                 <div class="content-block trader-contact py-3 px-4">
                     <div class="place d-flex justify-content-between">
                         <div class="title">

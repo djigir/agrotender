@@ -35,6 +35,7 @@ class CompanyService
     protected $rubrics;
     protected $companies;
 
+
     public function __construct(BaseServices $baseService)
     {
         $this->baseService = $baseService;
@@ -42,6 +43,7 @@ class CompanyService
         $this->companies = null;
         $this->rubrics = null;
     }
+
 
     public function checkForward($author_id, $id)
     {
@@ -103,6 +105,7 @@ class CompanyService
         return redirect()->route($route_name, $route_params);
 
     }
+
 
     public function getContacts($author_id, $departments_type)
     {
@@ -222,7 +225,7 @@ class CompanyService
             $statusCurtype = 'UAH_USD';
         }
 
-        $places = $places->sortBy($sortBy);
+        $places = $places->sortBy('obl_id')->sortBy($sortBy);
 
         return collect(['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype]);
     }
@@ -238,6 +241,14 @@ class CompanyService
                 $query->where([
                     'buyer_id' => $author_id,
                     'acttype' => $type
+                ])->with([
+                    'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+                        $query->where([
+                            'acttype' => $type,
+                            'type_id' => $placeType,
+                            'buyer_id' => $author_id
+                        ]);
+                    }
                 ]);
             }]
         )->get();
@@ -245,12 +256,18 @@ class CompanyService
 
         foreach ($cultures as $index => $culture)
         {
+            foreach ($culture->traders_prices as $index_prices => $prices) {
+                if ($prices->traders_places->isEmpty()) {
+                    $culture->traders_prices->forget($index_prices);
+                }
+            }
+
             if(!$culture->traders_prices->isEmpty() && isset($culture->traders_prices->first()->cultures[0])){
                 $cultures[$index]['culture'] = $culture->traders_prices->first()->cultures[0]->name;
             }
 
             if($culture->traders_prices->isEmpty()){
-                unset($cultures[$index]);
+                $cultures->forget($index);
             }
         }
 
@@ -271,12 +288,10 @@ class CompanyService
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
-
         }
 
         if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
             $type = 0;
-
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
@@ -302,6 +317,7 @@ class CompanyService
     public function searchCompanies($value)
     {
         return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
+            ->with('activities', 'purchases', 'sales', 'services')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
@@ -400,6 +416,7 @@ class CompanyService
     {
         if ($data['query']) {
             $this->setRubricsGroup();
+
             return $this->searchCompanies($data['query']);
         }
 
@@ -409,7 +426,7 @@ class CompanyService
         $topic_criteria = [];
 
         $companies = CompItems::leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
-            ->with('activities')->where('comp_items.visible', 1);
+            ->with('activities', 'purchases', 'sales', 'services')->where('comp_items.visible', 1);
 
         if($obl_id == null && $rubric){
             $topic_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];

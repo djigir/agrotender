@@ -14,18 +14,18 @@
                             @elseif($type_traders == 1)
                                 <span style="color: #1e56b2">Форварды</span>
                             @endif
-                            <span><i class="far fa-chevron-right"></i></span>
+                            <span><i style="color: #1e56b2;" class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
                             <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
                             <span style="color: #1e56b2" id="span-mobile-rubric">{{$culture_name}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
+                            <span><i style="color: #1e56b2;" class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0" port="0" id='mobile-region'>
                             <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
                             <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
                             <span style="color: #1e56b2" id="span-mobile-region">{{$region_port_name}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
+                            <span><i style="color: #1e56b2;" class="far fa-chevron-right"></i></span>
                         </span>
                         <span class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" >
                             <span class="text-muted">Валюта:</span>
@@ -127,13 +127,16 @@
                     @if(isset($rubricGroups))
                         @foreach($rubricGroups as $group => $item)
                             @foreach($rubricGroups[$group]['groups']["products"] as $index => $item_culture)
-                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
-                                    <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}</span>
-                                    @if($item_culture['count_item'] > 0)
-                                        <span class="companyCount small">({{$item_culture['count_item']}})</span>
-                                    @endif
-                                    <span><i class="far fa-chevron-right"></i></span>
-                                </span>
+                                @if($item_culture['count_item'] > 0)
+                                    <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
+                                        <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}
+                                                <span class="companyCount small">({{$item_culture['count_item']}})</span>
+                                        </span>
+                                        <span style="pointer-events: none">
+                                            <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                                        </span>
+                                    </span>
+                                @endif
                             @endforeach
                         @endforeach
                     @endif
@@ -147,16 +150,34 @@
                     </span>
                 </a>
                 <div class="scroll">
-                    @foreach($regions->reverse() as $index_region  => $region)
-                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}">
-                            <span style="{{$region['translit'] == 'ukraine' ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
+                    @foreach($regions as $index_region  => $region)
+                        @if($index_region == 0)
+                            <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{ 'ukraine' }}" region_name="Вся Украина">
+                                <span style="color: #1e56b2; font-weight: 600;">Вся Украина</span>
+                                <span style="pointer-events: none;">
+                                   <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                                </span>
+                            </span>
+                        @endif
+                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}" region_name="{{$region['name']}}">
+                            <span style="{{$region['translit'] == 'ukraine' ? 'font-weight: 600;' : ''}}">
+                                @if($region['name'] == 'Вся Украина' or $region['name'] == 'АР Крым')
+                                    <span style="color: #1e56b2">{{$region['name']}}</span>
+                                @else
+                                    <span style="color: #1e56b2">{{$region['name']}} область</span>
+                                @endif
+                            </span>
+                            <span style="pointer-events: none">
+                                <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                            </span>
                         </span>
                     @endforeach
-                    @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-                        <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" style="color: #1e56b2" port="{{$port['url']}}">
+                    @foreach($onlyPorts as $index_port  => $port)
+                        <span  class="port region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" port="{{$port['url']}}" port_name="{{$port['url'] == 'all' ? 'Все порты' : $port['lang']['portname']}}">
                             <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['lang']['portname']}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
+                            <span style="pointer-events: none">
+                                <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
+                            </span>
                         </span>
                     @endforeach
                 </div>

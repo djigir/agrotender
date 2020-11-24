@@ -284,7 +284,7 @@ class Company extends \Core\Model {
   public function getRegions($rubric = null) {
     $regions = $this->db->query("
       select tr.*, count(i.id) as count
-        from regions tr
+        from agt_regions tr
         left join agt_comp_items i
           on i.obl_id = tr.id
         ".($rubric != null ? "left join agt_comp_item2topic i2t on i2t.item_id = i.id" : "")."

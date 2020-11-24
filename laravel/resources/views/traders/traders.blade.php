@@ -26,6 +26,10 @@
 
     @if($type_traders != 0)
         @include('traders.block-info.forwards-block-info')
+    @else
+        @if($type_view == 'table')
+            @include('traders.block-info.traders')
+        @endif
     @endif
 
     @if($type_view == 'table')

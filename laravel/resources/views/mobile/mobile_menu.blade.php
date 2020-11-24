@@ -11,11 +11,16 @@
             <a href="/logout" class="right float-right logout col-3">Выход</a>
         </div>
         <div class="links">
-            <a href="#">Обьявления</a>
+            <a href="/board">Обьявления</a>
             <a href="{{route('company.companies')}}">Компании</a>
             <a href="{{route('traders.region', 'ukraine')}}">Цены Трейдеров</a>
-            <a href="#">Элеваторы</a>
-            <a href="#">Форварды</a>
+            <a href="/elev">Элеваторы</a>
+            <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">
+                <b>
+                    Форварды
+                    <sup style="color: #ffd16d"> new</sup>
+                </b>
+            </a>
         </div>
     </div>
 </div>

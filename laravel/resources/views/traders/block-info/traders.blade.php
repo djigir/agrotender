@@ -2,6 +2,7 @@
 <div class="container mt-3 mt-sm-5">
     <div class="row mt-sm-0 pt-sm-0 mb-sm-4">
         <div class="position-relative w-100">
+            @if(!$isMobile)
             <div class="col-12 col-md-9 float-md-right text-center text-md-right">
                 <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end d-none d-sm-inline-block">
                     <i class="far fa-plus mr-2"></i>
@@ -11,7 +12,7 @@
             <div class="col-12 col-md-3 float-left mt-sm-0 d-flex justify-content-between d-sm-block">
                 @if($traders->count() > 0)
                     <div class="col-6 col-sm-12 pl-0">
-                        <h2 class="d-inline-block text-uppercase">{{ $culture_translit ? 'Закупочные цены на '.$culture_name : "Все трейдеры"}}</h2>
+                        <h2 class="d-inline-block text-uppercase">{{ $culture_translit ? 'Закупочные цены на: '.$culture_name : "Все трейдеры"}}</h2>
                         <div class="lh-1">
                             <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
                         </div>
@@ -24,6 +25,17 @@
                     </a>
                 </div>
             </div>
+            @else
+                <div class="col-12 col-md-9 float-md-right text-center text-md-right">
+                    <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end">
+                        <i class="far fa-plus mr-2"></i>
+                        <span class="pl-1 pr-1">Разместить компанию</span>
+                    </a>
+                </div>
+                <div class="col-12 col-md-3 float-left mt-4 mt-md-0 d-block">
+                    <h2 class="d-inline-block text-uppercase">Все трейдеры</h2>
+                </div>
+            @endif
         </div>
     </div>
 </div>
