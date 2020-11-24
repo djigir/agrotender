@@ -15,6 +15,11 @@ class BreadcrumbService
             $breadcrumbs_trad[1] = ['name' => "Цена Аграрной продукции в {$data['region']['parental']} области", 'url' => null];
         }
 
+        if($data['port_translit'] != 'all' && !empty($data['port'])){
+            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'. '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('traders.region', 'ukraine')];
+            $breadcrumbs_trad[1] = ['name' => "Цена Аграрной продукции в {$data['port']['portname']}", 'url' => null];
+        }
+
         if(($data['region_translit'] == 'ukraine' || $data['port_translit'] == 'all') && !empty($data['culture_name']))
         {
             $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'. '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>',
