@@ -7,12 +7,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
-    @if(isset($meta['meta_title']))
-        <meta name="keywords" content="{{$meta['meta_title']}}"/>
+    @if(isset($meta['meta_keywords']))
+        <meta name="keywords" content="{{$meta['meta_keywords']}}"/>
     @endif
 
-    @if(isset($meta['meta_title']))
-        <meta name="description" content="{{$meta['meta_title']}}"/>
+    @if(isset($meta['meta_description']))
+        <meta name="description" content="{{$meta['meta_description']}}"/>
     @endif
 
 <!-- Icons -->
