@@ -33,4 +33,7 @@
             @endif
         </div>
     </div>
+    @if($type_view == 'card' && $type_traders == 1 && $traders->count() == 0)
+        @include('traders.block-info.traders_forwards')
+    @endif
 </div>
