@@ -50,7 +50,7 @@ $(".deleteNews").click(function (event) {
 });
 
 
- a
+
 /* show vacancy in modal with old data */
 $('.edit-vacancy').click(function (event){
     event.preventDefault();
