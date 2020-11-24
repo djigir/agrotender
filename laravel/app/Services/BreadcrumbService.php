@@ -109,14 +109,7 @@ class BreadcrumbService
             $breadcrumbs_trad[1] = ['name' => "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
 
-//        if(($data['region_translit'] == 'ukraine' || $data['port_translit'] == 'all') && !empty($data['culture_name']))
-//        {
-//            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'.$arrow,
-//                'url' => !empty($data['region_translit']) ? route('traders.region', $data['region_translit']) :
-//                    route('traders.port', $data['port_translit'])];
-//            $breadcrumbs_trad[1] = ['name' => !empty($data['region_translit']) ?
-//                "Закупочная цена {$data['culture_name']} на сегодня в Украине" : "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
-//        }
+
 
         if($data['region'] && $data['culture_name'] && $data['region_translit'] != 'ukraine'){
             $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" .$arrow, 'url' => route('traders.region', 'ukraine')];
@@ -129,21 +122,7 @@ class BreadcrumbService
             $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}".$arrow, 'url' => route('traders.port_culture', ['all', $data['culture']])];
             $breadcrumbs_trad[2] = ['name' => "Цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null];
         }
-//        if (($data['region'] || $data['port']) && $data['culture_name'] && $data['region_translit'] != 'ukraine' && $data['port_translit'] != 'all'){
-//            $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
-//                !empty($data['region_translit']) ? route('traders.region', 'ukraine') :
-//                    route('traders.port', 'all')];
-//
-//            $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
-//                !empty($data['region_translit']) ? route('traders.region_culture', ['ukraine', $data['culture']]) :
-//                    route('traders.port_culture', ['all', $data['culture']])];
-////            !empty($data['region_translit']) ? "Цена {$data['culture_name']} в {$data['region']['parental']} области" :
-//
-//            $breadcrumbs_trad[2] = ['name' =>
-//                !empty($data['region_translit']) ? "Оптовые цены трейдеров на {$data['culture_name']} в {$data['region']['city_adverb']}" :
-//                    "Цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null];
-//
-//        }
+
 
         return $breadcrumbs_trad;
     }
@@ -263,6 +242,7 @@ class BreadcrumbService
             }
 
             $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} Украины", 'url' => null];
+
             if(isset(self::NAME[$data['rubric_id']])){
                 $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
             }

@@ -357,6 +357,10 @@ class CompanyService
             if (isset($region_counts[$region['id']])) {
                 $regions[$index]['count_items'] = $region_counts[$region['id']]['obl'];
             }
+
+            if($regions[$index]['count_items'] == 0){
+                unset($regions[$index]);
+            }
         }
 
         return $regions;
