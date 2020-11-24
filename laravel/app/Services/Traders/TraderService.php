@@ -172,11 +172,18 @@ class TraderService
             $groups[$index_g]['index_group'] = $index_g+1;
             foreach ($group["groups"]['products'] as $index_c => $culture) {
                 $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = 0;
-                if(isset($group_items[$culture['id']])){
+
+                if(!isset($group_items[$culture['id']])){
+                    unset($groups[$index_g]["groups"]['products'][$index_c]);
+                }else{
                     $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = $group_items[$culture['id']]->count_item;
                 }
             }
             $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('traders_product_lang.0.name')->toArray();
+
+            if(empty($groups[$index_g]["groups"]['products'])){
+                unset($groups[$index_g]);
+            }
         }
 
         return $groups;

@@ -376,14 +376,18 @@ class CompanyService
         if(!$region_id){
             foreach ($rubrics as $index => $rubric) {
                 $rubric = reset($rubric);
-                foreach ($rubric['comp_topic'] as &$topic) {
+                foreach ($rubric['comp_topic'] as $index2 => &$topic) {
                     if (!isset($topic_counts[$topic['id']])) {
-                        continue;
+//                        continue;
+                        unset($rubrics[$index][0]['comp_topic'][$index2]);
                     }
                     $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
                 }
                 unset($topic);
-                $rubrics[$index] = $rubric;
+
+                if(!empty($rubric['comp_topic'])){
+                    $rubrics[$index] = $rubric;
+                }
             }
 
             $this->rubrics = $rubrics;
@@ -401,7 +405,13 @@ class CompanyService
                     $rubrics[$index_r]['comp_topic'][$index_t]['cnt'] = 0;
                     if(isset($company[$topic['id']])){
                         $rubrics[$index_r]['comp_topic'][$index_t]['cnt'] = collect($company[$topic['id']])->count();
+                    }else{
+                        unset($rubrics[$index_r]['comp_topic'][$index_t]);
                     }
+                }
+
+                if(empty($rubrics[$index_r]['comp_topic'])){
+                    unset($rubrics[$index_r]);
                 }
             }
 

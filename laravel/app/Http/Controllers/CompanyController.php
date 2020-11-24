@@ -88,7 +88,7 @@ class CompanyController extends Controller
             $region = Regions::where('translit', $data->get('region'))->first();
 
             if(!$region) {
-                App::abort(404);
+                return redirect()->route('company.region', 'ukraine');
             }
 
             $region_id = $region->id;

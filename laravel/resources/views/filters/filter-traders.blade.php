@@ -7,7 +7,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
     <li>
         <a href="/">Главная</a>
     </li>
-    <i class="fas fa-chevron-right extra-small"></i>
+    <i style="margin-right: .5rem" class="fas fa-chevron-right extra-small"></i>
     @foreach($breadcrumbs as $index_bread => $breadcrumb)
         <li>
             @if($breadcrumb['url'])

@@ -213,4 +213,10 @@
         <div class="text-center mt-5">
         </div>
     </div>
+
+    @if($seo_text)
+        <div class="container mt-4 mb-5">
+            {!! $seo_text !!}
+        </div>
+    @endif
 @endif

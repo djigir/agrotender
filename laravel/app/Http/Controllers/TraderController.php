@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Regions\Regions;
+use App\Models\Seo\SeoTitles;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPorts;
 use App\Models\Traders\TradersPortsLang;
@@ -85,23 +86,32 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
+        $route_name = \Route::getCurrentRoute()->getName();
+        $prefix = substr($route_name, 0, strpos($route_name, '.'));
+
         $forward_months = $this->baseServices->getForwardsMonths();
         $regions = !$this->agent->isMobile() ? $this->baseServices->getRegions() : $this->baseServices->getRegions()->forget(25);
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
-
+        $criteria_seo = [];
         $culture_meta = null;
         $currency = isset($data->get('query')['currency']) ? $data->get('query')['currency'] : null;
         $region_all = $data->get('region');
         $port_all = $data->get('port');
         $culture_name = 'Выбрать продукцию';
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
+        $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
 
         if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
 
+            if(!$id_port && $data->get('culture')){
+                return redirect()->route($prefix.'.port_culture', [
+                    'port' => 'all', 'culture' => $data->get('culture'), 'currency' => $currency]);
+            }
+
             if(!$id_port) {
-                App::abort(404);
+                return redirect()->route($prefix.'.region', ['ukraine', 'currency' => $currency]);
             }
 
             $port_all = TradersPortsLang::where('port_id', $id_port)->first();
@@ -109,9 +119,15 @@ class TraderController extends Controller
 
         if($data->get('region') != 'ukraine' && $data->get('region')) {
             $id_region = Regions::where('translit', $data->get('region'))->value('id');
+            $criteria_seo[] = ['obl_id', $id_region];
+
+            if(!$id_region && $data->get('culture')){
+                return redirect()->route($prefix.'.region_culture', [
+                    'region' => 'ukraine', 'culture' => $data->get('culture'), 'currency' => $currency]);
+            }
 
             if(!$id_region) {
-                App::abort(404);
+                return redirect()->route($prefix.'.region', ['ukraine', 'currency' => $currency]);
             }
 
             $region_all = Regions::where('id', $id_region)->first();
@@ -120,15 +136,20 @@ class TraderController extends Controller
         $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
             : $this->getNamePortRegion(null, $data->get('port'))['port'];
 
-        $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
-
         $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture->id)->value('id') : null;
 
         if (!empty($culture))
         {
             $culture_meta = Traders_Products_Lang::where('item_id', $culture->id)->first();
+            $criteria_seo[] = ['cult_id', $culture_id];
             $culture_name = $culture_meta->name;
         }
+
+        $seo_text = SeoTitles::where([
+            'pagetype' => 2,
+            'type_id' => $data->get('region') != null ? 0 : 2
+        ])->where($criteria_seo)->value('content_text');
+
 
         $meta = $this->seoService->getTradersMeta([
             'rubric' => $culture_meta, 'region' => $region_all,
@@ -165,6 +186,7 @@ class TraderController extends Controller
             'culture_translit' => $data->get('culture'),
             'culture_name' => $culture_name,
             'meta' => $meta,
+            'seo_text' => $seo_text,
             'forward_months' => $forward_months,
             'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
             'currency' => $currency,
