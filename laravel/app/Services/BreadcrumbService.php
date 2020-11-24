@@ -8,6 +8,11 @@ class BreadcrumbService
 {
     const PURCHASE_PRICE = [14 => '', 80 => '', 8 => ''];
 
+    const FARMS = [10 => '', 11 => '', 12 => '', 54 => '', 55 => '', 52 => ''];
+    const AGROCHEMISTRY  = [42 => ''];
+    const  SERVICES= [51 => '', 53 => ''];
+
+
     const OTHER_TEXT = [38 => 'Цены овса на закупке у агротрейдеров Украины сегодня',
         73 => 'Цена, стоимость, экспорт, Овес голозерный, Украина',
         57 => 'Цены на рожь от агротрейдеров в Украине',
@@ -184,6 +189,7 @@ class BreadcrumbService
 
     public function setBreadcrumbsCompanies($data)
     {
+
         $breadcrumbs_comp[0] = ['name' => 'Компании в Украине', 'url' => null];
 
         if($data['region'] != 'ukraine' && $data['region']){
@@ -192,12 +198,36 @@ class BreadcrumbService
 
         if($data['region'] == 'ukraine' && !empty($data['rubric_id'])) {
             $breadcrumbs_comp[0] = ['name' => "Компании в Украине" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region'])];
-            $breadcrumbs_comp[1] = ['name' => "Каталог - {$data['culture_name']} хозяйства Украины", 'url' => null];
+            $farms = '';
+            $catalog = 'Каталог - ';
+            if(isset(self::FARMS[$data['rubric_id']])){
+                $farms = 'хозяйства';
+            }
+            if(isset(self::SERVICES[$data['rubric_id']])){
+                $catalog = 'Услуги по';
+            }
+            if(isset(self::AGROCHEMISTRY[$data['rubric_id']])){
+                $catalog = ' Производители';
+            }
+            $breadcrumbs_comp[1] = ['name' => "{$catalog} {$data['culture_name']} {$farms} Украины", 'url' => null];
         }
 
         if ($data['region'] && $data['rubric_id'] && $data['region'] != 'ukraine'){
             $breadcrumbs_comp[0] = ['name' => "Компании в {$data['region']['parental']} области " . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region']['translit'])];
-            $breadcrumbs_comp[1] = ['name' => "Каталог - {$data['culture_name']} хозяйства {$data['region']['city_parental']} ", 'url' => null];
+            $farms = '';
+            $catalog = 'Каталог - ';
+            if(isset(self::FARMS[$data['rubric_id']])){
+                $farms = 'хозяйства';
+            }
+
+            if(isset(self::SERVICES[$data['rubric_id']])){
+                $catalog = 'Услуги по ';
+            }
+
+            if(isset(self::AGROCHEMISTRY[$data['rubric_id']])){
+                $catalog = ' Производители ';
+            }
+            $breadcrumbs_comp[1] = ['name' => "{$catalog} {$data['culture_name']} {$farms} {$data['region']['city_parental']} ", 'url' => null];
         }
 
         return $breadcrumbs_comp;
