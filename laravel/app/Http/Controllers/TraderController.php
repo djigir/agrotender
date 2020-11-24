@@ -122,7 +122,7 @@ class TraderController extends Controller
 
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
 
-        $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture['id'])->value('id') : null;
+        $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture->id)->value('id') : null;
 
         if (!empty($culture))
         {

@@ -24,7 +24,7 @@ class BreadcrumbService
                 "Закупочная цена {$data['culture_name']} на сегодня в Украине" : "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
 
-        if (($data['region'] || $data['port']) && $data['culture_id'] && $data['region_translit'] != 'ukraine' && $data['port_translit'] != 'all'){
+        if (($data['region'] || $data['port']) && $data['culture_name'] && $data['region_translit'] != 'ukraine' && $data['port_translit'] != 'all'){
             $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' =>
                 !empty($data['region_translit']) ? route('traders.region', 'ukraine') :
                     route('traders.port', 'all')];
