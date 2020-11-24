@@ -6,9 +6,6 @@ namespace App\Services;
 
 class BreadcrumbService
 {
-
-    //const PRICE = [81, 59, 85, 71, 9, 10, 86, 187, 60, 62, 88, 169, 66, 30, 202, 77, 29, 84, 83, 191, 43, 40];
-
     const PURCHASE_PRICE = [14 => '', 80 => '', 8 => ''];
 
     const OTHER_TEXT = [38 => 'Цены овса на закупке у агротрейдеров Украины сегодня',

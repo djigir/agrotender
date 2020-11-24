@@ -44,7 +44,7 @@ class TraderFeedService
                     'traders_feed.place as tf_place',
                     'traders_feed.change_price as tf_change_price',
                     'traders_feed.user as tf_user',
-                    'traders_feed.change_date as tf_change_date',
+                    \DB::raw('DATE_FORMAT(agt_traders_feed.change_date, "%H:%i") as tf_change_date'),
                     'comp_items.id as comp_id',
                     'comp_items.topic_id as comp_topic_id',
                     'comp_items.type_id as comp_type_id',
@@ -55,10 +55,8 @@ class TraderFeedService
                 )
                 ->selectRaw('GROUP_CONCAT(DISTINCT agt_traders_products_lang.name SEPARATOR ",") as tpl_name')
                 ->groupBy('traders_feed.user')
-                ->orderBy('tf_change_date', 'DESC')
-                ->get()
-                ->toArray();
-
+                ->orderBy('tf_change_date', 'desc')
+                ->get()->toArray();
 
             foreach ($feed as $key => $value) {
                 $feed[$key]['onchange'] = 'Подтвердил цены';
