@@ -122,7 +122,7 @@ class TraderController extends Controller
 
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
 
-        $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture[0]['id'])->value('id') : null;
+        $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture['id'])->value('id') : null;
 
         if (!empty($culture))
         {
@@ -147,7 +147,7 @@ class TraderController extends Controller
             'port' => $port_all,
             'culture' => $data->get('culture'),
             'culture_id' => $culture_id,
-            'culture_name' =>  !empty($culture)? $culture->traders_product_lang[0]->name : null
+            'culture_name' =>  !empty($culture) ? $culture->traders_product_lang[0]->name : null
         ];
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);

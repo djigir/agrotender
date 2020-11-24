@@ -44,7 +44,6 @@ class BreadcrumbService
 
     public function setBreadcrumbsTradersForward($data)
     {
-        //dd($data);
         $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => null];
 
         if($data['port_translit'] != null && $data['port_translit'] == 'all'){
@@ -57,7 +56,6 @@ class BreadcrumbService
             $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".'<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => null];
             $breadcrumbs_trad_forward[1] = ['name' => !$data['culture_name'] ? "Форвардная цена на аграрную продукцию" : "Форвардная цена на {$data['culture_name']} в Украине", 'url' => null];
         }
-
 
         if($data['region'] && $data['culture'] && $data['region_translit'] != 'ukraine')
         {
