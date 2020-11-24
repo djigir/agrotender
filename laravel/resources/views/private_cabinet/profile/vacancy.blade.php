@@ -7,28 +7,39 @@
     <div class="content-block mx-0 mx-sm-5">
         <div class="pb-5 pt-4 px-4 lh-1">
             <div class="d-inline-block pt-3 pt-sm-2">
-                <span>Всего вакансий: <span class="count"><b>1</b></span></span>
+                <span>Всего вакансий: <span class="count"><b>{{ $vacancies->count() }}</b></span></span>
             </div>
             <button class="btn btn-primary float-right" data-toggle="modal" data-target="#addVacancy">Добавить вакансию</button>
         </div>
-        <div class="block row py-4 px-4 mx-0">
-            <div class="col-3 col-sm-auto p-0">
-                <span class="date small">2020-11-13 17:58:23</span>
+
+        @if(count($vacancies) == 0)
+            <div class="block row py-4 px-4 mx-0 justify-content-center">
+                Список вакансий пуст
             </div>
-            <div class="col-7 col-sm pl-4">
-                <span class="d-block title"><b>Tets vacancy</b></span>
+        @endif
+
+        @foreach($vacancies as $vacancy)
+            <div class="block row py-4 px-4 mx-0">
+                <div class="col-3 col-sm-auto p-0">
+                    <span class="date small">{{ $vacancy->add_date }}</span>
+                </div>
+                <div class="col-7 col-sm pl-4">
+                    <span class="d-block title"><b>{{ $vacancy->title }}</b></span>
+                </div>
+                <div class="col-2 col-sm-auto">
+                    <i class="fas fa-pencil-alt edit edit cursor-pointer mr-2 edit-vacancy" vacancyid="{{ $vacancy->id }}"></i>
+                    <i class="fas fa-times remove text-danger cursor-pointer remove-vacancy" vacancyid="{{ $vacancy->id }}"></i>
+                </div>
             </div>
-            <div class="col-2 col-sm-auto">
-                <i class="fas fa-pencil-alt edit edit cursor-pointer mr-2" vacancyid="268"></i>
-                <i class="fas fa-times remove text-danger cursor-pointer" vacancyid="268"></i>
-            </div>
-        </div>
+        @endforeach
+
     </div>
 </div>
 
 <div class="modal fade" id="addVacancy" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <form class="form modal-content" enctype="multipart/form-data">
+        <form class="form modal-content" method="POST" action="{{ route('user.profile.create_vacancy') }}">
+            @csrf
             <div class="modal-header">
                 <h5 class="modal-title ml-3">Добавить вакансию</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">
@@ -45,7 +56,7 @@
                 <div class="form-group">
                     <label class="col col-form-label">Описание <span class="text-danger">*</span></label>
                     <div class="col pl-1">
-                        <textarea class="form-control" rows="7" name="description"></textarea>
+                        <textarea class="form-control" rows="7" name="content"></textarea>
                     </div>
                 </div>
             </div>
@@ -55,33 +66,35 @@
         </form>
     </div>
 </div>
-<div class="modal fade" id="editVacancy" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <form class="form modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title ml-3">Редактирование вакансии</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body pt-4">
-                <div class="form-group">
-                    <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
-                    <div class="col pl-1">
-                        <input type="text" class="form-control" placeholder="Заголовок" name="title">
+    {{-- edit modal --}}
+    <div class="modal fade show" id="editVacancy" tabindex="-1" role="dialog" style="display: none; padding-right: 15px;">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form class="form modal-content" idVacancy="" id="form-edit">
+                <div class="modal-header">
+                    <h5 class="modal-title ml-3">Редактирование новости</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true" id="close-modal">×</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-4">
+                    <div class="form-group">
+                        <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
+                        <div class="col pl-1">
+                            <input type="text" class="form-control" placeholder="Заголовок" name="title" id="titleItems">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col col-form-label">Описание <span class="text-danger">*</span></label>
+                        <div class="col pl-1">
+                            <textarea class="form-control" rows="7" name="description" id="contentItems"></textarea>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col col-form-label">Описание <span class="text-danger">*</span></label>
-                    <div class="col pl-1">
-                        <textarea class="form-control" rows="7" name="description"></textarea>
-                    </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-block btn-primary px-5 edit-vacancy">Сохранить</button>
                 </div>
-            </div>
-            <div class="modal-footer justify-content-center">
-                <button type="submit" class="btn btn-block btn-primary px-5 edit-vacancy">Сохранить</button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+
 @endsection

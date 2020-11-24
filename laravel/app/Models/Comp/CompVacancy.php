@@ -21,11 +21,14 @@ class CompVacancy extends Model
 {
     protected $table = 'comp_vacancy';
 
+    public $timestamps = false;
+
     protected $fillable = [
         'id',
         'comp_id',
         'visible',
         'title',
+        'add_date',
         'content',
     ];
 

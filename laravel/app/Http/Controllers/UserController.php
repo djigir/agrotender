@@ -12,6 +12,7 @@ use App\Models\Comp\CompNews;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
+use App\Models\Comp\CompVacancy;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use App\Services\User\AdvertService;
@@ -318,17 +319,27 @@ class UserController extends Controller
         return response()->json($newsItem, 200);
     }
 
-    public function actionVacancy()
-    {
 
+    public function createVacancy(Request $request)
+    {
+        /** @var User $user */
+        $user = auth()->user();
+        $vacancies = CompVacancy::create($request->all() + ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
+        if ($vacancies){
+            return redirect()->back();
+        }
     }
 
     //Если есть созданая компания тогда + новая страница профиля (вакансии)
     public function profileVacancy()
     {
+        $user = auth()->user();
+        $vacancies = CompVacancy::where('comp_id', $user->company->id)->orderBy('add_date', 'DESC')->get();
+
         return view('private_cabinet.profile.vacancy', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[6],
+            'vacancies' => $vacancies,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

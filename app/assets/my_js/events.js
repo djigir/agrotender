@@ -436,6 +436,14 @@ window.onload = function (){
             $('#editNews').css('display', 'none');
         })
 
+    // vacancy open (close) edit modal
+    $(".edit-vacancy").click(function () {
+        $("#editVacancy").css('display', 'block');
+    });
+    $("#close-modal").click(function () {
+        $("#editVacancy").css('display', 'none');
+    });
+
     /* feed slider */
     if (document.querySelector('.new_feed')) {
         setTimeout(() => new Swiper('.swiper-container', {

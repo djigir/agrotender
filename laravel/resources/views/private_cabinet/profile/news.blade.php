@@ -77,7 +77,7 @@
             </form>
         </div>
     </div>
-
+{{--    {{ dd($news[0]->pic_src) }}--}}
 
     <div class="modal fade show" id="editNews" tabindex="-1" role="dialog" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
