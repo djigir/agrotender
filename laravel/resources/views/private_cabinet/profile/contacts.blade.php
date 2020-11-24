@@ -18,7 +18,7 @@
     {{-- modal --}}
     <div class="modal fade" id="contact" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="form contact-form modal-content" method="POST"  action="{{ route('user.profile.change_contacts', ['type' => $type]) }}">
+            <form class="form contact-form modal-content" method="POST"  action="{{ route('user.profile.create_contacts', ['type_id' => $type]) }}">
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title ml-3">Контактные данные</h5>

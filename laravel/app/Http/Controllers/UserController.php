@@ -15,6 +15,7 @@ use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\User\ApplicationService;
 use App\Services\User\ProfileService;
@@ -165,12 +166,17 @@ class UserController extends Controller
         $dep_type = $request->get('type');
 
         $contacts_data = $request->only(['name', 'name2', 'phone2', 'name3', 'phone3', 'email', 'obl_id', 'city']);
+        if ($request->get('type_id') == 999){
+            $contacts_data = $request->only(['telegram', 'viber']);
+        }
 
         // Главный офис
         $contacts_torg = TorgBuyer::where('id', $user->user_id)->update($contacts_data);
         $contacts_user = User::where('id', $user->id)->update($contacts_data);
 
-        // Отдел закупок
+        // Telegram/Viber
+
+
 
         return redirect()->back()->with(['success' => 'Данные сохранены.']);
     }
@@ -179,12 +185,15 @@ class UserController extends Controller
     {
         /** @var User $user */
         $user = auth()->user();
-
         $dep_type = $request->get('type');
 
         // Отдел закупок
-        $department_contacts = CompItemsContact::where('type_id', $dep_type)->create($request->only(['dolg', 'fio', 'phone', 'email']));
+        $department_contacts = CompItemsContact::create($request->all() + [
+                'comp_id' => $user->company->id,
+                'buyer_id' => $user->user_id,
+                'add_date' => Carbon::now()]);
 
+        return redirect()->back()->with(['success' => 'Данные сохранены.']);
     }
 
     //М-д для страницы профиля (уведомления)
