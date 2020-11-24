@@ -136,15 +136,16 @@ class TraderController extends Controller
         $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
             : $this->getNamePortRegion(null, $data->get('port'))['port'];
 
-        $culture_id = !empty($culture) ? TradersProductGroupLanguage::where('id', $culture->id)->value('id') : null;
+        $culture_id = null;
 
         if (!empty($culture))
         {
+            $culture_id = $culture->id;
             $culture_meta = Traders_Products_Lang::where('item_id', $culture->id)->first();
-            $criteria_seo[] = ['cult_id', $culture_id];
+            $criteria_seo[] = ['cult_id', $culture->id];
             $culture_name = $culture_meta->name;
         }
-
+        //dd($culture_id);
         $seo_text = SeoTitles::where([
             'pagetype' => 2,
             'type_id' => $data->get('region') != null ? 0 : 2

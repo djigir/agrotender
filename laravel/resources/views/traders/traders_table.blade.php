@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                     @foreach($traders as $index => $trader)
-                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
+                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
                             <td>
                                 <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
@@ -140,7 +140,7 @@
             <table class="sortTable sortable">
                 <tbody>
                     @foreach($traders as $index => $trader)
-                        <tr class="{{$trader->trader_premium == 1 ? 'vip': ''}}">
+                        <tr class="{{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
                             <td>
                                 <div class="d-flex align-items-center price-div">
                                     <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
