@@ -68,7 +68,8 @@ class TraderController extends Controller
             'Все порты', $onlyPorts = 'yes'
         ][0];
 
-        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
+        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name') : null;
+//        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
         if ($region == 'crimea') {
             $name_region = 'АР Крым';

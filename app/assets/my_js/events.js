@@ -296,7 +296,6 @@ window.onload = function (){
 
         $('.step-1').css('display', '');
         $('.step-4').css('display', 'none');
-
     });
 
     $('.port').click(function (event) {

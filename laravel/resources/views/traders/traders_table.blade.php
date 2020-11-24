@@ -1,3 +1,5 @@
+@include('traders.block-info.traders')
+
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
