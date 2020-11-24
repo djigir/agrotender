@@ -47,7 +47,11 @@ class BreadcrumbService
         55 => 'Каталог – Юредические Услуги в Украине',
     ];
 
-    const OTHER_TEXT = [38 => 'Цены овса на закупке у агротрейдеров Украины сегодня',
+    const OTHER_TEXT =
+        [
+        38 => 'Цены овса на закупке у агротрейдеров Украины сегодня',
+        8 => 'Закупочная цена пшеницы 2 класса на сегодня в Украине',
+        14 => 'Закупочная цена кукурузы на сегодня в Украине',
         73 => 'Цена, стоимость, экспорт, Овес голозерный, Украина',
         57 => 'Цены на рожь от агротрейдеров в Украине',
         13 => 'Цены трейдеров на закупку тонны ячменя в Украине',
@@ -140,23 +144,23 @@ class BreadcrumbService
         }
 
         if($data['port_translit'] != null && $data['port_translit'] != 'all'){
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => null];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.port', 'all')];
             $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на аграрную продукцию в {$data['port']['portname']}", 'url' => null];
         }
 
         if($data['region'] != null && $data['region_translit'] == 'ukraine'){
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "", 'url' => ''];
             $breadcrumbs_trad_forward[1] = ['name' => !$data['culture_name'] ? "Форвардная цена на аграрную продукцию" : "Форвардная цена на {$data['culture_name']} в Украине", 'url' => null];
         }
 
         if($data['region'] != null && $data['region_translit'] != 'ukraine'){
-            $breadcrumbs_trad_forward[0] = ['name' => "Форварды".$arrow, 'url' => null];
+            $breadcrumbs_trad_forward[0] = ['name' => "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
             $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на аграрную продукцию в {$data['region']['name']} области", 'url' => null];
         }
 
         if($data['region'] && $data['culture'] && $data['region_translit'] != 'ukraine')
         {
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => null];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
 
             if($data['culture_name']){
                 $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}".$arrow , 'url' => route('traders_forward.region_culture',['ukraine', $data['culture']])];
@@ -168,7 +172,7 @@ class BreadcrumbService
 
         if($data['port'] && $data['culture'] && $data['port_translit'] != 'all')
         {
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => null];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.port', 'all')];
             if($data['culture_name']){
 //                $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}".'<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>' , 'url' => route('traders_forward.port_culture',['all', $data['culture']])];
                 $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на {$data['culture_name']} в {$data['port']['portname']}" , 'url' => null];

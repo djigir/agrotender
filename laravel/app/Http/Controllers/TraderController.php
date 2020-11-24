@@ -145,7 +145,7 @@ class TraderController extends Controller
             $criteria_seo[] = ['cult_id', $culture->id];
             $culture_name = $culture_meta->name;
         }
-
+        //dd($culture_id);
         $seo_text = SeoTitles::where([
             'pagetype' => 2,
             'type_id' => $data->get('region') != null ? 0 : 2
