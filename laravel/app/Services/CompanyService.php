@@ -35,6 +35,7 @@ class CompanyService
     protected $rubrics;
     protected $companies;
 
+
     public function __construct(BaseServices $baseService)
     {
         $this->baseService = $baseService;
@@ -42,6 +43,7 @@ class CompanyService
         $this->companies = null;
         $this->rubrics = null;
     }
+
 
     public function checkForward($author_id, $id)
     {
@@ -103,6 +105,7 @@ class CompanyService
         return redirect()->route($route_name, $route_params);
 
     }
+
 
     public function getContacts($author_id, $departments_type)
     {
@@ -222,7 +225,7 @@ class CompanyService
             $statusCurtype = 'UAH_USD';
         }
 
-        $places = $places->sortBy($sortBy);
+        $places = $places->sortBy('obl_id')->sortBy($sortBy);
 
         return collect(['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype]);
     }
