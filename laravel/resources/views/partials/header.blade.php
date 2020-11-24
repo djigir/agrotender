@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{!! $meta['title'] ?? '' !!}</title>
+    <title>{!! $meta['meta_title'] ?? '' !!}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
-    @if(isset($meta['keywords']))
-        <meta name="keywords" content="{{$meta['keywords']}}"/>
+    @if(isset($meta['meta_title']))
+        <meta name="keywords" content="{{$meta['meta_title']}}"/>
     @endif
 
-    @if(isset($meta['description']))
-        <meta name="description" content="{{$meta['description']}}"/>
+    @if(isset($meta['meta_title']))
+        <meta name="description" content="{{$meta['meta_title']}}"/>
     @endif
 
 <!-- Icons -->
