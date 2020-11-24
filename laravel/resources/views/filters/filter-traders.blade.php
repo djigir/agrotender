@@ -5,7 +5,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
     <li>
-        <a href="/reklama">Главная</a>
+        <a href="/">Главная</a>
     </li>
     <i class="fas fa-chevron-right extra-small"></i>
     @foreach($breadcrumbs as $index_bread => $breadcrumb)
