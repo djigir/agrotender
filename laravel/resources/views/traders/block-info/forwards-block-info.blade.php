@@ -1,4 +1,4 @@
-@if($isMobile && $culture_translit && $culture_name != 'Выбрать продукцию')
+@if($isMobile && $culture_translit && $culture_name != 'Выбрать продукцию' && $traders->count() > 0)
     <div class="d-sm-none container pt-2 pt-sm-4">
         <span class="searchTag d-inline-block">
             {{ $culture_name}}
