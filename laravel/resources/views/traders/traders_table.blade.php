@@ -214,7 +214,7 @@
         </div>
     </div>
 
-    @if($seo_text)
+    @if($seo_text && $type_traders == 0)
         <div class="container mt-4 mb-5">
             {!! $seo_text !!}
         </div>
