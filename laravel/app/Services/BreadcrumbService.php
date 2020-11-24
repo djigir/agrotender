@@ -18,6 +18,7 @@ class BreadcrumbService
         40 => 'Оборудование для переработки',
         35 => 'Оборудование для растениеводства',
         38 => 'Оборудование для рыбоводства',
+
     ];
 
     const SERVICES = [51 => '', 53 => ''];
@@ -30,6 +31,15 @@ class BreadcrumbService
         16 => 'Свинофермы',
         29 => 'Грануляторщики',
         33 => 'Фасовщики',
+        4 => 'Производители удобрений',
+        31 => 'Пивоварни и Лекеро-водочные заводы',
+        26 => 'Хлебзаводы, Пекарни и Кондитерки',
+    ];
+
+    const NAME = [
+        44 => 'Торговля Продукцией Животноводства в Украине',
+        43 => 'Торговля Сельхозпродукцией в Украине',
+        45 => 'Торговля Сельхозтехникой и Оборудованием в Украине',
     ];
 
     const OTHER_TEXT = [38 => 'Цены овса на закупке у агротрейдеров Украины сегодня',
@@ -247,8 +257,10 @@ class BreadcrumbService
                 $data['culture_name'] = self::CHANGE_NAME[$data['rubric_id']];
             }
 
-
             $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} Украины", 'url' => null];
+            if(isset(self::NAME[$data['rubric_id']])){
+                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
+            }
         }
 
         if ($data['region'] && $data['rubric_id'] && $data['region'] != 'ukraine'){
@@ -261,6 +273,10 @@ class BreadcrumbService
             }
 
             $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} {$data['region']['city_parental']} ", 'url' => null];
+
+            if(isset(self::NAME[$data['rubric_id']])){
+                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
+            }
         }
 
         return $breadcrumbs_comp;
