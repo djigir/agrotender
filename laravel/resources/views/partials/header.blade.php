@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     @if(isset($meta['keywords']))
         <meta name="keywords" content="{{$meta['keywords']}}"/>
     @endif
@@ -41,7 +42,7 @@
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
 {{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
     <!-- Required CSS -->
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
 </head>
 

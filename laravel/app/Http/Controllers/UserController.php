@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Http\Requests\ProfileCompanyRequest;
+use App\Http\Requests\ProfileCompanyNewsRequest;
 use App\Http\Requests\LoginPasswordRequest;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
@@ -264,31 +265,58 @@ class UserController extends Controller
         }
 
         $this->profileService->createOrUpdateCompany($request);
+
         return redirect()->route('user.profile.company');
     }
 
 
     //Если есть созданая компания тогда + новая страница профиля (новости)
-    public function profileNews()
+    public function profileNews(Request $request)
     {
         /** @var User $user */
         $user = auth()->user();
+        $newsItem = [];
+        $news = CompNews::where('comp_id', $user->company->id)->orderBy('id', 'desc')->get();
 
-        $news = CompNews::where('comp_id', $user->company->id)->get();
+        if($request->get('news_id')){
+            $newsItem = CompNews::find($request->get('news_id'));
+        }
 
         return view('private_cabinet.profile.news', [
             'type_page' => self::TYPE_PAGE[0],
+            '$newsItem' => $newsItem,
+            'news' => $news,
             'type_page_profile' => self::TYPE_PAGE_PROFILE[5],
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
 
-
-    public function actionNews()
+    public function actionNews(ProfileCompanyNewsRequest $request)
     {
+        if ($request->validated()){
+            $this->profileService->createOrUpdateNewsCompany($request);
+            return redirect()->route('user.profile.news');
+        }
 
+        return false;
     }
 
+
+    public function editNews(ProfileCompanyNewsRequest $request)
+    {
+        CompNews::find($request->get('news_id'))->update($request->only([
+            'content', 'title'
+        ]));
+
+        return response()->json($request->all(), 200);
+    }
+
+    public function printNews(Request $request)
+    {
+        $newsItem = CompNews::find($request->get('news_id'));
+
+        return response()->json($newsItem, 200);
+    }
 
     public function actionVacancy()
     {

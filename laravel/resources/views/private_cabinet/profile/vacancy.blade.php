@@ -28,7 +28,7 @@
 
 <div class="modal fade" id="addVacancy" tabindex="-1" role="dialog" style="display: none;" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-        <form class="form modal-content">
+        <form class="form modal-content" enctype="multipart/form-data">
             <div class="modal-header">
                 <h5 class="modal-title ml-3">Добавить вакансию</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="outline: none;">

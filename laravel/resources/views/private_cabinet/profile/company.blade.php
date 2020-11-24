@@ -19,7 +19,7 @@
                     </form>
                 @endif
             </h2>
-            <form class="form company-form mt-4" method="POST" novalidate="novalidate"
+            <form class="form company-form mt-4" method="POST"
                   action="{{route('user.profile.create_company')}}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row mt-4">

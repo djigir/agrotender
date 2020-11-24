@@ -42,6 +42,7 @@
 </footer>
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 <script src="/app/assets/my_js/events.js"></script>
+<script src="/app/assets/my_js/ajax-requests.js"></script>
 <script src="/app/assets/js/jquery.dataTables.min.js"></script>
 <script src="/app/assets/js/popper.min.js"></script>
 <script src="/app/assets/js/bootstrap.min.js"></script>
