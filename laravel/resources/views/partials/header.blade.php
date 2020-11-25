@@ -72,7 +72,6 @@
             </div>
           </div>
           <div class="header__center__buttons" id="traders_prices_dropdown_parent">
-            <a href="/board" class="header__center__button">Объявления</a>
             <div class="header__tradersPrice first no_hoverable flex">
               <a href="/traders/region_ukraine" class="header__center__button">
                 Цены Трейдеров
@@ -101,6 +100,7 @@
                 </div>
               </div>
             </div>
+            <a href="/board" class="header__center__button board">Объявления</a>
             <div class="header__tradersPrice special">
               <a href="/traders" class="header__center__button withBg">
                 <span class="header__tradersPrice-dots">
