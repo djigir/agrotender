@@ -174,6 +174,7 @@ class BreadcrumbService
         35 => 'Оборудование для растениеводства',
         38 => 'Оборудование для рыбоводства',
         44 => '-',
+        52 => '-',
 
     ];
 
@@ -194,6 +195,9 @@ class BreadcrumbService
         32 => 'Молокозаводы',
         42 => 'Производители средств защиты',
         50 => 'Морской Транспорт',
+        52 => 'Посев и Уборка Урожая',
+        54 => 'Ремонт С/Х Техники',
+        55 => 'Юредические Услуги',
     ];
 
     const NAME = [
@@ -431,7 +435,7 @@ class BreadcrumbService
                 $data['culture_name'] = self::CHANGE_NAME[$data['rubric_id']];
             }
 
-            $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} {$data['region']['city_parental']} ", 'url' => null];
+            $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} в {$data['region']['city_parental']} ", 'url' => null];
 
 //            if(isset(self::NAME[$data['rubric_id']])){
 //                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
