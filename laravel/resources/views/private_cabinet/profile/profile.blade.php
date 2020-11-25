@@ -47,7 +47,7 @@
             <hr class="my-4">
             <h5>Задать новый логин</h5>
             <form class="form change-login mt-0 mt-sm-3" novalidate="novalidate" method="POST" action="{{ route('user.profile.new_login') }}">
-                @csrf
+{{--            <form class="form change-login mt-0 mt-sm-3" novalidate="novalidate" action="{{ route('success') }}">--}}
                 <div class="form-group row d-flex align-items-center py-1 mb-2 mt-2">
                     <label class="col-12 col-sm-4 col-form-label text-left text-sm-right px-0"><b>Новый логин:</b></label>
                     <div class="col-12 col-sm-5 pl-0 pl-sm-2">

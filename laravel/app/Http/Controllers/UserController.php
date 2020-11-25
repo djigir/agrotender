@@ -136,7 +136,7 @@ class UserController extends Controller
     public function emailVerification()
     {
         dd('s');
-//        return view('');
+        return view('user.profile.info-page.success');
     }
 
     public function toggleVisible(Request $request)
