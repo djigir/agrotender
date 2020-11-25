@@ -101,7 +101,7 @@ class TraderController extends Controller
         $culture_name = 'Выбрать продукцию';
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
-
+        $id_region = null;
         if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
 
