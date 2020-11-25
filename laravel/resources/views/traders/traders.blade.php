@@ -1,34 +1,57 @@
 @extends('layout.layout', ['meta' => $meta])
 @section('content')
-    <div class="new_container">
-        <div class="new_page_title mt2">ОБНОВЛЕНИЯ ЗЕРНОТРЕЙДЕРОВ</div>
-    </div>
 
-    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-
-{{--    <div class="container mt-3 "></div>--}}
-{{--    <div class="container traders mt-3 mt-sm-5">--}}
     <div class="new_container traders mt2">
+        <div class="d-none d-sm-block mt-3">
+            <ol class="breadcrumbs small p-0">
+                <li>
+                    <a href="/reklama">Главная</a>
+                </li>
+                <i class="fas fa-chevron-right extra-small"></i>
+                @foreach($breadcrumbs as $index_bread => $breadcrumb)
+                    <li>
+                        @if($breadcrumb['url'])
+                            <a href="{{$breadcrumb['url']}}">
+                                <h1>{!! $breadcrumb['name'] !!}</h1>
+                            </a>
+                        @else
+                            <h1>{!! $breadcrumb['name'] !!}</h1>
+                        @endif
+                    </li>
+                @endforeach
+            </ol>
+        </div>
+
+        @include('traders.feed.traders_feed', ['feed' => $feed])
+        
         @if(!$isMobile)
             @if($type_traders == 0 || $type_traders == 2)
-            <span class="popular" style="margin: 20px 0 ;display: block;">
-                <span style="font-weight: 600; color: #707070;">
-                <img src="/app/assets/img/speaker.svg" style="width: 24px; height: 24px">
-                    Популярные культуры:
-                </span>
-                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}" class="popular__block">Пшеница 2 кл.</a>
-                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}" class="popular__block">Пшеница 3 кл.</a>
-                <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_4_kl'])}}" class="popular__block">Пшеница 4 кл.</a>
-                <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}" class="popular__block">Подсолнечник</a>
-                <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}" class="popular__block">Соя</a>
-                <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}" class="popular__block">Ячмень</a>
-            </span>
+                <div class="popular">
+                    <span class="text">Популярные <span class="adaptive_remove">культуры:</span></span>
+                    <a href="#">Пшеница 2 кл.</a>
+                    <a href="#">Пшеница 3 кл.</a>
+                    <a href="#">Кукуруза</a>
+                    <a href="#">Рапс</a>
+                    <a href="#">Подсолнечник</a>
+                    <a href="#">Соя</a>
+                    <a href="#">Ячмень</a>
+                </div>
             @endif
         @endif
+
+        <div class="row new_filters_margin">
+            <div class="col-8">
+                @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+            </div>
+            <div class="col-4 d-none d-lg-block">
+                <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
+            </div>
+        </div>
 
         @if($type_view == 'table')
             @include('traders.traders_forward_table', ['type_traders' => $type_traders])
         @else
+
         <div class="mt-3 traders_dev">
             <div class="new_page_title top_traders_title mt4">ТОП ЗЕРНОТРЕЙДЕРЫ</div>
             <div class="new_traders vip">
@@ -226,7 +249,7 @@
                                                       <span
                                                           class="traders__item__content-p-price ">{{$price_culture->curtype == 1 ? '$ ' : ''}}{{ round($price_culture->costval, 1) }}</span>
                                                       <span class="traders__item__content-p-icon">
-{{--                                                              <img src="/app/assets/img/price-not-changed.svg">--}}
+                                                          <!-- <img src="/app/assets/img/price-not-changed.svg"> -->
                                                       </span>
                                                     </span>
                                                 </p>
@@ -244,9 +267,11 @@
                                                      </span>
                                                      <span class="right">
                                                        <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
-{{--                                                       <span class="traders__item__content-p-icon">  --}}
-{{--                                                           <img src="/app/assets/img/price-not-changed.svg"> --}}
-{{--                                                       </span>--}}
+                                                        <!-- 
+                                                            <span class="traders__item__content-p-icon">
+                                                               <img src="/app/assets/img/price-not-changed.svg">
+                                                            </span>
+                                                        -->
                                                      </span>
                                                 </p>
                                             </div>
@@ -261,10 +286,12 @@
                                                         </span>
                                                         <span class="right">
                                                            <span class="traders__item__content-p-price ">{{$place->pivot->curtype == 1 ? '$ ' : ''}}{{ round($place->pivot->costval, 1) }}</span>
-    {{--                                                       <span class="traders__item__content-p-icon">  --}}
-    {{--                                                           <img src="/app/assets/img/price-not-changed.svg"> --}}
-    {{--                                                       </span>--}}
-                                                         </span>
+                                                           <!-- 
+                                                               <span class="traders__item__content-p-icon">
+                                                                   <img src="/app/assets/img/price-not-changed.svg">
+                                                                </span>
+                                                            </span>
+                                                            -->
                                                     </p>
                                                 </div>
                                             @endforeach

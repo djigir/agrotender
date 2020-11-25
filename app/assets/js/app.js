@@ -15,7 +15,6 @@ $.fn.equalHeights = function(){
       max_height = $(this).height();
     }
   });
-  console.log(max_height);
   $(this).each(function(){
     $(this).height(max_height);
   });
@@ -3402,7 +3401,6 @@ var agrotender = new(function () {
     });
 
     app.ajax(location.href, {action: 'getAnalitic'}, function(data) {
-      console.log(data.graph);
       Highcharts.chart('trpricechart', {
         chart: {
             type: 'column'
@@ -3691,7 +3689,6 @@ var agrotender = new(function () {
       if ($(window).scrollTop() + $(window).height() > ($('.traders_dev').height() - 200) && !inProgress) {
         inProgress = true;
         app.ajax(location.href, {action: 'getTradersMore', start: start}, function(data) {
-         // console.log(data);
           if (data.more == false) return false;
           var html = '';
           $.each(data.traders, function(index, group) {
@@ -3757,7 +3754,6 @@ var agrotender = new(function () {
             });
             html += `</div>`;
           });
-            console.log(html);
           $('.traders_dev').append(html);
           start += 18;
           inProgress = false;
@@ -4398,7 +4394,6 @@ var agrotender = new(function () {
     }
 
     $.ajax(obj).done(function (res) {
-      if (res.console) console.log(res.console);
       if (callback !== undefined) {
         callback(res);
       }
@@ -4427,7 +4422,6 @@ if ( $tradersCardTitle.length && document.documentElement.clientWidth < 480) {
   if (document.documentElement.clientWidth < 400) {
     $tradersCardTitle.forEach($el => {
       if ($el.textContent.length > 20) {
-        console.log('$el.textContent', $el.textContent)
         $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 20).join('') + '.'            
       }
     }) 
@@ -4466,9 +4460,7 @@ if (document.querySelector('.new_feed')) {
   }), 0)
 }
 
-
 const $new_feed_item_title = document.querySelectorAll('.new_feed-item-title')
-
 
 if ($new_feed_item_title.length) {
   $new_feed_item_title.forEach($el => {
@@ -4477,7 +4469,6 @@ if ($new_feed_item_title.length) {
     }
   })
 }
-
 
 
 const $headerWrap = document.querySelector('.header__wrap')
@@ -4522,99 +4513,159 @@ window.onload = () => {
   
 }
 
-const isFilter = document.querySelector('.new_filters')
-if (isFilter) {
-  const $filterButtons = document.querySelectorAll('.filter__button')
-  const filter_Background =  document.querySelector('.bg_filters')
-  const checkboxes = document.querySelectorAll('.new_filters_checkbox')
-
-  const items = [...checkboxes, ...$filterButtons]
-  
-  items.forEach(el => {
-    el.parentNode.addEventListener('mouseenter', (e) => {
-      setTimeout(() => {
-        el.parentNode.classList.add('active')   
-        filter_Background.classList.add('active')
-      }, 0)
-    })
-    el.parentNode.addEventListener('mouseleave', (e) => {
-      setTimeout(() => {
-        el.parentNode.classList.remove('active')    
-        filter_Background.classList.remove('active')
-      }, 0)
-    })
-  })
-  
-  filter_Background.addEventListener('click', () => {
-    filter_Background.classList.remove('active')
-  })
-  
-
-  window.addEventListener('click', e => {
-    let flagPath = false
-    let close = false
-    e.path.forEach(el => {
-      const c1 = el === isFilter
-      const c2 = el.classList && el.classList.contains('filter__button')
-      const c3 = el.parentNode && el.parentNode.classList && el.parentNode.classList.contains('active')
-
-      if (c1) {
-        flagPath = true
-      }
-      if (c2 && c3) {
-        close = true
-      }
-    })
-    if (flagPath && !close) {
-      filter_Background.classList.add('active')
-    } else {
-      filter_Background.classList.remove('active')
+function tradersPageScripts() {
+  $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
+    callback: function(color) {
+      $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
     }
   })
 
-  const choseProduction = document.querySelector('#choseProduct')
-  const allUkraine = document.querySelector('#all_ukraine')
+  let prices = document.querySelectorAll('.traders__item__content-p-price')
+  prices = Array.prototype.slice.call(prices)
 
-  function fff ($el) {
-    const filterItems = $el.querySelectorAll('.new_filters_dropdown-column li')
-    const filterContent = $el.querySelectorAll('.new_filters_dropdown-content')
-
-    filterItems.forEach((filter, idx) => {
-      filter.addEventListener('mouseover', e => {
-        filterContent.forEach(c => c.classList.remove('active'))
-        filterContent[idx].classList.add('active')
-        filterItems.forEach(f => f.classList.remove('active'))
-        filter.classList.add('active')
-      })
+  if (prices.length) {
+    prices.forEach(price => {
+      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
     })
-
   }
 
-  fff(choseProduction)
-  fff(allUkraine)
   
-  const $filterOffset = document.querySelector('.new_filters-wrap')
-  const filterOffset = $filterOffset.offsetTop + $filterOffset.offsetHeight
+  let pricesTable = document.querySelectorAll('.table_price')
+  pricesTable = Array.prototype.slice.call(pricesTable)
 
-  window.addEventListener('scroll', function(e) {    
-    console.log('$filterOffset', $filterOffset.offsetHeight)
-    if (this.scrollY > filterOffset && this.oldScroll < this.scrollY) {
-      $filterOffset.classList.add("active");
-      $filterOffset.classList.remove("hidden");
-    } else if (this.scrollY < filterOffset) {
-      $filterOffset.classList.remove("active");
-      $filterOffset.classList.remove("hidden");
-    } else if (this.oldScroll > this.scrollY) {
-      $filterOffset.classList.add("hidden");
-    } else {
-      $filterOffset.classList.remove("hidden");
-      $filterOffset.classList.add("active");
-    }
-    this.oldScroll = this.scrollY;
-  })
+  if (pricesTable.length) {
+    pricesTable.forEach(price => {
+      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+    })
+  }
+
 }
 
-class NewFilter {
+tradersPageScripts()
+
+function headerTraderPricesArrow() {
+  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
+  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
+  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
+
+  tradersButton.addEventListener('click', () => {
+    tradersDropdown.classList.toggle('active')
+
+    const listener = (e) => {
+      tradersDropdown.classList.remove('active')
+      tradersDropdownParent.removeEventListener('mouseleave', listener)
+    }
+  
+    tradersDropdownParent.addEventListener('mouseleave', listener)
+  })
+}
+headerTraderPricesArrow()
+
+class Filter {
+  init() {
+    // filter controls
+    this.newFiltersButtons = this.findAll('.new_filters_btn')
+    this.filtersContentItems = this.findAll('.new_filters_dropdown')
+    this.filterBg = document.querySelector('.bg_filters')
+    // contols in filter
+    this.filtersFirstColumns = this.findAll('.new_filters_dropdown_column.js_first')
+    this.filtersContentColumns = this.findAll('.new_filters_dropdown_column.content')
+
+    this.initButtonClick()
+    this.initFiltersControls()
+  }
+
+  initButtonClick() {
+    this.newFiltersButtons.forEach((btn, idx) => {
+      btn.addEventListener('click', () => {
+        const listener = () => {
+          this.filterBg.removeEventListener('click', listener)
+          this.closeContentItems()
+        }
+
+        // remove previous listener
+        // this.filterBg.removeEventListener('click', listener)
+
+        const wasAdded = this.openContentItem(idx)
+
+        // adding event listener
+        if (wasAdded) {
+          this.filterBg.addEventListener('click', listener)
+        }
+      })
+    })
+  }
+
+  openContentItem(idx) {
+    if (this.filtersContentItems[idx].classList.contains('active')) {
+      this.closeContentItems()
+      return false
+    } else {
+      this.closeContentItems()
+      this.filterBg.classList.add('active')
+      this.newFiltersButtons[idx].classList.add('active')
+      this.filtersContentItems[idx].classList.add('active')
+      return true
+    }
+  }
+
+  closeContentItems() {
+    this.filterBg.classList.remove('active')
+    this.filtersContentItems.forEach(contentItem => {
+      contentItem.classList.remove('active')
+    })
+    this.newFiltersButtons.forEach(btn => {
+      btn.classList.remove('active')
+    })
+  }
+  
+  isOpenedFilter() {
+    let isOpenedFilter = false
+
+    this.filtersContentItems.forEach(contentItem => {
+      if (contentItem.classList.contains('active')) {
+        isOpenedFilter = true
+      }
+    })
+
+    return isOpenedFilter
+  }
+  
+  isOpenedContentItem(idx) {
+    return this.filtersContentItems[idx].classList.contains('active')
+  }
+
+  // controls
+  initFiltersControls() {
+    this.filtersFirstColumns.forEach((c, idx) => {
+      const firstColumControllers = c.querySelectorAll('li a')
+      const columContentItems = this.filtersContentColumns[idx].querySelectorAll('.new_filters_dropdown_column_tab')
+
+      function disableAll() {
+        columContentItems.forEach((fcci, idx) => {
+          fcci.classList.remove('active')
+          firstColumControllers[idx].parentNode.classList.remove('active')
+        })
+      }
+
+      firstColumControllers.forEach((fcc, idx) => {
+        fcc.addEventListener('click', (e) => {
+          e.preventDefault()
+          disableAll()
+          fcc.parentNode.classList.add('active')
+          columContentItems[idx].classList.add('active')
+        })
+      })
+    })
+  }
+
+  findAll(selector) {
+    return document.querySelectorAll(selector)
+  }
+}
+
+// Mobile filter
+class MobileFilter {
   constructor (filter) {
     this.$filter = filter
     this.search_url = {
@@ -4629,8 +4680,6 @@ class NewFilter {
   init() {
     this.search_url.product = this.findEl('#product').dataset.product
     this.search_url.region = this.findEl('#region').dataset.region
-    // this.search_url.currency = this.findEl('.currency').dataset.currency
-    this.search_url.base = this.findEl('.mobile_filter-choose-items').dataset.current
 
     this.first_screen = this.findEl('.first')
     this.second_screen = this.findEl('.second')
@@ -4641,7 +4690,6 @@ class NewFilter {
     this.firstScreen()
     this.secondScreen()
     this.thirdScreen()
-    // this.currency()
 
     this.submitHandler()
     this.search()
@@ -4677,26 +4725,10 @@ class NewFilter {
     this[`${screen}_screen`].classList.add('active')
 
     if (subInfo !== null && subInfo !== undefined) {
-      console.log('subInfo', subInfo)
       const subItem = this[`${screen}_screen`].querySelectorAll('.subItem')
-
-      console.log('subItem', subItem)
-
       subItem.forEach(s => s.classList.remove('active'))
       subItem[subInfo].classList.add('active')
     }
-  }
-
-  currency() {
-    const currencies = this.first_screen.querySelectorAll('.currency .mobile_filter-choose-item')
-
-    currencies.forEach(c => {
-      c.addEventListener('click', (e) => {
-        currencies.forEach(c_s => c_s.classList.remove('active'))
-        c.classList.add('active')
-        this.search_url.currency = c.dataset.currency
-      })
-    })
   }
 
   buttons() {
@@ -4748,7 +4780,6 @@ class NewFilter {
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', (e) => {
         e.preventDefault()
-        console.log(idx)
         this.openScreen('first')
         this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.product)
       })
@@ -4760,15 +4791,12 @@ class NewFilter {
       this.search_url.product = content
     }
     this.first_screen.querySelectorAll('.mobile_filter-content-item')[id].textContent = text
-    console.log(this.search_url)
   }
 
   submitHandler() {
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
-      console.log(this.search_url)  
       const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-      console.log(newUrl)  
       window.location = newUrl
     })
   }
@@ -4778,118 +4806,60 @@ class NewFilter {
     searchs.forEach(s => {
       const closeBtn = s.parentNode.querySelector('button')
       const searchLinks = s.parentNode.parentNode.querySelectorAll('ul li a')
-      // s.parentNode.parentNode.insertAdjacentHTML('beforeend', '<ul class="mobile_filter-section-list output"></ul>')
+      const defaultValuesBlock = s.parentNode.parentNode.querySelector('.default_value')
       const output = s.parentNode.parentNode.querySelector('.output')
+      // s.parentNode.parentNode.insertAdjacentHTML('beforeend', '<ul class="mobile_filter-section-list output"></ul>')
 
       s.addEventListener('keyup', e => {
         const value = e.target.value.toLowerCase()
         let show_result = []
+
         searchLinks.forEach(l => {
           if (e.target.value && l.textContent.toLowerCase().includes(value)) {
             show_result.push(l)
           }
         })
+
+        if (value.length) {
+          defaultValuesBlock.classList.add('hidden')
+          output.classList.remove('hidden')
+        } else {
+          output.classList.add('hidden')
+          defaultValuesBlock.classList.remove('hidden')
+        }
+
         if (show_result.length) {
-          const lists = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-list')
-          const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
-          lists.forEach((ul, idx) => {
-            if (idx < lists.length - 1) {
-              ul.classList.add('hidden')              
+          output.innerHTML = show_result.map(a => `<li>${a.outerHTML}</li>`).join('')
+          output.querySelectorAll('li a').forEach(link => {
+            link.onclick = () => {
+              this.search_url.product = link.dataset.product
+              this.openScreen('first')
+              this.changeTextOnFirstScreen(link.dataset.id, link.textContent, link.dataset.url)
             }
           })
-          titles.forEach((t, idx) => {
-            t.classList.add('hidden')              
-          })
-          output.innerHTML = show_result.map(a => `<li>${a.outerHTML}</li>`).join('')
         } else {
-          const lists = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-list')
-          const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
-          lists.forEach((ul, idx) => {
-            ul.classList.remove('hidden')           
-          })
-          titles.forEach((t, idx) => {
-            t.classList.remove('hidden')              
-          })
           output.innerHTML = ''
         }
       })
 
       closeBtn.addEventListener('click', () => {
-        const lists = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-list')
-        const titles = s.parentNode.parentNode.querySelectorAll('.mobile_filter-section-text')
-        lists.forEach((ul, idx) => {
-          ul.classList.remove('hidden')           
-        })
-        titles.forEach((t, idx) => {
-          t.classList.remove('hidden')              
-        })
-        
         s.value = ''
         output.innerHTML = ''
+        output.classList.add('hidden')
+        defaultValuesBlock.classList.remove('hidden')
       })
     })
   }
 }
 
 const $filter = document.querySelector('.mobile_filter')
-if ($filter) {
-  const filterExmp = new NewFilter($filter)  
+const isFilter = document.querySelector('.new_fitlers_container')
+
+
+if (isFilter) {
+  const filterExmp = new MobileFilter($filter)
   document.querySelector('.openFilter').onclick = () => filterExmp.open()
+  new Filter().init()
 }
 
-$('.traders__item.yellow .traders__item__image').primaryColor({
-  callback: function(color) {
-  $(this).parents('.traders__item__header').css('background-color', 'rgb('+color+')');
-  }
-});
 
-function tradersPageScripts() {
-  $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
-    callback: function(color) {
-      $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
-    }
-  })
-
-  let prices = document.querySelectorAll('.traders__item__content-p-price')
-  prices = Array.prototype.slice.call(prices)
-
-  if (prices.length) {
-    prices.forEach(price => {
-      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-    })
-  }
-
-  
-  let pricesTable = document.querySelectorAll('.table_price')
-  pricesTable = Array.prototype.slice.call(pricesTable)
-  console.log(pricesTable)
-
-  if (pricesTable.length) {
-    pricesTable.forEach(price => {
-      price.textContent = price.textContent.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
-    })
-  }
-
-}
-
-tradersPageScripts()
-
-function headerTraderPricesArrow() {
-  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
-  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
-  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
-
-  tradersButton.addEventListener('click', () => {
-    tradersDropdown.classList.toggle('active')
-
-    const listener = (e) => {
-      console.log(e)
-      tradersDropdown.classList.remove('active')
-      tradersDropdownParent.removeEventListener('mouseleave', listener)
-    }
-  
-    console.log('event listener added')
-    tradersDropdownParent.addEventListener('mouseleave', listener)
-  })
-}
-headerTraderPricesArrow()
