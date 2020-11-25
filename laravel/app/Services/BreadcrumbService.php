@@ -435,7 +435,7 @@ class BreadcrumbService
                 $data['culture_name'] = self::CHANGE_NAME[$data['rubric_id']];
             }
 
-            $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} в {$data['region']['city_parental']} ", 'url' => null];
+            $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']}  {$data['region']['city_parental']} ", 'url' => null];
 
 //            if(isset(self::NAME[$data['rubric_id']])){
 //                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
