@@ -82,13 +82,13 @@ $('#save-edit-vacancy').click(function (event){
             let content = $('#titleItems').val(data.title);
             location.reload();
         },
-        error: function (jqXhr, json, errorThrown){
+        /*error: function (jqXhr, json, errorThrown){
             var errors = jqXhr.responseJSON;
             var errorsHtml = '';
             $.each(errors['errors'], function (index, value) {
                 errorsHtml += '<ul class="list-group"><li class="list-group-item alert alert-danger">' + value + '</li></ul>';
             });
-        }
+        }*/
     });
 })
 
