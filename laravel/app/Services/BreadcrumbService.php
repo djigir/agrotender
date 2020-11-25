@@ -164,7 +164,8 @@ class BreadcrumbService
         ],
     ];
 
-    const AGROCHEMISTRY  = [42 => '',
+    const AGROCHEMISTRY  = [
+        42 => '',
         31 => 'Пивоварни и Лекеро-водочные заводы',
         26 => 'Хлебзаводы, Пекарни и Кондитерки',
         37 => 'Оборудование для пчеловодства',
@@ -172,6 +173,7 @@ class BreadcrumbService
         40 => 'Оборудование для переработки',
         35 => 'Оборудование для растениеводства',
         38 => 'Оборудование для рыбоводства',
+        44 => '-',
 
     ];
 
@@ -188,6 +190,10 @@ class BreadcrumbService
         4 => 'Производители удобрений',
         31 => 'Пивоварни и Лекеро-водочные заводы',
         26 => 'Хлебзаводы, Пекарни и Кондитерки',
+        27 => 'Переработчики мяса',
+        32 => 'Молокозаводы',
+        42 => 'Производители средств защиты',
+        50 => 'Морской Транспорт',
     ];
 
     const NAME = [
@@ -427,9 +433,9 @@ class BreadcrumbService
 
             $breadcrumbs_comp[1] = ['name' => "{$catalog_farm['catalog']} {$data['culture_name']} {$catalog_farm['farms']} {$data['region']['city_parental']} ", 'url' => null];
 
-            if(isset(self::NAME[$data['rubric_id']])){
-                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
-            }
+//            if(isset(self::NAME[$data['rubric_id']])){
+//                $breadcrumbs_comp[1]['name'] = self::NAME[$data['rubric_id']];
+//            }
         }
 
         return $breadcrumbs_comp;

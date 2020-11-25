@@ -25,7 +25,7 @@ class CompanyController extends Controller
 {
     const NAME_SECTION_RUBRIC = [
         0 => 'Все рубрики',
-        1 => 'Выберите рубрики',
+        1 => 'Выберите рубрику',
     ];
 
 
