@@ -96,6 +96,7 @@ Route::prefix('u')
                 Route::get('/reviews', 'UserController@profileReviews')->name('reviews');
                 Route::get('/news', 'UserController@profileNews')->name('news');
                 Route::get('/vacancy', 'UserController@profileVacancy')->name('vacancy');
+                Route::get('/success', 'UserController@emailVerification')->name('email_verification');
 
                 Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
                 Route::post('/change_pass', 'UserController@changePass')->name('change_pass');

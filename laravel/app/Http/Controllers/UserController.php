@@ -133,6 +133,12 @@ class UserController extends Controller
         return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
     }
 
+    public function emailVerification()
+    {
+        dd('s');
+//        return view('');
+    }
+
     public function toggleVisible(Request $request)
     {
         /** @var User $user */
@@ -177,8 +183,6 @@ class UserController extends Controller
         $contacts_user = User::where('id', $user->id)->update($contacts_data);
 
         // Telegram/Viber
-
-
 
         return redirect()->back()->with(['success' => 'Данные сохранены.']);
     }
