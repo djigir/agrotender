@@ -117,13 +117,24 @@
                                 @endif
                             </td>
                             <td data-sorttable-customkey="20201101">
-                        <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                            @if($type_traders == 1)
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
-                            @else
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                            @endif
-                        </span>
+                                <?php
+                                    $class = '';
+
+                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
+                                        $class = 'today';
+                                    }
+
+                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
+                                        $class = 'today';
+                                    }
+                                ?>
+                                <span class="{{$class}}">
+                                    @if($type_traders == 1)
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
+                                    @else
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    @endif
+                                </span>
                             </td>
                             <td>
                                 @if($type_place == 0)
