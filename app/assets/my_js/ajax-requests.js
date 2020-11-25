@@ -41,8 +41,9 @@ $(".deleteNews").click(function (event) {
     event.preventDefault();
     $.ajax({
         url: '/u/delete_news',
-        method: 'POST',
-        data: {news_id: $(".deleteNews").attr('newsid')},
+        method: 'GET',
+        // data: {news_id: $(".deleteNews").attr('newsid')},
+        data: {news_id: $(this).attr('newsid')},
         success: function (data){
             location.reload();
         }
@@ -60,6 +61,7 @@ $('.edit-vacancy').click(function (event){
         method: 'POST',
         data: {vacancyId: $(this).attr('vacancyid')},
         success: function(data){
+            console.log(data);
             $('#contentItems').val(data.content)
             $('#titleItems').val(data.title);
             $('#form-edit').attr('idVacancy', data.id);
@@ -76,10 +78,16 @@ $('#save-edit-vacancy').click(function (event){
         method: 'GET',
         data: {vacancyId: $('#form-edit').attr('idVacancy'), title: $('#titleItems').val(), content: $('#contentItems').val()},
         success: function(data){
-            console.log(data);
-            $('#contentItems').val(data.content)
-            $('#titleItems').val(data.title);
+            let title = $('#contentItems').val(data.content)
+            let content = $('#titleItems').val(data.title);
             location.reload();
+        },
+        error: function (jqXhr, json, errorThrown){
+            var errors = jqXhr.responseJSON;
+            var errorsHtml = '';
+            $.each(errors['errors'], function (index, value) {
+                errorsHtml += '<ul class="list-group"><li class="list-group-item alert alert-danger">' + value + '</li></ul>';
+            });
         }
     });
 })
@@ -90,7 +98,8 @@ $(".remove-vacancy").click(function (event) {
      $.ajax({
          url: '/u/delete_vacancy',
          method: 'GET',
-         data: {vacancyId: $(".remove-vacancy").attr('vacancyid')},
+         // data: {vacancyId: $(".remove-vacancy").attr('vacancyid')},
+         data: {vacancyId: $(this).attr('vacancyid')},
          success: function (data){
              location.reload();
          }

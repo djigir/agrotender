@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\ProfileCompanyNewsRequest;
 use App\Http\Requests\LoginPasswordRequest;
+use App\Http\Requests\ProfileUserCompanyVacancyRequest;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompNews;
@@ -135,7 +136,6 @@ class UserController extends Controller
 
     public function emailVerification()
     {
-        dd('s');
         return view('user.profile.info-page.success');
     }
 
@@ -331,11 +331,12 @@ class UserController extends Controller
     }
 
     /* no ajax */
-    public function createVacancy(Request $request)
+    public function createVacancy(ProfileCompanyNewsRequest $request)
     {
         /** @var User $user */
         $user = auth()->user();
-        $vacancies = CompVacancy::create($request->all() + ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
+
+        $vacancies = CompVacancy::create($request->only('title', 'content') + ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
         return redirect()->back();
 
     }
@@ -348,7 +349,7 @@ class UserController extends Controller
         return response()->json($contactsItem, 200);
     }
 
-    public function editVacancy(Request $request)
+    public function editVacancy(ProfileCompanyNewsRequest $request)
     {
         CompVacancy::find($request->get('vacancyId'))->update($request->only([
             'content', 'title'

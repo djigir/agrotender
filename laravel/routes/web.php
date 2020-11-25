@@ -108,11 +108,10 @@ Route::prefix('u')
                 Route::post('/action_news', 'UserController@actionNews')->name('action_news');
                 Route::post('/edit_news', 'UserController@editNews')->name('edit_news');
                 Route::post('/print_news', 'UserController@printNews')->name('print_news');
-                Route::post('/delete_news', 'UserController@deleteNews')->name('delete_news');
+                Route::get('/delete_news', 'UserController@deleteNews')->name('delete_news');
                 Route::post('/create_vacancy', 'UserController@createVacancy')->name('create_vacancy');
                 Route::post('/print_vacancy', 'UserController@printVacancy')->name('print_vacancy');
 //                Route::post('/edit_vacancy', 'UserController@editVacancy')->name('edit_vacancy');
-                /* робочий  */
                 Route::get('/edit_vacancy', 'UserController@editVacancy')->name('edit_vacancy');
                 Route::get('/delete_vacancy', 'UserController@deleteVacancy')->name('delete_vacancy');
         });

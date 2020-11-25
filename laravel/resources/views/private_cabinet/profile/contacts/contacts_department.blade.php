@@ -25,8 +25,8 @@
             </div>
         </div>
         <div class="contact-manage d-flex flex-column">
-            <i class="fas fa-pencil-alt edit-contact" contact="{{ $contacts[0]->comp_id }}"></i>
-            <i class="fas fa-times remove-contact mt-2" contact="{{ $contacts[0]->comp_id }}"></i>
+            <i class="fas fa-pencil-alt edit-contact" contact="{{ $contact->comp_id }}"></i>
+            <i class="fas fa-times remove-contact mt-2" contact="{{ $contact->comp_id }}"></i>
         </div>
     </div>
     @endforeach
