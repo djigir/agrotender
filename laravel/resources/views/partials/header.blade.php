@@ -100,7 +100,7 @@
                 </div>
               </div>
             </div>
-            <a href="/board" class="header__center__button board">Объявления</a>
+            <a href="/board" class="header__center__button boardп">Объявления</a>
             <div class="header__tradersPrice special">
               <a href="/traders" class="header__center__button withBg">
                 <span class="header__tradersPrice-dots">
