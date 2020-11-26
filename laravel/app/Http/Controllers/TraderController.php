@@ -349,15 +349,16 @@ class TraderController extends Controller
      */
     public function sellRegion(Request $request, $region)
     {
-        $data_traders = collect(['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
-
-
-        if(!empty($request->get('region')) || !empty($request->get('port')))
-        {
-            return $this->traderService->mobileFilter($request);
-        }
-
-        return $this->setDataForTraders($data_traders);
+        return App::abort(404);
+//        $data_traders = collect(['region' => $region, 'query' => $request->all(), 'port' => null, 'culture' => null, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
+//
+//
+//        if(!empty($request->get('region')) || !empty($request->get('port')))
+//        {
+//            return $this->traderService->mobileFilter($request);
+//        }
+//
+//        return $this->setDataForTraders($data_traders);
     }
 
 
@@ -368,15 +369,16 @@ class TraderController extends Controller
      */
     public function sellPort(Request $request, $port)
     {
-        $data_traders = collect(['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
-
-
-        if(!empty($request->get('region')) || !empty($request->get('port')))
-        {
-            return $this->traderService->mobileFilter($request);
-        }
-
-        return $this->setDataForTraders($data_traders);
+        return App::abort(404);
+//        $data_traders = collect(['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => null, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
+//
+//
+//        if(!empty($request->get('region')) || !empty($request->get('port')))
+//        {
+//            return $this->traderService->mobileFilter($request);
+//        }
+//
+//        return $this->setDataForTraders($data_traders);
     }
 
 
@@ -388,15 +390,16 @@ class TraderController extends Controller
      */
     public function sellRegionCulture(Request $request, $region, $culture)
     {
-        $data_traders = collect(['region' => $region, 'query' => $request->all(),
-            'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
-
-        if(!empty($request->get('region')) || !empty($request->get('port')))
-        {
-            return $this->traderService->mobileFilter($request);
-        }
-
-        return $this->setDataForTraders($data_traders);
+        return App::abort(404);
+//        $data_traders = collect(['region' => $region, 'query' => $request->all(),
+//            'port' => null, 'culture' => $culture, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
+//
+//        if(!empty($request->get('region')) || !empty($request->get('port')))
+//        {
+//            return $this->traderService->mobileFilter($request);
+//        }
+//
+//        return $this->setDataForTraders($data_traders);
     }
 
 
@@ -408,13 +411,14 @@ class TraderController extends Controller
      */
     public function sellPortCulture(Request $request, $port, $culture)
     {
-        $data_traders = collect(['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
-
-        if (!empty($request->get('port')) || !empty($request->get('port'))) {
-            return $this->traderService->mobileFilter($request);
-        }
-
-        return $this->setDataForTraders($data_traders);
+        return App::abort(404);
+//        $data_traders = collect(['region' => null, 'query' => $request->all(), 'port' => $port, 'culture' => $culture, 'sell' => true, 'type' => 'sell', 'type_view' => 'card']);
+//
+//        if (!empty($request->get('port')) || !empty($request->get('port'))) {
+//            return $this->traderService->mobileFilter($request);
+//        }
+//
+//        return $this->setDataForTraders($data_traders);
     }
 
 }

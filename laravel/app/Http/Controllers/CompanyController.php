@@ -229,11 +229,11 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
-            ->orderBy('dt')
-            ->limit(1)
-            ->value('change_date');
-
+//        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
+//            ->orderBy('dt')
+//            ->limit(1)
+//            ->value('change_date');
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->get()->max('change_date');
         $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);

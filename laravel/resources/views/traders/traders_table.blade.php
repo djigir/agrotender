@@ -15,6 +15,7 @@
                     if(isset($key_uah[0])){
                         $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
                         $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
+                        $traders[$key_uah[0]]['date_change'] = $where_place_id->where('curtype', 1)->first()->change_date;
                     }
 
                     if(isset($key_usd[0])){
@@ -25,6 +26,7 @@
                 if(isset($traders[$index]))
                 {
                     $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
+
                     $traders[$index]['change_price'] = $change;
 
                     $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
@@ -35,7 +37,8 @@
 
                     if(isset($traders[$index]['costval_usd']))
                     {
-                        $change_usd = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+                        $change_usd = $date_expired_diff <= $traders[$index]['date_change'] ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+
                         $traders[$index]['change_price_usd'] = $change_usd;
 
                         if(!$traders[$index]->change_date || !$change_usd){
@@ -114,13 +117,24 @@
                                 @endif
                             </td>
                             <td data-sorttable-customkey="20201101">
-                        <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                            @if($type_traders == 1)
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
-                            @else
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                            @endif
-                        </span>
+                                <?php
+                                    $class = '';
+
+                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
+                                        $class = 'today';
+                                    }
+
+                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
+                                        $class = 'today';
+                                    }
+                                ?>
+                                <span class="{{$class}}">
+                                    @if($type_traders == 1)
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
+                                    @else
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    @endif
+                                </span>
                             </td>
                             <td>
                                 @if($type_place == 0)

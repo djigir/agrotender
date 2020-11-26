@@ -127,8 +127,25 @@
                                     @endif
                                     <div class="traders__item__content-date">
                                         @if(!isset($trader->min_date))
-                                            <span style="{{Carbon\Carbon::today() == $trader['date_price'] ? 'color:#FF7404' : Carbon\Carbon::yesterday() == $trader['date_price'] ? 'color:#009750' : 'color: #001430'}}">
-                                                {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                            <?php
+                                                $color = 'color: #001430';
+
+                                                if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
+                                                    $color = 'color: #009750';
+                                                }
+
+                                                if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
+                                                    $color = 'color: #FF7404';
+                                                }
+                                            ?>
+                                            <span style="{{$color}}">
+                                                @if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString())
+                                                    сегодня
+                                                @elseif(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString())
+                                                    вчера
+                                                @else
+                                                    {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                                @endif
                                             </span>
                                         @else
                                             <span style="display: flex; color: #001430">
