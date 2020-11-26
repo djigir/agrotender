@@ -72,7 +72,7 @@ class TraderService
         if (!empty($request->get('port')) && !empty($request->get('rubric'))) {
             $route_name = 'port_culture';
             $route_params = [
-                'port_name' => $request->get('port'), 'culture' => $request->get('rubric'),
+                'port' => $request->get('port'), 'culture' => $request->get('rubric'),
                 'currency' => $request->get('currency')
             ];
         }
