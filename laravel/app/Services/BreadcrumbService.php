@@ -472,29 +472,5 @@ class BreadcrumbService
         return $breadcrumbs_comp;
     }
 
-    public function setBreadcrumbsElev($data)
-    {
 
-        if ($data['region'] != null) {
-            $region = Regions::where('id', $data['region'])->get()[0];
-        }elseif (isset($data['elevator'])){
-            $region = Regions::where('id', $data['elevator']->obl_id)->get()[0];
-        }
-
-        $breadcrumbs_elev[0] = ['name' => 'Элеваторы', 'url' => null];
-
-
-        if(!empty($data['region'])){
-            $breadcrumbs_elev[0] = ['name' => 'Элеваторы' . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('elev.elevators')];
-            $breadcrumbs_elev[1] = ['name' => "Элеваторы в {$region->parental} области " , 'url' => null];
-        }
-//        dd($region->translit);
-        if (isset($data['elevator'])){
-            $breadcrumbs_elev[0] = ['name' =>  "{$region->parental} области". '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('elev.region', ['region' => $region->translit])];
-            $breadcrumbs_elev[1] = ['name' => $data['elevator']['lang_elevator'][0]->name, 'url' => null];
-        }
-
-
-        return $breadcrumbs_elev;
-    }
 }
