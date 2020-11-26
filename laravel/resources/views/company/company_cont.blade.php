@@ -85,7 +85,7 @@
         @endforeach
     </div>
 
-    @if(!empty($traders_contacts))
+    @if($traders_contacts->count() != 0)
     <div class="container mb-5">
         <h2 class="mt-4">Контакты трейдера</h2>
             @foreach($traders_contacts as $trader_contact)
