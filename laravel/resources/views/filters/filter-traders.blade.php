@@ -286,14 +286,14 @@ if($regions->count() > 0 && !$isMobile){
           <span>Фильтры</span>
           <a href="#">Сбросить</a>
         </div>
-
         <div class="screens">
           <form action="">
               <div class="first active">
                 <div class="mobile_filter-content">
-                  <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
-                  <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
-                  <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
+
+                  <input type="text" id='input-mobile-rubric' name="rubric" value="{{$culture_translit ? $culture_translit : ''}}"  class="remove-input">
+                  <input type="text" id='input-mobile-region-t' name="region" value="{{$region_translit ? $region_translit: ''}}"  class="remove-input">
+                  <input type="text" id='input-mobile-port-t' name="port" value="{{$port_translit ? $port_translit: ''}}"  class="remove-input">
 {{--                    <input type="radio" id="currency-uah" name="currency"  value="0">--}}
 {{--                    <input type="radio"  id="currency-usd" name="currency"  value="1">--}}
                   <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>

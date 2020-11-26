@@ -178,13 +178,15 @@ class TraderController extends Controller
 
         return view('traders.traders', [
             'regions' => $regions,
+            'region' => $data->get('region'),
+            'port' => $data->get('port'),
             'traders' => $data_traders['traders'],
             'topTraders' => $data_traders['top_traders']->count() > 0 ? $data_traders['top_traders'] : [],
             'onlyPorts' => $ports,
             'currencies' => $currencies,
             'region_port_name' => $region_port_name,
-            'region' => $data->get('region'),
-            'port' => $data->get('port'),
+            'region_translit' => $data->get('region'),
+            'port_translit' => $data->get('port'),
             'culture_translit' => $data->get('culture'),
             'culture_name' => $culture_name,
             'meta' => $meta,

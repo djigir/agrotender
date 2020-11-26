@@ -49,6 +49,7 @@ class TraderService
 
     public function mobileFilter(Request $request)
     {
+        dd($request->all());
         $route_name = null;
         $route_params = null;
         $route_name = \Route::getCurrentRoute()->getName();
@@ -66,7 +67,7 @@ class TraderService
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
             $route_name = 'region_culture';
-            $route_params = ['region' => $request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
+            $route_params = ['region' => $request->get('region'), 'culture' => $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
         if (!empty($request->get('port')) && !empty($request->get('rubric'))) {
