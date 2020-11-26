@@ -24,13 +24,13 @@ class TradersProducts extends Model
         'acttype',
     ];
 
-    protected $appends = ['culture'];
-
-
-    public function getCultureAttribute()
-    {
-        return $this->traders_product_lang->first()->toArray();
-    }
+//    protected $appends = ['culture'];
+//
+//
+//    public function getCultureAttribute()
+//    {
+//        return $this->traders_product_lang->first()->toArray();
+//    }
 
     public function traders_prices()
     {

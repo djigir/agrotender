@@ -1,585 +1,236 @@
-<div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
-    @if(!$isMobile)
-    <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer"><table class="sortTable sortable dTable dataTable no-footer" cellspacing="0" id="DataTables_Table_0" role="grid">
-                <thead>
-                <tr role="row"><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Компании: activate to sort column ascending" style="width: 258px;">Компании</th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="width: 61px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="width: 60px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th><th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="width: 97px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Место закупки: activate to sort column ascending" style="width: 222px;">Место закупки</th></tr>
-                </thead>
-                <tbody>
-                <tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                        <br>
-                        <span class="place">завод с. Чемер</span>
-                    </td>
-                </tr>
-                <tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                        <br>
-                        <span class="place">завод с. Тупичев</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                        <br>
-                        <span class="place">завод с. Н.Боровычи</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6550</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Черкасская обл.</span>
-                        <br>
-                        <span class="place">завод с. Косари</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                        <br>
-                        <span class="place">завод с. Узловое</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                        <br>
-                        <span class="place">завод с. Рава-Рус</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Киевская обл.</span>
-                        <br>
-                        <span class="place">завод с. Червоная Слобода</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6200</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Харьковская обл.</span>
-                        <br>
-                        <span class="place">завод с. Караван</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Киевская обл.</span>
-                        <br>
-                        <span class="place">завод с. Стадница</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                        <br>
-                        <span class="place">завод с. Струтин</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6400</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Житомирская обл.</span>
-                        <br>
-                        <span class="place">завод с. Липники</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                        <br>
-                        <span class="place">завод с. В.Любинь</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Тернопольская обл.</span>
-                        <br>
-                        <span class="place">завод с. Новоселка</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-1159">
-                            <img class="logo mr-3" src="/pics/comp/1159_37319.jpg">
-                            <span class="title">Аббакор Промпоставка</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">6250</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201021"><span data-date="20201021">21 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                        <br>
-                        <span class="place">завод с. Сторонибабы</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Черниговская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Черкасская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Сумская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Хмельницкая обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Тернопольская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Николаевская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Полтавская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Одесская обл.</span>
-                        <br>
-                        <span class="place">Одесса</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Ровенская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Ивано-Франковская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Львовская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Волынская обл.</span>
-                    </td>
-                </tr><tr role="row" class="odd">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Кировоградская обл.</span>
-                    </td>
-                </tr><tr role="row" class="even">
-                    <td>
-                        <a class="d-flex align-items-center" href="/kompanii/comp-869">
-                            <img class="logo mr-3" src="/pics/comp/869_15739.jpg">
-                            <span class="title">Агро Фонд</span>
-                        </a>
-                    </td>
-                    <td class="uah">
-                        <div class="d-flex align-items-center justify-content-center">
-                            <span class="price">4500</span>
-                        </div>
-                    </td>
-                    <td class="usd">
-                    </td>
-                    <td data-sorttable-customkey="20201019"><span data-date="20201019">19 Октября</span></td>
-                    <td>
-                        <span class="location">Винницкая обл.</span>
-                    </td>
-                </tr></tbody>
-            </table></div>
-    @else
-        <table class="sortTable sortable" cellspacing="0">
-            <tbody>
-            @foreach($traders as $index_tr => $trader)
-                @foreach($trader->places as $index => $place)
-                    <tr>
-                        <td>
-                            <div class="d-flex align-items-center price-div">
-                                <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{{$trader->title}}">
-                                <a class="flex-1" href="{{route('company.forwards', $trader->id)}}">
-                                    <span class="m-price">{{$place->pivot->curtype == 1 ? 'USD: ' : 'UAH: '}}
-                                        <span class="price">
-                                            {{round($place->pivot->costval, 1)}}
-                                        </span>
-                                    </span>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="t2">
-                        <td style="border-bottom: 1px solid #295ca1;">
-                            <div class="d-flex align-items-center justify-content-center">
-                                <span data-toggle="tooltip" data-placement="top" class="d-block">
-                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($place->pivot->dt)->format('F y'), MB_CASE_TITLE, "UTF-8")}}
-                                </span>
-                                <a href="{{route('company.forwards', $trader->id)}}" class="d-block flex-1">
-                                    <span class="location d-block">{{$place['region']['name'].' обл.'}}</span>
-                                    <span class="place d-block">{{$place->place}}</span>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-            @endforeach
+@if($traders->count() == 0)
+    @include('traders.block-info.traders_forwards')
+@else
+    <?php
+        $date_expired_diff = \Carbon\Carbon::now()->subDays(7)->format('Y-m-d');
+        if($type_traders != 1){
+            foreach ($traders as $index => $trader) {
+                if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
+                {
+                    $where_place_id = $traders->where('place_id', $trader->place_id);
 
-            </tbody>
-        </table>
-    @endif
-    <div class="text-center mt-5">
+                    $key_uah = $where_place_id->where('curtype', 0)->keys();
+                    $key_usd = $where_place_id->where('curtype', 1)->keys();
+
+                    if(isset($key_uah[0])){
+                        $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
+                        $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
+                        $traders[$key_uah[0]]['date_change'] = $where_place_id->where('curtype', 1)->first()->change_date;
+                    }
+
+                    if(isset($key_usd[0])){
+                        unset($traders[$key_usd[0]]);
+                    }
+                }
+
+                if(isset($traders[$index]))
+                {
+                    $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
+
+                    $traders[$index]['change_price'] = $change;
+
+                    $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
+
+                    if(!$traders[$index]->change_date || !$change){
+                        $traders[$index]['change_price_type'] = '';
+                    }
+
+                    if(isset($traders[$index]['costval_usd']))
+                    {
+                        $change_usd = $date_expired_diff <= $traders[$index]['date_change'] ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+
+                        $traders[$index]['change_price_usd'] = $change_usd;
+
+                        if(!$traders[$index]->change_date || !$change_usd){
+                            $traders[$index]['change_price_type_usd'] = '';
+                        }
+
+                        $traders[$index]['change_price_type_usd'] = $change_usd > 0 ? 'up' : 'down';
+                    }
+                }
+            }
+        }
+    ?>
+    <div class="container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
+        @if(!$isMobile)
+            <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
+                <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
+                    <thead>
+                        <tr role="row">
+                            <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Компании: activate to sort column ascending" style="width: 249px;">Компании
+                            </th>
+                            <th class="sth sorting" tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="UAH : activate to sort column descending" style="width: 77px;">UAH
+                                <i class="fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="USD : activate to sort column descending" style="width: 76px;">USD
+                                <i class="fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Дата : activate to sort column descending" style="width: 101px;">Дата
+                                <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
+                            </th>
+                            <th class="sth sorting" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
+                                aria-label="Место закупки: activate to sort column ascending" style="width: 195px;">Место закупки
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    @foreach($traders as $index => $trader)
+                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
+                            <td>
+                                <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+                                    <span class="title">{!! $trader->title !!}</span>
+                                </a>
+                            </td>
+                            <td class="uah">
+                                @if($trader->curtype == 0)
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <span class="price">{{round($trader->costval, 1)}}</span>
+                                         @if($trader->change_price != 0)
+                                             <span class="price-{{$trader->change_price_type}}">  &nbsp;
+                                                <img src="/app/assets/img/price-{{$trader->change_price_type}}.svg">
+                                                <span>{{$trader->change_price}}</span>
+                                            </span>
+                                         @endif
+                                    </div>
+                                @endif
+                            </td>
+                            <td class="usd">
+                                @if($trader->curtype == 1 || isset($trader->costval_usd))
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        @if(isset($trader->costval_usd))
+                                            <span class="price">{{round($trader->costval_usd, 1)}}</span>
+                                        @else
+                                            <span class="price">{{round($trader->costval, 1)}}</span>
+                                        @endif
+                                        @if(isset($trader->change_price_usd) && $trader->change_price_usd != 0)
+                                            <span class="price-{{ $trader->change_price_type_usd}}">  &nbsp;
+                                                <img src="/app/assets/img/price-{{ $trader->change_price_type_usd}}.svg">
+                                                <span>{{$trader->change_price_usd}}</span>
+                                            </span>
+                                        @endif
+                                    </div>
+                                @endif
+                            </td>
+                            <td data-sorttable-customkey="20201101">
+                                <?php
+                                    $class = '';
+
+                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
+                                        $class = 'today';
+                                    }
+
+                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
+                                        $class = 'today';
+                                    }
+                                ?>
+                                <span class="{{$class}}">
+                                    @if($type_traders == 1)
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
+                                    @else
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                @if($type_place == 0)
+                                    <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                @else
+                                    <span class="location">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                @endif
+                                <br>
+                                <span class="place">{!! $trader->place !!}</span>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        @else
+            <table class="sortTable sortable">
+                <tbody>
+                    @foreach($traders as $index => $trader)
+                        <tr class="{{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
+                            <td>
+                                <div class="d-flex align-items-center price-div">
+                                    <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
+                                    <a class="flex-1" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                        @if($trader->curtype == 0)
+                                        <span class="m-price">
+                                                UAH:
+                                                @if($trader->change_price != 0)
+                                                    <span class="price-{{$trader->change_price_type}}">{{round($trader->costval, 1)}}  &nbsp;
+                                                        <i class="fas fa-chevron-{{$trader->change_price_type}}"></i>{{$trader->change_price}}
+                                                    </span>
+                                                @else
+                                                    <span class="price">
+                                                        {{round($trader->costval, 1)}}
+                                                    </span>
+                                                @endif
+                                        </span>
+                                        @endif
+
+                                        @if($trader->curtype == 1 || isset($trader->costval_usd))
+                                            <span>
+                                                USD:
+                                                @if(isset($trader->costval_usd))
+                                                    @if($trader->change_price != 0)
+                                                        <span class="price-{{$trader->change_price_type_usd}}">{{round($trader->costval_usd, 1)}}  &nbsp;
+                                                            <i class="fas fa-chevron-{{$trader->change_price_type_usd}}"></i>{{$trader->change_price_usd}}
+                                                        </span>
+                                                    @else
+                                                        <span class="price">{{round($trader->costval_usd, 1)}}</span>
+                                                    @endif
+
+                                                @else
+                                                    @if($trader->change_price != 0)
+                                                        <span class="price-{{$trader->change_price_type}}">{{round($trader->costval, 1)}}  &nbsp;
+                                                            <i class="fas fa-chevron-{{$trader->change_price_type}}"></i>{{$trader->change_price}}
+                                                        </span>
+                                                    @else
+                                                        <span class="price">{{round($trader->costval, 1)}}</span>
+                                                    @endif
+                                                @endif
+
+                                            </span>
+                                        @endif
+
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="t2 {{$trader->trader_premium == 1 ? 'vip': ''}}">
+                            <td style="border-bottom: 1px solid #295ca1;">
+                                <div class="d-flex align-items-center justify-content-center">
+                                <span data-toggle="tooltip" data-placement="top" class="d-block">
+                                    {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('d.m.Y'), MB_CASE_TITLE, "UTF-8")}}
+                                </span>
+                                    <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="d-block flex-1">
+                                        @if($type_place == 0)
+                                            <span class="location d-block">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                        @else
+                                            <span class="location d-block">{{$trader->portname != null ? $trader->portname : $trader->region.' обл.'}}</span>
+                                        @endif
+                                        <span class="place d-block">{!! $trader->place !!}</span>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
+        <div class="text-center mt-5">
+        </div>
     </div>
-</div>
+
+    @if($seo_text && $type_traders == 0)
+        <div class="container mt-4 mb-5">
+            {!! $seo_text !!}
+        </div>
+    @endif
+@endif

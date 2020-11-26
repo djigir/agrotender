@@ -1,6 +1,6 @@
-@extends('layout.layout', ['title' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description']])
+@extends('layout.layout', ['title' => $meta['meta_title'],
+'keywords' => $meta['meta_title'],
+'description' => $meta['meta_title']])
 
 @section('content')
 

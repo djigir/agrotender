@@ -5,9 +5,9 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 <div class="d-none d-sm-block container mt-3">
 <ol class="breadcrumbs small p-0">
     <li>
-        <a href="/reklama">Главная</a>
+        <a href="/">Главная</a>
     </li>
-    <i class="fas fa-chevron-right extra-small"></i>
+    <i style="margin-right: .5rem" class="fas fa-chevron-right extra-small"></i>
     @foreach($breadcrumbs as $index_bread => $breadcrumb)
         <li>
             @if($breadcrumb['url'])
@@ -49,13 +49,19 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                         @foreach($rubricsGroup[$group]['groups']["products"] as $index => $item)
                                             <li>
                                                 @if(!empty($region))
-                                                    <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
-                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
+                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
+                                                        {{ $item['traders_product_lang'][0]['name']}}
+                                                        @if($item['count_item'] > 0)
+                                                            ({{$item['count_item']}})
+                                                        @endif
                                                     </a>
                                                 @endif
                                                 @if(!empty($port))
-                                                    <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
-                                                        {{ $item['culture']['name']}} ({{$item['count_item']}})
+                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
+                                                        {{ $item['traders_product_lang'][0]['name']}}
+                                                        @if($item['count_item'] > 0)
+                                                            ({{$item['count_item']}})
+                                                        @endif
                                                     </a>
                                                 @endif
                                             </li>

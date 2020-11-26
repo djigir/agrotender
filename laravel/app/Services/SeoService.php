@@ -57,7 +57,7 @@ class SeoService
             $text = $this->parseSeoText($region, $rubric['page_descr']);
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
 
@@ -87,7 +87,7 @@ class SeoService
             $text = '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaPort($port, $culture)
@@ -112,7 +112,7 @@ class SeoService
             $text = $port != "all" ? $port['p_content'] : '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaForward($region, $culture, $port)
@@ -150,7 +150,7 @@ class SeoService
        }
 
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaSell($region, $culture)
@@ -167,7 +167,7 @@ class SeoService
         $description = '';
         $text = '';
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMeta($data)
@@ -206,26 +206,45 @@ class SeoService
         $keywords = $company['title'];
         $description = mb_substr(strip_tags($company['content']), 0, 200);
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description];
     }
+
 
     public function getMetaCompanyContacts($id_company)
     {
         $company = CompItems::find($id_company);
 
-        return ['title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
-            'keywords' => $company->title,
-            'description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
+        return ['meta_title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
     }
+
 
     public function getMetaCompanyReviews($id_company)
     {
         $company = CompItems::find($id_company);
 
-        return   ['title' => "Отзывы о {$company->title} на сайте Agrotender",
-            'keywords' => $company->title,
-            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
+        return   ['meta_title' => "Отзывы о {$company->title} на сайте Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
     }
+
+
+    public function getMetaCompanyForward($id)
+    {
+        $company = CompItems::find($id);
+
+        if(!$company){
+            return ['title' => '', 'keywords' => '', 'description' => ''];
+        }
+
+        return [
+            'title' => $company->title,
+            'keywords' => $company->title,
+            'description' => "Сайт компании {$company->title}"
+        ];
+    }
+
 
     /*public function getElevMeta()
     {
@@ -260,6 +279,7 @@ class SeoService
         return ['h1' => $h1, 'title' => $title, 'description' => $description, 'keywords' => $keywords];
     }
 
+
     public function parseSeoText($region, $str)
     {
         $obl1 = (!empty($region['name'])) ? $region['name'] . ' область' : 'Украина';
@@ -267,12 +287,14 @@ class SeoService
         $city1 = $region['city'] ?? '';
         $city2 = $region['city_adverb'] ?? 'Украине';
         $city3 = $region['city_parental'] ?? 'Украины';
+
         $seostr = $str;
         $seostr = str_replace("__oblname__", $obl1, $seostr);
         $seostr = str_replace("__oblname2__", $obl2, $seostr);
         $seostr = str_replace("__cityname__", $city1, $seostr);
         $seostr = str_replace("__cityname2__", $city2, $seostr);
         $seostr = str_replace("__cityname3__", $city3, $seostr);
+//        $seostr = str_replace("__rubric_title__", isset($rubric['title']) ? : $rubric['name'], $seostr);
 
         $year = date("Y", time());
 

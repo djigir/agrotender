@@ -21,8 +21,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Regions extends Model
 {
-    protected $connection = 'mysql2';
     protected $table = 'regions';
+
 
     protected $fillable = [
         'id',
