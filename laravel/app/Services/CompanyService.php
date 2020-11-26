@@ -25,10 +25,16 @@ use Symfony\Component\HttpFoundation\Request;
 class CompanyService
 {
     const PER_PAGE = 10;
+    const SORT_BY = [
+        0 => 'regions.0.name',
+        2 => 'traders_ports.0.lang.portname'
+    ];
+
     protected $baseService;
     protected $prices;
     protected $rubrics;
     protected $companies;
+
 
     public function __construct(BaseServices $baseService)
     {
@@ -37,6 +43,7 @@ class CompanyService
         $this->companies = null;
         $this->rubrics = null;
     }
+
 
     public function checkForward($author_id, $id)
     {
@@ -47,7 +54,7 @@ class CompanyService
             'visible' => 1
         ])->count();
 
-        $forward_months = $this->getForwardsMonths();
+        $forward_months = $this->baseService->getForwardsMonths();
 
         $prices_port = $this->getPricesForwards($author_id, 3, reset($forward_months), 2);
         $prices_region = $this->getPricesForwards($author_id, 3, reset($forward_months), 0);
@@ -59,34 +66,19 @@ class CompanyService
         return false;
     }
 
-    public function getForwardsMonths()
-    {
-        $data = [
-            'start' =>[],
-            'end' =>[],
-        ];
-
-        for ($i = 0; $i <= 6; $i++){
-            $dt_start = Carbon::now();
-            $dt_end = Carbon::now();
-            array_push($data['start'], $dt_start->addMonths($i)->startOfMonth()->format('Y-m-d'));
-            array_push($data['end'],  $dt_end->addMonths($i)->endOfMonth()->format('Y-m-d'));
-        }
-
-        return $data;
-    }
 
     public function getPricesForwards($author_id, $type, $dtStart, $placeType)
     {
-         $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
-            ->with(['traders_places' => function($query) use($placeType){$query->where('type_id', $placeType);}])
-            ->get();
+        $prices = TradersPrices::where([['buyer_id', $author_id], ['acttype', $type], ['dt', '>=', $dtStart]])
+            ->with(['traders_places' => function ($query) use ($placeType) {
+                $query->where('type_id', $placeType)->with('traders_ports', 'regions');
+            }])->get();
 
         return $prices->sortBy('cultures.0.name');
     }
 
 
-    public function mobileFilter(\Illuminate\Http\Request $request)
+    public function mobileFilter(Request $request)
     {
         $route_name = null;
         $route_params = null;
@@ -113,6 +105,7 @@ class CompanyService
         return redirect()->route($route_name, $route_params);
 
     }
+
 
     public function getContacts($author_id, $departments_type)
     {
@@ -158,7 +151,7 @@ class CompanyService
         $statusCurtype = '';
         $check_curtype = [];
         $place_id = [];
-        $sortBy = 'region.id';
+        $sortBy = self::SORT_BY[$placeType];
 
         $prices = TradersPrices::where([
             'acttype' => $type,
@@ -212,19 +205,12 @@ class CompanyService
 
         $id_place = $places->pluck('id');
 
-        foreach ($id_place as $index => $id){
+        foreach ($id_place as $index => $id)
+        {
             if(isset($prices[$id]))
             {
                 $check_curtype = array_merge($check_curtype, array_keys($prices[$id]));
             }
-        }
-
-        if($placeType == 2){
-            $sortBy = 'traders_ports.0.lang.portname';
-        }
-
-        if($placeType == 0){
-            $sortBy = 'regions.0.name';
         }
 
         if(in_array(0, $check_curtype)){
@@ -239,7 +225,7 @@ class CompanyService
             $statusCurtype = 'UAH_USD';
         }
 
-        $places = $places->sortBy($sortBy);
+        $places = $places->sortBy('obl_id')->sortBy($sortBy);
 
         return collect(['prices' => $prices, 'places'=> $places, 'statusCurtype' => $statusCurtype]);
     }
@@ -255,18 +241,33 @@ class CompanyService
                 $query->where([
                     'buyer_id' => $author_id,
                     'acttype' => $type
+                ])->with([
+                    'traders_places' => function ($query) use ($type, $author_id, $placeType) {
+                        $query->where([
+                            'acttype' => $type,
+                            'type_id' => $placeType,
+                            'buyer_id' => $author_id
+                        ]);
+                    }
                 ]);
             }]
         )->get();
 
 
-        foreach ($cultures as $index => $culture){
-            if(!$culture->traders_prices->isEmpty()){
+        foreach ($cultures as $index => $culture)
+        {
+            foreach ($culture->traders_prices as $index_prices => $prices) {
+                if ($prices->traders_places->isEmpty()) {
+                    $culture->traders_prices->forget($index_prices);
+                }
+            }
+
+            if(!$culture->traders_prices->isEmpty() && isset($culture->traders_prices->first()->cultures[0])){
                 $cultures[$index]['culture'] = $culture->traders_prices->first()->cultures[0]->name;
             }
 
             if($culture->traders_prices->isEmpty()){
-                unset($cultures[$index]);
+                $cultures->forget($index);
             }
         }
 
@@ -282,10 +283,15 @@ class CompanyService
         $company = CompItems::where('id', $id)->get()->first();
         $author_id = $company['author_id'];
 
+        $issetT1 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 0]])->count();
         $issetT2 = TradersPrices::select('id')->where([['buyer_id', $author_id], ['acttype', 1]])->count();
 
         if ($issetT2 > 0 && $company->trader_price_sell_avail == 1 && $company->trader_price_sell_visible == 1) {
             $type = 1;
+        }
+
+        if ($issetT1 > 0 && $company->trader_price_avail == 1 && $company->trader_price_visible == 1) {
+            $type = 0;
         }
 
         $cultures = $this->getCultures($author_id, $type, $placeType);
@@ -311,6 +317,7 @@ class CompanyService
     public function searchCompanies($value)
     {
         return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
+            ->with('activities', 'purchases', 'sales', 'services')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
                 'trader_price_visible', 'phone', 'phone2', 'phone3')
@@ -324,8 +331,7 @@ class CompanyService
     {
         return CompComment::where('item_id', $id_company)
             ->orderBy('comp_comment.id', 'desc')
-            ->get()
-            ->toArray();
+            ->get();
     }
 
     public function setRegions($regions, $rubric = null)
@@ -351,6 +357,10 @@ class CompanyService
             if (isset($region_counts[$region['id']])) {
                 $regions[$index]['count_items'] = $region_counts[$region['id']]['obl'];
             }
+
+            if($regions[$index]['count_items'] == 0){
+                unset($regions[$index]);
+            }
         }
 
         return $regions;
@@ -370,14 +380,18 @@ class CompanyService
         if(!$region_id){
             foreach ($rubrics as $index => $rubric) {
                 $rubric = reset($rubric);
-                foreach ($rubric['comp_topic'] as &$topic) {
+                foreach ($rubric['comp_topic'] as $index2 => &$topic) {
                     if (!isset($topic_counts[$topic['id']])) {
-                        continue;
+//                        continue;
+                        unset($rubrics[$index][0]['comp_topic'][$index2]);
                     }
                     $topic['cnt'] = $topic_counts[$topic['id']]['cnt'];
                 }
                 unset($topic);
-                $rubrics[$index] = $rubric;
+
+                if(!empty($rubric['comp_topic'])){
+                    $rubrics[$index] = $rubric;
+                }
             }
 
             $this->rubrics = $rubrics;
@@ -395,7 +409,13 @@ class CompanyService
                     $rubrics[$index_r]['comp_topic'][$index_t]['cnt'] = 0;
                     if(isset($company[$topic['id']])){
                         $rubrics[$index_r]['comp_topic'][$index_t]['cnt'] = collect($company[$topic['id']])->count();
+                    }else{
+                        unset($rubrics[$index_r]['comp_topic'][$index_t]);
                     }
+                }
+
+                if(empty($rubrics[$index_r]['comp_topic'])){
+                    unset($rubrics[$index_r]);
                 }
             }
 
@@ -410,6 +430,7 @@ class CompanyService
     {
         if ($data['query']) {
             $this->setRubricsGroup();
+
             return $this->searchCompanies($data['query']);
         }
 
@@ -419,7 +440,7 @@ class CompanyService
         $topic_criteria = [];
 
         $companies = CompItems::leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
-            ->with('activities')->where('comp_items.visible', 1);
+            ->with('activities', 'purchases', 'sales', 'services')->where('comp_items.visible', 1);
 
         if($obl_id == null && $rubric){
             $topic_criteria[] = ['comp_item2topic.topic_id', (int) $rubric];

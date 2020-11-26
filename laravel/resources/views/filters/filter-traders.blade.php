@@ -5,131 +5,254 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 
   <div class="bg_filters"></div>
   <div class="new_fitlers_container">
-    <button class="new_filters_btn" id="cultures_btn">Все культуры</button>
-    <button class="new_filters_btn" id="regions_btn">Вся Украина</button>
+    <button class="new_filters_btn" id="cultures_btn">{{$culture_name}}</button>
+    <button class="new_filters_btn" id="regions_btn">{{$region_port_name}}</button>
 
     <div class="new_filters_dropdown" id="cultures_dropdown">
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
-          <li class="active">
-            <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-          </li>
-          <li>
-            <a href="#" data-id="1" data-url="kiyv">Киев</a>
-          </li>
+            @foreach($rubricsGroup as $group => $item)
+                <li class="{{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
+                    <a href="#" data-id="{{$group+1}}">{{$item['groups']['name']}}</a>
+                </li>
+            @endforeach
+{{--          <li class="active">--}}
+{{--            <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--          </li>--}}
+{{--          <li>--}}
+{{--            <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--          </li>--}}
         </ul>
       </div>
       <div class="new_filters_dropdown_column content">
-        <div class="new_filters_dropdown_column_tab active js_content">
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="new_filters_dropdown_column_tab js_content">
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-        </div>
+          @foreach($rubricsGroup as $group => $item)
+              <div class="new_filters_dropdown_column_tab {{$item['index_group'] == $group_id ? 'active': ''}} js_content" group="{{$group+1}}" data-id="{{$group+1}}">
+                @foreach($rubricsGroup[$group]['groups']["products"]->chunk(9) as $chunk)
+                      <div class="new_filters_dropdown_column_item">
+                          <ul>
+                              @foreach($chunk as $item)
+                                  <li>
+                                      @if(!empty($region))
+                                          <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
+                                              {{ $item['traders_product_lang'][0]['name']}}
+                                              @if($item['count_item'] > 0)
+                                                  ({{$item['count_item']}})
+                                              @endif
+                                          </a>
+                                      @endif
+                                      @if(!empty($port))
+                                          <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
+                                              {{ $item['traders_product_lang'][0]['name']}}
+                                              @if($item['count_item'] > 0)
+                                                  ({{$item['count_item']}})
+                                              @endif
+                                          </a>
+                                      @endif
+                                  </li>
+                              @endforeach
+                          </ul>
+                      </div>
+                @endforeach
+              </div>
+          @endforeach
+{{--        <div class="new_filters_dropdown_column_tab active js_content">--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--        </div>--}}
+{{--        <div class="new_filters_dropdown_column_tab js_content">--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--        </div>--}}
       </div>
     </div>
 
     <div class="new_filters_dropdown" id="cultures_dropdown">
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
-          <li class="active">
-            <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
+          <li class="{{!empty($region) ? 'active' : ''}}">
+            <a href="#" data-id="1">Области</a>
+          </li>
+          <li class="{{!empty($port) ? 'active' : ''}}">
+            <a href="#" data-id="2">Порты</a>
           </li>
         </ul>
       </div>
       <div class="new_filters_dropdown_column content">
-        <div class="new_filters_dropdown_column_tab active">
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
-          <div class="new_filters_dropdown_column_item">
-            <ul>
-              <li>
-                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
-              </li>
-              <li>
-                <a href="#" data-id="1" data-url="kiyv">Киев</a>
-              </li>
-            </ul>
-          </div>
+        <div class="new_filters_dropdown_column_tab {{!empty($region) ? 'active' : ''}}">
+            @foreach($regions->chunk(9) as $chunk)
+                <div class="new_filters_dropdown_column_item">
+                    <ul>
+                        @foreach($chunk as $region)
+                            <li>
+                                @if(!empty($culture) && !empty($region))
+                                    <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                        {{$region['name']}}
+                                    </a>
+                                @else
+                                    @if(!empty($culture_translit))
+                                        <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                            {{$region['name']}}
+                                        </a>
+                                    @else
+                                        <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
+                                            {{$region['name']}}
+                                        </a>
+                                    @endif
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+        </div>
+
+        <div class="new_filters_dropdown_column_tab {{!empty($port) ? 'active' : ''}}">
+            @foreach($onlyPorts->chunk(5) as $chunk)
+                <div class="new_filters_dropdown_column_item">
+                    <ul>
+                        @foreach($chunk as $port)
+                            <li>
+                                @if(!empty($culture) && !empty($port))
+                                    <a data-id="2" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                        {{$port['portname']}}
+                                    </a>
+                                @else
+                                    @if(!empty($culture_translit))
+                                        <a data-id="2" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                            {{$port['lang']['portname']}}
+                                        </a>
+                                    @else
+                                        <a data-id="2" href="{{route($prefix.'port', $port['url'])}}">
+                                            {{$port['lang']['portname']}}
+                                        </a>
+                                    @endif
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
+{{--          <div class="new_filters_dropdown_column_item">--}}
+{{--            <ul>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--              <li>--}}
+{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
+{{--              </li>--}}
+{{--            </ul>--}}
+{{--          </div>--}}
         </div>
       </div>
     </div>
@@ -144,7 +267,6 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
   <div class="mobile_filter-bg">
     <div class="mobile_filter">
       <div class="posrel">
-  
         <div class="mobile_filter-header">
           <button class="back first-btn active">
             <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
@@ -165,12 +287,12 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
               <div class="mobile_filter-content-item withmargin" id="product" data-product="">Выбрать продукцию</div>
               <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">Вся Украина</div>
             </div>
-  
+
             <div class="mobile-filter-footer">
               <button>Применить</button>
             </div>
           </div>
-  
+
           <div class="second">
             <div class="subItem">
               <div class="mobile_filter-content-item">Зерновые</div>
@@ -181,7 +303,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
             </div>
             <div class="subItem">
               <div class="search_wrap">
-                <input type="text" placeholder="Название области или порта" class="search_filed">             
+                <input type="text" placeholder="Название области или порта" class="search_filed">
                 <button>
                   <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
                 </button>
@@ -211,11 +333,11 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
               </div>
             </div>
           </div>
-  
+
           <div class="third">
             <div class="subItem">
               <div class="search_wrap">
-                <input type="text" placeholder="Название области или порта" class="search_filed">             
+                <input type="text" placeholder="Название области или порта" class="search_filed">
                 <button>
                   <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
                 </button>
@@ -436,12 +558,35 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
   </div>
 
 <!-- <div class="bg_filters"></div>
+=======
+<div class="d-none d-sm-block container mt-3">
+<ol class="breadcrumbs small p-0">
+    <li>
+        <a href="/">Главная</a>
+    </li>
+    <i style="margin-right: .5rem" class="fas fa-chevron-right extra-small"></i>
+{{--    @foreach($breadcrumbs as $index_bread => $breadcrumb)--}}
+{{--        <li>--}}
+{{--            @if($breadcrumb['url'])--}}
+{{--                <a href="{{$breadcrumb['url']}}">--}}
+{{--                    <h1>{!! $breadcrumb['name'] !!}</h1>--}}
+{{--                </a>--}}
+{{--            @else--}}
+{{--                <h1>{!! $breadcrumb['name'] !!}</h1>--}}
+{{--            @endif--}}
+{{--        </li>--}}
+{{--    @endforeach--}}
+</ol>
+</div>
+{{--@include('traders.feed.traders_feed', ['feed' => $feed])--}}
+<div class="bg_filters"></div>
+>>>>>>> master
 <div class="new_filters-wrap">
     <div class="replacement"></div>
     <div class="fixed-item">
         <div class="new_container">
             <div class="new_filters">
-                @include('filters.routeSection.firstSection')
+{{--                @include('filters.routeSection.firstSection')--}}
                 <div class="filter__item producrion" id="choseProduct">
                     <button class="filter__button producrion-btn">
                         {{$culture_name}}
@@ -457,26 +602,32 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
                                     @endforeach
                                 </ul>
                             </div>
-                            @foreach($rubricsGroup as $group => $item)
-                                <div class="new_filters_dropdown-content culture-group {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
-                                    <ul>
-                                        @foreach($rubricsGroup[$group]['groups']["products"] as $index => $item)
-                                            <li>
-                                                @if(!empty($region))
-                                                    <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
-                                                        {{ $item['traders_product_lang'][0]['name']}} ({{$item['count_item']}})
-                                                    </a>
-                                                @endif
-                                                @if(!empty($port))
-                                                    <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
-                                                        {{ $item['traders_product_lang'][0]['name']}} ({{$item['count_item']}})
-                                                    </a>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endforeach
+{{--                            @foreach($rubricsGroup as $group => $item)--}}
+{{--                                <div class="new_filters_dropdown-content culture-group {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">--}}
+{{--                                    <ul>--}}
+{{--                                        @foreach($rubricsGroup[$group]['groups']["products"] as $index => $item)--}}
+{{--                                            <li>--}}
+{{--                                                @if(!empty($region))--}}
+{{--                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'region_culture', [$region, $item['url']])}}">--}}
+{{--                                                        {{ $item['traders_product_lang'][0]['name']}}--}}
+{{--                                                        @if($item['count_item'] > 0)--}}
+{{--                                                            ({{$item['count_item']}})--}}
+{{--                                                        @endif--}}
+{{--                                                    </a>--}}
+{{--                                                @endif--}}
+{{--                                                @if(!empty($port))--}}
+{{--                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'port_culture', [$port, $item['url']])}}">--}}
+{{--                                                        {{ $item['traders_product_lang'][0]['name']}}--}}
+{{--                                                        @if($item['count_item'] > 0)--}}
+{{--                                                            ({{$item['count_item']}})--}}
+{{--                                                        @endif--}}
+{{--                                                    </a>--}}
+{{--                                                @endif--}}
+{{--                                            </li>--}}
+{{--                                        @endforeach--}}
+{{--                                    </ul>--}}
+{{--                                </div>--}}
+{{--                            @endforeach--}}
                         </div>
                     </div>
                 </div>
@@ -641,7 +792,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
           </div>
           <div class="subItem">
             <div class="search_wrap">
-              <input type="text" placeholder="Название области или порта" class="search_filed">             
+              <input type="text" placeholder="Название области или порта" class="search_filed">
               <button>
                 <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
               </button>
@@ -670,7 +821,7 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
         <div class="third">
           <div class="subItem">
             <div class="search_wrap">
-              <input type="text" placeholder="Название области или порта" class="search_filed">             
+              <input type="text" placeholder="Название области или порта" class="search_filed">
               <button>
                 <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
               </button>

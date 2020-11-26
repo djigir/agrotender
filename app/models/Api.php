@@ -93,7 +93,7 @@ class Api extends \Core\Model {
             inner join agt_traders_products_lang tp_l ON tp_l.id = tpr.cult_id
             inner join agt_traders_places tpl ON tpr.place_id = tpl.id $regionSql $portSql $onlyPortsSql
             left join agt_traders_ports_lang pl ON pl.port_id = tpl.port_id
-            left join regions r ON r.id = tpl.obl_id
+            left join agt_regions r ON r.id = tpl.obl_id
           where tpr.buyer_id = {$traders[$key]['author_id']} && tpl.type_id != 1 && tpr.acttype = 0 $rubricSql $currencySql $date_sql
           order by tpr.change_date";
 /*
@@ -127,7 +127,7 @@ class Api extends \Core\Model {
   }
 
   public function getRegions() {
-    return $this->db->query("select * from regions");
+    return $this->db->query("select * from agt_regions");
   }
   public function getRubrics() {
     return $this->db->query("select tp.id, tpl.name, tp.url as translit from agt_traders_products tp inner join agt_traders_products_lang tpl on tp.id = tpl.item_id where tp.acttype = 0");

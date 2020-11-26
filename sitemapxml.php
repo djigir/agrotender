@@ -40,7 +40,7 @@
 		}
 	}
 	$ttypes = Trader_GetTypes(1);
-	$result = mysqli_query($upd_link_db, "select * from regions");
+	$result = mysqli_query($upd_link_db, "select * from agt_regions");
 	$regions = [
       ['translit' => 'ukraine']
 	];

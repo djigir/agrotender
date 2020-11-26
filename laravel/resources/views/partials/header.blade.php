@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{!! $meta['title'] ?? '' !!}</title>
+    <title>{!! $meta['meta_title'] ?? '' !!}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
-    @if(isset($meta['keywords']))
-        <meta name="keywords" content="{{$meta['keywords']}}"/>
+    @if(isset($meta['meta_keywords']))
+        <meta name="keywords" content="{{$meta['meta_keywords']}}"/>
     @endif
 
-    @if(isset($meta['description']))
-        <meta name="description" content="{{$meta['description']}}"/>
+    @if(isset($meta['meta_description']))
+        <meta name="description" content="{{$meta['meta_description']}}"/>
     @endif
 
 <!-- Icons -->
@@ -39,6 +39,7 @@
           integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
           crossorigin="anonymous"/>
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
+{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
     <!-- Required CSS -->
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
@@ -73,10 +74,10 @@
           </div>
           <div class="header__center__buttons" id="traders_prices_dropdown_parent">
             <div class="header__tradersPrice first no_hoverable flex">
-              <a href="/traders/region_ukraine" class="header__center__button">
+              <a href="{{route('traders.region', 'ukraine')}}" class="header__center__button">
                 Цены Трейдеров
               </a>
-              <div class="header__tradersPrice-line"></div> 
+              <div class="header__tradersPrice-line"></div>
               <button class="header__tradersPrice-arrow"></button>
               <div class="header__hoverElem-wrap">
                 <div class="header__hoverElem" id="traders_prices_dropdown">
@@ -85,11 +86,11 @@
                       <a href="#" class="header_fw600">Закупки</a>
                     </li>
                     <li>
-                      <a href="/traders_forwards/region_ukraine/pshenica_2_kl" class="header_fw600">Форварды</a>
+                      <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}" class="header_fw600">Форварды</a>
                     </li>
-                    <li>
-                      <a href="/traders_sell" class="header_fw600">Продажи</a>
-                    </li>
+{{--                    <li>--}}
+{{--                      <a href="/traders_sell" class="header_fw600">Продажи</a>--}}
+{{--                    </li>--}}
                     <li>
                       <span class="line"></span>
                     </li>
@@ -102,7 +103,7 @@
             </div>
             <a href="/board" class="header__center__button board">Объявления</a>
             <div class="header__tradersPrice special">
-              <a href="/traders" class="header__center__button withBg">
+              <a href="{{route('traders.region', 'ukraine')}}" class="header__center__button withBg">
                 <span class="header__tradersPrice-dots">
                   <span></span>
                   <span></span>
@@ -226,10 +227,10 @@
                 <a href="/board">Объявления</a>
               </li>
               <li>
-                <a href="/traders/region_ukraine">Цены трейдеров</a>
+                <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
               </li>
               <li>
-                <a href="/kompanii">Компании</a>
+                <a href="{{route('company.companies')}}">Компании</a>
               </li>
               <li>
                 <a href="/elev">Элеваторы</a>
@@ -307,7 +308,7 @@
                 </li>
             </ul>
         </div>
-        @if($isMobile && isset($id))
+        @if($isMobile)
             @include('mobile.mobile_menu')
         @endif
     </header>
