@@ -28,13 +28,13 @@
             @if($type_traders == 0 || $type_traders == 2)
                 <div class="popular">
                     <span class="text">Популярные <span class="adaptive_remove">культуры:</span></span>
-                    <a href="#">Пшеница 2 кл.</a>
-                    <a href="#">Пшеница 3 кл.</a>
-                    <a href="#">Кукуруза</a>
-                    <a href="#">Рапс</a>
-                    <a href="#">Подсолнечник</a>
-                    <a href="#">Соя</a>
-                    <a href="#">Ячмень</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Пшеница 2 кл.</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}">Пшеница 3 кл.</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'kukuruza'])}}">Кукуруза</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'raps'])}}">Рапс</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}">Подсолнечник</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}">Соя</a>
+                    <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}">Ячмень</a>
                 </div>
             @endif
         @endif

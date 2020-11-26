@@ -342,6 +342,7 @@
             border: none;
             outline: none;
             opacity: 0;
+            pointer-events: none;
         }
 
         .remove-style-btn{

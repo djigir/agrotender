@@ -266,6 +266,21 @@ window.onload = function (){
     });
 
     $(".culture").click(function (event) {
+        console.log('click')
+        let group = event.currentTarget.getAttribute('group');
+        let rubric_name = event.target.innerText;
+        let rubric = event.currentTarget.getAttribute('rubric');
+
+        $('#span-mobile-rubric').html(rubric_name);
+        $('#input-mobile-rubric').attr('value', rubric);
+
+        $('.step-1').css('display', '');
+        $('.step-3').css('display', 'none');
+        $('.step-3-1').css('display', 'none');
+    });
+
+    $(".culture_test").click(function (event) {
+        console.log('click')
         let group = event.currentTarget.getAttribute('group');
         let rubric_name = event.target.innerText;
         let rubric = event.currentTarget.getAttribute('rubric');

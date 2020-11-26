@@ -47,7 +47,7 @@
           </li>
           <li class="footer__logo_and_messangers">
             <a href="/" class="footer__logo_img">
-              <img src="/app/assets/img/logo_white.svg" alt="">                
+              <img src="/app/assets/img/logo_white.svg" alt="">
             </a>
             <a href="viber://pa?chatURI=agrotender_bot&text=" class="messanger_item">
               <img src="/app/assets/img/company/viber4.svg" alt="">

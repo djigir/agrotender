@@ -98,7 +98,7 @@ class TraderController extends Controller
         $currency = isset($data->get('query')['currency']) ? $data->get('query')['currency'] : null;
         $region_all = $data->get('region');
         $port_all = $data->get('port');
-        $culture_name = 'Все культуры';
+        $culture_name = $this->agent->isMobile() ? 'Выбрать продукцию' : 'Все культуры';
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
         $id_region = null;
