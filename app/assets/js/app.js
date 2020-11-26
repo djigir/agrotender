@@ -4797,7 +4797,7 @@ class MobileFilter {
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
       const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-      window.location = newUrl
+      // window.location = newUrl
     })
   }
 
@@ -4865,20 +4865,23 @@ if (isFilter) {
 
 $(".click_culture").click(function (event) {
   let rubric = event.currentTarget.getAttribute('data-product');
-  // console.log(rubric);
-  $('#input-mobile-rubric').attr('value', rubric);
+  console.log(rubric);
+  $('#new-input-mobile-rubric').attr('value', rubric);
+  console.log($('#new-input-mobile-rubric').val());
 });
 
 
 $(".click_region").click(function (event) {
   let region = event.currentTarget.getAttribute('data-url');
-  // console.log(region);
-  $('#input-mobile-region-t').attr('value', region);
+  console.log(region);
+  $('#new-input-mobile-region-t').attr('value', region);
+  console.log($('#new-input-mobile-region-t').val());
 });
 
 
 $(".click_port").click(function (event) {
   let port = event.currentTarget.getAttribute('data-url');
-  // console.log(port);
-  $('#input-mobile-port-t').attr('value', port);
+  console.log(port);
+  $('#new-input-mobile-port-t').attr('value', port);
+  console.log($('#new-input-mobile-port-t').val());
 });
