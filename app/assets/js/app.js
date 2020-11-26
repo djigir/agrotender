@@ -4865,23 +4865,17 @@ if (isFilter) {
 
 $(".click_culture").click(function (event) {
   let rubric = event.currentTarget.getAttribute('data-product');
-  console.log(rubric);
   $('#new-input-mobile-rubric').attr('value', rubric);
-  console.log($('#new-input-mobile-rubric').val());
 });
 
 
 $(".click_region").click(function (event) {
   let region = event.currentTarget.getAttribute('data-url');
-  console.log(region);
   $('#new-input-mobile-region-t').attr('value', region);
-  console.log($('#new-input-mobile-region-t').val());
 });
 
 
 $(".click_port").click(function (event) {
   let port = event.currentTarget.getAttribute('data-url');
-  console.log(port);
   $('#new-input-mobile-port-t').attr('value', port);
-  console.log($('#new-input-mobile-port-t').val());
 });

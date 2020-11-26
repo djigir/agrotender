@@ -120,11 +120,11 @@
                                 <?php
                                     $class = '';
 
-                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
+                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 0){
                                         $class = 'today';
                                     }
 
-                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
+                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 0){
                                         $class = 'today';
                                     }
                                 ?>
