@@ -48,9 +48,7 @@
             </div>
         </div>
         <div class="mt-3 traders_dev">
-            @if(!empty($topTraders))
-                @include('traders.traders_vip')
-            @endif
+
             @if($type_traders != 0)
                 @include('traders.block-info.forwards-block-info')
             @else
@@ -62,6 +60,10 @@
             @if($type_view == 'table')
                 @include('traders.traders_table', ['type_traders' => $type_traders])
             @else
+                @if(!empty($topTraders))
+                    @include('traders.traders_vip')
+                @endif
+
                 @if(!empty($traders))
                     @include('traders.traders_others')
                 @endif
