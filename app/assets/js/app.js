@@ -4543,23 +4543,6 @@ function tradersPageScripts() {
 
 tradersPageScripts()
 
-function headerTraderPricesArrow() {
-  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
-  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
-  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
-
-  tradersButton.addEventListener('click', () => {
-    tradersDropdown.classList.toggle('active')
-
-    const listener = (e) => {
-      tradersDropdown.classList.remove('active')
-      tradersDropdownParent.removeEventListener('mouseleave', listener)
-    }
-  
-    tradersDropdownParent.addEventListener('mouseleave', listener)
-  })
-}
-headerTraderPricesArrow()
 
 class Filter {
   init() {
@@ -4862,4 +4845,46 @@ if (isFilter) {
   new Filter().init()
 }
 
+function tradersPriceLine() {
+  const $line = document.querySelector('.header__tradersPrice-line')
+  const $btn = document.querySelector('.header__tradersPrice-arrow')
+  const $link = document.querySelector('.header__center__button')
+  const $hoverElem = document.querySelector('.header__hoverElem-wrap')
 
+  function initItem(item) {
+    console.log('inited', item)
+    item.addEventListener('mouseover', () => {
+      $line.style.opacity = '0'
+    })
+    item.addEventListener('mouseout', () => {
+      $line.style.opacity = '0.5'
+    })
+  }
+
+  initItem($btn)
+  initItem($link)
+  initItem($hoverElem)
+
+}
+
+function headerTraderPricesArrow() {
+  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
+  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
+  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
+
+  tradersButton.addEventListener('click', () => {
+    tradersDropdown.classList.toggle('active')
+
+    const listener = (e) => {
+      tradersDropdown.classList.remove('active')
+      tradersDropdownParent.removeEventListener('mouseleave', listener)
+    }
+  
+    tradersDropdownParent.addEventListener('mouseleave', listener)
+  })
+}
+
+window.addEventListener('load', () => {
+  headerTraderPricesArrow()
+  tradersPriceLine()
+})

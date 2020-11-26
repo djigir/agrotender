@@ -12,10 +12,10 @@ $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
           <li class="active">
-            <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
+            <a data-id="1" data-url="region_ukraine">Вся Украина</a>
           </li>
           <li>
-            <a href="#" data-id="1" data-url="kiyv">Киев</a>
+            <a data-id="1" data-url="kiyv">Киев</a>
           </li>
         </ul>
       </div>

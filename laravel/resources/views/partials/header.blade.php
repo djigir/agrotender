@@ -73,7 +73,7 @@
           </div>
           <div class="header__center__buttons" id="traders_prices_dropdown_parent">
             <div class="header__tradersPrice first no_hoverable flex">
-              <a href="/traders/region_ukraine" class="header__center__button">
+              <a href="/traders/region_ukraine" class="header__center__button trader_prices">
                 Цены Трейдеров
               </a>
               <div class="header__tradersPrice-line"></div> 
@@ -82,46 +82,28 @@
                 <div class="header__hoverElem" id="traders_prices_dropdown">
                   <ul>
                     <li>
-                      <a href="#" class="header_fw600">Закупки</a>
+                      <a href="/">Закупки</a>
                     </li>
                     <li>
-                      <a href="/traders_forwards/region_ukraine/pshenica_2_kl" class="header_fw600">Форварды</a>
+                      <a href="/traders_sell">Продажи</a>
                     </li>
                     <li>
-                      <a href="/traders_sell" class="header_fw600">Продажи</a>
+                      <span class="bordered_line"></span>
                     </li>
                     <li>
-                      <span class="line"></span>
+                      <a href="/">Элеваторы</a>
                     </li>
                     <li>
-                      <a href="/tarif20.html" class="header__yellowText">Разместить компанию</a>
+                      <a href="/traders_sell">Компании</a>
+                    </li>
+                    <li>
+                      <a href="/traders_sell" class="header__yellowText">Разместить компанию</a>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
             <a href="/board" class="header__center__button board">Объявления</a>
-            <div class="header__tradersPrice special">
-              <a href="/traders" class="header__center__button withBg">
-                <span class="header__tradersPrice-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </a>
-              <div class="header__hoverElem-wrap">
-                <div class="header__hoverElem">
-                  <ul>
-                    <li>
-                      <a href="{{route('company.companies')}}">Компании</a>
-                    </li>
-                    <li>
-                      <a href="/elev">Элеваторы</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
           </div>
           <div class="header__right">
             <a href="#" class="header__right__button">
@@ -177,10 +159,10 @@
                         <a href="/buyerlog">Войти</a>
                     </li>
                     <li>
-                    <span class="bordered_line"></span>
+                      <span class="bordered_line"></span>
                     </li>
                     <li>
-                        <a href="http://agrotender.local/tarif20.html">Разместить компанию</a>
+                        <a href="http://agrotender.local/tarif20.html" class="header__yellowText">Разместить компанию</a>
                     </li>
                 </ul>
                 @endif

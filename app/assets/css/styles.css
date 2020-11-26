@@ -6289,12 +6289,12 @@ table.proposedTable tr.not-viewed td {
   padding: 0;
   margin: 0;
   width: 100%;
-  background-color: #cccccc;
+  background-color: #DDDDDD;
 }
 .new_header .header__flex {
   display: flex;
   align-items: center;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   height: 68px;
 }
 .new_header .logo {
@@ -6346,7 +6346,7 @@ table.proposedTable tr.not-viewed td {
   max-width: 100%;
 }
 .new_header .header__center__buttons {
-  margin-left: 80px;
+  /* margin-left: 80px; */
   display: flex;
   align-items: center;
 }
@@ -6355,18 +6355,17 @@ table.proposedTable tr.not-viewed td {
   text-decoration: none;
   border-radius: 9px;
   font-size: 14px;
-  font-weight: 600;
   letter-spacing: 0.3px;
   color: #ffffff;
-  padding-left: 22px;
-  padding-right: 13px;
+  padding-left: 15px;
+  padding-right: 15px;
   height: 36px;
   padding-top: 11px;
   line-height: 1;
   transition: 300ms background ease;
 }
-.new_header .header__center__button.board {
-  margin-right: 60px;
+.new_header .header__center__button.trader_prices  {
+  padding-left: 22px;
 }
 .new_header .header__center__button:hover {
   background-color: #08295E;      
@@ -6417,6 +6416,7 @@ table.proposedTable tr.not-viewed td {
   background-color: #fff;
   opacity: .5;
   border-radius: 12px;
+  transition: 300ms opacity ease;
 }
 .new_header .header__tradersPrice-arrow:hover {
   background-color: #031F52;
@@ -6425,13 +6425,14 @@ table.proposedTable tr.not-viewed td {
   display: none;
 }
 .new_header .header__right {
-  margin-left: auto;
+  /* margin-left: auto; */
   font-size: 14px;
   position: relative;
 }
 .new_header .header__right:hover .header__hoverElem {
   height: auto;
   padding-top: 13px;
+  padding-bottom: 13px;
 }
 .new_header .header__right:hover .header__right__button {
   color: #AAB7CD;
@@ -6447,11 +6448,12 @@ table.proposedTable tr.not-viewed td {
   width: 225px;
   background-color: #fff;
   box-shadow: 0px 0px 14px rgba(38, 52, 100, 0.14);
+  padding: 0;
 }
 
 .new_header .header__hoverElem.active {
   height: auto;
-  padding-top: 16px;
+  padding: 13px 0;
 }
 
 .new_header .header__hoverElem.first .header__hoverElem-wrap{
@@ -6461,7 +6463,7 @@ table.proposedTable tr.not-viewed td {
 .new_header .header__hoverElem-wrap {
   position: absolute;
   z-index: 9;
-  padding-top: 10px;
+  padding-top: 9px;
   left: 50%;
   top: 100%;
   transform: translateX(-50%);
@@ -6481,12 +6483,11 @@ table.proposedTable tr.not-viewed td {
   display: block;
   padding: 10px 0;
   padding-left: 20px;
-  color: #1056b2;
+  color: #001430;
   text-decoration: none;
 }
 .header__hoverElem ul li a:hover {
-  color: #ffffff;
-  background-color: #143573;
+  background-color: #e7eef5;
 }
 .new_header .header__right__button {
   color: #ffffff;
@@ -6509,8 +6510,8 @@ table.proposedTable tr.not-viewed td {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 30px;
-  width: 30px;
+  height: 36px;
+  width: 48px;
   padding: 0;
 }
 .new_header .header__tradersPrice {
@@ -6534,10 +6535,10 @@ table.proposedTable tr.not-viewed td {
   margin-top: -2px;
 }
 .new_header .header__tradersPrice.first .header__hoverElem-wrap {
-  margin-top: -1px;
+  padding-top: 4px;
 }
 .new_header .header__tradersPrice.special .header__hoverElem-wrap {
-  padding-top: 7px
+  padding-top: 4px
 }
 .new_header .header__tradersPrice.special .header__hoverElem{
   pointer-events: none;
@@ -6553,7 +6554,7 @@ table.proposedTable tr.not-viewed td {
 }
 .new_header .header__tradersPrice.no_hoverable:hover .header__hoverElem.active {
   height: auto;
-  padding-top: 16px;
+  padding-top: 13px;
 }
 .new_header .header__tradersPrice:hover .header__center__button {
   color: #AAB7CD;
@@ -6565,6 +6566,7 @@ table.proposedTable tr.not-viewed td {
   padding-bottom: 12px !important;      
 }
 .new_header .header__yellowText:hover {
+  color: #ffffff;
   background-color: #FF7404 !important;
 }
 .new_header .header__exit {
@@ -6712,7 +6714,8 @@ table.proposedTable tr.not-viewed td {
   .new_header .header__tradersPrice {
     margin-left: 20px;
   }
-  .new_header .header__center__button {
+  .new_header .header__center__button,
+  .new_header .header__tradersPrice-arrow {
     background-color: #032665;
   }
   .new_header .header__center__button.withBg {
