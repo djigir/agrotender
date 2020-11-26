@@ -4872,10 +4872,12 @@ $(".click_culture").click(function (event) {
 $(".click_region").click(function (event) {
   let region = event.currentTarget.getAttribute('data-url');
   $('#new-input-mobile-region-t').attr('value', region);
+  $('#new-input-mobile-port-t').attr('value', null);
 });
 
 
 $(".click_port").click(function (event) {
   let port = event.currentTarget.getAttribute('data-url');
   $('#new-input-mobile-port-t').attr('value', port);
+  $('#new-input-mobile-region-t').attr('value', null);
 });

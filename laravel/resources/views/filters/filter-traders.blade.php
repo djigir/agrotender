@@ -290,11 +290,11 @@ if($regions->count() > 0 && !$isMobile){
           <form action="">
               <div class="first active">
                 <div class="mobile_filter-content">
+{{--                    <input type="radio" id="currency-uah" name="currency"  value="0">--}}
+{{--                    <input type="radio"  id="currency-usd" name="currency"  value="1">--}}
                   <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="remove-input">
                   <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="remove-input">
                   <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="remove-input">
-{{--                    <input type="radio" id="currency-uah" name="currency"  value="0">--}}
-{{--                    <input type="radio"  id="currency-usd" name="currency"  value="1">--}}
                   <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
                   <div class="mobile_filter-content-item withmargin" id="region" data-region="">{{$region_port_name}}</div>
                 </div>
