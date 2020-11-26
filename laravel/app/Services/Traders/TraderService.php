@@ -66,13 +66,13 @@ class TraderService
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
             $route_name = 'region_culture';
-            $route_params = [$request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
+            $route_params = ['region' => $request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
         if (!empty($request->get('port')) && !empty($request->get('rubric'))) {
             $route_name = 'port_culture';
             $route_params = [
-                'port' => $request->get('port'), 'culture' => $request->get('rubric'),
+                'port_name' => $request->get('port'), 'culture' => $request->get('rubric'),
                 'currency' => $request->get('currency')
             ];
         }
