@@ -35,18 +35,18 @@
                             <span class="traders__item__content-date-more">+ ещё</span>
                             @if(!isset($trader->min_date))
                                 <?php
-                                    $color = 'color: #001430';
-                                    $text = mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8");
+                                $color = 'color: #001430';
+                                $text = mb_convert_case(\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8");
 
-                                    if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
-                                        $color = 'color: #009750';
-                                        $text = 'сегодня';
-                                    }
+                                if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                    $color = 'color: #009750';
+                                    $text = 'сегодня';
+                                }
 
-                                    if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
-                                        $color = 'color: #FF7404';
-                                        $text = 'вчера';
-                                    }
+                                if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                    $color = 'color: #FF7404';
+                                    $text = 'вчера';
+                                }
                                 ?>
 
                                 <span style="{{$color}}">
