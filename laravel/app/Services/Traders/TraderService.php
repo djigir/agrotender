@@ -49,7 +49,6 @@ class TraderService
 
     public function mobileFilter(Request $request)
     {
-        dd($request->all());
         $route_name = null;
         $route_params = null;
         $route_name = \Route::getCurrentRoute()->getName();
