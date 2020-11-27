@@ -73,7 +73,7 @@
                                 <div class="col-auto pr-2 text-center">
                                     <b>Телефон:</b> <span class="phone">@if($cont->phone !== null) {!! $cont->phone !!} @else - @endif</span>
                                 </div>
-                                @if($cont->email !== null)
+                                @if(!empty($cont->email))
                                     <div class="col-auto pl-0 text-center">
                                         <b>Email:</b> <span class="email">@if($cont->email !== null) {!! $cont->email !!} @else - @endif</span>
                                     </div>

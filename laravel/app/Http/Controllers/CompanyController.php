@@ -415,9 +415,10 @@ class CompanyController extends Controller
     */
     public function companyContact($id)
     {
+        //        $departments_type = CompItemsContact::where('comp_id', $id)->get();
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
-//        $departments_type = CompItemsContact::where('comp_id', $id)->get();
+
         $departments_type = CompItemsContact::select('id', 'comp_id', 'type_id', 'visible', 'sort_num', 'add_date',
         'region', 'dolg', 'fio', 'phone', 'fax', 'email', 'pic_src', 'pic_ico', 'buyer_id')
             ->selectRaw("CASE WHEN type_id = 1 THEN 'Отдел закупок' WHEN type_id = 2
