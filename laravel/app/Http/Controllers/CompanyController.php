@@ -415,28 +415,23 @@ class CompanyController extends Controller
     */
     public function companyContact($id)
     {
-        //        $departments_type = CompItemsContact::where('comp_id', $id)->get();
+
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
 
-        $departments_type = CompItemsContact::select('id', 'comp_id', 'type_id', 'visible', 'sort_num', 'add_date',
-        'region', 'dolg', 'fio', 'phone', 'fax', 'email', 'pic_src', 'pic_ico', 'buyer_id')
-            ->selectRaw("CASE WHEN type_id = 1 THEN 'Отдел закупок' WHEN type_id = 2
-            THEN 'Отдел продаж' WHEN type_id = 3 THEN 'Отдел услуг' end as dep_name")->where('comp_id', $id)->get();
+        $departments_contacts = $this->companyService->departamentsContacts($id);
 
-        $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
+        $creator_departament_name = $this->companyService->getDepNameAndCreator($this->company->author_id, $departments_contacts);
 
-        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
-            ->with('traders_contacts')
-            ->get();
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company_cont', [
             'company' => $this->company,
-            'conts' => $departments_type,
-            'creator' => $creator_departament_name["creators"],
+            'departments_contacts' => $departments_contacts,
+            'creator' => $creator_departament_name['creators'],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
