@@ -61,24 +61,26 @@
                     </div>
                 </div>
                 <div class="contacts mt-4">
-                    @foreach($company_contacts as $contact)
+                    @foreach($conts as $cont)
+                        @if($dep_name == $cont->dep_name)
                         <div class="contact my-3 text-center mx-sm-5 px-sm-4 position-relative">
                             <div class="row m-0 px-3 px-sm-0">
                                 <div class="col p-0">
-                                    @if($contact['dolg'] !== null)<b>{{ $contact['dolg'] }} </b>@endif<span class="name">@if($contact['fio'] !== null ) {!! $contact['fio'] !!} @else - @endif</span>
+                                    @if($cont->dolg !== null)<b>{{ $cont->dolg }} </b>@endif<span class="name">@if($cont->fio !== null ) {!! $cont->fio !!} @else - @endif</span>
                                 </div>
                             </div>
                             <div class="row m-0 justify-content-center">
                                 <div class="col-auto pr-2 text-center">
-                                    <b>Телефон:</b> <span class="phone">@if($contact['phone'] !== null) {!! $contact['phone'] !!} @else - @endif</span>
+                                    <b>Телефон:</b> <span class="phone">@if($cont->phone !== null) {!! $cont->phone !!} @else - @endif</span>
                                 </div>
-                                @if($contact['email'] !== null)
+                                @if($cont->email !== null)
                                     <div class="col-auto pl-0 text-center">
-                                        <b>Email:</b> <span class="email">@if($contact['email'] !== null) {!! $contact['email'] !!} @else - @endif</span>
+                                        <b>Email:</b> <span class="email">@if($cont->email !== null) {!! $cont->email !!} @else - @endif</span>
                                     </div>
                                 @endif
                             </div>
                         </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

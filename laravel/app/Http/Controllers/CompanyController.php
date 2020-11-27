@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
 
@@ -416,7 +417,12 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
-        $departments_type = CompItemsContact::where('comp_id', $id)->get();
+//        $departments_type = CompItemsContact::where('comp_id', $id)->get();
+        $departments_type = CompItemsContact::select('id', 'comp_id', 'type_id', 'visible', 'sort_num', 'add_date',
+        'region', 'dolg', 'fio', 'phone', 'fax', 'email', 'pic_src', 'pic_ico', 'buyer_id')
+            ->selectRaw("CASE WHEN type_id = 1 THEN 'Отдел закупок' WHEN type_id = 2
+            THEN 'Отдел продаж' WHEN type_id = 3 THEN 'Отдел услуг' end as dep_name")->where('comp_id', $id)->get();
+
         $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
         $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
@@ -428,6 +434,7 @@ class CompanyController extends Controller
 
         return view('company.company_cont', [
             'company' => $this->company,
+            'conts' => $departments_type,
             'creator' => $creator_departament_name["creators"],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
