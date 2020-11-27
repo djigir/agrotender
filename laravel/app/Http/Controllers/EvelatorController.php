@@ -20,6 +20,7 @@ class EvelatorController extends Controller
 
     public function __construct(BaseServices $baseServices, SeoService $seoServices, BreadcrumbService $breadcrumbService, BreadcrumbElev $breadcrumbsElev)
     {
+        parent::__construct();
         $this->agent = new \Jenssegers\Agent\Agent;
         $this->baseServices = $baseServices;
         $this->seoServices = $seoServices;
