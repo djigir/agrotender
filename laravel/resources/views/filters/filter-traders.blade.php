@@ -368,13 +368,13 @@ if($regions->count() > 0 && !$isMobile){
                               <div class="mobile_filter-section-text">Популярное</div>
                               <ul class="mobile_filter-section-list">
                                   <li>
-                                      <a class="click_culture" href="#" data-id="0" data-product="psheniza_2kl">Пшеница 2 кл.</a>
+                                      <a class="click_culture" href="#" data-id="0" data-product="pshenica_2_kl">Пшеница 2 кл.</a>
                                   </li>
                                   <li>
-                                      <a class="click_culture" href="#" data-id="0" data-product="psheniza_3kl">Пшеница 3 кл.</a>
+                                      <a class="click_culture" href="#" data-id="0" data-product="pshenica_3_kl">Пшеница 3 кл.</a>
                                   </li>
                                   <li>
-                                      <a class="click_culture" href="#" data-id="0" data-product="psheniza_4kl">Пшеница 4 кл.</a>
+                                      <a class="click_culture" href="#" data-id="0" data-product="pshenica_4_kl">Пшеница 4 кл.</a>
                                   </li>
                                   <li>
                                       <a class="click_culture" href="#" data-id="0" data-product="yachmen">Ячмень</a>
