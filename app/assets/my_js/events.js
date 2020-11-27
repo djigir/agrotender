@@ -198,7 +198,7 @@ window.onload = function (){
         }
     });
 
-    $("#regionElev").click(function (event) {
+    $(".click_elev").click(function (event) {
         $("#regionDrop").toggle();
     });
 

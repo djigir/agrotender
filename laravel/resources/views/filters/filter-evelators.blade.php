@@ -20,9 +20,9 @@
         <div class="position-relative w-100">
             <div class="col-12 float-left d-block">
                 <h2 class="d-inline-block text-uppercase">Элеваторы -
-                    <span class="select-link" id="regionElev">
-                        <span class="select-region">{{$region_name}}</span>&nbsp;
-                        <i class="far fa-chevron-down"></i>
+                    <span class="select-link">
+                        <span class="select-region click_elev">{{$region_name}}</span>&nbsp;
+                        <i class="far fa-chevron-down click_elev"></i>
                     </span>
                 </h2>
             </div>
