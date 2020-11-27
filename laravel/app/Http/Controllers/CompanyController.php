@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
 
@@ -414,21 +415,23 @@ class CompanyController extends Controller
     */
     public function companyContact($id)
     {
+
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
-        $departments_type = CompItemsContact::where('comp_id', $id)->get();
-        $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
-        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
-            ->with('traders_contacts')
-            ->get();
+        $departments_contacts = $this->companyService->departamentsContacts($id);
+
+        $creator_departament_name = $this->companyService->getDepNameAndCreator($this->company->author_id, $departments_contacts);
+
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
 
         return view('company.company_cont', [
             'company' => $this->company,
-            'creator' => $creator_departament_name["creators"],
+            'departments_contacts' => $departments_contacts,
+            'creator' => $creator_departament_name['creators'],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
