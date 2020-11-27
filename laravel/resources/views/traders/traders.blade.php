@@ -126,34 +126,34 @@
                                         @endforeach
                                     @endif
                                     <div class="traders__item__content-date">
+                                        <span class="traders__item__content-date-more">+ ещё</span>
                                         @if(!isset($trader->min_date))
                                             <?php
-                                                $color = 'color: #001430';
+                                            $color = 'color: #001430';
+                                            $text = mb_convert_case(\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8");
 
-                                                if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
-                                                    $color = 'color: #009750';
-                                                }
+                                            if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                                $color = 'color: #009750';
+                                                $text = 'сегодня';
+                                            }
 
-                                                if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString()){
-                                                    $color = 'color: #FF7404';
-                                                }
+                                            if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                                $color = 'color: #FF7404';
+                                                $text = 'вчера';
+                                            }
                                             ?>
+
                                             <span style="{{$color}}">
-                                                @if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString())
-                                                    сегодня
-                                                @elseif(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->prices->first()->change_date)->toDateString())
-                                                    вчера
-                                                @else
-                                                    {{mb_convert_case(\Date::parse($trader->prices->first()->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                                                @endif
-                                            </span>
+                                    {{$text}}
+                                </span>
                                         @else
                                             <span style="display: flex; color: #001430">
-                                               <span>{{\Carbon\Carbon::parse($trader->min_date)->format('m.Y')}}</span> <span style="margin: 0 2px">-</span> <span>{{\Carbon\Carbon::parse($trader->max_date)->format('m.Y')}}</span>
-{{--                                               <span>{{mb_convert_case(\Date::parse($trader->min_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span> <span style="margin: 0 2px">-</span> <span style="margin-right: 2px" >{{mb_convert_case(\Date::parse($trader->max_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span>  <span>{{\Date::parse($trader->max_date)->format('y')}}</span>--}}
-                                           </span>
+                                   <span>{{\Carbon\Carbon::parse($trader->min_date)->format('m.Y')}}</span>
+                                    <span style="margin: 0 2px">-</span>
+                                    <span>{{\Carbon\Carbon::parse($trader->max_date)->format('m.Y')}}</span>
+                                {{-- <span>{{mb_convert_case(\Date::parse($trader->min_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span> <span style="margin: 0 2px">-</span> <span style="margin-right: 2px" >{{mb_convert_case(\Date::parse($trader->max_date)->format('F'), MB_CASE_TITLE, "UTF-8")}}</span>  <span>{{\Date::parse($trader->max_date)->format('y')}}</span>--}}
+                                </span>
                                         @endif
-                                       </span>
                                     </div>
                                 </div>
                             </a>

@@ -118,15 +118,15 @@
                             </td>
                             <td data-sorttable-customkey="20201101">
                                 <?php
-                                    $class = '';
+                                $class = '';
 
-                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
-                                        $class = 'today';
-                                    }
+                                if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 0){
+                                    $class = 'today';
+                                }
 
-                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
-                                        $class = 'today';
-                                    }
+                                if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 0){
+                                    $class = 'today';
+                                }
                                 ?>
                                 <span class="{{$class}}">
                                     @if($type_traders == 1)
