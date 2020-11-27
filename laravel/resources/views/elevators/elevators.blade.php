@@ -14,7 +14,8 @@
                         </div>
                         <div class="col pl-1 text-left d-flex align-items-center">
                             <div>
-                                <span class="d-block title">{!! str_replace('\\', '', $elev->lang_elevator[0]['name'])!!}</span>
+
+                                <span class="d-block title">{!! \Illuminate\Support\Str::limit(str_replace('\\', '', $elev->lang_elevator[0]['name']), 33, $end='...') !!}</span>
                                 <span class="d-block geo">{{$elev->region[0]['name']}} область / {{$elev->lang_rayon[0]['name']}} р-н</span>
                             </div>
                         </div>

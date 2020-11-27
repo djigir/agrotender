@@ -24,7 +24,7 @@
                 <img src="/app/assets/img/granary-4.png" class="logo">
             </div>
             <div class="col pl-1 text-left d-flex align-items-center">
-                <span class="title">{!! $elevator->lang_elevator[0]['name'] !!}</span>
+                <span class="title">{!! $elevator->lang_elevator[0]['orgname'] !!}</span>
             </div>
         </div>
         <div class="content-block w-100 mt-3 mt-sm-5 py-2">
