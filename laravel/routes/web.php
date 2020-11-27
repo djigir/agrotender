@@ -100,7 +100,7 @@ Route::prefix('u')
 
                 Route::post('/create_company', 'UserController@createCompanyProfile')->name('create_company');
                 Route::post('/change_pass', 'UserController@changePass')->name('change_pass');
-                Route::post('/new_login', 'UserController@changeLogin')->name('new_login');
+                Route::post('/change_login', 'UserController@changeLogin')->name('change_login');
                 Route::post('/toggle_visible', 'UserController@toggleVisible')->name('toggle_visible');
                 Route::post('/create_contacts', 'UserController@createContacts')->name('create_contacts');
                 Route::post('/change_contacts', 'UserController@changeContacts')->name('change_contacts');
