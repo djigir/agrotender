@@ -6,13 +6,13 @@
     <div style="margin: 0 auto">
         @if ($paginator->hasPages())
             <nav>
-                <ul class="pagination" style="{{ $isMobile ? 'width: 280px;': ''}}">
+                <ul class="pagination" style="{{ $isMobile ? 'width: 180px;': ''}}">
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">
-                                <i class="far fa-chevron-left mr-1"></i>
-                                @if(!$isMobile)Предыдущая @endif
-                            </span>
+{{--                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">--}}
+{{--                                <i class="far fa-chevron-left mr-1"></i>--}}
+{{--                                @if(!$isMobile)Предыдущая @endif--}}
+{{--                            </span>--}}
                         </li>
                     @else
                         <li class="page-item">
@@ -86,6 +86,26 @@
         background-color: #eff1f5;
         border: none;
         border-radius: 7px;
+    }
+
+    .page-item.disabled .page-link {
+        color: #6c757d;
+        pointer-events: none;
+        cursor: auto;
+        background-color: #eff1f5;
+        border-color: #dee2e6;
+    }
+
+
+    .page-item .page-link{
+        outline: none !important;
+    }
+
+    .page-item.active .page-link {
+        z-index: 1;
+        color: black;
+        background-color: #007bff;
+        border-color: #007bff;
     }
 
     .mobile-paginate {

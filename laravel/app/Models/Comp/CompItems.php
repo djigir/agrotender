@@ -13,6 +13,7 @@ use App\Models\Traders\TradersPrices;
 use App\Models\Traders\TradersPricesArc;
 use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersProducts2buyer;
+use App\Services\BaseServices;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -67,8 +68,11 @@ use Jenssegers\Date\Date;
  * @property integer $trader_sort_forward;
  * @property integer $trader_premium_forward;
  * @property Collection $traders_prices_traders;
+ * @property Collection $traders_prices_traders_forward;
  * @property Collection $traders_prices_traders_uah;
+ * @property Collection $traders_prices_traders_uah_forward;
  * @property Collection $traders_prices_traders_usd;
+ * @property Collection $traders_prices_traders_usd_forward;
  *
  * @property Carbon $trader_price_dtupdt;
  * @property Carbon $trader_price_sell_dtupdt;
@@ -89,7 +93,6 @@ class CompItems extends Model
 
     protected $appends = ['date', 'date_price', 'activities_text'];
 
-
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
         'logo_file_h', 'visible', 'author', 'city', 'addr', 'zipcode', 'phone', 'phone2', 'phone3',
@@ -105,6 +108,7 @@ class CompItems extends Model
 
     protected $dates = ['add_date', 'culture_prices'];
 
+
     public function activities()
     {
         return $this->belongsToMany(CompTopic::class, 'comp_item2topic',
@@ -114,21 +118,31 @@ class CompItems extends Model
     /* Accessor */
     public function getCulturePricesAttribute()
     {
-        if (!$this->relationLoaded('traders_prices_traders') && !$this->relationLoaded('traders_prices_traders_uah') && !$this->relationLoaded('traders_prices_traders_usd')) {
-            return [];
-        }
-
-        if($this->relationLoaded('traders_prices_traders_uah'))
-        {
+        if ($this->relationLoaded('traders_prices_traders_uah')) {
             return $this->traders_prices_traders_uah->unique('cult_id');
         }
 
-        if($this->relationLoaded('traders_prices_traders_usd'))
-        {
+        if ($this->relationLoaded('traders_prices_traders_usd')) {
             return $this->traders_prices_traders_usd->unique('cult_id');
         }
 
-        return $this->traders_prices_traders->unique('cult_id');
+        if ($this->relationLoaded('traders_prices_traders_uah_forward')) {
+            return $this->traders_prices_traders_uah_forward->unique('cult_id');
+        }
+
+        if ($this->relationLoaded('traders_prices_traders_usd_forward')) {
+            return $this->traders_prices_traders_usd_forward->unique('cult_id');
+        }
+
+        if ($this->relationLoaded('traders_prices_traders')) {
+            return $this->traders_prices_traders->unique('cult_id');
+        }
+
+        if ($this->relationLoaded('traders_prices_traders_forward')) {
+            return $this->traders_prices_traders_forward->unique('cult_id');
+        }
+
+        return [];
     }
 
     public function getPlacesAttribute()
@@ -151,36 +165,33 @@ class CompItems extends Model
     {
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
             ->where([
-                    'active' => 1,
-                    'archive' => 0,
-                    'moderated' => 1,
-                    'type_id' => self::PURCHASES_TYPE_ID
-                ]
-            );
+                'active' => 1,
+                'archive' => 0,
+                'moderated' => 1,
+                'type_id' => self::PURCHASES_TYPE_ID
+            ]);
     }
 
     public function sales()
     {
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
             ->where([
-                    'active' => 1,
-                    'archive' => 0,
-                    'moderated' => 1,
-                    'type_id' => self::SALES_TYPE_ID
-                ]
-            );
+                'active' => 1,
+                'archive' => 0,
+                'moderated' => 1,
+                'type_id' => self::SALES_TYPE_ID
+            ]);
     }
 
     public function services()
     {
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id')
             ->where([
-                    'active' => 1,
-                    'archive' => 0,
-                    'moderated' => 1,
-                    'type_id' => self::SERVICES_TYPE_ID
-                ]
-            );
+                'active' => 1,
+                'archive' => 0,
+                'moderated' => 1,
+                'type_id' => self::SERVICES_TYPE_ID
+            ]);
     }
 
 
@@ -217,20 +228,12 @@ class CompItems extends Model
             'buyer_id', 'place_id',
             'author_id', 'id')
             ->withPivot([
-                'id',
-                'buyer_id',
-                'cult_id',
-                'place_id',
-                'active',
-                'curtype',
-                'acttype',
-                'costval',
-                'costval_old',
-                'add_date',
-                'dt',
-                'change_date',
+                'id', 'buyer_id', 'cult_id',
+                'place_id', 'active', 'curtype',
+                'acttype', 'costval', 'costval_old',
+                'add_date', 'dt', 'change_date',
             ])
-            ->with('traders_ports');
+            ->with('traders_ports', 'regions');
     }
 
 
@@ -241,11 +244,11 @@ class CompItems extends Model
             ->orderBy('change_date', 'DESC');
     }
 
+
     public function traders_prices_traders_uah()
     {
         return $this->traders_prices()
             ->where([
-                'acttype' => 0,
                 'curtype' => 0,
             ])
             ->orderBy('change_date', 'DESC');
@@ -255,12 +258,32 @@ class CompItems extends Model
     {
         return $this->traders_prices()
             ->where([
-                'acttype' => 0,
                 'curtype' => 1,
             ])
             ->orderBy('change_date', 'DESC');
     }
 
+    public function traders_prices_traders_forward()
+    {
+        return $this->traders_prices()
+            ->where('acttype', '=',3)
+            ->orderBy('change_date', 'DESC');
+    }
+
+
+    public function traders_prices_traders_uah_forward()
+    {
+        return $this->traders_prices()
+            ->where('curtype' , '=',0)
+            ->orderBy('change_date', 'DESC');
+    }
+
+    public function traders_prices_traders_usd_forward()
+    {
+        return $this->traders_prices()
+            ->where('curtype' , '=', 1)
+            ->orderBy('change_date', 'DESC');
+    }
 
 
     public function comp_items_contact()

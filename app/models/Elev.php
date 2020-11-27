@@ -13,7 +13,7 @@ class Elev extends \Core\Model {
         from agt_torg_elevator e
         inner join agt_torg_elevator_lang el
           on el.item_id = e.id
-        inner join regions r
+        inner join agt_regions r
           on r.id = e.obl_id
         inner join agt_rayon_lang rl
           on rl.ray_id = e.ray_id
@@ -30,7 +30,7 @@ class Elev extends \Core\Model {
         from agt_torg_elevator e
         inner join agt_torg_elevator_lang el
           on el.item_id = e.id
-        inner join regions r
+        inner join agt_regions r
           on r.id = e.obl_id
         inner join agt_rayon_lang rl
           on rl.ray_id = e.ray_id
@@ -41,7 +41,7 @@ class Elev extends \Core\Model {
   }
 
   public function getRegions() {
-    $regions = $this->db->query("select * from regions group by id");
+    $regions = $this->db->query("select * from agt_regions group by id");
     return $regions;
   }
 

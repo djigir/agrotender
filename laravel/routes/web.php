@@ -73,13 +73,13 @@ Route::prefix('kompanii')
     });
 
 
-Route::prefix('info')
+/*Route::prefix('info')
     ->name('info.')
     ->group(function () {
         Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
         Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
         Route::get('/contacts', 'InfoController@companies')->name('contacts');
-});
+});*/
 
 
 Route::prefix('elev')

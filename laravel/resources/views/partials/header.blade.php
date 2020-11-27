@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <title>{!! $meta['title'] ?? '' !!}</title>
+    <title>{!! $meta['meta_title'] ?? '' !!}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
-    @if(isset($meta['keywords']))
-        <meta name="keywords" content="{{$meta['keywords']}}"/>
+    @if(isset($meta['meta_keywords']))
+        <meta name="keywords" content="{{$meta['meta_keywords']}}"/>
     @endif
 
-    @if(isset($meta['description']))
-        <meta name="description" content="{{$meta['description']}}"/>
+    @if(isset($meta['meta_description']))
+        <meta name="description" content="{{$meta['meta_description']}}"/>
     @endif
 
 <!-- Icons -->
@@ -39,6 +39,7 @@
           integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
           crossorigin="anonymous"/>
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
+{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
     <!-- Required CSS -->
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
@@ -111,7 +112,7 @@
                 </li>
             </ul>
         </div>
-        @if($isMobile && isset($id))
+        @if($isMobile)
             @include('mobile.mobile_menu')
         @endif
     </header>

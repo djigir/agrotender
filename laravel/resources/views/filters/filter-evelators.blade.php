@@ -3,23 +3,23 @@
         <li>
             <a href="/"><span>Агротендер</span></a>
         </li>
-        <i class="fas fa-chevron-right extra-small"></i>
+        <i style="margin-right: .5rem" class="fas fa-chevron-right extra-small"></i>
         @foreach($breadcrumbs as $index_bread => $breadcrumb)
-        <li>
-            @if($breadcrumb['url'])
-                <a href="{{$breadcrumb['url']}}">
-                    <h1>{!! $breadcrumb['name'] !!}</h1>
-                </a>
-            @else
-                <h1>{{$breadcrumb['name']}}</h1>
-            @endif
-        </li>
+            <li>
+                @if(!empty($breadcrumb['url']) && $breadcrumb['url'])
+                    <a href="{{$breadcrumb['url']}}">
+                        <h1>{!! $breadcrumb['name'] !!}</h1>
+                    </a>
+                @else
+                    <h1>{{$breadcrumb['name']}}</h1>
+                @endif
+            </li>
         @endforeach
     </ol>
     <div class="row pt-0 pt-sm-3 my-3 my-sm-0 mb-sm-5">
         <div class="position-relative w-100">
             <div class="col-12 float-left d-block">
-                <h2 class="d-inline-block text-uppercase">Элеваторы
+                <h2 class="d-inline-block text-uppercase">Элеваторы -
                     <span class="select-link" id="regionElev">
                         <span class="select-region">{{$region_name}}</span>&nbsp;
                         <i class="far fa-chevron-down"></i>
