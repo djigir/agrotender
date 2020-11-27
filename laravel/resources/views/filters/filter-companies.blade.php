@@ -61,13 +61,13 @@
                 </div>
             </div>
             <div class="col-3 mr-2">
-                <button class="btn regionInput text-center drop-btn">
+                <button class="btn regionInput text-center drop-btn" id="regionInputComp">
                     {{$region_name}}
                 <i class="ml-2 small far fa-chevron-down"></i>
                 </button>
             </div>
-            <div class="dropdown-wrapper position-absolute regionDrop">
-                <div class="dropdown" id="regionElevDrop" style="display: none;">
+            <div class="dropdown-wrapper position-absolute regionDrop" >
+                <div class="dropdown" id="regionDropCompany" style="display: none;">
                     <span class="d-block">
                         <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">
                             <span style="cursor: pointer">Вся Украина</span>
