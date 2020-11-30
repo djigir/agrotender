@@ -45,7 +45,8 @@ class TradersPrices extends Model
 
     public function calculatingPriceChange()
     {
-        $date_expired_diff = Carbon::now()->subDays(7)->format('Y-m-d');
+        /** TODO делаю временно больше 7 дней */
+        $date_expired_diff = Carbon::now()->subDays(30)->format('Y-m-d');
 
         return $date_expired_diff <= $this->change_date ? round($this->costval - $this->costval_old) : 0;
     }
