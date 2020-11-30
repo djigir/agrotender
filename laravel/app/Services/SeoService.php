@@ -231,13 +231,13 @@ class SeoService
         $company = CompItems::find($id);
 
         if(!$company){
-            return ['title' => '', 'keywords' => '', 'description' => ''];
+            return ['meta_title' => '', 'meta_keywords' => '', 'meta_description' => ''];
         }
 
         return [
-            'title' => $company->title,
-            'keywords' => $company->title,
-            'description' => "Сайт компании {$company->title}"
+            'meta_title' => $company->title,
+            'meta_keywords' => $company->title,
+            'meta_description' => "Сайт компании {$company->title}"
         ];
     }
 
