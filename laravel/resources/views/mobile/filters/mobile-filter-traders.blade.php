@@ -130,7 +130,7 @@
                                 @if($item_culture['count_item'] > 0)
                                     <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
                                         <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}
-                                                <span class="companyCount small">({{$item_culture['count_item']}})</span>
+                                                <span style="pointer-events:none" class="companyCount small">({{$item_culture['count_item']}})</span>
                                         </span>
                                         <span style="pointer-events: none">
                                             <i style="color: #1e56b2;" class="far fa-chevron-right"></i>
