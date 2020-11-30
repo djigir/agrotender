@@ -2,7 +2,8 @@
     @include('traders.block-info.traders_forwards')
 @else
     <?php
-        $date_expired_diff = \Carbon\Carbon::now()->subDays(7)->format('Y-m-d');
+        /** TODO делаю временно больше 7 дней */
+        $date_expired_diff = \Carbon\Carbon::now()->subDays(30)->format('Y-m-d');
         if($type_traders != 1){
             foreach ($traders as $index => $trader) {
                 if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
