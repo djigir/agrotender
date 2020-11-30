@@ -130,6 +130,313 @@
     </div>
 </div>
 
+
+<div class="bg_filters"></div>
+
+<button class="openFilter companyFind">
+    <span>Найти компанию</span>
+    <img src="https://agrotender.com.ua/app/assets/img/search_icon.svg" alt="">
+</button>
+
+<div class="mobile_filter-bg">
+    <div class="mobile_filter">
+    <div class="posrel">
+        <div class="mobile_filter-header">
+        <button class="back first-btn active">
+            <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+        </button>
+        <button class="back second-btn">
+            <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
+        </button>
+        <button class="back third-btn">
+            <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
+        </button>
+        <span>Фильтры</span>
+        <a href="#" id="filterRebootBtn">Сбросить</a>
+        </div>
+
+        <div class="screens">
+        <div class="first active">
+            <div class="search_wrap">
+            <input type="text" placeholder="Название компании" class="search_filed_no_js first_screen" id="companySearchField">             
+            <button class="first_screen" id="companySearchBtn">
+                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+            </button>
+            </div>
+
+            <div class="mobile_filter-content">
+            <div class="mobile_filter-content-item withmargin" id="product" data-product="">Выбрать продукцию</div>
+            <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">Вся Украина</div>
+            </div>
+
+            <div class="mobile-filter-footer">
+            <button>Применить</button>
+            </div>
+        </div>
+
+        <div class="second">
+            <div class="subItem">
+            <div class="mobile_filter-content-item">Зерновые</div>
+            <div class="mobile_filter-content-item">Масличные</div>
+            <div class="mobile_filter-content-item">Бобовые</div>
+            <div class="mobile_filter-content-item">Продукты переработки</div>
+            <div class="mobile_filter-content-item">Нишевые культуры</div>
+            </div>
+            <div class="subItem">
+            <div class="search_wrap">
+                <input type="text" placeholder="Название области или порта" class="search_filed">             
+                <button>
+                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                </button>
+            </div>
+            <div class="default_value">
+                <div class="mobile_filter-section-text">Порты</div>
+                <ul class="mobile_filter-section-list">
+                <li>
+                    <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>
+                </li>
+                <li>
+                    <a href="#" data-id="1" data-url="kiyv">Киев</a>
+                </li>
+                <li>
+                    <a href="#" data-id="1" data-url="kharkov">Харьков</a>
+                </li>
+                <li>
+                    <a href="#" data-id="1" data-url="odessa">Одесса</a>
+                </li>
+                <li>
+                    <a href="#" data-id="1" data-url="winnica">Винница</a>
+                </li>
+                </ul>
+            </div>
+            <div class="output_values">
+                <ul class="mobile_filter-section-list output"></ul>
+            </div>
+            </div>
+        </div>
+
+        <div class="third">
+            <div class="subItem">
+            <div class="search_wrap">
+                <input type="text" placeholder="Название области или порта" class="search_filed">             
+                <button>
+                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                </button>
+            </div>
+            <div class="default_value">
+                <div class="mobile_filter-section-text">Популярное</div>
+                <ul class="mobile_filter-section-list">
+                <li>
+                    <a href="#" data-id="0" data-product="psheniza_2kl">Пшеница 2 кл. (64)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0" data-product="psheniza_3kl">Пшеница 3 кл. (63)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0" data-product="psheniza_4kl">Пшеница 4 кл. (59)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0">Ячмень (51)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+                </ul>
+                <div class="mobile_filter-section-text">Все зерновые</div>
+                <ul class="mobile_filter-section-list">
+                <li>
+                    <a href="#" data-id="0" data-product="">Вся рубрика</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0"  data-product="kukuruza">Кукуруза (27)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0"  data-product="kukuruza">>Кукуруза битая (2)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0">Кукуруза зерноотход (2)</a>
+                </li>
+                <li>
+                    <a href="#" data-id="0">Кукуруза кремнистая (1)</a>
+                </li>
+                <li>
+                    <a href="#"  data-id="0">Кукуруза с повыш. зерн.  (1)</a>
+                </li>
+                </ul>
+            </div>
+            <div class="output_values">
+                <ul class="mobile_filter-section-list output"></ul>
+            </div>
+            </div>
+            <div class="subItem">
+            <div class="mobile_filter-section-text">Популярное</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Пшеница 2 кл. (64)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 3 кл. (63)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 4 кл. (59)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Ячмень (51)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+            </ul>
+            <div class="mobile_filter-section-text">Все зерновые</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Вся рубрика</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза битая (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза зерноотход (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза кремнистая (1)</a>
+                </li>
+                <li>
+                <a href="#"  data-id="0">Кукуруза с повыш. зерн.  (1)</a>
+                </li>
+            </ul>
+            </div>
+            <div class="subItem">
+            <div class="mobile_filter-section-text">Популярное</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Пшеница 2 кл. (64)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 3 кл. (63)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 4 кл. (59)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Ячмень (51)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+            </ul>
+            <div class="mobile_filter-section-text">Все зерновые</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Вся рубрика</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза битая (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза зерноотход (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза кремнистая (1)</a>
+                </li>
+                <li>
+                <a href="#"  data-id="0">Кукуруза с повыш. зерн.  (1)</a>
+                </li>
+            </ul>
+            </div>
+            <div class="subItem">
+            <div class="mobile_filter-section-text">Популярное</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Пшеница 2 кл. (64)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 3 кл. (63)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 4 кл. (59)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Ячмень (51)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+            </ul>
+            <div class="mobile_filter-section-text">Все зерновые</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Вся рубрика</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза битая (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза зерноотход (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза кремнистая (1)</a>
+                </li>
+                <li>
+                <a href="#"  data-id="0">Кукуруза с повыш. зерн.  (1)</a>
+                </li>
+            </ul>
+            </div>
+            <div class="subItem">
+            <div class="mobile_filter-section-text">Популярное</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Пшеница 2 кл. (64)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 3 кл. (63)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Пшеница 4 кл. (59)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Ячмень (51)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+            </ul>
+            <div class="mobile_filter-section-text">Все зерновые</div>
+            <ul class="mobile_filter-section-list">
+                <li>
+                <a href="#" data-id="0">Вся рубрика</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза (27)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза битая (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза зерноотход (2)</a>
+                </li>
+                <li>
+                <a href="#" data-id="0">Кукуруза кремнистая (1)</a>
+                </li>
+                <li>
+                <a href="#"  data-id="0">Кукуруза с повыш. зерн.  (1)</a>
+                </li>
+            </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</div>
 <style>
     .btn-search{
         background: none;

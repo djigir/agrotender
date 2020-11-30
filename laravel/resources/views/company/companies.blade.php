@@ -1,9 +1,7 @@
 @extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups,'regions' => $regions])
 
 @section('content')
-    @if(!$isMobile)
-        @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
-    @endif
+    @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
     <div class="d-none d-sm-block container mt-3"></div>
     <div class="d-sm-none container pt-4">
         @if($region_id)

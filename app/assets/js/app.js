@@ -4562,6 +4562,7 @@ class Filter {
     this.newFiltersButtons.forEach((btn, idx) => {
       btn.addEventListener('click', () => {
         const listener = () => {
+          console.log('listener added')
           this.filterBg.removeEventListener('click', listener)
           this.closeContentItems()
         }
@@ -4649,10 +4650,12 @@ class Filter {
 
 // Mobile filter
 class MobileFilter {
-  constructor (filter) {
+  constructor (filter, base = '') {
+    this.base = base
     this.$filter = filter
+    this.searchField = ''
     this.search_url = {
-      base: '',
+      base,
       region: '',
       currency: '',
       product: ''
@@ -4663,10 +4666,17 @@ class MobileFilter {
   init() {
     this.search_url.product = this.findEl('#product').dataset.product
     this.search_url.region = this.findEl('#region').dataset.region
+    this.companySearchFiled = this.findEl('#companySearchField')
+    this.companySearchBtn = this.findEl('#companySearchBtn')
+    this.rebootBtn = this.findEl('#filterRebootBtn')
 
     this.first_screen = this.findEl('.first')
     this.second_screen = this.findEl('.second')
     this.third_screen = this.findEl('.third')
+
+    if (this.companySearchFiled) {
+      this.initSearchForCompany()
+    }
 
     this.buttons()
 
@@ -4676,6 +4686,7 @@ class MobileFilter {
 
     this.submitHandler()
     this.search()
+    this.rebootInit()
   }
 
   open() {
@@ -4684,6 +4695,26 @@ class MobileFilter {
 
   close() {
     this.$filter.parentNode.classList.remove('active')
+  }
+
+  rebootInit() {
+    if (this.rebootBtn) {
+      this.rebootBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this.searchField = ''
+        this.search_url = {
+          base: this.base,
+          region: '',
+          currency: '',
+          product: ''
+        }
+        if (this.companySearchFiled) {
+          this.first_screen.querySelectorAll('.mobile_filter-content-item')[0].textContent = 'Выбрать продукцию'
+          this.first_screen.querySelectorAll('.mobile_filter-content-item')[1].textContent = 'Вся Украина'
+          this.companySearchFiled.value = ''
+        }
+      })
+    }
   }
 
   findEl(selector, node) {
@@ -4763,6 +4794,7 @@ class MobileFilter {
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', (e) => {
         e.preventDefault()
+        console.log(idx)
         this.openScreen('first')
         this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.product)
       })
@@ -4774,13 +4806,22 @@ class MobileFilter {
       this.search_url.product = content
     }
     this.first_screen.querySelectorAll('.mobile_filter-content-item')[id].textContent = text
+    console.log(this.search_url)
   }
 
   submitHandler() {
+    let newUrl = null
+    console.log('this', this)
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
-      const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-      window.location = newUrl
+      if (this.searchField.trim().length > 0) {
+        newUrl = `/kompanii/s/${this.searchField}`
+        window.location = newUrl
+      } else {
+        newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
+        console.log(this.searchField)
+        window.location = newUrl
+      }
     })
   }
 
@@ -4833,6 +4874,19 @@ class MobileFilter {
       })
     })
   }
+
+  initSearchForCompany() {
+    this.companySearchBtn.addEventListener('click', e => {
+      this.companySearchFiled.value = ''
+      this.searchField = ''
+    })
+    this.companySearchFiled.addEventListener('input', e => {
+      this.searchField = e.target.value
+      if (this.searchField) {
+        console.log(this.searchField)
+      }
+    })
+  }
 }
 
 const $filter = document.querySelector('.mobile_filter')
@@ -4840,10 +4894,15 @@ const isFilter = document.querySelector('.new_fitlers_container')
 
 
 if (isFilter) {
-  const filterExmp = new MobileFilter($filter)
-  document.querySelector('.openFilter').onclick = () => filterExmp.open()
+  console.log('Filter exists')
   new Filter().init()
 }
+
+if ($filter) {
+  const filterExmp = new MobileFilter($filter, 'kompanii')
+  document.querySelector('.openFilter').onclick = () => filterExmp.open()
+}
+
 
 function tradersPriceLine() {
   const $line = document.querySelector('.header__tradersPrice-line')
@@ -4888,3 +4947,57 @@ window.addEventListener('load', () => {
   headerTraderPricesArrow()
   tradersPriceLine()
 })
+
+function companiesPage() {
+  console.log('Companies filter')
+  const $button = document.querySelector('#findCompany')
+
+  $button.addEventListener('click', () => {
+    $('html,body').animate({scrollTop:0},0);
+    if ($('.filters-wrap').is(':visible')) {
+      $('.filters-wrap').hide();
+      $('.filters .stp').hide();
+      $('.filters .step-1').show();
+      $('body').removeClass('open');
+      $('.top .filtersIcon, .top .burger').removeClass('z-index-1060');
+    } else {
+      $('.filters-wrap').show();
+      $('.filters .stp').hide();
+      $('.filters .step-1').show();
+      $('body').addClass('open');
+      $('.top .filtersIcon, .top .burger').addClass('z-index-1060');
+    }
+  })
+}
+
+function companyPage() {
+
+}
+
+if (document.querySelector('#findCompany')) {
+  companiesPage()
+}
+
+if (document.querySelector('#openCompanyMenu')) {
+  companyPage()
+}
+
+const $openCompanyMenu = document.querySelector('.open_company_menu')
+
+if ($openCompanyMenu) {
+  const $openCompanyMenuBtn = $openCompanyMenu.querySelector('button')
+  const listener = e => {
+    if (!e.target.classList.contains('spoiler')) {
+      $openCompanyMenu.classList.remove('active')
+      window.removeEventListener('click', listener)
+    }
+  }
+  $openCompanyMenuBtn.addEventListener('click', () => {
+    if (!$openCompanyMenu.classList.contains('active')) {
+      setTimeout(() => {
+        window.addEventListener('click', listener)
+      }, 0)
+    }
+    $openCompanyMenu.classList.toggle('active')
+  })
+}

@@ -94,7 +94,7 @@
                       <a href="/">Элеваторы</a>
                     </li>
                     <li>
-                      <a href="/traders_sell">Компании</a>
+                      <a href="{{route('company.companies')}}">Компании</a>
                     </li>
                     <li>
                       <a href="/traders_sell" class="header__yellowText">Разместить компанию</a>

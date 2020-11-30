@@ -39,16 +39,22 @@
             @endif
         @endif
 
-        <div class="row new_filters_margin">
-            <div class="col-8">
-                @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+        @if($type_view != 'table')
+            <div class="row new_filters_margin">
+                <div class="col-8">
+                    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+                </div>
+                <div class="col-4 d-none d-lg-block">
+                    <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
+                </div>
             </div>
-            <div class="col-4 d-none d-lg-block">
-                <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
-            </div>
-        </div>
+        @endif
 
         @if($type_view == 'table')
+            <div class="d-flex align-items-center new_filters_margin">
+                <div class="new_page_title mr-auto d-none d-lg-block">ВСЕ ЗЕРНОТРЕЙДЕРЫ</div>
+                @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+            </div>
             @include('traders.traders_forward_table', ['type_traders' => $type_traders])
         @else
 

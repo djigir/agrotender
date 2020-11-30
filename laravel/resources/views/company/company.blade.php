@@ -1,9 +1,9 @@
 @extends('layout.layout', ['meta' => $meta, 'id' => $id])
 
 @section('content')
+
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
     <div class="container company mb-5">
-
         @if(!$port_place->isEmpty() || !$region_place->isEmpty())
             <h2 class="d-inline-block mt-4">Цены трейдера</h2>
             @if($updateDate != null)
@@ -26,4 +26,22 @@
             {!! $company['content'] !!}
         </div>
     </div>
+
+    <div class="open_company_menu">
+        <ul class="spoiler">
+            <li>
+                <a href="#">Цены трейдера</a>
+            </li>
+            <li>
+                <a href="#">Контакты</a>
+            </li>
+            <li>
+                <a href="#">Отзывы</a>
+            </li>
+            <li>
+                <a href="#">Форварды</a>
+            </li>
+        </ul>
+        <button>Меню компании</button>
+  </div>
 @endsection
