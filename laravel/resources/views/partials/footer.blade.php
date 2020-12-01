@@ -47,7 +47,7 @@
           </li>
           <li class="footer__logo_and_messangers">
             <a href="/" class="footer__logo_img">
-              <img src="/app/assets/img/logo_white.svg" alt="">                
+              <img src="/app/assets/img/logo_white.svg" alt="">
             </a>
             <a href="viber://pa?chatURI=agrotender_bot&text=" class="messanger_item">
               <img src="/app/assets/img/company/viber4.svg" alt="">
@@ -76,7 +76,6 @@
 <script src="/app/assets/js/multiple-select.js"></script>
 <script src="/app/assets/js/noty.min.js"></script>
 <script src="/app/assets/js/respond.min.js"></script>
-{{--<script src="/app/assets/js/sides.js"></script>--}}
 <script src="/app/assets/js/simple-lightbox.min.js"></script>
 <script src="/app/assets/js/swiper.min.js"></script>
 <script id="popmechanic-script" src="https://static.popmechanic.ru/service/loader.js?c=24840"></script>

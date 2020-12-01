@@ -1,5 +1,5 @@
 <div class="company-bg d-none d-sm-block">
-    <img class="avatar" src="/pics/comp/5608_54749.jpg">
+    <img class="avatar" src="{{$company['logo_file'] && file_exists($company['logo_file']) ? $company['logo_file'] : '/app/assets/img/no-image.png'}}">
     <h1 class="title d-block mt-2">{!! $current_page == 'main'  ? str_replace('\\', '', $company['title']).' - Закупочные цены' : $company['title'] !!} </h1>
     <div class="company-menu-container d-none d-sm-block">
         <div class="company-menu">

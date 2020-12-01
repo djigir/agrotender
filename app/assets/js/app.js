@@ -4822,6 +4822,8 @@ class MobileFilter {
         console.log(this.searchField)
         window.location = newUrl
       }
+      const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
+      // window.location = newUrl
     })
   }
 
@@ -4949,7 +4951,6 @@ window.addEventListener('load', () => {
 })
 
 function companiesPage() {
-  console.log('Companies filter')
   const $button = document.querySelector('#findCompany')
 
   $button.addEventListener('click', () => {
@@ -5001,3 +5002,23 @@ if ($openCompanyMenu) {
     $openCompanyMenu.classList.toggle('active')
   })
 }
+
+$(".click_culture").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('data-product');
+  $('#new-input-mobile-rubric').attr('value', rubric);
+});
+
+
+$(".click_region").click(function (event) {
+  let region = event.currentTarget.getAttribute('data-url');
+  $('#new-input-mobile-region-t').attr('value', region);
+  $('#new-input-mobile-port-t').attr('value', null);
+});
+
+
+$(".click_port").click(function (event) {
+  let port = event.currentTarget.getAttribute('data-url');
+  $('#new-input-mobile-port-t').attr('value', port);
+  $('#new-input-mobile-region-t').attr('value', null);
+});
+

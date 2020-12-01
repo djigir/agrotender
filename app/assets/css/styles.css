@@ -7387,7 +7387,7 @@ table.proposedTable tr.not-viewed td {
 }
 
 .open_company_menu .spoiler {
-  transition: 300ms opacity ease, 300ms transform ease;
+  transition: 300ms opacity ease, 300ms transform gease;
   position: absolute;
   bottom: 60px;
   background: #FFFFFF;

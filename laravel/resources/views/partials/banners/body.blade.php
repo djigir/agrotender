@@ -37,7 +37,6 @@
             <div id="left_banner" style="position:fixed; height: 100%;  z-index: 1;
             right: calc((100% - 978px) / 1.92 + 965px);
             top: 0;">
-
             </div>
         </a>
     </div>
@@ -68,6 +67,7 @@
         #left_banner, #right_banner{
             background-position-y: 30%;
         }
+
         #left_banner{
             background-size: auto 108%;
             background-position-x: 8%;
@@ -78,6 +78,5 @@
             background-position-x: 90%;
         }
     }
-
 </style>
 @endif

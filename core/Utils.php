@@ -96,7 +96,7 @@ class Utils {
 
   public function getRegions() {
 
-    $regions = $this->db->query("select * from regions group by id");
+    $regions = $this->db->query("select * from agt_regions group by id");
     return $regions;
   }
 

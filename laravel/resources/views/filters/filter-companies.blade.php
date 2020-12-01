@@ -45,7 +45,11 @@
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
                                             <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
                                                 <span>{{$culture['title']}}</span>
-                                                <span class="companyCount small">({{$culture['cnt']}})</span>
+                                                @if($culture['cnt'] > 0)
+                                                    <span class="companyCount small">
+                                                        ({{$culture['cnt']}})
+                                                    </span>
+                                                @endif
                                                 <span class="float-right right"><i class="far fa-chevron-right"></i></span>
                                             </a>
                                         @endforeach
