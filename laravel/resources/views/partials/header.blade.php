@@ -74,11 +74,7 @@
           </div>
           <div class="header__center__buttons" id="traders_prices_dropdown_parent">
             <div class="header__tradersPrice first no_hoverable flex">
-<<<<<<< HEAD
-              <a href="/traders/region_ukraine" class="header__center__button trader_prices">
-=======
               <a href="{{route('traders.region', 'ukraine')}}" class="header__center__button">
->>>>>>> cd5ebb9d26f696521835427cd7a4b7f863143ff6
                 Цены Трейдеров
               </a>
               <div class="header__tradersPrice-line"></div>
