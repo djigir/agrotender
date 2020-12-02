@@ -59,6 +59,7 @@
         @else
 
         </div>
+
         <div class="mt-3 traders_dev">
 
             @if($type_traders != 0)
