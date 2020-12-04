@@ -39,7 +39,7 @@
             @endif
         @endif
 
-        @if($type_view != 'table')
+{{--        @if($type_view != 'table')--}}
             <div class="row new_filters_margin">
                 <div class="col-8">
                     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
@@ -48,20 +48,19 @@
                     <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
                 </div>
             </div>
-        @endif
+{{--        @endif--}}
 
-        @if($type_view == 'table')
-            <div class="d-flex align-items-center new_filters_margin">
-                <div class="new_page_title mr-auto d-none d-lg-block">ВСЕ ЗЕРНОТРЕЙДЕРЫ</div>
-                @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-            </div>
-            @include('traders.traders_forward_table', ['type_traders' => $type_traders])
-        @else
+{{--        @if($type_view == 'table')--}}
+{{--            <div class="d-flex align-items-center new_filters_margin">--}}
+{{--                <div class="new_page_title mr-auto d-none d-lg-block">ВСЕ ЗЕРНОТРЕЙДЕРЫ</div>--}}
+{{--                @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])--}}
+{{--            </div>--}}
+{{--            @include('traders.traders_forward_table', ['type_traders' => $type_traders])--}}
+{{--        @else--}}
 
         </div>
 
         <div class="mt-3 traders_dev">
-
             @if($type_traders != 0)
                 @include('traders.block-info.forwards-block-info')
             @else
