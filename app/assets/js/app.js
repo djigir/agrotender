@@ -4543,7 +4543,7 @@ function tradersPageScripts() {
 
 tradersPageScripts()
 
-
+// FILTERS START
 class Filter {
   init() {
     // filter controls
@@ -4562,7 +4562,6 @@ class Filter {
     this.newFiltersButtons.forEach((btn, idx) => {
       btn.addEventListener('click', () => {
         const listener = () => {
-          console.log('listener added')
           this.filterBg.removeEventListener('click', listener)
           this.closeContentItems()
         }
@@ -4664,6 +4663,8 @@ class MobileFilter {
   }
 
   init() {
+    this.body = document.querySelector('body')
+    this.mobileFilterBg = document.querySelector('.mobile_filter-bg')
     this.search_url.product = this.findEl('#product').dataset.product
     this.search_url.region = this.findEl('#region').dataset.region
     this.companySearchFiled = this.findEl('#companySearchField')
@@ -4686,14 +4687,25 @@ class MobileFilter {
 
     this.submitHandler()
     this.search()
-    this.rebootInit()
+    // this.rebootInit()
   }
 
   open() {
+    this.body.classList.add('body_non_scroll')
     this.$filter.parentNode.classList.add('active')
+    
+    const listener = (e) => {
+      if (e.target === this.mobileFilterBg) {
+        this.close()
+        this.mobileFilterBg.removeEventListener('click', listener)
+      }
+    }
+
+    this.mobileFilterBg.addEventListener('click', listener)
   }
 
   close() {
+    this.body.classList.remove('body_non_scroll')
     this.$filter.parentNode.classList.remove('active')
   }
 
@@ -4794,7 +4806,6 @@ class MobileFilter {
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', (e) => {
         e.preventDefault()
-        console.log(idx)
         this.openScreen('first')
         this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.product)
       })
@@ -4806,12 +4817,10 @@ class MobileFilter {
       this.search_url.product = content
     }
     this.first_screen.querySelectorAll('.mobile_filter-content-item')[id].textContent = text
-    console.log(this.search_url)
   }
 
   submitHandler() {
     let newUrl = null
-    console.log('this', this)
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
       if (this.searchField.trim().length > 0) {
@@ -4819,7 +4828,6 @@ class MobileFilter {
         window.location = newUrl
       } else {
         newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-        console.log(this.searchField)
         window.location = newUrl
       }
       const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
@@ -4884,19 +4892,16 @@ class MobileFilter {
     })
     this.companySearchFiled.addEventListener('input', e => {
       this.searchField = e.target.value
-      if (this.searchField) {
-        console.log(this.searchField)
-      }
     })
   }
 }
+// FILTERS END
 
 const $filter = document.querySelector('.mobile_filter')
 const isFilter = document.querySelector('.new_fitlers_container')
 
 
 if (isFilter) {
-  console.log('Filter exists')
   new Filter().init()
 }
 
@@ -4913,7 +4918,6 @@ function tradersPriceLine() {
   const $hoverElem = document.querySelector('.header__hoverElem-wrap')
 
   function initItem(item) {
-    console.log('inited', item)
     item.addEventListener('mouseover', () => {
       $line.style.opacity = '0'
     })
@@ -4971,10 +4975,6 @@ function companiesPage() {
   })
 }
 
-function companyPage() {
-
-}
-
 if (document.querySelector('#findCompany')) {
   companiesPage()
 }
@@ -5022,3 +5022,17 @@ $(".click_port").click(function (event) {
   $('#new-input-mobile-region-t').attr('value', null);
 });
 
+
+// REPLACEMENT START
+function replacerWithSpaces(text) {
+  return text.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+}
+
+const replaceItems = document.querySelectorAll('.replace_numbers_js')
+
+if (replaceItems) {
+  Array.prototype.slice.call(replaceItems).forEach(item => {
+    item.textContent =  replacerWithSpaces(item.textContent)
+  })
+}
+// REPLACEMENT END

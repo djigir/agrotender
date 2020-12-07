@@ -156,7 +156,7 @@
             <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
         </button>
         <span>Фильтры</span>
-        <a href="#" id="filterRebootBtn">Сбросить</a>
+        <a href="{{route('company.companies')}}" id="filterRebootBtn">Сбросить</a>
         </div>
 
         <div class="screens">

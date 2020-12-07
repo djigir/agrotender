@@ -915,6 +915,12 @@ body[data-page="main/home"] .swiper-slide {
 .breadcrumbs {
   color: #8FA2BC;
   font-size: 13px;
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs svg {
+  margin-right: 5px;
 }
 
 .breadcrumbs li a {
@@ -2164,7 +2170,7 @@ table.sortTable tr td {
   background: #f0f5fb;
 } */
 table.sortTable tr:hover td{
-  background: #f0f5fb;
+  /* background: #f0f5fb; */
 }
 
 table.sortTable.regions-table tr td {
@@ -2174,7 +2180,7 @@ table.sortTable.ports-table tr td {
   border-bottom: inset 1px #dfeaf1;
 }
 table.sortTable.regions-table tr:nth-child(2n) td {
-  background: #fffaf2;
+  /* background: #fffaf2; */
 }
 table.sortTable.regions-table th:first-child {
 
@@ -2185,6 +2191,9 @@ table.sortTable tr.vip td {
 }
 table.sortTable tr.vip:hover td {
   background: #fbf4b0
+}
+table.sortTable tr.default:hover td {
+  background:  #f0f5fb
 }
 
 tr.vip + td {
@@ -4676,6 +4685,7 @@ table.proposedTable tr.not-viewed td {
     display: table-caption;
   }
   .sortTable .logo {
+    display: none;
     width: 25px;
     height: 25px;
   }
@@ -6884,7 +6894,7 @@ table.proposedTable tr.not-viewed td {
   position: absolute;
   transition: 300ms opacity ease, 300ms transform ease;
   opacity: 0;
-  transform: translateY(-100%);
+  transform: translateY(20px);
   pointer-events: none;
   z-index: 11;
   top: 50px;
@@ -6908,6 +6918,8 @@ table.proposedTable tr.not-viewed td {
 }
 
 .new_filters_dropdown_column ul {
+  padding-left: 0;
+  margin-bottom: 0;
   list-style: none;
 }
 
@@ -7001,7 +7013,7 @@ table.proposedTable tr.not-viewed td {
   bottom: 0;
   right: 0;
   left: 0;
-  /* top: 30px; */
+  top: 150px;
   transform: translateY(100%)
 }
 .mobile_filter .posrel {
@@ -7370,7 +7382,7 @@ table.proposedTable tr.not-viewed td {
   position: absolute;
   right: 20px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) rotate(180deg);
   filter: brightness(0);
   background-size: contain;
   background-repeat: no-repeat;
@@ -7383,11 +7395,11 @@ table.proposedTable tr.not-viewed td {
 } 
 
 .open_company_menu.active button::after {
-  transform: translateY(-50%) rotate(180deg);
+  transform: translateY(-50%);
 }
 
 .open_company_menu .spoiler {
-  transition: 300ms opacity ease, 300ms transform gease;
+  transition: 300ms opacity ease, 300ms transform ease;
   position: absolute;
   bottom: 60px;
   background: #FFFFFF;
@@ -7651,7 +7663,7 @@ table.sortTable th.table_haeder_th_cell {
 
 @media screen and (max-width: 991px) {
   .dataTables_wrapper {
-    margin-top: 20px;
+    /* margin-top: 20px; */
   }
   table.sortTable th.table_haeder_th_cell {
     min-width: 100px;
@@ -7660,4 +7672,44 @@ table.sortTable th.table_haeder_th_cell {
   .table.sortTable tr:first-child th:last-child  {
     min-width: 200px;
   }
+}
+.traders_table_title_css {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.chose_culture {
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 300px;
+  text-align: center;
+
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 1;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: #001430;
+  
+}
+
+.chose_culture:after {
+  content: '';
+  background-image: url('https://agrotender.com.ua/app/assets/img/zoom.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.chose_culture span {
+  display: inline-block;
+  margin: 0 auto;
 }

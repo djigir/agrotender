@@ -86,42 +86,16 @@
                       <a href="/">Закупки</a>
                     </li>
                     <li>
-                      <a href="/traders_sell">Продажи</a>
+                      <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Форварды</a>
                     </li>
-                    <li>
-                      <!-- <span class="bordered_line"></span> -->
-                      <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}" class="header_fw600">Форварды</a>
-                    </li>
-{{--                    <li>--}}
-{{--                      <a href="/traders_sell" class="header_fw600">Продажи</a>--}}
-{{--                    </li>--}}
                     <li>
                       <a href="/">Элеваторы</a>
                     </li>
                     <li>
-                      <a href="/tarif20.html" class="header__yellowText">Разместить компанию</a>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <a href="/board" class="header__center__button board">Объявления</a>
-            <div class="header__tradersPrice special">
-              <a href="{{route('traders.region', 'ukraine')}}" class="header__center__button withBg">
-                <span class="header__tradersPrice-dots">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </span>
-              </a>
-              <div class="header__hoverElem-wrap">
-                <div class="header__hoverElem">
-                  <ul>
-                    <li>
                       <a href="{{route('company.companies')}}">Компании</a>
                     </li>
                     <li>
-                      <a href="/traders_sell" class="header__yellowText">Разместить компанию</a>
+                      <a href="/tarif20.html" class="header__yellowText">Разместить компанию</a>
                     </li>
                   </ul>
                 </div>
@@ -253,71 +227,6 @@
       </div>
     </header>
   </div>
-    <!--
-    <header class="header">
-        <div class="top container">
-            <div class="row" style="{{$isMobile ? 'flex-wrap: nowrap' : ''}}">
-                <div class="col-1 d-flex align-items-center justify-content-start d-sm-none">
-                    <div class="float-right d-inline-block d-sm-none">
-                        <div class="burger align-self-center align-middle">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-10 col-sm-6">
-                    <div class="float-left">
-                        <a href="/"><img src="/app/assets/img/logo6.svg" class="p-2" style="height: 50px;"></a>
-                        <a id="viberHead" href="viber://pa?chatURI=agrotender_bot&text=">
-                            <img src="/app/assets/img/company/viber.svg" style="width: 24px"/>
-                        </a>
-                        <a id="telegramHead" href="https://t.me/AGROTENDER_bot">
-                            <img src="/app/assets/img/company/telegram.svg" style="width: 20px"/>
-                        </a>
-                        <span class="align-self-center align-middle logo-text d-none d-lg-inline-block pl-2">Присоединяйся!</span>
-                    </div>
-                </div>
-                @if(!$isMobile)
-                    @include('partials.auth')
-                @endif
-
-                <div class="col-1 col-sm-6 d-flex align-items-center justify-content-end">
-                    <div class="float-right d-inline-block d-sm-none">
-                        @if(isset($id))
-                            <i class="far fa-chevron-circle-down userIcon mr-3"></i>
-                        @else
-                            <i class="far fa-search searchIcon mobile-icon mt-2 ml-2"></i>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="d-none d-sm-flex justify-content-center align-items-center">
-            <ul class="menu-links m-0 p-0">
-                <li>
-                    <a href="/board" class="menu-link">Объявления</a>
-                </li>
-                <li>
-                    <a href="{{route('company.companies')}}" class="menu-link">Компании</a>
-                </li>
-                <li>
-                    <a href="{{route('traders.region', 'ukraine')}}" class="menu-link">Цены Трейдеров</a>
-                </li>
-                <li>
-                    <a href="/elev" class="menu-link">Элеваторы</a>
-                </li>
-                <li>
-                    <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}"
-                       class="menu-link">Форварды</a>
-                </li>
-            </ul>
-        </div>
-        @if($isMobile)
-            @include('mobile.mobile_menu')
-        @endif
-    </header>
-    -->
     @if(!$isMobile && !isset($id))
         @include('partials.banners.body')
     @endif

@@ -40,16 +40,16 @@
                                             @if(isset($port_price[$place['id']][0][$data_port['cult_id']]))
                                                 <td class="port-UAH">
                                                     <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                         @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
                                                             <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                            <span class="price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
+                                                            <span class="replace_numbers_js price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                         @endif
 
                                                     </div>
-                                                    <span class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
+                                                    <span class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
                                                 </td>
                                             @else
                                                 <td></td>
@@ -90,17 +90,17 @@
                                                 @if(isset($port_price[$place['id']][0][$data_port['cult_id']]))
                                                     <td class="port-UAH">
                                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                             @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
                                                                 <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                                <span class="price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
+                                                                <span class="replace_numbers_js price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                             @endif
 
                                                         </div>
                                                         <span
-                                                            class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
+                                                            class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
                                                     </td>
                                                 @else
                                                     <td></td>
@@ -141,17 +141,17 @@
                                         @if(isset($port_price[$place['id']][0][$data_port['cult_id']]))
                                             <td class="port-UAH">
                                                 <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                     @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
                                                         <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                        <span class="price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
+                                                        <span class="replace_numbers_js  price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                     @endif
 
                                                 </div>
                                                 <span
-                                                    class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
+                                                    class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['comment']}}</span>
                                             </td>
                                         @else
                                             <td></td>
@@ -194,15 +194,15 @@
                                             @if(isset($port_price[$place['id']][1][$data_port['cult_id']]))
                                                 <td class="port-USD">
                                                     <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                         @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
                                                             <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                            <span class="price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
+                                                            <span class="replace_numbers_js price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                         @endif
                                                     </div>
-                                                    <span class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
+                                                    <span class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
                                                 </td>
                                             @else
                                                 <td></td>
@@ -243,16 +243,16 @@
                                                 @if(isset($port_price[$place['id']][1][$data_port['cult_id']]))
                                                     <td class="port-USD">
                                                         <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                             @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
                                                                 <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                                <span class="price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
+                                                                <span class="replace_numbers_js  price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                             @endif
                                                         </div>
                                                         <span
-                                                            class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
+                                                            class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
                                                     </td>
                                                 @else
                                                     <td></td>
@@ -293,15 +293,15 @@
                                         @if(isset($port_price[$place['id']][1][$data_port['cult_id']]))
                                             <td class="port-USD">
                                                 <div class="d-flex align-items-center justify-content-center lh-1">
-                                                        <span class="font-weight-600">
+                                                        <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
                                                     @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
                                                         <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
-                                                        <span class="price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
+                                                        <span class="replace_numbers_js  price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                     @endif
                                                 </div>
-                                                <span class="d-block lh-1 pb-1 extra-small">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
+                                                <span class="d-block lh-1 pb-1 extra-small text-center">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['comment']}}</span>
                                             </td>
                                         @else
                                             <td></td>

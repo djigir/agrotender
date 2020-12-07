@@ -1,8 +1,12 @@
 @if($traders->count() > 0)
-    <div class="flex align-center justify-between mt2d4 mb2 new_container">
+    <div class="new_container traders_table_title_css">
         <div class="new_page_title">ВСЕ ЗЕРНОТРЕЙДЕРЫ</div>
+        <div>
+            {{-- @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts]) --}}
+        </div>
     </div>
 @endif
+
 {{--@if($type_traders == 0)--}}
 {{--<div class="container mt-3 mt-sm-5">--}}
 {{--    <div class="row mt-sm-0 pt-sm-0 mb-sm-4">--}}

@@ -260,7 +260,7 @@ if($regions->count() > 0 && !$isMobile){
 
 
   <div class="openFilter__wrap">
-    <button class="openFilter">
+    <button class="openFilter chose_culture">
       <span>Выбрать культуру</span>
     </button>
   </div>
@@ -278,7 +278,7 @@ if($regions->count() > 0 && !$isMobile){
             <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
           </button>
           <span>Фильтры</span>
-          <a href="#">Сбросить</a>
+          <a href="/traders/region_ukraine">Сбросить</a>
         </div>
         <div class="screens">
           <form action="">
