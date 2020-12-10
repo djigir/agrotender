@@ -16,16 +16,23 @@ use App\Models\Comp\CompTopicItem;
 use App\Models\Comp\CompVacancy;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
+use App\Notifications\CustomChangeLoginNotification;
+use App\Services\ProfileMetaService;
 use App\Services\User\AdvertService;
 use App\Services\BaseServices;
 use Carbon\Carbon;
+use Faker\Provider\File;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Http\Request;
 use App\Services\User\ApplicationService;
 use App\Services\User\ProfileService;
 use App\Services\User\TariffService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -61,13 +68,15 @@ class UserController extends Controller
     protected $profileService;
     protected $tariffService;
     protected $baseServices;
+    protected $profileMetaService;
 
     public function __construct(
         AdvertService $advertService,
         ApplicationService $applicationService,
         ProfileService $profileService,
         TariffService $tariffService,
-        BaseServices $baseServices
+        BaseServices $baseServices,
+        ProfileMetaService $profileMetaService
     )
     {
         $this->agent = new \Jenssegers\Agent\Agent;
@@ -76,12 +85,15 @@ class UserController extends Controller
         $this->profileService = $profileService;
         $this->tariffService = $tariffService;
         $this->baseServices = $baseServices;
+        $this->profileMetaService = $profileMetaService;
     }
 
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
+        $meta = $this->profileMetaService->profile();
         return view('private_cabinet.profile.profile', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
             'isMobile' => $this->agent->isMobile(),
@@ -117,26 +129,23 @@ class UserController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        if (!$loginPasswordRequest->validated()) {
-            return redirect()->back()
-                ->withInput($loginPasswordRequest->all())
-                ->withErrors(['msg' => 'Ошибка изменения логина']);
-        }
+        $token = Str::random(32);
+        $user->sendPasswordResetNotification($token);
 
-        TorgBuyer::where('id', $user->user_id)->update($loginPasswordRequest->only(['login']) +
-            ['email' => $loginPasswordRequest->get('login')]
-        );
-
-        User::where('id', $user->id)->update($loginPasswordRequest->only(['login']) +
-            ['email' => $loginPasswordRequest->get('login')]
-        );
-
-        return  redirect()->route('user.profile.profile')->with(['success' => 'Email успешно изменен!']);
+        return view('private_cabinet.info-page.success', [
+            'type_page' => self::TYPE_PAGE[0],
+            'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
+            'isMobile' => $this->agent->isMobile(),
+        ]);
     }
 
-    public function emailVerification()
+    public function successEmailChanged()
     {
-        return view('user.profile.info-page.success');
+        return view('private_cabinet.info-page.email_changed', [
+            'type_page' => self::TYPE_PAGE[0],
+            'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
+            'isMobile' => $this->agent->isMobile(),
+        ]);
     }
 
     public function toggleVisible(Request $request)
@@ -153,16 +162,28 @@ class UserController extends Controller
     //М-д для страницы профиля (контакты)
     public function profileContacts(Request $request)
     {
+        /** @var User $user */
+        $user = auth()->user();
+
         $type_department = $request->get('dep');
+
+        if ($user->company == null && $type_department == 1 ||
+            $user->company == null && $type_department == 2 ||
+            $user->company == null && $type_department == 3) {
+            return redirect()->route('user.profile.company')->withErrors(['msg' => 'Для начала создайте компанию']);
+        }
+
         $contacts = $this->profileService->userCompanyContact($type_department);
         $regions = $this->baseServices->getRegions()->forget(25);
 
+        $meta = $this->profileMetaService->profileContacts();
         return view('private_cabinet.profile.contacts', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[1],
             'contacts' => $contacts,
             'regions' => $regions,
             'type' => $type_department,
+            'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -177,7 +198,6 @@ class UserController extends Controller
         if ($request->get('type_id') == 999){
             $contacts_data = $request->only(['telegram', 'viber']);
         }
-
         // Главный офис
         $contacts_torg = TorgBuyer::where('id', $user->user_id)->update($contacts_data);
         $contacts_user = User::where('id', $user->id)->update($contacts_data);
@@ -205,7 +225,9 @@ class UserController extends Controller
     //М-д для страницы профиля (уведомления)
     public function profileNotify()
     {
+        $meta = $this->profileMetaService->profileNotify();
         return view('private_cabinet.profile.notify', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[2],
             'isMobile' => $this->agent->isMobile(),
@@ -222,12 +244,16 @@ class UserController extends Controller
 
         $reviews = $this->profileService->getUserCompanyReviews($type);
         $user_company = $user->company();
+
+        $meta = $this->profileMetaService->profileReviews();
+
         return view('private_cabinet.profile.reviews', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[3],
             'type' => $type,
             'reviews' => $reviews,
             'user_company' => $user_company,
+            'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -252,11 +278,14 @@ class UserController extends Controller
 
         $select_rubric = !empty($company) ? CompTopicItem::where('item_id', $company->id)->pluck('topic_id', 'topic_id') : [];
 
+        $meta = $this->profileMetaService->profileCompany();
+
         return view('private_cabinet.profile.company', [
             'regions' => $regions,
             'company' => $company,
             'rubrics' => $rubrics,
             'select_rubric' => $select_rubric,
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[4],
             'isMobile' => $this->agent->isMobile(),
@@ -287,10 +316,13 @@ class UserController extends Controller
             $newsItem = CompNews::find($request->get('news_id'));
         }
 
+        $meta = $this->profileMetaService->profileNews();
+
         return view('private_cabinet.profile.news', [
             'type_page' => self::TYPE_PAGE[0],
             '$newsItem' => $newsItem,
             'news' => $news,
+            'meta' => $meta,
             'type_page_profile' => self::TYPE_PAGE_PROFILE[5],
             'isMobile' => $this->agent->isMobile(),
         ]);
@@ -309,10 +341,7 @@ class UserController extends Controller
 
     public function editNews(ProfileCompanyNewsRequest $request)
     {
-        CompNews::find($request->get('news_id'))->update($request->only([
-            'content', 'title'
-        ]));
-
+        $this->profileService->UpdateNewsCompany($request);
         return response()->json($request->all(), 200);
     }
 
@@ -336,16 +365,19 @@ class UserController extends Controller
         /** @var User $user */
         $user = auth()->user();
 
-        $vacancies = CompVacancy::create($request->only('title', 'content') + ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
-        return redirect()->back();
+        if($request->validated()){
+            CompVacancy::create($request->only(['title', 'content']) +
+                ['comp_id' => $user->company->id, 'visible' => 1, 'add_date' => Carbon::now()]);
+            return redirect()->back();
+        }
 
+        return false;
     }
 
     /* show for edit vacancy ajax */
     public function printVacancy(Request $request)
     {
         $contactsItem = CompVacancy::find($request->get('vacancyId'));
-
         return response()->json($contactsItem, 200);
     }
 
@@ -354,17 +386,14 @@ class UserController extends Controller
         CompVacancy::find($request->get('vacancyId'))->update($request->only([
             'content', 'title'
         ]));
-
         return response()->json($request->all(), 200);
     }
 
     public function deleteVacancy(Request $request)
     {
         CompVacancy::find($request->get('vacancyId'))->delete();
-
         return response()->json($request->all(), 200);
     }
-
 
 
     //Если есть созданая компания тогда + новая страница профиля (вакансии)
@@ -373,10 +402,13 @@ class UserController extends Controller
         $user = auth()->user();
         $vacancies = CompVacancy::where('comp_id', $user->company->id)->orderBy('add_date', 'DESC')->get();
 
+        $meta = $this->profileMetaService->profileVacancy();
+
         return view('private_cabinet.profile.vacancy', [
             'type_page' => self::TYPE_PAGE[0],
             'type_page_profile' => self::TYPE_PAGE_PROFILE[6],
             'vacancies' => $vacancies,
+            'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
         ]);
     }
@@ -385,7 +417,10 @@ class UserController extends Controller
     //М-д для страницы объявления
     public function advert()
     {
+        $meta = $this->profileMetaService->advert();
+
         return view('private_cabinet.advert.advert', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[1],
             'isMobile' => $this->agent->isMobile(),
         ]);
@@ -395,7 +430,11 @@ class UserController extends Controller
     //М-д для страницы тарифы/лимитивные тарифы
     public function advertLimit()
     {
+
+        $meta = $this->profileMetaService->advertLimit();
+
         return view('private_cabinet.advert.limits', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[3],
             'type_page_tariff' => self::TYPE_PAGE_TARIFF[0],
             'isMobile' => $this->agent->isMobile(),
@@ -406,7 +445,10 @@ class UserController extends Controller
     //М-д для страницы тарифы/улучшения обьявлений
     public function advertUpgrade()
     {
+        $meta = $this->profileMetaService->advertUpgrade();
+
         return view('private_cabinet.advert.upgrade', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[3],
             'type_page_tariff' => self::TYPE_PAGE_TARIFF[1],
             'isMobile' => $this->agent->isMobile(),
@@ -417,7 +459,10 @@ class UserController extends Controller
     //М-ды для страницы тарифы/поплнить балансе
     public function balancePay()
     {
+        $meta = $this->profileMetaService->balancePay();
+
         return view('private_cabinet.tariff.balance_pay', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[3],
             'type_page_tariff' => self::TYPE_PAGE_TARIFF[2],
             'isMobile' => $this->agent->isMobile(),
@@ -428,7 +473,10 @@ class UserController extends Controller
     //М-ды для страницы тарифы/история платежей
     public function balanceHistory()
     {
+        $meta = $this->profileMetaService->balanceHistory();
+
         return view('private_cabinet.tariff.balance_history', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[3],
             'type_page_tariff' => self::TYPE_PAGE_TARIFF[3],
             'isMobile' => $this->agent->isMobile(),
@@ -439,7 +487,10 @@ class UserController extends Controller
     //М-ды для страницы тарифы/счета-акты
     public function balanceDocs()
     {
+        $meta = $this->profileMetaService->balanceDocs();
+
         return view('private_cabinet.tariff.balance_docs', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[3],
             'type_page_tariff' => self::TYPE_PAGE_TARIFF[4],
             'isMobile' => $this->agent->isMobile(),
@@ -450,7 +501,10 @@ class UserController extends Controller
     //М-ды для страницы заявки
     public function application()
     {
+        $meta = $this->profileMetaService->application();
+
         return view('private_cabinet.application.application', [
+            'meta' => $meta,
             'type_page' => self::TYPE_PAGE[2],
             'isMobile' => $this->agent->isMobile(),
         ]);

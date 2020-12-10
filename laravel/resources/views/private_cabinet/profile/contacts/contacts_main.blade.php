@@ -55,9 +55,12 @@
             <div class="form-group row mb-4 pb-1">
                 <label class="col-sm-4 col-form-label text-left text-sm-right">Область:</label>
                 <div class="col-sm-5">
+
                     <select class="form-control" name="obl_id">
                         @foreach($regions as $region)
-                        <option value="{{ $region->id }}">{{ $region->name }}</option>
+                            <option value="{{ $region->id }}"
+                                    @if(auth()->user()->obl_id == $region->id) selected @endif >
+                                {{ $region->name }}</option>
                         @endforeach
                     </select>
                 </div>

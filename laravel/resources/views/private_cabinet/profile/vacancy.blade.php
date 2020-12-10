@@ -69,7 +69,7 @@
     {{-- edit modal --}}
     <div class="modal fade show" id="editVacancy" tabindex="-1" role="dialog" style="display: none; padding-right: 15px;">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="form modal-content" idVacancy="" id="form-edit">
+            <form class="form modal-content form-edit-vacancy" idVacancy="" id="form-edit">
                 <div class="modal-header">
                     <h5 class="modal-title ml-3">Редактирование новости</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -80,7 +80,7 @@
                     <div class="form-group">
                         <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
                         <div class="col pl-1">
-                            <input type="text" class="form-control" placeholder="Заголовок" name="title" id="titleItems">
+                            <input type="text" class="form-control" placeholder="Заголовок" name="title" id="titleItems" value="{{ old('title') }}">
                         </div>
                     </div>
                     <div class="form-group">
@@ -107,5 +107,15 @@
             </div>
         </div>
     @endif
+
+    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster alert-for-ajax" style="display: none">
+        <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
+             class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
+            <div class="noty_body" id="alert-message"></div>
+            <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade show" style="display: none"></div>
 
 @endsection

@@ -433,16 +433,50 @@ window.onload = function (){
         $('#editNews').css('display', 'none');
     })
     $('.close-form').click(function (){
-            $('#editNews').css('display', 'none');
-        })
+        $('#editNews').css('display', 'none');
+        $("body").removeClass('open-modal');
+        $(".modal-backdrop").css('display', 'none')
+    })
 
     // vacancy open (close) edit modal
     $(".edit-vacancy").click(function () {
         $("#editVacancy").css('display', 'block');
+        $("body").addClass('open-modal');
+        $(".modal-backdrop").css('display', 'block');
     });
     $("#close-modal").click(function () {
         $("#editVacancy").css('display', 'none');
+        $("body").removeClass('open-modal');
+        $(".modal-backdrop").css('display', 'none');
     });
+
+    /* set dark background for modal edit News*/
+    $(".editNews").click(function (){
+        $("body").addClass('open-modal');
+        $(".modal-backdrop").css('display', 'block');
+    });
+
+    /* Close modal when press key ESC ! */
+    $(document).keydown(function (e){
+        if (e.keyCode === 27){
+            $("#editVacancy").css('display', 'none');
+            $("body").removeClass('open-modal');
+            $(".modal-backdrop").css('display', 'none');
+            $('#editNews').css('display', 'none');
+        }
+    });
+
+    /* set TimeOut for alert block */
+    setTimeout(function(){ $('#noty_layout__bottomLeft').hide(); }, 3000);
+
+    /* Customize default input[type=file]  change on span  */
+    $(function() {
+        $('.select-image').click(function() {
+            $(this).next('input[type="file"]').trigger('click');
+            return false;
+        });
+    });
+
 
     /* feed slider */
     if (document.querySelector('.new_feed')) {

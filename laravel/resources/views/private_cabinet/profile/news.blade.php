@@ -59,9 +59,10 @@
                     <div class="form-group mt-2">
                         <label class="col col-form-label">Изображение</label>
                         <div class="col pl-1 d-flex align-items-center">
-                            <img class="logo" src="/app/assets/img/nophoto.png">
+{{--                            <img class="logo" src="/app/assets/img/nophoto.png" id="add-news-prev">--}}
+                            <img class="logo" id="add-news-prev" src="">
                             <span class="ml-3 select-image">Выбрать изображение</span>
-                            <input type="file" name="logo" class="d-block">
+                            <input type="file" name="logo" class="d-block hidden-type-file" id="input-add-news">
                         </div>
                     </div>
                     <div class="form-group">
@@ -78,16 +79,17 @@
         </div>
     </div>
 
-
     <div class="modal fade show" id="editNews" tabindex="-1" role="dialog" style="display: none;">
         <div class="modal-dialog modal-dialog-centered" role="document">
-            <form class="form modal-content" idNews="" id="form-edit">
+            <form class="form modal-content edit-news-form" idNews="" id="form-edit" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="news_id" class="id_news_form_edit" value="">
                 <div class="modal-header">
                     <h5 class="modal-title ml-3">Редактирование новости</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="close-modal">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
+
                 <div class="modal-body pt-4">
                     <div class="form-group">
                         <label class="col col-form-label">Заголовок <span class="text-danger">*</span></label>
@@ -95,12 +97,13 @@
                             <input type="text" class="form-control" placeholder="Заголовок" name="title" id="titleItems">
                         </div>
                     </div>
+
                     <div class="form-group mt-4">
                         <label class="col col-form-label">Изображение</label>
                         <div class="col pl-1 d-flex align-items-center">
-                            <img class="logo" src="/pics/c/1U74oKx4iOa8.png">
+                            <img class="logo prev-img" id="logo_edit" src="">
                             <span class="ml-3 select-image">Выбрать изображение</span>
-                            <input type="file" name="image" class="d-none">
+                            <input type="file" name="logo" class="d-block hidden-type-file prev-input" id="logo_edit_input">
                         </div>
                     </div>
                     <div class="form-group">
@@ -116,8 +119,6 @@
             </form>
         </div>
     </div>
-
-
     @if ($errors->any())
         <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster" style="display: block">
             <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
@@ -127,5 +128,16 @@
             </div>
         </div>
     @endif
+
+
+    <div id="noty_layout__bottomLeft" role="alert" aria-live="polite" class="noty_layout animate__animated animate__fadeInRightBig animate__faster alert-for-ajax" style="display: none">
+        <div id="noty_bar_9da52369-9ae9-49da-858f-5f3687604672"
+             class="noty_bar noty_type__error noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar">
+            <div class="noty_body" id="alert-message"></div>
+            <div class="noty_progressbar" style="transition: width 4000ms linear 0s; width: 0%;"></div>
+        </div>
+    </div>
+
+    <div class="modal-backdrop fade show" style="display: none"></div>
 
 @endsection

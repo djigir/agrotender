@@ -56,7 +56,9 @@ class ProfileService
         if($file && $file->getError() == 0)
         {
             $fileName = $file->getClientOriginalName();
-            $file->move('/var/www/agrotender'.$path, $fileName);
+            $file->move('/var/www/agrotender/agrotender/'.$path, $fileName);
+            // заменить чтобы работало на серваке
+//            $file->move('/var/www/agrotender/'.$path, $fileName);
             $fileName = $path.$fileName;
         }
 
@@ -117,9 +119,17 @@ class ProfileService
 
     }
 
-    public function createOrUpdateVacancyCompany(ProfileCompanyNewsRequest $request)
+    public function UpdateNewsCompany(ProfileCompanyNewsRequest $request)
     {
+        $news = CompNews::find($request->get('news_id'));
 
+        $fileName = $this->putFileInDirectory($request->file('logo'), self::PART_FILE_LOGO_NEWS, 'news');
+
+        if (!$fileName == ''){
+            $news->update($request->only(['title', 'content']) + ['pic_src' => $fileName]);
+        }
+        $news->update($request->only(['title', 'content']));
+        return true;
     }
 
     public function getUserCompanyReviews($type)
@@ -129,7 +139,9 @@ class ProfileService
 
         // reviews for user company
         if ($type) {
-            $company_reviews = CompComment::with('comp_comment_lang')->where('item_id', $user->company->id)->get();
+            $company_reviews = CompComment::with('comp_comment_lang')->where('item_id', $user->company->id)
+                ->orderBy('id', 'desc')
+                ->get();
             $reviews = collect();
 
             foreach ($company_reviews as $key => $company_comment) {
@@ -142,7 +154,9 @@ class ProfileService
 
         }
         // user reviews
-        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', $user->user_id)->get();
+        $company_comments = CompComment::with('comp_comment_lang')->where('author_id', $user->user_id)
+            ->orderBy('id', 'desc')
+            ->get();
         $company_names = collect();
         foreach ($company_comments as $key => $company_comment) {
             $company_names->add(CompItems::select('id', 'title', 'logo_file')->where('id', $company_comments[$key]->item_id)->get()->first());

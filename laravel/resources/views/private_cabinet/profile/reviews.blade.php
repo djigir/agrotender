@@ -6,7 +6,7 @@
     <div class="container mt-4 mb-5">
         <div class="dep mx-sm-5 text-center text-sm-left">
             <a href="{{ route('user.profile.reviews') }}" @if(!isset($type)) class="active" @endif>Мои отзывы</a>
-            @if(!empty($user_company))
+            @if($user_company->count() != 0)
                 <a href="{{ route('user.profile.reviews', "type=1") }}" @if($type == 1) class="active" @endif>Моя компания</a>
             @endif
         </div>

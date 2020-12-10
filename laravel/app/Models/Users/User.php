@@ -4,7 +4,10 @@ namespace App\Models\Users;
 
 
 use App\Models\Comp\CompItems;
+use App\Notifications\CustomChangeLoginNotification;
 use Carbon\Carbon;
+use Core\Request;
+use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -68,6 +71,7 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use Notifiable;
+    use CanResetPassword;
 
     protected $table = 'auth_users_laravel';
     protected $primaryKey = 'id';
@@ -105,6 +109,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getEmailForPasswordReset()
+    {
+        $this->email = auth()->user()->login;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $email = \request()->get('login');
+
+        $this->notify(new CustomChangeLoginNotification($token, $email));
+    }
 
     public function company()
     {

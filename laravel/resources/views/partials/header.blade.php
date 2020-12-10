@@ -41,6 +41,7 @@
           crossorigin="anonymous"/>
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
 {{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
+    <link rel="stylesheet" href="/app/assets/css/my-laravel.css">
     <!-- Required CSS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>

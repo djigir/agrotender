@@ -4,11 +4,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/home', 'HomeController@index')->name('home');
-Auth::routes();
+//Auth::routes();
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
-
-//Route::get('/success', 'UserController@emailVerification')->name('success')->withoutMiddleware('check_auth_user');
 
 
 /* routes for traders  */
@@ -90,6 +88,11 @@ Route::prefix('u')
             ->middleware('check_auth_user')
             ->name('profile.')
             ->group(function () {
+                Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
+                Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
+                Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
+                Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.update');
+
                 Route::get('/company', 'UserController@profileCompany')->name('company');
                 Route::get('/', 'UserController@profile')->name('profile');
                 Route::get('/contacts', 'UserController@profileContacts')->name('contacts');
@@ -114,7 +117,12 @@ Route::prefix('u')
 //                Route::post('/edit_vacancy', 'UserController@editVacancy')->name('edit_vacancy');
                 Route::get('/edit_vacancy', 'UserController@editVacancy')->name('edit_vacancy');
                 Route::get('/delete_vacancy', 'UserController@deleteVacancy')->name('delete_vacancy');
-        });
+
+                Route::get('/reset_email', 'UserController@emailChangeLink')->name('change_email');
+                Route::get('/success', 'UserController@emailVerification')->name('success');
+                Route::get('/email_changed', 'UserController@successEmailChanged')->name('email_changed');
+
+            });
 
         Route::prefix('/posts')
             ->name('advert.')

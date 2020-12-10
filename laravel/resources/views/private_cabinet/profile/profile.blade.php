@@ -61,7 +61,6 @@
         </div>
     </div>
 
-
     @if($errors->any() || session('success'))
         <div id="noty_layout__bottomLeft" role="alert" aria-live="polite"
              class="noty_bar noty_type__info noty_theme__nest noty_close_with_click noty_has_timeout noty_has_progressbar noty_effects_close animate__animated animate__fadeInRightBig animate__faster"
