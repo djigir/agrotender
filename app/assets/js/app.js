@@ -4986,10 +4986,12 @@ if (document.querySelector('#openCompanyMenu')) {
 const $openCompanyMenu = document.querySelector('.open_company_menu')
 
 if ($openCompanyMenu) {
+  const $darkBg = document.querySelector('.bg_filters_spoiler')
   const $openCompanyMenuBtn = $openCompanyMenu.querySelector('button')
   const listener = e => {
     if (!e.target.classList.contains('spoiler')) {
       $openCompanyMenu.classList.remove('active')
+      $darkBg.classList.remove('active')
       window.removeEventListener('click', listener)
     }
   }
@@ -4999,6 +5001,7 @@ if ($openCompanyMenu) {
         window.addEventListener('click', listener)
       }, 0)
     }
+    $darkBg.classList.toggle('active')
     $openCompanyMenu.classList.toggle('active')
   })
 }

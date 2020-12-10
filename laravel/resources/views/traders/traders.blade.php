@@ -26,15 +26,29 @@
 
         @include('traders.feed.traders_feed', ['feed' => $feed])
             @if($type_traders == 0 || $type_traders == 2)
-                <div class="popular">
-                    <span class="text">Популярные <span class="adaptive_remove">культуры:</span></span>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Пшеница&nbsp;2&nbsp;кл.</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}">Пшеница&nbsp;3&nbsp;кл.</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'kukuruza'])}}">Кукуруза</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'raps'])}}">Рапс</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}">Подсолнечник</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}">Соя</a>
-                    <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}">Ячмень</a>
+                <div class="d-none d-lg-block">
+                    <div class="popular">
+                        <span class="text">Популярные <span class="adaptive_remove">культуры:</span></span>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Пшеница&nbsp;2&nbsp;кл.</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}">Пшеница&nbsp;3&nbsp;кл.</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'kukuruza'])}}">Кукуруза</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'raps'])}}">Рапс</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}">Подсолнечник</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}">Соя</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}">Ячмень</a>
+                    </div>
+                </div>
+                <div class="d-lg-none">
+                    <div class="new_page_title mt-4">Популярные культуры</div>
+                    <div class="popular">
+                        <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Пшеница&nbsp;2&nbsp;кл.</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'pshenica_3_kl'])}}">Пшеница&nbsp;3&nbsp;кл.</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'kukuruza'])}}">Кукуруза</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'raps'])}}">Рапс</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'podsolnechnik'])}}">Подсолнечник</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'soya'])}}">Соя</a>
+                        <a href="{{route('traders.region_culture', ['ukraine', 'yachmen'])}}">Ячмень</a>
+                    </div>
                 </div>
             @endif
 

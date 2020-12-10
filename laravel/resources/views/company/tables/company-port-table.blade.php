@@ -1,15 +1,15 @@
 <div class="ports-tabs table-tabs mt-3">
     @if($statusCurtypePort == 'UAH')
-        <a id="port-uah" class="active region-port-table">Закупки UAH</a>
+        <a href="#" currency="0" id="port-uah" class="active region-port-table">Закупки UAH</a>
     @endif
 
     @if($statusCurtypePort == 'USD')
-        <a id="port-usd" class="active region-port-table">Закупки USD</a>
+        <a href="#" currency="1" id="port-usd" class="active region-port-table">Закупки USD</a>
     @endif
 
     @if($statusCurtypePort == 'UAH_USD')
-        <a id="port-uah" class="active region-port-table">Закупки UAH</a>
-        <a id="port-usd" class="region-port-table">Закупки USD</a>
+        <a href="#" currency="0" id="port-uah" class="active region-port-table">Закупки UAH</a>
+        <a href="#" currency="1" id="port-usd" class="region-port-table">Закупки USD</a>
     @endif
 </div>
 

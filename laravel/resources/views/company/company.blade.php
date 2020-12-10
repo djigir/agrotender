@@ -7,7 +7,7 @@
         @if(!$port_place->isEmpty() || !$region_place->isEmpty())
             <!-- <h2 class="d-inline-block mt-4">Цены трейдера</h2> -->
             @if($updateDate)
-                <div class="new_company_actual_date">Актуальная цена на <b>{{$updateDate}}</b></div>
+                <div class="new_company_actual_date new_company_actual_date-desktop-and-mobile">Актуальная цена на <b>{{$updateDate}}</b></div>
                 <!-- <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
                     <b>Обновлено {{$updateDate}}</b>
                 </div> -->
@@ -27,13 +27,14 @@
             {!! $company['content'] !!}
         </div>
     </div>
-
+    
+    <div class="bg_filters bg_filters_spoiler"></div>
     <div class="open_company_menu">
         <ul class="spoiler">
             <li class="spoiler_small_mb">
                 <a href="#" class="spoiler_flex">
-                    <img src="https://agrotender.com.ua/pics/comp/4593_70690.jpg" alt="">
-                    <span>Название компании</span>
+                    <img src="{{$company['logo_file'] && file_exists($company['logo_file']) ? $company['logo_file'] : '/app/assets/img/no-image.png'}}" alt="">
+                    <span>{{$company['title']}}</span>
                 </a>
             </li>
             <li>

@@ -83,13 +83,13 @@
                 <div class="header__hoverElem" id="traders_prices_dropdown">
                   <ul>
                     <li>
-                      <a href="/">Закупки</a>
+                      <a href="/traders/region_ukraine">Закупки</a>
                     </li>
                     <li>
                       <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Форварды</a>
                     </li>
                     <li>
-                      <a href="/">Элеваторы</a>
+                      <a href="/elev">Элеваторы</a>
                     </li>
                     <li>
                       <a href="{{route('company.companies')}}">Компании</a>

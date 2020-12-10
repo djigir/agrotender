@@ -603,11 +603,17 @@ body[data-page="main/home"] .swiper-scrollbar {
   }
 }
 
-@media screen and (max-width: 875px) {
+@media screen and (max-width: 991px) {
   .popular {
     /* display: none; */
+    margin-top: 10px;
     width: 100%;
     overflow: auto;
+    justify-content: flex-start;
+  }
+  .popular a {
+    margin-left: 0;
+    margin-right: 12px;
   }
 }
 
@@ -2871,25 +2877,8 @@ a.logout {
   text-align: center;
   padding-top: 20px;
   padding-bottom: 18px;
-  /* padding: 32px 0 0 0; */
-  -webkit-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.04);
-    -moz-box-shadow: 0px 0px 7px 3px rgba(0,0,0,0.04);
-    box-shadow: 0px 0px 10px 3px rgba(0,0,0,0.04);
 }
-.company-bg .avatar {
-  width: 70px;
-  height: 70px;
-  object-fit: cover;
-  border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
-    -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
-    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
-}
-.company-bg .title {
-  color: #001430;
-  font-size: 18px;
-  font-weight: 600;
-}
+
 .company-menu-container {
     text-align: center;
 }
@@ -3227,10 +3216,10 @@ table.price-table th:nth-child(2) {
   position: relative;
   z-index: 1;
   color: #fff;
-  padding: 5px 15px;
+  padding: 8px 22px;
   margin: 0 -5px;
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
   -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
     -moz-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
     box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.15);
@@ -4439,7 +4428,16 @@ table.proposedTable tr.not-viewed td {
 
 .tradersImages {
   z-index: 1;
+  /* display: flex;
+  justify-content: center; */
 }
+/* .tradersImages .tradersImgBlock {
+  width: 30% !important;
+  margin: 0 auto;
+}
+.tradersImages .tradersImgBlock img {
+  width: 100% !important;
+} */
 
 @media screen and (min-width:501px) and (max-width:999px) { 
   .branding {
@@ -4552,8 +4550,8 @@ table.proposedTable tr.not-viewed td {
     margin-bottom: 1rem;
   }
   .tradersImgBlock:nth-child(1) img, .tradersImgBlock:nth-child(2) img {
-  display: none;
-}
+    display: none;
+  }
   [data-page="board/advert"] .tradersImages {
       display: none;
   }
@@ -6737,7 +6735,8 @@ table.proposedTable tr.not-viewed td {
   }
   .new_header .header__center__button,
   .new_header .header__tradersPrice-arrow {
-    background-color: #032665;
+    /* background-color: #032665; */
+    background-color: transparent;
   }
   .new_header .header__center__button.withBg {
     width: 48px;
@@ -6781,10 +6780,13 @@ table.proposedTable tr.not-viewed td {
     align-items: center;
     padding: 0 4px;
   }
+  .header__wrap.fixed-item {
+    height: 48px;
+  }
   .new_header .header__mobile .header_logo_mobile {
     display: block;
-    height: 22px;
-    width: 97px;
+    height: 30px;
+    width: 120px;
   }
  .new_header .header__mobile .header_profile {
     display: flex;
@@ -6798,6 +6800,7 @@ table.proposedTable tr.not-viewed td {
     height: 20px;
   }
  .new_header .header__mobile .header_drawerOpen-btn {
+    padding: 0;
     cursor: pointer;
     background-color: transparent;
     border: none;
@@ -6807,8 +6810,8 @@ table.proposedTable tr.not-viewed td {
     align-items: center;
   }
  .new_header .header_logo_mobile img {
-    height: 22px;
-    width: 97px;
+    height: 100%;
+    width: 100%;
   }
  .new_header .header__desktop {
     display: none;
@@ -6980,12 +6983,12 @@ table.proposedTable tr.not-viewed td {
 
 .new_filters_dropdown_column_tab.active {
   display: flex;
-  padding-left: 30px;
+  padding-left: 22px;
   border-left: 1px solid #DEE9F5;
 }
 
 .new_filters_dropdown_column_item {
-  width: 220px;
+  width: 222.3px;
 }
 
 .new_filters_dropdown_column.culures_first {
@@ -7117,7 +7120,7 @@ table.proposedTable tr.not-viewed td {
   background: #009750;
   border-radius: 6px;
   width: 100%;
-  height: 42px;
+  height: 46px;
   border: none;
   font-weight: 600;
   font-size: 14px;
@@ -7254,13 +7257,13 @@ table.proposedTable tr.not-viewed td {
   right: 20px;
   bottom: 20px;
   z-index: 9;
-  padding: 14px 12px;
+  padding: 16px 12px;
   border: none;
   background: #FFFFFF;
   border: 1px solid #DBE6F4;
   box-sizing: border-box;
   box-shadow: 0px 0px 20px rgba(4, 22, 45, 0.2);
-  border-radius: 20px;
+  border-radius: 22px;
 
   font-weight: 500;
   font-size: 14px;
@@ -7283,7 +7286,7 @@ table.proposedTable tr.not-viewed td {
   right: auto;
   max-width: 300px;
   width: 100%;
-  height: 50px;
+  height: 48px;
   text-align: center;
 }
 
@@ -7366,7 +7369,7 @@ table.proposedTable tr.not-viewed td {
 .open_company_menu {
   display: none;
   position: fixed;
-  z-index: 9;
+  z-index: 99;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -7473,7 +7476,7 @@ table.proposedTable tr.not-viewed td {
   font-size: 14px;
 }
 
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 480px) {
   .open_company_menu {
     display: block;
   }
@@ -7823,6 +7826,15 @@ table.sortTable th.table_haeder_th_cell {
   line-height: 1.2;
   letter-spacing: 0.02em;
   color: #001430;
+  transition: 300ms background-color ease, 300ms transform ease;
+}
+
+.new_company_header .content_list a:hover {
+  background-color: #E5EEF9; 
+}
+
+.new_company_header .content_list a:active {
+  transform: scale(0.95);
 }
 
 .new_company_header .content_list a.active {
@@ -7830,8 +7842,18 @@ table.sortTable th.table_haeder_th_cell {
   color: #FFFFFF;
 }
 
+.new_company_header .content_list a.active:active {
+  transform: scale(1);
+}
+
+@media screen and (max-width:  768px) {
+  .new_company_header .content_list {
+    display: none;
+  }
+}
+
 .new_company_actual_date {
-  margin: 20px 0;
+  margin-top: 20px;
   background-color: #009750;
   box-shadow: 0px 0px 8px rgba(4, 22, 45, 0.12);
   border-radius: 8px;
@@ -7845,4 +7867,39 @@ table.sortTable th.table_haeder_th_cell {
   line-height: 1.2;
   letter-spacing: 0.02em;
   color: #FFFFFF;
+}
+.new_company_actual_date-tablet {
+  display: none;
+}
+
+@media screen and (max-width: 768px) {
+  .new_company_actual_date-tablet {
+    display: block;
+  }
+  
+  .new_company_actual_date-desktop-and-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .company-bg {
+    padding-top: 10px;
+    /* margin-top: -20px; */
+  }
+  .new_company_actual_date-tablet {
+    display: none;
+  }
+
+  .new_company_header .img {
+    width: 75px;
+    height: 75px;
+  }
+  
+  .new_company_actual_date-desktop-and-mobile {
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: block;
+    text-align: center;
+  }
 }

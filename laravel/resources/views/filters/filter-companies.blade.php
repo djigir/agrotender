@@ -122,11 +122,13 @@
         </div>
     </div>
     <div class="row mt-4 pt-3">
-        <div class="col-12 col-sm-4 float-left mt-4 mt-md-0 d-flex d-sm-block">
+        <div class="col-12 col-sm-6 float-left mt-0 d-flex d-sm-block">
             <h2 class="d-inline-block text-uppercase">{!! isset($query) ? 'Поиск: '. $query : 'Список компаний' !!}</h2>
-            <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
+            <div>
+                <a href="/tarif20.html" class="small show-all mb-1 d-inline-block">Как сюда попасть?</a>
+            </div>
         </div>
-        <div class="col-12 col-sm-8 float-md-right text-center text-md-right">
+        <div class="col-12 col-sm-6 float-md-right text-right">
             <a id="addCompanny" href="/tarif20.html" class="top-btn btn btn-warning align-items-end">
                 <i class="far fa-plus mr-2"></i>
                 <span class="pl-1 pr-1">Разместить компанию</span>
