@@ -1,5 +1,5 @@
 @include('traders.block-info.traders')
-<div class="new_container container mt-3 traders_dev">
+<div class="new_container mt-3 traders_dev">
     <div class="new_traders">
         @foreach($traders as $trader)
             <div class="traders__item-wrap">

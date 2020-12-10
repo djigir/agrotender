@@ -3,14 +3,18 @@
 @section('content')
     @include('company.company-header', ['id' => $id])
     @if(!$prices_port->isEmpty() || !$prices_region->isEmpty())
-    <div class="container mt-4">
+
+    @if($updateDate)
+        <div class="new_company_actual_date">Актуальная цена на <b>{{$updateDate}}</b></div>
+    @endif
+    <!--<div class="container mt-4">
         <h2 class="d-inline-block">Цены трейдера</h2>
         @if($updateDate)
             <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
                 <b>Обновлено {{$updateDate}}</b>
             </div>
         @endif
-    </div>
+    </div> -->
     @endif
     <div class="container mt-4 mb-5">
         @if($prices_port->count() != 0)

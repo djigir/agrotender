@@ -3,13 +3,14 @@
 @section('content')
 
     @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
-    <div class="container company mb-5">
+    <div class="new_container company mb-5">
         @if(!$port_place->isEmpty() || !$region_place->isEmpty())
-            <h2 class="d-inline-block mt-4">Цены трейдера</h2>
+            <!-- <h2 class="d-inline-block mt-4">Цены трейдера</h2> -->
             @if($updateDate)
-                <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
+                <div class="new_company_actual_date">Актуальная цена на <b>{{$updateDate}}</b></div>
+                <!-- <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
                     <b>Обновлено {{$updateDate}}</b>
-                </div>
+                </div> -->
             @endif
         @endif
 
@@ -29,6 +30,12 @@
 
     <div class="open_company_menu">
         <ul class="spoiler">
+            <li class="spoiler_small_mb">
+                <a href="#" class="spoiler_flex">
+                    <img src="https://agrotender.com.ua/pics/comp/4593_70690.jpg" alt="">
+                    <span>Название компании</span>
+                </a>
+            </li>
             <li>
                 <a href="#">Цены трейдера</a>
             </li>

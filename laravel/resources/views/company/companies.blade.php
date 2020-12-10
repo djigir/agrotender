@@ -22,7 +22,7 @@
             </div>
         @endif
     </div>
-    <div class="container pb-4 companies">
+    <div class="new_container pb-4 companies">
         @foreach($companies as $index => $company)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
                 {{$company['trader_premium'] == 1 || $company['trader_premium'] == 2 ? 'companyTop' : ''}}"

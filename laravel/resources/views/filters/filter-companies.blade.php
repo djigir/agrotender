@@ -1,4 +1,4 @@
-<div class="d-none d-sm-block container mt-3">
+<div class="d-none d-sm-block new_container mt-3">
     <ol class="breadcrumbs small p-0">
         <li>
             <a href="/">Главная</a>
@@ -41,7 +41,8 @@
                                     @endforeach
                                 </div>
                                 @foreach($rubricGroups as $index => $rubric)
-                                    <div class="col-auto rubricGroup pr-0 mr-3 groupCulture" group="{{$rubric['id']}}" style="display: none; column-count: 2">
+                                    <!-- column-count: 2 -->
+                                    <div class="col-auto rubricGroup pr-0 mr-3 groupCulture group-{{$rubric['id']}}" group="{{$rubric['id']}}" style="display: none;">
                                         @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
                                             <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
                                                 <span>{{$culture['title']}}</span>
@@ -134,6 +135,10 @@
     </div>
 </div>
 
+<div class="new_container">
+    <h2 class="d-block text-uppercase d-sm-none companies_list">{!! isset($query) ? 'Поиск: '. $query : 'Список компаний' !!}</h2>
+</div>
+
 
 <div class="bg_filters"></div>
 
@@ -161,16 +166,15 @@
 
         <div class="screens">
         <div class="first active">
-            <div class="search_wrap">
-            <input type="text" placeholder="Название компании" class="search_filed_no_js first_screen" id="companySearchField">             
-            <button class="first_screen" id="companySearchBtn">
-                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
-            </button>
-            </div>
-
             <div class="mobile_filter-content">
-            <div class="mobile_filter-content-item withmargin" id="product" data-product="">Выбрать продукцию</div>
-            <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">Вся Украина</div>
+                <div class="search_wrap">
+                    <input type="text" placeholder="Название компании" class="search_filed_no_js first_screen" id="companySearchField">             
+                    <button class="first_screen" id="companySearchBtn">
+                        <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                    </button>
+                </div>
+                <div class="mobile_filter-content-item withmargin" id="product" data-product="">Выбрать продукцию</div>
+                <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">Вся Украина</div>
             </div>
 
             <div class="mobile-filter-footer">
@@ -441,6 +445,7 @@
     </div>
     </div>
 </div>
+
 <style>
     .btn-search{
         background: none;

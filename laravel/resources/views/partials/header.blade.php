@@ -4,7 +4,7 @@
     <title>{!! $meta['meta_title'] ?? '' !!}</title>
     <!-- Meta tags -->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="yandex-verification" content="19ad2285f183dd11"/>
     @if(isset($meta['meta_keywords']))
@@ -231,7 +231,7 @@
         @include('partials.banners.body')
     @endif
 </div>
-<main class="main" role="main" data-page="{$page}">
+<main class="main">
     <div id="loading"></div>
     @if(!isset($id))
         @include('partials.banners.head')
