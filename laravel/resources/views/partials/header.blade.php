@@ -236,15 +236,12 @@
     @if(!isset($id))
         @include('partials.banners.head')
     @endif
-    @if($isMobile)
-        @if($page_type == 0)
-            @include('mobile.filters.mobile-filter-companies')
-        @else
-            @include('mobile.filters.mobile-filter-traders')
-        @endif
-    @endif
-{{--    @if(!isset($id))--}}
-{{--        @include('partials.header-scroll')--}}
+{{--    @if($isMobile)--}}
+{{--        @if($page_type == 0)--}}
+{{--            @include('mobile.filters.mobile-filter-companies')--}}
+{{--        @else--}}
+{{--            @include('mobile.filters.mobile-filter-traders')--}}
+{{--        @endif--}}
 {{--    @endif--}}
     <style>
         .remove-input{

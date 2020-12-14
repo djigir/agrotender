@@ -1,7 +1,11 @@
 @extends('layout.layout', ['meta' => $meta, 'rubricGroups' => $rubricGroups, 'regions' => $regions])
 
 @section('content')
-    @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
+    @if(!$isMobile)
+        @include('filters.filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
+    @else
+        @include('mobile.filters.mobile-filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
+    @endif
     <div class="d-none d-sm-block container mt-3"></div>
     <div class="d-sm-none container pt-4">
         @if($region_id)
@@ -27,11 +31,11 @@
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-1 py-sm-3 px-1
                 {{$company['trader_premium'] == 1 || $company['trader_premium'] == 2 ? 'companyTop' : ''}}"
                 {{$company['trader_premium'] == 2 ?? 'style ="overflow:hidden;'}}>
-{{--                @if($company['trader_premium'] == 2)--}}
-{{--                    <div class="ribbonComp">--}}
-{{--                        VIP--}}
-{{--                    </div>--}}
-{{--                @endif--}}
+                @if($company['trader_premium'] == 2)
+                    <div class="ribbonComp">
+                        VIP
+                    </div>
+                @endif
                 <div class="row mx-0 w-100">
                     <div class="col-auto pr-0 pl-2 pl-sm-3">
                         <div class="row m-0">

@@ -257,6 +257,12 @@ class CompanyService
         foreach ($cultures as $index => $culture)
         {
             foreach ($culture->traders_prices as $index_prices => $prices) {
+                foreach ($culture->traders_prices as $index_cult => $cult){
+                    if($cult['cultures']->isEmpty()){
+                        $culture->traders_prices->forget($index_prices);
+                    }
+                }
+
                 if ($prices->traders_places->isEmpty()) {
                     $culture->traders_prices->forget($index_prices);
                 }

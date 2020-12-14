@@ -25,7 +25,7 @@ class CompanyController extends Controller
 {
     const NAME_SECTION_RUBRIC = [
         0 => 'Все рубрики',
-        1 => 'Выберите рубрику',
+        1 => 'Выбрать продукцию',
     ];
 
 
@@ -35,6 +35,7 @@ class CompanyController extends Controller
     protected $seoService;
     protected $agent;
     protected $company;
+
 
     public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
     {
@@ -252,6 +253,7 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
 
         return view('company.company', [
             'company' => $this->company,
@@ -265,6 +267,7 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
+            'traders_contacts' => $traders_contacts,
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
             'current_page' => 'main',

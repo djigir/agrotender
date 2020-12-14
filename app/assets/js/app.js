@@ -5006,6 +5006,20 @@ if ($openCompanyMenu) {
   })
 }
 
+
+/* Для записи значение в value input в моб. фильтре компаний */
+$(".click-culture-company").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('culture-id');
+  $('#input-mobile-rubric-company').attr('value', rubric);
+});
+
+$(".click-region-company").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('data-url');
+  $('#input-mobile-region-company').attr('value', rubric);
+});
+
+
+/* Для записи значение в value input в моб. фильтре трейдеров */
 $(".click_culture").click(function (event) {
   let rubric = event.currentTarget.getAttribute('data-product');
   $('#new-input-mobile-rubric').attr('value', rubric);
