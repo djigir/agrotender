@@ -23,9 +23,9 @@
                 <form action="">
                     <div class="first active">
                         <div class="mobile_filter-content">
-                            <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="remove-input">
-                            <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="remove-input">
-                            <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="remove-input">
+                            <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="hidden">
+                            <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="hidden">
+                            <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="hidden">
                             <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
                             <div class="mobile_filter-content-item withmargin" id="region" data-region="">{{$region_port_name}}</div>
                         </div>
@@ -96,24 +96,6 @@
                                     6 => 'Вся органика',
                                 ];
                                 ?>
-                                <div class="mobile_filter-section-text">Популярное</div>
-                                <ul class="mobile_filter-section-list">
-                                    <li>
-                                        <a class="click_culture" href="#" data-id="0" data-product="pshenica_2_kl">Пшеница 2 кл.</a>
-                                    </li>
-                                    <li>
-                                        <a class="click_culture" href="#" data-id="0" data-product="pshenica_3_kl">Пшеница 3 кл.</a>
-                                    </li>
-                                    <li>
-                                        <a class="click_culture" href="#" data-id="0" data-product="pshenica_4_kl">Пшеница 4 кл.</a>
-                                    </li>
-                                    <li>
-                                        <a class="click_culture" href="#" data-id="0" data-product="yachmen">Ячмень</a>
-                                    </li>
-                                    <li>
-                                        <a class="click_culture" href="#" data-id="0" data-product="kukuruza">Кукуруза</a>
-                                    </li>
-                                </ul>
                                 <div class="mobile_filter-section-text">{{$NAME[$item['index_group']]}}</div>
                                 <ul class="mobile_filter-section-list">
                                     @foreach($rubricsGroup[$group]['groups']["products"] as $cult)
