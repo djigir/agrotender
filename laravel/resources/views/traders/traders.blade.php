@@ -72,12 +72,8 @@
         </div>
 
         <div class="mt-3 traders_dev">
-            @if($type_traders != 0)
-                @include('traders.block-info.forwards-block-info')
-            @else
-                @if($type_view == 'table')
-                    @include('traders.block-info.traders')
-                @endif
+            @if($type_view == 'table')
+                @include('traders.block-info.traders')
             @endif
 
             @if($type_view == 'table')

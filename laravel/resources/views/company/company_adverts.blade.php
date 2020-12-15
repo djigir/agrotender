@@ -1,7 +1,12 @@
 @extends('layout.layout', ['meta' => $meta])
 
 @section('content')
-    @include('company.company-header', ['id' => $id])
+    @if($isMobile)
+        @include('mobile.company-header-mobile')
+    @else
+        @include('company.company-header', ['id' => $id])
+    @endif
+
     <div class="container company mt-4 mb-5">
         <div class="row">
             <div class="position-relative w-100">
