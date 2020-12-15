@@ -55,73 +55,6 @@ if($regions->count() > 0 && !$isMobile){
                 @endforeach
               </div>
           @endforeach
-{{--        <div class="new_filters_dropdown_column_tab active js_content">--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--        </div>--}}
-{{--        <div class="new_filters_dropdown_column_tab js_content">--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--        </div>--}}
       </div>
     </div>
 
@@ -163,37 +96,6 @@ if($regions->count() > 0 && !$isMobile){
                     </ul>
                 </div>
             @endforeach
-
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="region_ukraine">Вся Украина</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="1" data-url="kiyv">Киев</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
         </div>
 
         <div class="new_filters_dropdown_column_tab {{!empty($port) ? 'active' : ''}}">
@@ -222,37 +124,6 @@ if($regions->count() > 0 && !$isMobile){
                     </ul>
                 </div>
             @endforeach
-
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
-{{--          <div class="new_filters_dropdown_column_item">--}}
-{{--            <ul>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="region_ukraine">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--              <li>--}}
-{{--                <a href="#" data-id="2" data-url="kiyv">ПОРТЫ</a>--}}
-{{--              </li>--}}
-{{--            </ul>--}}
-{{--          </div>--}}
         </div>
       </div>
     </div>

@@ -4767,6 +4767,7 @@ class MobileFilter {
       this.openScreen('first')
     }
     this.button_third.onclick = () => {
+      $('.name_rubric').text('Фильтры');
       this.openScreen('second')
     }
   }
@@ -5009,6 +5010,7 @@ if ($openCompanyMenu) {
 
 /* Для записи значение в value input в моб. фильтре компаний */
 $(".click-culture-company").click(function (event) {
+  $('.name_rubric').text('Фильтры');
   let rubric = event.currentTarget.getAttribute('culture-id');
   $('#input-mobile-rubric-company').attr('value', rubric);
 });
@@ -5021,6 +5023,7 @@ $(".click-region-company").click(function (event) {
 
 /* Для записи значение в value input в моб. фильтре трейдеров */
 $(".click_culture").click(function (event) {
+  $('.name_rubric').text('Фильтры');
   let rubric = event.currentTarget.getAttribute('data-product');
   $('#new-input-mobile-rubric').attr('value', rubric);
 });
@@ -5037,6 +5040,12 @@ $(".click_port").click(function (event) {
   let port = event.currentTarget.getAttribute('data-url');
   $('#new-input-mobile-port-t').attr('value', port);
   $('#new-input-mobile-region-t').attr('value', null);
+});
+
+
+$(".click_name_rubric").click(function (event) {
+  let name_rubric = event.currentTarget.getAttribute('name_rubric');
+  $('.name_rubric').text(name_rubric);
 });
 
 

@@ -16,7 +16,7 @@
                 <button class="back third-btn">
                     <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
                 </button>
-                <span>Фильтры</span>
+                <span class="name_rubric">Фильтры</span>
                 <a href="{{route('traders.region', 'ukraine')}}">Сбросить</a>
             </div>
             <div class="screens">
@@ -39,7 +39,9 @@
                 <div class="second">
                     <div class="subItem">
                         @foreach($rubricsGroup as $group => $item)
-                            <div class="mobile_filter-content-item">{{$item['groups']['name']}}</div>
+                            <div class="mobile_filter-content-item click_name_rubric" name_rubric="{{$item['groups']['name']}}">
+                                {{$item['groups']['name']}}
+                            </div>
                         @endforeach
                     </div>
                     <div class="subItem">
@@ -87,16 +89,16 @@
                             </div>
                             <div class="default_value">
                                 <?php
-                                $NAME = [
-                                    1 => 'Все зерновые',
-                                    2 => 'Все масличные',
-                                    3 => 'Все бобовые',
-                                    4 => 'Все продукты переработки',
-                                    5 => 'Все нишевые культуры',
-                                    6 => 'Вся органика',
-                                ];
+                                    $NAME = [
+                                        1 => 'Все зерновые',
+                                        2 => 'Все масличные',
+                                        3 => 'Все бобовые',
+                                        4 => 'Все продукты переработки',
+                                        5 => 'Все нишевые культуры',
+                                        6 => 'Вся органика',
+                                    ];
                                 ?>
-                                <div class="mobile_filter-section-text">{{$NAME[$item['index_group']]}}</div>
+{{--                                <div class="mobile_filter-section-text">{{$NAME[$item['index_group']]}}</div>--}}
                                 <ul class="mobile_filter-section-list">
                                     @foreach($rubricsGroup[$group]['groups']["products"] as $cult)
                                         <li>
