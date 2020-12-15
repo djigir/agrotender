@@ -5,3 +5,4 @@ app/cache
 app/views_compile/*
 vendor
 robots.txt
+laravel/public/packages

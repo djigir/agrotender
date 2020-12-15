@@ -15,9 +15,12 @@
 //$db_password		= "vA7tMkl6Tk680qtsfNYl";
 //$db_database		= "agrotend";
 $db_host			= "localhost";
-$db_user			= "agrotender_site";
-$db_password		= "sTexTgEm7q";
-$db_database		= "agrotender_site";
+//$db_user			= "agrotender_site";
+//$db_password		= "sTexTgEm7q";
+//$db_database		= "agrotender_site";
+$db_user			= "root";
+$db_password		= "root";
+$db_database		= "agrotender";
 $db_preffix			= "agt_";
 
 // Default host name, used in links

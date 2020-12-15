@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\News\News;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TraderFeed;
@@ -321,6 +322,17 @@ class CompItems extends Model
 
     public function torgBuyerForCompany()
     {
-        $this->belongsTo(TorgBuyer::class, 'id');
+        return $this->belongsTo(TorgBuyer::class, 'id');
     }
+
+    public function news()
+    {
+        return $this->hasMany(News::class, 'comp_id');
+    }
+
+    public function newsForCompany()
+    {
+        return $this->belongsTo(CompNews::class, 'comp_id');
+    }
+
 }

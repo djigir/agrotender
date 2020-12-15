@@ -15,6 +15,8 @@ if (
     || strripos($_SERVER['REQUEST_URI'], '/_debugbar/assets') === 0
     || strripos($_SERVER['REQUEST_URI'], '/u') === 0
     || strripos($_SERVER['REQUEST_URI'], '/u/posts') === 0
+    || strripos($_SERVER['REQUEST_URI'], '/admin_dev') === 0
+    || strripos($_SERVER['REQUEST_URI'], '/packages') === 0
 //    || strripos($_SERVER['REQUEST_URI'], '/buyerreg') === 0
 ){
     include_once "laravel/public/index.php";

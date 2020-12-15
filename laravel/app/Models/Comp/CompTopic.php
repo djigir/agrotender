@@ -39,12 +39,19 @@ class CompTopic extends Model
 
     protected $dates = ['add_date'];
 
+    public $timestamps = false;
+
     public function comp_topic_item()
     {
         return $this->belongsTo(CompTopicItem::class, 'topic_id', 'id');
     }
 
     public function comp_groups()
+    {
+        return $this->belongsTo(CompTgroups::class, 'id');
+    }
+
+    public function compTgroups()
     {
         return $this->belongsTo(CompTgroups::class, 'id');
     }

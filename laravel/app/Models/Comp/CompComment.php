@@ -69,7 +69,20 @@ class CompComment extends Model
         return $this->hasOne(CompCommentLang::class, 'item_id');
     }
 
+
+
+    public function compCommentLang()
+    {
+        return $this->hasOne(CompCommentLang::class, 'item_id');
+    }
+
+
     public function comp_item()
+    {
+        return $this->hasMany(CompItems::class, 'author_id', 'author_id');
+    }
+
+    public function compItem()
     {
         return $this->hasMany(CompItems::class, 'author_id', 'author_id');
     }

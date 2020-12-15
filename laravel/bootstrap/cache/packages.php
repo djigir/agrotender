@@ -17,6 +17,17 @@
       0 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     ),
   ),
+  'davejamesmiller/laravel-breadcrumbs' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Breadcrumbs' => 'DaveJamesMiller\\Breadcrumbs\\Facades\\Breadcrumbs',
+    ),
+  ),
   'facade/ignition' => 
   array (
     'providers' => 
@@ -76,6 +87,25 @@
     'providers' => 
     array (
       0 => 'Laravel\\Ui\\UiServiceProvider',
+    ),
+  ),
+  'laravelcollective/html' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'Collective\\Html\\HtmlServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'Form' => 'Collective\\Html\\FormFacade',
+      'Html' => 'Collective\\Html\\HtmlFacade',
+    ),
+  ),
+  'laravelrus/sleepingowl' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
     ),
   ),
   'nesbot/carbon' => 

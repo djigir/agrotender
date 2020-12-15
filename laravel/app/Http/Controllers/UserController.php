@@ -7,6 +7,7 @@ use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\ProfileCompanyNewsRequest;
 use App\Http\Requests\LoginPasswordRequest;
 use App\Http\Requests\ProfileUserCompanyVacancyRequest;
+use App\Http\Sections\CompComment;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompNews;
@@ -14,8 +15,14 @@ use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
 use App\Models\Comp\CompVacancy;
+use App\Models\Elevators\TorgElevator;
+use App\Models\Elevators\TorgElevatorLang;
+use App\Models\Rayon\Rayon;
+use App\Models\Rayon\RayonLang;
+use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
+use App\Models\Users\Users;
 use App\Notifications\CustomChangeLoginNotification;
 use App\Services\ProfileMetaService;
 use App\Services\User\AdvertService;
@@ -91,6 +98,8 @@ class UserController extends Controller
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
+        $u = TorgElevator::with('langElevator')->first();
+        dd($u);
         $meta = $this->profileMetaService->profile();
         return view('private_cabinet.profile.profile', [
             'meta' => $meta,

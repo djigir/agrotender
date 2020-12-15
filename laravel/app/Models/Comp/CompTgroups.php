@@ -37,4 +37,9 @@ class CompTgroups extends Model
     {
          return $this->hasMany(CompTopic::class, 'menu_group_id');
     }
+
+    public function compTopic()
+    {
+        return $this->hasMany(CompTopic::class, 'menu_group_id');
+    }
 }

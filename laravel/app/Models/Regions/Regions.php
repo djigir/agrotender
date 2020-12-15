@@ -2,6 +2,8 @@
 
 namespace App\Models\Regions;
 
+use App\Models\Elevators\TorgElevator;
+use App\Models\Rayon\Rayon;
 use App\Models\Traders\TradersPlaces;
 use Illuminate\Database\Eloquent\Model;
 
@@ -35,5 +37,16 @@ class Regions extends Model
     public function traders_places()
     {
         return $this->belongsTo(TradersPlaces::class, 'obl_id', 'id');
+    }
+
+
+    public function rayons()
+    {
+        return $this->hasMany(Rayon::class, 'obl_id');
+    }
+
+    public function elevators()
+    {
+        return $this->hasMany(TorgElevator::class, 'obl_id');
     }
 }

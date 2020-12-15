@@ -37,4 +37,12 @@ class CompNews extends Model
     ];
 
     protected $dates = ['add_date'];
+
+    /* Relations */
+
+    public function compItems()
+    {
+        return $this->hasOne(CompItems::class, 'id');
+    }
+
 }

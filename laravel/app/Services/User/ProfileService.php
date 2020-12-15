@@ -56,9 +56,9 @@ class ProfileService
         if($file && $file->getError() == 0)
         {
             $fileName = $file->getClientOriginalName();
-            $file->move('/var/www/agrotender/agrotender/'.$path, $fileName);
+//            $file->move('/var/www/agrotender/agrotender/'.$path, $fileName);
             // заменить чтобы работало на серваке
-//            $file->move('/var/www/agrotender/'.$path, $fileName);
+            $file->move('/var/www/agrotender/'.$path, $fileName);
             $fileName = $path.$fileName;
         }
 
