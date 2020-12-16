@@ -92,6 +92,7 @@
 
     $(window).scroll(function () {
         if(document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 800 && count < 1) {
+            replaceWithSpacesAllItems();
             count++;
             $.ajax({
                 url: window.location.origin + '/traders/get_traders',
@@ -103,7 +104,6 @@
                     end: end,
                 },
                 success: function (data) {
-                    replaceWithSpacesAllItems()
                     $('.new_traders').append(data);
                     count = 0;
                     start += add_count_item;
