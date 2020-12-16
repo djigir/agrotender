@@ -77,9 +77,19 @@
     var add_count_item = 15;
     var count = 0;
     var start = add_count_item;
-    var end = add_count_item*2;
+    var end = add_count_item * 2;
+
     var region = window.location.pathname.replace('traders', '').replace('region_', '').replace(/[\/\\]/g,'');
-    console.log(region);
+    var port = window.location.pathname.replace('traders', '').replace('tport_', '').replace(/[\/\\]/g,'');
+
+    if(window.location.pathname.indexOf('region') !== -1){
+        port = null;
+    }
+
+    if(window.location.pathname.indexOf('tport') !== -1){
+        region = null;
+    }
+
     $(window).scroll(function () {
         if(document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 400 && count < 1) {
             count++;
@@ -88,7 +98,7 @@
                 method: 'GET',
                 data: {
                     region: region,
-                    port: '',
+                    port: port,
                     start: start,
                     end: end,
                 },
