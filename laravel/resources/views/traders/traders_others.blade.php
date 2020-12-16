@@ -15,7 +15,7 @@
                                     <p class="traders__item__content-p">
                                         <span class="traders__item__content-p-title">{{ $price->name }}</span>
                                         <span class="right">
-                                            <span class="traders__item__content-p-price">
+                                            <span class="traders__item__content-p-price replace_numbers_js">
                                                 {{ $price->curtype == 1 ? '$ ' : ''}}
                                                 {{ round($price->costval, 1) }}
                                             </span>
@@ -103,6 +103,7 @@
                     end: end,
                 },
                 success: function (data) {
+                    replaceWithSpacesAllItems()
                     $('.new_traders').append(data);
                     count = 0;
                     start += add_count_item;
