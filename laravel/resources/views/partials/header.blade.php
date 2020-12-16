@@ -209,6 +209,9 @@
                 <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
               </li>
               <li>
+                <a href="{{route('company.companies')}}">форварды </a>
+              </li>
+              <li>
                 <a href="{{route('company.companies')}}">Компании</a>
               </li>
               <li>
@@ -236,13 +239,6 @@
     @if(!isset($id))
         @include('partials.banners.head')
     @endif
-{{--    @if($isMobile)--}}
-{{--        @if($page_type == 0)--}}
-{{--            @include('mobile.filters.mobile-filter-companies')--}}
-{{--        @else--}}
-{{--            @include('mobile.filters.mobile-filter-traders')--}}
-{{--        @endif--}}
-{{--    @endif--}}
     <style>
         .remove-input{
             position: absolute;
