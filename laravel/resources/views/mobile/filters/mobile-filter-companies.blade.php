@@ -18,7 +18,7 @@
                 <button class="back third-btn">
                     <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
                 </button>
-                <span>Фильтры</span>
+                <span class="name_rubric">Фильтры</span>
                 <a href="{{route('company.companies')}}" id="filterRebootBtn">Сбросить</a>
             </div>
 
@@ -46,7 +46,7 @@
                 <div class="second">
                     <div class="subItem">
                         @foreach($rubricGroups as $index_group => $rubricGroup)
-                            <div class="mobile_filter-content-item" group="{{$rubricGroup['id']}}">{{$rubricGroup['title']}}</div>
+                            <div class="mobile_filter-content-item click_name_rubric" group="{{$rubricGroup['id']}}" name_rubric="{{$rubricGroup['title']}}">{{$rubricGroup['title']}}</div>
                         @endforeach
                     </div>
                     <div class="subItem">
@@ -91,7 +91,7 @@
                                 </button>
                             </div>
                             <div class="default_value">
-                                <div class="mobile_filter-section-text">Все зерновые</div>
+{{--                                <div class="mobile_filter-section-text">Все зерновые</div>--}}
                                 <ul class="mobile_filter-section-list">
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
                                         <li group="{{$rubricGroup['id']}}" rubric="{{$culture['id']}}">

@@ -21,6 +21,11 @@
                 <a href="{{route('company.forwards', $id)}}" class="{{$current_page == 'forwards' ? 'active' : ''}}">Форварды</a>
             </li>
         @endif
+        @if($check_adverts)
+            <li>
+                <a href="{{route('company.adverts', $id)}}" class="{{$current_page == 'adverts' ? 'active' : ''}}">Объявления</a>
+            </li>
+        @endif
     </ul>
     <button>Меню компании</button>
 </div>

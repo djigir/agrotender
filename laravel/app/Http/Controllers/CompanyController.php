@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ADV\AdvTorgPost;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
@@ -253,6 +254,7 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
         $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
 
         return view('company.company', [
@@ -270,6 +272,7 @@ class CompanyController extends Controller
             'traders_contacts' => $traders_contacts,
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -290,6 +293,7 @@ class CompanyController extends Controller
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
 
         if(!$checkForward){
             return redirect()->route('company.index', $id);
@@ -335,6 +339,7 @@ class CompanyController extends Controller
             'meta' => $meta,
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -396,6 +401,7 @@ class CompanyController extends Controller
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
 
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
@@ -406,6 +412,7 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
         ]);
     }
 
@@ -428,6 +435,7 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
 
         return view('company.company_cont', [
             'company' => $this->company,
@@ -441,6 +449,43 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
         ]);
+    }
+
+
+    public function companyAdverts($id, Request $request)
+    {
+        $this->setCompany($id);
+
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $type = $request->get('type');
+        $get_adverts_data = $this->companyService->getAdverts($this->company->author_id, $type);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
+        $meta = [
+            'meta_title' => $this->company->title,
+            'meta_keywords' => $this->company->title,
+            'meta_description' => 'Сайт компании '.$this->company->title
+        ];
+
+        if(!$checkAdverts){
+            return redirect()->route('company.index', $id);
+        }
+
+        return view('company.company_adverts', [
+            'company' => $this->company,
+            'id' => $id,
+            'adverts' => $get_adverts_data->get('adverts'),
+            'rubric_advert' => $get_adverts_data->get('rubric'),
+            'image_advert' => $get_adverts_data->get('image'),
+            'type' => $type,
+            'meta' => $meta,
+            'current_page' => 'adverts',
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
+        ]);
+
     }
 }

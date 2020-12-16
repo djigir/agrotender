@@ -67,6 +67,7 @@ Route::prefix('kompanii')
         Route::get('/comp-{id_company}-cont', 'CompanyController@companyContact')->name('cont');
         Route::get('/comp-{id_company}-reviews', 'CompanyController@companyReviews')->name('reviews');
         Route::get('/comp-{id_company}-forwards', 'CompanyController@companyForwards')->name('forwards');
+        Route::get('/comp-{id_company}-adverts', 'CompanyController@companyAdverts')->name('adverts');
         Route::get('/comp-{id_company}-traderContacts', 'CompanyController@traderContacts')->name('trader_contacts');
         Route::get('/comp-{id_company}', 'CompanyController@company')->name('index');
         Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');

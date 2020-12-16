@@ -5,6 +5,9 @@ namespace App\Services;
 
 
 use App\Http\Controllers\CompanyController;
+use App\Models\ADV\AdvTorgPost;
+use App\Models\ADV\AdvTorgPostPics;
+use App\Models\ADV\AdvTorgTopic;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
@@ -60,6 +63,65 @@ class CompanyService
         $prices_region = $this->getPricesForwards($author_id, 3, reset($forward_months), 0);
 
         if($check_forwards > 0 && (!$prices_port->isEmpty() || !$prices_region->isEmpty())){
+            return true;
+        }
+
+        return false;
+    }
+
+
+    public function getAdverts($author_id, $type = null)
+    {
+        $criteria_type = [];
+
+        if($type){
+            $criteria_type[] = ['adv_torg_post.type_id', $type];
+        }
+
+        $adverts = AdvTorgPost::select(
+            'adv_torg_post.title as title_post', 'adv_torg_post.type_id',
+            'adv_torg_post.id', 'adv_torg_post.city', 'adv_torg_post.add_date',
+            'adv_torg_post.up_dt', 'adv_torg_post.amount', 'adv_torg_post.izm',
+            'adv_torg_post.cost', 'adv_torg_post.cost_cur', 'adv_torg_post.cost_dog',
+            'adv_torg_post.colored', 'adv_torg_post.viewnum', 'regions.name as region',
+            'adv_torg_topic.parent_id',
+            'adv_torg_topic.title as title_topic',
+            'torg_buyer.name as name_author', \DB::raw('case agt_adv_torg_post.company_id when 0 then agt_torg_buyer.name else agt_comp_items.title end author')
+            )
+            ->join('adv_torg_topic', 'adv_torg_topic.id', '=', 'adv_torg_post.topic_id')
+            ->leftJoin('torg_buyer', 'adv_torg_post.author_id', '=', 'torg_buyer.id')
+            ->leftJoin('comp_items', 'adv_torg_post.company_id', '=', 'comp_items.id')
+            ->leftJoin('regions', 'adv_torg_post.obl_id', '=', 'regions.id')
+            ->where('torg_buyer.id', '=', $author_id)
+            ->where('adv_torg_post.active', '=', 1)
+            ->where('adv_torg_post.moderated', '=', 1)
+            ->where('adv_torg_post.archive', '=', 0)
+            ->where($criteria_type)
+            ->orderBy('adv_torg_post.up_dt', 'desc')->distinct()->get();
+
+        $rubric = AdvTorgTopic::whereIn('id', $adverts->pluck('parent_id'))->select('id', 'title')->get();
+
+        $image = AdvTorgPostPics::whereIn('item_id', $adverts->pluck('id'))
+            ->select('item_id', 'filename_ico')
+            ->orderBy('sort_num')
+            ->get();
+
+        return collect(['adverts' => $adverts, 'rubric' => $rubric, 'image' => $image]);
+    }
+
+
+    public function checkAdverts($author_id)
+    {
+        $count_adverts = AdvTorgPost::join('adv_torg_topic', 'adv_torg_topic.id', '=', 'adv_torg_post.topic_id')
+            ->leftJoin('torg_buyer', 'adv_torg_post.author_id', '=', 'torg_buyer.id')
+            ->leftJoin('comp_items', 'adv_torg_post.company_id', '=', 'comp_items.id')
+            ->leftJoin('regions', 'adv_torg_post.obl_id', '=', 'regions.id')
+            ->where('torg_buyer.id', '=', $author_id)
+            ->where('adv_torg_post.active', '=', 1)
+            ->where('adv_torg_post.moderated', '=', 1)
+            ->where('adv_torg_post.archive', '=', 0)->count();
+
+        if($count_adverts > 0){
             return true;
         }
 
@@ -145,7 +207,12 @@ class CompanyService
             ->toArray();
     }
 
-
+    /** Упрощенный метод получения Place -> буду юзать в будующем
+     * @param $author_id
+     * @param $type
+     * @param $placeType
+     * @return
+     */
     public function getPrices($author_id, $type, $placeType)
     {
         $statusCurtype = '';

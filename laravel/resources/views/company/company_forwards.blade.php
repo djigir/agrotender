@@ -1,7 +1,11 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('company.company-header', ['id' => $id])
+    @if($isMobile)
+        @include('mobile.company-header-mobile')
+    @else
+        @include('company.company-header', ['id' => $id])
+    @endif
     @if(!$prices_port->isEmpty() || !$prices_region->isEmpty())
 
     @if($updateDate)

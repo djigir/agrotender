@@ -1,7 +1,11 @@
 @extends('layout.layout', ['meta' => $meta, 'id' => $id])
 
 @section('content')
-    @include('company.company-header')
+    @if($isMobile)
+        @include('mobile.company-header-mobile')
+    @else
+        @include('company.company-header', ['id' => $id])
+    @endif
     <div class="new_container company mb-5">
         @if(!$port_place->isEmpty() || !$region_place->isEmpty())
             @if(isset($updateDate) && $updateDate)
@@ -27,8 +31,6 @@
         </div>
     </div>
 
-    @if($isMobile)
-        @include('mobile.company-header-mobile')
-    @endif
+
 
 @endsection

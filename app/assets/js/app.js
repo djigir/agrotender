@@ -4739,7 +4739,11 @@ class MobileFilter {
       this.openScreen('first')
     }
     this.button_third.onclick = () => {
+<<<<<<< HEAD
       this.setTitle('Фильтры')
+=======
+      $('.name_rubric').text('Фильтры');
+>>>>>>> 131916386122e3d10e9d9d531d9bd1ead0b21c79
       this.openScreen('second')
     }
   }
