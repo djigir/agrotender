@@ -13,6 +13,14 @@ class AdminSectionsServiceProvider extends ServiceProvider
     protected $sections = [
 //        \App\Models\Users\User::class => 'App\Http\Sections\Users\Users',
 
+            /* Быстрый Доступ  Fast access */
+        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
+        \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
+
+        /* Цены трейдеров */
+        \App\Models\Traders\TradersProducts::class => 'App\Http\Sections\TraderPrices\TradersProducts',
+
+
             /* Управление пользователями */
         \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
 

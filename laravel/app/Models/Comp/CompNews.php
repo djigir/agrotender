@@ -4,6 +4,7 @@ namespace App\Models\Comp;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comp\CompItems;
 
 
 /**
@@ -33,16 +34,15 @@ class CompNews extends Model
         'pic_ico',
         'title',
         'content',
-        'add_date',
     ];
 
     protected $dates = ['add_date'];
 
     /* Relations */
 
-    public function compItems()
+    public function compItem()
     {
-        return $this->hasOne(CompItems::class, 'id');
+        return $this->belongsTo(CompItems::class, 'id');
     }
 
 }

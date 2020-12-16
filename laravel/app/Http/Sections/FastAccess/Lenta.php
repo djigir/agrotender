@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\News;
+namespace App\Http\Sections\FastAccess;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AgtNewsComment
+ * Class Lenta
  *
- * @property \App\Models\News\NewsComment $model
+ * @property \App\Models\Lenta\Lenta $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AgtNewsComment extends Section implements Initializable
+class Lenta extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class AgtNewsComment extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Комментарии к новостям';
+    protected $title = 'Лента';
 
     /**
      * @var string
@@ -57,7 +57,6 @@ class AgtNewsComment extends Section implements Initializable
         $this->title = $title;
     }
 
-
     /**
      * @param array $payload
      *
@@ -65,31 +64,22 @@ class AgtNewsComment extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $c = \App\Models\News\NewsComment::with('newsLang')->where('author', 'НИКОЛАЙ')->get();
-//        dd($c);
 
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('author', 'Автор', 'add_date')
-                ->setWidth('200px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('author', 'like', '%'.$search.'%');
-                })
+            AdminColumn::text('id', 'ID')->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('author', 'Компания')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('title', 'Запись в ленте')->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
                 }),
-
-            AdminColumn::text('newsLang.content', 'Комментарий'),
-
-            AdminColumn::boolean('visible', 'Показать на сайте'),
-
+            AdminColumn::text('add_date', 'Дата создания')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('up_dt', 'Дата обновления')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setOrder([[0, 'asc']])
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
@@ -109,27 +99,26 @@ class AgtNewsComment extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('author', 'Автор')
+
+                AdminFormElement::text('comp_id', 'ID Компании')
+                    ->setReadonly(true),
+
+
+                AdminFormElement::text('author', 'Кто опубликовал')
                     ->required(),
 
-                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
-
-                AdminFormElement::select('visible', 'Показывать на сайте')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
+                AdminFormElement::textarea('title', 'Текст публикации')
+                    ->setRows(4),
 
 
-                AdminFormElement::html('<span style="font-weight: bold;">Дата создания</span>'),
-                AdminFormElement::datetime('add_date')
+                AdminFormElement::html('<hr>'),
+                AdminFormElement::datetime('add_date', 'Дата')
                     ->setVisible(true)
                     ->setReadonly(false)
                 ,
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -145,10 +134,36 @@ class AgtNewsComment extends Section implements Initializable
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
+    /*public function onCreate($payload = [])
     {
-        return $this->onEdit(null, $payload);
-    }
+        $form = AdminForm::card()->addBody([
+            AdminFormElement::columns()->addColumn([
+                AdminFormElement::text('author', 'Кто опубликовал')
+                    ->required(),
+
+                AdminFormElement::textarea('title', 'Текст публикации')
+                    ->setRows(4),
+
+
+                AdminFormElement::html('<hr>'),
+                AdminFormElement::datetime('add_date', 'Дата')
+                    ->setVisible(true)
+                    ->setReadonly(false)
+                ,
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+                AdminFormElement::text('id', 'ID')->setReadonly(true),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+        ]);
+
+        $form->getButtons()->setButtons([
+            'save'  => new Save(),
+            'save_and_close'  => new SaveAndClose(),
+            'save_and_create'  => new SaveAndCreate(),
+            'cancel'  => (new Cancel()),
+        ]);
+
+        return $form;
+    }*/
 
     /**
      * @return bool

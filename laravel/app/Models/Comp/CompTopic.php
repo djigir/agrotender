@@ -55,4 +55,9 @@ class CompTopic extends Model
     {
         return $this->belongsTo(CompTgroups::class, 'id');
     }
+
+    public function compTopicItem()
+    {
+        return $this->hasMany(CompTopicItem::class, 'topic_id', 'id');
+    }
 }

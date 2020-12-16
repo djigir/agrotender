@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\BuyerBalance;
+namespace App\Models\Buyer;
 
 use Illuminate\Database\Eloquent\Model;
 

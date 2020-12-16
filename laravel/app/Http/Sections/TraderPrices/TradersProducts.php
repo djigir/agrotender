@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\News;
+namespace App\Http\Sections\TraderPrices;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AgtNewsComment
+ * Class TradersProducts
  *
- * @property \App\Models\News\NewsComment $model
+ * @property \App\Models\Traders\TradersProducts $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AgtNewsComment extends Section implements Initializable
+class TradersProducts extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class AgtNewsComment extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Комментарии к новостям';
+    protected $title = 'Товары';
 
     /**
      * @var string
@@ -57,7 +57,6 @@ class AgtNewsComment extends Section implements Initializable
         $this->title = $title;
     }
 
-
     /**
      * @param array $payload
      *
@@ -65,35 +64,41 @@ class AgtNewsComment extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $c = \App\Models\News\NewsComment::with('newsLang')->where('author', 'НИКОЛАЙ')->get();
-//        dd($c);
+        $gr = \App\Models\Traders\TradersProductGroups::with('tradersProductGroupsLang')->get()->take(10);
+//        dd($gr);
 
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('author', 'Автор', 'add_date')
-                ->setWidth('200px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('author', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                }),
+            AdminColumn::text('id', 'ID')
+                ->setWidth('150px')
+                ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('newsLang.content', 'Комментарий'),
+            AdminColumn::link('tradersProductLang.name', 'Название')
+                ->setWidth('350px')
+                ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::boolean('visible', 'Показать на сайте'),
-
+            AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[0, 'asc']])
             ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+        ;
 
+        $display->setColumnFilters([
+            AdminColumnFilter::select()
+                ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
+                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                    return $query;
+                })
+                ->setDisplay('tradersProductGroupsLang.name')
+                ->setColumnName('group_id')
+                ->setPlaceholder('Все группы')
+            ,
+        ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -109,27 +114,19 @@ class AgtNewsComment extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('author', 'Автор')
-                    ->required(),
-
-                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
-
-                AdminFormElement::select('visible', 'Показывать на сайте')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-
-                AdminFormElement::html('<span style="font-weight: bold;">Дата создания</span>'),
-                AdminFormElement::datetime('add_date')
+                AdminFormElement::text('name', 'Name')
+                    ->required()
+                ,
+                AdminFormElement::html('<hr>'),
+                AdminFormElement::datetime('created_at')
                     ->setVisible(true)
                     ->setReadonly(false)
                 ,
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+                AdminFormElement::html('last AdminFormElement without comma')
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+                AdminFormElement::html('last AdminFormElement without comma')
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 
         $form->getButtons()->setButtons([

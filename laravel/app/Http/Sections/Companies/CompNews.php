@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\Comp\CompItems;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -34,7 +35,7 @@ class CompNews extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title;
+    protected $title = ' Новости Компаний';
 
     /**
      * @var string
@@ -50,36 +51,36 @@ class CompNews extends Section implements Initializable
     }
 
     /**
+     * @param string $title
+     */
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    /**
      * @param array $payload
      *
      * @return DisplayInterface
      */
     public function onDisplay($payload = [])
     {
-        /*$n = \App\Models\Comp\CompNews::with('compItems')->get()->last();
-        $c = \App\Models\Comp\CompItems::with('newsForCompany')->get()->last();
-        dd($c);*/
+        $n = \App\Models\Comp\CompNews::with('compItem')->limit(5)->get();
+//        $c = CompItems::with('news')->get()->last();
+//        dd($n);
 
         $columns = [
             AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('title', 'Содержание', 'add_date')
+            AdminColumn::link('title', 'Новость', 'add_date')
                 ->setSearchCallback(function($column, $query, $search){
-                    return $query
-                        ->orWhere('name', 'like', '%'.$search.'%')
-                        ->orWhere('created_at', 'like', '%'.$search.'%')
-                    ;
+                    return $query->orWhere('name', 'like', '%'.$search.'%');
                 })
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('created_at', $direction);
-                })
-            ,
-            AdminColumn::boolean('name', 'On'),
-            AdminColumn::text('created_at', 'Created / updated', 'updated_at')
-                ->setWidth('160px')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('updated_at', $direction);
-                })
-                ->setSearchable(false),
+                    $query->orderBy('add_date', $direction);
+                }),
+
+            AdminColumn::boolean('visible', 'Показывать на сайте'),
+
         ];
 
         $display = AdminDisplay::datatables()

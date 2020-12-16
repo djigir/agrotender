@@ -56,4 +56,15 @@ class TradersProducts extends Model
     {
         return $this->belongsTo(TradersPrices::class, 'cult_id', 'id');
     }
+
+    public function tradersProductLang()
+    {
+        return $this->hasOne(Traders_Products_Lang::class, 'item_id');
+    }
+
+    public function tradersProductGroupsLang()
+    {
+        return $this->hasMany(TradersProductGroupLanguage::class, 'item_id');
+    }
+
 }

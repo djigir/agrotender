@@ -34,4 +34,13 @@ class CompTopicItem extends Model
     }
 
 
+    public function compTopic()
+    {
+        return $this->hasMany(CompTopic::class, 'id', 'topic_id');
+    }
+
+    public function compTopicRevers()
+    {
+        return $this->belongsTo(CompTopic::class, 'id');
+    }
 }

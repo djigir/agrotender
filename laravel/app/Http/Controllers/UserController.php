@@ -7,7 +7,6 @@ use App\Http\Requests\ProfileCompanyRequest;
 use App\Http\Requests\ProfileCompanyNewsRequest;
 use App\Http\Requests\LoginPasswordRequest;
 use App\Http\Requests\ProfileUserCompanyVacancyRequest;
-use App\Http\Sections\CompComment;
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompNews;
@@ -98,8 +97,6 @@ class UserController extends Controller
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
-        $u = TorgElevator::with('langElevator')->first();
-        dd($u);
         $meta = $this->profileMetaService->profile();
         return view('private_cabinet.profile.profile', [
             'meta' => $meta,

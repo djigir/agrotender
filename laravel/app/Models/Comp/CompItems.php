@@ -3,7 +3,8 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
-use App\Models\News\News;
+use App\Models\Buyer\BuyerTarifPacks;
+use App\Models\Lenta\Lenta;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TraderFeed;
@@ -327,12 +328,36 @@ class CompItems extends Model
 
     public function news()
     {
-        return $this->hasMany(News::class, 'comp_id');
+        return $this->hasMany(CompNews::class, 'comp_id', 'id');
     }
 
-    public function newsForCompany()
+    public function torgBuyer()
     {
-        return $this->belongsTo(CompNews::class, 'comp_id');
+        return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
     }
 
+    public function region()
+    {
+        return $this->hasOne(Regions::class, 'id', 'obl_id');
+    }
+
+    public function compComment()
+    {
+        return $this->hasMany(CompComment::class, 'item_id', 'id');
+    }
+
+    public function buyerTarifPacks()
+    {
+        return $this->hasOne(BuyerTarifPacks::class, 'id', 'site_pack_id');
+    }
+
+    /*public function compTopic()
+    {
+        return $this->belongsToMany(CompTopicItem::class, 'comp_item2topic', 'id', 'item_id');
+    }*/
+
+    public function compTopic()
+    {
+        return $this->hasManyThrough(CompTopic::class, CompTopicItem::class, 'item_id', 'id', 'id', 'topic_id');
+    }
 }

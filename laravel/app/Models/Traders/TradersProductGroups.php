@@ -39,4 +39,10 @@ class TradersProductGroups extends Model
     {
         return $this->hasOne(TradersProductGroupLanguage::class, 'id');
     }
+
+    public function tradersProductGroupsLang()
+    {
+        return $this->hasOne(TradersProductGroupLanguage::class, 'id');
+    }
+
 }

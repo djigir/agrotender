@@ -2,6 +2,7 @@
 
 namespace App\Models\Regions;
 
+use App\Models\Comp\CompItems;
 use App\Models\Elevators\TorgElevator;
 use App\Models\Rayon\Rayon;
 use App\Models\Traders\TradersPlaces;
@@ -48,5 +49,10 @@ class Regions extends Model
     public function elevators()
     {
         return $this->hasMany(TorgElevator::class, 'obl_id');
+    }
+
+    public function compItems()
+    {
+        return $this->belongsTo(CompItems::class, 'obl_id');
     }
 }

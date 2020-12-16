@@ -86,4 +86,9 @@ class CompComment extends Model
     {
         return $this->hasMany(CompItems::class, 'author_id', 'author_id');
     }
+
+    public function compItemsForComment()
+    {
+        return $this->belongsTo(CompItems::class, 'id');
+    }
 }
