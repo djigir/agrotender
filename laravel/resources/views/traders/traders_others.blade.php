@@ -103,8 +103,8 @@
                     end: end,
                 },
                 success: function (data) {
-                    replaceWithSpacesAllItems()
                     $('.new_traders').append(data);
+                    replaceWithSpacesAllItems()
                     count = 0;
                     start += add_count_item;
                     end += add_count_item;

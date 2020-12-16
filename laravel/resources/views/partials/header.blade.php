@@ -200,10 +200,10 @@
             </div>
             <ul class="drawer__list">
               <li>
-                <a href="/">Главная</a>
+                <a href="/" >Главная</a>
               </li>
               <li>
-                <a href="/board">Объявления</a>
+                <a href="/board" class="active">Объявления</a>
               </li>
               <li>
                 <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
