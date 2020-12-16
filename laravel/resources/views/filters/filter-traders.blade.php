@@ -9,8 +9,8 @@ if($regions->count() > 0 && !$isMobile){
 }
 ?>
 
-  <div class="bg_filters"></div>
-  <div class="new_fitlers_container">
+    <div class="bg_filters"></div>
+    <div class="new_fitlers_container">
     <button class="new_filters_btn" id="cultures_btn">{{$culture_name}}</button>
     <button class="new_filters_btn" id="regions_btn">{{$region_port_name}}</button>
 
@@ -18,7 +18,18 @@ if($regions->count() > 0 && !$isMobile){
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
           @foreach($rubricsGroup as $group => $item)
-              <li class="{{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
+              <?php
+                  $class = '';
+
+                  if($item['index_group'] == $group_id){
+                      $class = 'active';
+                  }
+
+                  if(!$group_id && $item['index_group'] == 1){
+                      $class = 'active';
+                  }
+              ?>
+              <li class="{{$class}}" group="{{$group+1}}">
                   <a href="#" data-id="{{$group+1}}">{{$item['groups']['name']}}</a>
               </li>
           @endforeach
@@ -26,7 +37,18 @@ if($regions->count() > 0 && !$isMobile){
       </div>
       <div class="new_filters_dropdown_column content">
           @foreach($rubricsGroup as $group => $item)
-              <div class="new_filters_dropdown_column_tab {{$item['index_group'] == $group_id ? 'active': ''}} js_content" group="{{$group+1}}" data-id="{{$group+1}}">
+              <?php
+                  $class = '';
+
+                  if($item['index_group'] == $group_id){
+                      $class = 'active';
+                  }
+
+                  if(!$group_id && $item['index_group'] == 1){
+                      $class = 'active';
+                  }
+              ?>
+              <div class="new_filters_dropdown_column_tab {{$class}} js_content" group="{{$group+1}}" data-id="{{$group+1}}">
                 @foreach($rubricsGroup[$group]['groups']["products"]->chunk(6) as $chunk)
                       <div class="new_filters_dropdown_column_item">
                           <ul>

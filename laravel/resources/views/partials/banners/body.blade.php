@@ -52,14 +52,14 @@
     #left_banner{
         display: inline-block;
         width: 300px;
-        background: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}}) 28% 50% no-repeat;
+        background: url(https://agrotender.com.ua/files/pict/body-nv-big-11.jpg) 28% 50% no-repeat;
         box-sizing: border-box;
     }
 
     #right_banner{
         display: inline-block;
         width: 300px;
-        background: url(https://agrotender.com.ua/files/{{$banner_body->ban_file}}) 73% 50% no-repeat;
+        background: url(https://agrotender.com.ua/files/pict/body-nv-big-11.jpg) 73% 50% no-repeat;
         box-sizing: border-box;
     }
 

@@ -18,10 +18,12 @@ use App\Services\CompanyService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 
 class TraderService
 {
+    const PER_PAGE = 15;
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;
@@ -87,7 +89,7 @@ class TraderService
 
         $this->InitQuery($data);
 
-        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders($data_breadcrumbs);
+        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders(!empty($data_breadcrumbs) ? $data_breadcrumbs : null);
 
         if (isset($data['forwards'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
@@ -106,6 +108,14 @@ class TraderService
         }
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
+    }
+
+    /**
+     * @return BaseServices
+     */
+    public function testgettraders($data)
+    {
+        return $this->baseService;
     }
 
 
@@ -216,12 +226,6 @@ class TraderService
     }
 
 
-    /**
-    * @param $author_ids
-    * @param $criteria_prices
-    * @param $criteria_places
-    * @return Builder
-    */
     public function getTradersTable($author_ids, $criteria_prices, $criteria_places)
     {
         return $this->treders->whereIn('author_id', $author_ids)
@@ -252,14 +256,7 @@ class TraderService
     }
 
 
-    /**
-    * @param $type
-    * @param $author_ids
-    * @param $criteria_prices
-    * @param $criteria_places
-    * @return \Illuminate\Support\Collection
-     */
-    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places)
+    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places, $start = 0, $end = 0)
     {
         $forward_months = $this->baseService->getForwardsMonths();
 
@@ -284,13 +281,18 @@ class TraderService
                 \DB::raw('max(agt_traders_prices.change_date) as change_date')
             ])
             ->orderBy('comp_items.trader_premium', 'desc')
-//            ->orderBy('traders_prices.change_date', 'desc')
             ->orderBy('change_date', 'desc')
             ->orderBy('comp_items.trader_sort')
             ->orderBy('comp_items.rate_formula', 'desc')
             ->orderBy('comp_items.title')
             ->groupBy('comp_items.id')
-            ->get();
+            ->limit(self::PER_PAGE);
+
+        if($start != 0){
+            $traders = $traders->skip($start);
+        }
+
+        $traders = $traders->get();
 
         $prices = TradersPrices::whereIn('traders_prices.buyer_id', $traders->pluck('author_id'))
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
@@ -441,7 +443,9 @@ class TraderService
 
         if($data->get('type_view') == 'card')
         {
-            return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
+            return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'),
+                $criteria_traders->get('criteria_places'), $data->get('start'), $data->get('end')
+            );
         }
 
         if($data->get('type') == 'forward')
