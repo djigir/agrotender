@@ -209,7 +209,7 @@
                 <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
               </li>
               <li>
-                <a href="{{route('company.companies')}}">форварды </a>
+                <a href="/traders_forwards/region_ukraine/">Форварды </a>
               </li>
               <li>
                 <a href="{{route('company.companies')}}">Компании</a>

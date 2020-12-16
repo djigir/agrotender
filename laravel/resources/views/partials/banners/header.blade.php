@@ -6,6 +6,7 @@
                 target="_blank"
                     @endif
             >
+            <h1>GG</h1>
                 <img style="height:30px;width:100%;" src="/files/{{$banner_body->ban_file}}" >
             </a>
         </noindex></div>
