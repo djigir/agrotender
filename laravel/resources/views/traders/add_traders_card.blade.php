@@ -10,7 +10,7 @@
                     @foreach($trader->prices->take(2) as $index => $price)
                         <div class="traders__item__content-description">
                             <p class="traders__item__content-p">
-                                <span class="traders__item__content-p-title">{{ $price->name }}</span>
+                                <span class="traders__item__content-p-title">{{ \Illuminate\Support\Str::limit($price->name, 12, $end='.') }}</span>
                                 <span class="right">
                                     <span class="traders__item__content-p-price replace_numbers_js">
                                         {{ $price->curtype == 1 ? '$ ' : ''}}
