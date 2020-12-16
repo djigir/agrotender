@@ -99,7 +99,7 @@ if($regions->count() > 0 && !$isMobile){
                         @foreach($chunk as $region)
                             <li>
                                 @if(!empty($culture) && !empty($region))
-                                    <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                    <a data-id="1"data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
                                         {{$region['name']}}
                                     </a>
                                 @else
@@ -108,7 +108,7 @@ if($regions->count() > 0 && !$isMobile){
                                             {{$region['name']}}
                                         </a>
                                     @else
-                                        <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
+                                        <a data-id="1" data-title="{{$region['name']}}" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
                                             {{$region['name']}}
                                         </a>
                                     @endif
