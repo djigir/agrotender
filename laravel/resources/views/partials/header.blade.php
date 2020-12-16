@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="/app/assets/css/my-header.css">
 {{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">--}}
     <!-- Required CSS -->
-
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
 </head>
 

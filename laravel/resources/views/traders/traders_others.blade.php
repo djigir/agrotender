@@ -8,7 +8,7 @@
                         <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
                     </div>
                     <div class="traders__item__content">
-                        <div href="#" class="traders__item__content-title">{{ $trader->title }}</div>
+                        <div class="traders__item__content-title">{{ $trader->title }}</div>
                         @if($trader->prices)
                             @foreach($trader->prices->take(2) as $index => $price)
                                 <div class="traders__item__content-description">
@@ -38,12 +38,12 @@
                                     $color = 'color: #001430';
                                     $text = mb_convert_case(\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8");
 
-                                    if(Carbon\Carbon::today()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                    if(Carbon\Carbon::today()->toDateString() == Carbon\Carbon::parse($trader->change_date)->toDateString()){
                                         $color = 'color: #009750';
                                         $text = 'сегодня';
                                     }
 
-                                    if(Carbon\Carbon::yesterday()->toDateString() ==  Carbon\Carbon::parse($trader->change_date)->toDateString()){
+                                    if(Carbon\Carbon::yesterday()->toDateString() == Carbon\Carbon::parse($trader->change_date)->toDateString()){
                                         $color = 'color: #FF7404';
                                         $text = 'вчера';
                                     }
@@ -67,3 +67,48 @@
         @endforeach
     </div>
 </div>
+
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    var add_count_item = 15;
+    var count = 0;
+    var start = add_count_item;
+    var end = add_count_item * 2;
+
+    var region = window.location.pathname.replace('traders', '').replace('region_', '').replace(/[\/\\]/g,'');
+    var port = window.location.pathname.replace('traders', '').replace('tport_', '').replace(/[\/\\]/g,'');
+
+    if(window.location.pathname.indexOf('region') !== -1){
+        port = null;
+    }
+
+    if(window.location.pathname.indexOf('tport') !== -1){
+        region = null;
+    }
+
+    $(window).scroll(function () {
+        if(document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 400 && count < 1) {
+            count++;
+            $.ajax({
+                url: window.location.origin + '/traders/get_traders',
+                method: 'GET',
+                data: {
+                    region: region,
+                    port: port,
+                    start: start,
+                    end: end,
+                },
+                success: function (data) {
+                    $('.new_traders').append(data);
+                    count = 0;
+                    start += add_count_item;
+                    end += add_count_item;
+                }
+            });
+        }
+    });
+</script>

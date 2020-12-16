@@ -532,8 +532,7 @@ class CompanyService
             $companies = $companies->where($company_criteria);
         }
 
-        if(!empty($topic_criteria))
-        {
+        if(!empty($topic_criteria)) {
             $companies->leftJoin('comp_item2topic', 'comp_items.id', '=', 'comp_item2topic.item_id')->where($topic_criteria);
         }
 

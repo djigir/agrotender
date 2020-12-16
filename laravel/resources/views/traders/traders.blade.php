@@ -1,6 +1,6 @@
 @extends('layout.layout', ['meta' => $meta])
-@section('content')
 
+@section('content')
     <div class="new_container traders mt2">
         <div class="d-none d-sm-block mt-3">
             <ol class="breadcrumbs small p-0">
@@ -69,23 +69,23 @@
             </div>
         </div>
 
-        </div>
+    </div>
 
-        <div class="mt-3 traders_dev">
-            @if($type_view == 'table')
-                @include('traders.block-info.traders')
+    <div class="mt-3 traders_dev">
+        @if($type_view == 'table')
+            @include('traders.block-info.traders', ['type_traders' => $type_traders])
+        @endif
+
+        @if($type_view == 'table')
+            @include('traders.traders_table', ['type_traders' => $type_traders])
+        @else
+            @if(!empty($topTraders))
+                @include('traders.traders_vip')
             @endif
 
-            @if($type_view == 'table')
-                @include('traders.traders_table', ['type_traders' => $type_traders])
-            @else
-                @if(!empty($topTraders))
-                    @include('traders.traders_vip')
-                @endif
-
-                @if(!empty($traders))
-                    @include('traders.traders_others')
-                @endif
+            @if(!empty($traders))
+                @include('traders.traders_others')
+            @endif
         @endif
-</div>
+    </div>
 @endsection

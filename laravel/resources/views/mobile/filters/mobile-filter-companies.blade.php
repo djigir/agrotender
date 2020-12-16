@@ -46,7 +46,7 @@
                 <div class="second">
                     <div class="subItem">
                         @foreach($rubricGroups as $index_group => $rubricGroup)
-                            <div class="mobile_filter-content-item click_name_rubric" group="{{$rubricGroup['id']}}" name_rubric="{{$rubricGroup['title']}}">{{$rubricGroup['title']}}</div>
+                            <div class="mobile_filter-content-item" group="{{$rubricGroup['id']}}" data-title="{{$rubricGroup['title']}}">{{$rubricGroup['title']}}</div>
                         @endforeach
                     </div>
                     <div class="subItem">

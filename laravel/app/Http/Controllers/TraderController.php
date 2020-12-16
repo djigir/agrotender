@@ -102,6 +102,7 @@ class TraderController extends Controller
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
         $id_region = null;
+
         if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
 
@@ -145,7 +146,7 @@ class TraderController extends Controller
             $criteria_seo[] = ['cult_id', $culture->id];
             $culture_name = $culture_meta->name;
         }
-        //dd('cult_id', $culture_id, 'region_id', $id_region);
+
         $seo_text = SeoTitles::where([
             'pagetype' => 2,
             'type_id' => $data->get('region') != null ? 0 : 2
@@ -224,7 +225,23 @@ class TraderController extends Controller
         return $this->setDataForTraders($data_traders);
     }
 
+    public function getTraders(Request $request)
+    {
+        $data = collect([
+            'region' => $request->get('region'),
+            'query' => $request->all(),
+            'port' => $request->get('port'),
+            'culture' => null,
+            'type' => '',
+            'type_view' => 'card',
+            'start' => $request->get('start'),
+            'end' => $request->get('end')
+        ]);
 
+        $data_traders = $this->traderService->setTradersBreadcrumbs($data, []);
+
+        return view('traders.add_traders_card', ['traders' => $data_traders['traders']]);
+    }
     /**
      * @param  Request  $request
      * @param $region
