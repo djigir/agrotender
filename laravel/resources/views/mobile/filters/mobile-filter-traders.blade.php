@@ -39,7 +39,7 @@
                 <div class="second">
                     <div class="subItem">
                         @foreach($rubricsGroup as $group => $item)
-                            <div class="mobile_filter-content-item">{{$item['groups']['name']}}</div>
+                            <div class="mobile_filter-content-item" data-title="{{$item['groups']['name']}}">{{$item['groups']['name']}}</div>
                         @endforeach
                     </div>
                     <div class="subItem">
