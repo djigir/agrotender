@@ -45,6 +45,7 @@
     41 => 'App\\Providers\\RouteServiceProvider',
     42 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
     43 => 'App\\Providers\\AppServiceProvider',
+    44 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
   ),
   'eager' => 
   array (
@@ -59,24 +60,23 @@
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
     10 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    11 => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
-    12 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    13 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
-    14 => 'Fruitcake\\Cors\\CorsServiceProvider',
-    15 => 'Jenssegers\\Agent\\AgentServiceProvider',
-    16 => 'Jenssegers\\Date\\DateServiceProvider',
-    17 => 'Laravel\\Ui\\UiServiceProvider',
-    18 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
-    19 => 'Carbon\\Laravel\\ServiceProvider',
-    20 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    21 => 'Barryvdh\\Debugbar\\ServiceProvider',
-    22 => 'Jenssegers\\Agent\\AgentServiceProvider',
-    23 => 'App\\Providers\\AppServiceProvider',
-    24 => 'App\\Providers\\AuthServiceProvider',
-    25 => 'App\\Providers\\EventServiceProvider',
-    26 => 'App\\Providers\\RouteServiceProvider',
-    27 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
-    28 => 'App\\Providers\\AppServiceProvider',
+    11 => 'Facade\\Ignition\\IgnitionServiceProvider',
+    12 => 'Fideloper\\Proxy\\TrustedProxyServiceProvider',
+    13 => 'Fruitcake\\Cors\\CorsServiceProvider',
+    14 => 'Jenssegers\\Agent\\AgentServiceProvider',
+    15 => 'Jenssegers\\Date\\DateServiceProvider',
+    16 => 'Laravel\\Ui\\UiServiceProvider',
+    17 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
+    18 => 'Carbon\\Laravel\\ServiceProvider',
+    19 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    20 => 'Barryvdh\\Debugbar\\ServiceProvider',
+    21 => 'Jenssegers\\Agent\\AgentServiceProvider',
+    22 => 'App\\Providers\\AppServiceProvider',
+    23 => 'App\\Providers\\AuthServiceProvider',
+    24 => 'App\\Providers\\EventServiceProvider',
+    25 => 'App\\Providers\\RouteServiceProvider',
+    26 => 'SleepingOwl\\Admin\\Providers\\SleepingOwlServiceProvider',
+    27 => 'App\\Providers\\AppServiceProvider',
   ),
   'deferred' => 
   array (
@@ -185,6 +185,8 @@
     'translation.loader' => 'Illuminate\\Translation\\TranslationServiceProvider',
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
+    'command.ide-helper.generate' => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
+    'command.ide-helper.models' => 'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider',
     'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsManager' => 'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
     'html' => 'Collective\\Html\\HtmlServiceProvider',
@@ -228,6 +230,9 @@
     array (
     ),
     'Illuminate\\Validation\\ValidationServiceProvider' => 
+    array (
+    ),
+    'Barryvdh\\LaravelIdeHelper\\IdeHelperServiceProvider' => 
     array (
     ),
     'DaveJamesMiller\\Breadcrumbs\\BreadcrumbsServiceProvider' => 

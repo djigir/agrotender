@@ -358,6 +358,18 @@ class CompItems extends Model
 
     public function compTopic()
     {
-        return $this->hasManyThrough(CompTopic::class, CompTopicItem::class, 'item_id', 'id', 'id', 'topic_id');
+        return $this->hasManyThrough(CompTopic::class,
+            CompTopicItem::class,
+            'item_id',
+            'id',
+            'id',
+            'topic_id');
     }
+
+    public function compTopicItem()
+    {
+        return $this->hasMany(CompTopicItem::class, 'item_id', 'id');
+    }
+
+
 }

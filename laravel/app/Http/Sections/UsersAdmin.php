@@ -70,7 +70,13 @@ class UsersAdmin extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::link('login', 'Логин')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::link('login', 'Логин')
+                ->setHtmlAttributes([
+                    'class' => 'fas fa-user'
+                ])
+                ->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('name', 'Ф.И.О')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');

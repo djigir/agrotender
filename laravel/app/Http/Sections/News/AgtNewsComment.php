@@ -81,6 +81,7 @@ class AgtNewsComment extends Section implements Initializable
                 }),
 
             AdminColumn::text('newsLang.content', 'Комментарий'),
+//                ->setOrderable(),
 
             AdminColumn::boolean('visible', 'Показать на сайте'),
 

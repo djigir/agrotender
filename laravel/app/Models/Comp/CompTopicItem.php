@@ -43,4 +43,9 @@ class CompTopicItem extends Model
     {
         return $this->belongsTo(CompTopic::class, 'id');
     }
+
+    public function compItem()
+    {
+        return $this->belongsTo(CompItems::class, 'id', 'item_id');
+    }
 }

@@ -41,6 +41,8 @@ class CompTopic extends Model
 
     public $timestamps = false;
 
+    /* Relations */
+
     public function comp_topic_item()
     {
         return $this->belongsTo(CompTopicItem::class, 'topic_id', 'id');
@@ -59,5 +61,14 @@ class CompTopic extends Model
     public function compTopicItem()
     {
         return $this->hasMany(CompTopicItem::class, 'topic_id', 'id');
+    }
+
+    public function compItemWithItemTopic()
+    {
+        return $this->hasManyThrough(CompItems::class,
+            CompTopicItem::class,
+                'topic_id',
+                            'id',
+                                    'id');
     }
 }
