@@ -43,36 +43,8 @@
                         @endforeach
                     </div>
                     <div class="subItem">
-                        <div class="search_wrap">
-                            <input type="text" placeholder="Название области или порта" class="search_filed">
-                            <button>
-                                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
-                            </button>
-                        </div>
-                        <div class="default_value">
-                            <div class="mobile_filter-section-text">Области</div>
-                            <ul class="mobile_filter-section-list">
-                                <li>
-                                    <a class="click_region" href="#" data-id="1" data-url="ukraine">Вся Украина</a>
-                                </li>
-                                @foreach($regions as $region)
-                                    <li>
-                                        <a class="click_region" href="#" data-id="1" data-url="{{$region['translit']}}">{{$region['name']}}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            <div class="mobile_filter-section-text">Порты</div>
-                            <ul class="mobile_filter-section-list">
-                                @foreach($onlyPorts as $port)
-                                    <li>
-                                        <a class="click_port" href="#" data-id="1" data-url="{{$port['url']}}">{{$port['lang']['portname']}}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="output_values">
-                            <ul class="mobile_filter-section-list output"></ul>
-                        </div>
+                        <div class="mobile_filter-content-item select-region-filter">Области</div>
+                        <div class="mobile_filter-content-item select-port-filter">Порты</div>
                     </div>
                 </div>
 
@@ -86,17 +58,6 @@
                                 </button>
                             </div>
                             <div class="default_value">
-                                <?php
-                                    $NAME = [
-                                        1 => 'Все зерновые',
-                                        2 => 'Все масличные',
-                                        3 => 'Все бобовые',
-                                        4 => 'Все продукты переработки',
-                                        5 => 'Все нишевые культуры',
-                                        6 => 'Вся органика',
-                                    ];
-                                ?>
-{{--                                <div class="mobile_filter-section-text">{{$NAME[$item['index_group']]}}</div>--}}
                                 <ul class="mobile_filter-section-list">
                                     @foreach($rubricsGroup[$group]['groups']["products"] as $cult)
                                         <li>
@@ -110,6 +71,49 @@
                             </div>
                         </div>
                     @endforeach
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название области" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    <li>
+                                        <a class="click_region" href="#" data-id="1" data-url="ukraine">Вся Украина</a>
+                                    </li>
+                                    @foreach($regions as $region)
+                                        <li>
+                                            <a class="click_region" href="#" data-id="1" data-url="{{$region['translit']}}">{{$region['name']}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название порта" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    @foreach($onlyPorts as $port)
+                                        <li>
+                                            <a class="click_port" href="#" data-id="1" data-url="{{$port['url']}}">{{$port['lang']['portname']}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

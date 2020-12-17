@@ -1,5 +1,8 @@
-<div class="bg_filters"></div>
+<div class="new_container">
+    <h2 class="d-block text-uppercase d-sm-none companies_list">Компании</h2>
+</div>
 
+<div class="bg_filters"></div>
 <button class="openFilter companyFind">
     <span>Найти компанию</span>
     <img src="https://agrotender.com.ua/app/assets/img/search_icon.svg" alt="">
@@ -50,34 +53,7 @@
                         @endforeach
                     </div>
                     <div class="subItem">
-                        <div class="search_wrap">
-                            <input type="text" placeholder="Название области" class="search_filed">
-                            <button>
-                                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
-                            </button>
-                        </div>
-                        <div class="default_value">
-                            <div class="mobile_filter-section-text">Области</div>
-                            <ul class="mobile_filter-section-list">
-                                @if(isset($regions))
-                                    @foreach($regions as $index_region => $region)
-                                        @if($index_region == 1)
-                                            <li>
-                                                <a href="#" class="click-region-company" data-id="1" data-url="ukraine" region="{{ 'ukraine' }}" region_name="Вся Украина">Вся Украина</a>
-                                            </li>
-                                        @endif
-                                        <li>
-                                            <a href="#" class="click-region-company" data-id="1" data-url="{{ $region['translit'] }}" region="{{ $region['translit'] }}" region_name="{{$region['name']}}">
-                                                {{$region['name']}}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                @endif
-                            </ul>
-                        </div>
-                        <div class="output_values">
-                            <ul class="mobile_filter-section-list output"></ul>
-                        </div>
+                        <div class="mobile_filter-content-item select-region-filter">Области</div>
                     </div>
                 </div>
 
@@ -91,7 +67,6 @@
                                 </button>
                             </div>
                             <div class="default_value">
-{{--                                <div class="mobile_filter-section-text">Все зерновые</div>--}}
                                 <ul class="mobile_filter-section-list">
                                     @foreach($rubricGroup['comp_topic'] as $index_culture => $culture)
                                         <li group="{{$rubricGroup['id']}}" rubric="{{$culture['id']}}">
@@ -109,6 +84,33 @@
                             </div>
                         </div>
                     @endforeach
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название области" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    @foreach($regions as $index_region => $region)
+                                        @if($index_region == 1)
+                                            <li>
+                                                <a href="#" class="click-region-company" data-id="1" data-url="ukraine" region="{{ 'ukraine' }}" region_name="Вся Украина">Вся Украина</a>
+                                            </li>
+                                        @endif
+                                        <li>
+                                            <a href="#" class="click-region-company" data-id="1" data-url="{{ $region['translit'] }}" region="{{ $region['translit'] }}" region_name="{{$region['name']}}">
+                                                {{$region['name']}}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

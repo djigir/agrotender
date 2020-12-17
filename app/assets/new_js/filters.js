@@ -215,14 +215,28 @@
       this.button_first = this.$filter.querySelector('.back.first-btn')
       this.button_second = this.$filter.querySelector('.back.second-btn')
       this.button_third = this.$filter.querySelector('.back.third-btn')
-  
+
       this.button_first.onclick = () => this.close()
       this.button_second.onclick = () => {
-        this.setTitle('Фильтры')
+        if($('.name_rubric').text() == 'Области' || $('.name_rubric').text() == 'Порты'){
+          this.setTitle('Место приема');
+        }else if($('.name_rubric').text() != 'Место приема' && $('.name_rubric').text() != 'Культуры' && $('.name_rubric').text() != 'Фильтры' && $('.name_rubric').text() != 'Области' && $('.name_rubric').text() != 'Порты'){
+          this.setTitle('Культуры')
+        }
+        else{
+          this.setTitle('Фильтры')
+        }
         this.openScreen('first')
       }
       this.button_third.onclick = () => {
-        this.setTitle('Фильтры')
+        if($('.name_rubric').text() == 'Области' || $('.name_rubric').text() == 'Порты'){
+          this.setTitle('Место приема');
+        }else if($('.name_rubric').text() != 'Место приема' && $('.name_rubric').text() != 'Культуры' && $('.name_rubric').text() != 'Фильтры' && $('.name_rubric').text() != 'Области' && $('.name_rubric').text() != 'Порты'){
+          this.setTitle('Культуры')
+        }
+        else{
+          this.setTitle('Фильтры')
+        }
         this.openScreen('second')
       }
     }
@@ -377,6 +391,7 @@
   
   $(".click-region-company").click(function (event) {
     let rubric = event.currentTarget.getAttribute('data-url');
+    $('.name_rubric').text('Фильтры');
     $('#input-mobile-region-company').attr('value', rubric);
   });
   
@@ -391,6 +406,7 @@
   
   $(".click_region").click(function (event) {
     let region = event.currentTarget.getAttribute('data-url');
+    $('.name_rubric').text('Фильтры');
     $('#new-input-mobile-region-t').attr('value', region);
     $('#new-input-mobile-port-t').attr('value', null);
   });
@@ -398,8 +414,25 @@
   
   $(".click_port").click(function (event) {
     let port = event.currentTarget.getAttribute('data-url');
+    $('.name_rubric').text('Фильтры');
     $('#new-input-mobile-port-t').attr('value', port);
     $('#new-input-mobile-region-t').attr('value', null);
+  });
+
+  $('.select-region-filter').click(function (event) {
+    $('.name_rubric').text('Области');
+  });
+
+  $('.select-port-filter').click(function (event) {
+    $('.name_rubric').text('Порты');
+  });
+
+  $('#region').click(function (event) {
+    $('.name_rubric').text('Место приемки');
+  });
+
+  $('#product').click(function (event) {
+    $('.name_rubric').text('Культуры');
   });
   
 })()

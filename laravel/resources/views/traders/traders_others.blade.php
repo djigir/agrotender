@@ -1,6 +1,6 @@
 @include('traders.block-info.traders')
 <div class="new_container mt-3 traders_dev">
-    <div class="new_traders">
+    <div class="new_traders" id="content_traders">
         @foreach($traders as $trader)
             <div class="traders__item-wrap">
                 <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
@@ -104,7 +104,7 @@
                     end: end,
                 },
                 success: function (data) {
-                    $('.new_traders').append(data);
+                    $('#content_traders').append(data);
                     replaceWithSpacesAllItems()
                     count = 0;
                     start += add_count_item;
