@@ -6936,6 +6936,10 @@ table.proposedTable tr.not-viewed td {
   border-radius: 12px;
 }
 
+.new_filters_dropdown.right {
+  right: 0;
+}
+
 .new_filters_dropdown.active {
   opacity: 1;
   transform: translateY(0);
@@ -7940,3 +7944,5 @@ table.sortTable th.table_haeder_th_cell {
 .header_banner {
   max-width: 100%;
 }
+
+
