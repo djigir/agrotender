@@ -83,13 +83,13 @@
                 <div class="header__hoverElem" id="traders_prices_dropdown">
                   <ul>
                     <li>
-                      <a href="/traders/region_ukraine">Закупки</a>
+                      <a href="{{route('traders.region', 'ukraine')}}">Закупки</a>
                     </li>
                     <li>
                       <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Форварды</a>
                     </li>
                     <li>
-                      <a href="/elev">Элеваторы</a>
+                      <a href="{{route('elev.elevators')}}">Элеваторы</a>
                     </li>
                     <li>
                       <a href="{{route('company.companies')}}">Компании</a>
@@ -209,13 +209,13 @@
                 <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
               </li>
               <li>
-                <a href="/traders_forwards/region_ukraine/">Форварды </a>
+                <a href="{{route('traders_forward.region', 'ukraine')}}">Форварды</a>
               </li>
               <li>
                 <a href="{{route('company.companies')}}">Компании</a>
               </li>
               <li>
-                <a href="/elev">Элеваторы</a>
+                <a href="{{route('elev.elevators')}}">Элеваторы</a>
               </li>
             </ul>
             @if(auth()->user())

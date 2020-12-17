@@ -86,3 +86,12 @@ Route::prefix('kompanii')
         Route::get('/contacts', 'InfoController@companies')->name('contacts');
 });*/
 
+
+Route::prefix('elev')
+    ->name('elev.')
+    ->group(function () {
+        Route::get('/', 'EvelatorController@elevators')->name('elevators');
+        Route::get('/{region}', 'EvelatorController@elevatorsRegion')->name('region')->where('region', '[A-Za-z]+');
+        Route::get('/{url}', 'EvelatorController@elevator')->name('elevator');
+});
+

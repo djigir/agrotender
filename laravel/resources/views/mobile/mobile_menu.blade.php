@@ -14,13 +14,14 @@
             <a href="/board">Обьявления</a>
             <a href="{{route('company.companies')}}">Компании</a>
             <a href="{{route('traders.region', 'ukraine')}}">Цены Трейдеров</a>
-            <a href="/elev">Элеваторы</a>
+            <a href="{{route('elev.elevators')}}">Элеваторы</a>
             <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">
                 <b>
                     Форварды
                     <sup style="color: #ffd16d"> new</sup>
                 </b>
             </a>
+
         </div>
     </div>
 </div>

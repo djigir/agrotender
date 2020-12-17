@@ -176,6 +176,7 @@ window.onload = function (){
 
 
     $(".rubricInput").click(function (event) {
+        console.log('click');
         $("#rubricDrop").toggle();
         $("#regionDrop").hide();
         $(".rubricGroup").hide();
@@ -189,13 +190,26 @@ window.onload = function (){
 
     $(".regionInput").click(function (event) {
         $("#regionDrop").toggle();
-        $("#rubricDrop").hide();
 
         if (!$(".regionInput").hasClass('isopen')) {
             $(".regionInput").addClass('isopen');
         } else {
             $(".regionInput").removeClass('isopen');
         }
+    });
+
+    $("#regionInputComp").click(function (event) {
+        $("#regionDropCompany").toggle();
+
+        if (!$("#regionInputComp").hasClass('isopen')) {
+            $("#regionInputComp").addClass('isopen');
+        } else {
+            $("#regionInputComp").removeClass('isopen');
+        }
+    });
+
+    $(".click_elev").click(function (event) {
+        $("#regionDrop").toggle();
     });
 
     $(".getRubricGroup").click(function (event) {

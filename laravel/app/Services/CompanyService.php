@@ -11,6 +11,7 @@ use App\Models\ADV\AdvTorgTopic;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompItemsContact;
 use App\Models\Comp\CompTgroups;
 use App\Models\Comp\CompTopic;
 use App\Models\Comp\CompTopicItem;
@@ -169,7 +170,7 @@ class CompanyService
     }
 
 
-    public function getContacts($author_id, $departments_type)
+    public function getDepNameAndCreator($author_id, $departments_type)
     {
         $departament_name = [];
 
@@ -184,10 +185,19 @@ class CompanyService
         }
         $departament_name = array_unique($departament_name);
 
-        $creators = TorgBuyer::where('id', $author_id)->get()->toArray()[0];
-
+        $creators = TorgBuyer::where('id', $author_id)->get()->first();
 
         return ['creators' => $creators, 'departament_name' => $departament_name];
+    }
+
+    public function departamentsContacts($id)
+    {
+        $departaments_contacts = CompItemsContact::select('id', 'comp_id', 'type_id', 'visible', 'sort_num', 'add_date',
+        'region', 'dolg', 'fio', 'phone', 'fax', 'email', 'pic_src', 'pic_ico', 'buyer_id')
+        ->selectRaw("CASE WHEN type_id = 1 THEN 'Отдел закупок' WHEN type_id = 2
+            THEN 'Отдел продаж' WHEN type_id = 3 THEN 'Отдел услуг' end as dep_name")->where('comp_id', $id)->get();
+
+        return $departaments_contacts;
     }
 
 

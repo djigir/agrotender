@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Models\Regions\Regions;
+
 class BreadcrumbService
 {
     const PURCHASE_PRICE = [14 => '', 80 => '', 8 => ''];
@@ -466,4 +468,6 @@ class BreadcrumbService
 
         return $breadcrumbs_comp;
     }
+
+
 }

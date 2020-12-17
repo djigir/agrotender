@@ -70,6 +70,9 @@ class TraderController extends Controller
         ][0];
 
         $name_region = ($region != null) ? Regions::where('translit', $region)->value('name') : null;
+        if($this->agent->isMobile()){
+            $name_region .= ' область';
+        }
 //        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
         if ($region == 'crimea') {
