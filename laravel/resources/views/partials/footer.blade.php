@@ -1,7 +1,7 @@
 </main>
 </div>
 
-<footer class="new_footer">
+<footer class="new_footer {{$isMobile && ($page_type == 0 || $page_type == 1 || $page_type == 3) ? 'paddingBottom' : ''}}" >
     <div class="new_container">
         <div class="footer-wrap">
             <div class="footer__col first">
