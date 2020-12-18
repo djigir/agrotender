@@ -4,7 +4,7 @@
     <div class="new_traders" id="content_traders">
         @foreach($traders as $trader)
             <div class="traders__item-wrap">
-                <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
+                <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
                     <div class="traders__item__header">
                         <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
                     </div>

@@ -432,7 +432,7 @@
   });
 
   $('#product').click(function (event) {
-    $('.name_rubric').text('Культуры');
+    $('.name_rubric').text('Виды деятельности');
   });
   
 })()
