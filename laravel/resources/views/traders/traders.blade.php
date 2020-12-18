@@ -55,19 +55,18 @@
                     </div>
                 </div>
             @endif
-
+        @if(!$isMobile)
         <div class="row new_filters_margin">
             <div class="col-8">
-                @if(!$isMobile)
                     @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-                @else
-                    @include('mobile.filters.mobile-filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-                @endif
             </div>
             <div class="col-4 d-none d-lg-block">
                 <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
             </div>
         </div>
+        @else
+            @include('mobile.filters.mobile-filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+        @endif
 
     </div>
 

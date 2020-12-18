@@ -7695,7 +7695,7 @@ table.proposedTable tr.not-viewed td {
   margin-top: 20px;
 }
 
-.sth.sorting:hover {
+.sort_hover:hover {
   background-color: #08295E;
   cursor: pointer;
 }
