@@ -62,7 +62,8 @@ class CompanyController extends Controller
 
     private function regionName($region)
     {
-        $name = Regions::where('translit', $region)->value('name'). ' область';
+//        $name = Regions::where('translit', $region)->value('name'). ' область';
+        $name = Regions::where('translit', $region)->value('name');
 
         if($region == 'crimea'){
             $name = 'АР Крым';
