@@ -205,6 +205,7 @@
       this[`${screen}_screen`].classList.add('active')
   
       if (subInfo !== null && subInfo !== undefined) {
+        console.log(subInfo)
         const subItem = this[`${screen}_screen`].querySelectorAll('.subItem')
         subItem.forEach(s => s.classList.remove('active'))
         subItem[subInfo].classList.add('active')
@@ -254,11 +255,21 @@
     secondScreen() {
       const clickableItems = this.second_screen.querySelectorAll('.mobile_filter-content-item')
   
+      
       clickableItems.forEach((c, idx) => {
         c.addEventListener('click', () => {
-          this.openScreen('third', idx)
-          if (c.dataset.title) {
-            this.setTitle(c.dataset.title)
+          console.log(c.dataset)
+          if (c.dataset.url) {
+            this.openScreen('first')
+            this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.url)
+          } else if (c.dataset.minusidx) {
+            console.log(c)
+            this.openScreen('third', idx - 2)
+          } else {
+            this.openScreen('third', idx)
+            if (c.dataset.title) {
+              this.setTitle(c.dataset.title)
+            }
           }
         })
       })

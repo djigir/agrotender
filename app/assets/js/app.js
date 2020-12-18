@@ -4619,6 +4619,7 @@ class Filter {
     return document.querySelectorAll(selector)
   }
 }
+
 class MobileFilter {
   constructor (filter, base = '') {
     this.base = base
@@ -4759,17 +4760,24 @@ class MobileFilter {
 
     clickableItems.forEach((c, idx) => {
       c.addEventListener('click', () => {
-        this.openScreen('third', idx)
-        if (c.dataset.title) {
-          this.setTitle(c.dataset.title)
+        console.log(c.dataset)
+        if (c.dataset.url) {
+          console.log('c.dataset.url', c.dataset.url)
+          this.openScreen('first')
+          this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.url)
+        } else {
+          this.openScreen('third', idx)
+          if (c.dataset.title) {
+            this.setTitle(c.dataset.title)
+          }
         }
       })
     })
 
     const clickableLinks = this.second_screen.querySelectorAll('a')
 
-    clickableLinks.forEach((a, idx) => {
-      a.addEventListener('click', (e) => {
+    clickableLinks.forEach((a) => {
+      a.addEventListener('click', () => {
         this.openScreen('first')
         this.changeTextOnFirstScreen(a.dataset.id, a.textContent, a.dataset.url)
       })
@@ -4779,7 +4787,7 @@ class MobileFilter {
   thirdScreen() {
     const clickableItems = this.third_screen.querySelectorAll('a')
 
-    clickableItems.forEach((c, idx) => {
+    clickableItems.forEach((c) => {
       c.addEventListener('click', (e) => {
         e.preventDefault()
         this.openScreen('first')

@@ -1,5 +1,5 @@
 @if(isset($banners_top) && $banners_top)
-    <div class="container text-center mt-3 mb-3 tradersImages position-relative">
+    <div class="new_container text-center mt-3 mb-3 tradersImages position-relative">
         <div class="row">
             @if($banners_top->count()>0)
                 @foreach($banners_top as $index => $banner)
@@ -9,7 +9,7 @@
                                @if(strpos($banner->ban_link, "agrotender.com.ua")===false)
                                target="_blank"
                                 @endif>
-                                <img class="header_banner img-responsive tradersImg" id="topBan" src="/files/{{$banner->ban_file}}"  alt=""/>
+                                <img style="height: auto" class="header_banner img-responsive tradersImg" id="topBan" src="/files/{{$banner->ban_file}}"  alt=""/>
                             </a>
                         </noindex>
                     </div>
@@ -21,7 +21,7 @@
                     <noindex>
                         <a class="topBanners" href="https://agrotender.com.ua/reklama" rel="nofollow">
                             <img
-                                style="width: 100%"
+                                style="width: 100%; height: auto"
                                 id="topBan390" src="/files/pict/ad_buys.png"
                                 class="header_banner img-responsive tradersImg" alt="">
                         </a>

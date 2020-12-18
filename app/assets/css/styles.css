@@ -7202,6 +7202,9 @@ table.proposedTable tr.not-viewed td {
   margin-left: auto;
   background-image: url('https://agrotender.com.ua/app/assets/img/chevron-right-bold.svg')
 }
+.mobile_filter-content-item.without_arrow:after {
+  content: none;
+}
 .screens {
   overflow: auto;
   /* min-height: 350px; */
