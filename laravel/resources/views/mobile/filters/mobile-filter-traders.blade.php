@@ -51,8 +51,8 @@ if($regions->count() > 0){
                         @endforeach
                     </div>
                     <div class="subItem">
-{{--                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Вся Украина</div>--}}
-{{--                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Все порты</div>--}}
+                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Вся Украина</div>
+                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Все порты</div>
 
                         <div class="mobile_filter-content-item select-region-filter">Выбрать область</div>
                         <div class="mobile_filter-content-item select-port-filter">Выбрать порт</div>
@@ -82,6 +82,8 @@ if($regions->count() > 0){
                             </div>
                         </div>
                     @endforeach
+                        <div class="subItem"></div>
+                        <div class="subItem"></div>
                         <div class="subItem">
                             <div class="search_wrap">
                                 <input type="text" placeholder="Название области" class="search_filed">
