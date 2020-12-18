@@ -64,7 +64,7 @@ class AdvSearch extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $s = \App\Models\ADV\AdvSearch::with('advTorgTopic')->get()->take(5);
+        $s = \App\Models\ADV\AdvSearch::with('advTorgTopic')->get()->take(1);
 //        dd($s);
 
         $columns = [
@@ -93,10 +93,9 @@ class AdvSearch extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
-        $display->setColumnFilters([
+        /*$display->setColumnFilters([
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\ADV\AdvSearch::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
@@ -106,7 +105,7 @@ class AdvSearch extends Section implements Initializable
                 ->setColumnName('topic_id')
                 ->setPlaceholder('All names')
             ,
-        ]);
+        ]);*/
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
