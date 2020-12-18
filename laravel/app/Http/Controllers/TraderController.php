@@ -21,6 +21,15 @@ use Illuminate\Support\Facades\App;
 
 class TraderController extends Controller
 {
+    const GROUP_ID = [
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+        7 => 5,
+        16 => 6,
+    ];
+
     const TYPE_REGION = 0;
     const TYPE_PORT = 2;
 
@@ -180,6 +189,8 @@ class TraderController extends Controller
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
 
+        $group_id = !empty($culture) ? self::GROUP_ID[$culture->group_id] : null;
+
         return view('traders.traders', [
             'regions' => $regions,
             'region' => $data->get('region'),
@@ -196,7 +207,7 @@ class TraderController extends Controller
             'meta' => $meta,
             'seo_text' => $seo_text,
             'forward_months' => $forward_months,
-            'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
+            'group_id' => $group_id,
             'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
