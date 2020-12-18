@@ -27,6 +27,8 @@ class TradersProductGroups extends Model
         'acttype',
     ];
 
+    public $timestamps = false;
+
     protected $appends = ['groups'];
 
     public function getGroupsAttribute()

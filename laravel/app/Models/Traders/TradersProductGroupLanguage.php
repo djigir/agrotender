@@ -26,6 +26,8 @@ class TradersProductGroupLanguage extends Model
         'descr',
     ];
 
+    public $timestamps = false;
+
     protected $appends = ['products'];
 
     public function getProductsAttribute()

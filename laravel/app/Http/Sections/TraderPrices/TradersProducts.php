@@ -64,9 +64,6 @@ class TradersProducts extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $gr = \App\Models\Traders\TradersProductGroups::with('tradersProductGroupsLang')->get()->take(10);
-//        dd($gr);
-
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('150px')
@@ -82,7 +79,7 @@ class TradersProducts extends Section implements Initializable
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
@@ -96,10 +93,17 @@ class TradersProducts extends Section implements Initializable
                 })
                 ->setDisplay('tradersProductGroupsLang.name')
                 ->setColumnName('group_id')
-                ->setPlaceholder('Все группы')
-            ,
+                ->setPlaceholder('Все группы'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('tradersProductLang.name')
+                ->setOperator('contains')
+                ->setPlaceholder('По названию'),
+
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
+
+
 
         return $display;
     }
@@ -112,21 +116,32 @@ class TradersProducts extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
+
+                AdminFormElement::select('group_id', 'Группа товаров')
+                    ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
+                    ->setDisplay('tradersProductGroupsLang.name')
+                    ->required(),
+
+
+                AdminFormElement::text('tradersProductLang.name', 'Название')
+                    ->required(),
+
+                AdminFormElement::text('url', 'URL'),
+
+                AdminFormElement::textarea('tradersProductLang.descr', 'Описание')->setRows('4'),
+
+                AdminFormElement::hidden('tradersProductLang.lang_id')->setDefaultValue('1'),
+
+//                AdminFormElement::image('icon_filename', 'Иконка'),
+
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([

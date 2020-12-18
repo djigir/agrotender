@@ -73,6 +73,7 @@ class CompItems extends Section implements Initializable
     {
         $c = \App\Models\Comp\CompItems::with('torgBuyer')->limit(1)->get();
         $t2i = \App\Models\Comp\CompTopicItem::with('compTopic')->first();
+        $c = \App\Models\Comp\CompItems::get();
 
 //        $t = \App\Models\Comp\CompTopic::with('compItemWithItemTopic')->limit(1)->get();
 //        dd($c);
@@ -81,17 +82,22 @@ class CompItems extends Section implements Initializable
             return \URL::route('company.index', [$id]);
         })*/
 
+//        dd(\App\Models\Comp\CompItems::find(		6616)->get_id());
+
         $columns = [
             /*AdminColumn::link('id', 'ID')
                 ->setWidth('50px')
                 ->setHtmlAttribute('class', 'text-center'),*/
 
-            AdminColumn::url('id', 'ID')
-                ->setText('id'/*, route('company.index', 'id')*/)
+            AdminColumn::custom('ID', function ($id){
+                return \URL::route('company.index', [$id]);
+            }),
+
+            /*AdminColumn::url('id', 'ID')
+                ->setText('id', false)
                 ->setIcon(false)
                 ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),
-
+                ->setHtmlAttribute('class', 'text-center'),*/
 
             AdminColumn::image('logo_file', 'Лого'),
 
@@ -222,6 +228,7 @@ class CompItems extends Section implements Initializable
                 ->setPlaceholder('по Автору'),
 
             AdminColumnFilter::text()
+                ->setHtmlAttribute('class', 'id-search')
                 ->setColumnName('id')
                 ->setPlaceholder('по ID'),
 

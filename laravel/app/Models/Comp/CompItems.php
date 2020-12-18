@@ -213,6 +213,11 @@ class CompItems extends Model
         return Date::parse($this->add_date);
     }
 
+    public function get_id()
+    {
+        return route('company.index', $this->id);
+    }
+
     /* Relations */
     public function torg_buyer()
     {

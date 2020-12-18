@@ -71,17 +71,24 @@ class TorgElevator extends Section implements Initializable
     {
 
         $columns = [
-            AdminColumn::text('id', 'id')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'id')
+                ->setWidth('50px')
+                ->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('langElevator.name', 'Название')
                 ->setWidth('200px')
                 ->setHtmlAttribute('class', 'text-left')
-            ,
+                ->setOrderable('id'),
+
             AdminColumn::text('langRayon.name.', 'Район')
                 ->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-left'),
+                ->setHtmlAttribute('class', 'text-left')
+                ->setOrderable('obl_id'),
+
             AdminColumn::text('langElevator.addr', 'Адрес')
                 ->setWidth('300px')
-                ->setHtmlAttribute('class', 'text-left'),
+                ->setHtmlAttribute('class', 'text-left')
+                ->setOrderable('id'),
+
         ];
 
         $display = AdminDisplay::datatables()
@@ -119,7 +126,7 @@ class TorgElevator extends Section implements Initializable
     {
         $elevator = null;
         if ($id){
-            $elevator = \App\Models\Elevators\TorgElevator::with('region', 'langRayon')->find($id);
+            $elevator = \App\Models\Elevators\TorgElevator::with('region', 'langRayon')->find($id)->toArray();
         }
 
         $form = AdminForm::card()->addBody([
@@ -128,7 +135,7 @@ class TorgElevator extends Section implements Initializable
                     AdminFormElement::select('ray_id', 'Район области')
                         ->setModelForOptions(Rayon::class)
                         ->setLoadOptionsQueryPreparer(function($element, $query) use ($elevator, $id){
-                            return $query->where('obl_id', $elevator['region'][0]->id);
+                            return $query->where('obl_id', $elevator['region']['id']);
                         })
                         ->setDisplay('rayonLang.name')
                     ->required(),
@@ -174,10 +181,11 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::select('id', 'Область')
                     ->setModelForOptions(Regions::class)
-                    /*->setLoadOptionsQueryPreparer(function($item, $query) {
-                        $query->getName('obl_id');
-                        dd($query);
-                    })*/
+                    ->setLoadOptionsQueryPreparer(function($item, $query) {
+                        return $query;
+//                        $query->getName('obl_id');
+//                        dd($query);
+                    })
                     ->setDisplay('name')
                     ->required(),
 

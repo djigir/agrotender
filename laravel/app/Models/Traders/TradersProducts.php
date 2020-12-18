@@ -24,6 +24,8 @@ class TradersProducts extends Model
         'acttype',
     ];
 
+    public $timestamps = false;
+
 //    protected $appends = ['culture'];
 //
 //

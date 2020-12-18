@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Comp\CompTgroups;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
@@ -194,10 +195,7 @@ class CompTopic extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),

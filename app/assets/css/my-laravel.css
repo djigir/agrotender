@@ -9,3 +9,13 @@
     font-weight: bold;
     margin-bottom: 2rem;
 }
+
+.id-search{
+    border: 50px solid red;
+    background-color: red;
+}
+
+
+body {
+    background-color: red;
+}

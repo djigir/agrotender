@@ -27,6 +27,7 @@ class Traders_Products_Lang extends Model
         'descr',
     ];
 
+    public $timestamps = false;
 
     public function traders_prices_arc()
     {
