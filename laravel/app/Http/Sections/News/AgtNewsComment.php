@@ -69,7 +69,7 @@ class AgtNewsComment extends Section implements Initializable
 //        dd($c);
 
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('author', 'Автор', 'add_date')
                 ->setWidth('200px')
                 ->setHtmlAttribute('class', 'text-center')
@@ -80,8 +80,11 @@ class AgtNewsComment extends Section implements Initializable
                     $query->orderBy('add_date', $direction);
                 }),
 
-            AdminColumn::text('newsLang.content', 'Комментарий'),
-//                ->setOrderable(),
+            AdminColumn::text('newsLang.content', 'Комментарий')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('author_email', $direction);
+                }),
+
 
             AdminColumn::boolean('visible', 'Показать на сайте'),
 
@@ -90,10 +93,24 @@ class AgtNewsComment extends Section implements Initializable
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+        $display->setColumnFilters([
+
+            AdminColumnFilter::text()
+                ->setColumnName('newsLang.content')
+                ->setOperator('contains')
+                ->setPlaceholder('По комментарию'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('author')
+                ->setOperator('contains')
+                ->setPlaceholder('По автору'),
+
+        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -146,10 +163,10 @@ class AgtNewsComment extends Section implements Initializable
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
+    /*public function onCreate($payload = [])
     {
         return $this->onEdit(null, $payload);
-    }
+    }*/
 
     /**
      * @return bool

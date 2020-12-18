@@ -45,4 +45,10 @@ class CompNews extends Model
         return $this->belongsTo(CompItems::class, 'id');
     }
 
+    public function companyItem()
+    {
+        return $this->hasOne(CompItems::class, 'id', 'comp_id');
+    }
+
+
 }

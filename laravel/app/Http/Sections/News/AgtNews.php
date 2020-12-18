@@ -7,7 +7,9 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\News\News;
 use App\Models\News\NewsComment;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -65,11 +67,11 @@ class AgtNews extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $n = \App\Models\News\News::with('NewsLang', 'NewsComment')->find(1300);
-//        dd($n);
-
         $columns = [
-            AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')
+                ->setWidth('50px')
+                ->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::link('NewsLang.title', 'Содержание', 'dtime')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('NewsLang.title', 'like', '%'.$search.'%');
@@ -79,10 +81,13 @@ class AgtNews extends Section implements Initializable
                 }),
 
             AdminColumn::boolean('first_page', 'На главную'),
+
             AdminColumn::count('NewsComment', 'Коммент.')
                 ->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::boolean('intop', 'В топ')
                 ->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::text('view_num', 'Просмотров')
                 ->setHtmlAttribute('class', 'text-center')
         ];
@@ -90,7 +95,7 @@ class AgtNews extends Section implements Initializable
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
@@ -108,7 +113,13 @@ class AgtNews extends Section implements Initializable
                 })
                 ->setDisplay('ngroup')
                 ->setColumnName('ngroup')
-                ->setPlaceholder('Группы новостей'),
+                ->setPlaceholder('Все группы'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('NewsLang.title')
+                ->setOperator('contains')
+                ->setPlaceholder('По содержанию'),
+
         ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
@@ -127,6 +138,7 @@ class AgtNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
+
                 AdminFormElement::text('NewsLang.title', 'Заголовок')
                     ->required(),
 
@@ -145,14 +157,10 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-//                AdminColumn::text('NewsLang.lang_id'),
-
-
                 AdminFormElement::image('filename_src', 'Картинка'),
 
-
-
                 AdminFormElement::html('<hr>'),
+
                 AdminFormElement::datetime('dtime', 'Дата')
                     ->setVisible(true)
                     ->setReadonly(false),
@@ -187,8 +195,7 @@ class AgtNews extends Section implements Initializable
                         1 => 'Новости мира',
                         2 => 'Другие новости',
                         3 => 'Новости сайта',
-                    ])
-                    ->required(),
+                    ])->required(),
 
                 AdminFormElement::text('NewsLang.title', 'Заголовок')
                     ->required(),
@@ -200,18 +207,22 @@ class AgtNews extends Section implements Initializable
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
-                    ]),
+                    ])->required(),
 
-//                AdminFormElement::hidden('lang_id')->defaultValue('1'),
+                AdminFormElement::hidden('NewsLang.lang_id')->setDefaultValue('1'),
+
+//                AdminFormElement::hidden('url')->setDefaultValue('ss'),
 
                 AdminFormElement::select('intop', 'В топ')
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
-                    ]),
+                    ])->required(),
 
 
 //                AdminFormElement::image('filename_src', 'Картинка')
+
+                AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-9 col-md-11 col-lg-11')
         ]);

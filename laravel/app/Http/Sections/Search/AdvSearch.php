@@ -64,7 +64,7 @@ class AdvSearch extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $s = \App\Models\ADV\AdvSearch::first();
+        $s = \App\Models\ADV\AdvSearch::with('advTorgTopic')->get()->take(5);
 //        dd($s);
 
         $columns = [
@@ -76,6 +76,9 @@ class AdvSearch extends Section implements Initializable
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
                 }),
+
+            AdminColumn::text('advTorgTopic.title', 'Раздел'),
+
 
             AdminColumn::text('add_date', 'Дата создания')
                 ->setHtmlAttribute('class', 'text-center'),
@@ -93,17 +96,17 @@ class AdvSearch extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-        /*$display->setColumnFilters([
+        $display->setColumnFilters([
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvSearch::class, 'name')
+                ->setModelForOptions(\App\Models\ADV\AdvSearch::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
-                ->setDisplay('name')
-                ->setColumnName('name')
+                ->setDisplay('advTorgTopic.title')
+                ->setColumnName('topic_id')
                 ->setPlaceholder('All names')
             ,
-        ]);*/
+        ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;

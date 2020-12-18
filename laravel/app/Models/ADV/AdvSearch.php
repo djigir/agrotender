@@ -20,8 +20,10 @@ class AdvSearch extends Model
 
     public $timestamps = false;
 
-
     /* Relations */
 
-    /*public function*/
+    public function advTorgTopic()
+    {
+        return $this->hasOne(AdvTorgTopic::class, 'parent_id', 'gtopic_id');
+    }
 }

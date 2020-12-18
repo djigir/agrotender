@@ -65,19 +65,23 @@ class CompNews extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $n = \App\Models\Comp\CompNews::with('compItem')->limit(5)->get();
-//        $c = CompItems::with('news')->get()->last();
-//        dd($n);
-
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', '#')
+                ->setWidth('50px')
+                ->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::link('title', 'Новость', 'add_date')
+                ->setWidth('400px')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
                 })
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
                 }),
+
+            AdminColumn::text('companyItem.title', 'Компания')
+                ->setWidth('220px')
+                ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::boolean('visible', 'Показывать на сайте'),
 
@@ -86,22 +90,26 @@ class CompNews extends Section implements Initializable
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Comp\CompNews::class, 'name')
+                ->setModelForOptions(CompItems::class, 'title')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
-                ->setDisplay('name')
-                ->setColumnName('name')
-                ->setPlaceholder('All names')
-            ,
+                ->setDisplay('title')
+                ->setColumnName('comp_id')
+                ->setPlaceholder('Все компании'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('title')
+                ->setOperator('contains')
+                ->setPlaceholder('Поиск по новости'),
+
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -118,19 +126,27 @@ class CompNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
+
+                AdminFormElement::text('title', 'Новость')
+                    ->required(),
+
+                AdminFormElement::textarea('content', 'Содержание'),
+
+                AdminFormElement::select('visible', 'Показать на сайте')
+                    ->setOptions([
+                        1 => 'Да',
+                        0 => 'Нет',
+                    ]),
+
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
+                AdminFormElement::datetime('add_date')
+                    ->setLabel('Дата создания')
                     ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+                    ->setReadonly(false),
+
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+            ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -146,10 +162,10 @@ class CompNews extends Section implements Initializable
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
+    /*public function onCreate($payload = [])
     {
         return $this->onEdit(null, $payload);
-    }
+    }*/
 
     /**
      * @return bool

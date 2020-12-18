@@ -174,9 +174,10 @@ class CompTopic extends Section implements Initializable
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
 
-                AdminFormElement::select('menu_group_id', 'Главный раздел')
-                    ->setModelForOptions(CompTgroups::class)
-                    ->required(),
+                AdminFormElement::select('menu_group_id')
+//                    ->nullable()
+                    ->setLabel('Главный раздел')
+                    ->setModelForOptions(CompTgroups::class),
 
                 AdminFormElement::select('menu_group_id', 'Под раздел')
                     ->setModelForOptions(\App\Models\Comp\CompTopic::class),
