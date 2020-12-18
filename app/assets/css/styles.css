@@ -5634,12 +5634,11 @@ table.proposedTable tr.not-viewed td {
 }
 .new_traders.vip  {
   margin: 0 -13px;
-  margin-bottom: 20px;
 }
 .new_traders.vip .traders__item-wrap {
   width: calc(25% - 26px);
   margin: 0 13px;
-  margin-bottom: 0;
+  margin-bottom: 24px;
   height: 245px;
 }
 .new_traders.vip .traders__item {

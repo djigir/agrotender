@@ -56,6 +56,14 @@
                 <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
                     <thead>
                         <tr role="row">
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Компании: activate to sort column ascending" style="width: 258px;">Компании</th>
+                            <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="width: 61px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                            <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="width: 60px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                            <th class="sth sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="width: 97px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Место закупки: activate to sort column ascending" style="width: 222px;">Место закупки</th>
+                        </tr>
+                    </thead>
+                    <!-- <thead>
+                        <tr role="row">
                             <th class="sth table_haeder_th_cell" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
                                 aria-label="Компании: activate to sort column ascending" style="width: 350px;text-align: left;padding-left: 25px">Компании
                             </th>
@@ -75,7 +83,7 @@
                                 aria-label="Место закупки: activate to sort column ascending" style="text-align: left;min-width: 260px;padding-left: 25px">Место закупки
                             </th>
                         </tr>
-                    </thead>
+                    </thead> -->
                     <tbody>
                     @foreach($traders as $index => $trader)
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
