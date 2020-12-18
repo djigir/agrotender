@@ -1,4 +1,5 @@
 @include('traders.block-info.traders')
+@if($traders->count() > 0)
 <div class="new_container mt-3 traders_dev">
     <div class="new_traders" id="content_traders">
         @foreach($traders as $trader)
@@ -67,14 +68,14 @@
         @endforeach
     </div>
 </div>
-
+@endif
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var add_count_item = 10;
+    var add_count_item = 15;
     var count = 0;
     var start = add_count_item;
     var end = add_count_item * 2;

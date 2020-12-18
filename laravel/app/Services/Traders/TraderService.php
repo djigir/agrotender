@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
 
 class TraderService
 {
-    const PER_PAGE = 10;
+    const PER_PAGE = 15;
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;
@@ -103,11 +103,7 @@ class TraderService
 
         $traders = $this->getTraders($data);
 
-        if($data['type_view'] != 'table') {
-            return ['traders' => $traders->where('trader_premium', '!=', 2), 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
-        }
-
-        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
+        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
     }
 
     /**

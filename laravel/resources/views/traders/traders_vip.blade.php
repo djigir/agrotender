@@ -1,3 +1,4 @@
+@if($topTraders->count() > 0)
 <div class="new_container">
     <div class="new_page_title top_traders_title mt4">ТОП ЗЕРНОТРЕЙДЕРЫ</div>
     <div class="new_traders vip">
@@ -58,3 +59,4 @@
         @endforeach
     </div>
 </div>
+@endif

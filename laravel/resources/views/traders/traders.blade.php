@@ -79,13 +79,8 @@
         @if($type_view == 'table')
             @include('traders.traders_table', ['type_traders' => $type_traders])
         @else
-            @if(!empty($topTraders))
-                @include('traders.traders_vip')
-            @endif
-
-            @if(!empty($traders))
-                @include('traders.traders_others')
-            @endif
+           @include('traders.traders_vip', ['topTraders' => $traders->where('trader_premium', '=', 2)])
+           @include('traders.traders_others', ['traders' => $traders->where('trader_premium', '!=', 2)])
         @endif
     </div>
 @endsection

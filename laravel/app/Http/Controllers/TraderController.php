@@ -197,7 +197,6 @@ class TraderController extends Controller
             'region' => $data->get('region'),
             'port' => $data->get('port'),
             'traders' => $data_traders['traders'],
-            'topTraders' => $data_traders['top_traders']->count() > 0 ? $data_traders['top_traders'] : [],
             'onlyPorts' => $ports,
             'currencies' => $currencies,
             'region_port_name' => $region_port_name,
