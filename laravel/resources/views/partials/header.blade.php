@@ -199,23 +199,24 @@
               </a>
             </div>
             <ul class="drawer__list">
+{{--                class="active"--}}
               <li>
                 <a href="/" >Главная</a>
               </li>
               <li>
-                <a href="/board" class="active">Объявления</a>
+                <a href="/board">Объявления</a>
               </li>
               <li>
-                <a href="{{route('traders.region', 'ukraine')}}">Цены трейдеров</a>
+                <a href="{{route('traders.region', 'ukraine')}}" class="{{$page_type == 1 ? 'active' : ''}}">Цены трейдеров</a>
               </li>
               <li>
-                <a href="{{route('traders_forward.region', 'ukraine')}}">Форварды</a>
+                <a href="{{route('traders_forward.region', 'ukraine')}}" class="{{$page_type == 3 ? 'active' : ''}}">Форварды</a>
               </li>
               <li>
-                <a href="{{route('company.companies')}}">Компании</a>
+                <a href="{{route('company.companies')}}" class="{{$page_type == 0 ? 'active' : ''}}">Компании</a>
               </li>
               <li>
-                <a href="{{route('elev.elevators')}}">Элеваторы</a>
+                <a href="{{route('elev.elevators')}}" class="{{$page_type == 2 ? 'active' : ''}}">Элеваторы</a>
               </li>
             </ul>
             @if(auth()->user())

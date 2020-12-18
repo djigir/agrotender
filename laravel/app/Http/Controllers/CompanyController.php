@@ -425,7 +425,6 @@ class CompanyController extends Controller
     */
     public function companyContact($id)
     {
-
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
 

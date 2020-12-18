@@ -9,7 +9,11 @@
     @if(!$prices_port->isEmpty() || !$prices_region->isEmpty())
 
     @if($updateDate)
-    <div class="new_company_actual_date new_company_actual_date-desktop-and-mobile">Актуальная цена на <b>{{$updateDate}}</b></div>
+        <div class="new_container company mb-5">
+            <div class="new_company_actual_date new_company_actual_date-desktop-and-mobile">Актуальная цена на
+                <b>{{\Date::parse($updateDate)->format('d F'), MB_CASE_TITLE, "UTF-8"}}</b>
+            </div>
+        </div>
     @endif
     <!--<div class="container mt-4">
         <h2 class="d-inline-block">Цены трейдера</h2>

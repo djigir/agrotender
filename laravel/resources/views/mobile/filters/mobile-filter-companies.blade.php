@@ -53,7 +53,31 @@
                         @endforeach
                     </div>
                     <div class="subItem">
-                        <div class="mobile_filter-content-item select-region-filter">Области</div>
+                        <div class="search_wrap">
+                            <input type="text" placeholder="Название области" class="search_filed">
+                            <button>
+                                <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                            </button>
+                        </div>
+                        <div class="default_value">
+                            <ul class="mobile_filter-section-list">
+                                @foreach($regions as $index_region => $region)
+                                    @if($index_region == 1)
+                                        <li>
+                                            <a href="#" class="click-region-company" data-id="1" data-url="ukraine" region="{{ 'ukraine' }}" region_name="Вся Украина">Вся Украина</a>
+                                        </li>
+                                    @endif
+                                    <li>
+                                        <a href="#" class="click-region-company" data-id="1" data-url="{{ $region['translit'] }}" region="{{ $region['translit'] }}" region_name="{{$region['name']}}">
+                                            {{$region['name']}}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        <div class="output_values">
+                            <ul class="mobile_filter-section-list output"></ul>
+                        </div>
                     </div>
                 </div>
 
@@ -84,33 +108,7 @@
                             </div>
                         </div>
                     @endforeach
-                        <div class="subItem">
-                            <div class="search_wrap">
-                                <input type="text" placeholder="Название области" class="search_filed">
-                                <button>
-                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
-                                </button>
-                            </div>
-                            <div class="default_value">
-                                <ul class="mobile_filter-section-list">
-                                    @foreach($regions as $index_region => $region)
-                                        @if($index_region == 1)
-                                            <li>
-                                                <a href="#" class="click-region-company" data-id="1" data-url="ukraine" region="{{ 'ukraine' }}" region_name="Вся Украина">Вся Украина</a>
-                                            </li>
-                                        @endif
-                                        <li>
-                                            <a href="#" class="click-region-company" data-id="1" data-url="{{ $region['translit'] }}" region="{{ $region['translit'] }}" region_name="{{$region['name']}}">
-                                                {{$region['name']}}
-                                            </a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            <div class="output_values">
-                                <ul class="mobile_filter-section-list output"></ul>
-                            </div>
-                        </div>
+
                 </div>
             </div>
         </div>

@@ -1,3 +1,11 @@
+<?php
+if($regions->count() > 0){
+    $temp = $regions[25];
+    $regions[25] = $regions[0];
+    $regions[0] = $temp;
+}
+?>
+
 <div class="openFilter__wrap">
     <button class="openFilter chose_culture">
         <span>{{$culture_name}}</span>
@@ -43,8 +51,11 @@
                         @endforeach
                     </div>
                     <div class="subItem">
-                        <div class="mobile_filter-content-item select-region-filter">Области</div>
-                        <div class="mobile_filter-content-item select-port-filter">Порты</div>
+{{--                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Вся Украина</div>--}}
+{{--                        <div class="mobile_filter-content-item click_region" data-url="ukraine">Все порты</div>--}}
+
+                        <div class="mobile_filter-content-item select-region-filter">Выбрать область</div>
+                        <div class="mobile_filter-content-item select-port-filter">Выбрать порт</div>
                     </div>
                 </div>
 
@@ -80,9 +91,6 @@
                             </div>
                             <div class="default_value">
                                 <ul class="mobile_filter-section-list">
-                                    <li>
-                                        <a class="click_region" href="#" data-id="1" data-url="ukraine">Вся Украина</a>
-                                    </li>
                                     @foreach($regions as $region)
                                         <li>
                                             <a class="click_region" href="#" data-id="1" data-url="{{$region['translit']}}">{{$region['name']}}</a>

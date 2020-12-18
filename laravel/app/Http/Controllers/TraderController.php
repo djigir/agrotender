@@ -98,11 +98,12 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
+        $page_type = $data->get('type') != 'forward' ? 1 : 3;
         $route_name = \Route::getCurrentRoute()->getName();
         $prefix = substr($route_name, 0, strpos($route_name, '.'));
 
         $forward_months = $this->baseServices->getForwardsMonths();
-        $regions = !$this->agent->isMobile() ? $this->baseServices->getRegions() : $this->baseServices->getRegions()->forget(25);
+        $regions = $this->baseServices->getRegions();
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
         $criteria_seo = [];
@@ -212,7 +213,7 @@ class TraderController extends Controller
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
-            'page_type' => 1,
+            'page_type' => $page_type,
             'type_place' => $type_place,
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],

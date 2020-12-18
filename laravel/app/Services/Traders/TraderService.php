@@ -23,7 +23,7 @@ use Illuminate\Support\Collection;
 
 class TraderService
 {
-    const PER_PAGE = 15;
+    const PER_PAGE = 10;
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;

@@ -74,7 +74,7 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var add_count_item = 15;
+    var add_count_item = 10;
     var count = 0;
     var start = add_count_item;
     var end = add_count_item * 2;
