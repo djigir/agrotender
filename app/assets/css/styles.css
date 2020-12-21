@@ -925,6 +925,7 @@ body[data-page="main/home"] .swiper-slide {
   font-size: 13px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .breadcrumbs svg {
@@ -5822,10 +5823,6 @@ table.proposedTable tr.not-viewed td {
   .new_traders.vip .traders__item-wrap{
     width: calc(50% - 15px);   
     margin-bottom: 20px;
-  }
-  .new_traders.vip .traders__item-wrap:nth-child(3),
-  .new_traders.vip .traders__item-wrap:nth-child(4) {
-    margin-bottom: 0;
   }
 }
 @media screen and (max-width: 568px) {

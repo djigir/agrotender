@@ -55,19 +55,22 @@
                     </div>
                 </div>
             @endif
-        @if(!$isMobile)
-        <div class="row new_filters_margin">
-            <div class="col-8">
-                    @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
-            </div>
-            <div class="col-4 d-none d-lg-block">
-                <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
-            </div>
-        </div>
-        @else
-            @include('mobile.filters.mobile-filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+        @if($type_view !== 'table')
+            @if(!$isMobile)
+                <div class="row new_filters_margin">
+                    <div class="col-8">
+                            @include('filters.filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+                    </div>
+                    <div class="col-4 d-none d-lg-block">
+                        <a href="/tarif20.html" class="new_add_company">Разместить компанию</a>
+                    </div>
+                </div>
+            @endif
         @endif
 
+        @if($isMobile)
+            @include('mobile.filters.mobile-filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
+        @endif
     </div>
 
     <div class="mt-3 traders_dev">
