@@ -25,7 +25,8 @@ Route::prefix('traders')
         Route::get('/region_{region}', 'TraderController@index')->name('region');
         Route::get('/region_{region}/{culture}', 'TraderController@regionCulture')->name('region_culture');
 
-        Route::get('/get_traders', 'TraderController@getTraders')->name('get_traders');
+        Route::get('/get_traders_card', 'TraderController@addTradersCard')->name('get_traders_card');
+        Route::get('/get_traders_table', 'TraderController@addTradersTable')->name('get_traders_table');
 
 
 

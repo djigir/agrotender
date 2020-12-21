@@ -23,7 +23,8 @@ use Illuminate\Support\Collection;
 
 class TraderService
 {
-    const PER_PAGE = 15;
+    const PER_PAGE_CARD = 15;
+    const PER_PAGE_TABLE = 30;
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;
@@ -104,14 +105,6 @@ class TraderService
         $traders = $this->getTraders($data);
 
         return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
-    }
-
-    /**
-     * @return BaseServices
-     */
-    public function testgettraders($data)
-    {
-        return $this->baseService;
     }
 
 
@@ -222,9 +215,9 @@ class TraderService
     }
 
 
-    public function getTradersTable($author_ids, $criteria_prices, $criteria_places)
+    public function getTradersTable($author_ids, $criteria_prices, $criteria_places, $skip)
     {
-        return $this->treders->whereIn('author_id', $author_ids)
+        $traders = $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
@@ -248,11 +241,17 @@ class TraderService
                 'traders_prices.change_date', 'traders_places.port_id',
                 'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
                 'regions.name as region')
-            ->get();
+            ->limit(self::PER_PAGE_TABLE);
+
+        if($skip != 0){
+            $traders = $traders->skip($skip);
+        }
+
+        return $traders->get();
     }
 
 
-    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places, $start = 0, $end = 0)
+    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places, $skip = 0)
     {
         $forward_months = $this->baseService->getForwardsMonths();
 
@@ -282,10 +281,10 @@ class TraderService
             ->orderBy('comp_items.rate_formula', 'desc')
             ->orderBy('comp_items.title')
             ->groupBy('comp_items.id')
-            ->limit(self::PER_PAGE);
+            ->limit(self::PER_PAGE_CARD);
 
-        if($start != 0){
-            $traders = $traders->skip($start);
+        if($skip != 0){
+            $traders = $traders->skip($skip);
         }
 
         $traders = $traders->get();
@@ -434,13 +433,13 @@ class TraderService
 
         if($data->get('type_view') == 'table' && $data->get('type') != 'forward')
         {
-            return $this->getTradersTable($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
+            return $this->getTradersTable($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'), $data->get('start'));
         }
 
         if($data->get('type_view') == 'card')
         {
             return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'),
-                $criteria_traders->get('criteria_places'), $data->get('start'), $data->get('end')
+                $criteria_traders->get('criteria_places'), $data->get('start')
             );
         }
 
