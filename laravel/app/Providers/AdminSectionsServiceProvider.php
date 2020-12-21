@@ -16,6 +16,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
             /* Быстрый Доступ  Fast access */
 //        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
         \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
+        \App\Models\ADV\AdvTorgPost::class => 'App\Http\Sections\FastAccess\AdvTorgPost',
 
         /* Цены трейдеров */
 //        \App\Models\Traders\TradersProducts::class => 'App\Http\Sections\TraderPrices\TradersProducts',
@@ -28,15 +29,16 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
 
             /* Новости/Библиотека */
-        \App\Models\News\News::class => 'App\Http\Sections\News\AgtNews',
+//        \App\Models\News\News::class => 'App\Http\Sections\News\AgtNews',
 //        \App\Models\News\NewsComment::class => 'App\Http\Sections\News\AgtNewsComment',
 
             /* Доска объявлений */
-        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Search\AdvSearch',
+//        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Search\AdvSearch',
 
             /* Компании */
-        \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
+//        \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
 //        \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
+//        \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
 
 
     ];

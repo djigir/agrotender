@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\Search;
+namespace App\Http\Sections\Companies;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AdvSearch
+ * Class CompVacancy
  *
- * @property \App\Models\ADV\AdvSearch $model
+ * @property \App\Models\Comp\CompVacancy $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AdvSearch extends Section implements Initializable
+class CompVacancy extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class AdvSearch extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Статистика запросов';
+    protected $title = 'Вакансии Компаний';
 
     /**
      * @var string
@@ -64,44 +64,52 @@ class AdvSearch extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $columns = [
+        $c = \App\Models\Comp\CompVacancy::with('compItems')->get()->take(1);
+//        dd($c);
 
-            AdminColumn::text('keyword', 'Запрос')
+        $columns = [
+            AdminColumn::text('id', 'ID')
+                ->setWidth('50px')
+                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('title', 'Вакансия', 'add_date')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('rating', $direction);
+                })->setOrderable(function($query, $direction) {
+                    $query->orderBy('id', $direction);
                 }),
 
-            AdminColumn::text('advTorgTopic.title', 'Раздел'),
-
-            AdminColumn::text('add_date', 'Дата создания')
+            AdminColumn::text('compItems.title', 'Автор')
+                ->setOrderable(function ($query, $direction){
+                    $query->orderBy('id', $direction);
+                })
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('rating', 'Рейтинг')
+            AdminColumn::boolean('visible', 'Показывать на сайте')
+                ->setWidth('200px')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('topic_id')
-                ->setPlaceholder('Все разделы')
-            ,
+
+            AdminColumnFilter::text()
+                ->setColumnName('title')
+                ->setOperator('contains')
+                ->setPlaceholder('По названию вакансии'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('compItems.title')
+                ->setOperator('contains')
+                ->setPlaceholder('По названию компании'),
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -113,23 +121,30 @@ class AdvSearch extends Section implements Initializable
      *
      * @return FormInterface
      */
-    /*public function onEdit($id = null, $payload = [])
+    public function onEdit($id = null, $payload = [])
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
+                AdminFormElement::text('title', 'Вакансия')
+                    ->required(),
+
+                AdminFormElement::textarea('content', 'Описание вакансии')
+                    ->setRows(6),
+
+                AdminFormElement::select('visible', 'Показать на сайте')
+                    ->setOptions([
+                        1 => 'Да',
+                        0 => 'Нет',
+                    ]),
+
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
+                AdminFormElement::datetime('add_date')
                     ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+                    ->setReadonly(false),
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -140,7 +155,7 @@ class AdvSearch extends Section implements Initializable
         ]);
 
         return $form;
-    }*/
+    }
 
     /**
      * @return FormInterface

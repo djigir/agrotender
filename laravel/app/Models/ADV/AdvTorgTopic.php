@@ -43,4 +43,11 @@ class AdvTorgTopic extends Model
         'seo_keyw_sell', 'seo_descr_sell', 'seo_title_sell', 'seo_h1_sell',
         'seo_text_sell'
     ];
+
+    /* Relations */
+
+    public function adv()
+    {
+        return $this->hasOne(self::class, 'id', 'parent_id');
+    }
 }

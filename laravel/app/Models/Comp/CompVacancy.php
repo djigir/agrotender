@@ -33,4 +33,9 @@ class CompVacancy extends Model
     ];
 
     protected $dates = ['add_date'];
+
+    public function compItems()
+    {
+        return $this->hasOne(CompItems::class, 'id', 'comp_id');
+    }
 }

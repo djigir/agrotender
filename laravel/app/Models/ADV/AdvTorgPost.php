@@ -3,6 +3,8 @@
 namespace App\Models\ADV;
 
 use App\Models\Comp\CompItems;
+use App\Models\Regions\Regions;
+use App\Models\Torg\TorgBuyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -61,17 +63,51 @@ class AdvTorgPost extends Model
         'id', 'topic_id', 'obl_id', 'type_id', 'author_id', 'real_author_id', 'company_id', 'publish_utype',
         'active', 'moderated', 'archive', 'targeting', 'colored', 'fixdone', 'author', 'city', 'phone', 'phone2',
         'phone3', 'author2', 'author3', 'email', 'title', 'content', 'amount', 'izm', 'cost',
-        'cost_izm', 'cost_cur', 'cost_dog', 'ups', 'ups_do_notif',  'deact_ups_guid', 'dub_guid', 'viewnum', 'viewnum_uniq', 'viewnum_cont', 'remote_ip',
+        'cost_izm', 'cost_cur', 'cost_dog', 'ups', 'ups_do_notif', 'deact_ups_guid', 'dub_guid', 'viewnum', 'viewnum_uniq', 'viewnum_cont', 'remote_ip',
     ];
 
     protected $dates = ['up_dt', 'upnotif_dt', 'add_date'];
 
+
+    /* set name for section (type_id) */
+    public function sectionName()
+    {
+        $model = $this;
+
+        switch ($model->type_id) {
+            case 1:
+                $model->rubric_name = 'Куплю';
+                break;
+            case 2:
+                $model->rubric_name = 'Продам';
+                break;
+            case 3:
+                $model->rubric_name = 'Услуги';
+                break;
+        }
+        return $model;
+    }
+
+    /* Relations */
 
 //    public function comp_items()
 //    {
 //        return $this->belongsTo(CompItems::class, 'author_id', 'author_id');
 //    }
 
+    public function regions()
+    {
+        return $this->hasOne(Regions::class, 'id', 'obl_id');
+    }
 
+    public function advTorgTopic()
+    {
+        return $this->hasOne(AdvTorgTopic::class, 'id', 'topic_id');
+    }
+
+    public function torgBuyer()
+    {
+        return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
+    }
 
 }

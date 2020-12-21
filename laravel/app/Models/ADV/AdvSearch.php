@@ -24,6 +24,6 @@ class AdvSearch extends Model
 
     public function advTorgTopic()
     {
-        return $this->hasOne(AdvTorgTopic::class, 'parent_id', 'gtopic_id');
+        return $this->hasOne(AdvTorgTopic::class, 'id', 'topic_id');
     }
 }

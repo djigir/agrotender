@@ -33,6 +33,10 @@ use SleepingOwl\Admin\Section;
  */
 class CompItems extends Section implements Initializable
 {
+    /* const for filter  */
+    const TRADER_SELL = 100;
+    const TRADER_BUYER = 200;
+
     /**
      * @var bool
      */
@@ -194,16 +198,23 @@ class CompItems extends Section implements Initializable
                 ->setColumnName('compTopicItem.topic_id')
                 ->setPlaceholder('Все секции'),
 
-            AdminColumnFilter::select()
+
+            \AdminColumnFilter::select()
                 ->setOptions([
-                    1 => 'Трейдер (закуп.)',
-                    1 => 'Трейдер (продажи.)',
+                    self::TRADER_BUYER => 'Трейдер (закуп.)',
+                    self::TRADER_SELL => 'Трейдер (продажи.)',
                 ])
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setColumnName('trader_price_avail')
-                ->setPlaceholder('Все компании'),
+                ->setPlaceholder('Все компании')->setCallback(function( $value,$query,$v) {
+                    $request = \request()->get('columns')[2]['search']['value'];
+
+                    if ($request == 100){
+                        $query->where('trader_price_sell_avail', 1);
+                    }
+                    if ($request == 200){
+                        $query->where('trader_price_avail', 1);
+                    }
+                }),
+
 
             /* trader_price_sell_avail=1  - Трейдер продажи */
 

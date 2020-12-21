@@ -118,13 +118,13 @@ class CompTopic extends Section implements Initializable
                     ->setModelForOptions(CompTgroups::class)
                     ->required(),
 
-                AdminFormElement::select('menu_group_id', 'Под раздел')
+                AdminFormElement::select('id', 'Под раздел')
                     ->setModelForOptions(\App\Models\Comp\CompTopic::class),
 
                 AdminFormElement::text('title', 'Название рубрики')
                     ->required(),
 
-                AdminFormElement::html('<span class="seo-data-title">Seo данные</span>'),
+                AdminFormElement::html('<span class="seo-data-title">Seo данные</span> <hr>'),
 
                 AdminFormElement::text('page_h1', 'H1 заголовок'),
 
@@ -136,7 +136,7 @@ class CompTopic extends Section implements Initializable
 
                 AdminFormElement::textarea('descr', 'Описание')->setRows(6),
 
-                AdminFormElement::html('<span class="other-params">Другие параметры</span>'),
+                AdminFormElement::html('<span class="other-params">Другие параметры</span> <hr>'),
 
                 AdminFormElement::text('sort_num', 'Порядковый номер'),
 
@@ -146,7 +146,6 @@ class CompTopic extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::datetime('add_date')
                     ->setVisible(true)
                     ->setReadonly(false),
@@ -174,12 +173,10 @@ class CompTopic extends Section implements Initializable
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
 
-                AdminFormElement::select('menu_group_id')
-//                    ->nullable()
-                    ->setLabel('Главный раздел')
-                    ->setModelForOptions(CompTgroups::class),
+                AdminFormElement::select('menu_group_id', 'Главный раздел')
+                    ->setModelForOptions(CompTgroups::class, 'title'),
 
-                AdminFormElement::select('menu_group_id', 'Под раздел')
+                AdminFormElement::select('id', 'Под раздел')
                     ->setModelForOptions(\App\Models\Comp\CompTopic::class),
 
                 AdminFormElement::text('title', 'Название новой рубрики')
