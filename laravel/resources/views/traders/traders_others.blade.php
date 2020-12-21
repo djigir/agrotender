@@ -1,12 +1,13 @@
 @include('traders.block-info.traders')
 @if($traders->count() > 0)
-<div class="new_container mt-3 traders_dev">
+<div class="new_container mt-3 traders_dev" port="{{$port_translit}}" region="{{$region_translit}}" id="traders_card_param">
     <div class="new_traders" id="content_traders">
         @foreach($traders as $trader)
             <div class="traders__item-wrap">
                 <a href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
                     <div class="traders__item__header">
-                        <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
+{{--                        <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">--}}
+                        <img class="traders__item__image" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg" alt="">
                     </div>
                     <div class="traders__item__content">
                         <div class="traders__item__content-title">{{ $trader->title }}</div>
@@ -75,41 +76,35 @@
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
+
     var add_count_item = 15;
     var count = 0;
     var start = add_count_item;
-    var end = add_count_item * 2;
+    var execute_request = true;
 
-    var region = window.location.pathname.replace('traders', '').replace('region_', '').replace(/[\/\\]/g,'');
-    var port = window.location.pathname.replace('traders', '').replace('tport_', '').replace(/[\/\\]/g,'');
-
-    if(window.location.pathname.indexOf('region') !== -1){
-        port = null;
-    }
-
-    if(window.location.pathname.indexOf('tport') !== -1){
-        region = null;
-    }
+    var region = $('#traders_card_param').attr('region');
+    var port = $('#traders_card_param_param').attr('port');
 
     $(window).scroll(function () {
-        if(document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 800 && count < 1) {
+        if(execute_request && document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 3000 && count < 1) {
             replaceWithSpacesAllItems();
             count++;
             $.ajax({
-                url: window.location.origin + '/traders/get_traders',
+                url: window.location.origin + '/traders/get_traders_card',
                 method: 'GET',
                 data: {
                     region: region,
                     port: port,
                     start: start,
-                    end: end,
                 },
                 success: function (data) {
                     $('#content_traders').append(data);
                     replaceWithSpacesAllItems()
                     count = 0;
                     start += add_count_item;
-                    end += add_count_item;
+                    if(data == ''){
+                        execute_request = false;
+                    }
                 }
             });
         }

@@ -104,7 +104,7 @@
             <a href="/board" class="header__center__button board">Объявления</a>
           </div>
           <div class="header__right">
-            <a href="#" class="header__right__button">
+            <a href="{{auth()->user() ? '/u/' : '/buyerlog'}}" class="header__right__button">
               <span>Мой профиль</span>
               <img src="/app/assets/img/profile.svg" alt="profile">
             </a>

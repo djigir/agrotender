@@ -239,7 +239,7 @@ class TraderController extends Controller
         return $this->setDataForTraders($data_traders);
     }
 
-    public function getTraders(Request $request)
+    public function addTradersCard(Request $request)
     {
         $data = collect([
             'region' => $request->get('region'),
@@ -248,13 +248,30 @@ class TraderController extends Controller
             'culture' => null,
             'type' => '',
             'type_view' => 'card',
-            'start' => $request->get('start'),
-            'end' => $request->get('end')
+            'start' => $request->get('start')
         ]);
 
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, []);
 
         return view('traders.add_traders_card', ['traders' => $data_traders['traders']]);
+    }
+
+
+    public function addTradersTable(Request $request)
+    {
+        $data = collect([
+            'region' => $request->get('region'),
+            'query' => $request->all(),
+            'port' => $request->get('port'),
+            'culture' => $request->get('culture'),
+            'type' => '',
+            'type_view' => 'table',
+            'start' => $request->get('start')
+        ]);
+
+        $data_traders = $this->traderService->setTradersBreadcrumbs($data, []);
+
+        return view('traders.add_traders_table', ['type_traders' => 0, 'type_place' => 0, 'traders' => $data_traders['traders']]);
     }
     /**
      * @param  Request  $request

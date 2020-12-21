@@ -2,7 +2,8 @@
     <div class="traders__item-wrap">
         <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
             <div class="traders__item__header">
-                <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">
+                <img class="traders__item__image" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg" alt="">
+{{--                <img class="traders__item__image" src="{{ $trader->logo_file }}" alt="">--}}
             </div>
             <div class="traders__item__content">
                 <div class="traders__item__content-title">{{ $trader->title }}</div>

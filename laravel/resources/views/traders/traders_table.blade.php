@@ -51,7 +51,7 @@
             }
         }
     ?>
-    <div class="new_container pb-5 pb-sm-4 pt-4 mb-4 scroll-x">
+    <div class="new_container pb-5 pb-sm-4 pt-4 mb-4 scroll-x" port="{{$port_translit}}" region="{{$region_translit}}" culture="{{$culture_translit}}" id="traders_table_param">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer">
                 <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
                     <thead>
@@ -67,7 +67,8 @@
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                             <td>
                                 <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
+{{--                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">--}}
+                                    <img class="logo mr-3" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg">
                                     <span class="title">{!! $trader->title !!}</span>
                                 </a>
                             </td>
@@ -145,3 +146,44 @@
         </div>
     @endif
 @endif
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    var add_count_item = 30;
+    var count = 0;
+    var start = add_count_item;
+    var execute_request = true;
+
+    var region = $('#traders_table_param').attr('region');
+    var port = $('#traders_table_param').attr('port');
+    var culture = $('#traders_table_param').attr('culture');
+
+    $(window).scroll(function () {
+        if(execute_request && document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 3000 && count < 1) {
+            count++;
+            $.ajax({
+                url: window.location.origin + '/traders/get_traders_table',
+                method: 'GET',
+                data: {
+                    region: region,
+                    port: port,
+                    culture: culture,
+                    start: start,
+                },
+                success: function (data) {
+                    $('#traders_table').append(data);
+                    count = 0;
+                    start += add_count_item;
+
+                    if(data == ''){
+                        execute_request = false;
+                    }
+                }
+            });
+        }
+    });
+</script>
