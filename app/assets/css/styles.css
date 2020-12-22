@@ -7957,3 +7957,115 @@ table.sortTable th.table_haeder_th_cell {
     display: inline-block;
   }
 }
+
+
+.company_filter {
+  z-index: 11;
+  position: relative;
+  box-shadow: 0px 0px 8px rgba(4, 22, 45, 0.04);
+  border-radius: 12px;
+}
+
+.company_filter .new_filters_dropdown {
+  top: 72px
+}
+
+.company_filter form {
+  display: flex;
+}
+
+.company_filter-item {
+  height: 60px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  letter-spacing: 0.02em;
+  color: #104D9D;
+}
+
+.company_filter-item.search_field {
+  width: 280px;
+  outline: none;
+  border: none;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+  padding-left: 30px;
+}
+
+.company_filter-item.search_field::placeholder {
+  color: #3D5576;
+}
+
+.company_filter-item.chose_field {
+  border-radius: 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  border-left: 1px solid #EBF1F8;
+  padding-left: 20px;
+  padding-right: 22px;
+  transition: 300ms background-color ease;
+}
+
+.company_filter-item.chose_field:after {
+  content: '';
+  width: 12px;
+  height: 7px;
+  background-image: url('https://agrotender.com.ua/app/assets/img/chevron-down-filters.svg');
+  margin-left: auto;
+  top: 0;
+  position: static;
+  transform: none;
+  filter: none
+}
+
+.company_filter-item.chose_field:hover {
+  background-color: #E5EEF9;
+}
+
+.company_filter-item.chose_field.active {
+  background-color: #E5EEF9;
+}
+
+.company_filter-item.chose_field.active:after {
+  transform: rotate(180deg);
+  top: 0;
+}
+
+.company_filter-item.chose_field.first-btn {
+  width: 280px;
+}
+
+.company_filter-item.chose_field.second-btn {
+  width: 240px;
+}
+
+
+.company_filter-item.search_btn {
+  width: 160px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding-left: 42px;
+  padding-right: 26px;
+  border-left: 1px solid #EBF1F8;
+  transition: 300ms background-color ease;
+}
+
+.company_filter-item.search_btn:hover {
+  background-color: #E5EEF9;
+}
+
+.company_filter-item.search_btn:after {
+  content: '';
+  width: 18px;
+  height: 18px;
+  margin-left: auto;
+  display: block;
+  background-image: url('https://agrotender.com.ua/app/assets/img/company_search.svg');
+}
