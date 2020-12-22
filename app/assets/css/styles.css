@@ -7944,4 +7944,16 @@ table.sortTable th.table_haeder_th_cell {
   max-width: 100%;
 }
 
+.tablet-table-month {
+  display: none;
+}
 
+@media screen and (max-width: 991px) {
+  .desktop-table-month {
+    display: none;
+  }
+
+  .tablet-table-month {
+    display: inline-block;
+  }
+}
