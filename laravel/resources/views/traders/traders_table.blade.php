@@ -113,14 +113,32 @@
                                     if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 0){
                                         $class = 'today';
                                     }
+
+                                    $day = mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d'), MB_CASE_TITLE, "UTF-8");
+                                    $month = mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('F'), MB_CASE_TITLE, "UTF-8");
+
+                                    if($type_traders == 1){
+                                        $day = mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F'), MB_CASE_TITLE, "UTF-8");
+                                        $month = mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('Y'), MB_CASE_TITLE, "UTF-8");
+                                    }
                                 ?>
-                                <span class="{{$class}}">
-                                    @if($type_traders == 1)
-                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
-                                    @else
-                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                                    @endif
-                                </span>
+                                <span class="desktop-table-month {{$class}}">{{$day}} {{$month}}</span>
+                                <span class="tablet-table-month {{$class}}">{{$day}} {{\Illuminate\Support\Str::limit($month, 3, $end='.')}}</span>
+
+{{--                                <span class="desktop-table-month {{$class}}">--}}
+{{--                                    @if($type_traders == 1)--}}
+{{--                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}--}}
+{{--                                    @else--}}
+{{--                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}--}}
+{{--                                    @endif--}}
+{{--                                </span>--}}
+{{--                                <span class="tablet-table-month {{$class}}">--}}
+{{--                                    @if($type_traders == 1)--}}
+{{--                                        {{\Illuminate\Support\Str::limit(mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8"), 3, $end='.')}}--}}
+{{--                                    @else--}}
+{{--                                        {{\Illuminate\Support\Str::limit(mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8"), 3, $end='.')}}--}}
+{{--                                    @endif--}}
+{{--                                </span>--}}
                             </td>
                             <td>
                                 @if($type_place == 0)
