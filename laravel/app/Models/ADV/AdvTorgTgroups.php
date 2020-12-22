@@ -25,4 +25,6 @@ class AdvTorgTgroups extends Model
         'add_date', 'mod_date',
         'title', 'url', 'sort_num'
     ];
+
+    public $timestamps = false;
 }

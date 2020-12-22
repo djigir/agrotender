@@ -213,10 +213,25 @@ class CompItems extends Model
         return Date::parse($this->add_date);
     }
 
-    public function get_id()
+    /* method for Admin Panel */
+    public function companyLink()
     {
         return route('company.index', $this->id);
     }
+
+    public function AdvertsType()
+    {
+        $model_name = 'adv_torg_posts';
+
+        return route('admin.model', $model_name);
+    }
+
+    public function authFromAdminPanel()
+    {
+        $user = TorgBuyer::find($this->author_id)->toArray();
+        return $user;
+    }
+    /* method for Admin Panel */
 
     /* Relations */
     public function torg_buyer()
@@ -356,11 +371,6 @@ class CompItems extends Model
         return $this->hasOne(BuyerTarifPacks::class, 'id', 'site_pack_id');
     }
 
-    /*public function compTopic()
-    {
-        return $this->belongsToMany(CompTopicItem::class, 'comp_item2topic', 'id', 'item_id');
-    }*/
-
     public function compTopic()
     {
         return $this->hasManyThrough(CompTopic::class,
@@ -376,5 +386,8 @@ class CompItems extends Model
         return $this->hasMany(CompTopicItem::class, 'item_id', 'id');
     }
 
-
+    public function advTorgPosts()
+    {
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id');
+    }
 }

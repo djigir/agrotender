@@ -33,6 +33,8 @@ class CompTgroups extends Model
     protected $dates = ['add_date', 'mod_date'];
 
 
+    public $timestamps = false;
+
     public function comp_topic()
     {
          return $this->hasMany(CompTopic::class, 'menu_group_id');

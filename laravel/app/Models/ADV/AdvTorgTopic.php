@@ -46,7 +46,7 @@ class AdvTorgTopic extends Model
 
     /* Relations */
 
-    public function adv()
+    public function parent()
     {
         return $this->hasOne(self::class, 'id', 'parent_id');
     }

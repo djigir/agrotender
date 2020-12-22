@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\Search;
+namespace App\Http\Sections\Board;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AdvSearch
+ * Class AdvTorgTgroups
  *
- * @property \App\Models\ADV\AdvSearch $model
+ * @property \App\Models\ADV\AdvTorgTgroups $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AdvSearch extends Section implements Initializable
+class AdvTorgTgroups extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class AdvSearch extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Статистика запросов';
+    protected $title = 'Группы разделов доски';
 
     /**
      * @var string
@@ -50,14 +50,6 @@ class AdvSearch extends Section implements Initializable
     }
 
     /**
-     * @param string $title
-     */
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    /**
      * @param array $payload
      *
      * @return DisplayInterface
@@ -65,43 +57,35 @@ class AdvSearch extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-
-            AdminColumn::text('keyword', 'Запрос')
+            AdminColumn::text('id', 'ID')
+                ->setWidth('50px')
+                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('title', 'Название')
+                ->setHtmlAttribute('class', 'text-center')
                 ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('name', 'like', '%'.$search.'%');
+                    return $query->orWhere('title', 'like', '%'.$search.'%');
                 })
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('rating', $direction);
+                    $query->orderBy('sort_num', $direction);
                 }),
 
-            AdminColumn::text('advTorgTopic.title', 'Раздел'),
-
-            AdminColumn::text('add_date', 'Дата создания')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('rating', 'Рейтинг')
+            AdminColumn::datetime('add_date', 'Создано')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(false)
+            ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+        ;
 
         $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('topic_id')
-                ->setPlaceholder('Все разделы')
-            ,
+
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -113,22 +97,24 @@ class AdvSearch extends Section implements Initializable
      *
      * @return FormInterface
      */
-    /*public function onEdit($id = null, $payload = [])
+    public function onEdit($id = null, $payload = [])
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
+                AdminFormElement::text('title', 'Название')
+                    ->required(),
+
+                AdminFormElement::number('sort_num', 'Сортировка'),
+
+                AdminFormElement::html('<hr> '),
+
+                AdminFormElement::html('<span style="font-weight: bold;">Дата обновления</span>'),
+
+                AdminFormElement::datetime('mod_date')
                     ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
+                    ->setReadonly(false),
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 
@@ -140,15 +126,40 @@ class AdvSearch extends Section implements Initializable
         ]);
 
         return $form;
-    }*/
+    }
 
     /**
      * @return FormInterface
      */
-    /*public function onCreate($payload = [])
+    public function onCreate($payload = [])
     {
-        return $this->onEdit(null, $payload);
-    }*/
+        $form = AdminForm::card()->addBody([
+            AdminFormElement::columns()->addColumn([
+                AdminFormElement::text('title', 'Название')
+                    ->required(),
+
+                AdminFormElement::number('sort_num', 'Сортировка'),
+
+                AdminFormElement::html('<hr> '),
+
+                AdminFormElement::datetime('add_date', 'Дата Создания')
+                    ->required()
+                    ->setVisible(true)
+                    ->setReadonly(false),
+
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+        ]);
+
+        $form->getButtons()->setButtons([
+            'save'  => new Save(),
+            'save_and_close'  => new SaveAndClose(),
+            'save_and_create'  => new SaveAndCreate(),
+            'cancel'  => (new Cancel()),
+        ]);
+
+        return $form;
+    }
 
     /**
      * @return bool

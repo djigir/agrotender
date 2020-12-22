@@ -62,6 +62,7 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+//        $this->setModelValue('');
         /*$c = \App\Models\ADV\AdvTorgPost::with('torgBuyer')->get()->take(1);
         $b = AdvTorgTopic::with('adv')->find(441);*/
 //dd($c);
@@ -79,6 +80,9 @@ class AdvTorgPost extends Section implements Initializable
             AdminColumn::text('advTorgTopic.title', 'Продукт'),
 
 //            AdminColumn::custom('Раздел', function (\App\Models\ADV\AdvTorgTopic $torgTopic){
+//
+//
+//
 //                 return $torgTopic->id;
 //            }),
 
@@ -110,7 +114,11 @@ class AdvTorgPost extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+
+                \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
+            );
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
@@ -131,7 +139,7 @@ class AdvTorgPost extends Section implements Initializable
                 ->setColumnName('type_id')
                 ->setPlaceholder('Все типы объявления'),
 
-            /*AdminColumnFilter::select()
+            AdminColumnFilter::select()
 
                 ->setPlaceholder('Все разделы'),
 
@@ -145,7 +153,7 @@ class AdvTorgPost extends Section implements Initializable
 
             AdminColumnFilter::select()
 
-                ->setPlaceholder('Сессия'),*/
+                ->setPlaceholder('Сессия'),
 
             AdminColumnFilter::select()
                 ->setOptions([
@@ -170,35 +178,51 @@ class AdvTorgPost extends Section implements Initializable
                         }
                 }),
 
-            AdminColumnFilter::text()
-                ->setColumnName('torgBuyer.email')
-                ->setPlaceholder('По Email'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('phone')
-                ->setColumnName('phone2')
-                ->setPlaceholder('По Тел.'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('remote_ip')
-                ->setPlaceholder('По IP'),
-
-            /*AdminColumnFilter::text()
-                ->setColumnName()
-                ->setPlaceholder('SES'),*/
-
-            AdminColumnFilter::text()
-                ->setColumnName('torgBuyer.name')
-                ->setOperator('contains')
-                ->setPlaceholder('По имени'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('id')
-                ->setPlaceholder('По ID'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('title')
-                ->setPlaceholder('По объявлению'),
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'email_search')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+//                ->setColumnName('torgBuyer.email')
+//                ->setPlaceholder('По Email'),
+//
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'phone_search')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+//                ->setColumnName('phone')
+//                ->setColumnName('phone2')
+//                ->setPlaceholder('По Тел.'),
+//
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'remoteIp_search')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+//                ->setColumnName('remote_ip')
+//                ->setPlaceholder('По IP'),
+//
+//            /*AdminColumnFilter::text()
+//                ->setColumnName()
+//                ->setPlaceholder('SES'),*/
+//
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'name_search')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+//                ->setColumnName('torgBuyer.name')
+//                ->setOperator('contains')
+//                ->setPlaceholder('По имени'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('id')
+//                ->setPlaceholder('По ID'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('title')
+//                ->setOperator('contains')
+//                ->setPlaceholder('По объявлению'),
+//
+//
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'userId_search col-md-10')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+//                ->setColumnName('torgBuyer.id')
+//                ->setPlaceholder('По UserID')
 
         ]);
 

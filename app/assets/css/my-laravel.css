@@ -10,7 +10,29 @@
     margin-bottom: 2rem;
 }
 
-.id-search{
-    border: 50px solid red;
-    background-color: red;
+/* Объявления */
+
+/*.email_search {
+    width: 30px;
+}
+
+.phone_search {
+    width: 30px;
+}
+
+.userId_search {
+    width: 30px;
+}*/
+
+/* Ред. Компания */
+.author_search {
+    margin-top: 1.3rem;
+}
+
+.ID_search {
+    margin-top: 1.3rem;
+}
+
+.comp_items_adverts {
+    text-decoration: underline;
 }

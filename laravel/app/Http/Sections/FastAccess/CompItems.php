@@ -17,10 +17,13 @@ use SleepingOwl\Admin\Contracts\Initializable;
 use SleepingOwl\Admin\Display\Column\Url;
 use SleepingOwl\Admin\Display\ControlLink;
 use SleepingOwl\Admin\Facades\Admin;
+use SleepingOwl\Admin\Facades\FormElement;
 use SleepingOwl\Admin\Form\Buttons\Cancel;
+use SleepingOwl\Admin\Form\Buttons\FormButton;
 use SleepingOwl\Admin\Form\Buttons\Save;
 use SleepingOwl\Admin\Form\Buttons\SaveAndClose;
 use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
+use SleepingOwl\Admin\Form\Columns\Column;
 use SleepingOwl\Admin\Section;
 
 
@@ -75,33 +78,17 @@ class CompItems extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $c = \App\Models\Comp\CompItems::with('torgBuyer')->limit(1)->get();
-        $t2i = \App\Models\Comp\CompTopicItem::with('compTopic')->first();
-        $c = \App\Models\Comp\CompItems::get();
-
-//        $t = \App\Models\Comp\CompTopic::with('compItemWithItemTopic')->limit(1)->get();
-//        dd($c);
-
-        /*AdminColumn::custom('ID', function ($id){
-            return \URL::route('company.index', [$id]);
-        })*/
-
-//        dd(\App\Models\Comp\CompItems::find(		6616)->get_id());
+        $c = \App\Models\Comp\CompItems::with('advTorgPosts')->find(6618);
+//        dd($c['advTorgPosts']->where('type_id', 2));
 
         $columns = [
-            /*AdminColumn::link('id', 'ID')
-                ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),*/
 
-            AdminColumn::custom('ID', function ($id){
-                return \URL::route('company.index', [$id]);
-            }),
+            AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
+                return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
+            })->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center')
+                ->setOrderable('id'),
 
-            /*AdminColumn::url('id', 'ID')
-                ->setText('id', false)
-                ->setIcon(false)
-                ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),*/
 
             AdminColumn::image('logo_file', 'Лого'),
 
@@ -129,15 +116,18 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::text('add_date', 'Дата рег./Последн. вход', 'torgBuyer.last_login')
-                ->setWidth('190px')
+                ->setWidth('192px')
                 ->setHtmlAttribute('class', 'text-center'),
 
+            AdminColumn::custom('T/З/У', function (\Illuminate\Database\Eloquent\Model $model) {
+                return "<a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=2&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 2)->count()}</a> /
+                        <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=1&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 1)->count()}</a> /
+                        <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=3&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 3)->count()}</a>
+                        ";
+            })->setWidth('80px')
+                ->setHtmlAttribute('class', 'text-center')
+                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
-//            AdminColumn::text('', 'Т'),
-//
-//            AdminColumn::text('', 'З'),
-//
-//            AdminColumn::text('', 'У'),
 
             AdminColumn::text('rate_formula', 'Рейт.')
                 ->setWidth('65px')
@@ -159,14 +149,17 @@ class CompItems extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                })
+                }),
 
-                /*->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('title', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                }),*/
+            AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
+//                return "<a href=".route('')." class='btn btn-success btn-sm'>Войти</a>";
+                /*return "<form action='/loginAsUser'>
+                            <input type='submit' class='btn btn-success btn-sm' value='Войти'>
+                        </form>";*/
+            })->setWidth('126px')
+                ->setHtmlAttribute('class', 'text-center')
+                ->setOrderable('id'),
+
         ];
 
 
@@ -176,7 +169,8 @@ class CompItems extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+           ;
 
 
         $display->setColumnFilters([
@@ -215,11 +209,6 @@ class CompItems extends Section implements Initializable
                     }
                 }),
 
-
-            /* trader_price_sell_avail=1  - Трейдер продажи */
-
-            /* trader_price_avail=1   - Трейдер закуп */
-
             AdminColumnFilter::text()
                 ->setColumnName('title')
                 ->setOperator('contains')
@@ -234,12 +223,15 @@ class CompItems extends Section implements Initializable
                 ->setPlaceholder('по Тел.'),
 
             AdminColumnFilter::text()
+                ->setHtmlAttribute('class', 'author_search')
+                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                 ->setColumnName('torgBuyer.name')
                 ->setOperator('contains')
                 ->setPlaceholder('по Автору'),
 
             AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'id-search')
+                ->setHtmlAttribute('class', 'ID_search')
+                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                 ->setColumnName('id')
                 ->setPlaceholder('по ID'),
 
@@ -248,7 +240,16 @@ class CompItems extends Section implements Initializable
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
+//        $control = $display->getColumns()->getControlColumn();
+//
+//        $link = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
+////            return route('company.index', $model->getKey()); // Генерация ссылки
+//        }, 'Посмореть', 50);
+//
+//        $control->addButton($link);
+
         return $display;
+
     }
 
     /**

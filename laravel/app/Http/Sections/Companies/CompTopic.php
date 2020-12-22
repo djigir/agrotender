@@ -68,13 +68,31 @@ class CompTopic extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        /* вывод с главной категорией */
+
+//        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
+//        $rubriks_gr = CompTgroups::all();
+//
+//        $rubrik_select = [];
+//        /** @var CompTgroups $rubrik_gr */
+//        foreach ($rubriks_gr as $rubrik_gr) {
+//            /** @var \App\Models\Comp\CompTopic $rubrik */
+//            foreach ($rubriks as $rubrik) {
+//                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
+//                    continue;
+//                }
+//                $rubrik_select[$rubrik->id] = $rubrik->title . '(' . $rubrik_gr->title . ')';
+//            }
+//        }
+////        dd($rubrik_select);
+
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('title', 'Рубрики')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('title', 'like', '%'.$search.'%');
+                ->setSearchCallback(function ($column, $query, $search) {
+                    return $query->orWhere('title', 'like', '%' . $search . '%');
                 })
-                ->setOrderable(function($query, $direction) {
+                ->setOrderable(function ($query, $direction) {
                     $query->orderBy('menu_group_id', $direction);
                 }),
         ];
@@ -90,7 +108,7 @@ class CompTopic extends Section implements Initializable
         $display->setColumnFilters([
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\Comp\CompTgroups::class, 'title')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                ->setLoadOptionsQueryPreparer(function ($element, $query) {
                     return $query;
                 })
                 ->setDisplay('title')
@@ -156,10 +174,10 @@ class CompTopic extends Section implements Initializable
         ]);
 
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
+            'save' => new Save(),
+            'save_and_close' => new SaveAndClose(),
+            'save_and_create' => new SaveAndCreate(),
+            'cancel' => (new Cancel()),
         ]);
 
         return $form;
@@ -201,10 +219,10 @@ class CompTopic extends Section implements Initializable
         ]);
 
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
+            'save' => new Save(),
+            'save_and_close' => new SaveAndClose(),
+            'save_and_create' => new SaveAndCreate(),
+            'cancel' => (new Cancel()),
         ]);
 
         return $form;

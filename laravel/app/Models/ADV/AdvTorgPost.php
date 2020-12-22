@@ -110,4 +110,17 @@ class AdvTorgPost extends Model
         return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
     }
 
+    /**
+     * @param     $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeTypeAdverts($query, $type)
+    {
+        $type_id = $type['type_id'];
+        $comp_id = $type['comp_id'];
+
+        return $query->where('type_id', $type)->where('company_id', $comp_id);
+    }
+
 }
