@@ -69,8 +69,7 @@ class AdvTorgPost extends Model
     protected $dates = ['up_dt', 'upnotif_dt', 'add_date'];
 
 
-    /* set name for section (type_id) */
-    public function sectionName()
+    public function advertsType()
     {
         $model = $this;
 
@@ -88,12 +87,6 @@ class AdvTorgPost extends Model
         return $model;
     }
 
-    /* Relations */
-
-//    public function comp_items()
-//    {
-//        return $this->belongsTo(CompItems::class, 'author_id', 'author_id');
-//    }
 
     public function regions()
     {
@@ -113,6 +106,11 @@ class AdvTorgPost extends Model
     public function compItems()
     {
         return $this->hasOne(CompItems::class, 'id', 'author_id');
+    }
+
+    public function getRubricForPost()
+    {
+        return AdvTorgTopic::class;
     }
 
     /**

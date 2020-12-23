@@ -62,10 +62,28 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-//        $this->setModelValue('');
-        /*$c = \App\Models\ADV\AdvTorgPost::with('torgBuyer')->get()->take(1);
-        $b = AdvTorgTopic::with('adv')->find(441);*/
-//dd($c);
+        /* products */
+        $products_ids = AdvTorgTopic::pluck('id');
+        $product_name = AdvTorgTopic::whereIn('parent_id', $products_ids)->get();
+
+        /* groups */
+        $topics = AdvTorgTopic::pluck('parent_id');
+        $rubriks_name = AdvTorgTopic::whereIn('id', $topics)->get();
+
+        $rubriks = [];
+
+//        dd($product_name->where('id', 459), $rubriks_name->where('title', 'Комбайны и уборочная техника'));
+        foreach ($product_name as $product) {
+            foreach ($rubriks_name as $rubrick){
+                if ($product->id != $rubrick->id){
+                    $rubriks[] = $rubrick->title;
+                }
+            }
+        }
+
+        $a = \App\Models\ADV\AdvTorgPost::all();
+
+//        dd(count($rubriks), $a->count());
 
         $columns = [
             AdminColumn::text('id', 'ID')
@@ -73,15 +91,21 @@ class AdvTorgPost extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
 
-            AdminColumn::custom('Тип', function (\App\Models\ADV\AdvTorgPost $torgPost){
-                return $torgPost->sectionName()->rubric_name;
-            })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+//            AdminColumn::custom('Тип', function (\App\Models\ADV\AdvTorgPost $torgPost){
+//                return $torgPost->advertsType()->rubric_name;
+//            })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+//
+//            AdminColumn::text('advTorgTopic.title', 'Продукт'),
 
-            AdminColumn::text('advTorgTopic.title', 'Продукт'),
+            AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model) use($rubriks){
 
-//            AdminColumn::custom('Раздел', function (\App\Models\ADV\AdvTorgTopic $torgTopic){
-//                 return $torgTopic->id;
-//            }),
+                return "<div class='row-text'>
+                            {$model->advertsType()->rubric_name}
+                            <br>
+                            {$model['advTorgTopic']->title}
+                            <small class='clearfix'>{$rubriks}</small>
+                        </div>";
+            })->setHtmlAttribute('class', 'text-center'),
 
 
             /*AdminColumn::link('author', 'Автор/Тел.', 'phone')
@@ -92,16 +116,62 @@ class AdvTorgPost extends Section implements Initializable
                     $query->orderBy('viewnum', $direction);
                 }),*/
 
-            AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
-                dd($model['compItems']);
-//                return '';
-            }),
+
+            /*AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
+
+            }),*/
+
+
+//            AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
+//                dd($model['compItems']);
+////                return '';
+//            }),
 
 
             AdminColumn::text('torgBuyer.email', 'Email/IP', 'remote_ip')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('title', 'Объявление'),
+
+            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
+                $type_cost = $model->cost_dog;
+                $currency_type = $model->cost_cur;
+                $price = $model->cost;
+                $product_size = $model->amount;
+                $cost = '';
+                $size = '';
+                $currency = '';
+
+                switch ($currency_type) {
+                    case 1:
+                        $currency = 'грн.';
+                        break;
+                    case 2:
+                        $currency = '$';
+                        break;
+                    case 3:
+                        $currency = '€';
+                        break;
+                }
+
+                if ($type_cost == 0 && $price) {
+                    $cost = 'Цена: ' .$model->cost. $currency;
+                }
+
+                if ($type_cost == 1 && $price) {
+                    $cost = 'Цена: договорная';
+                }
+
+                if ($product_size != '' && $product_size !=0){
+                    $size = 'Объем ' . $model->amount . $model->izm;
+                }
+
+                return "<div class='row-text'>
+                            {$model->title}
+                            <small class='clearfix'>{$cost} {$size}</small>
+                        </div>";
+                })->setOrderable(function($query, $direction) {
+                    $query->orderBy('add_date', $direction);
+                }),
 
             AdminColumn::text('regions.name', 'Область')
                 ->setHtmlAttribute('class', 'text-center'),
@@ -141,21 +211,21 @@ class AdvTorgPost extends Section implements Initializable
                 ->setColumnName('type_id')
                 ->setPlaceholder('Все типы объявления'),
 
-            AdminColumnFilter::select()
-
-                ->setPlaceholder('Все разделы'),
-
-            AdminColumnFilter::select()
-
-                ->setPlaceholder('Все Секции'),
-
-            AdminColumnFilter::select()
-
-                ->setPlaceholder('За все время'),
-
-            AdminColumnFilter::select()
-
-                ->setPlaceholder('Сессия'),
+//            AdminColumnFilter::select()
+//
+//                ->setPlaceholder('Все разделы'),
+//
+//            AdminColumnFilter::select()
+//
+//                ->setPlaceholder('Все Секции'),
+//
+//            AdminColumnFilter::select()
+//
+//                ->setPlaceholder('За все время'),
+//
+//            AdminColumnFilter::select()
+//
+//                ->setPlaceholder('Сессия'),
 
             AdminColumnFilter::select()
                 ->setOptions([
@@ -165,7 +235,7 @@ class AdvTorgPost extends Section implements Initializable
                 ->setColumnName('archive')
                 ->setPlaceholder('Все актив'),
 
-            \AdminColumnFilter::select()
+            /*\AdminColumnFilter::select()
                 ->setOptions([
                     self::IN_TOP => 'Объявления в топе',
                     self::COLOR_TOP => 'Выделенные цветом',
@@ -178,7 +248,7 @@ class AdvTorgPost extends Section implements Initializable
                         if ($request == 200){
                             $query->where('colored', 1);
                         }
-                }),
+                }),*/
 
 //            AdminColumnFilter::text()
 //                ->setHtmlAttribute('class', 'email_search')
@@ -210,9 +280,9 @@ class AdvTorgPost extends Section implements Initializable
 //                ->setOperator('contains')
 //                ->setPlaceholder('По имени'),
 //
-//            AdminColumnFilter::text()
-//                ->setColumnName('id')
-//                ->setPlaceholder('По ID'),
+            AdminColumnFilter::text()
+                ->setColumnName('id')
+                ->setPlaceholder('По ID'),
 //
 //            AdminColumnFilter::text()
 //                ->setColumnName('title')
