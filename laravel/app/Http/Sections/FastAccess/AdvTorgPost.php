@@ -75,7 +75,7 @@ class AdvTorgPost extends Section implements Initializable
 //        dd($product_name->where('id', 459), $rubriks_name->where('title', 'Комбайны и уборочная техника'));
         foreach ($product_name as $product) {
             foreach ($rubriks_name as $rubrick){
-                if ($product->id != $rubrick->id){
+                if ($product->paren_id != $rubrick->id){
                     $rubriks[] = $rubrick->title;
                 }
             }
