@@ -10,20 +10,6 @@
     margin-bottom: 2rem;
 }
 
-/* Объявления */
-
-/*.email_search {
-    width: 30px;
-}
-
-.phone_search {
-    width: 30px;
-}
-
-.userId_search {
-    width: 30px;
-}*/
-
 /* Ред. Компания */
 .author_search {
     margin-top: 1.3rem;
@@ -35,4 +21,8 @@
 
 .comp_items_adverts {
     text-decoration: underline;
+}
+
+.phone_search {
+    margin-top: 1.3rem;
 }

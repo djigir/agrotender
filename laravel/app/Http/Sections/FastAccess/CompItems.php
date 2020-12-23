@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Buyer\BuyerTarifPacks;
+use App\Models\Comp\CompTgroups;
 use App\Models\Torg\TorgBuyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -81,6 +82,21 @@ class CompItems extends Section implements Initializable
         $c = \App\Models\Comp\CompItems::with('advTorgPosts')->find(6618);
 //        dd($c['advTorgPosts']->where('type_id', 2));
 
+        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
+        $rubriks_gr = CompTgroups::all();
+
+        $rubrik_select = [];
+        /** @var CompTgroups $rubrik_gr */
+        foreach ($rubriks_gr as $rubrik_gr) {
+            /** @var \App\Models\Comp\CompTopic $rubrik */
+            foreach ($rubriks as $rubrik) {
+                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
+                    continue;
+                }
+                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
+            }
+        }
+
         $columns = [
 
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
@@ -152,10 +168,7 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
-//                return "<a href=".route('')." class='btn btn-success btn-sm'>Войти</a>";
-                /*return "<form action='/loginAsUser'>
-                            <input type='submit' class='btn btn-success btn-sm' value='Войти'>
-                        </form>";*/
+                return "<a href=".route('admin.login_as_user', ['user_id' => $compItems->author_id])." class='btn btn-success btn-sm'>Войти</a>";
             })->setWidth('126px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable('id'),
@@ -183,8 +196,17 @@ class CompItems extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
 
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('compTopicItem.topic_id')
+//                ->setPlaceholder('Все секции'),
+
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
+                ->setOptions($rubrik_select)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
@@ -220,6 +242,8 @@ class CompItems extends Section implements Initializable
 
             AdminColumnFilter::text()
                 ->setColumnName('phone')
+                ->setHtmlAttribute('class', 'phone_search')
+                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                 ->setPlaceholder('по Тел.'),
 
             AdminColumnFilter::text()

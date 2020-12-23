@@ -80,20 +80,23 @@ class AdvTorgPost extends Section implements Initializable
             AdminColumn::text('advTorgTopic.title', 'Продукт'),
 
 //            AdminColumn::custom('Раздел', function (\App\Models\ADV\AdvTorgTopic $torgTopic){
-//
-//
-//
 //                 return $torgTopic->id;
 //            }),
 
 
-            AdminColumn::link('author', 'Автор/Тел.', 'phone')
+            /*AdminColumn::link('author', 'Автор/Тел.', 'phone')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('author', 'like', '%'.$search.'%');
                 })->setOrderable(function($query, $direction) {
                     $query->orderBy('viewnum', $direction);
-                }),
+                }),*/
+
+            AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
+                dd($model['compItems']);
+//                return '';
+            }),
+
 
             AdminColumn::text('torgBuyer.email', 'Email/IP', 'remote_ip')
                 ->setHtmlAttribute('class', 'text-center'),
@@ -116,7 +119,6 @@ class AdvTorgPost extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-
                 \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
             );
 

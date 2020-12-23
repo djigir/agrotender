@@ -12,6 +12,7 @@ Route::get('information', ['as' => 'admin.information', function () {
 	return AdminSection::view($content, 'Information');
 }]);
 
-Route::post('loginAsUser', [
+Route::get('/login_as_user', [
+    'as' => 'admin.login_as_user',
     'uses' => '\App\Http\Controllers\AdminController@loginAsUser',
 ]);

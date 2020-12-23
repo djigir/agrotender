@@ -110,6 +110,11 @@ class AdvTorgPost extends Model
         return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
     }
 
+    public function compItems()
+    {
+        return $this->hasOne(CompItems::class, 'id', 'author_id');
+    }
+
     /**
      * @param     $query
      *
@@ -120,7 +125,7 @@ class AdvTorgPost extends Model
         $type_id = $type['type_id'];
         $comp_id = $type['comp_id'];
 
-        return $query->where('type_id', $type)->where('company_id', $comp_id);
+        return $query->where('type_id', $type_id)->where('company_id', $comp_id);
     }
 
 }
