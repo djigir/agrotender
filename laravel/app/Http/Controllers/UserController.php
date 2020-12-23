@@ -41,6 +41,7 @@ class UserController extends Controller
         1 => 'advert',
         2 => 'application',
         3 => 'tariff',
+        4 => 'prices',
     ];
 
     const TYPE_PAGE_PROFILE = [
@@ -506,6 +507,16 @@ class UserController extends Controller
         return view('private_cabinet.application.application', [
             'meta' => $meta,
             'type_page' => self::TYPE_PAGE[2],
+            'isMobile' => $this->agent->isMobile(),
+        ]);
+    }
+
+    public function prices()
+    {
+        return view('private_cabinet.tariff.balance_docs', [
+            'meta' => [],
+            'type_page' => self::TYPE_PAGE[4],
+            'type_page_tariff' => self::TYPE_PAGE_TARIFF[4],
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

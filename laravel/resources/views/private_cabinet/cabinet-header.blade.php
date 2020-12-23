@@ -10,6 +10,7 @@
             <a href="{{route('user.application')}}" class="position-relative {{$type_page == 'application' ? 'active' : ''}}">Заявки
                 <span class="notification-badge top-badge"></span>
             </a>
+            <a href="{{route('user.profile.prices')}}" class="{{$type_page == 'prices' ? 'active' : ''}}">Цены трейдера</a>
             <a href="{{route('user.advert.limit')}}" class="{{$type_page == 'tariff' ? 'active' : ''}}">Тарифы</a>
         </div>
     </div>

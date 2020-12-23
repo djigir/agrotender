@@ -122,6 +122,8 @@ Route::prefix('u')
                 Route::get('/success', 'UserController@emailVerification')->name('success');
                 Route::get('/email_changed', 'UserController@successEmailChanged')->name('email_changed');
 
+
+                Route::get('/prices', 'UserController@prices')->name('prices');
             });
 
         Route::prefix('/posts')
