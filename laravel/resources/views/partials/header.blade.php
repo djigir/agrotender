@@ -86,7 +86,7 @@
                       <a href="{{route('traders.region', 'ukraine')}}">Закупки</a>
                     </li>
                     <li>
-                      <a href="{{route('traders_forward.region_culture', ['ukraine', 'pshenica_2_kl'])}}">Форварды</a>
+                        <a href="{{route('traders_forward.region', 'ukraine')}}">Форварды</a>
                     </li>
                     <li>
                       <a href="{{route('elev.elevators')}}">Элеваторы</a>
@@ -133,6 +133,9 @@
                     </li>
                     <li>
                         <a href="/u/posts">Объявления</a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="">Баланс: 0 грн</a>
                     </li>
                     <li>
                         <a href="/u/balance/pay">Пополнить баланс</a>
@@ -199,7 +202,6 @@
               </a>
             </div>
             <ul class="drawer__list">
-{{--                class="active"--}}
               <li>
                 <a href="/" >Главная</a>
               </li>
