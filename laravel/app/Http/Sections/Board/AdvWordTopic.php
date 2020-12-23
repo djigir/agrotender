@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\UserManagement;
+namespace App\Http\Sections\Board;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class TorgBuyer
+ * Class AdvWordTopic
  *
- * @property \App\Models\Torg\TorgBuyer $model
+ * @property \App\Models\ADV\AdvWordTopic $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class TorgBuyer extends Section implements Initializable
+class AdvWordTopic extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class TorgBuyer extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Зарегистрированые пользователи';
+    protected $title = 'Подсказки к Разделам';
 
     /**
      * @var string
@@ -56,50 +56,43 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('login', 'Логин')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('name', 'like', '%'.$search.'%');
+            AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
+            AdminColumn::text('torg_topic.title.', 'Раздел')->setWidth('250px'),
 
-            AdminColumn::datetime('add_date', 'Дата регистрации'),
+            AdminColumn::text('keyword', 'Запрос')->setWidth('250px'),
 
-            AdminColumn::boolean('', 'Активация'),
+            AdminColumn::text('add_date', 'Дата создания')
+                ->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::boolean('smschecked', 'Телефон'),
-
-            AdminColumn::text('', 'Баланс'),
-
-
-            AdminColumn::text('')
+            AdminColumn::text('rating', 'Рейтинг')
+                ->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(true)
+//            ->setOrder([[0, 'asc']])
+//            ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
         $display->setColumnFilters([
-            /*AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Torg\TorgBuyer::class, 'name')
+            AdminColumnFilter::select()
+                ->setModelForOptions(\App\Models\ADV\AdvWordTopic::class, 'name')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
                 ->setDisplay('name')
                 ->setColumnName('name')
                 ->setPlaceholder('All names')
-            ,*/
+            ,
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;

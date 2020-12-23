@@ -50,4 +50,10 @@ class AdvTorgTopic extends Model
     {
         return $this->hasOne(self::class, 'id', 'parent_id');
     }
+
+
+    public function word_topic()
+    {
+        return $this->belongsTo(AdvWordTopic::class, 'id', 'topic_id');
+    }
 }

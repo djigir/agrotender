@@ -36,7 +36,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
             /* Доска объявлений  board */
 //        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Board\AdvSearch',
 //        \App\Models\ADV\AdvTorgTgroups::class => 'App\Http\Sections\Board\AdvTorgTgroups',
-
+          \App\Models\ADV\AdvWordTopic::class => 'App\Http\Sections\Board\AdvWordTopic'
 
         /* Компании */
 //        \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
