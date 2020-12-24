@@ -36,14 +36,14 @@ if($regions->count() > 0 && !$isMobile){
 
     <div
         class="new_fitlers_container"
-        data-companyName=""
-        data-category=""
-        data-region=""
+        data-companyName="{{ isset($query) && $query ? $query : ''}}"
+        data-category="{{$culture_name}}"
+        data-region="{{$region_name}}"
         data-type="companies"
     >
         <div class="company_filter">
             <form>
-                <input type="text" class="company_filter-item search_field" placeholder="Название компании">
+                <input type="text" class="company_filter-item search_field" placeholder="Название компании" value="{{isset($query) && $query != null ? $query : ''}}" id="test">
                 <button type="button" class="company_filter-item chose_field first-btn new_filters_btn">{{$culture_name}}</button>
                 <button type="button" class="company_filter-item chose_field second-btn new_filters_btn">{{$region_name}}</button>
                 <button type="submit" class="company_filter-item search_btn">Найти</button>

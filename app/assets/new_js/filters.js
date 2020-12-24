@@ -131,8 +131,9 @@
 
     submitHandler(e) {
       e.preventDefault()
-      console.log(`/kompanii/s/${this.companyName}`)
-      window.location = `/kompanii/s/${this.companyName}`
+      if (this.companyName) {
+        window.location = `/kompanii/s/${this.companyName}`
+      }
     }
   }
 
