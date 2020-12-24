@@ -2495,6 +2495,7 @@ h1 {
 .modal-header .close {
   margin: .2rem 0 0 0;
   padding: 0;
+  outline: none;
 }
 .modal .phone {
   font-weight: 600;
@@ -8068,4 +8069,26 @@ table.sortTable th.table_haeder_th_cell {
   margin-left: auto;
   display: block;
   background-image: url('https://agrotender.com.ua/app/assets/img/company_search.svg');
+}
+
+.company_logo {
+  position: relative;
+  display: block;
+}
+
+.company_logo_vip {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  background-color: #ffc104;
+  padding: 3px 10px;
+  box-shadow: 0px 0px 8px rgba(4, 22, 45, 0.04);
+  border-radius: 4px;
+
+  font-family: Montserrat;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #001430;
 }
