@@ -85,6 +85,7 @@ class CompanyController extends Controller
         $region_id = null;
         $region = $data->get('region');
         $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
+        $group_id =  $culture_name  ? $culture_name->menu_group_id : null;
         $check_phone = $this->agent->isMobile() ? 1 : 0;
         $culture_name = $culture_name  ? $culture_name->title : 'Виды деятельности';
 
@@ -118,6 +119,7 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'breadcrumbs' => $breadcrumbs,
             'page_type' => 0,
+            'group_id' => $group_id,
         ]);
     }
 

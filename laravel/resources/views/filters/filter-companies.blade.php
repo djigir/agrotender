@@ -53,7 +53,18 @@ if($regions->count() > 0 && !$isMobile){
                 <div class="new_filters_dropdown_column culures_first js_first">
                     <ul>
                         @foreach($rubricGroups as $index => $rubric)
-                            <li>
+                            <?php
+                                $class = '';
+
+                                if($index == $group_id){
+                                    $class = 'active';
+                                }
+
+                                if(!$group_id && $index == 1){
+                                    $class = 'active';
+                                }
+                            ?>
+                            <li class="{{$class}}">
                                 <a href="#">{{$rubric['title']}}</a>
                             </li>
                         @endforeach
@@ -62,7 +73,18 @@ if($regions->count() > 0 && !$isMobile){
 
                 <div class="new_filters_dropdown_column content">
                     @foreach($rubricGroups as $index => $rubric)
-                        <div class="new_filters_dropdown_column_tab js_content">
+                        <?php
+                            $class = '';
+
+                            if($index == $group_id){
+                                $class = 'active';
+                            }
+
+                            if(!$group_id && $index == 1){
+                                $class = 'active';
+                            }
+                        ?>
+                        <div class="new_filters_dropdown_column_tab js_content {{$class}}">
                             @foreach(collect($rubricGroups[$rubric['id']]["comp_topic"])->chunk(7) as $chunk)
                                 <div class="new_filters_dropdown_column_item">
                                     <ul>
