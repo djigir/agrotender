@@ -7765,9 +7765,7 @@ table.sortTable th.table_haeder_th_cell {
   }
 }
 .traders_table_title_css {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  margin-top: -10px;
 }
 
 .chose_culture {

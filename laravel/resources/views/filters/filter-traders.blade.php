@@ -14,7 +14,7 @@ if($regions->count() > 0 && !$isMobile){
     <button class="new_filters_btn" id="cultures_btn">{{$culture_name}}</button>
     <button class="new_filters_btn" id="regions_btn">{{$region_port_name}}</button>
 
-    <div class="new_filters_dropdown {{$type_view == 'table' ? 'right' : ''}}" id="cultures_dropdown">
+    <div class="new_filters_dropdown" id="cultures_dropdown">
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
           @foreach($rubricsGroup as $group => $item)

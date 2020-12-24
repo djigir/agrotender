@@ -55,7 +55,6 @@
                     </div>
                 </div>
             @endif
-        @if($type_view !== 'table')
             @if(!$isMobile)
                 <div class="row new_filters_margin">
                     <div class="col-8">
@@ -66,7 +65,6 @@
                     </div>
                 </div>
             @endif
-        @endif
 
         @if($isMobile)
             @include('mobile.filters.mobile-filter-traders', ['regions' => $regions, 'rubricsGroup' => $rubricGroups, 'onlyPorts' => $onlyPorts])
