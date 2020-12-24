@@ -58,7 +58,9 @@ class TorgBuyer extends Section implements Initializable
     {
 
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')
+                ->setWidth('80px')
+                ->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('login', 'Логин')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
@@ -77,12 +79,27 @@ class TorgBuyer extends Section implements Initializable
             AdminColumn::text('', 'Баланс'),
 
 
-            AdminColumn::text('')
+            AdminColumn::text('name', 'Ф.И.О'),
+
+            AdminColumn::text('regions.name', 'Область'),
+
+            AdminColumn::text('phone', 'Контакты', 'email'),
+
+            AdminColumn::text('phone', 'Пакеты'),
+
+            AdminColumn::text('phone', 'Объявл'),
+
+            AdminColumn::custom('Бан', function (\Illuminate\Database\Eloquent\Model $model) {
+                /*return "<div class='row-text'>
+                            <a href='{$model->adv_url}'>{$advert}</a>
+                        </div>";*/
+            }),
+
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)

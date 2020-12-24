@@ -135,9 +135,7 @@ class TorgElevator extends Section implements Initializable
                         ->setModelForOptions(Rayon::class)
                         ->setLoadOptionsQueryPreparer(function($element, $query) use ($elevator, $id){
                             return $query->where('obl_id', $elevator['region']['id']);
-                        })
-                        ->setDisplay('rayonLang.name')
-                    ->required(),
+                        })->setDisplay('rayonLang.name')->required(),
 
                     AdminFormElement::text('langElevator.name', 'Название') ,
                     AdminFormElement::text('langElevator.addr', 'Юридическое название'),

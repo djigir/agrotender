@@ -25,7 +25,6 @@ class AdminSectionsServiceProvider extends ServiceProvider
             /* Управление пользователями user management */
         \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
         \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyer',
-        \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyerPy',
 
             /* Быстрый доступ */
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',

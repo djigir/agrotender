@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
 use SleepingOwl\Admin\Contracts\Initializable;
+use SleepingOwl\Admin\Facades\Admin;
 use SleepingOwl\Admin\Form\Buttons\Cancel;
 use SleepingOwl\Admin\Form\Buttons\Save;
 use SleepingOwl\Admin\Form\Buttons\SaveAndClose;
@@ -65,8 +66,8 @@ class AdvTorgPostComplains extends Section implements Initializable
     public function onDisplay($payload = [])
     {
 
-        $a = \App\Models\ADV\AdvTorgPostComplains::with('advTorgPost')->get()->toArray(5);
-        dd($a);
+//        $adverts = \App\Models\ADV\AdvTorgPostComplains::with('advTorgPostComplains')->get();
+
 
         $columns = [
             AdminColumn::link('id', 'ID')
@@ -82,46 +83,47 @@ class AdvTorgPostComplains extends Section implements Initializable
                             {$author}
                             <small class='clearfix'>{$model->add_date}</small>
                         </div>";
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model) {
-                return "<div class='row-text'>
-                            <a href='{$model->adv_url}'>{$model['advTorgPost']->title}</a>
-                            <small class='clearfix'>{$model->add_date}</small>
-                        </div>";
-            }),
 
             AdminColumn::text('msg', 'Жалоба'),
 
-            AdminColumn::boolean('status', 'Новое'),
-            AdminColumn::text('created_at', 'Created / updated', 'updated_at')
-                ->setWidth('160px')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('updated_at', $direction);
-                })
-                ->setSearchable(false)
-            ,
+            AdminColumn::custom('Новое', function (\Illuminate\Database\Eloquent\Model $model) {
+                $status = 'Обработаный';
+                $color = '';
+                if ($model->status == 0) {
+                    $status = 'Да';
+                    $color = 'color:red;';
+                }
+                return "<div class='row-text' style='{$color}'>
+                            {$status}
+                        </div>";
+            })->setWidth('140px')->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
+                $advert = 'Объявление не найдено';
+                if ($model['advTorgPostComplains']){
+                    $advert = $model['advTorgPostComplains']->title;
+                }
+                return "<div class='row-text'>
+                            <a href='{$model->adv_url}'>{$advert}</a>
+                        </div>";
+            })->setWidth('350px'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvTorgPostComplains::class, 'name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('name')
-                ->setColumnName('name')
-                ->setPlaceholder('All names')
-            ,
+            AdminColumnFilter::text()
+                ->setColumnName('msg')
+                ->setOperator('contains')
+                ->setPlaceholder('По жалобе')
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -138,18 +140,24 @@ class AdvTorgPostComplains extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
+                AdminFormElement::textarea('msg', 'Текст')
+                    ->setRows(6)
+                    ->required(),
+
+                AdminFormElement::select('viewed', 'Просмотрено')
+                    ->setOptions([
+                        0 => 'Нет',
+                        1 => 'Да',
+                    ]),
+
+                AdminFormElement::select('status', 'Статус')
+                    ->setOptions([
+                        0 => 'Новый',
+                        1 => 'Обработаный'
+                    ]),
+
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 
@@ -161,14 +169,6 @@ class AdvTorgPostComplains extends Section implements Initializable
         ]);
 
         return $form;
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
     }
 
     /**

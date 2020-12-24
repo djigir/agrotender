@@ -32,7 +32,7 @@ class AdvTorgPostComplains extends Model
         return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
     }
 
-    public function advTorgPost()
+    public function advTorgPostComplains()
     {
         return $this->hasOne(AdvTorgPost::class, 'id', 'item_id');
     }
