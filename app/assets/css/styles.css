@@ -108,7 +108,6 @@ body {
 }
 
 a, a:hover {
-  /* color: #1056B2; */
   color: #1056B2;
 }
 a:hover {
@@ -605,7 +604,6 @@ body[data-page="main/home"] .swiper-scrollbar {
 
 @media screen and (max-width: 991px) {
   .popular {
-    /* display: none; */
     margin-top: 10px;
     width: 100%;
     overflow: auto;
@@ -3838,7 +3836,7 @@ a.changePhone {
 }
 .tradersImg {
   width: 310px;
-  height: 84px;
+  height: 70px;
 }
 .tradersImgBottom {
   width: 100%;
@@ -4412,7 +4410,7 @@ table.proposedTable tr.not-viewed td {
 }
 .reklama-form input {
   padding: 17px 20px;
-  font-size: 14px
+  font-size: 14px;
   color: #425268;
   border-color: rgba(112,112,112,.2);
 }
@@ -4426,26 +4424,25 @@ table.proposedTable tr.not-viewed td {
   padding: 0 10px;
 }
 
-.t-section {
-      /*/margin: 0 -15px;*/
-}
-
 .tradersImages {
   z-index: 1;
-  /* display: flex;
-  justify-content: center; */
 }
-/* .tradersImages .tradersImgBlock {
-  width: 30% !important;
-  margin: 0 auto;
+
+.banners_top {
+  display: flex;
+  justify-content: space-between;
 }
-.tradersImages .tradersImgBlock img {
-  width: 100% !important;
-} */
+
+.tradersImgBlock {
+  /* margin: 0 10px; */
+}
 
 @media screen and (min-width:501px) and (max-width:999px) { 
   .branding {
     display: none;
+  }
+  .tradersImgBlock:nth-child(1) {
+    display: none !important;
   }
 }
 
@@ -4553,8 +4550,15 @@ table.proposedTable tr.not-viewed td {
         padding: .5rem 2rem;
     margin-bottom: 1rem;
   }
-  .tradersImgBlock:nth-child(1) img, .tradersImgBlock:nth-child(2) img {
-    display: none;
+  .tradersImgBlock {
+    margin: 0 auto;
+  }
+  .tradersImgBlock .header_banner {
+    width: 300px;
+  }
+  .tradersImgBlock:nth-child(1),
+  .tradersImgBlock:nth-child(2) {
+    display: none !important;
   }
   [data-page="board/advert"] .tradersImages {
       display: none;
@@ -6293,10 +6297,10 @@ table.proposedTable tr.not-viewed td {
  .header__wrap.hidden .new_header{
   top: -70px;
 }
-.new_header .header_banner {
+/* .new_header .header_banner {
   height: 30px;
   text-align: center;
-}
+} */
 .new_header .header_fw600 {
   font-weight: 600;
 }
@@ -7064,7 +7068,6 @@ table.proposedTable tr.not-viewed td {
   bottom: 0;
   right: 0;
   left: 0;
-  /* top: 150px; */
   transform: translateY(100%)
 }
 .mobile_filter .posrel {
@@ -7137,7 +7140,6 @@ table.proposedTable tr.not-viewed td {
   line-height: 100%;
   letter-spacing: 0.02em;
   color: #104D9D;
-  /* padding: 8px 14px; */
   height: 28px;
   width: 140px;
   margin: 0 8px;
@@ -7226,7 +7228,6 @@ table.proposedTable tr.not-viewed td {
 }
 .screens {
   overflow: auto;
-  /* min-height: 350px; */
   background-color: #EFF1F5;
 }
 .screens .first,
@@ -7239,8 +7240,6 @@ table.proposedTable tr.not-viewed td {
 .screens .second.active,
 .screens .third.active {
   display: block;
-  /* min-height: 450px;
-  max-height: 450px; */
   min-height: 300px;
   overflow: auto;
 }
@@ -7753,9 +7752,6 @@ table.sortTable th.table_haeder_th_cell {
 }
 
 @media screen and (max-width: 991px) {
-  .dataTables_wrapper {
-    /* margin-top: 20px; */
-  }
   table.sortTable th.table_haeder_th_cell {
     min-width: 100px;
     padding: 10px;
@@ -7764,6 +7760,7 @@ table.sortTable th.table_haeder_th_cell {
     min-width: 200px;
   }
 }
+
 .traders_table_title_css {
   margin-top: -10px;
 }
@@ -7932,7 +7929,6 @@ table.sortTable th.table_haeder_th_cell {
 @media screen and (max-width: 480px) {
   .company-bg {
     padding-top: 10px;
-    /* margin-top: -20px; */
   }
   .new_company_actual_date-tablet {
     display: none;
@@ -7959,7 +7955,7 @@ table.sortTable th.table_haeder_th_cell {
 }
 
 .header_banner {
-  max-width: 100%;
+  width: 310px;
 }
 
 .tablet-table-month {

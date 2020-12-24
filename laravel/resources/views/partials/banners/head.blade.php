@@ -1,15 +1,16 @@
 @if(isset($banners_top) && $banners_top)
-    <div class="new_container text-center mt-3 mb-3 tradersImages position-relative">
-        <div class="row">
+    <div class="new_container text-center mt-3 mb-3 tradersImages position-relative ">
+        <div class="banners_top">
             @if($banners_top->count()>0)
                 @foreach($banners_top as $index => $banner)
-                    <div class="d-sm-block tradersImgBlock col-md-4 {{$index == 2 ? 'col-12' : 'd-none d-md-block'}}">
+                    <div class="d-sm-block tradersImgBlock">
                         <noindex>
                             <a class="topBanners" href="{{$banner->ban_link}}" rel="nofollow"
                                @if(strpos($banner->ban_link, "agrotender.com.ua")===false)
                                target="_blank"
                                 @endif>
-                                <img style="height: auto" class="header_banner img-responsive tradersImg" id="topBan" src="/files/{{$banner->ban_file}}"  alt=""/>
+                                <!-- style="height: auto"  -->
+                                <img class="header_banner img-responsive tradersImg" id="topBan" src="/files/{{$banner->ban_file}}"  alt=""/>
                             </a>
                         </noindex>
                     </div>
@@ -17,11 +18,11 @@
             @endif
 
             @for ($i = 0; $i < (3-$banners_top->count()); $i++)
-                <div class="d-block d-sm-inline-block tradersImgBlock col-md-4 col-12">
+                <div class="d-block d-sm-inline-block tradersImgBlock">
                     <noindex>
                         <a class="topBanners" href="https://agrotender.com.ua/reklama" rel="nofollow">
+                        <!-- style="width: 100%; height: auto" -->
                             <img
-                                style="width: 100%; height: auto"
                                 id="topBan390" src="/files/pict/ad_buys.png"
                                 class="header_banner img-responsive tradersImg" alt="">
                         </a>
