@@ -57,7 +57,7 @@
                         <div class="new_filters_dropdown_column_item">
                             <ul>
                                 <li>
-                                    <a href="#" class="companies_link_category" data-url="hello">Hello</a>
+                                    <a href="#" class="companies_link_country" data-url="world">World!</a>
                                 </li>
                             </ul>
                         </div>
@@ -71,7 +71,10 @@
                         <div class="new_filters_dropdown_column_item">
                             <ul>
                                 <li>
-                                    <a href="#" class="companies_link_country" data-url="world">World!</a>
+                                    <a href="#" class="companies_link_category">С компаниями</a>
+                                </li>
+                                <li>
+                                    <span href="#" class="companies_link_category">Без компаний</span>
                                 </li>
                             </ul>
                         </div>
