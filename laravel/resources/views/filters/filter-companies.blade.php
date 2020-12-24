@@ -48,7 +48,13 @@
                 <div class="new_filters_dropdown_column culures_first js_first">
                     <ul>
                         <li>
-                            <a href="#">Hello</a>
+                            <a href="#">Hello 1 </a>
+                        </li>
+                        <li>
+                            <a href="#">Hello 2</a>
+                        </li>
+                        <li>
+                            <a href="#">Hello 3</a>
                         </li>
                     </ul>
                 </div>
@@ -57,7 +63,25 @@
                         <div class="new_filters_dropdown_column_item">
                             <ul>
                                 <li>
-                                    <a href="#" class="companies_link_country" data-url="world">World!</a>
+                                    <a href="#" class="companies_link_country" data-url="world">World 1!</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="new_filters_dropdown_column_tab js_content">
+                        <div class="new_filters_dropdown_column_item">
+                            <ul>
+                                <li>
+                                    <a href="#" class="companies_link_country" data-url="world">World 2!</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="new_filters_dropdown_column_tab js_content">
+                        <div class="new_filters_dropdown_column_item">
+                            <ul>
+                                <li>
+                                    <a href="#" class="companies_link_country" data-url="world">World 3!</a>
                                 </li>
                             </ul>
                         </div>

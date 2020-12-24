@@ -1,5 +1,5 @@
 <div class="new_container">
-    <h2 class="d-block text-uppercase d-sm-none companies_list">Компании</h2>
+    <h2 class="text-uppercase companies_list">Компании</h2>
 </div>
 
 <div class="bg_filters"></div>
