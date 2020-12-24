@@ -66,15 +66,8 @@
             </div>
 
             <div class="new_filters_dropdown" id="country_dropdown">
-                <div class="new_filters_dropdown_column culures_first js_first">
-                    <ul>
-                        <li>
-                            <a href="#">Hello</a>
-                        </li>
-                    </ul>
-                </div>
                 <div class="new_filters_dropdown_column content">
-                    <div class="new_filters_dropdown_column_tab js_content">
+                    <div class="new_filters_dropdown_column_tab js_content active without_first_column">
                         <div class="new_filters_dropdown_column_item">
                             <ul>
                                 <li>

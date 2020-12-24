@@ -135,11 +135,13 @@
                         <a href="/u/posts">Объявления</a>
                     </li>
                     <li>
-                        <a class="dropdown-item" href="">Баланс: 0 грн</a>
+                        <span class="balance_title">Баланс</span>
+                        <span class="balance_amount zero_balance"><b>10</b> грн</span>
+                        <a class="balance_top_up" href="/u/balance/pay">+ Пополнить баланс</a>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a href="/u/balance/pay">Пополнить баланс</a>
-                    </li>
+                    </li> -->
                     <li>
                         <span>Мой профиль:</span>
                     </li>
