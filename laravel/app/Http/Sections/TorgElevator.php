@@ -131,7 +131,6 @@ class TorgElevator extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
                 AdminFormElement::columns()->addColumn([
-
                     AdminFormElement::select('ray_id', 'Район области')
                         ->setModelForOptions(Rayon::class)
                         ->setLoadOptionsQueryPreparer(function($element, $query) use ($elevator, $id){
@@ -173,42 +172,31 @@ class TorgElevator extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-//        dd(\App\Models\Elevators\TorgElevator::with('region')->first());
-//        dd(Regions::with('elevators')->first());
+        $regions = \App\Models\Regions\Regions::get()->pluck('name', 'id');
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::select('id', 'Область')
-                    ->setModelForOptions(Regions::class)
-                    ->setLoadOptionsQueryPreparer(function($item, $query) {
-                        return $query;
-//                        $query->getName('obl_id');
-//                        dd($query);
-                    })
-                    ->setDisplay('name')
-                    ->required(),
-
+                AdminFormElement::select('obl_id', 'Область', $regions->toArray())->required(),
                 AdminFormElement::dependentselect('ray_id', 'Район области')
                     ->setModelForOptions(Rayon::class, 'title')
-                    ->setDataDepends(['id'])
+                    ->setDataDepends(['obl_id'])
                     ->setLoadOptionsQueryPreparer(function($item, $query) {
-                        return $query->where('obl_id', $item->getDependValue('id'));
+                        return $query->where('obl_id', $item->getDependValue('obl_id'));
                     })
                     ->setDisplay('rayonLang.name')
+                    ->setDefaultValue(0)
                     ->required(),
 
-
-                AdminFormElement::text('langElevator.name', 'Название') ,
-                AdminFormElement::text('langElevator.addr', 'Юридическое название'),
-                AdminFormElement::textarea('langElevator.orgname', 'Физический адрес'),
+                AdminFormElement::text('langElevator.name', 'Название')->required(),
+                AdminFormElement::text('langElevator.addr', 'Юридическое название')->required(),
+                AdminFormElement::textarea('langElevator.orgname', 'Физический адрес')->required(),
                 AdminFormElement::textarea('langElevator.descr_qual', 'Юридический адрес'),
-                AdminFormElement::text('phone', 'Телефон'),
-                AdminFormElement::text('email', 'E-mail'),
-                AdminFormElement::text('langElevator.director', 'Директор'),
-                AdminFormElement::text('langElevator.holdcond', 'Способ хранения'),
-                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке'),
-                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества'),
+                AdminFormElement::text('phone', 'Телефон')->required(),
+                AdminFormElement::text('email', 'E-mail')->required(),
+                AdminFormElement::text('langElevator.director', 'Директор')->required(),
+                AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
+                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->required(),
+                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->required(),
 
 //                AdminFormElement::file('filename', 'Фото (240 х 240)'),
 

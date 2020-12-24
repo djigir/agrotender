@@ -59,7 +59,7 @@ class AdvWordTopic extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('torg_topic.title.', 'Раздел')->setWidth('250px'),
+            AdminColumn::text('torgTopic.title.', 'Раздел')->setWidth('250px'),
 
             AdminColumn::text('keyword', 'Запрос')->setWidth('250px'),
 
@@ -81,46 +81,50 @@ class AdvWordTopic extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvWordTopic::class, 'name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('name')
-                ->setColumnName('name')
-                ->setPlaceholder('All names')
-            ,
-        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
     }
 
+//    /**
+//     * @param int|null $id
+//     * @param array $payload
+//     *
+//     * @return FormInterface
+//     */
+//    public function onEdit($id = null, $payload = [])
+//    {
+//    }
+
     /**
-     * @param int|null $id
-     * @param array $payload
-     *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
+    public function onCreate($payload = [])
     {
+        $rubriks = \App\Models\ADV\AdvTorgTopic::orderBy('menu_group_id')->where('parent_id', 0)->get();
+        $rubriks_gr = \App\Models\ADV\AdvTorgTgroups::get();
+        $rubrik_select = [];
+
+        foreach ($rubriks_gr as $rubrik_gr) {
+            foreach ($rubriks->where('menu_group_id', '=', $rubrik_gr->id) as $rubrik) {
+                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
+            }
+        }
+
         $form = AdminForm::card()->addBody([
+            AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+                AdminFormElement::text('keyword', 'Запрос')->required(),
+                AdminFormElement::number('rating', 'Рейтинг')->setDefaultValue(0),
+                AdminFormElement::select('rtopic_id', 'Раздел', $rubrik_select)->required(),
+                AdminFormElement::dependentselect('topic_id', 'Секция')
+                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
+                    ->setDataDepends('rtopic_id')
+                    ->setLoadOptionsQueryPreparer(function($item, $query) {
+                        return $query->where('parent_id', $item->getDependValue('rtopic_id'));
+                    })->setDisplay('title')->required(),
+            ])
         ]);
 
         $form->getButtons()->setButtons([
@@ -129,16 +133,8 @@ class AdvWordTopic extends Section implements Initializable
             'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
-
+        //dd(\request()->all());
         return $form;
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
     }
 
     /**

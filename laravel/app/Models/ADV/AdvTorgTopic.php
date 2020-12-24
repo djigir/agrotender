@@ -52,7 +52,7 @@ class AdvTorgTopic extends Model
     }
 
 
-    public function word_topic()
+    public function wordTopic()
     {
         return $this->belongsTo(AdvWordTopic::class, 'id', 'topic_id');
     }
