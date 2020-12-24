@@ -44,9 +44,9 @@ class AdvTorgTopic extends Model
         'seo_text_sell'
     ];
 
-    /* Relations */
 
-    public function parent()
+
+    public function getTopicRubric()
     {
         return $this->hasOne(self::class, 'id', 'parent_id');
     }

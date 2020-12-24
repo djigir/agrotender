@@ -108,11 +108,6 @@ class AdvTorgPost extends Model
         return $this->hasOne(CompItems::class, 'id', 'author_id');
     }
 
-    public function getRubricForPost()
-    {
-        return AdvTorgTopic::class;
-    }
-
     /**
      * @param     $query
      *
