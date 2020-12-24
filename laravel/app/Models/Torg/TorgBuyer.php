@@ -2,6 +2,7 @@
 
 namespace App\Models\Torg;
 
+use App\Models\ADV\AdvTorgPost;
 use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Py\PyBill;
@@ -47,5 +48,10 @@ class TorgBuyer extends Model
     public function pyBill()
     {
         return $this->belongsTo(PyBill::class,'buyer_id', 'id');
+    }
+
+    public function advTorgPost()
+    {
+        return $this->hasMany(AdvTorgPost::class, 'author_id', 'id');
     }
 }

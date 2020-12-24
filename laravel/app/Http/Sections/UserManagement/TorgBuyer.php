@@ -85,37 +85,74 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::text('phone', 'Контакты', 'email'),
 
-            AdminColumn::text('phone', 'Пакеты'),
+            AdminColumn::text('', 'Пакеты'),
 
-            AdminColumn::text('phone', 'Объявл'),
+            AdminColumn::custom('Объявл.', function (\Illuminate\Database\Eloquent\Model $model) {
+                return "<div class='row-text'>
+                        <a href=''>{$model['advTorgPost']->count()}</a>
+                    </div>";
+            })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Бан', function (\Illuminate\Database\Eloquent\Model $model) {
-                /*return "<div class='row-text'>
-                            <a href='{$model->adv_url}'>{$advert}</a>
-                        </div>";*/
-            }),
+                return "<div class='row-text'>
+                        <a href=''>s</a>
+                    </div>";
+            })->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Бан', function (\Illuminate\Database\Eloquent\Model $model) {
+                return "<div class='row-text'>
+                        <a href='' class='btn btn-success small'>Войти</a>
+                    </div>";
+            })->setHtmlAttribute('class', 'text-center'),
 
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
         $display->setColumnFilters([
-            /*AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Torg\TorgBuyer::class, 'name')
+            AdminColumnFilter::select()
+                ->setModelForOptions(\App\Models\Regions\Regions::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
                 ->setDisplay('name')
+                ->setColumnName('obl_id')
+                ->setPlaceholder('Все области'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('email')
+                ->setPlaceholder('Фильтровать по E-mail:'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('phone')
+                ->setPlaceholder('по Тел.'),
+
+            AdminColumnFilter::text()
                 ->setColumnName('name')
-                ->setPlaceholder('All names')
-            ,*/
+                ->setPlaceholder('по Имени'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('id')
+                ->setPlaceholder('по ID'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('last_ip')
+                ->setPlaceholder(' по IP'),
+
+            AdminColumnFilter::text()
+                ->setHtmlAttribute('class', 'count-adverts')
+                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+                ->setColumnName('phone')
+                ->setPlaceholder('Объявл. от'),
+
+
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
