@@ -1,5 +1,10 @@
-
-
+<?php
+if($regions->count() > 0 && !$isMobile){
+    $temp = $regions[25];
+    $regions[25] = $regions[0];
+    $regions[0] = $temp;
+}
+?>
 <div class="d-none d-sm-block new_container mt-3">
     <ol class="breadcrumbs small p-0">
         <li>
@@ -39,181 +44,212 @@
         <div class="company_filter">
             <form>
                 <input type="text" class="company_filter-item search_field" placeholder="Название компании">
-                <button type="button" class="company_filter-item chose_field first-btn new_filters_btn">Выбрать категорию</button>
-                <button type="button" class="company_filter-item chose_field second-btn new_filters_btn">Вся Украина</button>
+                <button type="button" class="company_filter-item chose_field first-btn new_filters_btn">{{$culture_name}}</button>
+                <button type="button" class="company_filter-item chose_field second-btn new_filters_btn">{{$region_name}}</button>
                 <button type="submit" class="company_filter-item search_btn">Найти</button>
             </form>
 
             <div class="new_filters_dropdown" id="category_dropdown">
                 <div class="new_filters_dropdown_column culures_first js_first">
                     <ul>
-                        <li>
-                            <a href="#">Hello 1 </a>
-                        </li>
-                        <li>
-                            <a href="#">Hello 2</a>
-                        </li>
-                        <li>
-                            <a href="#">Hello 3</a>
-                        </li>
+                        @foreach($rubricGroups as $index => $rubric)
+                            <?php
+                                $class = '';
+
+                                if($index == $group_id){
+                                    $class = 'active';
+                                }
+
+                                if(!$group_id && $index == 1){
+                                    $class = 'active';
+                                }
+                            ?>
+                            <li class="{{$class}}">
+                                <a href="#">{{$rubric['title']}}</a>
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
+
                 <div class="new_filters_dropdown_column content">
-                    <div class="new_filters_dropdown_column_tab js_content">
-                        <div class="new_filters_dropdown_column_item">
-                            <ul>
-                                <li>
-                                    <a href="#" class="companies_link_country" data-url="world">World 1!</a>
-                                </li>
-                            </ul>
+                    @foreach($rubricGroups as $index => $rubric)
+                        <?php
+                            $class = '';
+
+                            if($index == $group_id){
+                                $class = 'active';
+                            }
+
+                            if(!$group_id && $index == 1){
+                                $class = 'active';
+                            }
+                        ?>
+                        <div class="new_filters_dropdown_column_tab js_content {{$class}}">
+                            @foreach(collect($rubricGroups[$rubric['id']]["comp_topic"])->chunk(7) as $chunk)
+                                <div class="new_filters_dropdown_column_item">
+                                    <ul>
+                                        @foreach($chunk as $item)
+                                            <li>
+                                                <a href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $item['id']])}}" class="companies_link_country" data-url="world">{{$item['title']}} ({{$item['cnt']}})</a>
+                                            </li>
+                                       @endforeach
+                                    </ul>
+                                </div>
+                            @endforeach
                         </div>
-                    </div>
-                    <div class="new_filters_dropdown_column_tab js_content">
-                        <div class="new_filters_dropdown_column_item">
-                            <ul>
-                                <li>
-                                    <a href="#" class="companies_link_country" data-url="world">World 2!</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="new_filters_dropdown_column_tab js_content">
-                        <div class="new_filters_dropdown_column_item">
-                            <ul>
-                                <li>
-                                    <a href="#" class="companies_link_country" data-url="world">World 3!</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
 
             <div class="new_filters_dropdown" id="country_dropdown">
                 <div class="new_filters_dropdown_column content">
                     <div class="new_filters_dropdown_column_tab js_content active without_first_column">
-                        <div class="new_filters_dropdown_column_item">
-                            <ul>
-                                <li>
-                                    <a href="#" class="companies_link_category">С компаниями</a>
-                                </li>
-                                <li>
-                                    <span href="#" class="companies_link_category">Без компаний</span>
-                                </li>
-                            </ul>
-                        </div>
+                        @foreach($regions->chunk(7) as $index_chunk => $chunk)
+                            <div class="new_filters_dropdown_column_item">
+                                <ul>
+                                    @foreach($chunk as $index_region => $region)
+                                        @if(isset($region['count_items']) and $region['count_items'] > 0)
+                                            <li>
+                                                @if($rubric_id and $region)
+                                                    <a href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}" class="companies_link_category">
+                                                        {{$region['name']}}({{$region['count_items']}})
+                                                    </a>
+                                                @else
+                                                    <a href="{{route('company.region', $region['translit'])}}" class="companies_link_category">
+                                                        {{$region['name']}}({{$region['count_items']}})
+                                                    </a>
+                                                @endif
+                                            </li>
+                                        @else
+                                            @if($index_chunk == 0 and $index_region == 0)
+                                                <li>
+                                                    <a href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}"
+                                                       class="companies_link_category">
+                                                        {{$region['name']}}
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        @endif
+
+                                    @endforeach
+    {{--                                <li>--}}
+    {{--                                    <span href="#" class="companies_link_category">Без компаний</span>--}}
+    {{--                                </li>--}}
+                                </ul>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!--
-        <div class="content-block mt-3 py-3 px-4">
-            <div class="form-row align-items-center position-relative">
-                <div class="col-3 mr-2">
-                    <button class="btn rubricInput text-center drop-btn" id="rubricOpen">
-                        {{$culture_name}}
-                        <i class="ml-2 small far fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="dropdown-wrapper position-absolute rubricDrop">
-                    <div class="dropdown" id="rubricDrop" style="display: none;">
-                        <div class="section text-left">
-                            <div class="row">
-                                <div style="display: flex;">
-                                    <div class="col-auto">
-                                        @foreach($rubricGroups as $index => $rubric)
-                                            <a class="rubricLink getRubricGroup" group="{{$rubric['id']}}" >
-                                                <span class="test">{{$rubric['title']}}
-                                                    <span class="ml-4 float-right right">
-                                                        <i class="far fa-chevron-right"></i>
-                                                    </span>
-                                                </span>
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                    @foreach($rubricGroups as $index => $rubric)
-                                        <div class="col-auto rubricGroup pr-0 mr-3 groupCulture group-{{$rubric['id']}}" group="{{$rubric['id']}}" style="display: none;">
-                                            @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)
-                                                <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">
-                                                    <span>{{$culture['title']}}</span>
-                                                    @if($culture['cnt'] > 0)
-                                                        <span class="companyCount small">
-                                                            ({{$culture['cnt']}})
-                                                        </span>
-                                                    @endif
-                                                    <span class="float-right right"><i class="far fa-chevron-right"></i></span>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3 mr-2">
-                    <button class="btn regionInput text-center drop-btn">
-                        {{$region_name}}
-                    <i class="ml-2 small far fa-chevron-down"></i>
-                    </button>
-                </div>
-                <div class="dropdown-wrapper position-absolute regionDrop">
-                    <div class="dropdown" id="regionDrop" style="display: none;">
-                        <span class="d-block">
-                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">
-                                <span style="cursor: pointer">Вся Украина</span>
-                            </a>
-                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['crimea', $rubric_id]) : route('company.region', 'crimea')}}">
-                                <span>АР Крым</span>
-                            </a>
-                        </span>
-                        <hr class="mt-1 mb-2">
-                        <div class="section text-left">
-                            <div class="row">
-                                <div class="col" style="column-count: 3">
-                                    @foreach($regions as $index => $region)
-                                        @if($rubric_id and $region)
-                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"
-                                            href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">
-                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>
-                                                <span class="companyCount small">({{$region['count_items']}})</span>
-                                            </a>
-                                        @else
-                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : ''}}"
-                                            href="{{route('company.region', $region['translit'])}}">
-                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}}</span>
-                                                <span class="companyCount small">({{$region['count_items']}})</span>
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col searchDiv" data-tip="Введите поисковой запрос">
-                    <form class="searchForm" style="display: flex" method="GET">
-                        @if(isset($query) && $query != null)
-                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."
-                                value="{{isset($query) && $query != null ? $query : ''}}">
-                        @else
-                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.." value="">
-                        @endif
+{{--        <div class="content-block mt-3 py-3 px-4">--}}
+{{--            <div class="form-row align-items-center position-relative">--}}
+{{--                <div class="col-3 mr-2">--}}
+{{--                    <button class="btn rubricInput text-center drop-btn" id="rubricOpen">--}}
+{{--                        {{$culture_name}}--}}
+{{--                        <i class="ml-2 small far fa-chevron-down"></i>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--                <div class="dropdown-wrapper position-absolute rubricDrop">--}}
+{{--                    <div class="dropdown" id="rubricDrop" style="display: none;">--}}
+{{--                        <div class="section text-left">--}}
+{{--                            <div class="row">--}}
+{{--                                <div style="display: flex;">--}}
+{{--                                    <div class="col-auto">--}}
+{{--                                        @foreach($rubricGroups as $index => $rubric)--}}
+{{--                                            <a class="rubricLink getRubricGroup" group="{{$rubric['id']}}" >--}}
+{{--                                                <span class="test">{{$rubric['title']}}--}}
+{{--                                                    <span class="ml-4 float-right right">--}}
+{{--                                                        <i class="far fa-chevron-right"></i>--}}
+{{--                                                    </span>--}}
+{{--                                                </span>--}}
+{{--                                            </a>--}}
+{{--                                        @endforeach--}}
+{{--                                    </div>--}}
+{{--                                    @foreach($rubricGroups as $index => $rubric)--}}
+{{--                                        <div class="col-auto rubricGroup pr-0 mr-3 groupCulture group-{{$rubric['id']}}" group="{{$rubric['id']}}" style="display: none;">--}}
+{{--                                            @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)--}}
+{{--                                                <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}"--}}
+{{--                                                href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">--}}
+{{--                                                    <span>{{$culture['title']}}</span>--}}
+{{--                                                    @if($culture['cnt'] > 0)--}}
+{{--                                                        <span class="companyCount small">--}}
+{{--                                                            ({{$culture['cnt']}})--}}
+{{--                                                        </span>--}}
+{{--                                                    @endif--}}
+{{--                                                    <span class="float-right right"><i class="far fa-chevron-right"></i></span>--}}
+{{--                                                </a>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    @endforeach--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-3 mr-2">--}}
+{{--                    <button class="btn regionInput text-center drop-btn">--}}
+{{--                        {{$region_name}}--}}
+{{--                    <i class="ml-2 small far fa-chevron-down"></i>--}}
+{{--                    </button>--}}
+{{--                </div>--}}
+{{--                <div class="dropdown-wrapper position-absolute regionDrop">--}}
+{{--                    <div class="dropdown" id="regionDrop" style="display: none;">--}}
+{{--                        <span class="d-block">--}}
+{{--                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">--}}
+{{--                                <span style="cursor: pointer">Вся Украина</span>--}}
+{{--                            </a>--}}
+{{--                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['crimea', $rubric_id]) : route('company.region', 'crimea')}}">--}}
+{{--                                <span>АР Крым</span>--}}
+{{--                            </a>--}}
+{{--                        </span>--}}
+{{--                        <hr class="mt-1 mb-2">--}}
+{{--                        <div class="section text-left">--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col" style="column-count: 3">--}}
+{{--                                    @foreach($regions as $index => $region)--}}
+{{--                                        @if($rubric_id and $region)--}}
+{{--                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"--}}
+{{--                                            href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">--}}
+{{--                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>--}}
+{{--                                                <span class="companyCount small">({{$region['count_items']}})</span>--}}
+{{--                                            </a>--}}
+{{--                                        @else--}}
+{{--                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : ''}}"--}}
+{{--                                            href="{{route('company.region', $region['translit'])}}">--}}
+{{--                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}}</span>--}}
+{{--                                                <span class="companyCount small">({{$region['count_items']}})</span>--}}
+{{--                                            </a>--}}
+{{--                                        @endif--}}
+{{--                                    @endforeach--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col searchDiv" data-tip="Введите поисковой запрос">--}}
+{{--                    <form class="searchForm" style="display: flex" method="GET">--}}
+{{--                        @if(isset($query) && $query != null)--}}
+{{--                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."--}}
+{{--                                value="{{isset($query) && $query != null ? $query : ''}}">--}}
+{{--                        @else--}}
+{{--                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.." value="">--}}
+{{--                        @endif--}}
 
-                        <div class="col-auto search">
-                            <button type="submit" class="btn-search">
-                                <i class="far fa-search searchIcon mt-2 ml-2"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
+{{--                        <div class="col-auto search">--}}
+{{--                            <button type="submit" class="btn-search">--}}
+{{--                                <i class="far fa-search searchIcon mt-2 ml-2"></i>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
+{{--                    </form>--}}
+{{--                </div>--}}
 
 
-            </div>
-        </div>
-    -->
+{{--            </div>--}}
+{{--        </div>--}}
+{{--    -->--}}
 
     <div class="row mt-4 pt-3">
         <div class="col-12 col-sm-6 float-left mt-0 d-flex d-sm-block">

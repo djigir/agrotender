@@ -79,12 +79,13 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
+        $regions = $this->companyService->setRegions($this->baseServices->getRegions(), $data->get('rubric_id'));
         $region_name = $this->regionName($data->get('region'));
         $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
         $region = $data->get('region');
         $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
+        $group_id =  $culture_name  ? $culture_name->menu_group_id : null;
         $check_phone = $this->agent->isMobile() ? 1 : 0;
         $culture_name = $culture_name  ? $culture_name->title : 'Виды деятельности';
 
@@ -118,6 +119,7 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'breadcrumbs' => $breadcrumbs,
             'page_type' => 0,
+            'group_id' => $group_id,
         ]);
     }
 
