@@ -436,13 +436,15 @@ class CompanyService
             ->toArray();
 
         foreach ($regions as $index => $region) {
-            $regions[$index]['count_items'] = 0;
-            if (isset($region_counts[$region['id']])) {
-                $regions[$index]['count_items'] = $region_counts[$region['id']]['obl'];
-            }
+            if($region['translit'] != 'ukraine'){
+                $regions[$index]['count_items'] = 0;
+                if (isset($region_counts[$region['id']])) {
+                    $regions[$index]['count_items'] = $region_counts[$region['id']]['obl'];
+                }
 
-            if($regions[$index]['count_items'] == 0){
-                unset($regions[$index]);
+//                if($regions[$index]['count_items'] == 0){
+//                    unset($regions[$index]);
+//                }
             }
         }
 
@@ -462,7 +464,8 @@ class CompanyService
 
         if(!$region_id){
             foreach ($rubrics as $index => $rubric) {
-                $rubric = reset($rubric);
+                $rubric = $rubric[0];
+                //$rubric = reset($rubric);
                 foreach ($rubric['comp_topic'] as $index2 => &$topic) {
                     if (!isset($topic_counts[$topic['id']])) {
 //                        continue;
