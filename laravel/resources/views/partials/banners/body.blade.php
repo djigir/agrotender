@@ -78,5 +78,12 @@
             background-position-x: 90%;
         }
     }
+
+    @media screen and (max-width: 1240px) {
+        #right_banner,
+        #left_banner {
+            display: none
+        }
+    }
 </style>
 @endif
