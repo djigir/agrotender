@@ -80,7 +80,7 @@ if($regions->count() > 0 && !$isMobile){
       </div>
     </div>
 
-    <div class="new_filters_dropdown {{$type_view == 'table' ? 'right' : ''}}"" id="cultures_dropdown">
+    <div class="new_filters_dropdown" id="cultures_dropdown">
       <div class="new_filters_dropdown_column culures_first js_first">
         <ul>
           <li class="{{!empty($region) ? 'active' : ''}}">
