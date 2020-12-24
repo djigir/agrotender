@@ -40,7 +40,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
 
         \App\Models\ADV\AdvWordTopic::class => 'App\Http\Sections\Board\AdvWordTopic',
 
-        /* Компании */
+            /* Компании */
         \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
         \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
         \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
