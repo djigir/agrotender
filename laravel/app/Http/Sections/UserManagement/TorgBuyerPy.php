@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Sections\Board;
+namespace App\Http\Sections\UserManagement;
 
 use AdminColumn;
 use AdminColumnFilter;
@@ -18,13 +18,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AdvTorgPostComplains
+ * Class TorgBuyerPy
  *
- * @property \App\Models\ADV\AdvTorgPostComplains $model
+ * @property \App\Models\Torg\TorgBuyer $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AdvTorgPostComplains extends Section implements Initializable
+class TorgBuyerPy extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +34,7 @@ class AdvTorgPostComplains extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Жалобы на Объявления';
+    protected $title = 'Пополнение пользователей';
 
     /**
      * @var string
@@ -64,36 +64,20 @@ class AdvTorgPostComplains extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
-        $a = \App\Models\ADV\AdvTorgPostComplains::with('advTorgPost')->get()->toArray(5);
-        dd($a);
-
         $columns = [
-            AdminColumn::link('id', 'ID')
-                ->setWidth('70px')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Автор', function (\Illuminate\Database\Eloquent\Model $model) {
-                $author = 'Аноним';
-                if ($model['torgBuyer']){
-                    $author = $model['torgBuyer']->name;
-                }
-                return "<div class='row-text'>
-                            {$author}
-                            <small class='clearfix'>{$model->add_date}</small>
-                        </div>";
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model) {
-                return "<div class='row-text'>
-                            <a href='{$model->adv_url}'>{$model['advTorgPost']->title}</a>
-                            <small class='clearfix'>{$model->add_date}</small>
-                        </div>";
-            }),
-
-            AdminColumn::text('msg', 'Жалоба'),
-
-            AdminColumn::boolean('status', 'Новое'),
+            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('name', 'Name', 'created_at')
+                ->setSearchCallback(function($column, $query, $search){
+                    return $query
+                        ->orWhere('name', 'like', '%'.$search.'%')
+                        ->orWhere('created_at', 'like', '%'.$search.'%')
+                    ;
+                })
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('created_at', $direction);
+                })
+            ,
+            AdminColumn::boolean('name', 'On'),
             AdminColumn::text('created_at', 'Created / updated', 'updated_at')
                 ->setWidth('160px')
                 ->setOrderable(function($query, $direction) {
@@ -114,7 +98,7 @@ class AdvTorgPostComplains extends Section implements Initializable
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\ADV\AdvTorgPostComplains::class, 'name')
+                ->setModelForOptions(\App\Models\Torg\TorgBuyer::class, 'name')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })

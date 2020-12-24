@@ -25,6 +25,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
             /* Управление пользователями user management */
         \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
         \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyer',
+        \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyerPy',
 
             /* Быстрый доступ */
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
@@ -45,6 +46,9 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
         \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
         \App\Models\Comp\CompTgroups::class => 'App\Http\Sections\Companies\CompTgroups',
+
+
+
 
 
     ];
