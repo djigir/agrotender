@@ -56,6 +56,7 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+
         $columns = [
             AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('login', 'Логин')
