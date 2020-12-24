@@ -3,6 +3,7 @@
 namespace App\Models\Torg;
 
 use App\Models\Comp\CompItems;
+use App\Models\Py\PyBill;
 use Illuminate\Database\Eloquent\Model;
 
 class TorgBuyer extends Model
@@ -35,5 +36,10 @@ class TorgBuyer extends Model
     public function companyForBuyer()
     {
         return $this->hasOne(CompItems::class, 'author_id');
+    }
+
+    public function pyBill()
+    {
+        return $this->belongsTo(PyBill::class,'buyer_id', 'id');
     }
 }
