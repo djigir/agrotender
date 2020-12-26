@@ -7276,12 +7276,16 @@ table.proposedTable tr.not-viewed td {
 }
 .screens .second.active,
 .screens .third.active {
-  height: calc(100vh - 70px - 73px);
+  /* 70 - высота шапки фильтра */
+  /* 70 - отступ */
+  /* 70 - кнопочки снизу  */
+  height: calc(100vh - 210px);
 }
 .screens .second {
   background-color: #fff;
 }
 .screens .third {
+  margin-top: 0;
   background-color: #fff;
 }
 .mobile_filter-section-text {
