@@ -56,10 +56,11 @@
                 <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
                     <thead>
                         <tr role="row">
-                            <th class="sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Компании: activate to sort column ascending" style="width: 258px;">Компании</th>
-                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="width: 61px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
-                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="width: 60px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
-                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="width: 97px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th><th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Место закупки: activate to sort column ascending" style="width: 222px;">Место закупки</th>
+                            <th class="sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Компании: activate to sort column ascending" style="min-width: 258px;">Компании</th>
+                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="min-width: 110px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="min-width: 110px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                            <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="min-width: 110px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Место закупки: activate to sort column ascending" style="min-width: 222px;">Место закупки</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +68,6 @@
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                             <td>
                                 <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-{{--                                    <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">--}}
                                     <img class="logo mr-3" src="https://agrotender.com.ua/pics/comp/4964_89599.jpg">
                                     <span class="title">{!! $trader->title !!}</span>
                                 </a>
@@ -124,21 +124,6 @@
                                 ?>
                                 <span class="desktop-table-month {{$class}}">{{$day}} {{$month}}</span>
                                 <span class="tablet-table-month {{$class}}">{{$day}} {{\Illuminate\Support\Str::limit($month, 3, $end='.')}}</span>
-
-{{--                                <span class="desktop-table-month {{$class}}">--}}
-{{--                                    @if($type_traders == 1)--}}
-{{--                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}--}}
-{{--                                    @else--}}
-{{--                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}--}}
-{{--                                    @endif--}}
-{{--                                </span>--}}
-{{--                                <span class="tablet-table-month {{$class}}">--}}
-{{--                                    @if($type_traders == 1)--}}
-{{--                                        {{\Illuminate\Support\Str::limit(mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8"), 3, $end='.')}}--}}
-{{--                                    @else--}}
-{{--                                        {{\Illuminate\Support\Str::limit(mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8"), 3, $end='.')}}--}}
-{{--                                    @endif--}}
-{{--                                </span>--}}
                             </td>
                             <td>
                                 @if($type_place == 0)
