@@ -131,7 +131,6 @@ if($regions->count() > 0 && !$isMobile){
                                                 </li>
                                             @endif
                                         @endif
-
                                     @endforeach
                                 </ul>
                             </div>

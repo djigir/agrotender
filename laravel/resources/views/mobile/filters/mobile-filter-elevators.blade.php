@@ -1,10 +1,18 @@
+<?php
+if($regions->count() > 0){
+    $temp = $regions[25];
+    $regions[25] = $regions[0];
+    $regions[0] = $temp;
+}
+?>
+
 <div class="new_container">
     <h2 class="text-uppercase companies_list">Компании</h2>
 </div>
 
 <div class="bg_filters"></div>
 <button class="openFilter companyFind">
-    <span>Найти компанию</span>
+    <span>{{$region_name ? $region_name : 'Выбрать область'}}</span>
     <img src="https://agrotender.com.ua/app/assets/img/search_icon.svg" alt="">
 </button>
 
@@ -29,22 +37,18 @@
                 <form class="first active">
                     <div class="subItem active">
                         <div class="search_wrap">
-                            <input type="text" placeholder="Название культуры" class="search_filed">
+                            <input type="text" placeholder="Название области" class="search_filed">
                             <button>
                                 <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
                             </button>
                         </div>
                         <div class="default_value">
                             <ul class="mobile_filter-section-list">
-                                <li>
-                                    <a class="click-culture-company" href="#">Киевская</a>
-                                </li>
-                                <li>
-                                    <a class="click-culture-company" href="#">Киевская</a>
-                                </li>
-                                <li>
-                                    <a class="click-culture-company" href="#">Киевская</a>
-                                </li>
+                                @foreach($regions as $index_chunk => $region)
+                                    <li>
+                                        <a href="{{$region['translit'] != 'ukraine' ? route('elev.region', $region['translit']) : route('elev.elevators')}}" class="companies_link_category">{{$region['name']}}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="output_values">

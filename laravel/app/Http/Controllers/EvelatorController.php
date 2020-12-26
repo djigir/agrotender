@@ -30,7 +30,7 @@ class EvelatorController extends Controller
 
     private function regionName($region)
     {
-        $name = Regions::where('translit', $region)->value('name'). ' область';
+        $name = Regions::where('translit', $region)->value('name');
 
         if($region == 'crimea'){
             $name = 'АР Крым';
@@ -45,8 +45,11 @@ class EvelatorController extends Controller
 
     public function setElevators($data)
     {
-        $regions = $this->baseServices->getRegions()->slice(1, -1);
+        $regions = $this->baseServices->getRegions();
         $region_name = $this->regionName($data->get('region'));
+        $region_name = $region_name != null ? $region_name : 'Выбрать область';
+
+
         $region = null;
         $elevators = TorgElevator::with('region', 'lang_rayon',  'lang_elevator');
 
