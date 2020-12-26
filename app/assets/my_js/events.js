@@ -35,7 +35,6 @@ window.onload = function (){
             $(this).children('i').toggleClass('fa-sort-up fa-sort');
             $(this).children('i').toggleClass('fa-sort-down fa-sort');
         }
-
     });
 
     if($('#active-region').attr('check_active')){

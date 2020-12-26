@@ -3849,16 +3849,16 @@ var agrotender = new(function () {
           }
         }
       });
-      $('.sth').on('click', function() {
-        $('.sth i').attr('class', 'fas fa-sort');
-        if ($(this).hasClass('sorting_asc')) {
-          $(this).find('i').attr('class', 'fas fa-sort-up');
-        }
-        if ($(this).hasClass('sorting_desc')) {
-          $(this).find('i').attr('class', 'fas fa-sort-down');
-        }
-        $('.t-sub').insertAfter($('tbody tr:eq(3)'));
-      });
+      // $('.sth').on('click', function() {
+      //   $('.sth i').attr('class', 'fas fa-sort');
+      //   if ($(this).hasClass('sorting_asc')) {
+      //     $(this).find('i').attr('class', 'fas fa-sort-up');
+      //   }
+      //   if ($(this).hasClass('sorting_desc')) {
+      //     $(this).find('i').attr('class', 'fas fa-sort-down');
+      //   }
+      //   $('.t-sub').insertAfter($('tbody tr:eq(3)'));
+      // });
     }
     $('.filtersIcon').on('click', function() {
       $('html,body').animate({scrollTop:0},0);

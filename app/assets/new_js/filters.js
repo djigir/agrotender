@@ -124,7 +124,11 @@
 
     initSearch() {
       const search = document.querySelector('.company_filter-item.search_field')
+      search.addEventListener('click', () => {
+        this.closeContentItems()
+      })
       search.addEventListener('input', e => {
+        this.closeContentItems()
         this.companyName = e.target.value
       })
     }
@@ -307,14 +311,18 @@
 
       clickableItems.forEach((c, idx) => {
         c.addEventListener('click', () => {
-          console.log(c.dataset)
           if (c.dataset.url) {
             this.openScreen('first')
             this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.url)
-          } else if (c.dataset.minusidx) {
-            console.log(c)
-            this.openScreen('third', idx - 2)
-          } else {
+          }
+          /*
+          else if (c.dataset.minusidx) {
+            console.log('c.dataset.minusidx', c)
+            // this.openScreen('third', idx - 2)
+            this.openScreen('third', idx)
+          }
+          */
+          else {
             this.openScreen('third', idx)
             if (c.dataset.title) {
               this.setTitle(c.dataset.title)
