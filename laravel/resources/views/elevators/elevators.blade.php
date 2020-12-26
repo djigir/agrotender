@@ -14,7 +14,7 @@
                     <div class="col-12 col-sm-6 {{$index_ele % 2 == 0 ? 'pr-0 pr-sm-3' : ''}}">
                         <a href="{{route('elev.elevator', $elev->elev_url)}}" class="row d-flex content-block p-2 {{$index_ele % 2 == 0 ? 'mr-0 mr-sm-4' : ''}}">
                             <div class="col-auto px-2 d-none d-sm-block">
-                                <img src="/app/assets/img/granary-4.png" class="icon">
+                                <img src="/app/assets/img/silo.svg" alt="" class="icon">
                             </div>
                             <div class="col pl-1 text-left d-flex align-items-center">
                                 <div>
