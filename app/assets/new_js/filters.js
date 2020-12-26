@@ -154,11 +154,16 @@
     init() {
       this.body = document.querySelector('body')
       this.mobileFilterBg = document.querySelector('.mobile_filter-bg')
-      this.search_url.product = this.findEl('#product').dataset.product
-      this.search_url.region = this.findEl('#region').dataset.region
       this.companySearchFiled = this.findEl('#companySearchField')
       this.companySearchBtn = this.findEl('#companySearchBtn')
       this.rebootBtn = this.findEl('#filterRebootBtn')
+
+      if (this.findEl('#product')) {
+        this.search_url.product = this.findEl('#product').dataset.product
+      }
+      if (this.findEl('#region')) {
+        this.search_url.region = this.findEl('#region').dataset.region
+      }
 
       this.first_screen = this.findEl('.first')
       this.second_screen = this.findEl('.second')
@@ -170,11 +175,20 @@
 
       this.buttons()
 
-      this.firstScreen()
-      this.secondScreen()
-      this.thirdScreen()
+      if (this.first_screen) {
+        this.firstScreen()
+      }
+      if (this.second_screen) {
+        this.secondScreen()
+      }
+      if (this.third_screen) {
+        this.thirdScreen()
+      }
 
-      this.submitHandler()
+      if (this.findEl('.mobile-filter-footer button')) {
+        this.submitHandler()
+      }
+
       this.search()
       // this.rebootInit()
     }

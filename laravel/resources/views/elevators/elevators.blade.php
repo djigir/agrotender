@@ -1,8 +1,13 @@
-@extends('layout.layout')
+@extends('layout.layout', ['meta' => $meta, 'regions' => $regions])
 
 @section('content')
-   @include('filters.filter-evelators', ['regions' => $regions])
-    <div class="container elev">
+    <div class="new_container elev">
+    
+        @if(!$isMobile)
+            @include('filters.filter-evelators', ['regions' => $regions])
+        @else
+            @include('mobile.filters.mobile-filter-elevators', ['regions' => $regions])
+        @endif
         @foreach($elevators as $index => $elevator)
             <div class="row mb-0 mb-sm-5 mx-0">
                 @foreach($elevator as $index_ele => $elev)

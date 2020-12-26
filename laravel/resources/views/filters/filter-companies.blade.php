@@ -5,6 +5,7 @@ if($regions->count() > 0 && !$isMobile){
     $regions[0] = $temp;
 }
 ?>
+
 <div class="d-none d-sm-block new_container mt-3">
     <ol class="breadcrumbs small p-0">
         <li>
@@ -132,9 +133,6 @@ if($regions->count() > 0 && !$isMobile){
                                         @endif
 
                                     @endforeach
-    {{--                                <li>--}}
-    {{--                                    <span href="#" class="companies_link_category">Без компаний</span>--}}
-    {{--                                </li>--}}
                                 </ul>
                             </div>
                         @endforeach
@@ -143,113 +141,6 @@ if($regions->count() > 0 && !$isMobile){
             </div>
         </div>
     </div>
-
-{{--        <div class="content-block mt-3 py-3 px-4">--}}
-{{--            <div class="form-row align-items-center position-relative">--}}
-{{--                <div class="col-3 mr-2">--}}
-{{--                    <button class="btn rubricInput text-center drop-btn" id="rubricOpen">--}}
-{{--                        {{$culture_name}}--}}
-{{--                        <i class="ml-2 small far fa-chevron-down"></i>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <div class="dropdown-wrapper position-absolute rubricDrop">--}}
-{{--                    <div class="dropdown" id="rubricDrop" style="display: none;">--}}
-{{--                        <div class="section text-left">--}}
-{{--                            <div class="row">--}}
-{{--                                <div style="display: flex;">--}}
-{{--                                    <div class="col-auto">--}}
-{{--                                        @foreach($rubricGroups as $index => $rubric)--}}
-{{--                                            <a class="rubricLink getRubricGroup" group="{{$rubric['id']}}" >--}}
-{{--                                                <span class="test">{{$rubric['title']}}--}}
-{{--                                                    <span class="ml-4 float-right right">--}}
-{{--                                                        <i class="far fa-chevron-right"></i>--}}
-{{--                                                    </span>--}}
-{{--                                                </span>--}}
-{{--                                            </a>--}}
-{{--                                        @endforeach--}}
-{{--                                    </div>--}}
-{{--                                    @foreach($rubricGroups as $index => $rubric)--}}
-{{--                                        <div class="col-auto rubricGroup pr-0 mr-3 groupCulture group-{{$rubric['id']}}" group="{{$rubric['id']}}" style="display: none;">--}}
-{{--                                            @foreach($rubricGroups[$rubric['id']]["comp_topic"] as $index => $culture)--}}
-{{--                                                <a class="regionLink {{$culture_name == $culture['title'] ? 'active' : ''}}"--}}
-{{--                                                href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $culture['id']])}}">--}}
-{{--                                                    <span>{{$culture['title']}}</span>--}}
-{{--                                                    @if($culture['cnt'] > 0)--}}
-{{--                                                        <span class="companyCount small">--}}
-{{--                                                            ({{$culture['cnt']}})--}}
-{{--                                                        </span>--}}
-{{--                                                    @endif--}}
-{{--                                                    <span class="float-right right"><i class="far fa-chevron-right"></i></span>--}}
-{{--                                                </a>--}}
-{{--                                            @endforeach--}}
-{{--                                        </div>--}}
-{{--                                    @endforeach--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col-3 mr-2">--}}
-{{--                    <button class="btn regionInput text-center drop-btn">--}}
-{{--                        {{$region_name}}--}}
-{{--                    <i class="ml-2 small far fa-chevron-down"></i>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--                <div class="dropdown-wrapper position-absolute regionDrop">--}}
-{{--                    <div class="dropdown" id="regionDrop" style="display: none;">--}}
-{{--                        <span class="d-block">--}}
-{{--                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'ukraine') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}">--}}
-{{--                                <span style="cursor: pointer">Вся Украина</span>--}}
-{{--                            </a>--}}
-{{--                            <a class="regionLink d-inline-block {{(isset($region) and $region == 'crimea') ? 'text-muted disabled' : ''}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['crimea', $rubric_id]) : route('company.region', 'crimea')}}">--}}
-{{--                                <span>АР Крым</span>--}}
-{{--                            </a>--}}
-{{--                        </span>--}}
-{{--                        <hr class="mt-1 mb-2">--}}
-{{--                        <div class="section text-left">--}}
-{{--                            <div class="row">--}}
-{{--                                <div class="col" style="column-count: 3">--}}
-{{--                                    @foreach($regions as $index => $region)--}}
-{{--                                        @if($rubric_id and $region)--}}
-{{--                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : '' }}"--}}
-{{--                                            href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}">--}}
-{{--                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}} </span>--}}
-{{--                                                <span class="companyCount small">({{$region['count_items']}})</span>--}}
-{{--                                            </a>--}}
-{{--                                        @else--}}
-{{--                                            <a class="regionLink {{(!empty($obj_region) && $obj_region['translit'] == $region['translit']) ? 'active' : ''}}"--}}
-{{--                                            href="{{route('company.region', $region['translit'])}}">--}}
-{{--                                                <span>{{$region['name'] != 'Вся Украина' ? $region['name'].' область' : 'Вся Украина'}}</span>--}}
-{{--                                                <span class="companyCount small">({{$region['count_items']}})</span>--}}
-{{--                                            </a>--}}
-{{--                                        @endif--}}
-{{--                                    @endforeach--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col searchDiv" data-tip="Введите поисковой запрос">--}}
-{{--                    <form class="searchForm" style="display: flex" method="GET">--}}
-{{--                        @if(isset($query) && $query != null)--}}
-{{--                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.."--}}
-{{--                                value="{{isset($query) && $query != null ? $query : ''}}">--}}
-{{--                        @else--}}
-{{--                            <input maxlength="32" type="text" name="query" id="searchInput" class="searchInput" placeholder="Я ищу.." value="">--}}
-{{--                        @endif--}}
-
-{{--                        <div class="col-auto search">--}}
-{{--                            <button type="submit" class="btn-search">--}}
-{{--                                <i class="far fa-search searchIcon mt-2 ml-2"></i>--}}
-{{--                            </button>--}}
-{{--                        </div>--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-
-
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    -->--}}
 
     <div class="row mt-4 pt-3">
         <div class="col-12 col-sm-6 float-left mt-0 d-flex d-sm-block">
