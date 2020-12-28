@@ -63,7 +63,7 @@
                             <th tabindex="0" rowspan="1" colspan="1" style="min-width: 222px;text-align: left">Место закупки</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="traders_table">
                     @foreach($traders as $index => $trader)
                         <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                             <td>
