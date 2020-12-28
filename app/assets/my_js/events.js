@@ -484,5 +484,11 @@ window.onload = function (){
             }
         })
     }
+
+    $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
+      callback: function(color) {
+        $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
+      }
+    })
 };
 

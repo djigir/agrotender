@@ -1,10 +1,5 @@
 (() => {
   function tradersPageScripts() {
-    $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
-      callback: function(color) {
-        $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
-      }
-    })
   
     let prices = document.querySelectorAll('.traders__item__content-p-price')
     prices = Array.prototype.slice.call(prices)
