@@ -8183,3 +8183,16 @@ table.sortTable th.table_haeder_th_cell {
   background: #E5EEF9;
   color: #3D5576;
 }
+
+.sortTable thead tr th.traders_table_company_th {
+  padding-left: 79px;
+  min-width: 250px;
+  text-align: left;
+  width: 231px;
+}
+
+@media screen and (max-width: 768px) {
+  .sortTable thead tr th.traders_table_company_th {
+    padding-left: 25px;
+  }
+}

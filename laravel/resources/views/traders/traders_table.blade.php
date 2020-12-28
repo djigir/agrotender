@@ -56,11 +56,11 @@
                 <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
                     <thead>
                         <tr role="row">
-                            <th tabindex="0" rowspan="1" colspan="1" style="min-width: 258px;">Компании</th>
+                            <th tabindex="0" rowspan="1" colspan="1" style="min-width: 258px;" class="traders_table_company_th">Компании</th>
                             <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="min-width: 110px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
                             <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="min-width: 110px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
                             <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="min-width: 110px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th>
-                            <th tabindex="0" rowspan="1" colspan="1" style="min-width: 222px;">Место закупки</th>
+                            <th tabindex="0" rowspan="1" colspan="1" style="min-width: 222px;text-align: left">Место закупки</th>
                         </tr>
                     </thead>
                     <tbody>
