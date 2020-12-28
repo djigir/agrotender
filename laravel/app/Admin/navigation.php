@@ -34,6 +34,12 @@ return [
         'url'   => route('admin.information'),
     ],
 
+    [
+        'title' => 'Трейдеры',
+        'icon'  => 'fas fa-info-circle',
+        'url'   => '/admin_dev/comp_items?type=traders',
+    ],
+
     // Examples
     // [
     //    'title' => 'Content',

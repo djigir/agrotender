@@ -3,6 +3,8 @@
 namespace App\Models\Torg;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Buyer\BuyerPacksOrders;
+use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Comp\CompItems;
 use App\Models\Py\PyBalance;
 use App\Models\Regions\Regions;
@@ -25,6 +27,28 @@ class TorgBuyer extends Model
     protected $dates = ['add_date'];
 
     public $timestamps = false;
+
+
+    /* return route for adverts filter */
+
+    public function TorgBuyerAdverts()
+    {
+        $model_name = 'adv_torg_posts';
+
+        return route('admin.model', $model_name);
+    }
+
+    public function TorgBuyerAdvertsCount()
+    {
+        $model_name = 'torg_buyer';
+
+        return route('admin.model', $model_name);
+    }
+
+//    public function
+
+
+    /* Relations */
 
     public function comp_item()
     {
@@ -54,6 +78,17 @@ class TorgBuyer extends Model
     public function advTorgPost()
     {
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'id');
+    }
+
+
+    public function torgBuyerBan()
+    {
+        return $this->hasOne(TorgBuyerBan::class, 'user_id', 'id');
+    }
+
+    public function buyerPacksOrders()
+    {
+        return $this->hasMany(BuyerPacksOrders::class, 'user_id', 'id');
     }
 
     public function pyBalance()
