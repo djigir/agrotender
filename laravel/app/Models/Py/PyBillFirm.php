@@ -15,4 +15,9 @@ class PyBillFirm extends Model
         'bill_addr_id', 'add_date', 'obl_id', 'city',
         'zip', 'address', 'otitle', 'oipn', 'okode',
     ];
+
+    public function pyBill()
+    {
+        return $this->belongsTo(PyBill::class,'payer_ooo_id', 'id');
+    }
 }

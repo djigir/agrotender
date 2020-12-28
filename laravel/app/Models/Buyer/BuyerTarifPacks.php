@@ -3,6 +3,7 @@
 namespace App\Models\Buyer;
 
 use App\Models\Comp\CompItems;
+use App\Models\Py\PyBalance;
 use Illuminate\Database\Eloquent\Model;
 
 class BuyerTarifPacks extends Model
@@ -33,5 +34,11 @@ class BuyerTarifPacks extends Model
     public function compItems()
     {
         return $this->belongsTo(CompItems::class, 'site_pack_id');
+    }
+
+
+    public function pyBalance()
+    {
+        return $this->belongsTo(PyBalance::class, 'debit_type', 'id');
     }
 }
