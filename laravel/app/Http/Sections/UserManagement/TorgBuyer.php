@@ -89,7 +89,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
-                        <a class='comp_items_adverts' href='#'>{$model['buyerPacksOrders']->count()}</a>
+                        <a class='comp_items_adverts' href='#' id='{$model->getKey()}'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
             })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 
@@ -169,6 +169,8 @@ class TorgBuyer extends Section implements Initializable
                 $request = \request()->get('columns')[6]['search']['value'];
                 $from = stristr($request, ':', ':');
                 $to = substr(strrchr($request, ':'), 1);
+
+
 
             })->setHtmlAttribute('class', 'count-adverts-filter')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
