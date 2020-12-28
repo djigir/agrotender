@@ -87,7 +87,6 @@ class AdvTorgPost extends Model
         return $model;
     }
 
-
     public function regions()
     {
         return $this->hasOne(Regions::class, 'id', 'obl_id');
@@ -119,6 +118,13 @@ class AdvTorgPost extends Model
         $comp_id = $type['comp_id'];
 
         return $query->where('type_id', $type_id)->where('company_id', $comp_id);
+    }
+
+    public function scopeTorgBuyerAdverts($query, $type)
+    {
+        $author_id = $type['author_id'];
+
+        return $query->where('author_id', $author_id);
     }
 
 }
