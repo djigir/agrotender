@@ -63,8 +63,8 @@ class PyBill extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', '№')->setWidth('60px'),
             AdminColumn::text('add_date', 'Дата'),
-            AdminColumn::text('torgBuyer.login.', 'Логин'),
-            AdminColumn::text('torgBuyer.name.', 'Пользователь'),
+            AdminColumn::text('torgBuyer.login.', 'Логин')->setOrderable(false) ,
+            AdminColumn::text('torgBuyer.name.', 'Пользователь')->setOrderable(false) ,
 
             AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model) {
                 $paymeth_type = [

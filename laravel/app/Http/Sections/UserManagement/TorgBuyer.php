@@ -128,7 +128,7 @@ class TorgBuyer extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-                \AdminDisplayFilter::scope('typeAdverts'), // ?type=news | ?latest&type=news
+                \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
             );
 
         $display->setColumnFilters([
