@@ -83,15 +83,14 @@ class PyBill extends Section implements Initializable
             AdminColumn::custom('№ док', function (\Illuminate\Database\Eloquent\Model $model) {
                 $file = 'https://agrotender.com.ua/';
                 $doc = '';
-                if($model->id != 0){
-                    $model['pyBillDoc']->where('bill_id', $model->id);
-                }
+                if($model['pyBillDoc'] != null){
+                    if($model->id != 0){
+                        $model['pyBillDoc']->where('bill_id', $model->id);
+                    }
 
-                if($model->buyer_id != 0){
-                    $model['pyBillDoc']->where('buyer_id', $model->buyer_id);
-                }
-
-                if(count($model['pyBillDoc']) > 0){
+                    if($model->buyer_id != 0){
+                        $model['pyBillDoc']->where('buyer_id', $model->buyer_id);
+                    }
                     $file .= $model['pyBillDoc'][0]['filename'];
                     $doc = 'Счет №'.$model['pyBillDoc'][0]['bill_id'];
                 }
@@ -244,15 +243,15 @@ class PyBill extends Section implements Initializable
                         Указанный Плательщик
                 </label>
                 <textarea rows='5' cols='5' class='form-control' type='text' id='amount' name='amount' readonly='readonly'>
-                {$orgtype}: {$this->model_value['pyBillFirm'][0]['otitle']}
-                Юр.адрес: {$regions[$this->model_value['pyBillFirm'][0]['obl_id']]}, {$this->model_value['pyBillFirm'][0]['zip']}{$this->model_value['pyBillFirm'][0]['city']}{$this->model_value['pyBillFirm'][0]['address']}
-                ИНН: {$this->model_value['pyBillFirm'][0]['oipn']}
-                ОКПО: {$this->model_value['pyBillFirm'][0]['okode']}
+                {$orgtype}: {$this->model_value['pyBillFirm']['otitle']}
+                Юр.адрес: {$regions[$this->model_value['pyBillFirm']['obl_id']]}, {$this->model_value['pyBillFirm']['zip']}{$this->model_value['pyBillFirm']['city']}{$this->model_value['pyBillFirm']['address']}
+                ИНН: {$this->model_value['pyBillFirm']['oipn']}
+                ОКПО: {$this->model_value['pyBillFirm']['okode']}
                 </textarea>
            </div>";
             $set_payer = AdminFormElement::select('pyBillFirm.id', 'Задать Плательщика')
                 ->setOptions($test->toArray())
-                ->setDefaultValue($this->model_value['pyBillFirm'][0]['otitle']);
+                ->setDefaultValue($this->model_value['pyBillFirm']['otitle']);
         }
 
         $form = AdminForm::card()->addBody([

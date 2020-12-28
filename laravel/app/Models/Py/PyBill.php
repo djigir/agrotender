@@ -25,7 +25,7 @@ class PyBill extends Model
 
     public function pyBillFirm()
     {
-        return $this->hasMany(PyBillFirm::class,'id', 'payer_ooo_id');
+        return $this->hasOne(PyBillFirm::class,'id', 'payer_ooo_id');
     }
 
 
