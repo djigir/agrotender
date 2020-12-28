@@ -88,8 +88,8 @@ class TorgBuyer extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
-                return "<div class='row-text' id='{$model->getKey()}'>
-                        <a class='comp_items_adverts' href='#'>{$model['buyerPacksOrders']->count()}</a>
+                return "<div class='row-text'>
+                        <a class='comp_items_adverts' href='#' id='{$model->getKey()}'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
             })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 
