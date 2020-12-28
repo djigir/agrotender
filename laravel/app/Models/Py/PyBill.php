@@ -22,8 +22,22 @@ class PyBill extends Model
         return $this->hasMany(TorgBuyer::class,'id', 'buyer_id');
     }
 
+
+    public function pyBillFirm()
+    {
+        return $this->hasMany(PyBillFirm::class,'id', 'payer_ooo_id');
+    }
+
+
     public function pyBalance()
     {
-        return $this->hasMany(PyBalance::class, 'bill_id', 'id');
+        return $this->belongsTo(PyBalance::class, 'bill_id', 'id');
     }
+
+
+    public function pyBillDoc()
+    {
+        return $this->hasOne(PyBillDoc::class, 'bill_id', 'id');
+    }
+
 }

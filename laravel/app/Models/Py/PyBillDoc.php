@@ -14,4 +14,10 @@ class PyBillDoc extends Model
         'id', 'buyer_id', 'bill_id', 'doc_type',
         'sum_tot', 'filename', 'add_date',
     ];
+
+
+    public function pyBill()
+    {
+        return $this->belongsTo(PyBill::class, 'id', 'bill_id');
+    }
 }

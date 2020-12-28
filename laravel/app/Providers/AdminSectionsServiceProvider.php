@@ -25,6 +25,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
             /* Управление пользователями user management */
 //        \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
         \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyer',
+        \App\Models\Py\PyBalance::class => 'App\Http\Sections\UserManagement\PyBalance',
         \App\Models\Py\PyBill::class => 'App\Http\Sections\UserManagement\PyBill',
 
             /* Быстрый доступ */

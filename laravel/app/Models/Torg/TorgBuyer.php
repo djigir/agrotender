@@ -6,6 +6,7 @@ use App\Models\ADV\AdvTorgPost;
 use App\Models\Buyer\BuyerPacksOrders;
 use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Comp\CompItems;
+use App\Models\Py\PyBalance;
 use App\Models\Regions\Regions;
 use App\Models\Py\PyBill;
 use Illuminate\Database\Eloquent\Model;
@@ -79,6 +80,7 @@ class TorgBuyer extends Model
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'id');
     }
 
+
     public function torgBuyerBan()
     {
         return $this->hasOne(TorgBuyerBan::class, 'user_id', 'id');
@@ -87,5 +89,10 @@ class TorgBuyer extends Model
     public function buyerPacksOrders()
     {
         return $this->hasMany(BuyerPacksOrders::class, 'user_id', 'id');
+    }
+
+    public function pyBalance()
+    {
+        return $this->belongsTo(PyBalance::class, 'buyer_id', 'id');
     }
 }
