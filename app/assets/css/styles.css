@@ -8209,3 +8209,7 @@ table.sortTable th.table_haeder_th_cell {
     padding-left: 25px;
   }
 }
+
+.hidden_date {
+  display: none;
+}
