@@ -15,4 +15,9 @@ class PyBillAddr extends Model
         'add_date', 'obl_id', 'city',
         'zip', 'address',
     ];
+
+    public function pyBill()
+    {
+        return $this->hasOne(PyBill::class, 'payer_addr_id', 'id');
+    }
 }

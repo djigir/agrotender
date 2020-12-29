@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\Py\PyBillAddr;
 use App\Models\Py\PyBillFirm;
 use App\Services\BaseServices;
 use Illuminate\Database\Eloquent\Model;
@@ -58,13 +59,11 @@ class PyBill extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
-//        ->setHtmlAttribute('class', 'text-center')
         $columns = [
-            AdminColumn::text('id', '№')->setWidth('60px'),
-            AdminColumn::text('add_date', 'Дата'),
-            AdminColumn::text('torgBuyer.login.', 'Логин')->setOrderable(false) ,
-            AdminColumn::text('torgBuyer.name.', 'Пользователь')->setOrderable(false) ,
+            AdminColumn::text('id', '№')->setWidth('60px')->setOrderable(false),
+            AdminColumn::text('add_date', 'Дата')->setOrderable(false),
+            AdminColumn::text('torgBuyer.login.', 'Логин')->setOrderable(false),
+            AdminColumn::text('torgBuyer.name.', 'Пользователь')->setOrderable(false),
 
             AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model) {
                 $paymeth_type = [
@@ -114,7 +113,7 @@ class PyBill extends Section implements Initializable
                 return "<div style='{$style}' class='row-text'>{$status[$model->status]}</div>";
             }),
 
-            AdminColumn::text('amount', 'Сумма')->setWidth('70px'),
+            AdminColumn::text('amount', 'Сумма')->setOrderable(false)->setWidth('70px'),
 
             AdminColumn::custom('Акт', function (\Illuminate\Database\Eloquent\Model $model) {
                 $akt = '-';
@@ -214,12 +213,18 @@ class PyBill extends Section implements Initializable
             "Тернопольская область", "Харьковская область", "Херсонская область",
             "Хмельницкая область", "Черкасская область", "Черниговская область", "Черновицкая область"
         ];
+        $specified_payer = null;
+        $set_payer = null;
+        $get_address = null;
+        $get_addr_date = PyBillAddr::where('id', $this->model_value['payer_addr_id'])->first();
+        $set_payer_array = PyBillFirm::where('buyer_id', $this->model_value['buyer_id'])->orderBy('payer_type')->orderBy('otitle')->pluck('otitle', 'id');
+        $address = PyBillAddr::orderBy('add_date')->get();
 
-        $test = PyBillFirm::where('buyer_id', $this->model_value['buyer_id'])
-        ->orderBy('payer_type')->orderBy('otitle')->pluck('otitle', 'id');
+        $address_new = [];
 
-        $specified_payer = '';
-        $set_payer = '';
+        foreach ($address as $addres){
+            $address_new[$addres->id] = $addres->city.$addres->address;
+        }
 
         $orgtype = $this->model_value['orgtype'] == 1 ? 'Юр. лицо' : 'Физ. лицо';
         $paymeth_type = [
@@ -236,41 +241,43 @@ class PyBill extends Section implements Initializable
             3 => "Выполнен"
         ];
 
+        $value = $regions[$get_addr_date->obl_id] .' , '.$get_addr_date->zip .' , '.$get_addr_date->city .' , '.$get_addr_date->address;
+        $get_address = AdminFormElement::html("<div class='form-group form-element-text'>
+                <label for='id' class='control-label'>
+                        Указанный адрес отправки док
+                </label>
+                <input type='text' value='{$value}' readonly='readonly' class='form-control'>
+            </div>");
+
+
         if($this->model_value['payer_ooo_id'] != 0){
-            $specified_payer = "
+            $specified_payer = AdminFormElement::html("
             <div class='form-group form-element-text'>
                 <label for='amount' class='control-label'>
                         Указанный Плательщик
                 </label>
-                <textarea rows='5' cols='5' class='form-control' type='text' id='amount' name='amount' readonly='readonly'>
-                {$orgtype}: {$this->model_value['pyBillFirm']['otitle']}
-                Юр.адрес: {$regions[$this->model_value['pyBillFirm']['obl_id']]}, {$this->model_value['pyBillFirm']['zip']}{$this->model_value['pyBillFirm']['city']}{$this->model_value['pyBillFirm']['address']}
-                ИНН: {$this->model_value['pyBillFirm']['oipn']}
-                ОКПО: {$this->model_value['pyBillFirm']['okode']}
+                <textarea rows='5' style='width: 750px' class='form-control' type='text' readonly='readonly'>
+{$orgtype}: {$this->model_value['pyBillFirm']['otitle']}
+Юр.адрес: {$regions[$this->model_value['pyBillFirm']['obl_id']]}, {$this->model_value['pyBillFirm']['zip']} {$this->model_value['pyBillFirm']['city']}, {$this->model_value['pyBillFirm']['address']}
+ИНН: {$this->model_value['pyBillFirm']['oipn']}
+ОКПО: {$this->model_value['pyBillFirm']['okode']}
                 </textarea>
-           </div>";
-            $set_payer = AdminFormElement::select('pyBillFirm.id', 'Задать Плательщика')
-                ->setOptions($test->toArray())
-                ->setDefaultValue($this->model_value['pyBillFirm']['otitle']);
+           </div>");
+
+            $set_payer = AdminFormElement::select('payer_ooo_id', 'Задать Плательщика')->setOptions($set_payer_array->toArray());
         }
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('amount', 'Сумма счета'),
+                AdminFormElement::number('amount', 'Сумма счета'),
                 AdminFormElement::select('aktstatus', 'Потребность акта')
                     ->setOptions([
                         0 => '',
                         1 => 'Нужен',
                         2 => 'Загружен',
                     ])->setDefaultValue($this->model_value['aktstatus']),
-                AdminFormElement::select('aktstatus', 'Сменить адрес')
-                    ->setOptions([
-                        0 => '',
-                        1 => 'Нужен',
-                        2 => 'Загружен',
-                    ])->setDefaultValue($this->model_value['aktstatus']),
+                AdminFormElement::select('payer_addr_id', 'Сменить адрес')->setOptions($address_new)->setDefaultValue($address_new[$this->model_value['payer_addr_id']]),
                 $set_payer,
-//                AdminFormElement::textarea('amount' ,'Комментарий'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                 AdminFormElement::text('add_date', 'Дата счета')->setReadonly(true),
                 AdminFormElement::html("
@@ -287,7 +294,8 @@ class PyBill extends Section implements Initializable
                 </label>
                 <input class='form-control' type='text' id='status' name='status' value='{$status[$this->model_value['status']]}' readonly='readonly'>
                 </div>"),
-                AdminFormElement::html($specified_payer),
+                $get_address,
+                $specified_payer,
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 
@@ -305,10 +313,10 @@ class PyBill extends Section implements Initializable
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }
+//    public function onCreate($payload = [])
+//    {
+//        return $this->onEdit(null, $payload);
+//    }
 
     /**
      * @return bool
