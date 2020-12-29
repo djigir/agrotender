@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Py\PyBillAddr;
+use App\Models\Py\PyBillDoc;
 use App\Models\Py\PyBillFirm;
 use App\Services\BaseServices;
 use Illuminate\Database\Eloquent\Model;
@@ -98,16 +99,20 @@ class PyBill extends Section implements Initializable
             AdminColumn::custom('№ док', function (\Illuminate\Database\Eloquent\Model $model) {
                 $file = 'https://agrotender.com.ua/';
                 $doc = '';
+                $pyBillDoc = PyBillDoc::get();
+
                 if($model['pyBillDoc'] != null){
                     if($model->id != 0){
-                        $model['pyBillDoc']->where('bill_id', $model->id);
+                        $pyBillDoc = $pyBillDoc->where('bill_id', $model->id);
                     }
 
                     if($model->buyer_id != 0){
-                        $model['pyBillDoc']->where('buyer_id', $model->buyer_id);
+                        $pyBillDoc = $pyBillDoc->where('buyer_id', $model->buyer_id);
                     }
-                    $file .= $model['pyBillDoc'][0]['filename'];
-                    $doc = 'Счет №'.$model['pyBillDoc'][0]['bill_id'];
+
+                    $pyBillDoc = $pyBillDoc->first();
+                    $file .= $pyBillDoc->filename;
+                    $doc = 'Счет №'.$pyBillDoc->bill_id;
                 }
 
                 return "<div class='row-text'><a href='{$file}' target='_blank'>{$doc}</a></div>";
@@ -210,6 +215,7 @@ class PyBill extends Section implements Initializable
             "Хмельницкая область", "Черкасская область", "Черниговская область", "Черновицкая область"
         ];
         $value = null;
+        $addresses = null;
         $orgtype = $this->model_value['orgtype'] == 1 ? 'Юр. лицо' : 'Физ. лицо';
         $paymeth_type = self::STATUS;
         $status = self::PAYMENTH_TYPE;

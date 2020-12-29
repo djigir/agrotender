@@ -59,7 +59,7 @@ class AdvWordTopic extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('torgTopic.title.', 'Раздел')->setWidth('250px'),
+            AdminColumn::text('torgTopic.title.', 'Раздел')->setWidth('250px')->setOrderable(false),
 
             AdminColumn::text('keyword', 'Запрос')->setWidth('250px'),
 
