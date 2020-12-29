@@ -6,6 +6,8 @@ if($regions->count() > 0){
 }
 ?>
 
+<h2 class="d-inline-block text-uppercase mb-2 new_page_title">Элеваторы</h2>
+
 <div class="new_container">
     <h2 class="text-uppercase companies_list">Компании</h2>
 </div>

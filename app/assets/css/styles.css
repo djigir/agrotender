@@ -7224,7 +7224,7 @@ table.proposedTable tr.not-viewed td {
   color: #001430;
 }
 .mobile_filter-content {
-  height: calc(100% - 130px);
+  height: calc(100% - 54px);
   background-color: #EFF1F5;
   padding-top: 12px;
 }
@@ -7287,14 +7287,14 @@ table.proposedTable tr.not-viewed td {
   overflow: auto;
 }
 .screens .first.active {
-  height: 100%;
+  height: calc(100% - 73px);
 }
 .screens .second.active,
 .screens .third.active {
   /* 70 - высота шапки фильтра */
   /* 70 - отступ */
   /* 70 - кнопочки снизу  */
-  height: 100%;
+  height: calc(100% - 73px);
 }
 .screens .second {
   background-color: #fff;

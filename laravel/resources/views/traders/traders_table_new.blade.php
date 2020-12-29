@@ -187,6 +187,7 @@
                     },
                     success: function (data) {
                         $('#traders_table').append(data);
+                        replaceWithSpacesAllItems()
                         count = 0;
                         start += add_count_item;
 

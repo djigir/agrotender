@@ -35,7 +35,7 @@ if($regions->count() > 0 && !$isMobile){
 
 <div class="new_fitlers_container mb-5">
 
-    <h2 class="d-inline-block text-uppercase mr-3">Элеваторы</h2>
+    <h2 class="d-inline-block text-uppercase mr-3 new_page_title" style="    transform: translateY(3px);">Элеваторы</h2>
     <button class="new_filters_btn" id="cultures_btn">{{$region_name}}</button>
 
     <div class="new_filters_dropdown" id="country_dropdown">
