@@ -29,7 +29,7 @@
 
         <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
-            {!! $company->content !!}
+            {!! strip_tags($company->content) !!}
         </div>
     </div>
 @endsection
