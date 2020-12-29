@@ -89,8 +89,9 @@
         @endforeach
     </div>
 
-    @if(!empty($traders_contacts))
+    @if(!$traders_contacts->isEmpty())
         @include('company.company_cont_traders', ['traders_contacts' => $traders_contacts])
     @endif
+
 @endsection
 

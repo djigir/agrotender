@@ -76,6 +76,7 @@ if($regions->count() > 0 && !$isMobile){
                     @foreach($rubricGroups as $index => $rubric)
                         <?php
                             $class = '';
+                            $class_a = '';
 
                             if($index == $group_id){
                                 $class = 'active';
@@ -91,7 +92,7 @@ if($regions->count() > 0 && !$isMobile){
                                     <ul>
                                         @foreach($chunk as $item)
                                             <li>
-                                                <a href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $item['id']])}}" class="companies_link_country" data-url="world">{{$item['title']}} ({{$item['cnt']}})</a>
+                                                <a class="{{$rubric_id == $item['id'] ? 'selected_in_filter' : ''}}" href="{{route('company.region_culture', [isset($region) ? $region : 'ukraine', $item['id']])}}" class="companies_link_country" data-url="world">{{$item['title']}} ({{$item['cnt']}})</a>
                                             </li>
                                        @endforeach
                                     </ul>
@@ -109,14 +110,20 @@ if($regions->count() > 0 && !$isMobile){
                             <div class="new_filters_dropdown_column_item">
                                 <ul>
                                     @foreach($chunk as $index_region => $region)
+                                        <?php
+                                            $class = '';
+                                            if($region_translit == $region['translit']){
+                                                $class = 'selected_in_filter';
+                                            }
+                                        ?>
                                         @if(isset($region['count_items']) and $region['count_items'] > 0)
                                             <li>
                                                 @if($rubric_id and $region)
-                                                    <a href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}" class="companies_link_category">
+                                                    <a class="{{$class}}" href="{{route('company.region_culture', [$region['translit'], $rubric_id])}}" class="companies_link_category">
                                                         {{$region['name']}}({{$region['count_items']}})
                                                     </a>
                                                 @else
-                                                    <a href="{{route('company.region', $region['translit'])}}" class="companies_link_category">
+                                                    <a class="{{$class}}" href="{{route('company.region', $region['translit'])}}" class="companies_link_category">
                                                         {{$region['name']}}({{$region['count_items']}})
                                                     </a>
                                                 @endif
@@ -124,10 +131,14 @@ if($regions->count() > 0 && !$isMobile){
                                         @else
                                             @if($index_chunk == 0 and $index_region == 0)
                                                 <li>
-                                                    <a href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}"
+                                                    <a class="{{$class}}" href="{{($rubric_id and $region) ? route('company.region_culture', ['ukraine', $rubric_id]): route('company.region', 'ukraine')}}"
                                                        class="companies_link_category">
                                                         {{$region['name']}}
                                                     </a>
+                                                </li>
+                                            @else
+                                                <li>
+                                                    <span class="companies_link_category">{{$region['name']}}</span>
                                                 </li>
                                             @endif
                                         @endif

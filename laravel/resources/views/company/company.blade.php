@@ -32,7 +32,4 @@
             {!! $company->content !!}
         </div>
     </div>
-
-
-
 @endsection

@@ -1,12 +1,12 @@
 <?php
-$route_name = \Route::getCurrentRoute()->getName();
-$prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
+    $route_name = \Route::getCurrentRoute()->getName();
+    $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
 
-if($regions->count() > 0 && !$isMobile){
-    $temp = $regions[25];
-    $regions[25] = $regions[0];
-    $regions[0] = $temp;
-}
+    if($regions->count() > 0 && !$isMobile){
+        $temp = $regions[25];
+        $regions[25] = $regions[0];
+        $regions[0] = $temp;
+    }
 ?>
 
     <div class="bg_filters"></div>
@@ -55,7 +55,7 @@ if($regions->count() > 0 && !$isMobile){
                               @foreach($chunk as $item)
                                   <li>
                                       @if(!empty($region))
-                                          <a href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
+                                          <a class="{{$culture_id == $item['id'] ? 'selected_in_filter' : ''}}" href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
                                               {{ $item['traders_product_lang'][0]['name']}}
                                               @if($item['count_item'] > 0)
                                                   ({{$item['count_item']}})
@@ -63,7 +63,7 @@ if($regions->count() > 0 && !$isMobile){
                                           </a>
                                       @endif
                                       @if(!empty($port))
-                                          <a href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
+                                          <a class="{{$culture_id == $item['id'] ? 'selected_in_filter' : ''}}" href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
                                               {{ $item['traders_product_lang'][0]['name']}}
                                               @if($item['count_item'] > 0)
                                                   ({{$item['count_item']}})
@@ -97,18 +97,24 @@ if($regions->count() > 0 && !$isMobile){
                 <div class="new_filters_dropdown_column_item">
                     <ul>
                         @foreach($chunk as $region)
+                            <?php
+                                $class = '';
+                                if($region_translit == $region['translit']){
+                                    $class = 'selected_in_filter';
+                                }
+                            ?>
                             <li>
                                 @if(!empty($culture) && !empty($region))
-                                    <a data-id="1"data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                    <a class="{{$class}}" data-id="1"data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
                                         {{$region['name']}}
                                     </a>
                                 @else
                                     @if(!empty($culture_translit))
-                                        <a data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                        <a class="{{$class}}" data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
                                             {{$region['name']}}
                                         </a>
                                     @else
-                                        <a data-id="1" data-title="{{$region['name']}}" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
+                                        <a class="{{$class}}" data-id="1" data-title="{{$region['name']}}" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
                                             {{$region['name']}}
                                         </a>
                                     @endif
@@ -125,18 +131,24 @@ if($regions->count() > 0 && !$isMobile){
                 <div class="new_filters_dropdown_column_item">
                     <ul>
                         @foreach($chunk as $port)
+                            <?php
+                                $class = '';
+                                if($port_translit == $port['url']){
+                                    $class = 'selected_in_filter';
+                                }
+                            ?>
                             <li>
                                 @if(!empty($culture) && !empty($port))
-                                    <a data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                    <a class="{{$class}}" data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
                                         {{$port['lang']['portname']}}
                                     </a>
                                 @else
                                     @if(!empty($culture_translit))
-                                        <a data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                        <a class="{{$class}}" data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
                                             {{$port['lang']['portname']}}
                                         </a>
                                     @else
-                                        <a data-id="1" href="{{route($prefix.'port', $port['url'])}}">
+                                        <a class="{{$class}}" data-id="1" href="{{route($prefix.'port', $port['url'])}}">
                                             {{$port['lang']['portname']}}
                                         </a>
                                     @endif

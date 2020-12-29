@@ -4,8 +4,17 @@
             <img src="{{$company->logo_file && file_exists($company->logo_file) ? $company->logo_file : '/app/assets/img/no-image.png'}}" alt="">
         </div>
         <div class="content">
+            <?php
+                $TEXT = [
+                    'main' => 'Закупочные цены',
+                    'contact' => 'Контакты',
+                    'reviews' => 'Отзывы',
+                    'forwards' => 'Форвардные цены',
+                    'adverts' => 'Объявления',
+                ];
+            ?>
             <div class="content_title">{!! $company['title'] !!}</div>
-            <div class="content_subtitle">Закупочные цены</div>
+            <div class="content_subtitle">{{$TEXT[$current_page]}}</div>
         </div>
     </div>
 </div>
