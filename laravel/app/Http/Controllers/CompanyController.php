@@ -6,6 +6,7 @@ use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
 use App\Models\Regions\Regions;
+use App\Models\Torg\TorgBuyer;
 use App\Models\Traders\TradersContactsRegions;
 use App\Models\Traders\TradersPrices;
 use App\Models\Users\User;

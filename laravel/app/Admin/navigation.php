@@ -36,8 +36,14 @@ return [
 
     [
         'title' => 'Трейдеры',
-        'icon'  => 'fas fa-info-circle',
+        'icon'  => 'far fa-building',
         'url'   => '/admin_dev/comp_items?type=traders',
+    ],
+
+    [
+        'title' => 'Активные Трейдеры',
+        'icon'  => 'fas fa-building',
+        'url'   => '/admin_dev/comp_items?type=active_traders',
     ],
 
     // Examples

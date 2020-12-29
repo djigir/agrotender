@@ -66,20 +66,23 @@ class CompNews extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', '#')
+            AdminColumn::text('id', 'ID')
                 ->setWidth('50px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('title', 'Новость', 'add_date')
                 ->setWidth('400px')
                 ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('name', 'like', '%'.$search.'%');
+                    return $query->orWhere('title', 'like', '%'.$search.'%');
                 })
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
                 }),
 
             AdminColumn::text('companyItem.title', 'Компания')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('comp_id', $direction);
+                })
                 ->setWidth('220px')
                 ->setHtmlAttribute('class', 'text-center'),
 
@@ -96,15 +99,6 @@ class CompNews extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(CompItems::class, 'title')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('comp_id')
-                ->setPlaceholder('Все компании'),
-
             AdminColumnFilter::text()
                 ->setColumnName('title')
                 ->setOperator('contains')

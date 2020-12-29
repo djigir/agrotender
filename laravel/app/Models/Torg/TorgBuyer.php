@@ -45,7 +45,10 @@ class TorgBuyer extends Model
         return route('admin.model', $model_name);
     }
 
-//    public function
+    public function countAdverts()
+    {
+        $request = \request()->all();
+    }
 
 
     /* Relations */

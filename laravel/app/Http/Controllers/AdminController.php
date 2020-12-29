@@ -11,10 +11,14 @@ class AdminController extends Controller
 {
     public function loginAsUser(Request $request)
     {
+//        dd(__METHOD__, $request->all());
         $user_id = $request->get('user_id');
 
         $user_old = TorgBuyer::find($user_id)->toArray();
         $user = User::firstOrCreate(['user_id' => $user_old['id']], $user_old);
-        Auth::login($user);
+        \auth()->login($user);
+        return redirect()->route('company.companies');
+
     }
+
 }

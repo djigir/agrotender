@@ -70,6 +70,9 @@ class TradersProducts extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('tradersProductLang.name', 'Название')
+                ->setOrderable(function ($query, $direction){
+                    $query->OrderBy('group_id', $direction);
+                })
                 ->setWidth('350px')
                 ->setHtmlAttribute('class', 'text-center'),
 
@@ -82,8 +85,7 @@ class TradersProducts extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
             AdminColumnFilter::select()

@@ -79,7 +79,9 @@ class CompItems extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        /* get type page */
+        /* get type company */
+
+        /* start traders */
         $type = \request()->get('type');
 
         if($type == 'traders'){
@@ -180,6 +182,174 @@ class CompItems extends Section implements Initializable
 
             $display = AdminDisplay::datatables()
                 ->setApply(function ($query){
+                    $query->where('trader_price_avail', 1);
+                })
+                ->setName('firstdatatables')
+                ->setOrder([[0, 'desc']])
+                ->setDisplaySearch(false)
+                ->paginate(25)
+                ->setColumns($columns)
+                ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+
+            $display->setColumnFilters([
+                AdminColumnFilter::select()
+                    ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('name')
+                    ->setColumnName('obl_id')
+                    ->setPlaceholder('Все Области'),
+
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('compTopicItem.topic_id')
+//                ->setPlaceholder('Все секции'),
+
+                AdminColumnFilter::select()
+                    ->setOptions($rubrik_select)
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('title')
+                    ->setColumnName('compTopicItem.topic_id')
+                    ->setPlaceholder('Все секции'),
+
+
+                \AdminColumnFilter::select()
+                    ->setOptions([
+                        self::TRADER_BUYER => 'Трейдер (закуп.)',
+                        self::TRADER_SELL => 'Трейдер (продажи.)',
+                    ])
+                    ->setPlaceholder('Все компании')->setCallback(function( $value,$query,$v) {
+                        $request = \request()->get('columns')[2]['search']['value'];
+
+                        if ($request == 100){
+                            $query->where('trader_price_sell_avail', 1);
+                        }
+                        if ($request == 200){
+                            $query->where('trader_price_avail', 1);
+                        }
+                    }),
+
+                AdminColumnFilter::text()
+                    ->setColumnName('title')
+                    ->setOperator('contains')
+                    ->setPlaceholder('По названию компании'),
+
+                AdminColumnFilter::text()
+                    ->setColumnName('torgBuyer.login')
+                    ->setPlaceholder('Фильтровать по E-mail'),
+
+                AdminColumnFilter::text()
+                    ->setColumnName('phone')
+                    ->setHtmlAttribute('class', 'phone_search')
+                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+                    ->setPlaceholder('по Тел.'),
+
+                AdminColumnFilter::text()
+                    ->setHtmlAttribute('class', 'author_search')
+                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+                    ->setColumnName('torgBuyer.name')
+                    ->setOperator('contains')
+                    ->setPlaceholder('по Автору'),
+
+                AdminColumnFilter::text()
+                    ->setHtmlAttribute('class', 'ID_search')
+                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
+                    ->setColumnName('id')
+                    ->setPlaceholder('по ID'),
+
+            ]);
+
+
+            $display->getColumnFilters()->setPlacement('card.heading');
+
+            return $display;
+        }
+        /* end traders */
+
+
+        /* start active traders */
+        $type = \request()->get('type');
+
+        if($type == 'active_traders'){
+
+            $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
+            $rubriks_gr = CompTgroups::all();
+
+            $rubrik_select = [];
+            /** @var CompTgroups $rubrik_gr */
+            foreach ($rubriks_gr as $rubrik_gr) {
+                /** @var \App\Models\Comp\CompTopic $rubrik */
+                foreach ($rubriks as $rubrik) {
+                    if ($rubrik->menu_group_id !== $rubrik_gr->id) {
+                        continue;
+                    }
+                    $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
+                }
+            }
+
+            $columns = [
+
+                AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
+                    return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
+                })->setWidth('100px')
+                    ->setHtmlAttribute('class', 'text-center')
+                    ->setOrderable('id'),
+
+
+                AdminColumn::image('logo_file', 'Лого'),
+
+                AdminColumn::link('title', 'Название')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
+                    $table = 'Да';
+                    $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
+                    $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none;" : $issetLink = '';
+                    return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}'>Посмотреть</a>";
+                })->setWidth('126px')
+                    ->setHtmlAttribute('class', 'text-center')
+                    ->setOrderable('id'),
+
+                AdminColumn::custom('Тбл.Скрыта', function(\Illuminate\Database\Eloquent\Model $model) {
+                    $table = 'Да';
+                    $style = 'color:green';
+
+                    $model->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
+                    $table == 'Нет' ? $style = 'color:green' : $style = 'color:red';
+
+                    return "<div class='row-text text-center' style='{$style}'>
+                                {$table}
+                            </div>";
+                })->setHtmlAttribute('class', 'text-center'),
+
+
+//                AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
+//                    $author_id = 0;
+//                    if ($model['tradersPrices']){
+//                        $author_id = $model['tradersPrices'][0]['buyer_id'];
+//                    }
+////                    dump($author_id);
+//                    $last_update = \DB::table('traders_prices')->where('buyer_id', $author_id)->max('dt');
+//                    return $last_update;
+//                })->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::text('rate', 'Дн. назад')
+                    ->setWidth('110px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+            ];
+
+
+            $display = AdminDisplay::datatables()
+                ->setApply(function ($query){
                     $query->where('trader_price_avail',1);
                 })
                 ->setName('firstdatatables')
@@ -270,6 +440,10 @@ class CompItems extends Section implements Initializable
 
             return $display;
         }
+
+        /* end active traders */
+
+
 
 //        $c = \App\Models\Comp\CompItems::with('advTorgPosts')->find(6618);
 //        dd($c['advTorgPosts']->where('type_id', 2));
@@ -374,8 +548,7 @@ class CompItems extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-           ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
 
         $display->setColumnFilters([

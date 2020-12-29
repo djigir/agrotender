@@ -390,4 +390,9 @@ class CompItems extends Model
     {
         return $this->hasMany(AdvTorgPost::class, 'author_id', 'author_id');
     }
+
+    public function tradersPrices()
+    {
+        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
+    }
 }

@@ -71,7 +71,12 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::boolean('smschecked', 'Телефон'),
 
-            AdminColumn::text('', 'Баланс')
+            AdminColumn::custom('Баланс', function (\Illuminate\Database\Eloquent\Model $model) {
+                $balance = 0;
+                return "<div class='row-text'>
+                         {$balance}
+                    </div>";
+            })
                 ->setHtmlAttribute('class', 'text-center'),
 
 
@@ -89,7 +94,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
-                        <a class='comp_items_adverts' href='#' id='{$model->getKey()}'>{$model['buyerPacksOrders']->count()}</a>
+                        <a class='comp_items_adverts' href='#' user_id='{$model->getKey()}'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
             })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 
@@ -114,7 +119,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::custom('Действие', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
-                        <a href='' class='btn btn-success small'>Войти</a>
+                        <a href=".route('admin.login_as_user', ['user_id' => $model->id])." class='btn btn-success small'>Войти</a>
                     </div>";
             })->setHtmlAttribute('class', 'text-center'),
 
@@ -171,10 +176,8 @@ class TorgBuyer extends Section implements Initializable
                 $to = substr(strrchr($request, ':'), 1);
 
 
-
             })->setHtmlAttribute('class', 'count-adverts-filter')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
-
 
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
