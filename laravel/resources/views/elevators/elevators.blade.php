@@ -11,7 +11,7 @@
             <div class="row mb-0 mb-sm-5 mx-0">
                 @foreach($elevator as $index_ele => $elev)
                     @if(isset($elev->region[0]))
-                        <div class="col-12 col-sm-6 {{$index_ele % 2 == 0 ? 'pr-0 pr-sm-3' : ''}}">
+                        <div class="col-12 col-sm-6 {{$index_ele % 2 == 0 ? 'pr-0 pr-sm-3' : ''}} mb-3 mb-sm-0">
                             <a href="{{route('elev.elevator', $elev->elev_url)}}" class="row d-flex content-block p-2 {{$index_ele % 2 == 0 ? 'mr-0 mr-sm-4' : ''}}">
                                 <div class="col-auto px-2 d-none d-sm-block">
                                     <img src="/app/assets/img/silo.svg" alt="" class="icon">

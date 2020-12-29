@@ -7357,6 +7357,7 @@ table.proposedTable tr.not-viewed td {
 
   align-items: center;
 }
+
 .openFilter img {
   margin-right: 8px;
   height: 10px;
@@ -7381,6 +7382,10 @@ table.proposedTable tr.not-viewed td {
   line-height: 100%;
   letter-spacing: 0.02em;
   color: #001430;
+}
+
+.openFilter.elevators_filter span {
+  margin: 0 auto;
 }
 
 .openFilter.companyFind img{

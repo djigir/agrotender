@@ -11,7 +11,7 @@ if($regions->count() > 0){
 </div>
 
 <div class="bg_filters"></div>
-<button class="openFilter companyFind">
+<button class="openFilter companyFind elevators_filter">
     <span>{{$region_name ? $region_name : 'Выбрать область'}}</span>
     <img src="https://agrotender.com.ua/app/assets/img/search_icon.svg" alt="">
 </button>

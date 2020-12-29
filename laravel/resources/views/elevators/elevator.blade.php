@@ -1,7 +1,7 @@
 @extends('layout.layout')
 
 @section('content')
-    <div class="container elevItem pt-3 mb-5">
+    <div class="new_container elevItem pt-3 mb-5">
         <ul class="breadcrumbs small p-0">
             <li><a href="/"><span>Агротендер</span></a></li>
             <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -28,15 +28,15 @@
                 @endif
             @endforeach
         </ul>
-        <div class="row mx-0 d-flex pt-2 pt-sm-5">
+        <div class="row mx-0 d-flex">
             <div class="col-auto pl-1">
-                <img src="/app/assets/img/granary-4.png" class="logo">
+                <img src="/app/assets/img/silo.svg" class="logo">
             </div>
             <div class="col pl-1 text-left d-flex align-items-center">
                 <span class="title">{!! $elevator->lang_elevator[0]['orgname'] !!}</span>
             </div>
         </div>
-        <div class="content-block w-100 mt-3 mt-sm-5 py-2">
+        <div class="content-block w-100 mt-3 py-2">
             <div class="row m-0 py-1 p-sm-3">
                 <div class="col-12 col-sm-5 text-sm-right">
                     <b>Адрес:</b>
