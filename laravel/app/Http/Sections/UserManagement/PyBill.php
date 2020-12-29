@@ -256,7 +256,7 @@ class PyBill extends Section implements Initializable
                         1 => 'Нужен',
                         2 => 'Загружен',
                     ])->setDefaultValue($this->model_value['aktstatus']),
-                AdminFormElement::select('payer_addr_id', 'Сменить адрес')->setOptions($addresses)->setDefaultValue($addresses[$this->model_value['payer_addr_id']]),
+                AdminFormElement::select('payer_addr_id', 'Сменить адрес')->setOptions($addresses)->setDefaultValue(isset($addresses[$this->model_value['payer_addr_id']]) ? $addresses[$this->model_value['payer_addr_id']] : ''),
                 AdminFormElement::select('payer_ooo_id', 'Задать Плательщика')->setOptions($getPyBillFirm->toArray()),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([

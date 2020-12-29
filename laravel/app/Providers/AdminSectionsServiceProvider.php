@@ -14,7 +14,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
 //        \App\Models\Users\User::class => 'App\Http\Sections\Users\Users',
 
             /* Быстрый Доступ  Fast access */
-//        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
+        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
         \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
         \App\Models\ADV\AdvTorgPost::class => 'App\Http\Sections\FastAccess\AdvTorgPost',
 
@@ -23,7 +23,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
 
 
             /* Управление пользователями user management */
-//        \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
+        \App\Models\Users\Users::class => 'App\Http\Sections\UsersAdmin',
         \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyer',
         \App\Models\Py\PyBalance::class => 'App\Http\Sections\UserManagement\PyBalance',
         \App\Models\Py\PyBill::class => 'App\Http\Sections\UserManagement\PyBill',
@@ -36,8 +36,8 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\News\NewsComment::class => 'App\Http\Sections\News\AgtNewsComment',
 
             /* Доска объявлений  board */
-//        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Board\AdvSearch',
-//        \App\Models\ADV\AdvTorgTgroups::class => 'App\Http\Sections\Board\AdvTorgTgroups',
+        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Board\AdvSearch',
+        \App\Models\ADV\AdvTorgTgroups::class => 'App\Http\Sections\Board\AdvTorgTgroups',
         \App\Models\ADV\AdvTorgPostComplains::class => 'App\Http\Sections\Board\AdvTorgPostComplains',
 
         \App\Models\ADV\AdvWordTopic::class => 'App\Http\Sections\Board\AdvWordTopic',
@@ -46,7 +46,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
         \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
         \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
-//        \App\Models\Comp\CompTgroups::class => 'App\Http\Sections\Companies\CompTgroups',
+        \App\Models\Comp\CompTgroups::class => 'App\Http\Sections\Companies\CompTgroups',
 
 
 
