@@ -209,6 +209,7 @@ class PyBill extends Section implements Initializable
             "Тернопольская область", "Харьковская область", "Херсонская область",
             "Хмельницкая область", "Черкасская область", "Черниговская область", "Черновицкая область"
         ];
+        $value = null;
         $orgtype = $this->model_value['orgtype'] == 1 ? 'Юр. лицо' : 'Физ. лицо';
         $paymeth_type = self::STATUS;
         $status = self::PAYMENTH_TYPE;
