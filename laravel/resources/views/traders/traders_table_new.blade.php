@@ -122,7 +122,7 @@
                                     $month = mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('Y'), MB_CASE_TITLE, "UTF-8");
                                 }
                             ?>
-                            <span class="hidden_date">{{Carbon\Carbon::parse($trader->change_date)->format('Y-m-d')}}</span>
+                            <span class="hidden_date">{{Carbon\Carbon::parse($trader->change_date)->format('Y-m-d-H-i-s')}}</span>
                             @if($type_traders == 0)
                                 <span class="desktop-table-month {{$class}}">{{$day}} {{$month}}</span>
                                 <span class="tablet-table-month {{$class}}">{{$day}} {{\Illuminate\Support\Str::limit($month, 3, $end='')}}</span>
