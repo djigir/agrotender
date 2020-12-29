@@ -7,7 +7,7 @@
         @include('mobile.filters.mobile-filter-companies', ['regions' => $regions, 'rubricGroups' => $rubricGroups])
     @endif
     @if ($region_id || $rubric_id)
-    <div class="d-sm-none container pt-4">
+    <div class="d-sm-none container">
         @if($region_id)
             <div>
                 <span class="searchTag regionTag d-inline-block">{{$region_name}}

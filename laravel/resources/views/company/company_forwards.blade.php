@@ -24,7 +24,7 @@
         @endif
     </div> -->
     @endif
-    <div class="container mt-4 mb-5">
+    <div class="new_container mt-4 mb-5">
         @if($prices_port->count() != 0)
             <div class="ports-tabs table-tabs mt-3">
                 <a href="#" currency="1" class="active">Закупки USD</a>

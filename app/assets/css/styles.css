@@ -1010,6 +1010,13 @@ body[data-page="main/home"] .swiper-slide {
   font-weight: 600;
 }
 
+@media screen and (max-width: 768px) {
+  .companyItem .title a,
+  .companyItem .title span {
+    font-size: 16px;
+  }
+}
+
 .companyItem .desc {
   font-size: 13px;
   word-break: break-word;
@@ -5839,7 +5846,8 @@ table.proposedTable tr.not-viewed td {
     margin-bottom: 20px;
   }
   .new_traders.vip .traders__item-wrap {
-    margin: 0 7.5px;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
   }
 }
 @media screen and (max-width: 768px) {
@@ -6927,9 +6935,8 @@ table.proposedTable tr.not-viewed td {
   z-index: 11;
 }
 
-.new_filters_btn.active {
-  /* font-weight: 600;
-  color: #104D9D; */
+.new_filters_btn#cultures_btn {
+  width: 280px;
 }
 
 .new_filters_btn.active:after {
@@ -7435,7 +7442,7 @@ table.proposedTable tr.not-viewed td {
 
 
 .open_company_menu {
-  display: none;
+  display: block;
   position: fixed;
   z-index: 99;
   bottom: 20px;
@@ -7552,13 +7559,6 @@ table.proposedTable tr.not-viewed td {
   margin-left: 12px;
   margin-right: 12px;
 }
-
-@media screen and (max-width: 480px) {
-  .open_company_menu {
-    display: block;
-  }
-}
-
 
 
 
@@ -7955,7 +7955,7 @@ table.sortTable th.table_haeder_th_cell {
   }
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 768px) {
   .company-bg {
     padding-top: 10px;
   }

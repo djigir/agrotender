@@ -7,7 +7,7 @@
         @include('company.company-header', ['id' => $id])
     @endif
 
-    <div class="container company mt-4 mb-5">
+    <div class="new_container company mt-4 mb-5">
         <div class="row">
             <div class="position-relative w-100">
                 <div class="col-12 col-md-3 float-md-right text-center text-md-right">
