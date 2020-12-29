@@ -8,7 +8,7 @@
     @else
         @include('company.company-header', ['id' => $id])
     @endif
-    <div class="container">
+    <div class="new_container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
             <div class="col-4 d-block">
                 <h2 class="d-inline-block text-uppercase">Отзывы</h2>
@@ -22,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div class="container mb-5">
+    <div class="new_container mb-5">
     @forelse($reviews_with_comp as $review)
         <div class="content-block mt-4 review pt-3 mx-0 mx-sm-5">
             <div class="row comment-row px-3" review-id="{{ $review['id'] }}">

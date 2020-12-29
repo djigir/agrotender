@@ -22,11 +22,13 @@
         @if(!$region_place->isEmpty() && !$region_price->isEmpty())
            @include('company.tables.company-region-table')
         @endif
+    </div>
+    
+    @if(!$traders_contacts->isEmpty())
+        @include('company.company_cont_traders', ['traders_contacts' => $traders_contacts])
+    @endif
 
-        @if(!$traders_contacts->isEmpty())
-            @include('company.company_cont_traders', ['traders_contacts' => $traders_contacts])
-        @endif
-
+    <div class="new_container">
         <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
             {!! strip_tags($company->content) !!}
