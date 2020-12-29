@@ -465,7 +465,6 @@ class CompanyService
         if(!$region_id){
             foreach ($rubrics as $index => $rubric) {
                 $rubric = $rubric[0];
-                //$rubric = reset($rubric);
                 foreach ($rubric['comp_topic'] as $index2 => &$topic) {
                     if (!isset($topic_counts[$topic['id']])) {
 //                        continue;

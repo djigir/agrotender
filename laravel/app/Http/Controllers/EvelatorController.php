@@ -48,8 +48,6 @@ class EvelatorController extends Controller
         $regions = $this->baseServices->getRegions();
         $region_name = $this->regionName($data->get('region'));
         $region_name = $region_name != null ? $region_name : 'Выбрать область';
-
-
         $region = null;
         $elevators = TorgElevator::with('region', 'lang_rayon',  'lang_elevator');
 

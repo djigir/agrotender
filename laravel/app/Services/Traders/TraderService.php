@@ -138,6 +138,12 @@ class TraderService
     }
 
 
+    public function setRegions($regions, $rubric = null)
+    {
+
+    }
+
+
     public function setRubrics($criteria_places, $acttype)
     {
         $forward_months = $this->baseService->getForwardsMonths();

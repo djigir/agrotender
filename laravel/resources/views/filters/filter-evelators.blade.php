@@ -42,15 +42,28 @@ if($regions->count() > 0 && !$isMobile){
         <div class="new_filters_dropdown_column content">
             <div class="new_filters_dropdown_column_tab js_content active without_first_column">
                 @foreach($regions->chunk(7) as $index_chunk => $chunk)
-                <div class="new_filters_dropdown_column_item">
-                    <ul>
-                        @foreach($chunk as $index_region => $region)
-                            <li>
-                                <a href="{{$region['translit'] != 'ukraine' ? route('elev.region', $region['translit']) : route('elev.elevators')}}" class="companies_link_category">{{$region['name']}}</a>
-                            </li>
-                        @endforeach
-                    </ul>
-                </div>
+                    <div class="new_filters_dropdown_column_item">
+                        <ul>
+                            @foreach($chunk as $index_region => $region)
+                                <?php
+                                    $class = '';
+                                    $class_ukraine = '';
+
+                                    if($region_translit == $region['translit'] ){
+                                        $class = 'selected_in_filter';
+                                    }
+
+                                    if($region['translit'] == 'ukraine' && $region_translit == null){
+                                        $class_ukraine = 'selected_in_filter';
+                                    }
+                                ?>
+                                <li>
+                                    <a href="{{$region['translit'] != 'ukraine' ? route('elev.region', $region['translit']) : route('elev.elevators')}}"
+                                       class="companies_link_category {{$class}} {{$class_ukraine}}">{{$region['name']}}</a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endforeach
             </div>
         </div>

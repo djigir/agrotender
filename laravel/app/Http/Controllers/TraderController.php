@@ -104,6 +104,7 @@ class TraderController extends Controller
 
         $forward_months = $this->baseServices->getForwardsMonths();
         $regions = $this->baseServices->getRegions();
+
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
         $criteria_seo = [];
@@ -115,6 +116,7 @@ class TraderController extends Controller
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
         $id_region = null;
+        $culture_id = null;
 
         if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
@@ -150,7 +152,7 @@ class TraderController extends Controller
         $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
             : $this->getNamePortRegion(null, $data->get('port'))['port'];
 
-        $culture_id = null;
+
 
         if (!empty($culture))
         {
@@ -191,7 +193,7 @@ class TraderController extends Controller
         $rubrics = $this->traderService->getRubricsGroup();
 
         $group_id = !empty($culture) ? self::GROUP_ID[$culture->group_id] : null;
-
+        //dd($regions = $this->companyService->setRegions($this->baseServices->getRegions(), $culture_id)->toArray());
         return view('traders.traders', [
             'regions' => $regions,
             'region' => $data->get('region'),

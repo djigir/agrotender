@@ -114,6 +114,7 @@ class CompanyController extends Controller
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
             'region_id' => $region_id,
+            'region_translit' => $data->get('region'),
             'query' => $data->get('query'),
             'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),

@@ -15,11 +15,11 @@
             ?>
             <div class="content_title">{!! $company['title'] !!}</div>
             <div class="content_subtitle">{{$TEXT[$current_page]}}</div>
-{{--            <div class="new_company_actual_date new_company_actual_date-tablet">Актуальная цена на <b>{{$updateDate}}</b></div>--}}
             <div class="content_list">
                 <a href="{{route('company.index', $id)}}" class="{{$current_page == 'main' ? 'active' : ''}}">Цены трейдера</a>
                 <a href="{{route('company.cont', $id)}}" class="{{$current_page == 'contact' ? 'active' : ''}}">Контакты</a>
                 <a href="{{route('company.reviews', $id)}}" class="{{$current_page == 'reviews' ? 'active' : ''}}">Отзывы</a>
+
                 @if($check_forwards)
                     <a href="{{route('company.forwards', $id)}}" class="{{$current_page == 'forwards' ? 'active' : ''}}">Форварды</a>
                 @endif

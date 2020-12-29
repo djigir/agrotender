@@ -77,7 +77,7 @@
         @endif
 
         @if($type_view == 'table')
-            @include('traders.traders_table', ['type_traders' => $type_traders])
+            @include('traders.traders_table_new', ['type_traders' => $type_traders])
         @else
            @include('traders.traders_vip', ['topTraders' => $traders->where('trader_premium', '=', 2)])
            @include('traders.traders_others', ['traders' => $traders->where('trader_premium', '!=', 2)])
