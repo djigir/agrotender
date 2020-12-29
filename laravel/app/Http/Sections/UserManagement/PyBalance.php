@@ -58,9 +58,9 @@ class PyBalance extends Section implements Initializable
     {
 //        {$model['pyBill']['torgBuyer']['login']}
         $columns = [
-            AdminColumn::datetime('add_date', 'Дата')->setFormat('Y-m-d H:i:s'),
-            AdminColumn::text('torgBuyer.login', 'Логин'),
-            AdminColumn::text('torgBuyer.name', 'Пользователь'),
+            AdminColumn::datetime('add_date', 'Дата')->setFormat('Y-m-d H:i:s')->setOrderable(false),
+            AdminColumn::text('torgBuyer.login', 'Логин')->setOrderable(false),
+            AdminColumn::text('torgBuyer.name', 'Пользователь')->setOrderable(false),
             AdminColumn::custom('Кто провел', function (\Illuminate\Database\Eloquent\Model $model) {
                 $spent = $model->oper_by == 1 ? 'Админ' : 'Польз.';
 
@@ -93,7 +93,7 @@ class PyBalance extends Section implements Initializable
                 return "<div class='row-text'>{$appointment}</div>";
             }),
 
-            AdminColumn::text('amount', 'Сумма')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('amount', 'Сумма')->setWidth('70px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
             AdminColumn::custom('Счет', function (\Illuminate\Database\Eloquent\Model $model) {
                 $score = $model->bill_id != 0 ? $model->bill_id : ' - ';

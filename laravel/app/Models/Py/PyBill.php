@@ -40,4 +40,8 @@ class PyBill extends Model
         return $this->hasOne(PyBillDoc::class, 'bill_id', 'id');
     }
 
+    public function pyBillAddr()
+    {
+        return $this->hasOne(PyBillAddr::class, 'id', 'payer_addr_id');
+    }
 }
