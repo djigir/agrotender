@@ -1,5 +1,5 @@
 @if($traders->count() > 0)
-    <div class="new_container traders_table_title_css">
+    <div class="new_container">
             @if($type_traders == 0)
                 <div class="new_page_title">ВСЕ ЗЕРНОТРЕЙДЕРЫ</div>
             @else
