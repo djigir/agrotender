@@ -29,22 +29,41 @@ return [
     ],
 
     [
+        'title' => 'Быстрый доступ',
+        'icon' => 'fas fa-tachometer-alt',
+
+        'pages' => [
+            [
+                'title' => 'Активные Трейдеры',
+                'icon'  => 'fas fa-building',
+                'url'   => '/admin_dev/comp_items?type=active_traders',
+            ],
+
+            [
+                'title' => 'Трейдеры',
+                'icon'  => 'far fa-building',
+                'url'   => '/admin_dev/comp_items?type=traders',
+
+            ],
+
+            [
+                (new Page(\App\Models\Comp\CompItems::class))
+                ->setIcon('fas fa-users')
+                ->setUrl('admin_dev/comp_items'),
+            ]
+
+        ]
+    ],
+
+    [
         'title' => 'Information',
         'icon'  => 'fas fa-info-circle',
         'url'   => route('admin.information'),
     ],
 
-    [
-        'title' => 'Трейдеры',
-        'icon'  => 'far fa-building',
-        'url'   => '/admin_dev/comp_items?type=traders',
-    ],
 
-    [
-        'title' => 'Активные Трейдеры',
-        'icon'  => 'fas fa-building',
-        'url'   => '/admin_dev/comp_items?type=active_traders',
-    ],
+
+
 
     // Examples
     // [

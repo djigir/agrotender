@@ -81,7 +81,7 @@ class CompItems extends Section implements Initializable
     {
         /* get type company */
 
-        /* start traders */
+        /* START TRADERS */
         $type = \request()->get('type');
 
         if($type == 'traders'){
@@ -202,15 +202,6 @@ class CompItems extends Section implements Initializable
                     ->setColumnName('obl_id')
                     ->setPlaceholder('Все Области'),
 
-//            AdminColumnFilter::select()
-//                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
-//                ->setPlaceholder('Все секции'),
-
                 AdminColumnFilter::select()
                     ->setOptions($rubrik_select)
                     ->setLoadOptionsQueryPreparer(function($element, $query) {
@@ -272,10 +263,10 @@ class CompItems extends Section implements Initializable
 
             return $display;
         }
-        /* end traders */
+        /* END TRADERS */
 
 
-        /* start active traders */
+        /* START ACTIVE TRADERS */
         $type = \request()->get('type');
 
         if($type == 'active_traders'){
@@ -313,12 +304,10 @@ class CompItems extends Section implements Initializable
                     $table = 'Да';
                     $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
                     $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none;" : $issetLink = '';
-                    return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}'>Посмотреть</a>";
-                })->setWidth('126px')
-                    ->setHtmlAttribute('class', 'text-center')
-                    ->setOrderable('id'),
+                    return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}' target='_blank'>Посмотреть</a>";
+                })->setHtmlAttribute('class', 'text-center'),
 
-                AdminColumn::custom('Тбл.Скрыта', function(\Illuminate\Database\Eloquent\Model $model) {
+                AdminColumn::custom('Таблица Скрыта', function(\Illuminate\Database\Eloquent\Model $model) {
                     $table = 'Да';
                     $style = 'color:green';
 
@@ -331,22 +320,19 @@ class CompItems extends Section implements Initializable
                 })->setHtmlAttribute('class', 'text-center'),
 
 
-//                AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
-//                    $author_id = 0;
-//                    if ($model['tradersPrices']){
-//                        $author_id = $model['tradersPrices'][0]['buyer_id'];
-//                    }
-////                    dump($author_id);
-//                    $last_update = \DB::table('traders_prices')->where('buyer_id', $author_id)->max('dt');
-//                    return $last_update;
-//                })->setHtmlAttribute('class', 'text-center'),
+                AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
+                    $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
+                    return $last_update;
+                })->setHtmlAttribute('class', 'text-center'),
 
-                AdminColumn::text('rate', 'Дн. назад')
-                    ->setWidth('110px')
-                    ->setHtmlAttribute('class', 'text-center'),
+                AdminColumn::custom('Дней назад', function (\Illuminate\Database\Eloquent\Model $model) {
+                    $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
+                    $d = Carbon::parse($last_update);
+                    $now = Carbon::now();
+                    return $d->diffInDays($now);
+                })->setHtmlAttribute('class', 'text-center'),
 
             ];
-
 
             $display = AdminDisplay::datatables()
                 ->setApply(function ($query){
@@ -370,83 +356,29 @@ class CompItems extends Section implements Initializable
                     ->setColumnName('obl_id')
                     ->setPlaceholder('Все Области'),
 
-//            AdminColumnFilter::select()
-//                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
-//                ->setPlaceholder('Все секции'),
-
-                AdminColumnFilter::select()
-                    ->setOptions($rubrik_select)
-                    ->setLoadOptionsQueryPreparer(function($element, $query) {
-                        return $query;
-                    })
-                    ->setDisplay('title')
-                    ->setColumnName('compTopicItem.topic_id')
-                    ->setPlaceholder('Все секции'),
-
-
-                \AdminColumnFilter::select()
-                    ->setOptions([
-                        self::TRADER_BUYER => 'Трейдер (закуп.)',
-                        self::TRADER_SELL => 'Трейдер (продажи.)',
-                    ])
-                    ->setPlaceholder('Все компании')->setCallback(function( $value,$query,$v) {
-                        $request = \request()->get('columns')[2]['search']['value'];
-
-                        if ($request == 100){
-                            $query->where('trader_price_sell_avail', 1);
-                        }
-                        if ($request == 200){
-                            $query->where('trader_price_avail', 1);
-                        }
-                    }),
 
                 AdminColumnFilter::text()
                     ->setColumnName('title')
                     ->setOperator('contains')
                     ->setPlaceholder('По названию компании'),
 
-                AdminColumnFilter::text()
-                    ->setColumnName('torgBuyer.login')
-                    ->setPlaceholder('Фильтровать по E-mail'),
-
-                AdminColumnFilter::text()
-                    ->setColumnName('phone')
-                    ->setHtmlAttribute('class', 'phone_search')
-                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                    ->setPlaceholder('по Тел.'),
-
-                AdminColumnFilter::text()
-                    ->setHtmlAttribute('class', 'author_search')
-                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                    ->setColumnName('torgBuyer.name')
-                    ->setOperator('contains')
-                    ->setPlaceholder('по Автору'),
 
                 AdminColumnFilter::text()
                     ->setHtmlAttribute('class', 'ID_search')
-                    ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                     ->setColumnName('id')
                     ->setPlaceholder('по ID'),
 
             ]);
 
-
             $display->getColumnFilters()->setPlacement('card.heading');
 
             return $display;
         }
-
-        /* end active traders */
-
+        /* END ACTIVE TRADERS */
 
 
-//        $c = \App\Models\Comp\CompItems::with('advTorgPosts')->find(6618);
-//        dd($c['advTorgPosts']->where('type_id', 2));
+
+        /* COMPANY EDIT */
 
         $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
         $rubriks_gr = CompTgroups::all();
@@ -628,14 +560,6 @@ class CompItems extends Section implements Initializable
 
 
         $display->getColumnFilters()->setPlacement('card.heading');
-
-//        $control = $display->getColumns()->getControlColumn();
-//
-//        $link = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
-////            return route('company.index', $model->getKey()); // Генерация ссылки
-//        }, 'Посмореть', 50);
-//
-//        $control->addButton($link);
 
         return $display;
 
