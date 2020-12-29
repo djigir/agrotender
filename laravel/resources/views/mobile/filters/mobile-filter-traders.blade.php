@@ -28,19 +28,17 @@ if($regions->count() > 0){
                 <a href="{{route('traders.region', 'ukraine')}}">Сбросить</a>
             </div>
             <div class="screens">
-                <form action="">
-                    <div class="first active">
-                        <div class="mobile_filter-content">
-                            <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="hidden">
-                            <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="hidden">
-                            <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="hidden">
-                            <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
-                            <div class="mobile_filter-content-item withmargin" id="region" data-region="">{{$region_port_name}}</div>
-                        </div>
+                <form action="" class="first active">
+                    <div class="mobile_filter-content">
+                        <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="hidden">
+                        <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="hidden">
+                        <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="hidden">
+                        <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="region" data-region="">{{$region_port_name}}</div>
+                    </div>
 
-                        <div class="mobile-filter-footer">
-                            <button type="submit">Применить</button>
-                        </div>
+                    <div class="mobile-filter-footer">
+                        <button type="submit">Применить</button>
                     </div>
                 </form>
 

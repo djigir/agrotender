@@ -4559,10 +4559,7 @@ table.proposedTable tr.not-viewed td {
   .setVisible[visible="1"] {
     color: #11c694;
   }
-  table.sortTable tr:not(.t2,.t-sub):nth-child(2n) td {
-    background: #f0f5fb!important;
-  }
-  
+
   .diffPrice {display: none;}
   .subscribe-block {
         padding: .5rem 2rem;
@@ -4746,7 +4743,7 @@ table.proposedTable tr.not-viewed td {
   }
 
   .elev .content-block {
-    border-radius: 0;
+    /* border-radius: 0; */
   }
 
   .companyItem {
@@ -5702,7 +5699,7 @@ table.proposedTable tr.not-viewed td {
 
 @media screen and (max-width: 480px) {
   .new_traders .traders__item:hover {
-    transform: scale(1)
+    transform: scale(1);
   }
 }
 
@@ -5868,6 +5865,9 @@ table.proposedTable tr.not-viewed td {
 @media screen and (max-width: 480px) {
   .new_traders.vip .traders__item {
     height: 120px;
+  }
+  .new_traders .traders__item {
+    transition: none;
   }
   .new_traders .traders__item-wrap  {
     width: 100%;    
@@ -7108,6 +7108,7 @@ table.proposedTable tr.not-viewed td {
   bottom: 0;
   right: 0;
   left: 0;
+  top: 80px;
   transform: translateY(100%)
 }
 .mobile_filter .posrel {
@@ -7191,7 +7192,7 @@ table.proposedTable tr.not-viewed td {
   background: #E5EEF9;
 }
 .mobile-filter-footer {
-  margin-top: -62px;
+  /* margin-top: -62px; */
   padding-left: 12px;
   padding-right: 12px;
 }
@@ -7223,7 +7224,7 @@ table.proposedTable tr.not-viewed td {
   color: #001430;
 }
 .mobile_filter-content {
-  height: 100%;
+  height: calc(100% - 130px);
   background-color: #EFF1F5;
   padding-top: 12px;
 }
@@ -7267,6 +7268,7 @@ table.proposedTable tr.not-viewed td {
   content: none;
 }
 .screens {
+  height: 100%;
   overflow: auto;
   background-color: #EFF1F5;
 }
@@ -7276,6 +7278,7 @@ table.proposedTable tr.not-viewed td {
 {
   display: none;
 }
+
 .screens .first.active,
 .screens .second.active,
 .screens .third.active {
@@ -7284,14 +7287,14 @@ table.proposedTable tr.not-viewed td {
   overflow: auto;
 }
 .screens .first.active {
-  height: calc(60vh);
+  height: 100%;
 }
 .screens .second.active,
 .screens .third.active {
   /* 70 - высота шапки фильтра */
   /* 70 - отступ */
   /* 70 - кнопочки снизу  */
-  height: calc(100vh - 210px);
+  height: 100%;
 }
 .screens .second {
   background-color: #fff;
