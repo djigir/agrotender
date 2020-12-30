@@ -94,13 +94,13 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
-                        <a class='comp_items_adverts' href='#' user_id='{$model->getKey()}'>{$model['buyerPacksOrders']->count()}</a>
+                        <a class='comp_items_adverts' href='#' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
             })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Объявл.', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
-                        <a class='comp_items_adverts' href='{$model->TorgBuyerAdverts()}?TorgBuyerAdverts[author_id]={$model->id}'>{$model['advTorgPost']->count()}</a>
+                        <a class='comp_items_adverts' href='{$model->TorgBuyerAdverts()}?TorgBuyerAdverts[author_id]={$model->id}' target='_blank'>{$model['advTorgPost']->count()}</a>
                     </div>";
 
             })->setOrderable(function($query, $direction) {
@@ -113,7 +113,7 @@ class TorgBuyer extends Section implements Initializable
                     $ban = $model['torgBuyerBan']->where('user_id', $model->getKey())->count();
                 }
                 return "<div class='row-text'>
-                        <a href='#'>{$ban}</a>
+                        <a href='{$model->TorgBuyerBanRoute()}?GetBanedUser[user_id]={$model->id}' target='_blank'>{$ban}</a>
                     </div>";
             })->setHtmlAttribute('class', 'text-center'),
 
@@ -156,6 +156,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumnFilter::text()
                 ->setColumnName('name')
+                ->setOperator('contains')
                 ->setPlaceholder('по Имени'),
 
             AdminColumnFilter::text()

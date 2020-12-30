@@ -27,6 +27,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Torg\TorgBuyer::class => 'App\Http\Sections\UserManagement\TorgBuyer',
         \App\Models\Py\PyBalance::class => 'App\Http\Sections\UserManagement\PyBalance',
         \App\Models\Py\PyBill::class => 'App\Http\Sections\UserManagement\PyBill',
+        \App\Models\Torg\TorgBuyerBan::class => 'App\Http\Sections\UserManagement\TorgBuyerBan',
 
             /* Быстрый доступ */
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
@@ -47,6 +48,8 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
         \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
         \App\Models\Comp\CompTgroups::class => 'App\Http\Sections\Companies\CompTgroups',
+        \App\Models\Comp\CompComment::class => 'App\Http\Sections\Companies\CompComment',
+        \App\Models\Comp\CompCommentComplains::class => 'App\Http\Sections\Companies\CompCommentComplains',
 
 
 

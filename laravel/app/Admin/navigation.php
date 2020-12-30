@@ -119,6 +119,16 @@ return [
                 ->setIcon('fas fa-briefcase')
                 ->setPriority(0),
 
+            (new Page(\App\Models\Comp\CompComment::class))
+                ->setIcon('fas fa-comments')
+                ->setPriority(0),
+
+            (new Page(\App\Models\Comp\CompCommentComplains::class))
+                ->setIcon('fas fa-ban')
+                ->setPriority(0),
+
+
+
         ]
     ],
 
@@ -183,6 +193,10 @@ return [
 
             (new Page(     \App\Models\Users\Users::class))
                 ->setIcon('fas fa-user-tie')
+                ->setPriority(0),
+
+            (new Page(\App\Models\Torg\TorgBuyerBan::class))
+                ->setIcon('fas fa-ban')
                 ->setPriority(0),
 
         ]

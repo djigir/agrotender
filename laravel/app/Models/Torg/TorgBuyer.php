@@ -45,6 +45,13 @@ class TorgBuyer extends Model
         return route('admin.model', $model_name);
     }
 
+    public function TorgBuyerBanRoute()
+    {
+        $model_name = 'torg_buyer_bans';
+
+        return route('admin.model', $model_name);
+    }
+
     public function countAdverts()
     {
         $request = \request()->all();

@@ -2,6 +2,7 @@
 
 namespace App\Models\Torg;
 
+use App\Models\Regions\Regions;
 use Illuminate\Database\Eloquent\Model;
 
 class TorgBuyerBan extends Model
@@ -26,4 +27,28 @@ class TorgBuyerBan extends Model
     protected $dates = ['add_date', 'end_date'];
 
     public $timestamps = false;
+
+    /* Relations */
+
+    public function torgBuyer()
+    {
+        return $this->belongsTo(TorgBuyer::class, 'user_id', 'id');
+    }
+
+    public function regions()
+    {
+        return $this->hasOneThrough(Regions::class, TorgBuyer::class, 'obl_id', 'id', 'user_id');
+    }
+
+    /**
+     * @param     $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeGetBanedUser($query, $type)
+    {
+        $user_id = $type['user_id'];
+
+        return $query->where('user_id', $user_id);
+    }
 }

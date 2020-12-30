@@ -69,13 +69,10 @@ class CompComment extends Model
         return $this->hasOne(CompCommentLang::class, 'item_id');
     }
 
-
-
     public function compCommentLang()
     {
-        return $this->hasOne(CompCommentLang::class, 'item_id');
+        return $this->hasOne(CompCommentLang::class, 'item_id', 'id');
     }
-
 
     public function comp_item()
     {
@@ -84,11 +81,16 @@ class CompComment extends Model
 
     public function compItem()
     {
-        return $this->hasMany(CompItems::class, 'author_id', 'author_id');
+        return $this->hasOne(CompItems::class, 'id', 'item_id');
     }
 
     public function compItemsForComment()
     {
         return $this->belongsTo(CompItems::class, 'id');
+    }
+
+    public function compCommentComplains()
+    {
+        return $this->hasMany(CompCommentComplains::class, 'comment_id', 'id');
     }
 }
