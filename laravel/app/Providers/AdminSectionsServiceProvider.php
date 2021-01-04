@@ -21,6 +21,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         /* Цены трейдеров */
         \App\Models\Traders\TradersProducts::class => 'App\Http\Sections\TraderPrices\TradersProducts',
         \App\Models\Seo\SeoTitles::class => 'App\Http\Sections\TraderPrices\SeoTitlesTrades',
+        \App\Models\Traders\TradersPorts::class => 'App\Http\Sections\TraderPrices\TradersPorts',
 
 
             /* Управление пользователями user management */
@@ -29,6 +30,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Py\PyBalance::class => 'App\Http\Sections\UserManagement\PyBalance',
         \App\Models\Py\PyBill::class => 'App\Http\Sections\UserManagement\PyBill',
         \App\Models\Torg\TorgBuyerBan::class => 'App\Http\Sections\UserManagement\TorgBuyerBan',
+        \App\Models\Buyer\BuyerPacksOrders::class => 'App\Http\Sections\UserManagement\BuyerPacksOrders',
 
             /* Быстрый доступ */
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',

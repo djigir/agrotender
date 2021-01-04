@@ -2,6 +2,8 @@
 
 namespace App\Models\Buyer;
 
+use App\Http\Sections\UserManagement\PyBill;
+use App\Models\ADV\AdvTorgPost;
 use Illuminate\Database\Eloquent\Model;
 
 class BuyerPacksOrders extends Model
@@ -27,5 +29,20 @@ class BuyerPacksOrders extends Model
 
     public $timestamps = false;
 
+    /* Relations */
 
+    public function tarif()
+    {
+        return $this->hasOne(BuyerTarifPacks::class, 'id', 'pack_id');
+    }
+
+    public function torgPost()
+    {
+        return $this->hasOne(AdvTorgPost::class, 'id', 'post_id');
+    }
+
+    public function pyBill()
+    {
+        return $this->hasOne(PyBill::class, 'buyer_id', 'user_id');
+    }
 }

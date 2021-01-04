@@ -91,7 +91,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::text('phone', 'Контакты', 'email')
                 ->setHtmlAttribute('class', 'text-center'),
-
+            /* добавть ссылку на пакеты */
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
                         <a class='comp_items_adverts' href='#' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>

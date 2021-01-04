@@ -2,6 +2,7 @@
 
 namespace App\Models\Traders;
 
+use App\Models\Regions\Regions;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -23,6 +24,8 @@ class TradersPorts extends Model
         'url',
     ];
 
+    public $timestamps = false;
+
     protected $appends = ['lang'];
 
 
@@ -41,4 +44,13 @@ class TradersPorts extends Model
         return $this->belongsTo(TradersPortsLang::class, 'port_id', 'id');
     }
 
+    public function regions()
+    {
+        return $this->hasOne(Regions::class, 'id', 'obl_id');
+    }
+
+    public function portsLang()
+    {
+        return $this->hasOne(TradersPortsLang::class, 'port_id', 'id');
+    }
 }

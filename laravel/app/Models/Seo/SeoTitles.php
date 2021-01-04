@@ -50,6 +50,8 @@ class SeoTitles extends Model
         'tpl_items_keywords', 'tpl_items_descr', 'tpl_items_text', 'tpl_items_words',
     ];
 
+    public $timestamps = false;
+
     /* Relations */
 
     public function tradersProductsLang()

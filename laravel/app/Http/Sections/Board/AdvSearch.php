@@ -107,48 +107,6 @@ class AdvSearch extends Section implements Initializable
         return $display;
     }
 
-    /**
-     * @param int|null $id
-     * @param array $payload
-     *
-     * @return FormInterface
-     */
-    /*public function onEdit($id = null, $payload = [])
-    {
-        $form = AdminForm::card()->addBody([
-            AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-        ]);
-
-        $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
-        ]);
-
-        return $form;
-    }*/
-
-    /**
-     * @return FormInterface
-     */
-    /*public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }*/
 
     /**
      * @return bool

@@ -41,3 +41,8 @@
 .ses-search {
     margin-top: 1.3rem;
 }
+
+/* Порты */
+.grouped-element__footer .form-group .clearfix{
+    display: none;
+}
