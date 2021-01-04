@@ -185,7 +185,7 @@ class CompanyService
         }
         $departament_name = array_unique($departament_name);
 
-        $creators = TorgBuyer::where('id', $author_id)->get()->first();
+        $creators = TorgBuyer::where('id', $author_id)->first();
 
         return ['creators' => $creators, 'departament_name' => $departament_name];
     }

@@ -10,7 +10,7 @@
         @if(!$port_place->isEmpty() || !$region_place->isEmpty())
             @if(isset($updateDate) && $updateDate)
                 <div class="new_company_actual_date new_company_actual_date-desktop-and-mobile">Актуальная цена на
-                    <b>{{\Date::parse($updateDate)->format('d F'), MB_CASE_TITLE, "UTF-8"}}</b>
+                    <b>{{mb_convert_case(\Date::parse($updateDate)->format('d F'), MB_CASE_TITLE, "UTF-8")}}</b>
                 </div>
             @endif
         @endif
@@ -23,9 +23,13 @@
            @include('company.tables.company-region-table')
         @endif
     </div>
-    
-    @if(!$traders_contacts->isEmpty())
-        @include('company.company_cont_traders', ['traders_contacts' => $traders_contacts])
+
+    @if($company->trader_price_avail == 0 && (!$company_contacts->isEmpty() || $creator != null || !empty($departament_name)))
+        @include('company.company_contacts', ['company_contacts' => $company_contacts])
+    @endif
+
+    @if(!$traders_contacts->isEmpty() && $company->trader_price_avail == 1)
+        @include('company.company_traders_contacts', ['traders_contacts' => $traders_contacts])
     @endif
 
     <div class="new_container">

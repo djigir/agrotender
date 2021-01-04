@@ -261,6 +261,9 @@ class CompanyController extends Controller
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
         $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
         $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
+        $departments_contacts = $this->companyService->departamentsContacts($id);
+        $creator_departament_name = $this->companyService->getDepNameAndCreator($this->company->author_id, $departments_contacts);
 
         return view('company.company', [
             'company' => $this->company,
@@ -275,6 +278,9 @@ class CompanyController extends Controller
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
             'traders_contacts' => $traders_contacts,
+            'company_contacts' => $company_contacts,
+            'creator' => $creator_departament_name['creators'],
+            'departament_name' => $creator_departament_name['departament_name'],
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
             'check_adverts' => $checkAdverts,
@@ -442,7 +448,7 @@ class CompanyController extends Controller
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
         $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
 
-        return view('company.company_cont', [
+        return view('company.company_contacts_tab', [
             'company' => $this->company,
             'departments_contacts' => $departments_contacts,
             'creator' => $creator_departament_name['creators'],
