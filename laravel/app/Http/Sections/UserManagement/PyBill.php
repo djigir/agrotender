@@ -11,6 +11,7 @@ use App\Models\Py\PyBillAddr;
 use App\Models\Py\PyBillDoc;
 use App\Models\Py\PyBillFirm;
 use App\Services\BaseServices;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -148,7 +149,16 @@ class PyBill extends Section implements Initializable
                 $payer = $model['pyBillFirm']['id'] != 0 ? $model['pyBillFirm']['otitle'] : '';
                 return "<div class='row-text'>{$payer}</div>";
             }),
+
+//            AdminColumn::custom('Добавление документов', function (\Illuminate\Database\Eloquent\Model $model) {
+//                return "<div class='row-text'>
+//                        <a class='comp_items_adverts' href='{$model->PyBillDocCreate()}' target='_blank'>+</a>
+//                    </div>";
+//
+//            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
+
         ];
+
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
@@ -253,6 +263,8 @@ class PyBill extends Section implements Initializable
                 </textarea>
            </div>");
 
+        $date = Carbon::now();
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::number('amount', 'Сумма счета'),
@@ -283,6 +295,26 @@ class PyBill extends Section implements Initializable
                 </div>"),
                 $address,
                 $payer,
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+                AdminFormElement::html('<br><br><br>'),
+                AdminFormElement::html("
+                <div class='form-group form-element-text' >
+                    <label for='id' class='control-label'>
+                            Дата загрузки документа
+                    </label>
+                    <input style='width: 150px' class='form-control' type='text' id='add_date' name='add_date' value='{$date->format('d.m.Y')}' readonly='readonly'>
+                </div>"),
+
+               AdminFormElement::hidden('pyBillDoc.add_date')->setDefaultValue($date),
+
+                AdminFormElement::select('pyBillDoc.doc_type', 'Тип документа')->setOptions([
+                    0 => 'Счёт',
+                    1 => 'Акт',
+                    2 => 'Скан-копия',
+                ]),
+//                AdminFormElement::number('pyBillDoc.sum_tot', 'Сумма счета'),
+                AdminFormElement::number('amount', 'Сумма счета')->setReadonly(true),
+                AdminFormElement::file('pyBillDoc.filename', 'Файл документа (*.doc, *.pdf)')
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 
@@ -290,7 +322,7 @@ class PyBill extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
+//            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

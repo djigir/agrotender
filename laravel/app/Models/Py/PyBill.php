@@ -44,4 +44,11 @@ class PyBill extends Model
     {
         return $this->hasOne(PyBillAddr::class, 'id', 'payer_addr_id');
     }
+
+    public function PyBillDocCreate()
+    {
+        $model_name = 'py_bill_docs';
+
+        return route('admin.model.create', $model_name);
+    }
 }

@@ -202,6 +202,29 @@ return [
         ]
     ],
 
+    [
+        'title' => 'Управление алгоритмами',
+        'icon' => 'fas fa-users',
+
+        'pages' => [
+
+            (new Page(     \App\Models\Preferences\Preferences::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(0),
+
+            (new Page(     \App\Models\Resource\Resource::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(1),
+
+            (new Page(     \App\Models\Contact\ContactOptions::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(2),
+
+            (new Page(     \App\Models\Buyer\BuyerTarifPacks::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(3),
+        ]
+    ],
 
 
 

@@ -20,4 +20,9 @@ class PyBillDoc extends Model
     {
         return $this->belongsTo(PyBill::class, 'id', 'bill_id');
     }
+
+    public function pyBillDate()
+    {
+        return $this->hasOne(PyBill::class, 'id', 'bill_id');
+    }
 }
