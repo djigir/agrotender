@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Sections\Companies;
+namespace App\Http\Sections\TraderPrices;
 
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\Regions\Regions;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -18,13 +19,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class CompVacancy
+ * Class TradersPorts
  *
- * @property \App\Models\Comp\CompVacancy $model
+ * @property \App\Models\Traders\TradersPorts $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class CompVacancy extends Section implements Initializable
+class TradersPorts extends Section implements Initializable
 {
     /**
      * @var bool
@@ -34,7 +35,7 @@ class CompVacancy extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Вакансии Компаний';
+    protected $title = 'Порты';
 
     /**
      * @var string
@@ -64,50 +65,50 @@ class CompVacancy extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
             AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
+                ->setWidth('70px')
                 ->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('title', 'Вакансия', 'add_date')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('name', 'like', '%'.$search.'%');
-                })->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
 
-            AdminColumn::text('compItems.title', 'Автор')
-                ->setOrderable(function ($query, $direction){
-                    $query->orderBy('id', $direction);
+            AdminColumn::link('portsLang.portname', 'Название порта')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('active', $direction);
+                })->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::text('regions.name', 'Область')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('obl_id', $direction);
                 })
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::boolean('visible', 'Показывать на сайте')
+            AdminColumn::text('url', 'URL')
+                ->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::boolean('active', 'Отображать на сайте')
                 ->setWidth('200px')
                 ->setHtmlAttribute('class', 'text-center'),
+
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[0, 'asc']])
             ->setDisplaySearch(false)
-            ->paginate(25)
+            ->paginate(30)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
+            AdminColumnFilter::select()
+                ->setModelForOptions(Regions::class, 'name')
+                ->setLoadOptionsQueryPreparer(function($element, $query) {
+                    return $query;
+                })
+                ->setDisplay('name')
+                ->setColumnName('obl_id')
+                ->setPlaceholder('Все области'),
 
-            AdminColumnFilter::text()
-                ->setColumnName('title')
-                ->setOperator('contains')
-                ->setPlaceholder('По названию вакансии'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('compItems.title')
-                ->setOperator('contains')
-                ->setPlaceholder('По названию компании'),
         ]);
-
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -123,26 +124,43 @@ class CompVacancy extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('title', 'Вакансия')
+
+                AdminFormElement::select('obl_id', 'Область')
+                    ->setModelForOptions(Regions::class, 'name')
                     ->required(),
 
-                AdminFormElement::textarea('content', 'Описание вакансии')
-                    ->setRows(6),
 
-                AdminFormElement::select('visible', 'Показать на сайте')
+                    AdminFormElement::text('portsLang.portname', 'Название порта')
+                        ->required(),
+
+                AdminFormElement::text('url', 'URL')
+                    ->required(),
+
+                AdminFormElement::select('active', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
                         0 => 'Нет',
-                    ]),
+                    ])
+                    ->required(),
 
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
+                AdminFormElement::textarea('portsLang.p_title', 'Title')
+                    ->setRows(2)
+                    ->required(),
 
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+
+                AdminFormElement::text('portsLang.p_h1', 'H1')
+                    ->required(),
+
+                AdminFormElement::textarea('portsLang.p_descr', 'Описание')
+                    ->setRows(3)
+                    ->required(),
+
+                AdminFormElement::textarea('portsLang.p_content', 'Content')
+                    ->setRows(3)
+                    ->required(),
+
+            ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -155,6 +173,13 @@ class CompVacancy extends Section implements Initializable
         return $form;
     }
 
+    /**
+     * @return FormInterface
+     */
+    public function onCreate($payload = [])
+    {
+        return $this->onEdit(null, $payload);
+    }
 
     /**
      * @return bool

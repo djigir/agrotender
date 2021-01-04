@@ -142,6 +142,19 @@ return [
                 ->setIcon('fab fa-product-hunt')
                 ->setPriority(0),
 
+            [
+                'title' => 'Закупки',
+                'icon'  => 'fas fa-shopping-basket',
+                'url'   => '/admin_dev/traders_products?type=sell',
+            ],
+
+            (new Page(\App\Models\Seo\SeoTitles::class))
+                ->setIcon('fas fa-tasks')
+                ->setPriority(0),
+
+            (new Page(\App\Models\Traders\TradersPorts::class))
+                ->setIcon('fas fa-anchor')
+                ->setPriority(0),
         ]
     ],
 
@@ -199,6 +212,9 @@ return [
                 ->setIcon('fas fa-ban')
                 ->setPriority(0),
 
+            (new Page(\App\Models\Buyer\BuyerPacksOrders::class))
+                ->setIcon('fas fa-box-open')
+                ->setPriority(0),
         ]
     ],
 

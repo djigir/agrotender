@@ -99,10 +99,9 @@ class CompComment extends Section implements Initializable
 
             AdminColumn::custom('Жалобы', function (Model $model) {
                 return "<div class='row-link text-center'>
-                            <a href='#'>{$model['compCommentComplains']->count()}</a>
+                            <a href='{$model->UsersComplains()}?UsersComplains[comment_id]={$model->id}'>{$model['compCommentComplains']->count()}</a>
                         </div>";
             })->setHtmlAttribute('class', 'text-center'),
-
 
         ];
 

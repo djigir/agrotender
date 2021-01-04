@@ -30,6 +30,7 @@ class TradersPortsLang extends Model
         'p_content',
     ];
 
+    public $timestamps = false;
 
     public function traders_ports()
     {

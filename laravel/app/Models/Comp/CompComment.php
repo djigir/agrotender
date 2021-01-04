@@ -46,6 +46,17 @@ class CompComment extends Model
 
     protected $appends = ['company', 'comment_lang'];
 
+    /* route for filter complains */
+    public function UsersComplains()
+    {
+        $model_name = 'comp_comment_complains';
+
+        return route('admin.model', $model_name);
+    }
+
+
+    /* Relations */
+
     public function getCompanyAttribute()
     {
         $company = CompItems::where('author_id', $this->author_id)->select('id', 'title', 'author_id', 'logo_file')->get()->toArray();

@@ -115,7 +115,10 @@ class CompCommentComplains extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+                \AdminDisplayFilter::scope('UsersComplains')
+            );
 
         $display->setColumnFilters([
 
