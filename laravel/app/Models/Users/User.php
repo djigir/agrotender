@@ -2,6 +2,7 @@
 
 namespace App\Models\Users;
 
+use App\Models\Py\PyBalance;
 use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -100,4 +101,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function getBalance()
+    {
+        return PyBalance::select(\DB::raw('round(coalesce(sum(amount), 0)) as balance'))->where('buyer_id', $this->id)->get()[0]['balance'];
+    }
 }

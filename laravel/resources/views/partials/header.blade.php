@@ -44,7 +44,6 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
 </head>
-
 <body data-page="{$page}">
 
 <noscript>
@@ -136,12 +135,9 @@
                     </li>
                     <li>
                         <span class="balance_title">Баланс</span>
-                        <span class="balance_amount zero_balance"><b>10</b> грн</span>
+                        <span class="balance_amount zero_balance"><b>{{auth()->user()->getBalance()}}</b> грн</span>
                         <a class="balance_top_up" href="/u/balance/pay">+ Пополнить баланс</a>
                     </li>
-                    <!-- <li>
-                        <a href="/u/balance/pay">Пополнить баланс</a>
-                    </li> -->
                     <li>
                         <span>Мой профиль:</span>
                     </li>
