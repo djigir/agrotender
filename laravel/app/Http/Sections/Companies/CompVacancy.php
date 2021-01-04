@@ -64,8 +64,6 @@ class CompVacancy extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $c = \App\Models\Comp\CompVacancy::with('compItems')->get()->take(1);
-//        dd($c);
 
         $columns = [
             AdminColumn::text('id', 'ID')
@@ -157,13 +155,6 @@ class CompVacancy extends Section implements Initializable
         return $form;
     }
 
-    /**
-     * @return FormInterface
-     */
-    /*public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }*/
 
     /**
      * @return bool

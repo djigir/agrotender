@@ -25,6 +25,21 @@ class CompCommentComplains extends Model
 
     public $timestamps = false;
 
+
+
+     /**
+     * @param  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeUsersComplains($query, $type)
+    {
+        $comment_id = $type['comment_id'];
+
+        return $query->where('comment_id', $comment_id);
+    }
+
+
     /* Relations */
 
     public function torgBuyer()
