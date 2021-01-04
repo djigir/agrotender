@@ -103,7 +103,6 @@ class CompComment extends Section implements Initializable
                         </div>";
             })->setHtmlAttribute('class', 'text-center'),
 
-
         ];
 
         $display = AdminDisplay::datatables()

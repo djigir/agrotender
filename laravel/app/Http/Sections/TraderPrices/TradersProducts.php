@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -64,6 +65,58 @@ class TradersProducts extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        /* get type products */
+        $type = request()->get('type');
+
+        if ($type == 'sell'){
+            $columns = [
+                AdminColumn::text('id', 'ID')
+                    ->setWidth('150px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::link('tradersProductLang.name', 'Название')
+                    ->setOrderable(function ($query, $direction){
+                        $query->OrderBy('group_id', $direction);
+                    })
+                    ->setWidth('350px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
+            ];
+
+            $display = AdminDisplay::datatables()
+                ->setApply(function ($query){
+                    $query->where('acttype', 0);
+                })
+                ->setName('firstdatatables')
+                ->setOrder([[0, 'asc']])
+                ->setDisplaySearch(false)
+                ->paginate(25)
+                ->setColumns($columns)
+                ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+            $display->setColumnFilters([
+                AdminColumnFilter::select()
+                    ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query->where('acttype', 0);
+                    })
+                    ->setDisplay('tradersProductGroupsLang.name')
+                    ->setColumnName('group_id')
+                    ->setPlaceholder('Все группы'),
+
+                AdminColumnFilter::text()
+                    ->setColumnName('tradersProductLang.name')
+                    ->setOperator('contains')
+                    ->setPlaceholder('По названию'),
+
+            ]);
+
+            $display->getColumnFilters()->setPlacement('card.heading');
+
+            return $display;
+        }
+
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('150px')
@@ -80,6 +133,9 @@ class TradersProducts extends Section implements Initializable
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query){
+                $query->where('acttype', 1);
+            })
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
             ->setDisplaySearch(false)
@@ -91,7 +147,7 @@ class TradersProducts extends Section implements Initializable
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+                    return $query->where('acttype', 1);
                 })
                 ->setDisplay('tradersProductGroupsLang.name')
                 ->setColumnName('group_id')
@@ -103,9 +159,8 @@ class TradersProducts extends Section implements Initializable
                 ->setPlaceholder('По названию'),
 
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
-
-
 
         return $display;
     }

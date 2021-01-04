@@ -142,6 +142,11 @@ return [
                 ->setIcon('fab fa-product-hunt')
                 ->setPriority(0),
 
+            [
+                'title' => 'Закупки',
+                'icon'  => 'fas fa-shopping-basket',
+                'url'   => '/admin_dev/traders_products?type=sell',
+            ]
         ]
     ],
 

@@ -2,6 +2,8 @@
 
 namespace App\Models\Seo;
 
+use App\Models\Regions\Regions;
+use App\Models\Traders\Traders_Products_Lang;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,4 +49,16 @@ class SeoTitles extends Model
         'page_title', 'page_descr', 'content_text', 'content_words', 'tpl_items_title',
         'tpl_items_keywords', 'tpl_items_descr', 'tpl_items_text', 'tpl_items_words',
     ];
+
+    /* Relations */
+
+    public function tradersProductsLang()
+    {
+        return $this->hasOne(Traders_Products_Lang::class, 'item_id', 'cult_id');
+    }
+
+    public function regions()
+    {
+        return $this->hasOne(Regions::class, 'id', 'obl_id');
+    }
 }
