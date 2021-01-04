@@ -104,6 +104,6 @@ class User extends Authenticatable
 
     public function getBalance()
     {
-        return PyBalance::select(\DB::raw('round(coalesce(sum(amount), 0)) as balance'))->where('buyer_id', $this->id)->get()[0]['balance'];
+        return PyBalance::select(\DB::raw('round(coalesce(sum(amount), 0)) as balance'))->where('buyer_id', $this->user_id)->get()[0]['balance'];
     }
 }
