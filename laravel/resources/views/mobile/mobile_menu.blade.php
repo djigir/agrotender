@@ -37,7 +37,7 @@
             @if($check_forwards)
                 <a href="{{route('company.forwards', $id)}}" class="menu-item" >Форварды</a>
             @endif
-            <a href="{{route('company.reviews', $id)}}" class="menu-item">Отзывы</a>
+{{--            <a href="{{route('company.reviews', $id)}}" class="menu-item">Отзывы</a>--}}
             <a href="{{route('company.cont', $id)}}" class="menu-item">Контакты</a>
         @endif
     </div>
