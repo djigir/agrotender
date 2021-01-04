@@ -32,7 +32,7 @@
         @include('company.company_traders_contacts', ['traders_contacts' => $traders_contacts])
     @endif
 
-    <div class="new_container">
+    <div class="new_container pb-5">
         <h2 class="mt-4">О компании</h2>
         <div class="about mt-3">
             {!! strip_tags($company->content) !!}
