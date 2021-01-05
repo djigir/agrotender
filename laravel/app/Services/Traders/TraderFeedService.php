@@ -32,7 +32,7 @@ class TraderFeedService
                 ->join('traders_places', 'traders_places.id', '=', 'traders_feed.place')
                 ->join('comp_items', 'comp_items.author_id', '=', 'traders_feed.user')
                 ->where('traders_places.acttype', $type)
-                //->whereDate('traders_feed.change_date', '=', Carbon::now())
+                ->whereDate('traders_feed.change_date', '=', Carbon::now())
                 ->where('comp_items.'.$price_field.'_avail', 1)
                 ->where('comp_items.'.$price_field.'_visible', 1)
                 ->where('traders_places.type_id', '!=', 1)

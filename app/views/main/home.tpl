@@ -38,7 +38,7 @@
 </div>
 <div class="container swiper traders-swipe">
   <div class="swiper-container">
-    <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
+    <div class="swiper-wrapper">
       {foreach $prices as $rubric}
       <div class="swiper-slide" style="width: 464px; margin-right: 20px;">
         <div class="category-block">

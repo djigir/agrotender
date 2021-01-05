@@ -182,8 +182,7 @@
         <div class="row mx-0 mt-3 position-relative">
           <div class="col-3 p-0">
             <a href="/board/post-{$adv['id']}">
-              <img src="/app/assets/img/no-image.png" alt="{$adv['title']}">
-{*              <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" alt="{$adv['title']}">*}
+              <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" alt="{$adv['title']}">
             </a>
           </div>
           <div class="col-9 pr-0 pl-2 small position-relative">
@@ -293,12 +292,11 @@
         </div>
       </div>
       <div class="mt-2 pb-4 complain text-center">
-        <i class="fas fa-exclamation-circle mr-1"></i> 
+        <i class="fas fa-exclamation-circle mr-1"></i>
         <a href="#" class="small complain" data-toggle="modal" data-target="#complain"><span>Пожаловаться на объявление</span> </a>
       </div>
       <a class="mt-5 author px-2 pb-2 pt-5 position-relative text-center d-block" href="{if $advert['company_title'] eq null}/board/author/{$advert['author_id']}{else}/kompanii/comp-{$advert['company_id']}{/if}">
-        <img src="/app/assets/img/nophoto.png" class="avatar" alt="{if $advert['company_title'] neq null}{$advert['company_title']}{else}{$advert['author_name']}{/if}">
-{*        <img src="{if $advert['logo_file'] neq null}/{$advert['logo_file']}{else}/app/assets/img/nophoto.png{/if}" class="avatar" alt="{if $advert['company_title'] neq null}{$advert['company_title']}{else}{$advert['author_name']}{/if}">*}
+        <img src="{if $advert['logo_file'] neq null}/{$advert['logo_file']}{else}/app/assets/img/nophoto.png{/if}" class="avatar" alt="{if $advert['company_title'] neq null}{$advert['company_title']}{else}{$advert['author_name']}{/if}">
         <span class="postCompanyTitle">{if $advert['company_title'] neq null}{$advert['company_title']}{else}{$advert['author_name']}{/if}</span>
         <span class="d-block">На сайте с {$advert['author_reg']}</span>
       </a>
@@ -309,8 +307,7 @@
         <div class="row mx-0 mt-3 position-relative">
           <div class="col-3 p-0">
             <a href="/board/post-{$adv['id']}">
-              <img src="/app/assets/img/no-image.png" alt="{$adv['title']}">
-{*              <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" alt="{$adv['title']}">*}
+              <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" alt="{$adv['title']}">
             </a>
           </div>
           <div class="col-9 pr-0 pl-2 small position-relative">
@@ -348,8 +345,7 @@
       <div class="row mx-0 w-100">
         <div class="col-auto pr-0 pl-1 pl-sm-3">
           <a href="/board/post-{$adv['id']}">
-            <img src="/app/assets/img/no-image.png" class="postImg" alt="{$adv['title']}">
-{*            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">*}
+            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">
           </a>
         </div>
         <div class="col pr-0 pl-2 pl-sm-3">
@@ -405,8 +401,7 @@
         {/if}
         <div class="row mx-0 w-100">
           <div class="col-auto pr-0 pl-1 pl-sm-3">
-            <img src="/app/assets/img/no-image.png" class="postImg" alt="{$adv['title']}">
-{*            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">*}
+            <img src="{if $adv['image'] neq null}/{$adv['image']}{else}/app/assets/img/no-image.png{/if}" class="postImg" alt="{$adv['title']}">
           </div>
           <div class="col pr-0 pl-2 pl-sm-3">
             <div class="row m-0">

@@ -13,27 +13,29 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('users2', function (Blueprint $table) {
-            $table->integer('id');
+        Schema::create('auth_users_laravel', function (Blueprint $table) {
+            $table->id();
+            $table->integer('user_id');
             $table->string('login');
             $table->string('passwd');
-            $table->timestamp('new_password')->nullable();
+            $table->string('new_password')->nullable();
             $table->string('isactive')->nullable();
             $table->string('isactive_web')->nullable();
-            $table->string('isactive_ban')->nullable();
-            $table->string('discount_level_id')->nullable();
-            $table->string('last_login')->nullable();
-            $table->string('avail_adv_posts')->nullable();
-            $table->string('max_adv_posts')->nullable();
-            $table->string('max_fishka')->nullable();
+            $table->integer('isactive_ban')->nullable();
+            $table->integer('discount_level_id')->nullable();
+            $table->dateTime('last_login')->nullable();
+            $table->dateTime('add_date')->nullable();
+            $table->integer('avail_adv_posts')->nullable();
+            $table->integer('max_adv_posts')->nullable();
+            $table->integer('max_fishka')->nullable();
             $table->string('name')->nullable();
             $table->string('name2')->nullable();
             $table->string('name3')->nullable();
-            $table->string('city_id')->nullable();
-            $table->string('obl_id')->nullable();
-            $table->string('ray_id')->nullable();
-            $table->string('rate')->nullable();
-            $table->string('postdone')->nullable();
+            $table->integer('city_id')->nullable();
+            $table->integer('obl_id')->nullable();
+            $table->integer('ray_id')->nullable();
+            $table->integer('rate')->nullable();
+            $table->integer('postdone')->nullable();
             $table->string('orgname')->nullable();
             $table->string('city')->nullable();
             $table->string('address')->nullable();
@@ -50,7 +52,7 @@ class CreateUsersTable extends Migration
             $table->string('guid_act')->nullable();
             $table->string('skype')->nullable();
             $table->string('comments')->nullable();
-            $table->string('smschecked')->nullable();
+            $table->integer('smschecked')->nullable();
             $table->string('deact_up_mails')->nullable();
             $table->string('subscr_adv_deact')->nullable();
             $table->string('subscr_adv_up')->nullable();
@@ -70,6 +72,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users2');
+        Schema::dropIfExists('auth_users_laravel');
     }
 }

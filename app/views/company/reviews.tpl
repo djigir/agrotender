@@ -78,7 +78,7 @@
   </div>
   {/foreach}
 </div>
-{*{if $user->auth}*}
+{if $user->auth}
 <div class="modal fade" id="reviewModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <form class="form modal-content">
@@ -121,4 +121,4 @@
     </form>
   </div>
 </div>
-{*{/if}*}
+{/if}
