@@ -29,7 +29,7 @@
             </a>
         </li>
         <li>
-            <a href="{{route('company.index', $id)}}" class="{{$current_page == 'main' ? 'active' : ''}}">Цены трейдера</a>
+            <a href="{{route('company.index', $id)}}" class="{{$current_page == 'main' ? 'active' : ''}}">{{$company->trader_price_avail == 1 ? 'Цены трейдера' : 'О компании'}}</a>
         </li>
         <li>
             <a href="{{route('company.cont', $id)}}" class="{{$current_page == 'contact' ? 'active' : ''}}">Контакты</a>

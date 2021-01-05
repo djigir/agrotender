@@ -456,6 +456,11 @@ class CompanyController extends Controller
         ]);
     }
 
+    public function companyPrices($id)
+    {
+        return redirect()->route('company.index', $id);
+    }
+
 
     public function companyAdverts($id, Request $request)
     {
