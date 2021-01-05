@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\Buyer\BuyerTarifPacks;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
@@ -111,30 +112,29 @@ class BuyerPacksOrders extends Section implements Initializable
                 ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
 
+            AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model){
+                $paymeth_type = $model['pyBill'];
+
+                if ($paymeth_type == null) {
+                    $pay_method = '-';
+                }
+
+                if ($paymeth_type['paymeth_type'] == 1) {
+                    $pay_method = 'Приват 24';
+                }
+                if ($paymeth_type['paymeth_type'] == 2){
+                    $pay_method = 'Карта';
+                }
+                if  ($paymeth_type['paymeth_type'] == 3){
+                    $pay_method = 'По счету';
+                }
+
+                return "<div class='row-text' style='font-weight:bold;'>{$pay_method}</div>";
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::text('torgPost.id', 'ID Объяв.')
                 ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model){
-//                $paymeth_type = $model['pyBill']->paymeth_type;
-                $paymeth_type = $model['pyBill'];
-                dd($paymeth_type);
-                $pay_method = '';
-
-//                switch ($paymeth_type) {
-//                    case 1:
-//                        $pay_method = 'Приват 24';
-//                        break;
-//                    case 2:
-//                        $pay_method = 'Карта';
-//                        break;
-//                    case 3:
-//                        $pay_method = 'По счету';
-//                        break;
-//                }
-
-                return "<div class='row-text'>{$pay_method}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -197,6 +197,101 @@ class BuyerPacksOrders extends Section implements Initializable
                 AdminFormElement::text('id', 'ID')->setReadonly(true),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+        ]);
+
+        $form->getButtons()->setButtons([
+            'save'  => new Save(),
+            'save_and_close'  => new SaveAndClose(),
+            'save_and_create'  => new SaveAndCreate(),
+            'cancel'  => (new Cancel()),
+        ]);
+
+        return $form;
+    }
+
+    /**
+     * @return FormInterface
+     */
+    public function onCreate($payload = [])
+    {
+        $user_id = request()->get('TorgBuyerPackOreders')['user_id'];
+        /* если перешел с вкладки зареш=гистрированые пользователи */
+
+        if ($user_id) {
+
+            $user = \App\Models\Torg\TorgBuyer::find($user_id);
+
+            $form = AdminForm::card()->addBody([
+                AdminFormElement::columns()->addColumn([
+
+                    AdminFormElement::html(function (Model $model) use($user){
+                        return "<div class='form-group form-element-text'><label for='name' class='control-label'>Имя</label>
+                            <input class='form-control' type='text' id='name' name='name' value='{$user->name}' readonly='readonly'>
+                        </div>";
+                    }),
+
+                    AdminFormElement::hidden('user_id')->setDefaultValue($user_id),
+
+                    AdminFormElement::custom(function (Model $model){
+                        $model->stdt = Carbon::now();
+                    }),
+
+                    AdminFormElement::custom(function (Model $model){
+                        $days = 30;
+                        $model->endt = Carbon::now()->addDays($days);
+                    }),
+
+                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+
+                    AdminFormElement::select('pack_id', 'Пакет')
+                        ->setModelForOptions(BuyerTarifPacks::class, 'title')
+                        ->setLoadOptionsQueryPreparer(function ($item, $query){
+                            return $query->where('pack_type', 0);
+                        })->setDisplay('title'),
+
+
+                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+
+                    AdminFormElement::textarea('comments', 'Комментарии')
+                        ->setDefaultValue('Добавлено админом+')
+                        ->setRows(4),
+
+                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
+            ]);
+        }
+
+        /* если на прямую кликнул на тарифы */
+
+        $form = AdminForm::card()->addBody([
+            AdminFormElement::columns()->addColumn([
+
+                AdminFormElement::number('user_id', 'ID пользователя'),
+
+                AdminFormElement::custom(function (Model $model){
+                    $model->stdt = Carbon::now();
+                }),
+
+                AdminFormElement::custom(function (Model $model){
+                    $days = 30;
+                    $model->endt = Carbon::now()->addDays($days);
+                }),
+
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+
+                AdminFormElement::select('pack_id', 'Пакет')
+                    ->setModelForOptions(BuyerTarifPacks::class, 'title')
+                    ->setLoadOptionsQueryPreparer(function ($item, $query){
+                        return $query->where('pack_type', 0);
+                    })->setDisplay('title'),
+
+
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+
+                AdminFormElement::textarea('comments', 'Комментарии')
+                    ->setDefaultValue('Добавлено админом+')
+                    ->setRows(4),
+
+            ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
         $form->getButtons()->setButtons([
