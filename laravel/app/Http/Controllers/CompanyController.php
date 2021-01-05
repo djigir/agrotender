@@ -25,12 +25,6 @@ use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller
 {
-//    const NAME_SECTION_RUBRIC = [
-//        0 => 'Виды деятельности',
-//        1 => 'Выбрать продукцию',
-//    ];
-
-
     protected $companyService;
     protected $baseServices;
     protected $breadcrumbService;
@@ -236,10 +230,6 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-//        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
-//            ->orderBy('dt')
-//            ->limit(1)
-//            ->value('change_date');
         $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->get()->max('change_date');
         $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
@@ -277,6 +267,7 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
+            'max_days' => 5,
             'traders_contacts' => $traders_contacts,
             'company_contacts' => $company_contacts,
             'creator' => $creator_departament_name['creators'],

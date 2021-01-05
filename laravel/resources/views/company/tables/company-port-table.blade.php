@@ -43,7 +43,7 @@
                                                         <span class="font-weight-600 replace_numbers_js">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                        @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
+                                                        @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][0][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                             <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                             <span class="replace_numbers_js price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                         @endif
@@ -93,7 +93,7 @@
                                                         <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                            @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
+                                                            @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][0][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                                 <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                                 <span class="replace_numbers_js price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                             @endif
@@ -144,7 +144,7 @@
                                                         <span class="font-weight-600 replace_numbers_js">
                                                             {{round($port_price[$place['id']][0][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                    @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0)
+                                                    @if($port_price[$place['id']][0][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][0][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                         <img src="/app/assets/img/price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                         <span class="replace_numbers_js  price-{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][0][$data_port['cult_id']][0]['change_price']}}</span>
                                                     @endif
@@ -197,7 +197,7 @@
                                                         <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                        @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
+                                                        @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][1][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                             <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                             <span class="replace_numbers_js price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                         @endif
@@ -246,7 +246,7 @@
                                                         <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                            @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
+                                                            @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][1][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                                 <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                                 <span class="replace_numbers_js  price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                             @endif
@@ -296,7 +296,7 @@
                                                         <span class="font-weight-600 replace_numbers_js ">
                                                             {{round($port_price[$place['id']][1][$data_port['cult_id']][0]['costval'], 1)}}
                                                         </span> &nbsp;
-                                                    @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0)
+                                                    @if($port_price[$place['id']][1][$data_port['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($port_price[$place['id']][1][$data_port['cult_id']][0]['change_date']) <= $max_days)
                                                         <img src="/app/assets/img/price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                         <span class="replace_numbers_js  price-{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price_type']}}">{{$port_price[$place['id']][1][$data_port['cult_id']][0]['change_price']}}</span>
                                                     @endif

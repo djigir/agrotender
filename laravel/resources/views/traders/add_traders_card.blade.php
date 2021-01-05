@@ -2,7 +2,7 @@
     <div class="traders__item-wrap">
         <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
             <div class="traders__item__header">
-                <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? $trader->logo_file : '/app/assets/img/no-image.png'}}">
+                <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? '/'.$trader->logo_file : '/app/assets/img/no-image.png'}}">
             </div>
             <div class="traders__item__content">
                 <div class="traders__item__content-title">{{ $trader->title }}</div>
@@ -17,10 +17,12 @@
                                         {{ round($price->costval, 1) }}
                                     </span>
                                     <span class="traders__item__content-p-icon">
-                                        @if($price->change_price == 0)
-                                            <img src="/app/assets/img/price-not-changed.svg">
-                                        @else
-                                            <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
+                                        @if(\Carbon\Carbon::now()->diffInDays($price->change_date) <= 5)
+                                            @if($price->change_price == 0)
+                                                <img src="/app/assets/img/price-not-changed.svg">
+                                            @else
+                                                <img src="/app/assets/img/price-{{$price->change_price_type}}.svg">
+                                            @endif
                                         @endif
                                     </span>
                                 </span>

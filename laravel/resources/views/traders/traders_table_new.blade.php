@@ -2,7 +2,7 @@
     @include('traders.block-info.traders_forwards')
 @else
     <?php
-    $date_expired_diff = \Carbon\Carbon::now()->subDays(7)->format('Y-m-d');
+    $date_expired_diff = \Carbon\Carbon::now()->subDays(5)->format('Y-m-d');
     if($type_traders != 1){
         foreach ($traders as $index => $trader) {
             if ($traders->where('place_id', $trader->place_id)->count() > 1 && $traders->where('type_id', '=', $trader->type_id))
@@ -68,7 +68,7 @@
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? $trader->logo_file : '/app/assets/img/no-image.png'}}">
+                                <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? '/'.$trader->logo_file : '/app/assets/img/no-image.png'}}">
                                 <span class="title">{!! $trader->title !!}</span>
                             </a>
                         </td>

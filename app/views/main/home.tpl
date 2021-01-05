@@ -234,7 +234,7 @@
       <span class="title ml-4 mt-1">Посадочный материал</span>
     </a>
     <a href="/" class="homeCategory content-block col-md p-3 d-flex align-items-center">
-      <img alt="" src="/app/assets/img/chicken.png">
+      <img alt="" src="/app/assets/img/959_83651.jpg">
       <span class="title ml-4 mt-1">Корма для животных</span>
     </a>
     <a href="/" class="homeCategory content-block col-md p-3 d-flex align-items-center">

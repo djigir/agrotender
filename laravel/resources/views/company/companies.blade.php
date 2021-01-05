@@ -43,7 +43,7 @@
                                         <div class="company_logo_vip">ТОП</div>
                                     @endif
                                     <img class="companyImg" alt="{{$company['name']}}"
-                                         src="{{ $company['logo_file'] && file_exists($company['logo_file']) ? $company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
+                                         src="{{ $company['logo_file'] && file_exists($company['logo_file']) ? '/'.$company['logo_file'] : '/app/assets/img/no-image.png' }}"/>
                                 </a>
                             </div>
                         </div>

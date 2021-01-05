@@ -1,7 +1,7 @@
 <div class="company-bg">
     <div class="new_company_header new_container">
         <div class="img">
-            <img src="{{$company->logo_file && file_exists($company->logo_file) ? $company->logo_file : '/app/assets/img/no-image.png'}}" alt="">
+            <img src="{{$company->logo_file && file_exists($company->logo_file) ? '/'.$company->logo_file : '/app/assets/img/no-image.png'}}" alt="">
         </div>
         <div class="content">
             <?php

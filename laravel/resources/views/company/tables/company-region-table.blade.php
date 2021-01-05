@@ -38,7 +38,8 @@
                                     <td class="region-UAH">
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                            @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                            @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][0][$data_region['cult_id']][0]['change_date']) <= $max_days)
+ )
                                                 <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                 <span class="replace_numbers_js price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
                                             @endif
@@ -80,7 +81,7 @@
                                         <td class="region-UAH">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                                @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                                @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][0][$data_region['cult_id']][0]['change_date']) <= $max_days)
                                                     <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                     <span class="replace_numbers_js price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
                                                 @endif
@@ -123,7 +124,7 @@
                                         <td class="region-UAH">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][0][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                                @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0)
+                                                @if($region_price[$place['id']][0][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][0][$data_region['cult_id']][0]['change_date']) <= $max_days)
                                                     <img src="/app/assets/img/price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                     <span class="replace_numbers_js price-{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][0][$data_region['cult_id']][0]['change_price']}}</span>
                                                 @endif
@@ -169,7 +170,7 @@
                                     <td class="region-USD">
                                         <div class="d-flex align-items-center justify-content-center lh-1">
                                             <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                            @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                            @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][1][$data_region['cult_id']][0]['change_date']) <= $max_days)
                                                 <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                 <span class="replace_numbers_js price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
                                             @endif
@@ -212,7 +213,7 @@
                                         <td class="region-USD">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                                @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                                @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][1][$data_region['cult_id']][0]['change_date']) <= $max_days)
                                                     <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                     <span class="replace_numbers_js price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
                                                 @endif
@@ -256,7 +257,7 @@
                                         <td class="region-USD">
                                             <div class="d-flex align-items-center justify-content-center lh-1">
                                                 <span class="font-weight-600 replace_numbers_js">{{round($region_price[$place['id']][1][$data_region['cult_id']][0]['costval'], 1)}}</span> &nbsp;
-                                                @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0)
+                                                @if($region_price[$place['id']][1][$data_region['cult_id']][0]['change_price'] != 0 && \Carbon\Carbon::now()->diffInDays($region_price[$place['id']][1][$data_region['cult_id']][0]['change_date']) <= $max_days)
                                                     <img src="/app/assets/img/price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}.svg">&nbsp;
                                                     <span class="replace_numbers_js price-{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price_type']}}">{{$region_price[$place['id']][1][$data_region['cult_id']][0]['change_price']}}</span>
                                                 @endif
