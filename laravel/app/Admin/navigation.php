@@ -220,7 +220,7 @@ return [
 
     [
         'title' => 'Управление алгоритмами',
-        'icon' => 'fas fa-users',
+        'icon' => 'fas fa-project-diagram',
 
         'pages' => [
 
@@ -229,11 +229,11 @@ return [
                 ->setPriority(0),
 
             (new Page(     \App\Models\Resource\Resource::class))
-                ->setIcon('fas fa-user')
+                ->setIcon('fas fa-align-justify')
                 ->setPriority(1),
 
             (new Page(     \App\Models\Contact\ContactOptions::class))
-                ->setIcon('fas fa-user')
+                ->setIcon('fas fa-phone-alt')
                 ->setPriority(2),
 
             (new Page(     \App\Models\Buyer\BuyerTarifPacks::class))

@@ -78,99 +78,7 @@ class Preferences extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $data = \App\Models\Preferences\Preferences::pluck('value', 'id');
-
-        $columns = [
-            AdminColumn::custom(self::LABELS[1], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[1]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[2], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[2]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[3], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[3]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[4], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[4]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[5], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[5]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[6], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[6]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[7], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[7]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[8], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[8]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[9], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[9]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[10], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[10]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[11], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[11]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[12], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[12]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[13], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[13]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[14], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[14]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[15], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[15]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[16], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[16]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[17], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[17]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom(self::LABELS[18], function (\Illuminate\Database\Eloquent\Model $model) use($data){
-                return "<div class='row-text'>{$data[18]}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
-//            AdminColumn::custom('Время подписки на цены (дней)', function (\Illuminate\Database\Eloquent\Model $model) use($data){
-//                return "<div class='row-text'></div>";
-//            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-
-        ];
-
-        $display = AdminDisplay::datatables()
-            ->setName('firstdatatables')
-//            ->setOrder([[0, 'asc']])
-//            ->setDisplaySearch(true)
-            ->paginate(25)
-            ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
-
-        $display->getColumnFilters()->setPlacement('card.heading');
-
-        return $display;
+        return AdminDisplay::datatables()->setName('firstdatatables')->setView('display.AlgorithmManagement.algoritmi');
     }
 
     /**
@@ -183,7 +91,6 @@ class Preferences extends Section implements Initializable
     {
         $lable = self::LABELS[$id] ?? 'Значение';
         $adminFormElement = AdminFormElement::text('value', $lable);
-
 
         if($id == 15){
             $adminFormElement = AdminFormElement::select('value', $lable, [
@@ -201,7 +108,6 @@ class Preferences extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-//            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
