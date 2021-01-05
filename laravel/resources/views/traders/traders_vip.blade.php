@@ -7,7 +7,7 @@
                 <a href="{{route('company.index', $trader->id)}}" class="traders__item">
                     <div class="traders__item__header filled">
                         <span class="vip">ТОП</span>
-                        <img class="traders__item__image" src="{{$trader->logo_file && file_exists($trader->logo_file) ? $trader->logo_file :'https://agrotender.com.ua/pics/comp/4964_89599.jpg'}}" alt="">
+                        <img class="traders__item__image" src="{{$trader->logo_file && file_exists($trader->logo_file) ? $trader->logo_file : '/app/assets/img/no-image.png'}}" alt="">
                     </div>
                     <div class="traders__item__content">
                         <div href="#" class="traders__item__content-title">{{$trader->title}}</div>
