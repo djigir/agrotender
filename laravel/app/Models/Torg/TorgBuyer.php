@@ -52,9 +52,17 @@ class TorgBuyer extends Model
         return route('admin.model', $model_name);
     }
 
-    public function countAdverts()
+    public function TorgBuyerPackOreders()
     {
-        $request = \request()->all();
+        $model_name = 'buyer_packs_orders';
+
+        return route('admin.model', $model_name);
+    }
+
+    public function getBalance()
+    {
+        return PyBalance::select(\DB::raw('round(coalesce(sum(amount), 0)) as balance'))
+            ->where('buyer_id', $this->id)->get()[0]['balance'];
     }
 
 

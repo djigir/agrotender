@@ -70,8 +70,8 @@ class Resource extends Section implements Initializable
             //->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
 
         $display->setApply(function ($query)
         {
@@ -93,7 +93,7 @@ class Resource extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('resourceLang.content', 'Значение')
+                AdminFormElement::textarea('resourceLang.content', 'Значение')
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

@@ -27,12 +27,6 @@ use SleepingOwl\Admin\Section;
  */
 class BuyerPacksOrders extends Section implements Initializable
 {
-    const PAYMENTH_TYPE = [
-        1 => 'Приват 24',
-        2 => 'Карта',
-        3 => 'По счету',
-    ];
-
     /**
      * @var bool
      */
@@ -63,6 +57,7 @@ class BuyerPacksOrders extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('80px')
@@ -74,12 +69,12 @@ class BuyerPacksOrders extends Section implements Initializable
                 })->setWidth('250px'),
 
             AdminColumn::custom('Объявление', function (Model $model){
-                $post = 'отсутствует';
+                $post = 'Объявление не существует';
                 if ($model['torgPost']){
                     $post = $model['torgPost']->title;
                 }
                 $style = '';
-                if ($post == 'отсутствует'){
+                if ($post == 'Объявление не существует'){
                     $style = 'pointer-events: none; cursor: default; color:black';
                 }
                 return "<div class='row-link'>
@@ -88,14 +83,15 @@ class BuyerPacksOrders extends Section implements Initializable
             }),
 
             AdminColumn::custom('Активно', function (Model $model) {
-                $status_date = Carbon::now();
-                $diff_date = $status_date->diffInDays($model->endt);
+                $start = $model->stdt;
+                $end = $model->endt;
+                $now = Carbon::now();
 
-                $is_active = 'Нет актив.';
+                $is_active = 'Нет';
                 $style = '';
 
-                if ($diff_date > 0) {
-                    $is_active = 'Актив.';
+                if ($start <= $now && $end >= $now){
+                    $is_active = 'Да';
                     $style = 'color:red;';
                 }
 
@@ -119,34 +115,61 @@ class BuyerPacksOrders extends Section implements Initializable
                 ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-//            AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model){
-//                $paymeth_type = self::PAYMENTH_TYPE;
-//                return "<div class='row-text'>{$paymeth_type[$model['pyBill']->paymeth_type]}</div>";
-//            }),
+            AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model){
+//                $paymeth_type = $model['pyBill']->paymeth_type;
+                $paymeth_type = $model['pyBill'];
+                dd($paymeth_type);
+                $pay_method = '';
+
+//                switch ($paymeth_type) {
+//                    case 1:
+//                        $pay_method = 'Приват 24';
+//                        break;
+//                    case 2:
+//                        $pay_method = 'Карта';
+//                        break;
+//                    case 3:
+//                        $pay_method = 'По счету';
+//                        break;
+//                }
+
+                return "<div class='row-text'>{$pay_method}</div>";
+            })->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+                \AdminDisplayFilter::scope('TorgBuyerPackOreders')
+            );
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Buyer\BuyerPacksOrders::class, 'name')
+                ->setModelForOptions(\App\Models\Buyer\BuyerTarifPacks::class, 'title')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
-                ->setDisplay('name')
-                ->setColumnName('name')
-                ->setPlaceholder('All names'),
+                ->setDisplay('title')
+                ->setColumnName('pack_id')
+                ->setPlaceholder('Все типы объявления'),
 
             AdminColumnFilter::text()
                 ->setHtmlAttribute('class', 'ID_search')
                 ->setColumnName('id')
-                ->setPlaceholder('по ID'),
+                ->setPlaceholder('По ID'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('post_id')
+                ->setPlaceholder('По ID Объявления'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('torgPost.title')
+                ->setPlaceholder('По Тексту Объявления'),
 
         ]);
 
@@ -184,14 +207,6 @@ class BuyerPacksOrders extends Section implements Initializable
         ]);
 
         return $form;
-    }
-
-    /**
-     * @return FormInterface
-     */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
     }
 
     /**

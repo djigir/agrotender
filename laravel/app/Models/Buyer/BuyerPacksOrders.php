@@ -2,8 +2,8 @@
 
 namespace App\Models\Buyer;
 
-use App\Http\Sections\UserManagement\PyBill;
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Py\PyBill;
 use Illuminate\Database\Eloquent\Model;
 
 class BuyerPacksOrders extends Model
@@ -44,5 +44,20 @@ class BuyerPacksOrders extends Model
     public function pyBill()
     {
         return $this->hasOne(PyBill::class, 'buyer_id', 'user_id');
+    }
+
+    /* Scope */
+
+    /**
+     * @param     $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+
+    public function scopeTorgBuyerPackOreders($query, $type)
+    {
+        $user_id = $type['user_id'];
+
+        return $query->where('user_id', $user_id);
     }
 }

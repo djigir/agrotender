@@ -72,7 +72,7 @@ class TorgBuyer extends Section implements Initializable
             AdminColumn::boolean('smschecked', 'Телефон'),
 
             AdminColumn::custom('Баланс', function (\Illuminate\Database\Eloquent\Model $model) {
-                $balance = 0;
+                $balance = $model->getBalance();
                 return "<div class='row-text'>
                          {$balance}
                     </div>";
@@ -94,7 +94,7 @@ class TorgBuyer extends Section implements Initializable
             /* добавть ссылку на пакеты */
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
-                        <a class='comp_items_adverts' href='#' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>
+                        <a class='comp_items_adverts' href='{$model->TorgBuyerPackOreders()}?TorgBuyerPackOreders[user_id]={$model->id}' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
             })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 

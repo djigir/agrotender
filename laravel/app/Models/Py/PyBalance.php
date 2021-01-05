@@ -18,6 +18,9 @@ class PyBalance extends Model
         'amount', 'add_date',
     ];
 
+
+    /* Relations */
+
     public function pyBill()
     {
         return $this->hasMany(PyBill::class, 'id', 'bill_id');
