@@ -4931,7 +4931,7 @@ $(".click_port").click(function (event) {
 
 //=== HEADER ===//
 const $headerWrap = document.querySelector('.header__wrap')
-const $headerWrap_container = $headerWrap.querySelector('.new_container')
+const $headerWrap_container = document.querySelector('.header__wrap .new_container')
 
 function initHeader () {
   if ($headerWrap) {
@@ -4986,9 +4986,15 @@ function tradersPriceLine() {
     })
   }
 
-  initItem($btn)
-  initItem($link)
-  initItem($hoverElem)
+  if ($btn) {
+    initItem($btn)
+  }
+  if ($link) {
+    initItem($link)
+  }
+  if ($hoverElem) {
+    initItem($hoverElem)
+  }
 
 }
 
@@ -4997,16 +5003,18 @@ function headerTraderPricesArrow() {
   const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
   const tradersButton = document.querySelector('.header__tradersPrice-arrow')
 
-  tradersButton.addEventListener('click', () => {
-    tradersDropdown.classList.toggle('active')
-
-    const listener = (e) => {
-      tradersDropdown.classList.remove('active')
-      tradersDropdownParent.removeEventListener('mouseleave', listener)
-    }
+  if (tradersButton) {
+    tradersButton.addEventListener('click', () => {
+      tradersDropdown.classList.toggle('active')
   
-    tradersDropdownParent.addEventListener('mouseleave', listener)
-  })
+      const listener = (e) => {
+        tradersDropdown.classList.remove('active')
+        tradersDropdownParent.removeEventListener('mouseleave', listener)
+      }
+    
+      tradersDropdownParent.addEventListener('mouseleave', listener)
+    })
+  }
 }
 
 window.addEventListener('load', () => {
@@ -5096,3 +5104,47 @@ if (replaceItem) {
 // REPLACEMENT END
 
 //=== UTILS END==//
+
+if (document.querySelector('.trust-swipe .swiper-container')) {
+  new Swiper('.trust-swipe .swiper-container', {
+    // Navigation arrows
+    navigation: {
+      nextEl: '.trust-swipe .swiper-button-next',
+      prevEl: '.trust-swipe .swiper-button-prev',
+    },
+    // Optional parameters
+    slidesPerView: 8,
+    centeredSlides: false,
+    spaceBetween: 20,
+    loop:false,
+    simulateTouch: false,
+    breakpoints: {
+      675: {
+        slidesPerView: 3
+      }
+    }
+  });
+}
+
+if (document.querySelector('.traders-swipe')) {
+  new Swiper('.traders-swipe .swiper-container', {
+    // Navigation arrows
+
+    navigation: {
+      nextEl: '.traders-swipe .swiper-button-next',
+      prevEl: '.traders-swipe .swiper-button-prev',
+    },
+    // Optional parameters
+    slidesPerView: 2,
+    centeredSlides: false,
+    spaceBetween: 20,
+    loop:false,
+    simulateTouch: false,
+    breakpoints: {
+      675: {
+        slidesPerView: 1
+      }
+    }
+  });
+}
+

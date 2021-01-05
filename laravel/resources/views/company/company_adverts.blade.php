@@ -20,8 +20,8 @@
                         </select>
                     </form>
                 </div>
-                <div class="col-12 col-md-4 float-left mt-4 mt-md-0 d-flex d-sm-block">
-                    <h2 class="d-inline-block text-uppercase">Объявления</h2>
+                <div class="col-12 col-md-4 float-left mt-4 mt-md-0 d-none d-md-block">
+                    <h2 class="d-inline-block">Объявления</h2>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <div class="new_container mb-5">
-    <h2 class="mt-4">Контакты трейдера</h2>
+    <h2>Контакты трейдера</h2>
     @foreach($traders_contacts as $trader_contact)
         @if($trader_contact['traders_contacts']->count() != 0)
             <div class="content-block trader-contact py-2 px-3 py-sm-3 px-sm-4">

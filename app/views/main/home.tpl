@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<div class="new_container mt-4">
   <div class="row">
     <div class="position-relative w-100">
       <div class="col-12 col-md-9 float-md-right text-center text-md-right">
@@ -36,7 +36,7 @@
      </ul>
     </div> -->
 </div>
-<div class="container swiper traders-swipe">
+<div class="new_container swiper traders-swipe position-relative">
   <div class="swiper-container">
     <div class="swiper-wrapper">
       {foreach $prices as $rubric}
@@ -81,13 +81,13 @@
     <!-- If we need pagination -->
     <div class="swiper-pagination"></div>
     <!-- If we need scrollbar -->
-    <div class="swiper-scrollbar"></div>
+    <!-- <div class="swiper-scrollbar"></div> -->
   </div>
     <!-- If we need navigation buttons -->
-    <div class="swiper-button-prev"></div>
-    <div class="swiper-button-next"></div>
+    <div class="swiper-button-prev" style="left: -20px;"></div>
+    <div class="swiper-button-next" style="right: -20px;"></div>
 </div>
-<div class="container d-none d-md-block production-container">
+<div class="new_container d-none d-md-block production-container">
   <h3 class="mt-4 mb-3">Продукция:</h3>
   <div class="d-flex justify-content-between productions m-0 p-0 row position-relative">
     <a href="/" class="production" group="1">
@@ -125,12 +125,9 @@
     </div>
   </div>
 </div>
-<div class="container mt-3 mb-2 d-none d-md-block">
- 
-  <span class="popular" style="margin-top: 16px;display: block;">
-  <span style="font-weight: 600; color: #707070;">
-  <img alt="" src="/app/assets/img/speaker.svg" style="width: 24px; height: 24px"/>
-     Популярные культуры: </span> 
+<div class="new_container mt-3 mb-2 d-none d-md-block">
+  <div class="popular">
+  <span class="text">Популярные <span class="adaptive_remove">культуры:</span> </span> 
     <a href="https://agrotender.com.ua/traders/region_ukraine/pshenica_2_kl?viewmod=tbl" class="popular__block">Пшеница 2 кл.</a>
     <a href="https://agrotender.com.ua/traders/region_ukraine/pshenica_3_kl?viewmod=tbl" class="popular__block">Пшеница 3 кл.</a>
     <a href="https://agrotender.com.ua/traders/region_ukraine/kukuruza?viewmod=tbl" class="popular__block">Кукуруза</a>
@@ -138,12 +135,12 @@
     <a href="https://agrotender.com.ua/traders/region_ukraine/podsolnechnik?viewmod=tbl" class="popular__block">Подсолнечник</a>
     <a href="https://agrotender.com.ua/traders/region_ukraine/soya?viewmod=tbl" class="popular__block">Соя</a>
     <a href="https://agrotender.com.ua/traders/region_ukraine/yachmen?viewmod=tbl" class="popular__block">Ячмень</a>
-  </span>
+  </div>
 </div>
-<div class="container">
+<div class="new_container">
   <h2 class="d-inline-block text-uppercase mt-4 mb-3">Нам доверяют</h2>
 </div>
-<div class="container swiper trust-swipe">
+<div class="new_container swiper trust-swipe position-relative">
   <div class="swiper-container">
     <div class="swiper-wrapper" style="transform: translate3d(0px, 0px, 0px);">
       {foreach $randomTraders as $trader}
@@ -156,10 +153,10 @@
     </div>
   </div>
   <!-- If we need navigation buttons -->
-  <div class="swiper-button-prev"></div>
-  <div class="swiper-button-next"></div>
+  <div class="swiper-button-prev" style="left: -20px;top: 59px;"></div>
+  <div class="swiper-button-next" style="right: -20px;top: 59px;"></div>
 </div>
-<div class="container mt-4">
+<div class="new_container mt-4">
   <div class="row">
     <div class="position-relative w-100">
       <div class="col-12 col-md-8 float-md-right text-center text-md-right">
@@ -189,7 +186,7 @@
      </ul>
     </div> -->
 </div>
-<div class="container d-block d-md-block mb-1 mt-3">
+<div class="new_container d-block d-md-block mb-1 mt-3">
   {foreach from=$topAdv item=top}
   <div class="row mr-0 ml-0 mt-0 mb-4 justify-content-between">
     {foreach from=$top key=k item=adv}
@@ -260,12 +257,12 @@
 <div class="container mt-3 d-none d-md-block">
   <span class="popular">Популярные разделы: Кукуруза, Пшеница 2 кл., Пшеница 6 кл., Ячмень, Подсолнечник, Гречка, Овес</span>
 </div> -->
-<div class="container d-flex justify-content-center mt-4">
+<div class="new_container d-flex justify-content-center mt-4">
   {foreach $banners['bottom'] as $banner}
   {$banner}
   {/foreach}
 </div>
-<div class="container mt-4 mb-4 pt-2 homeDesc text-center text-md-left">
+<div class="new_container mt-4 mb-4 pt-2 homeDesc text-center text-md-left">
   <h1 class="title">АГРОТЕНДЕР - АГРАРНЫЙ САЙТ УКРАИНЫ №1</h1>
   <p class="desc mt-3 d-none d-md-block">
     Agrotender – портал, где покупать и продавать сельскохозяйственную продукцию выгодно. Компания была создана в 2010 году ключевыми специалистами агрорынка.

@@ -1,5 +1,7 @@
-<div class="new_container mt-4 mb-5">
-    <h2 class="mt-4">Контакты</h2>
+<div class="new_container mb-5">
+    <div class="company">
+        <h2 class="mt-4 d-none d-md-block">Контакты</h2>
+    </div>
     <div class="content-block trader-contact py-3 px-4">
         <div class="place d-flex justify-content-between">
             <div class="title">
@@ -8,7 +10,7 @@
         </div>
         <div class="contacts mt-4">
             @if($company->city !== null)
-                <div class="contact my-3 mx-sm-5 px-sm-4 position-relative">
+                <div class="contact my-3 mx-sm-5 px-sm-4 px-2 position-relative">
                     <div class="row">
                         <div class="col-12 col-sm text-left">
                             <span class="name">{{ $company->city }}</span>
@@ -16,7 +18,7 @@
                     </div>
                 </div>
             @endif
-            <div class="contact my-3 mx-sm-5 px-sm-4 position-relative">
+            <div class="contact my-3 mx-sm-5 px-sm-4 px-2 position-relative">
                 @if(!is_null($creator['name']) && $creator['name'] !== '' && !is_null($creator['phone']) && $creator['phone'] !== '')
                     <div class="row">
                         <div class="col-12 col-sm text-left">
@@ -39,7 +41,7 @@
                     </div>
                 @endif
             </div>
-            <div class="contact my-3 mx-sm-5 px-sm-4 position-relative">
+            <div class="contact my-3 mx-sm-5 px-sm-4 px-2 position-relative">
                 <div class="row">
                     <div class="col-12 col-sm text-left">
                         <b>Email :</b><span class="email"> {{ $creator['email'] }}</span>
@@ -58,7 +60,7 @@
             </div>
             <div class="contacts mt-4">
                 @foreach($company_contacts as $contact)
-                    <div class="contact my-3 mx-sm-5 px-sm-4 position-relative">
+                    <div class="contact my-3 mx-sm-5 px-sm-4 px-2 position-relative">
                         <div class="row px-3">
                             <div class="col p-0">
                                 @if($contact['dolg'] !== null)<b>{{ $contact['dolg'] }} </b>@endif<span class="name">@if($contact['fio'] !== null ) {!! $contact['fio'] !!} @else - @endif</span>
@@ -69,7 +71,7 @@
                                 <b>Телефон:</b> <span class="phone">@if($contact['phone'] !== null) {!! $contact['phone'] !!} @else - @endif</span>
                             </div>
                             @if($contact['email'] !== null)
-                                <div class="col-auto pl-0">
+                                <div class="col-auto">
                                     <b>Email:</b> <span class="email">@if($contact['email'] !== null) {!! $contact['email'] !!} @else - @endif</span>
                                 </div>
                             @endif

@@ -11,7 +11,7 @@
     <div class="new_container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
             <div class="col-4 d-block">
-                <h2 class="d-inline-block text-uppercase">Отзывы</h2>
+                <h2 class="d-inline-block">Отзывы</h2>
             </div>
             <div class="col-8 text-center text-md-right" id="reviews">
                 <a href="#" class="top-btn btn btn-primary align-bottom addReview">
