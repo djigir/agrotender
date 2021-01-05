@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\ADV\AdvTorgPost;
 use App\Models\Buyer\BuyerTarifPacks;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -214,64 +215,28 @@ class BuyerPacksOrders extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
+        /* если перешел с вкладки зарегистрированые пользователи */
+
         $user_id = request()->get('TorgBuyerPackOreders')['user_id'];
-        /* если перешел с вкладки зареш=гистрированые пользователи */
 
-        if ($user_id) {
-
-            $user = \App\Models\Torg\TorgBuyer::find($user_id);
-
-            $form = AdminForm::card()->addBody([
-                AdminFormElement::columns()->addColumn([
-
-                    AdminFormElement::html(function (Model $model) use($user){
-                        return "<div class='form-group form-element-text'><label for='name' class='control-label'>Имя</label>
-                            <input class='form-control' type='text' id='name' name='name' value='{$user->name}' readonly='readonly'>
-                        </div>";
-                    }),
-
-                    AdminFormElement::hidden('user_id')->setDefaultValue($user_id),
-
-                    AdminFormElement::custom(function (Model $model){
-                        $model->stdt = Carbon::now();
-                    }),
-
-                    AdminFormElement::custom(function (Model $model){
-                        $days = 30;
-                        $model->endt = Carbon::now()->addDays($days);
-                    }),
-
-                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-                    AdminFormElement::select('pack_id', 'Пакет')
-                        ->setModelForOptions(BuyerTarifPacks::class, 'title')
-                        ->setLoadOptionsQueryPreparer(function ($item, $query){
-                            return $query->where('pack_type', 0);
-                        })->setDisplay('title'),
-
-
-                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
-                    AdminFormElement::textarea('comments', 'Комментарии')
-                        ->setDefaultValue('Добавлено админом+')
-                        ->setRows(4),
-
-                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
-            ]);
-        }
-
-        /* если на прямую кликнул на тарифы */
+        $user = \App\Models\Torg\TorgBuyer::find($user_id);
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
 
-                AdminFormElement::number('user_id', 'ID пользователя'),
+                AdminFormElement::html(function (Model $model) use ($user) {
+                    return "<div class='form-group form-element-text'><label for='name' class='control-label'>Имя</label>
+                            <input class='form-control' type='text' id='name' name='name' value='{$user->name}' readonly='readonly'>
+                        </div>";
+                }),
 
-                AdminFormElement::custom(function (Model $model){
+                AdminFormElement::hidden('user_id')->setDefaultValue($user_id),
+
+                AdminFormElement::custom(function (Model $model) {
                     $model->stdt = Carbon::now();
                 }),
 
-                AdminFormElement::custom(function (Model $model){
+                AdminFormElement::custom(function (Model $model) {
                     $days = 30;
                     $model->endt = Carbon::now()->addDays($days);
                 }),
@@ -280,7 +245,7 @@ class BuyerPacksOrders extends Section implements Initializable
 
                 AdminFormElement::select('pack_id', 'Пакет')
                     ->setModelForOptions(BuyerTarifPacks::class, 'title')
-                    ->setLoadOptionsQueryPreparer(function ($item, $query){
+                    ->setLoadOptionsQueryPreparer(function ($item, $query) {
                         return $query->where('pack_type', 0);
                     })->setDisplay('title'),
 
@@ -294,11 +259,51 @@ class BuyerPacksOrders extends Section implements Initializable
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
+        /* если на прямую кликнул на тарифы */
+
+        if (!$user_id) {
+
+            $form = AdminForm::card()->addBody([
+                AdminFormElement::columns()->addColumn([
+
+                    AdminFormElement::number('user_id', 'ID пользователя'),
+
+                    AdminFormElement::custom(function (Model $model) {
+                        $model->stdt = Carbon::now();
+                    }),
+
+                    AdminFormElement::custom(function (Model $model) {
+                        $days = 30;
+                        $model->endt = Carbon::now()->addDays($days);
+                    }),
+
+                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+
+                    AdminFormElement::select('pack_id', 'Пакет')
+                        ->setModelForOptions(BuyerTarifPacks::class, 'title')
+                        ->setLoadOptionsQueryPreparer(function ($item, $query) {
+                            return $query->where('pack_type', 0);
+                        })->setDisplay('title'),
+
+
+                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+
+                    AdminFormElement::textarea('comments', 'Комментарии')
+                        ->setDefaultValue('Добавлено админом+')
+                        ->setRows(4),
+
+                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
+
+            ]);
+
+        }
+
+
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
+            'save' => new Save(),
+            'save_and_close' => new SaveAndClose(),
+            'save_and_create' => new SaveAndCreate(),
+            'cancel' => (new Cancel()),
         ]);
 
         return $form;

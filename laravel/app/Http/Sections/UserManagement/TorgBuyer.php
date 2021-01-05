@@ -16,6 +16,7 @@ use SleepingOwl\Admin\Form\Buttons\Cancel;
 use SleepingOwl\Admin\Form\Buttons\Save;
 use SleepingOwl\Admin\Form\Buttons\SaveAndClose;
 use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
+use SleepingOwl\Admin\Form\FormElement;
 use SleepingOwl\Admin\Section;
 
 /**
@@ -57,6 +58,12 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+
+        /* выгрузить сразу телефоны если нажата вкладка "Выгрузить Телефоны" */
+        $type = request()->get('type');
+        if ($type == 'download_phones') {
+            return redirect()->route('admin.download_phones');
+        }
 
         $columns = [
             AdminColumn::text('id', 'ID')
@@ -175,12 +182,11 @@ class TorgBuyer extends Section implements Initializable
                 $request = \request()->get('columns')[6]['search']['value'];
                 $from = stristr($request, ':', ':');
                 $to = substr(strrchr($request, ':'), 1);
-
-
             })->setHtmlAttribute('class', 'count-adverts-filter')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
