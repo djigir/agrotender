@@ -4,6 +4,7 @@ namespace App\Models\Buyer;
 
 use App\Models\ADV\AdvTorgPost;
 use App\Models\Py\PyBill;
+use App\Models\Torg\TorgBuyer;
 use Illuminate\Database\Eloquent\Model;
 
 class BuyerPacksOrders extends Model
@@ -44,6 +45,11 @@ class BuyerPacksOrders extends Model
     public function pyBill()
     {
         return $this->hasOne(PyBill::class, 'buyer_id', 'user_id');
+    }
+
+    public function torgBuyer()
+    {
+        return $this->hasOne(TorgBuyer::class, 'id', 'user_id');
     }
 
     /* Scope */

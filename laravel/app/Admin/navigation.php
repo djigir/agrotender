@@ -259,6 +259,39 @@ return [
     ],
 
 
+    [
+        'title' => 'Выгрузка',
+        'icon' => 'fas fa-file-download',
+
+        'pages' => [
+
+            'pages' => [
+
+                'title' => 'Выгрузить телефоны',
+                'icon'  => 'fas fa-phone-alt',
+                'url'   => '/admin_dev/torg_buyers?type=download_phones',
+
+            ],
+
+            [
+                'title' => 'Экспорт Email компаниий',
+                'icon'  => 'fas fa-envelope',
+                'url'   => '/admin_dev/comp_items?type=traders',
+
+            ],
+
+            [
+                'title' => 'Экспорт Email объявлений',
+                'icon'  => 'far fa-envelope',
+                'url'   => '/admin_dev/comp_items?type=traders',
+
+            ],
+
+        ]
+    ],
+
+
+
 
 
 

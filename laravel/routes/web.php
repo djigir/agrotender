@@ -8,6 +8,16 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
 
+/* Admins routes */
+
+/* routes for traders  */
+Route::prefix('admin_dev')
+    ->name('admin.')
+    ->group(function () {
+        Route::get('/download_users', 'AdminController@downloadUsers')->name('download_users');
+        Route::get('/download_phones', 'AdminController@downloadPhones')->name('download_phones');
+    });
+
 
 /* routes for traders  */
 Route::prefix('traders')
