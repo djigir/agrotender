@@ -24,8 +24,7 @@ use Illuminate\Database\Eloquent\Model;
 class Pages extends Model
 {
     protected $table = 'pages';
-
-    protected $appends = ['pages_lang'];
+    public $timestamps = false;
 
     protected $fillable = [
         'id', 'parent_id', 'page_name', 'create_date',
@@ -33,12 +32,8 @@ class Pages extends Model
         'page_record_type', 'page_ico',
     ];
 
-
-    public function getPagesLangAttribute()
+    public function pagesLang()
     {
-        return PagesLang::where('item_id', $this->id)
-            ->select('item_id', 'page_mean', 'page_title', 'page_keywords', 'page_descr',
-                'title', 'header', 'content', 'page_title')->get()->toArray()[0];
+        return $this->hasOne(PagesLang::class, 'item_id', 'id');
     }
-
 }

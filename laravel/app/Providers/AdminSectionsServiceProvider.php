@@ -66,6 +66,10 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Buyer\BuyerTarifPacks::class => 'App\Http\Sections\AlgorithmManagement\BuyerTarifPacks',
 
 
+                                        /* Управление страницами */
+        \App\Models\Pages\Pages::class => 'App\Http\Sections\PagesManagement\Pages',
+        \App\Models\Popup\PopupDlgs::class => 'App\Http\Sections\PagesManagement\PopupDlgs',
+
     ];
 
     /**
