@@ -65,6 +65,48 @@ class TorgBuyer extends Section implements Initializable
             return redirect()->route('admin.download_phones');
         }
 
+        /* выгрузить Email с фильтром */
+        if ($type == 'email_adverts') {
+
+            $columns = [
+                AdminColumn::text('id', 'ID')
+                    ->setWidth('40px')
+                    ->setHtmlAttribute('class', 'text-center')
+            ];
+
+            $display = AdminDisplay::datatables()
+                ->setName('firstdatatables')
+                ->setOrder([[0, 'desc']])
+                ->setDisplaySearch(false)
+                ->paginate(25)
+                ->setColumns($columns)
+                ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+                ->setFilters(
+                    \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
+                );
+
+            $display->setColumnFilters([
+                AdminColumnFilter::select()
+                    ->setModelForOptions(\App\Models\Regions\Regions::class)
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('name')
+                    ->setColumnName('obl_id')
+                    ->setPlaceholder('Все области'),
+
+            ]);
+
+            $display->getColumnFilters()->setPlacement('card.heading');
+
+            return $display;
+        }
+
+
+
+
+
+
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('80px')
@@ -98,7 +140,7 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::text('phone', 'Контакты', 'email')
                 ->setHtmlAttribute('class', 'text-center'),
-            /* добавть ссылку на пакеты */
+
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
                         <a class='comp_items_adverts' href='{$model->TorgBuyerPackOreders()}?TorgBuyerPackOreders[user_id]={$model->id}' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>
@@ -200,6 +242,8 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('login', 'Логин')
@@ -282,6 +326,10 @@ class TorgBuyer extends Section implements Initializable
      */
     public function isDeletable(Model $model)
     {
+        $type = request()->get('type');
+        if ($type == 'email_adverts') {
+            return false;
+        }
         return true;
     }
 

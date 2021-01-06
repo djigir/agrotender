@@ -46,3 +46,8 @@
 .grouped-element__footer .form-group .clearfix{
     display: none;
 }
+
+/* Экспорт Email компаний фильтр секций */
+.section-filter {
+    width: 30%;
+}

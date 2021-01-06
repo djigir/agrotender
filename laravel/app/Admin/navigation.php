@@ -260,14 +260,14 @@ return [
             [
                 'title' => 'Экспорт Email компаниий',
                 'icon'  => 'fas fa-envelope',
-                'url'   => '/admin_dev/comp_items?type=traders',
+                'url'   => '/admin_dev/comp_items?type=email_company',
 
             ],
 
             [
                 'title' => 'Экспорт Email объявлений',
                 'icon'  => 'far fa-envelope',
-                'url'   => '/admin_dev/comp_items?type=traders',
+                'url'   => '/admin_dev/torg_buyers?type=email_adverts',
 
             ],
 

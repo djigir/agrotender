@@ -12,7 +12,7 @@ class PhoneExport implements FromCollection
     */
     public function collection()
     {
-        return TorgBuyer::select('phone')->get();
+        return TorgBuyer::select('phone', 'phone2', 'phone3')->get();
     }
 
 }

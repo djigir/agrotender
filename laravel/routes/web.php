@@ -16,6 +16,7 @@ Route::prefix('admin_dev')
     ->group(function () {
         Route::get('/download_users', 'AdminController@downloadUsers')->name('download_users');
         Route::get('/download_phones', 'AdminController@downloadPhones')->name('download_phones');
+        Route::get('/download_company_emails', 'AdminController@downloadCompanyEmails')->name('download_company_emails');
     });
 
 

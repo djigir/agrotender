@@ -69,6 +69,10 @@ class CompItems extends Section implements Initializable
      */
     public function setTitle(string $title): void
     {
+        $type = request()->get('type');
+        if ($type == 'email_company') {
+            $this->title = 'Экспорт E-mail адресов компаний';
+        }
         $this->title = $title;
     }
 
@@ -79,10 +83,91 @@ class CompItems extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        $type = \request()->get('type');
+
+        /* Экспрот Email компаний с фильтром */
+
+        /* START EXPORT */
+        if ($type == 'email_company'){
+
+            $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
+            $rubriks_gr = CompTgroups::all();
+
+            $rubrik_select = [];
+            /** @var CompTgroups $rubrik_gr */
+            foreach ($rubriks_gr as $rubrik_gr) {
+                /** @var \App\Models\Comp\CompTopic $rubrik */
+                foreach ($rubriks as $rubrik) {
+                    if ($rubrik->menu_group_id !== $rubrik_gr->id) {
+                        continue;
+                    }
+                    $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
+                }
+            }
+
+
+            $columns = [
+
+                AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
+                    return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
+                })->setWidth('100px')
+                    ->setHtmlAttribute('class', 'text-center')
+                    ->setOrderable('id'),
+                ];
+
+            $display = AdminDisplay::datatables()
+                ->setName('firstdatatables')
+                ->setOrder([[0, 'desc']])
+                ->setDisplaySearch(false)
+                ->paginate(25)
+                ->setColumns($columns)
+                ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+
+            $display->setColumnFilters([
+                AdminColumnFilter::select()
+                    ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('name')
+                    ->setColumnName('obl_id')
+                    ->setHtmlAttributes([
+                        'class' => ['obl_filter'],
+                        'type_filter' => 'regions'
+                    ])
+                    ->setPlaceholder('Все Области'),
+
+
+                AdminColumnFilter::select()
+                    ->setOptions($rubrik_select)
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('title')
+                    ->setColumnName('compTopicItem.topic_id')
+                    ->setPlaceholder('Все секции')
+                    ->setHtmlAttributes([
+                        'class' => ['section_filter'],
+                        'type_filter' => 'sections'
+                    ])
+                    ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
+
+
+            ]);
+
+
+            $display->getColumnFilters()->setPlacement('card.heading');
+
+            return $display;
+
+        }
+        /* END EXPORT */
+
+
         /* get type company */
 
         /* START TRADERS */
-        $type = \request()->get('type');
 
         if($type == 'traders'){
 
@@ -679,6 +764,10 @@ class CompItems extends Section implements Initializable
      */
     public function isDeletable(Model $model)
     {
+        $type = \request()->get('type');
+        if ($type == 'email_company') {
+            return  false;
+        }
         return true;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CompItemsEmailsExport;
 use App\Exports\PhoneExport;
 use App\Exports\TorgBuyerExport;
 use App\Models\Torg\TorgBuyer;
@@ -26,12 +27,23 @@ class AdminController extends Controller
     public function downloadUsers(Request $request)
     {
         $users_id = '';
-        return Excel::download(new TorgBuyerExport($users_id), 'trade_marks.xlsx');
+        return Excel::download(new TorgBuyerExport($users_id), 'users.csv');
     }
 
     public function downloadPhones()
     {
         return Excel::download(new PhoneExport(), 'all_phones.csv');
+    }
+
+    public function downloadCompanyEmails(Request $request)
+    {
+//        $link = \request()->server('REQUEST_URI');
+//        $obl_id = mb_substr($link, 44, 2);
+//        dd($obl_id);
+
+        dd(__METHOD__, $request->all());
+        $comp_id = '';
+        return Excel::download(new CompItemsEmailsExport($comp_id), 'company_emails.csv');
     }
 
 }
