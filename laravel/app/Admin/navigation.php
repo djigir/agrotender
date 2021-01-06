@@ -94,6 +94,10 @@ return [
                 ->setIcon('fas fa-info')
                 ->setPriority(0),
 
+            (new Page(\App\Models\ADV\AdvTorgTopic::class))
+                ->setIcon('fas fa-info')
+                ->setPriority(0),
+
             [
                 'title' => 'SEO TITLES BOARD',
                 'icon'  => 'far fa-building',

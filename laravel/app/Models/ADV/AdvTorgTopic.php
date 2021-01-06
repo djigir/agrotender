@@ -56,4 +56,19 @@ class AdvTorgTopic extends Model
     {
         return $this->belongsTo(AdvWordTopic::class, 'id', 'topic_id');
     }
+
+    public function AdvTorgTgroups()
+    {
+        return $this->hasMany(AdvTorgTgroups::class, 'id', 'menu_group_id');
+    }
+
+    public function AdvTorgTopicPostnum()
+    {
+        return $this->hasMany(AdvTorgTopicPostnum::class, 'topic_id', 'id');
+    }
+
+    public function advPost()
+    {
+        return $this->hasMany(AdvTorgPost::class,'topic_id', 'id');
+    }
 }
