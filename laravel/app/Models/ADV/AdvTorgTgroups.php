@@ -27,4 +27,9 @@ class AdvTorgTgroups extends Model
     ];
 
     public $timestamps = false;
+
+    public function AdvTorgTopic()
+    {
+        return $this->belongsTo(AdvTorgTopic::class, 'menu_group_id', 'id');
+    }
 }

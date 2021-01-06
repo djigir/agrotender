@@ -127,4 +127,9 @@ class AdvTorgPost extends Model
         return $query->where('author_id', $author_id);
     }
 
+    public function advTorgTopic2()
+    {
+        return $this->belongsTo(AdvTorgTopic::class, 'id', 'topic_id');
+    }
+
 }
