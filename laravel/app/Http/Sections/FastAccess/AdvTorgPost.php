@@ -68,7 +68,7 @@ class AdvTorgPost extends Section implements Initializable
     public function onDisplay($payload = [])
     {
 
-        $posts = \App\Models\ADV\AdvTorgPost::get();
+//        $posts = \App\Models\ADV\AdvTorgPost::get();
         $rubriks_ids = AdvTorgTopic::pluck('parent_id');
         $rubriks_name = AdvTorgTopic::where('parent_id', $rubriks_ids)->get();
         $rubriks_all = AdvTorgTopic::all();

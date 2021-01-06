@@ -94,6 +94,13 @@ return [
                 ->setIcon('fas fa-info')
                 ->setPriority(0),
 
+            [
+                'title' => 'SEO TITLES BOARD',
+                'icon'  => 'far fa-building',
+                'url'   => '/admin_dev/seo_titles?type=seo_board',
+
+            ],
+
         ]
     ],
 
