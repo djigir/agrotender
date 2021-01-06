@@ -3,15 +3,18 @@
 namespace App\Exports;
 
 use App\Models\Comp\CompItems;
+use App\Models\Comp\CompTopicItem;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CompItemsEmailsExport implements FromCollection
 {
-    protected $comp_id = [];
+    protected $obl_id;
+    protected $section_id;
 
-    public function __construct($comp_id)
+    public function __construct($obl_id, $section_id)
     {
-        $this->comp_id = $comp_id;
+        $this->obl_id = $obl_id;
+        $this->section_id = $section_id;
     }
 
     /**
@@ -19,6 +22,16 @@ class CompItemsEmailsExport implements FromCollection
     */
     public function collection()
     {
-        return CompItems::all();
+        dd($this->section_id);
+        if ($this->obl_id != null) {
+            return CompItems::select('email')->where('obl_id', $this->obl_id)->get();
+        }
+
+        if ($this->section_id != null) {
+            $section = CompTopicItem::where('topic_id', $this->section_id)->pluck('item_id');
+            CompItems::select('email')->whereIn('id', $section)->get();
+        }
+
+        return CompItems::select('email')->get();
     }
 }

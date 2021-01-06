@@ -61,6 +61,94 @@ class SeoTitlesTrades extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        /* SEO TITLE BOARD */
+
+        $type = request()->get('type');
+
+        if ($type == 'seo_board') {
+            $columns = [
+                AdminColumn::text('id', 'ID')
+                    ->setWidth('50px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::text('tradersProductsLang.name', 'Культура')
+                    ->setOrderable(function($query, $direction) {
+                        $query->orderBy('cult_id', $direction);
+                    })
+                    ->setWidth('250px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::custom('Область', function (Model $model) {
+                    $region_name = 'Все Области';
+
+                    if ($model['regions'] != null){
+                        $region_name = $model['regions']->name;
+                    }
+
+                    return "<div class='row-text text-center'>{$region_name}</div>";
+                })->setOrderable(function($query, $direction) {
+                    $query->orderBy('obl_id', $direction);
+                })->setWidth('220px')
+                    ->setHtmlAttribute('class', 'text-center'),
+
+                AdminColumn::custom('Тип', function (Model $model){
+                    $type = '';
+                    $type_id = $model->type_id;
+
+                    switch ($type_id) {
+                        case 0:
+                            $type = '';
+                            break;
+                        case 1:
+                            $type = 'Куплю';
+                            break;
+                        case 2:
+                            $type = "Продам";
+                            break;
+                    }
+                    return "<div class='row-text text-center'>{$type}</div>";
+
+                })->setOrderable(function($query, $direction) {
+                    $query->orderBy('type_id', $direction);
+                })->setWidth('230px'),
+
+                AdminColumn::link('page_title', 'Title')
+                    ->setOrderable(function($query, $direction) {
+                        $query->orderBy('add_date', $direction);
+                    }),
+
+            ];
+
+            $display = AdminDisplay::datatables()
+                ->setApply(function ($query){
+                    $query->where('pagetype', 0);
+                })
+                ->setName('firstdatatables')
+                ->setOrder([[0, 'desc']])
+                ->setDisplaySearch(false)
+                ->paginate(25)
+                ->setColumns($columns)
+                ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
+            $display->setColumnFilters([
+                AdminColumnFilter::select()
+                    ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
+                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+                        return $query;
+                    })
+                    ->setDisplay('name')
+                    ->setColumnName('obl_id')
+                    ->setPlaceholder('Все области'),
+
+            ]);
+
+            $display->getColumnFilters()->setPlacement('card.heading');
+
+            return $display;
+        }
+
+        /* SEO TITLE TRADERS */
+
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('50px')

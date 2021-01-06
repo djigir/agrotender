@@ -37,13 +37,10 @@ class AdminController extends Controller
 
     public function downloadCompanyEmails(Request $request)
     {
-//        $link = \request()->server('REQUEST_URI');
-//        $obl_id = mb_substr($link, 44, 2);
-//        dd($obl_id);
+        $obl_id = $request->get('obl_id');
+        $section_id = $request->get('section_id');
 
-        dd(__METHOD__, $request->all());
-        $comp_id = '';
-        return Excel::download(new CompItemsEmailsExport($comp_id), 'company_emails.csv');
+        return Excel::download(new CompItemsEmailsExport($obl_id, $section_id), 'company_emails.csv');
     }
 
 }
