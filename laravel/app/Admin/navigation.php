@@ -242,6 +242,22 @@ return [
         ]
     ],
 
+    [
+        'title' => 'Управление страницами',
+        'icon' => 'fas fa-project-diagram',
+
+        'pages' => [
+
+            (new Page(     \App\Models\Pages\Pages::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(0),
+
+            (new Page(     \App\Models\Popup\PopupDlgs::class))
+                ->setIcon('fas fa-user')
+                ->setPriority(1),
+        ]
+    ],
+
 
 
 
