@@ -136,12 +136,12 @@ class AdvTorgTopic extends Section implements Initializable
                 AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
                 AdminFormElement::text('title', 'Название новой рубрики')->required(),
-                AdminFormElement::number('sort_num', 'Порядковый номер'),
+                AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
                 AdminFormElement::select('visible', 'Показывать на сайте', [
                     0 => 'Нет',
                     1 => 'Да',
                 ])->setDefaultValue(1),
-                AdminFormElement::textarea('descr', 'Описание'),
+                AdminFormElement::textarea('descr', 'Описание')->required(),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
             ->addColumn($seo_data, 'col-xs-12 col-sm-6 col-md-8 col-lg-8')
             ->addColumn($seo_buy, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')

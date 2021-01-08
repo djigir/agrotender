@@ -30,7 +30,7 @@ $topics = \App\Models\ADV\AdvTorgTopic::orderBy('sort_num')->orderBy('title')->g
                                         </span>
                                     </div>
                                     <div style="margin-bottom: 30px;">
-                                        @foreach($topics->where('menu_group_id', $tgroup->id)->where('parent_id', $topic->id) as $topic_cult)
+                                        @foreach($topics->where('parent_id', $topic->id) as $topic_cult)
                                             <div style="margin-left: 120px; margin-bottom: 10px" class="form-elements">
                                                 <span>{{$topic_cult->title}} ({{\App\Models\ADV\AdvTorgPost::where(['topic_id' => $topic_cult->id, 'archive' => 0, 'active' => 1])->count()}})</span>
                                             </div>
