@@ -69,10 +69,6 @@ class CompItems extends Section implements Initializable
      */
     public function setTitle(string $title): void
     {
-        $type = request()->get('type');
-        if ($type == 'email_company') {
-            $this->title = 'Экспорт E-mail адресов компаний';
-        }
         $this->title = $title;
     }
 
@@ -108,8 +104,8 @@ class CompItems extends Section implements Initializable
 
             $columns = [
 
-                AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
-                    return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
+                AdminColumn::custom('', function(\Illuminate\Database\Eloquent\Model $model) {
+//                    return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
                 })->setWidth('100px')
                     ->setHtmlAttribute('class', 'text-center')
                     ->setOrderable('id'),
@@ -140,7 +136,7 @@ class CompItems extends Section implements Initializable
 
 
                 AdminColumnFilter::select()
-                    ->setOptions($rubrik_select)
+                    ->setModelForOptions(CompTgroups::class, 'title')
                     ->setLoadOptionsQueryPreparer(function($element, $query) {
                         return $query;
                     })
@@ -152,8 +148,6 @@ class CompItems extends Section implements Initializable
                         'type_filter' => 'sections'
                     ])
                     ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
-
-
             ]);
 
 

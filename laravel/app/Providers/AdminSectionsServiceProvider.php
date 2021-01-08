@@ -49,6 +49,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\ADV\AdvTorgPostComplains::class => 'App\Http\Sections\Board\AdvTorgPostComplains',
         \App\Models\ADV\AdvWordTopic::class => 'App\Http\Sections\Board\AdvWordTopic',
         \App\Models\ADV\AdvTorgTopic::class => 'App\Http\Sections\Board\AdvTorgTopic',
+        \App\Models\Seo\SeoTitlesBoard::class => 'App\Http\Sections\Board\SeoTitlesBoard',
 
 
                                         /* Компании */

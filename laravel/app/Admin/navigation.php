@@ -98,12 +98,16 @@ return [
                 ->setIcon('fas fa-info')
                 ->setPriority(0),
 
-            [
-                'title' => 'SEO TITLES BOARD',
-                'icon'  => 'far fa-building',
-                'url'   => '/admin_dev/seo_titles?type=seo_board',
+//            [
+//                'title' => 'SEO TITLES BOARD',
+//                'icon'  => 'far fa-building',
+//                'url'   => '/admin_dev/seo_titles?type=seo_board',
+//
+//            ],
 
-            ],
+            (new Page(\App\Models\Seo\SeoTitlesBoard::class))
+                ->setIcon('far fa-building')
+                ->setPriority(0),
 
         ]
     ],
