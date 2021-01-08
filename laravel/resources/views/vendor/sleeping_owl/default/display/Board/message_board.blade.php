@@ -20,7 +20,7 @@ $topics = \App\Models\ADV\AdvTorgTopic::orderBy('sort_num')->orderBy('title')->g
                             <div style="margin-top: 15px;">
                                 @foreach($topics->where('menu_group_id', $tgroup->id)->where('parent_id', 0) as $topic)
                                     <div style="margin-left: 50px; margin-bottom: 50px" class="form-elements">
-                                        <span>{{$topic->title}} ()
+                                        <span>{{$topic->title}}
                                             <div class="table-control-btn" style="margin-top: -25px; margin-right: 15px;">
                                                 <a href="{{Request::url().'/'.$topic->id.'/edit'}}" class="btn-primary btn btn-xs" title="" data-toggle="tooltip"
                                                    data-original-title="Редактировать">

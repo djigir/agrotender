@@ -95,11 +95,22 @@ class AdvTorgTopic extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
-        $groups = \App\Models\ADV\AdvTorgTgroups::orderBy('sort_num')->pluck('title', 'id');
+        $groups = \App\Models\ADV\AdvTorgTgroups::orderBy('sort_num')->get();
+        $section = \App\Models\ADV\AdvTorgTopic::select('parent_id', 'menu_group_id', 'id', 'sort_num', 'title')->orderBy('sort_num')->orderBy('title')->get();
+        $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0)->where('title', 'Семена зерновых');
+        $base_section_sub = [];
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::select('title', 'В группе (только для 1го уровня)', [$groups->toArray()]),
+                AdminFormElement::select('title', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->required(),
+//                AdminFormElement::dependentselect('title', 'Раздел в который добавлять')
+//                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
+//                    ->setDataDepends('topic_id')
+//                    ->setLoadOptionsQueryPreparer(function($item, $query) use($base_section){
+//                        return $query->whereIn('parent_id', $base_section->pluck('id'));
+//                    })->setDisplay('title')->required(),
+
+                AdminFormElement::select('title', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
                 AdminFormElement::text('name', 'Название новой рубрики')->required(),
                 AdminFormElement::number('name', 'Порядковый номер'),
                 AdminFormElement::select('name', 'Показывать на сайте', [
