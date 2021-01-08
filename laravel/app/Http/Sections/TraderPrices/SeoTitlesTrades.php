@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\ADV\AdvTorgTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersProductGroupLanguage;
@@ -71,7 +72,7 @@ class SeoTitlesTrades extends Section implements Initializable
                     ->setWidth('50px')
                     ->setHtmlAttribute('class', 'text-center'),
 
-                AdminColumn::text('tradersProductsLang.name', 'Культура')
+                AdminColumn::text('culture.title', 'Культура')
                     ->setOrderable(function($query, $direction) {
                         $query->orderBy('cult_id', $direction);
                     })
@@ -313,6 +314,97 @@ class SeoTitlesTrades extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
+        $type = \request()->get('type');
+
+        if ($type == 'seo_board'){
+            $regions = Regions::pluck('id', 'name')->toArray();
+            $ukraine = ['Вся Украина' => 0];
+            $all_regions = array_merge($regions, $ukraine);
+            $all_regions = array_flip($all_regions);
+
+            /* вывод с главной категорией */
+
+            $rubriks = \App\Models\ADV\AdvTorgTopic::where('parent_id', '!=', 0)->get();
+
+            $rubriks_gr = AdvTorgTopic::where('parent_id', 0)->get();
+
+            $rubriks_gr_name = AdvTorgTopic::where('parent_id', 0)->pluck('title', 'id')->toArray();
+
+            $rubrik_select = [];
+
+            foreach ($rubriks_gr as $rubrick_gr) {
+                foreach ($rubriks as $rubrik) {
+                    if ($rubrik->parent_id !== $rubrick_gr->id) {
+                        continue;
+                    }
+                    $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrick_gr->title . ')';
+                }
+            }
+
+
+            $form = AdminForm::card()->addBody([
+                AdminFormElement::columns()->addColumn([
+
+
+                    AdminFormElement::select('sect_id', 'Раздел')
+                        ->setOptions($rubriks_gr_name)->setSortable('menu_group_id'),
+
+//                    AdminFormElement::select('sect_id', 'Раздел с культурой')
+//                        ->setOptions($rubrik_select)->setSortable('menu_group_id'),
+
+
+                    AdminFormElement::select('obl_id', 'Область')
+                        ->setOptions($all_regions)
+                        ->setDisplay($all_regions)
+                        ->setDefaultValue(0),
+
+                    AdminFormElement::select('type_id', 'Тип')
+                        ->setOptions([
+                            0 => 'Все типы',
+                            1 => 'Куплю',
+                            2 => 'Продам',
+                        ])->setDefaultValue(0)->required(),
+
+
+                    AdminFormElement::textarea('page_title', 'Title')
+                        ->setRows(3)
+                        ->required(),
+
+                    AdminFormElement::textarea('page_descr', 'Description')
+                        ->setRows(4)
+                        ->required(),
+
+                    AdminFormElement::text('page_h1', 'Заголовок H1')
+                        ->required(),
+
+
+                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+
+                    AdminFormElement::textarea('content_text', 'Текст')
+                        ->required(),
+
+                    AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
+
+                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+
+                    AdminFormElement::hidden('lang_id')->setDefaultValue(1),
+
+                    AdminFormElement::hidden('pagetype')->setDefaultValue(0)
+
+                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
+            ]);
+
+            $form->getButtons()->setButtons([
+                'save'  => new Save(),
+                'save_and_close'  => new SaveAndClose(),
+                'save_and_create'  => new SaveAndCreate(),
+                'cancel'  => (new Cancel()),
+            ]);
+
+            return $form;
+        }
+
+
         $regions = Regions::pluck('id', 'name')->toArray();
         $ukraine = ['Вся Украина' => 0];
         $all_regions = array_merge($regions, $ukraine);
