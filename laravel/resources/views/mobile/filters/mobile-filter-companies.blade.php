@@ -37,8 +37,8 @@
                         <input type="text" class="hidden" id='input-mobile-rubric-company' name="rubric" value='{{isset($rubric_id) ? $rubric_id : ''}}'>
                         <input type="text" class="hidden" id='input-mobile-region-company' name="region" value='{{isset($region) ? $region: ''}}'>
 
-                        <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
-                        <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv">{{$region_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="product" data-product="" data-title="Виды деятельности">{{$culture_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="region" data-region="region_kyiv" data-title="Места приемки">{{$region_name}}</div>
                     </div>
 
                     <div class="mobile-filter-footer">

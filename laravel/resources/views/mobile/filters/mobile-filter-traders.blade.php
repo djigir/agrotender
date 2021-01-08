@@ -33,8 +33,8 @@ if($regions->count() > 0){
                         <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="hidden">
                         <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="hidden">
                         <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="hidden">
-                        <div class="mobile_filter-content-item withmargin" id="product" data-product="">{{$culture_name}}</div>
-                        <div class="mobile_filter-content-item withmargin" id="region" data-region="">{{$region_port_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="product" data-product="" data-title="Культуры">{{$culture_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="region" data-region="" data-title="Места приемки">{{$region_port_name}}</div>
                     </div>
 
                     <div class="mobile-filter-footer">
@@ -52,8 +52,8 @@ if($regions->count() > 0){
                         <div class="mobile_filter-content-item without_arrow click_region" data-id="1" data-url="ukraine">Вся Украина</div>
                         <div class="mobile_filter-content-item without_arrow click_port" data-id="1" data-url="all">Все порты</div>
 
-                        <div class="mobile_filter-content-item select-region-filter" data-minusidx="1">Выбрать область</div>
-                        <div class="mobile_filter-content-item select-port-filter" data-minusidx="1">Выбрать порт</div>
+                        <div class="mobile_filter-content-item select-region-filter" data-minusidx="1" data-title="Области">Выбрать область</div>
+                        <div class="mobile_filter-content-item select-port-filter" data-minusidx="1"  data-title="Порты">Выбрать порт</div>
                     </div>
                 </div>
 
