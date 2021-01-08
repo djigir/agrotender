@@ -2,6 +2,7 @@
 
 namespace App\Models\Seo;
 
+use App\Models\ADV\AdvTorgTopic;
 use App\Models\Regions\Regions;
 use App\Models\Traders\Traders_Products_Lang;
 use Carbon\Carbon;
@@ -62,5 +63,10 @@ class SeoTitles extends Model
     public function regions()
     {
         return $this->hasOne(Regions::class, 'id', 'obl_id');
+    }
+
+    public function culture()
+    {
+        return $this->hasOne(AdvTorgTopic::class, 'id', 'sect_id');
     }
 }
