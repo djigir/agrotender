@@ -98,7 +98,8 @@ class AdvTorgTopic extends Section implements Initializable
     {
         $groups = \App\Models\ADV\AdvTorgTgroups::orderBy('sort_num')->get();
         $section = \App\Models\ADV\AdvTorgTopic::select('parent_id', 'menu_group_id', 'id', 'sort_num', 'title')->orderBy('sort_num')->orderBy('title')->get();
-        $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0);
+        $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0)->push(['id' => 0, 'title' => 'Корневой раздел']);
+
         $seo_buy = [];
         $seo_sale = [];
         $seo_data = [];
@@ -132,7 +133,7 @@ class AdvTorgTopic extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::select('parent_id', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->required(),
+                AdminFormElement::select('parent_id', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->setDefaultValue(0)->required(),
                 AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
                 AdminFormElement::text('title', 'Название новой рубрики')->required(),
