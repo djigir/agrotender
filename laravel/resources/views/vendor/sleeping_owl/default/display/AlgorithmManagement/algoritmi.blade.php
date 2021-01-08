@@ -24,7 +24,7 @@
 
 <div class="content body">
     <div class="links-row"></div>
-    <div class="card card-default ">
+    <div class="card card-default">
         <div class="panel-table card-body pt-0 pl-0 pr-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                 <table data-id="T3o01Ek6qt" data-order="[[0,&quot;asc&quot;]]"
