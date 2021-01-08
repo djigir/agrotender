@@ -34,7 +34,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdvTorgTopic extends Model
 {
     protected $table = 'adv_torg_topic';
-
+    public $timestamps = false;
     protected $fillable = [
         'id', 'parent_id', 'sort_num', 'sort_incol', 'visible',
         'add_date', 'descr', 'title', 'menu_group_id', 'page_h1',

@@ -89,44 +89,68 @@ class AdvTorgTopic extends Section implements Initializable
 
     /**
      * @param int|null $id
+     * @param int|string $type
      * @param array $payload
      *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
+    public function onEdit($id = null, $payload = [], $type = '')
     {
         $groups = \App\Models\ADV\AdvTorgTgroups::orderBy('sort_num')->get();
         $section = \App\Models\ADV\AdvTorgTopic::select('parent_id', 'menu_group_id', 'id', 'sort_num', 'title')->orderBy('sort_num')->orderBy('title')->get();
-        $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0)->where('title', 'Семена зерновых');
-        $base_section_sub = [];
+        $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0);
+        $seo_buy = [];
+        $seo_sale = [];
+        $seo_data = [];
+
+        if($type != 'create'){
+            $seo_data = [
+                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные</span>'),
+                AdminFormElement::text('page_h1', 'H1 заголовок'),
+                AdminFormElement::text('page_title','Title'),
+                AdminFormElement::text('page_keywords','Keywords'),
+                AdminFormElement::textarea('page_descr','Description')->setRows(5),
+                AdminFormElement::textarea('descr','Описание')->setRows(5),
+            ];
+            $seo_buy = [
+                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Покупка</span>'),
+                AdminFormElement::text('seo_h1_buy', 'H1 заголовок'),
+                AdminFormElement::text('seo_title_buy','Title'),
+                AdminFormElement::text('seo_keyw_buy','Keywords'),
+                AdminFormElement::textarea('seo_descr_buy','Description')->setRows(5),
+                AdminFormElement::textarea('seo_text_buy','Описание')->setRows(5),
+            ];
+            $seo_sale = [
+                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Продажа</span>'),
+                AdminFormElement::text('seo_h1_sell','H1 заголовок'),
+                AdminFormElement::text('seo_title_sell','Title'),
+                AdminFormElement::text('seo_keyw_sell','Keywords'),
+                AdminFormElement::textarea('seo_descr_sell','Description')->setRows(5),
+                AdminFormElement::textarea('seo_text_sell','Описание')->setRows(5),
+            ];
+        }
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::select('title', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->required(),
-//                AdminFormElement::dependentselect('title', 'Раздел в который добавлять')
-//                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
-//                    ->setDataDepends('topic_id')
-//                    ->setLoadOptionsQueryPreparer(function($item, $query) use($base_section){
-//                        return $query->whereIn('parent_id', $base_section->pluck('id'));
-//                    })->setDisplay('title')->required(),
-
-                AdminFormElement::select('title', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
-                AdminFormElement::text('name', 'Название новой рубрики')->required(),
-                AdminFormElement::number('name', 'Порядковый номер'),
-                AdminFormElement::select('name', 'Показывать на сайте', [
+                AdminFormElement::select('parent_id', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->required(),
+                AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
+                AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
+                AdminFormElement::text('title', 'Название новой рубрики')->required(),
+                AdminFormElement::number('sort_num', 'Порядковый номер'),
+                AdminFormElement::select('visible', 'Показывать на сайте', [
                     0 => 'Нет',
                     1 => 'Да',
                 ])->setDefaultValue(1),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::textarea('id', 'Описание'),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+                AdminFormElement::textarea('descr', 'Описание'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
+            ->addColumn($seo_data, 'col-xs-12 col-sm-6 col-md-8 col-lg-8')
+            ->addColumn($seo_buy, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')
+            ->addColumn($seo_sale, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-//            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -138,7 +162,7 @@ class AdvTorgTopic extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-        return $this->onEdit(null, $payload);
+        return $this->onEdit(null, $payload, 'create');
     }
 
     /**
