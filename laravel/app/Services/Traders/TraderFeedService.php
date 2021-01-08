@@ -22,7 +22,7 @@ class TraderFeedService
      */
     public function getFeed($type = self::TYPE_FORWARD)
     {
-        return \Cache::remember('FEED', 60*60*24, function () use ($type) {
+        return \Cache::remember('FEED', 1200, function () use ($type) {
             $type_text = self::TYPES_TEXT[$type];
 
             $price_field = 'trader_price'.$type_text;
