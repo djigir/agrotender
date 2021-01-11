@@ -7,7 +7,7 @@ use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
+class TorgBuyerExport implements FromCollection, WithHeadings
 {
     protected $data = [];
 
@@ -61,31 +61,33 @@ class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
         return TorgBuyer::all();
     }
 
-    public function map($torgBuyer): array
-    {
+//    public function map($torgBuyer): array
+//    {
+//
+//        $is_active = $torgBuyer->is_active;
+//        $active = 'Да';
+//        if ($is_active == 0) {
+//            $active = 'Нет';
+//        }
+//
+//
+//        return [
+//            $torgBuyer->id,
+//            $torgBuyer->login,
+//            $active,
+//            $torgBuyer->orgname,
+//            $torgBuyer->name,
+//            $torgBuyer->region->name,
+//            $torgBuyer->last_ip,
+//            $torgBuyer->phone,
+//            $torgBuyer->phone2,
+//            $torgBuyer->phone3,
+//            $torgBuyer->email,
+//            $torgBuyer->isactive_ban,
+//        ];
+//    }
 
-        $is_active = $torgBuyer->is_active;
-        $active = 'Да';
-        if ($is_active == 0) {
-            $active = 'Нет';
-        }
 
-
-        return [
-            $torgBuyer->id,
-            $torgBuyer->login,
-            $active,
-            $torgBuyer->orgname,
-            $torgBuyer->name,
-            $torgBuyer->region->name,
-            $torgBuyer->last_ip,
-            $torgBuyer->phone,
-            $torgBuyer->phone2,
-            $torgBuyer->phone3,
-            $torgBuyer->email,
-            $torgBuyer->isactive_ban,
-        ];
-    }
 
     public function headings(): array
     {
