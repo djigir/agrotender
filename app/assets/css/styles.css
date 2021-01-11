@@ -8228,3 +8228,9 @@ table.sortTable th.table_haeder_th_cell {
 .hidden_date {
   display: none;
 }
+
+@media screen and (max-width: 480px) {
+  jdiv {
+    display: none !important;
+  }
+}
