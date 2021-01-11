@@ -108,42 +108,43 @@ class PyBillDoc extends Section implements Initializable
 //    }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \SleepingOwl\Admin\Form\FormCard
      */
     public function onCreate($payload = [])
     {
         $id = \request()->get('id');
         $form = null;
 
-        if($id != null){
-            $py_bill = \App\Models\Py\PyBill::where('id', $id)->first();
-            $date = Carbon::now();
+//        if($id != null){ }
+        $py_bill = \App\Models\Py\PyBill::where('id', $id)->first();
+        $date = Carbon::now();
 
-            $form = AdminForm::card()->addBody([
-                AdminFormElement::columns()->addColumn([
-                    AdminFormElement::hidden('buyer_id')->setDefaultValue($py_bill['buyer_id']),
-                    AdminFormElement::hidden('bill_id')->setDefaultValue($id),
-                    AdminFormElement::hidden('add_date')->setDefaultValue($date),
+        $form = AdminForm::card()->addBody([
+            AdminFormElement::columns()->addColumn([
+                AdminFormElement::hidden('buyer_id')->setDefaultValue($py_bill['buyer_id']),
+                AdminFormElement::hidden('bill_id')->setDefaultValue($id),
+                AdminFormElement::hidden('add_date')->setDefaultValue($date),
 
-                    AdminFormElement::select('doc_type', 'Тип документа',[
-                        0 => 'Счёт',
-                        1 => 'Акт',
-                        2 => 'Скан-копия',
-                    ])->setDefaultValue(0)->required(),
-                    AdminFormElement::number('sum_tot', 'Сумма счета')->setDefaultValue($py_bill['amount'])->required()->setReadonly(true),
-                    AdminFormElement::file('filename', 'Файл')->required(),
-                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-            ]);
+                AdminFormElement::select('doc_type', 'Тип документа',[
+                    0 => 'Счёт',
+                    1 => 'Акт',
+                    2 => 'Скан-копия',
+                ])->setDefaultValue(0)->required(),
+                AdminFormElement::number('sum_tot', 'Сумма счета')->setDefaultValue($py_bill['amount'])->required()->setReadonly(true),
+                AdminFormElement::file('filename', 'Файл')->required(),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+        ]);
 
+        if(\request()->get('filename')){
             $filename = 'billdocs/'.$date->format('Y').'_'.$date->format('m').'/'.\request()->get('filename');
             \request()->merge(['filename' => $filename]);
-
-            $form->getButtons()->setButtons([
-                'save'  => new Save(),
-                'save_and_close'  => new SaveAndClose(),
-                'cancel'  => (new Cancel()),
-            ]);
         }
+
+        $form->getButtons()->setButtons([
+            'save'  => new Save(),
+            'save_and_close'  => new SaveAndClose(),
+            'cancel'  => (new Cancel()),
+        ]);
 
         return $form;
     }
