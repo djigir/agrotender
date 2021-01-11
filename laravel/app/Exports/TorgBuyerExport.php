@@ -76,7 +76,13 @@ class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
             $active,
             $torgBuyer->orgname,
             $torgBuyer->name,
-            $torgBuyer->regions->name
+            $torgBuyer->regions->name,
+            $torgBuyer->last_ip,
+            $torgBuyer->phone,
+            $torgBuyer->phone2,
+            $torgBuyer->phone3,
+            $torgBuyer->email,
+            $torgBuyer->isactive_ban,
         ];
         dd($a);
     }
