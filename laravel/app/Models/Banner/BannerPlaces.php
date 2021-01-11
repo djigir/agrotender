@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
 class BannerPlaces extends Model
 {
     protected $table = 'banner_places';
-
+    public $timestamps = false;
     protected $fillable = [
         'id',
         'page_type',
