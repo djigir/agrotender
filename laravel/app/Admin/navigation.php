@@ -98,12 +98,6 @@ return [
                 ->setIcon('fas fa-info')
                 ->setPriority(0),
 
-//            [
-//                'title' => 'SEO TITLES BOARD',
-//                'icon'  => 'far fa-building',
-//                'url'   => '/admin_dev/seo_titles?type=seo_board',
-//
-//            ],
 
             (new Page(\App\Models\Seo\SeoTitlesBoard::class))
                 ->setIcon('far fa-building')
@@ -228,6 +222,10 @@ return [
                 ->setPriority(0),
 
             (new Page(\App\Models\Buyer\BuyerPacksOrders::class))
+                ->setIcon('fas fa-box-open')
+                ->setPriority(0),
+
+            (new Page(\App\Models\Py\PyBillDoc::class))
                 ->setIcon('fas fa-box-open')
                 ->setPriority(0),
         ]

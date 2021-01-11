@@ -57,7 +57,7 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function initialize()
     {
-        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
+//        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
     /**

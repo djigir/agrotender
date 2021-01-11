@@ -37,7 +37,7 @@ class SeoTitlesBoard extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'SEO TITLES BOARD';
+    protected $title = 'Seo Titles Board';
 
     /**
      * @var string
@@ -49,7 +49,7 @@ class SeoTitlesBoard extends Section implements Initializable
      */
     public function initialize()
     {
-        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
+//        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
     /**
@@ -72,7 +72,7 @@ class SeoTitlesBoard extends Section implements Initializable
                 ->setWidth('50px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('culture.title', 'Культура')
+            AdminColumn::text('culture.title', 'Раздел')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('cult_id', $direction);
                 })
@@ -170,9 +170,8 @@ class SeoTitlesBoard extends Section implements Initializable
 
                     return "<div class='form-group form-element-text'>
                         <label for='section' class='control-label required'>Раздел</label>
-                    <input class='form-control' type='text' id='section' name='section' value='{$model->id}' readonly></div>";
+                    <input class='form-control' type='text' id='section' name='section' value='{$model['culture']->title}' readonly></div>";
 
-//                    return "<div style='margin-bottom: 10px'>Раздел: <span style='font-weight:bold;'>{$model->id}</span></div>";
                 }),
 
                 AdminFormElement::html(function (Model $model) use($all_regions){
@@ -185,7 +184,6 @@ class SeoTitlesBoard extends Section implements Initializable
                         <label for='region' class='control-label required'>Область</label>
                     <input class='form-control' type='text' id='region' name='region' value='{$region_name}' readonly></div>";
 
-//                    return "<div style='margin-bottom: 10px'>Область: <span style='font-weight:bold;'>{$region_name}</span></div>";
                 }),
 
                 AdminFormElement::html(function (Model $model) use($all_regions){
@@ -212,23 +210,28 @@ class SeoTitlesBoard extends Section implements Initializable
 
                 AdminFormElement::textarea('page_title', 'Title')
                     ->setRows(2)
+                    ->setDefaultValue('-')
                     ->required(),
 
                 AdminFormElement::textarea('page_keywords', 'Keywords')
                     ->setRows(2)
+                    ->setDefaultValue('-')
                     ->required(),
 
                 AdminFormElement::textarea('page_descr', 'Description')
                     ->setRows(4)
+                    ->setDefaultValue('-')
                     ->required(),
 
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
 
                 AdminFormElement::text('page_h1', 'Заголовок H1')
+                    ->setDefaultValue('-')
                     ->required(),
 
                 AdminFormElement::textarea('content_text', 'Текст')
+                    ->setDefaultValue('-')
                         ->required(),
 
                 AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
@@ -240,7 +243,34 @@ class SeoTitlesBoard extends Section implements Initializable
                 AdminFormElement::hidden('pagetype')->setDefaultValue(0)
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+
+
+            AdminFormElement::html('<div style="text-align: center">
+                                <span>Шаблоны для объявлений категории</span><br>
+                                <span>_advtit_ - обозначение заголовка объявления</span><br>
+                                <span>_advcont_ - описание объявления</span><br>
+                                    </div>'
+                                ),
+
+            AdminFormElement::text('tpl_items_title', 'Title')
+                ->setDefaultValue('-'),
+
+            AdminFormElement::text('tpl_items_keywords', 'Keywords')
+                ->setDefaultValue('-'),
+
+            AdminFormElement::text('tpl_items_descr', 'Description')
+                ->setDefaultValue('-'),
+
+            AdminFormElement::textarea('tpl_items_text', 'Текст')
+                ->setDefaultValue('-')
+                ->setRows(3),
+
+            AdminFormElement::textarea('tpl_items_words', 'Текст2')
+                ->setDefaultValue('-')
+                ->setRows(3),
+
         ]);
+
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
@@ -257,7 +287,76 @@ class SeoTitlesBoard extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-        return $this->onEdit(null, $payload);
+
+        $form = AdminForm::card()->addBody([
+
+            AdminFormElement::columns()->addColumn([
+
+                AdminFormElement::select('sect_id')
+                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
+                    ->setDisplay('title'),
+
+                AdminFormElement::html('По умолчанию вся Украина'),
+
+                AdminFormElement::select('obl_id', 'Область')
+                    ->setModelForOptions(Regions::class, 'name'),
+
+
+                AdminFormElement::select('type_id', 'Тип услуги')
+                    ->setOptions([
+                        0 => 'Все типы',
+                        1 => 'Куплю',
+                        2 => 'Продам',
+                    ]),
+
+                AdminFormElement::textarea('page_title', 'Title')
+                    ->setRows(2)
+                    ->setDefaultValue('-')
+                    ->required(),
+
+                AdminFormElement::textarea('page_keywords', 'Keywords')
+                    ->setRows(2)
+                    ->setDefaultValue('-')
+                    ->required(),
+
+                AdminFormElement::textarea('page_descr', 'Description')
+                    ->setRows(4)
+                    ->setDefaultValue('-')
+                    ->required(),
+
+
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+
+                AdminFormElement::text('page_h1', 'Заголовок H1')
+                    ->setDefaultValue('-')
+                    ->required(),
+
+                AdminFormElement::textarea('content_text', 'Текст')
+                    ->setDefaultValue('-')
+                    ->required(),
+
+                AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
+
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+
+                AdminFormElement::hidden('lang_id')->setDefaultValue(1),
+
+                AdminFormElement::hidden('pagetype')->setDefaultValue(0)
+
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+
+
+        ]);
+
+
+        $form->getButtons()->setButtons([
+            'save'  => new Save(),
+            'save_and_close'  => new SaveAndClose(),
+            'save_and_create'  => new SaveAndCreate(),
+            'cancel'  => (new Cancel()),
+        ]);
+
+        return $form;
     }
 
     /**
