@@ -271,6 +271,19 @@ return [
         ]
     ],
 
+    [
+        'title' => 'Реклама',
+        'icon' => 'fab fa-buysellads',
+
+        'pages' => [
+
+            (new Page(     \App\Models\Banner\BannerPlaces::class))
+                ->setIcon('fab fa-buysellads')
+                ->setPriority(0),
+        ]
+    ],
+
+
 
     [
         'title' => 'Выгрузка',
@@ -302,7 +315,6 @@ return [
 
         ]
     ],
-
 
 
 

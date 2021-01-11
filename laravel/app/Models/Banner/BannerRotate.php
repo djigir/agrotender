@@ -42,7 +42,7 @@ use Illuminate\Database\Eloquent\Model;
 class BannerRotate extends Model
 {
     protected $table = 'banner_rotate';
-
+    public $timestamps = false;
     const TYPE_TOP = 43; //Верх
     const TYPE_FOOTER = 10;//Футер
     const TYPE_LEFT = 11;//Левая колонка
@@ -57,6 +57,4 @@ class BannerRotate extends Model
     ];
 
     protected $dates = ['dt_start', 'dt_end', 'dt_start_req', 'dt_end_req', 'add_date'];
-
-
 }

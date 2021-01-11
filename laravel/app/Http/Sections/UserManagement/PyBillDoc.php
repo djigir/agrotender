@@ -112,10 +112,11 @@ class PyBillDoc extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-        $id = \request()->get('id');
-        $form = null;
+        if(empty(\request()->all())){
+            return redirect()->route('admin.model', 'py_bills');
+        }
 
-//        if($id != null){ }
+        $id = \request()->get('id');
         $py_bill = \App\Models\Py\PyBill::where('id', $id)->first();
         $date = Carbon::now();
 
