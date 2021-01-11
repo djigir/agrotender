@@ -24,7 +24,7 @@
     <ul class="spoiler">
         <li class="spoiler_small_mb">
             <a href="#" class="spoiler_flex">
-                <img src="{{$company->logo_file && file_exists($company->logo_file) ? $company->logo_file : '/app/assets/img/no-image.png'}}" alt="">
+                <img src="{{$company->logo_file && file_exists($company->logo_file) ? '/'.$company->logo_file : '/app/assets/img/no-image.png'}}" alt="">
                 <span>{{$company->title}}</span>
             </a>
         </li>
