@@ -100,7 +100,7 @@
             </div>
         </div>
     </div>
-        <div class="price-table-wrap ports scroll-x  d-sm-none">
+        <div class="price-table-wrap regions scroll-x  d-sm-none">
             <div class="content-block prices-block" style="position: relative">
                 <table class="sortTable price-table regions-table">
                     <thead>
@@ -233,7 +233,7 @@
         </div>
     </div>
     @if(!empty($region_place))
-        <div class="price-table-wrap ports scroll-x  d-sm-none">
+        <div class="price-table-wrap regions scroll-x  d-sm-none">
             <div class="content-block prices-block" style="position: relative">
                 <table class="sortTable price-table regions-table">
                     <thead>

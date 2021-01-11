@@ -101,7 +101,7 @@ header, main, footer {
 
 body {
   background-color: #EFF1F5;
-  font-family: 'Montserrat';
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;
@@ -2083,7 +2083,7 @@ body[data-page="main/elev"] {
 }
 
 .sortTable td, .sortTable th {
-    padding: 10px 25px;
+    padding: 10px 18px;
     text-align: center
 }
 
@@ -2180,23 +2180,17 @@ table.price-table td {
 }
 
 .sortTable .price-down {
+  font-family: 'Montserrat';
   color: #c20000;
 }
 
 .sortTable .price-up {
+  font-family: 'Montserrat';
   color: #009000;
 }
 
-
 table.sortTable tr td {
     background: #fff
-}
-
-/* table.sortTable tr:nth-child(2n) td {
-  background: #f0f5fb;
-} */
-table.sortTable tr:hover td{
-  /* background: #f0f5fb; */
 }
 
 table.sortTable.regions-table tr td {
@@ -2205,19 +2199,6 @@ table.sortTable.regions-table tr td {
 table.sortTable.ports-table tr td {
   border-bottom: inset 1px #dfeaf1;
 }
-table.sortTable.regions-table tr:nth-child(2n) td {
-  /* background: #fffaf2; */
-}
-table.sortTable.regions-table th:first-child {
-
-}
-
-/* table.sortTable tr.vip td {
-  background: #fffbd6
-}
-table.sortTable tr.vip:hover td {
-  background: #fbf4b0
-} */
 
 table.sortTable tr.default:hover td,
 table.sortTable tr.vip:hover td {
@@ -3206,9 +3187,11 @@ table.price-table i[class*="delete"] {
 
 table.sortTable.regions-table th {
   background: #FF7404;
+  min-width: 140px;
 }
 table.sortTable.ports-table th {
   background: #143573;
+  min-width: 140px;
 }
 
 .table-tabs {
@@ -3758,7 +3741,7 @@ a.changePhone {
 .price-table-wrap.regions::-webkit-scrollbar-thumb {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
-    background: #f8922d; 
+    background: #FF7404; 
 }
 .price-table-wrap.regions::-webkit-scrollbar-thumb:window-inactive {
   background: #f8922d; 
@@ -7878,14 +7861,14 @@ table.sortTable th.table_haeder_th_cell {
 }
 
 .new_company_header .content_title {
-  padding-top: 12px;
   font-family: Montserrat;
   font-style: normal;
   font-weight: 600;
-  font-size: 20px;
   line-height: 1;
   letter-spacing: 0.02em;
   color: #001430;
+  padding-top: 32px;
+  font-size: 24px;
 }
 
 .new_company_header .content_subtitle {
@@ -7894,13 +7877,18 @@ table.sortTable th.table_haeder_th_cell {
   font-size: 14px;
   line-height: 1.2;
   letter-spacing: 0.02em;
-  /* color: #001430; */
-  color: transparent;
+  color: #001430;
   margin-top: 8px;
+  display: none;
 }
+
 @media screen and (max-width: 768px) {
+  .new_company_header .content_title {
+    padding-top: 10px;
+    font-size: 20px;
+  }
   .new_company_header .content_subtitle {
-    color: #001430;
+    display: block;
   }
 }
 
@@ -8234,3 +8222,25 @@ table.sortTable th.table_haeder_th_cell {
     display: none !important;
   }
 }
+
+/* Table trades */
+.min_width_column-money {
+  min-width: 140px !important;
+}
+
+.traders_table_top {
+  padding: 4px 10px;
+  background: #FFEE94;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 11px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  color: #746C41;
+  margin-right: 12px;
+}
+
+.traders_table_top.top_color {
+  background: #FFDA56;
+}
+
