@@ -78,7 +78,7 @@ class BannerRotate extends Section implements Initializable
      */
     public function onEdit($place_id = null, $payload = [], $type = null)
     {
-        $banner_info = \App\Models\Banner\BannerPlaces::find(\request()->get('id'));
+
 
         if($type) {
             $form = AdminForm::card()->addBody([
@@ -96,7 +96,10 @@ class BannerRotate extends Section implements Initializable
 
                 ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
             ]);
-        }else{
+        }
+        else{
+            $banner_info = \App\Models\Banner\BannerPlaces::find($this->model_value['place_id']);
+
             $page = self::PAGE[$banner_info->page_type];
             $position = $banner_info->position.' - '.$banner_info->name;
             $size_banner = $banner_info->size_w.' x '.$banner_info->size_h.' px';
@@ -148,13 +151,9 @@ class BannerRotate extends Section implements Initializable
                 ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')
             ]);
         }
-//        На какой странице:	Все страницы
-//Номер позиции:	4 - Боди
-//Размеры банера:	471 x 1059 px
-
 
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
+            'save' => new Save(),
             'save_and_close'  => new SaveAndClose(),
             'cancel'  => (new Cancel()),
         ]);
