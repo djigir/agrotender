@@ -43,6 +43,7 @@
     <!-- Required CSS -->
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-33473390-1"></script>
+    <script src="//code-ya.jivosite.com/widget/wCymYduPKb" async></script>
 </head>
 <body data-page="{$page}">
 

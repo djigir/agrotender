@@ -34,12 +34,8 @@
             this.closeContentItems()
           }
 
-          // remove previous listener
-          // this.filterBg.removeEventListener('click', listener)
-
           const wasAdded = this.openContentItem(idx)
 
-          // adding event listener
           if (wasAdded) {
             this.filterBg.addEventListener('click', listener)
           }
@@ -152,6 +148,7 @@
         currency: '',
         product: ''
       }
+      this.prevTitle = 'Фильтры'
       this.init()
     }
 
@@ -272,25 +269,11 @@
 
       this.button_first.onclick = () => this.close()
       this.button_second.onclick = () => {
-        if($('.name_rubric').text() == 'Области' || $('.name_rubric').text() == 'Порты'){
-          this.setTitle('Место приема');
-        }else if($('.name_rubric').text() != 'Место приема' && $('.name_rubric').text() != 'Культуры' && $('.name_rubric').text() != 'Фильтры' && $('.name_rubric').text() != 'Области' && $('.name_rubric').text() != 'Порты'){
-          this.setTitle('Культуры')
-        }
-        else{
-          this.setTitle('Фильтры')
-        }
+        this.setTitle('Фильтры')
         this.openScreen('first')
       }
       this.button_third.onclick = () => {
-        if($('.name_rubric').text() == 'Области' || $('.name_rubric').text() == 'Порты'){
-          this.setTitle('Место приема');
-        }else if($('.name_rubric').text() != 'Место приема' && $('.name_rubric').text() != 'Культуры' && $('.name_rubric').text() != 'Фильтры' && $('.name_rubric').text() != 'Области' && $('.name_rubric').text() != 'Порты'){
-          this.setTitle('Культуры')
-        }
-        else{
-          this.setTitle('Фильтры')
-        }
+        this.setTitle(this.prevTitle)
         this.openScreen('second')
       }
     }
@@ -301,6 +284,10 @@
       clickableItems.forEach((c, idx) => {
         c.addEventListener('click', (e) => {
           this.openScreen('second', idx)
+          if (c.dataset.title) {
+            this.prevTitle = this.getTitle()
+            this.setTitle(c.dataset.title)
+          }
         })
       })
     }
@@ -312,19 +299,14 @@
       clickableItems.forEach((c, idx) => {
         c.addEventListener('click', () => {
           if (c.dataset.url) {
+            this.setTitle('Фильтры')
             this.openScreen('first')
             this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.url)
           }
-          /*
-          else if (c.dataset.minusidx) {
-            console.log('c.dataset.minusidx', c)
-            // this.openScreen('third', idx - 2)
-            this.openScreen('third', idx)
-          }
-          */
           else {
             this.openScreen('third', idx)
             if (c.dataset.title) {
+              this.prevTitle = this.getTitle() 
               this.setTitle(c.dataset.title)
             }
           }
@@ -335,6 +317,7 @@
 
       clickableLinks.forEach((a, idx) => {
         a.addEventListener('click', (e) => {
+          this.setTitle('Фильтры')
           this.openScreen('first')
           this.changeTextOnFirstScreen(a.dataset.id, a.textContent, a.dataset.url)
         })
@@ -347,6 +330,7 @@
       clickableItems.forEach((c, idx) => {
         c.addEventListener('click', (e) => {
           e.preventDefault()
+          this.setTitle('Фильтры')
           this.openScreen('first')
           this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.product)
         })
@@ -406,6 +390,7 @@
             output.querySelectorAll('li a').forEach(link => {
               link.onclick = () => {
                 this.search_url.product = link.dataset.product
+                this.setTitle('Фильтры')
                 this.openScreen('first')
                 this.changeTextOnFirstScreen(link.dataset.id, link.textContent, link.dataset.url)
               }
@@ -437,6 +422,10 @@
     setTitle(text) {
       document.querySelector('.mobile_filter-header span').textContent = text
     }
+
+    getTitle() {
+      return document.querySelector('.mobile_filter-header span').textContent
+    }
   }
 
   const $filter = document.querySelector('.mobile_filter')
@@ -454,28 +443,24 @@
   /* Для записи значение в value input в моб. фильтре компаний */
   $(".click-culture-company").click(function (event) {
     let rubric = event.currentTarget.getAttribute('culture-id');
-    $('.name_rubric').text('Фильтры');
     $('#input-mobile-rubric-company').attr('value', rubric);
   });
 
   $(".click-region-company").click(function (event) {
     let rubric = event.currentTarget.getAttribute('data-url');
-    $('.name_rubric').text('Фильтры');
     $('#input-mobile-region-company').attr('value', rubric);
   });
 
 
-  /* Для записи значение в value input в моб. фильтре трейдеров */
+  // /* Для записи значение в value input в моб. фильтре трейдеров */
   $(".click_culture").click(function (event) {
     let rubric = event.currentTarget.getAttribute('data-product');
-    $('.name_rubric').text('Фильтры');
     $('#new-input-mobile-rubric').attr('value', rubric);
   });
 
 
   $(".click_region").click(function (event) {
     let region = event.currentTarget.getAttribute('data-url');
-    $('.name_rubric').text('Фильтры');
     $('#new-input-mobile-region-t').attr('value', region);
     $('#new-input-mobile-port-t').attr('value', null);
   });
@@ -483,24 +468,8 @@
 
   $(".click_port").click(function (event) {
     let port = event.currentTarget.getAttribute('data-url');
-    $('.name_rubric').text('Фильтры');
     $('#new-input-mobile-port-t').attr('value', port);
     $('#new-input-mobile-region-t').attr('value', null);
   });
 
-  $('.select-region-filter').click(function (event) {
-    $('.name_rubric').text('Области');
-  });
-
-  $('.select-port-filter').click(function (event) {
-    $('.name_rubric').text('Порты');
-  });
-
-  $('#region').click(function (event) {
-    $('.name_rubric').text('Место приемки');
-  });
-
-  $('#product').click(function (event) {
-    $('.name_rubric').text('Виды деятельности');
-  });
 })()

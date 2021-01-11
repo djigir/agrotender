@@ -7427,6 +7427,7 @@ table.proposedTable tr.not-viewed td {
   margin-bottom: 10px;
 }
 .mobile_filter .search_wrap button {
+  outline: none;
   position: absolute;
   width: 20px;
   height: 20px;
@@ -8226,4 +8227,10 @@ table.sortTable th.table_haeder_th_cell {
 
 .hidden_date {
   display: none;
+}
+
+@media screen and (max-width: 480px) {
+  jdiv {
+    display: none !important;
+  }
 }
