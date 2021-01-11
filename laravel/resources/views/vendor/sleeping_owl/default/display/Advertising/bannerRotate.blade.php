@@ -2,6 +2,7 @@
     $banner_rotate = \App\Models\Banner\BannerRotate::where('place_id', \request()->get('id'))->get();
     $banner_rotate_confirmed = $banner_rotate->where('archive', 0)->where('inrotate', 1);
     $banner_rotate_applications = $banner_rotate->where('archive', 0)->where('inrotate', 0);
+
     $banner_info = \App\Models\Banner\BannerPlaces::find(\request()->get('id'));
 
     $PAGE = [
@@ -18,7 +19,6 @@
     ];
 
 ?>
-
 <div class="card-heading card-header" style="margin-bottom: 25px">
     <a href="{{Request::url()}}/create?place_id={{\request()->get('id')}}" class="btn btn-primary btn-create" target="_blank">
         <i class="fas fa-plus"></i> Новая запись
@@ -26,7 +26,8 @@
     <div class="pull-right block-actions"></div>
 </div>
 
-<div class="content body">
+@if(!$banner_rotate_confirmed->isEmpty())
+    <div class="content body">
     <div class="links-row"></div>
     <div class="card card-default">
         <div class="card-heading card-header" style="margin-bottom: 25px">
@@ -89,7 +90,7 @@
                     @foreach($banner_rotate_confirmed as $confirmed)
                         <?php
 
-                            $url_edit = Request::url() . '/' . $confirmed->id . '/edit?id='.\request()->get('id');
+                            $url_edit = Request::url() . '/' . $confirmed->id . '/edit';
                             $url_delete = Request::url() . '/' . $confirmed->id . '/delete';
                         ?>
                         <tr role="row" class="odd">
@@ -123,8 +124,9 @@
         </div>
     </div>
 </div>
+@endif
 
-
+@if(!$banner_rotate_applications->isEmpty())
 <div class="content body">
     <div class="links-row"></div>
     <div class="card card-default">
@@ -190,7 +192,7 @@
                                 $is_busy = true;
                             }
 
-                            $url_edit = Request::url() . '/' . $applications->id . '/edit?id='.\request()->get('id');
+                            $url_edit = Request::url() . '/' . $applications->id . '/edit';
                             $url_delete = Request::url() . '/' . $applications->id . '/delete';
                         ?>
 
@@ -224,4 +226,4 @@
         </div>
     </div>
 </div>
-
+@endif
