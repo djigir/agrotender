@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -78,13 +79,12 @@ class BannerRotate extends Section implements Initializable
      */
     public function onEdit($place_id = null, $payload = [], $type = null)
     {
-
-
         if($type) {
             $form = AdminForm::card()->addBody([
                 AdminFormElement::columns()->addColumn([
                     AdminFormElement::text('cont_name', 'Имя заказчика')->required(),
                     AdminFormElement::hidden('place_id')->setDefaultValue($place_id),
+                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
                     AdminFormElement::text('cont_mail', 'E-mail заказчика')->required(),
                     AdminFormElement::select('pay_type', 'Способ оплаты', [
                         1 => 'Оплата наличными',
