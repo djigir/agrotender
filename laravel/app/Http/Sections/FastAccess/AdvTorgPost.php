@@ -68,19 +68,7 @@ class AdvTorgPost extends Section implements Initializable
     public function onDisplay($payload = [])
     {
 
-//        $posts = \App\Models\ADV\AdvTorgPost::get();
-        $rubriks_ids = AdvTorgTopic::pluck('parent_id');
-        $rubriks_name = AdvTorgTopic::where('parent_id', $rubriks_ids)->get();
-        $rubriks_all = AdvTorgTopic::all();
-
-            foreach ($rubriks_all as $rubrik) {
-                if ($rubrik->parent_id == 0) {
-                    continue;
-                }
-            }
-//            dd($rubriks_name);
-
-        /* разделы */
+        /* разделы для фильтра */
 
         $rubriks = \App\Models\ADV\AdvTorgTopic::orderBy('menu_group_id')->where('parent_id', 0)->get();
         $rubriks_gr = \App\Models\ADV\AdvTorgTgroups::get();
@@ -91,7 +79,6 @@ class AdvTorgPost extends Section implements Initializable
                 $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
             }
         }
-//        dd($rubrik_select);
 
 
         $columns = [
@@ -100,7 +87,10 @@ class AdvTorgPost extends Section implements Initializable
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
                         </div>";
-            })->setWidth('65px'),
+            })->setWidth('65px')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('id', $direction);
+                }),
 
             AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
@@ -223,7 +213,7 @@ class AdvTorgPost extends Section implements Initializable
 //                    return $query;
 //                })
 //                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
+//                ->setColumnName('topic_id')
 //                ->setPlaceholder('Все разделы'),
 
 
