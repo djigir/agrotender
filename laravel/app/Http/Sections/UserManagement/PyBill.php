@@ -150,12 +150,16 @@ class PyBill extends Section implements Initializable
                 return "<div class='row-text'>{$payer}</div>";
             }),
 
-//            AdminColumn::custom('Добавление документов', function (\Illuminate\Database\Eloquent\Model $model) {
-//                return "<div class='row-text'>
-//                        <a class='comp_items_adverts' href='{$model->PyBillDocCreate()}' target='_blank'>+</a>
-//                    </div>";
-//
-//            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::custom('Добавить докумен', function (\Illuminate\Database\Eloquent\Model $model) {
+                return "
+                    <div>
+                        <a href='{$model->PyBillDocCreate()}?id={$model->id}' target='_blank' class='btn-success btn btn-xs'>
+                            <i class='fas fa-plus'></i>
+                        </a>
+                    </div>
+                    ";
+
+            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
 
         ];
 
@@ -226,6 +230,8 @@ class PyBill extends Section implements Initializable
         ];
         $value = null;
         $addresses = null;
+        $address = null;
+        $payer = null;
         $orgtype = $this->model_value['orgtype'] == 1 ? 'Юр. лицо' : 'Физ. лицо';
         $paymeth_type = self::STATUS;
         $status = self::PAYMENTH_TYPE;
@@ -242,15 +248,15 @@ class PyBill extends Section implements Initializable
         if($pyBillAddr){
             $value = $regions[$pyBillAddr->obl_id] .' , '.$pyBillAddr->zip .' , '.$pyBillAddr->city .' , '.$pyBillAddr->address;
         }
+        if ($pyBill) {
+            $address = AdminFormElement::html("<div class='form-group form-element-text'>
+                    <label for='id' class='control-label'>
+                            Указанный адрес отправки док
+                    </label>
+                    <input type='text' value='{$value}' readonly='readonly' class='form-control'>
+                </div>");
 
-        $address = AdminFormElement::html("<div class='form-group form-element-text'>
-                <label for='id' class='control-label'>
-                        Указанный адрес отправки док
-                </label>
-                <input type='text' value='{$value}' readonly='readonly' class='form-control'>
-            </div>");
-
-        $payer = AdminFormElement::html("
+            $payer = AdminFormElement::html("
             <div class='form-group form-element-text'>
                 <label for='amount' class='control-label'>
                         Указанный Плательщик
@@ -262,7 +268,7 @@ class PyBill extends Section implements Initializable
 ОКПО: {$pyBill->okode}
                 </textarea>
            </div>");
-
+        }
         $date = Carbon::now();
 
         $form = AdminForm::card()->addBody([
