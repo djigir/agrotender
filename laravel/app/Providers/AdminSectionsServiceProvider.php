@@ -72,6 +72,11 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Pages\Pages::class => 'App\Http\Sections\PagesManagement\Pages',
         \App\Models\Popup\PopupDlgs::class => 'App\Http\Sections\PagesManagement\PopupDlgs',
 
+
+                                                /* Реклама */
+        \App\Models\Banner\BannerPlaces::class => 'App\Http\Sections\Advertising\BannerPlaces',
+        \App\Models\Banner\BannerRotate::class => 'App\Http\Sections\Advertising\BannerRotate',
+
     ];
 
     /**
