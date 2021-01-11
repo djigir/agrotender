@@ -287,19 +287,24 @@ class SeoTitlesBoard extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
+        $ukraine = [0 => 'Вся Украина'];
+        $regions = Regions::pluck('name', 'id')->toArray();
+
+        $all_regions = array_merge($ukraine, $regions);
 
         $form = AdminForm::card()->addBody([
 
             AdminFormElement::columns()->addColumn([
 
-                AdminFormElement::select('sect_id')
+                AdminFormElement::select('sect_id', 'Раздел доски объявл.')
                     ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
-                    ->setDisplay('title'),
+                    ->setDisplay('title')
+                    ->required(),
 
-                AdminFormElement::html('По умолчанию вся Украина'),
 
                 AdminFormElement::select('obl_id', 'Область')
-                    ->setModelForOptions(Regions::class, 'name'),
+                    ->setOptions($all_regions)
+                    ->required(),
 
 
                 AdminFormElement::select('type_id', 'Тип услуги')
@@ -307,7 +312,7 @@ class SeoTitlesBoard extends Section implements Initializable
                         0 => 'Все типы',
                         1 => 'Куплю',
                         2 => 'Продам',
-                    ]),
+                    ])->required(),
 
                 AdminFormElement::textarea('page_title', 'Title')
                     ->setRows(2)
