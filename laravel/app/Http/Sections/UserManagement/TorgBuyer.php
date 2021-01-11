@@ -193,27 +193,33 @@ class TorgBuyer extends Section implements Initializable
                 })
                 ->setDisplay('name')
                 ->setColumnName('obl_id')
+                ->setHtmlAttribute('class', 'obl_filter')
                 ->setPlaceholder('Все области'),
 
             AdminColumnFilter::text()
                 ->setColumnName('email')
+                ->setHtmlAttribute('class', 'email_filter')
                 ->setPlaceholder('Фильтровать по E-mail:'),
 
             AdminColumnFilter::text()
                 ->setColumnName('phone')
+                ->setHtmlAttribute('class', 'phone_filter')
                 ->setPlaceholder('по Тел.'),
 
             AdminColumnFilter::text()
                 ->setColumnName('name')
                 ->setOperator('contains')
+                ->setHtmlAttribute('class', 'name_filter')
                 ->setPlaceholder('по Имени'),
 
             AdminColumnFilter::text()
                 ->setColumnName('id')
+                ->setHtmlAttribute('class', 'id_filter')
                 ->setPlaceholder('по ID'),
 
             AdminColumnFilter::text()
                 ->setColumnName('last_ip')
+                ->setHtmlAttribute('class', 'ip_filter')
                 ->setPlaceholder(' по IP'),
 
             AdminColumnFilter::range()->setFrom(

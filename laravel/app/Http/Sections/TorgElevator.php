@@ -69,6 +69,12 @@ class TorgElevator extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        /* импрот Элеватора */
+        $type = request()->get('type');
+
+        if ($type == 'import_elev') {
+            return AdminDisplay::datatables()->setName('firstdatatables')->setView('display.UnloadDownload.import_elevators');
+        }
 
         $columns = [
             AdminColumn::text('id', 'id')

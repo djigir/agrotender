@@ -67,6 +67,8 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+        dd('asd');
+        /* экспорт Email */
 
         /* разделы для фильтра */
 

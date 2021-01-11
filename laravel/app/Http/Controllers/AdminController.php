@@ -26,8 +26,16 @@ class AdminController extends Controller
 
     public function downloadUsers(Request $request)
     {
-        $users_id = '';
-        return Excel::download(new TorgBuyerExport($users_id), 'users.csv');
+
+        $data = [
+            'obl_id' => $request->get('obl_id'),
+            'email_filter' => $request->get('email_filter'),
+            'phone_filter' => $request->get('phone_filter'),
+            'name_filter' => $request->get('name_filter'),
+            'id_filter' => $request->get('id_filter'),
+            'ip_filter' => $request->get('ip_filter'),
+        ];
+        return Excel::download(new TorgBuyerExport($data), 'users.csv');
     }
 
     public function downloadPhones()

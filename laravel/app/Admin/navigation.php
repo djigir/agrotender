@@ -273,7 +273,7 @@ return [
 
 
     [
-        'title' => 'Выгрузка',
+        'title' => 'Выгрузка/Загрузка',
         'icon' => 'fas fa-file-download',
 
         'pages' => [
@@ -299,6 +299,12 @@ return [
                 'url'   => '/admin_dev/torg_buyers?type=email_adverts',
 
             ],
+
+            [
+                'title' => 'Импорт Элеваторов',
+                'icon'  => 'far fa-envelope',
+                'url'   => '/admin_dev/torg_elevators?type=import_elev',
+            ]
 
         ]
     ],
