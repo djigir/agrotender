@@ -25,7 +25,7 @@ class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
 //            return TorgBuyer::select('id', 'login', 'isactive', 'orgname', 'name', 'obl_id', 'last_ip', 'phone', 'phone2', 'phone3', 'email','isactive_ban')
 //                ->where('obl_id', $this->data['obl_id'])->get();
 
-            return TorgBuyer::with('regions')->where('id', $this->data['obl_id'])->get();
+            return TorgBuyer::where('id', $this->data['obl_id'])->with('regions')->get();
         }
         if ($this->data['email_filter'] != null){
             return TorgBuyer::where('login', $this->data['email_filter']);
@@ -63,20 +63,21 @@ class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
 
     public function map($torgBuyer): array
     {
-//        dd($torgBuyer);
+
         $is_active = $torgBuyer->is_active;
         $active = 'Да';
         if ($is_active == 0) {
             $active = 'Нет';
         }
 
-        $a= [
+
+        return [
             $torgBuyer->id,
             $torgBuyer->login,
             $active,
             $torgBuyer->orgname,
             $torgBuyer->name,
-            $torgBuyer->regions->name,
+            $torgBuyer->region->name,
             $torgBuyer->last_ip,
             $torgBuyer->phone,
             $torgBuyer->phone2,
@@ -84,7 +85,6 @@ class TorgBuyerExport implements FromCollection, WithMapping, WithHeadings
             $torgBuyer->email,
             $torgBuyer->isactive_ban,
         ];
-        dd($a);
     }
 
     public function headings(): array
