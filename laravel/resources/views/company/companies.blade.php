@@ -94,7 +94,7 @@
                         </div>
                     </div>
                     <div class="d-none d-md-block col-md-3">
-                        @if($company['phone'] && $company['phone2'] && $company['phone3'])
+                        @if($company['phone'] || $company['phone2'] || $company['phone3'])
                             <div class="companySticker">
                                 @if($company['phone'])
                                     <span>{{$company['phone']}}</span>
@@ -177,7 +177,7 @@
                         </div>
                     </div>
                     <div class="d-none d-md-block col-md-3">
-                        @if($company['phone'] && $company['phone2'] && $company['phone3'])
+                        @if($company['phone'] || $company['phone2'] || $company['phone3'])
                             <div class="companySticker">
                                 @if($company['phone'])
                                     <span>{{$company['phone']}}</span>
