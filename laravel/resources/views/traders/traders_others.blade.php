@@ -71,6 +71,7 @@
     </div>
 </div>
 @endif
+@if($type_traders == 0)
 <script type="text/javascript">
     $.ajaxSetup({
         headers: {
@@ -111,3 +112,4 @@
         }
     });
 </script>
+@endif
