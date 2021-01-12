@@ -167,10 +167,7 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::image('filename_src', 'Картинка')
-                    ->setSaveCallback(
-                        return []
-                    ),
+                AdminFormElement::image('filename_src', 'Картинка'),
 
 
                 AdminFormElement::html('<hr>'),
