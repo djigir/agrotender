@@ -82,10 +82,20 @@ class AgtNews extends Section implements Initializable
 
             AdminColumn::boolean('first_page', 'На главную'),
 
-            AdminColumn::count('NewsComment', 'Коммент.')
-                ->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Коммент.', function (Model $model) {
+                $count = $model['NewsComment']->count();
+                $style = 'pointer-events: none;cursor: default;color: #888;';
+                if ($count != 0) {
+                    $style = 'font-weight:bold';
+                }
+                return "<div class='row-text text-center'>
+                        <a href='{$model->NewsCommentLink()}?NewsComment[item_id]={$model->getKey()}' style='{$style}' target='_blank'>{$count}</a>
+                    </div>";
+            }),
 
             AdminColumn::boolean('intop', 'В топ')
+                ->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('view_num', 'Просмотров')
@@ -157,7 +167,11 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::image('filename_src', 'Картинка'),
+                AdminFormElement::image('filename_src', 'Картинка')
+                    ->setSaveCallback(
+                        return []
+                    ),
+
 
                 AdminFormElement::html('<hr>'),
 
@@ -211,16 +225,13 @@ class AgtNews extends Section implements Initializable
 
                 AdminFormElement::hidden('NewsLang.lang_id')->setDefaultValue('1'),
 
-//                AdminFormElement::hidden('url')->setDefaultValue('ss'),
-
                 AdminFormElement::select('intop', 'В топ')
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
                     ])->required(),
 
-
-//                AdminFormElement::image('filename_src', 'Картинка')
+                AdminFormElement::image('filename_src', 'Картинка'),
 
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
 
@@ -230,7 +241,6 @@ class AgtNews extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

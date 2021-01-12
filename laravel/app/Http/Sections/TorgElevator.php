@@ -81,7 +81,7 @@ class TorgElevator extends Section implements Initializable
         }
 
         $columns = [
-            AdminColumn::text('id', 'id')
+            AdminColumn::text('id', 'ID')
                 ->setWidth('50px')
                 ->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('langElevator.name', 'Название')
@@ -120,6 +120,7 @@ class TorgElevator extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все области'),
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -148,29 +149,30 @@ class TorgElevator extends Section implements Initializable
                             return $query->where('obl_id', $elevator['region']['id']);
                         })->setDisplay('rayonLang.name')->required(),
 
-                    AdminFormElement::text('langElevator.name', 'Название') ,
+                    AdminFormElement::text('langElevator.name', 'Название')->required(),
 
-                    AdminFormElement::text('langElevator.addr', 'Юридическое название'),
 
-                    AdminFormElement::textarea('langElevator.orgname', 'Физический адрес'),
+                    AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-'),
 
-                    AdminFormElement::textarea('langElevator.descr_qual', 'Юридический адрес'),
+                    AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-'),
+
+                    AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
 
 //                AdminFormElement::file('filename', 'Фото (240 х 240)'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
 
-                    AdminFormElement::text('phone', 'Телефон'),
+                    AdminFormElement::text('phone', 'Телефон')->required(),
 
-                    AdminFormElement::text('email', 'E-mail'),
+                    AdminFormElement::text('email', 'E-mail')->required(),
 
-                    AdminFormElement::text('langElevator.director', 'Директор'),
+                    AdminFormElement::text('langElevator.director', 'Директор')->required(),
 
-                    AdminFormElement::text('langElevator.holdcond', 'Способ хранения'),
+                    AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
 
-                    AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке'),
+                    AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->required(),
 
-                    AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества'),
+                    AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->required(),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
@@ -192,36 +194,6 @@ class TorgElevator extends Section implements Initializable
     {
         $regions = \App\Models\Regions\Regions::get()->pluck('name', 'id');
 
-//        $form = AdminForm::card()->addBody([
-//            AdminFormElement::columns()->addColumn([
-//                AdminFormElement::select('obl_id', 'Область', $regions->toArray())->required(),
-//                AdminFormElement::dependentselect('ray_id', 'Район области')
-//                    ->setModelForOptions(Rayon::class, 'title')
-//                    ->setDataDepends(['obl_id'])
-//                    ->setLoadOptionsQueryPreparer(function($item, $query) {
-//                        return $query->where('obl_id', $item->getDependValue('obl_id'));
-//                    })
-//                    ->setDisplay('rayonLang.name')
-//                    ->setDefaultValue(0)
-//                    ->required(),
-//
-//                AdminFormElement::text('langElevator.name', 'Название')->required(),
-//                AdminFormElement::text('langElevator.addr', 'Юридическое название')->required(),
-//                AdminFormElement::textarea('langElevator.orgname', 'Физический адрес')->required(),
-//                AdminFormElement::textarea('langElevator.descr_qual', 'Юридический адрес'),
-//                AdminFormElement::text('phone', 'Телефон')->required(),
-//                AdminFormElement::text('email', 'E-mail')->required(),
-//                AdminFormElement::text('langElevator.director', 'Директор')->required(),
-//                AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
-//                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->required(),
-//                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->required(),
-//
-////                AdminFormElement::file('filename', 'Фото (240 х 240)'),
-//
-//            ]),
-//        ]);
-
-
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
 
@@ -238,11 +210,11 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::text('langElevator.name', 'Название')->required(),
 
-                AdminFormElement::text('langElevator.addr', 'Юридическое название')->required(),
+                AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-'),
 
-                AdminFormElement::textarea('langElevator.orgname', 'Физический адрес')->required(),
+                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-'),
 
-                AdminFormElement::textarea('langElevator.descr_qual', 'Юридический адрес'),
+                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
 
 
 //                AdminFormElement::file('filename', 'Фото (240 х 240)'),
@@ -263,18 +235,8 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::hidden('langElevator.lang_id')->setDefaultValue(1),
 
-//                AdminFormElement::custom(function (Model $model) {
-//                    return $model->setUrl();
-//                })
-
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
-
-
-
-
-
-
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
