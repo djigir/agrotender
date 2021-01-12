@@ -15,12 +15,14 @@
             @endif
         @endif
 
-        @if(!$port_place->isEmpty() && !$port_price->isEmpty())
-           @include('company.tables.company-port-table')
-        @endif
+        @if($company->trader_price_avail == 1)
+            @if(!$port_place->isEmpty() && !$port_price->isEmpty())
+               @include('company.tables.company-port-table')
+            @endif
 
-        @if(!$region_place->isEmpty() && !$region_price->isEmpty())
-           @include('company.tables.company-region-table')
+            @if(!$region_place->isEmpty() && !$region_price->isEmpty())
+               @include('company.tables.company-region-table')
+            @endif
         @endif
     </div>
 

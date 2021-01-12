@@ -399,7 +399,7 @@ class CompanyService
 
     public function searchCompanies($value)
     {
-        return CompItems::where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
+        return CompItems::where('visible', 1)->where('title', 'like', '%'.trim($value).'%')->orWhere('content', 'like', '%'.trim($value).'%')
             ->with('activities', 'purchases', 'sales', 'services')
             ->select('id', 'author_id', 'trader_premium', 'obl_id', 'logo_file',
                 'short', 'add_date', 'visible', 'title', 'trader_price_avail',
