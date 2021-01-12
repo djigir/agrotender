@@ -57,9 +57,9 @@
                 <thead>
                 <tr role="row">
                     <th tabindex="0" rowspan="1" colspan="1" style="min-width: 258px;" class="traders_table_company_th">Компании</th>
-                    <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending" style="min-width: 110px;">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
-                    <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending" style="min-width: 110px;">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
-                    <th class="sth sorting sort_hover" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending" style="min-width: 110px;">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th>
+                    <th class="sth sorting sort_hover min_width_column-money" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="UAH : activate to sort column descending">UAH <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                    <th class="sth sorting sort_hover min_width_column-money" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="USD : activate to sort column descending">USD <i class="fas fa-sort" style="font-size: 12px;"></i></th>
+                    <th class="sth sorting sort_hover min_width_column-money" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата : activate to sort column descending">Дата <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i></th>
                     <th tabindex="0" rowspan="1" colspan="1" style="min-width: 222px;text-align: left">Место закупки</th>
                 </tr>
                 </thead>
@@ -68,8 +68,12 @@
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
+                                <span class="traders_table_top top_color">ТОП</span>
+                                <!-- <span class="traders_table_top">VIP</span> -->
                                 <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? '/'.$trader->logo_file : '/app/assets/img/no-image.png'}}">
-                                <span class="title">{!! $trader->title !!}</span>
+                                <span class="title">
+                                    {!! $trader->title !!}
+                                </span>
                             </a>
                         </td>
                         <td class="uah">

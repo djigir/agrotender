@@ -77,9 +77,17 @@
     })
   }
   
+  function hidePreloader() {
+    const $loader = document.querySelector('.preloader_new')
+    if ($loader) {
+      $loader.classList.add('hidden')
+    }
+  }
+
   window.addEventListener('load', () => {
     headerTraderPricesArrow()
     tradersPriceLine()
     initHeader()
+    hidePreloader()
   })  
 })()
