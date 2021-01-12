@@ -572,15 +572,6 @@ class CompItems extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
 
-//            AdminColumnFilter::select()
-//                ->setModelForOptions(\App\Models\Comp\CompTopic::class)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
-//                ->setPlaceholder('Все секции'),
-
             AdminColumnFilter::select()
                 ->setOptions($rubrik_select)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {

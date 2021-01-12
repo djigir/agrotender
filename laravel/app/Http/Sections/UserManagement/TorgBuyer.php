@@ -230,6 +230,7 @@ class TorgBuyer extends Section implements Initializable
                 $request = \request()->get('columns')[6]['search']['value'];
                 $from = stristr($request, ':', ':');
                 $to = substr(strrchr($request, ':'), 1);
+
             })->setHtmlAttribute('class', 'count-adverts-filter')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
