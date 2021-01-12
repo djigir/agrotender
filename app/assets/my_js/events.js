@@ -1,4 +1,4 @@
-window.onload = function (){
+window.addEventListener('load', function (){
     $('#new_filters_currency_uah').attr('checked', 'true');
     $('#new_filters_currency_usd').attr('checked', 'true');
 
@@ -490,5 +490,5 @@ window.onload = function (){
         $(this).parents('.traders__item__header.filled').css('background-color', 'rgb('+color+')');
       }
     })
-};
+});
 

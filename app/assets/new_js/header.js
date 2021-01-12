@@ -1,13 +1,9 @@
-function hidePreloader() {
-  const $loader = document.querySelector('.preloader_new')
+window.onload = (() => {
+ const $loader = document.querySelector('.preloader_new')
   if ($loader) {
     $loader.classList.add('hidden')
   }
-}
 
-window.onload = () => hidePreloader()
-
-(() => {
   const $headerWrap = document.querySelector('.header__wrap')
   
   function initHeader () {
