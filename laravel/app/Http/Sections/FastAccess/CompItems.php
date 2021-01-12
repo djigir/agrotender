@@ -101,6 +101,7 @@ class CompItems extends Section implements Initializable
 
         /* START EXPORT */
         if ($type == 'email_company'){
+//            return AdminDisplay::datatables()->setName('firstdatatables')->setView('display.UnloadDownload.email_export_comapny');
 
             $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
             $rubriks_gr = CompTgroups::all();
