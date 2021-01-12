@@ -128,45 +128,31 @@ class AgtNewsComment extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('author', 'Автор')
-                    ->required(),
-
-                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
-
+                AdminFormElement::text('author', 'Автор')->required(),
                 AdminFormElement::select('visible', 'Показывать на сайте')
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
                     ]),
 
-
                 AdminFormElement::html('<span style="font-weight: bold;">Дата создания</span>'),
                 AdminFormElement::datetime('add_date')
                     ->setVisible(true)
                     ->setReadonly(false),
 
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')->addColumn([
+                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-8'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
         return $form;
     }
-
-    /**
-     * @return FormInterface
-     */
-    /*public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }*/
 
     /**
      * @return bool

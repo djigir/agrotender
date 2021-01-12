@@ -123,12 +123,7 @@ class CompVacancy extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('title', 'Вакансия')
-                    ->required(),
-
-                AdminFormElement::textarea('content', 'Описание вакансии')
-                    ->setRows(6),
-
+                AdminFormElement::text('title', 'Вакансия')->required(),
                 AdminFormElement::select('visible', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
@@ -141,14 +136,13 @@ class CompVacancy extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
+                AdminFormElement::textarea('content', 'Описание вакансии')->setRows(6),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

@@ -7,6 +7,7 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -93,27 +94,25 @@ class AdvTorgTgroups extends Section implements Initializable
 
     /**
      * @param int|null $id
+     * @param string|null $type
      * @param array $payload
      *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
+    public function onEdit($id = null, $payload = [], $type = null)
     {
+        $update_field = null;
+
+        if($type == 'create'){
+            $update_field = AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now());
+        }
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('title', 'Название')
-                    ->required(),
-
+                AdminFormElement::text('title', 'Название')->required(),
                 AdminFormElement::number('sort_num', 'Сортировка'),
-
-                AdminFormElement::html('<hr> '),
-
-                AdminFormElement::html('<span style="font-weight: bold;">Дата обновления</span>'),
-
-                AdminFormElement::datetime('mod_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
+                AdminFormElement::hidden('mod_date')->setDefaultValue(Carbon::now()),
+                $update_field,
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
@@ -121,7 +120,6 @@ class AdvTorgTgroups extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -133,32 +131,7 @@ class AdvTorgTgroups extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-        $form = AdminForm::card()->addBody([
-            AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('title', 'Название')
-                    ->required(),
-
-                AdminFormElement::number('sort_num', 'Сортировка'),
-
-                AdminFormElement::html('<hr> '),
-
-                AdminFormElement::datetime('add_date', 'Дата Создания')
-                    ->required()
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-        ]);
-
-        $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
-        ]);
-
-        return $form;
+        return $this->onEdit(null, $payload, 'create');
     }
 
     /**

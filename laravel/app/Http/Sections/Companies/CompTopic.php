@@ -128,55 +128,37 @@ class CompTopic extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
-
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::select('menu_group_id', 'Главный раздел')
-                    ->setModelForOptions(CompTgroups::class)
-                    ->required(),
-
-                AdminFormElement::select('id', 'Под раздел')
+                AdminFormElement::select('parent_id', 'Родительский раздел')
                     ->setModelForOptions(\App\Models\Comp\CompTopic::class),
 
-                AdminFormElement::text('title', 'Название рубрики')
-                    ->required(),
+                AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)')
+                    ->setModelForOptions(CompTgroups::class)->required(),
 
-                AdminFormElement::html('<span class="seo-data-title">Seo данные</span> <hr>'),
-
-                AdminFormElement::text('page_h1', 'H1 заголовок'),
-
-                AdminFormElement::text('page_title', 'Title'),
-
-                AdminFormElement::textarea('page_keywords', 'Keywords')->setRows(3),
-
-                AdminFormElement::textarea('page_descr', 'Description')->setRows(6),
-
-                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
+                AdminFormElement::text('title', 'Название рубрики')->required(),
 
                 AdminFormElement::html('<span class="other-params">Другие параметры</span> <hr>'),
-
                 AdminFormElement::text('sort_num', 'Порядковый номер'),
+//                AdminFormElement::select('parent_id', 'Показывать на сайте')
+//                    ->setOptions([
+//                        0 => 'Нет',
+//                        1 => 'Да',
+//                ]),
 
-                AdminFormElement::select('parent_id', 'Показывать на сайте')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
+                AdminFormElement::html('<span class="seo-data-title">Seo данные</span> <hr>'),
+                AdminFormElement::text('page_h1', 'H1 заголовок'),
+                AdminFormElement::text('page_title', 'Title'),
+                AdminFormElement::textarea('page_keywords', 'Keywords')->setRows(3),
+                AdminFormElement::textarea('page_descr', 'Description')->setRows(6),
+                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save' => new Save(),
             'save_and_close' => new SaveAndClose(),
-            'save_and_create' => new SaveAndCreate(),
             'cancel' => (new Cancel()),
         ]);
 
@@ -190,38 +172,29 @@ class CompTopic extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::select('menu_group_id', 'Главный раздел')
-                    ->setModelForOptions(CompTgroups::class, 'title'),
-
-                AdminFormElement::select('id', 'Под раздел')
+                AdminFormElement::select('parent_id', 'Родительский раздел')
                     ->setModelForOptions(\App\Models\Comp\CompTopic::class),
 
-                AdminFormElement::text('title', 'Название новой рубрики')
-                    ->required(),
+                AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)')
+                    ->setModelForOptions(CompTgroups::class, 'title'),
 
-
-                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
-
-                AdminFormElement::text('sort_num', 'Порядковый номер'),
-
-                AdminFormElement::select('parent_id', 'Показывать на сайте')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
+                AdminFormElement::text('title', 'Название новой рубрики')->required(),
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
+                AdminFormElement::number('sort_num', 'Порядковый номер'),
+//                AdminFormElement::select('parent_id', 'Показывать на сайте')
+//                    ->setOptions([
+//                        0 => 'Нет',
+//                        1 => 'Да',
+//                    ]),
+                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save' => new Save(),
             'save_and_close' => new SaveAndClose(),
-            'save_and_create' => new SaveAndCreate(),
             'cancel' => (new Cancel()),
         ]);
 

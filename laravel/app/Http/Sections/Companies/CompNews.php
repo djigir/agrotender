@@ -120,12 +120,7 @@ class CompNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('title', 'Новость')
-                    ->required(),
-
-                AdminFormElement::textarea('content', 'Содержание'),
-
+                AdminFormElement::text('title', 'Новость')->required(),
                 AdminFormElement::select('visible', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
@@ -139,14 +134,13 @@ class CompNews extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
+                AdminFormElement::textarea('content', 'Содержание'),
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
