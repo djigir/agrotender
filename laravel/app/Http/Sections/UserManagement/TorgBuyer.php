@@ -36,7 +36,7 @@ class TorgBuyer extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Зарегистрированые пользователи';
+    protected $title = 'Зарегистрированные пользователи';
 
     /**
      * @var string
@@ -48,6 +48,10 @@ class TorgBuyer extends Section implements Initializable
      */
     public function initialize()
     {
+        $type = request()->get('type');
+        if ($type == 'email_adverts') {
+            $this->title = 'Экспорт Email объявлений';
+        }
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -101,8 +105,7 @@ class TorgBuyer extends Section implements Initializable
 
             return $display;
         }
-
-
+        /* выгрузить Email с фильтром !*/
 
 
 

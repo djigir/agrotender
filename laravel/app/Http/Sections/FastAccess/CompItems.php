@@ -61,6 +61,10 @@ class CompItems extends Section implements Initializable
      */
     public function initialize()
     {
+        $type = request()->get('type');
+        if ($type == 'email_company') {
+            $this->title = 'Экспорт Email компаниий';
+        }
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -85,6 +89,7 @@ class CompItems extends Section implements Initializable
 
         /* START EXPORT */
         if ($type == 'email_company'){
+//            return AdminDisplay::datatables()->setName('firstdatatables')->setView('display.UnloadDownload.email_export_comapny');
 
             $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
             $rubriks_gr = CompTgroups::all();
