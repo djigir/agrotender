@@ -68,7 +68,7 @@
                     <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': 'default'}}">
                         <td>
                             <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
-                                <span class="traders_table_top top_color">ТОП</span>
+                                <!-- <span class="traders_table_top top_color">ТОП</span> -->
                                 <!-- <span class="traders_table_top">VIP</span> -->
                                 <img class="logo mr-3" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? '/'.$trader->logo_file : '/app/assets/img/no-image.png'}}">
                                 <span class="title">
