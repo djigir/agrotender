@@ -35,6 +35,7 @@ class TradersProducts extends Section implements Initializable
     /**
      * @var string
      */
+
     protected $title = 'Товары';
 
     /**
@@ -47,6 +48,12 @@ class TradersProducts extends Section implements Initializable
      */
     public function initialize()
     {
+        $request = \request();
+
+        if(!empty($request->all() && $request->get('type') == 'sell')){
+            $this->title = 'Закупки';
+        }
+
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -182,29 +189,20 @@ class TradersProducts extends Section implements Initializable
                     ->setDisplay('tradersProductGroupsLang.name')
                     ->required(),
 
-
-                AdminFormElement::text('tradersProductLang.name', 'Название')
-                    ->required(),
-
+                AdminFormElement::text('tradersProductLang.name', 'Название')->required(),
                 AdminFormElement::text('url', 'URL'),
-
-                AdminFormElement::textarea('tradersProductLang.descr', 'Описание')->setRows('4'),
-
                 AdminFormElement::hidden('tradersProductLang.lang_id')->setDefaultValue('1'),
 
-//                AdminFormElement::image('icon_filename', 'Иконка'),
-
-                AdminFormElement::html('<hr>'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
+                AdminFormElement::textarea('tradersProductLang.descr', 'Описание')->setRows('4'),
+                AdminFormElement::image('icon_filename', 'Иконка'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

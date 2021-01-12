@@ -145,41 +145,27 @@ class CompComment extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('author', 'Автор')
-                    ->required(),
-
-                AdminFormElement::textarea('compCommentLang.content', 'Текст'),
+                AdminFormElement::text('author', 'Автор')->required(),
+                AdminFormElement::textarea('compCommentLang.content_plus', 'Преимущества')->setRows(4),
+                AdminFormElement::textarea('compCommentLang.content_minus', 'Недостатки')->setRows(4),
 
                 AdminFormElement::datetime('add_date')
                     ->setVisible(true)
                     ->setReadonly(false),
 
-                AdminFormElement::html('<hr>'),
-
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+                AdminFormElement::textarea('compCommentLang.content', 'Текст'),
                 AdminFormElement::select('visible', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
                         0 => 'Нет',
                     ]),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-
-                AdminFormElement::textarea('compCommentLang.content_plus', 'Преимущества')
-                    ->setRows(4),
-
-                AdminFormElement::textarea('compCommentLang.content_minus', 'Недостатки')
-                    ->setRows(4),
-
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

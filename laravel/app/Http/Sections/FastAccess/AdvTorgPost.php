@@ -67,7 +67,6 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        dd('asd');
         /* экспорт Email */
 
         /* разделы для фильтра */
@@ -396,7 +395,6 @@ class AdvTorgPost extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
