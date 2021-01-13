@@ -116,7 +116,7 @@ class AdvTorgPost extends Section implements Initializable
             })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
 
-            AdminColumn::custom('Email/IP', function (\Illuminate\Database\Eloquent\Model $model) {
+/*            AdminColumn::custom('Email/IP', function (\Illuminate\Database\Eloquent\Model $model) {
                 $view = '';
                 $prewRequests = \request()->all(['region', 'ad', 'group', 'section', 'period', 'session', 'active', 'improvements', 'moderation', 'words_ban', 'email',
                     'number', '', 'name', 'ip', 'id', 'text', 'user_id']);
@@ -139,7 +139,7 @@ class AdvTorgPost extends Section implements Initializable
                             <small class='clearfix'>{$model->remote_ip}</small>
                             {$view}
                         </div>";
-            }),
+            }),*/
 
 
 
@@ -308,8 +308,7 @@ class AdvTorgPost extends Section implements Initializable
 
             );
 
-
-        $display->setPlacement('card.heading');
+        $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
     }
