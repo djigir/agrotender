@@ -22,6 +22,12 @@ window.onload = function (){
 
     })
 
+    let img_input = $('.logo-img').find('img');
+    let src = img_input.attr('src');
+    let src_to_database = src.split('/')[4];
+    let for_preview = img_input.attr('src', window.location.origin+'/files/news/'+src_to_database)
+
+
 }
 
 

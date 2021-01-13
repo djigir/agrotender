@@ -15,4 +15,5 @@ Route::get('information', ['as' => 'admin.information', function () {
 Route::get('/login_as_user', [
     'as' => 'admin.login_as_user',
     'uses' => '\App\Http\Controllers\UserController@profile',
+//    'middleware' => 'check_auth'
 ]);

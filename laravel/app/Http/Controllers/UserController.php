@@ -105,6 +105,7 @@ class UserController extends Controller
         \auth()->login($user);
         /* для авторизации из админки  */
 
+
         $meta = $this->profileMetaService->profile();
         return view('private_cabinet.profile.profile', [
             'meta' => $meta,
