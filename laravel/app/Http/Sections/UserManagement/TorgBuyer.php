@@ -256,29 +256,32 @@ class TorgBuyer extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('login', 'Логин')
-                    ->required(),
+                AdminFormElement::text('login', 'Логин')->required(),
                 AdminFormElement::html('<hr>'),
-
                 AdminFormElement::text('name', 'Ф.И.О'),
-
                 AdminFormElement::text('orgname', 'Организация'),
-
                 AdminFormElement::text('addres', 'Адрес'),
                 AdminFormElement::text('regions.name', 'Город'),
                 AdminFormElement::text('phone', 'Телефон'),
                 AdminFormElement::text('phone2', 'Телефон2'),
                 AdminFormElement::text('phone3', 'Телефон3'),
-
                 AdminFormElement::text('email', 'E-Mail'),
-
+            ], 'col-xs-12 col-sm-6 col-md-9 col-lg-6')->addColumn([
                 AdminFormElement::text('compItems.www', 'Веб-страница'),
-
+                AdminFormElement::password('passwd', 'Новый пароль')->hashWithBcrypt(),
                 AdminFormElement::text('avail_adv_posts', 'Сейчас доступно бесплатно объявл.'),
-
                 AdminFormElement::text('max_adv_posts', 'Максимальное кол-во объявл.'),
+                AdminFormElement::select('isactive_web')
+                    ->setOptions([
+                        1 => 'Да',
+                        0 => 'Нет'
+                    ]),
 
+                AdminFormElement::textarea('comments', 'Комментарии')->setRows(5),
 
+                AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
+                        Изменение пароля пользователя
+                    </span> <hr>"),
                 AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
                         Текущее кол-во объявлений
                     </label> <input class='form-control' type='text' id='s' name='s' value='{$this->model_value['advTorgPost']->count()}' readonly='readonly'></div>"),
@@ -291,26 +294,7 @@ class TorgBuyer extends Section implements Initializable
                 AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
                         Доступно к размещению объявлений
                     </label> <input class='form-control' type='text' id='s' name='s' value='10' readonly='readonly'></div>"),
-
-
-                AdminFormElement::select('isactive_web')
-                    ->setOptions([
-                        1 => 'Да',
-                        0 => 'Нет'
-                    ]),
-
-                AdminFormElement::textarea('comments', 'Комментарии')
-                    ->setRows(5),
-
-                AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
-                        Изменение пароля пользователя
-                    </span> <hr>"),
-
-                AdminFormElement::password('passwd', 'Новый пароль')->hashWithBcrypt(),
-
-            ], 'col-xs-12 col-sm-6 col-md-9 col-lg-9')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-12 col-sm-6 col-md-3 col-lg-3'),
+            ], 'col-xs-12 col-sm-6 col-md-3 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
