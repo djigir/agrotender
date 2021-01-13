@@ -158,7 +158,6 @@ class TorgElevator extends Section implements Initializable
 
                     AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
 
-//                AdminFormElement::file('filename', 'Фото (240 х 240)'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
 
@@ -216,7 +215,6 @@ class TorgElevator extends Section implements Initializable
                 AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
 
 
-//                AdminFormElement::file('filename', 'Фото (240 х 240)'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
 
