@@ -79,10 +79,6 @@ class TraderController extends Controller
         ][0];
 
         $name_region = ($region != null) ? Regions::where('translit', $region)->value('name') : null;
-//        if($this->agent->isMobile()){
-//            $name_region .= ' область';
-//        }
-//        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
         if ($region == 'crimea') {
             $name_region = 'АР Крым';
@@ -167,6 +163,7 @@ class TraderController extends Controller
             'type_id' => $data->get('region') != null ? 0 : 2
         ])->where($criteria_seo)->value('content_text');
 
+        $seo_text = $this->seoService->parseSeoText($region_all, $seo_text);
 
         $meta = $this->seoService->getTradersMeta([
             'rubric' => $culture_meta, 'region' => $region_all,
@@ -193,7 +190,7 @@ class TraderController extends Controller
         $rubrics = $this->traderService->getRubricsGroup();
 
         $group_id = !empty($culture) ? self::GROUP_ID[$culture->group_id] : null;
-        //dd($regions = $this->companyService->setRegions($this->baseServices->getRegions(), $culture_id)->toArray());
+
         return view('traders.traders', [
             'regions' => $regions,
             'region' => $data->get('region'),
