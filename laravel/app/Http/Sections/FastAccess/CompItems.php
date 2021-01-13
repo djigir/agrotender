@@ -664,7 +664,7 @@ class CompItems extends Section implements Initializable
                 AdminFormElement::text('title', 'Название')
                     ->required(),
 
-                AdminFormElement::image('logo_file', 'Лого'),
+                AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
 
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
                 AdminFormElement::html('<hr>'),

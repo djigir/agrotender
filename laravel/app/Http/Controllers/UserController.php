@@ -97,6 +97,14 @@ class UserController extends Controller
     //М-д для страницы профиля (авторизация)
     public function profile()
     {
+        /* для авторизации из админки  */
+        $user_id = \request()->get('user_id');
+
+        $user_old = TorgBuyer::find($user_id)->toArray();
+        $user = User::firstOrCreate(['user_id' => $user_old['id']], $user_old);
+        \auth()->login($user);
+        /* для авторизации из админки  */
+
         $meta = $this->profileMetaService->profile();
         return view('private_cabinet.profile.profile', [
             'meta' => $meta,
