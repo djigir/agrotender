@@ -110,6 +110,7 @@ class BuyerPacksOrders extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('tarif.cost', 'Цена')
+                ->setOrderable(false)
                 ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
 
