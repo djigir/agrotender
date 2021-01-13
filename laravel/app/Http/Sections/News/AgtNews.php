@@ -177,6 +177,7 @@ class AgtNews extends Section implements Initializable
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
 
+
                       return ['path' => asset($value), 'value' => "news/{$filename}"];
                 }),
 
