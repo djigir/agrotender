@@ -1,4 +1,4 @@
-@if ( ! empty($title))
+@if ( ! empty($title) && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts'))
     <div class="row">
         <div class="col-lg-12 pt-3">
             {!! $title !!}
@@ -67,6 +67,10 @@
 
         @yield('card.heading')
         @yield('panel.heading')
+            @if(substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts'))
+                @include('vendor.sleeping_owl.default.column.custom_filter.adv_torg_post')
+            @endif
+
     </div>
 
     @foreach($extensions as $ext)

@@ -5,11 +5,14 @@ namespace App\Http\Sections\FastAccess;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
+use App\Models\ADV\AdvTorgTgroups;
 use App\Models\ADV\AdvTorgTopic;
 use App\Models\Comp\CompTgroups;
 use Carbon\Carbon;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Mpdf\Tag\P;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
@@ -67,20 +70,6 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        /* экспорт Email */
-
-        /* разделы для фильтра */
-
-        $rubriks = \App\Models\ADV\AdvTorgTopic::orderBy('menu_group_id')->where('parent_id', 0)->get();
-        $rubriks_gr = \App\Models\ADV\AdvTorgTgroups::get();
-        $rubrik_select = [];
-
-        foreach ($rubriks_gr as $rubrik_gr) {
-            foreach ($rubriks->where('menu_group_id', '=', $rubrik_gr->id) as $rubrik) {
-                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
-            }
-        }
-
 
         $columns = [
 
@@ -98,9 +87,11 @@ class AdvTorgPost extends Section implements Initializable
                             {$model->advertsType()->rubric_name}
                             <br>
                             {$model['advTorgTopic']->title}
-                            <small class='clearfix'></small>
+                            <small class='clearfix'>{$model->advTorgTopic->subTopic->title}</small>
                         </div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            })
+                ->setName('city')
+                ->setHtmlAttribute('class', 'text-center'),
 
 
             AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
@@ -110,20 +101,47 @@ class AdvTorgPost extends Section implements Initializable
                     }else {
                         $name = $model->author;
                     }
+
+
                 return "<div class='row-text'>
                             {$name}
                             <small class='clearfix'>{$model->phone}</small>
                             <small class='clearfix'>{$model->phone2}</small>
                             <small class='clearfix'>{$model->phone3}</small>
+                         
+                            
                         </div>";
             })->setOrderable(function($query, $direction) {
                 $query->orderBy('author_id', $direction);
             })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
 
+            AdminColumn::custom('Email/IP', function (\Illuminate\Database\Eloquent\Model $model) {
+                $view = '';
+                $prewRequests = \request()->all(['region', 'ad', 'group', 'section', 'period', 'session', 'active', 'improvements', 'moderation', 'words_ban', 'email',
+                    'number', '', 'name', 'ip', 'id', 'text', 'user_id']);
+                $href = '';
+                foreach ($prewRequests as $key => $value) {
+                    if ($value)
+                        $href .= "?$key=$value";
+                }
 
-            AdminColumn::text('torgBuyer.email', 'Email/IP', 'remote_ip')
-                ->setHtmlAttribute('class', 'text-center'),
+
+                if (request()->get('session') == 2) {
+                    $sesIds = $model->torgBuyerSession()->pluck('ses_id');
+                    foreach ($sesIds as $sesId) {
+                        $view .= "<a href=\"$href?session_id={$sesId}\">$sesId</a><br>";
+                    }
+                }
+
+                return "<div class='row-text'>
+                            {$model->email}
+                            <small class='clearfix'>{$model->remote_ip}</small>
+                            {$view}
+                        </div>";
+            }),
+
+
 
 
             AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
@@ -178,6 +196,11 @@ class AdvTorgPost extends Section implements Initializable
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query) {
+                if (!request('active'))
+                    $query->where('active', 1)->where('archive', 0);
+
+            })
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
             ->setDisplaySearch(false)
@@ -186,166 +209,107 @@ class AdvTorgPost extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
                 \AdminDisplayFilter::scope('typeAdverts'), // ?type=news | ?latest&type=news
-                \AdminDisplayFilter::scope('TorgBuyerAdverts')
+                \AdminDisplayFilter::scope('TorgBuyerAdverts'),
+                AdminDisplayFilter::custom('region')->setCallback(function ($query, $value) {
+                    $query->where('obl_id', $value);
+                }),
+                AdminDisplayFilter::custom('ad')->setCallback(function ($query, $value) {
+                    $query->where('type_id', $value);
+                }),
+                AdminDisplayFilter::custom('group')->setCallback(function ($query, $value) {
+                    if ($value > 10000) {
+                        $value = $value - 10000;
+                        $query->whereHas('advTorgTopic', function ($query) use ($value) {
+                            $query->where('menu_group_id', $value);
+                        });
+                    } else {
+                        $query->whereHas('advTorgTopic', function ($query) use ($value) {
+                            $query->where('parent_id', $value);
+                        });
+                    }
+                }),
+                AdminDisplayFilter::custom('section')->setCallback(function ($query, $value) {
+                    $query->whereHas('advTorgTopic', function ($query) use ($value) {
+                        $query->where('id', $value);
+                    });
+                }),
+                AdminDisplayFilter::custom('period')->setCallback(function ($query, $value) {
+                    if ($value == 1) {
+                        $query->where('add_date', '>', Carbon::today());
+                    } else if ($value == 2) {
+                        $query->where('add_date', '>', Carbon::today()->subDays(7));
+                    }
+
+                }),
+                AdminDisplayFilter::custom('active')->setCallback(function ($query, $value) {
+                    if ($value == 1)//if active and !archive
+                    {
+                        $query->where('active', 1)->where('archive', 0);
+                    } else if ($value == 2)//if active and archive
+                    {
+                        $query->where('active', 1)->where('archive', 1);
+                    }
+                }),
+                AdminDisplayFilter::custom('improvements')->setCallback(function ($query, $value) {
+                    if ($value == 1) {
+                        $query->where('targeting', 1);
+                    } else if ($value == 2) {
+                        $query->where('colored', 1);
+                    }
+                }),
+                AdminDisplayFilter::custom('moderation')->setCallback(function ($query, $value) {
+                    if ($value == 1) {
+                        $query->where('moderated', 1)->where('active', 0);
+                    } else if ($value == 2) {
+                        $query->where('moderated', 1)->where('active', 1);
+                    }
+
+                }),
+                AdminDisplayFilter::custom('words_ban')->setCallback(function ($query, $value) {
+                    if ($value == 1) {
+                        $query->where('moderated', 0);
+                    } else if ($value == 2) {
+                        $query->where('moderated', 1)->where('active', 1);
+                    }
+
+                    $query->where('moderated', $value - 1);
+                }),
+                AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
+                    $query->where('email', $value);
+                }),
+                AdminDisplayFilter::custom('number')->setCallback(function ($query, $value) {
+                    $query->where(function ($query) use ($value) {
+                        $query->where('phone', $value)
+                            ->orWhere('phone2', $value)
+                            ->orWhere('phone3', $value);
+                    });
+
+                }),
+                AdminDisplayFilter::custom('session_id')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgBuyerSession', function ($query) use ($value) {
+                        $query->where('ses_id', $value);
+                    });
+                }),
+                AdminDisplayFilter::custom('name')->setCallback(function ($query, $value) {
+                    $query->where('author', 'like', '%' . $value . '%');
+                }),
+                AdminDisplayFilter::custom('ip')->setCallback(function ($query, $value) {
+                    $query->where('remote_ip', $value);
+                }),
+                AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
+                    $query->where('id', $value);
+                }),
+                AdminDisplayFilter::custom('text')->setCallback(function ($query, $value) {
+                    $query->where('title', 'like', '%' . $value . '%');
+                }),
+                AdminDisplayFilter::custom('user_id')->setCallback(function ($query, $value) {
+                    $query->where('author_id', $value);
+                })
+
             );
 
-        $display->setColumnFilters([
-//            AdminColumnFilter::select()
-//                ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('name')
-//                ->setColumnName('obl_id')
-//                ->setPlaceholder('Все области'),
 
-//            AdminColumnFilter::select()
-//                ->setOptions([
-//                    1 =>'Куплю',
-//                    2 => 'Продам',
-//                    3 => 'Услуги'
-//            ])
-//                ->setColumnName('type_id')
-//                ->setPlaceholder('Все типы объявления'),
-
-//            AdminColumnFilter::select()
-//                ->setOptions($rubrik_select)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('topic_id')
-//                ->setPlaceholder('Все разделы'),
-
-
-//            AdminColumnFilter::select()
-//                ->setOptions($rubrik_select)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
-//                ->setPlaceholder('Все секции'),
-
-
-//            \AdminColumnFilter::select()
-//                ->setOptions([
-//                    self::BY_SEVEN_DAYS => 'За 7 дней',
-//                    self::BY_TODAY => 'За сегодня'
-//                ])
-//                ->setPlaceholder('За все время')->setCallback(function( $value,$query,$v) {
-//                    $request = \request()->get('columns')[3]['search']['value'];
-//                    if ($request == 700){
-//                        $query->whereBetween('add_date', [Carbon::now()->subDays(7), Carbon::now()]);
-//                    }
-//                    if ($request == 999){
-//                        $query->where('add_date', 'like', '%' . Carbon::now()->format('Y-m-d') . '%');
-//                    }
-//                }),
-
-
-
-            AdminColumnFilter::select()
-
-                ->setPlaceholder('Сессия'),
-
-//            AdminColumnFilter::select()
-//                ->setOptions([
-//                    1 => 'Активные арх.',
-//                    0 => 'Активные не арх.',
-//                ])
-//                ->setColumnName('archive')
-//                ->setPlaceholder('Все актив'),
-
-            \AdminColumnFilter::select()
-                ->setOptions([
-                    self::IN_TOP => 'Объявления в топе',
-                    self::COLOR_TOP => 'Выделенные цветом',
-                ])
-                ->setPlaceholder('Любые объявления')->setCallback(function( $value,$query,$v) {
-                    $request = \request()->get('columns')[7]['search']['value'];
-                        if ($request == 100){
-                            $query->where('targeting', 1);
-                        }
-                        if ($request == 200){
-                            $query->where('colored', 1);
-                        }
-                }),
-
-
-            AdminColumnFilter::select()
-                ->setOptions([
-                    0 => 'На модерации',
-                    1 => 'Допущенные',
-                ])
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setColumnName('active')
-                ->setPlaceholder('Модерация - Все'),
-
-
-            AdminColumnFilter::select()
-                ->setOptions([
-                    0 => 'Заблокированные',
-                    1 => 'Допущенные',
-                ])
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setColumnName('moderated')
-                ->setPlaceholder('Бан по словам - Все'),
-
-
-//            AdminColumnFilter::text()
-//                ->setHtmlAttribute('class', 'email_search')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-//                ->setColumnName('torgBuyer.email')
-//                ->setPlaceholder('По Email'),
-
-//            AdminColumnFilter::text()
-//                ->setHtmlAttribute('class', 'phone_search')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-//                ->setColumnName('phone')
-//                ->setColumnName('phone2')
-//                ->setPlaceholder('По Тел.'),
-
-//            AdminColumnFilter::text()
-//                ->setHtmlAttribute('class', 'remoteIp_search')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-//                ->setColumnName('remote_ip')
-//                ->setPlaceholder('По IP'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('R')
-                ->setPlaceholder('SES'),
-
-//            AdminColumnFilter::text()
-//                ->setHtmlAttribute('class', 'name_search')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-//                ->setColumnName('torgBuyer.name')
-//                ->setOperator('contains')
-//                ->setPlaceholder('По имени'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('id')
-                ->setPlaceholder('По ID'),
-
-//            AdminColumnFilter::text()
-//                ->setColumnName('title')
-//                ->setOperator('contains')
-//                ->setPlaceholder('По объявлению'),
-
-
-//            AdminColumnFilter::text()
-//                ->setHtmlAttribute('class', 'userId_search col-md-10')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-//                ->setColumnName('torgBuyer.id')
-//                ->setPlaceholder('По UserID')
-
-        ]);
-
-        $display->getColumnFilters()->setPlacement('card.heading');
+        $display->setPlacement('card.heading');
 
         return $display;
     }
