@@ -123,70 +123,35 @@ class UsersAdmin extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+        $min_number_phone = 10;
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-
-                AdminFormElement::text('login', 'Логин')
-                    ->required(),
-
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::password('passwd', 'Пароль')
-                    ->required()
-                    ->hashWithBcrypt(),
-
-                AdminFormElement::html('<hr>'),
+                AdminFormElement::text('login', 'Логин')->required(),
+                AdminFormElement::password('passwd', 'Пароль')->required()->hashWithBcrypt(),
                 AdminFormElement::text('name', 'Ф.И.О.'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::text('address', 'Адрес'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::select('city_id', 'Город')
-                    ->setModelForOptions(CityLang::class)
-                    ->setDisplay('name'),
-
-                AdminFormElement::html('<hr>'),
+                AdminFormElement::select('city_id', 'Город')->setModelForOptions(CityLang::class)->setDisplay('name'),
                 AdminFormElement::number('zip_code', 'Почтовый Индекс'),
 
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('telephone', 'Телефон')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('office_phone', 'Рабочий тел')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('cell_phone', 'Мобильный тел')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email1', 'E-Mail 1'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email2', 'E-Mail 2'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email3', 'E-Mail 3'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::text('web_url', 'Веб-страница'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::select('group_id', 'Группа пользователей')
                     ->setModelForOptions(UserGroups::class)
                     ->setDisplay('group_name'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-            ], 'col-xs-4 col-sm-3 col-md-3 col-lg-2'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')->addColumn([
+                AdminFormElement::number('telephone', 'Телефон')->setMin($min_number_phone),
+                AdminFormElement::number('office_phone', 'Рабочий тел')->setMin($min_number_phone),
+                AdminFormElement::number('cell_phone', 'Мобильный тел')->setMin($min_number_phone),
+
+                AdminFormElement::text('email1', 'E-Mail 1'),
+                AdminFormElement::text('email2', 'E-Mail 2'),
+                AdminFormElement::text('email3', 'E-Mail 3'),
+            ], 'col-xs-4 col-sm-3 col-md-3 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -198,67 +163,33 @@ class UsersAdmin extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
+        $min_number_phone = 10;
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-
-                AdminFormElement::text('login', 'Логин')
-                    ->required(),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::password('passwd', 'Пароль')
-                    ->required()
-                    ->hashWithBcrypt(),
-
-                AdminFormElement::html('<hr>'),
+                AdminFormElement::text('login', 'Логин')->required(),
+                AdminFormElement::password('passwd', 'Пароль')->required()->hashWithBcrypt(),
                 AdminFormElement::text('name', 'Ф.И.О.'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::text('address', 'Адрес'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::select('city_id', 'Город')
-                    ->setModelForOptions(CityLang::class)
-                    ->setDisplay('name'),
-
-                AdminFormElement::html('<hr>'),
+                AdminFormElement::select('city_id', 'Город')->setModelForOptions(CityLang::class)->setDisplay('name'),
                 AdminFormElement::number('zip_code', 'Почтовый Индекс'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('telephone', 'Телефон')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('office_phone', 'Рабочий тел')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::number('cell_phone', 'Мобильный тел')
-                    ->setMin(10),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email1', 'E-Mail 1'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email2', 'E-Mail 2'),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::text('email3', 'E-Mail 3'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::text('web_url', 'Веб-страница'),
-
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::select('group_id', 'Группа пользователей')
                     ->setModelForOptions(UserGroups::class)
                     ->setDisplay('group_name'),
-            ]),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')->addColumn([
+                AdminFormElement::number('telephone', 'Телефон')->setMin($min_number_phone),
+                AdminFormElement::number('office_phone', 'Рабочий тел')->setMin($min_number_phone),
+                AdminFormElement::number('cell_phone', 'Мобильный тел')->setMin($min_number_phone),
+                AdminFormElement::text('email1', 'E-Mail 1'),
+                AdminFormElement::text('email2', 'E-Mail 2'),
+                AdminFormElement::text('email3', 'E-Mail 3'),
+            ], 'col-xs-4 col-sm-3 col-md-3 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

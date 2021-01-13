@@ -141,15 +141,15 @@ class BuyerTarifPacks extends Section implements Initializable
                     0 => 'Нет',
                     1 => 'Да',
                 ])->setDefaultValue(1)->required(),
-                AdminFormElement::text('cost', 'Стоимость (грн.)')->required(),
+                AdminFormElement::number('cost', 'Стоимость (грн.)')->required(),
                 AdminFormElement::select('period_type', 'Период', [
                     0 => 'День',
                     1 => 'Месяц',
                     2 => 'Год',
                 ])->setDefaultValue(0)->required(),
-                AdminFormElement::text('period', 'Длительность периода')->required(),
-                AdminFormElement::text('adv_num', 'Кол-во объявлений')->required(),
-                AdminFormElement::text('sort_num', 'Порядковый номер')->required(),
+                AdminFormElement::number('period', 'Длительность периода')->required(),
+                AdminFormElement::number('adv_num', 'Кол-во объявлений')->required(),
+                AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
                 $create_element
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-3'),
         ]);
@@ -157,7 +157,6 @@ class BuyerTarifPacks extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-//            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

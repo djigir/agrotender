@@ -49,7 +49,7 @@ class CompItems extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Редактир. компаний';
+    protected $title = 'Редактор компаний';
 
     /**
      * @var string
@@ -61,10 +61,23 @@ class CompItems extends Section implements Initializable
      */
     public function initialize()
     {
-        $type = request()->get('type');
-        if ($type == 'email_company') {
-            $this->title = 'Экспорт Email компаниий';
+        $request = \request();
+
+        if(!empty($request->all())) {
+            if($request->get('type') == 'active_traders'){
+                $this->title = 'Активные трейды';
+            }
+
+            if($request->get('type') == 'traders'){
+                $this->title = 'Трейдеры';
+            }
+
+            if($request->get('type') == 'email_company'){
+                $this->title = 'Экспорт email компаний';
+            }
+
         }
+
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -381,7 +394,7 @@ class CompItems extends Section implements Initializable
 
                 AdminColumn::image('logo_file', 'Лого'),
 
-                AdminColumn::link('title', 'Название')
+                AdminColumn::text('title', 'Название')
                     ->setHtmlAttribute('class', 'text-center'),
 
                 AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
@@ -633,7 +646,6 @@ class CompItems extends Section implements Initializable
 
         ]);
 
-
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -650,12 +662,14 @@ class CompItems extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
+
                 AdminFormElement::text('title', 'Название')
                     ->required(),
 
-                AdminFormElement::image('logo_file', 'Лого'),
+                AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
 
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
+
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_avail', 'Активна')
@@ -671,13 +685,13 @@ class CompItems extends Section implements Initializable
                         2 => 'Премиум +'
                 ]),
 
-                AdminFormElement::text('trader_sort', 'Приоретет'),
-                AdminFormElement::html('<hr>'),
+                AdminFormElement::number('trader_sort', 'Приоретет'),
 
+                AdminFormElement::html('<hr>'),
 
                 AdminFormElement::html('<span>Таблица продаж:</span>'),
-                AdminFormElement::html('<hr>'),
 
+                AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_sell_avail', 'Активна')
                     ->setOptions([
@@ -692,10 +706,8 @@ class CompItems extends Section implements Initializable
                         2 => 'Премиум +'
                     ]),
 
-                AdminFormElement::text('trader_sort_sell', 'Приоретет'),
-                AdminFormElement::html('<hr>'),
-
-
+                AdminFormElement::number('trader_sort_sell', 'Приоретет'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::html('<span>Таблица форвардов:</span>'),
                 AdminFormElement::html('<hr>'),
 
@@ -711,7 +723,7 @@ class CompItems extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::text('trader_sort_forward', 'Приоретет'),
+                AdminFormElement::number('trader_sort_forward', 'Приоретет'),
                 AdminFormElement::html('<hr>'),
 
 
@@ -724,17 +736,12 @@ class CompItems extends Section implements Initializable
 
                 AdminFormElement::number('rate_admin1', 'К рейтинга Admin1'),
                 AdminFormElement::number('rate_admin2', 'К рейтинга Admin2'),
-
-
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -755,9 +762,11 @@ class CompItems extends Section implements Initializable
     public function isDeletable(Model $model)
     {
         $type = \request()->get('type');
-        if ($type == 'email_company') {
+
+        if ($type == 'email_company' || $type == 'active_traders') {
             return  false;
         }
+
         return true;
     }
 

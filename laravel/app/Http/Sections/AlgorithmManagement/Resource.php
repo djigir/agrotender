@@ -58,16 +58,16 @@ class Resource extends Section implements Initializable
     {
         $columns = [
             AdminColumn::text('title', 'Название')->setWidth('90px')
-                ->setHtmlAttribute('class', 'text-center'),
+                ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
             AdminColumn::text('resourceLang.content', 'Значение')
-                ->setWidth('300px')->setHtmlAttribute('class', 'text-center'),
+                ->setWidth('300px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             //->setOrder([[0, 'asc']])
-            //->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
@@ -100,28 +100,11 @@ class Resource extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
         return $form;
     }
-
-    /**
-     * @return FormInterface
-     */
-//    public function onCreate($payload = [])
-//    {
-//        return $this->onEdit(null, $payload);
-//    }
-
-    /**
-     * @return bool
-     */
-//    public function isDeletable(Model $model)
-//    {
-//        return true;
-//    }
 
     /**
      * @return void

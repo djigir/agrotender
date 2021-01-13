@@ -82,10 +82,20 @@ class AgtNews extends Section implements Initializable
 
             AdminColumn::boolean('first_page', 'На главную'),
 
-            AdminColumn::count('NewsComment', 'Коммент.')
-                ->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Коммент.', function (Model $model) {
+                $count = $model['NewsComment']->count();
+                $style = 'pointer-events: none;cursor: default;color: #888;';
+                if ($count != 0) {
+                    $style = 'font-weight:bold';
+                }
+                return "<div class='row-text text-center'>
+                        <a href='{$model->NewsCommentLink()}?NewsComment[item_id]={$model->getKey()}' style='{$style}' target='_blank'>{$count}</a>
+                    </div>";
+            }),
 
             AdminColumn::boolean('intop', 'В топ')
+                ->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('view_num', 'Просмотров')
@@ -157,7 +167,22 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::image('filename_src', 'Картинка'),
+
+                AdminFormElement::image('filename_src', "Картинка")
+                    ->setHtmlAttribute('class', 'logo-img')
+                    ->addScript('my', asset('/app/assets/my_js/admin.js'))
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
+                        //Здесь ваша логика на сохранение картинки
+                        $filename = $id.'-news.png';
+                        $path = 'files/news/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
+
+
+                        return ['path' => asset($value), 'value' => $value = $path . $filename];
+                    }),
+
 
                 AdminFormElement::html('<hr>'),
 
@@ -166,7 +191,9 @@ class AgtNews extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+
                 AdminFormElement::text('id', 'ID')->setReadonly(true)
+
                     ->setHtmlAttribute('class', 'text-right'),
             ], 'col-xs-12 col-sm-6 col-md-2 col-lg-2'),
         ]);
@@ -211,16 +238,24 @@ class AgtNews extends Section implements Initializable
 
                 AdminFormElement::hidden('NewsLang.lang_id')->setDefaultValue('1'),
 
-//                AdminFormElement::hidden('url')->setDefaultValue('ss'),
-
                 AdminFormElement::select('intop', 'В топ')
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
                     ])->required(),
 
+                AdminFormElement::image('filename_src', "Картинка")
+                    ->setHtmlAttribute('class', 'logo-img')
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) {
+                        //Здесь ваша логика на сохранение картинки
+                        $path = 'files/news/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
 
-//                AdminFormElement::image('filename_src', 'Картинка')
+
+                        return ['path' => asset($value), 'value' => $value = $path . $filename];
+                    }),
 
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
 
@@ -230,7 +265,6 @@ class AgtNews extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 

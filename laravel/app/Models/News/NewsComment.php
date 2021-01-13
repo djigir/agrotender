@@ -22,6 +22,20 @@ class NewsComment extends Model
 
     public $timestamps = false;
 
+    /* scope */
+
+    /**
+     * @param     $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNewsComment($query, $type)
+    {
+        $news_id = $type['item_id'];
+
+        return $query->where('item_id', $news_id);
+    }
+
     /* Relation */
 
     public function agtNews()

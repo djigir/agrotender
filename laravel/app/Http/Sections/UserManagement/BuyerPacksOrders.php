@@ -110,6 +110,7 @@ class BuyerPacksOrders extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('tarif.cost', 'Цена')
+                ->setOrderable(false)
                 ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
 
@@ -134,7 +135,9 @@ class BuyerPacksOrders extends Section implements Initializable
             })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('torgPost.id', 'ID Объяв.')
-                ->setWidth('80px')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('post_id', $direction);
+                })->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 
@@ -187,15 +190,43 @@ class BuyerPacksOrders extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+        $order = \App\Models\Buyer\BuyerPacksOrders::select('user_id')->find($id);
+        $user = \App\Models\Torg\TorgBuyer::select('id', 'name')->find($order->user_id);
+
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
+
+                AdminFormElement::text('user_id', 'ID пользователя')
+                    ->setDefaultValue($user->id)
+                    ->setReadonly(true)
                     ->required(),
+
+
+                AdminFormElement::select('pack_id', 'Пакет')
+                    ->setOptions([
+                        28 => '+1 объявления на 30 дней',
+                        27 => '+2 объявления на 30 дней',
+                        7 => '+5 объявлений на 30 дней'
+                    ]),
+
+                AdminFormElement::custom(function (Model $model) {
+                    $model->stdt = Carbon::now();
+                }),
+
+                AdminFormElement::custom(function (Model $model) {
+                    $days = 30;
+                    $model->endt = Carbon::now()->addDays($days);
+                }),
 
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
 
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
+                AdminFormElement::textarea('comments', 'Комментарии')
+                    ->setDefaultValue('Добавлено админом+')
+                    ->setRows(4),
+
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
@@ -203,7 +234,6 @@ class BuyerPacksOrders extends Section implements Initializable
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
