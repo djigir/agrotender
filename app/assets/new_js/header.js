@@ -83,9 +83,7 @@ window.onload = (() => {
   }
   
 
-  window.addEventListener('load', () => {
-    headerTraderPricesArrow()
-    tradersPriceLine()
-    initHeader()
-  })  
+  headerTraderPricesArrow()
+  tradersPriceLine()
+  initHeader()
 })()

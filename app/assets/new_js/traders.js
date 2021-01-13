@@ -1,4 +1,4 @@
-(() => {
+function tradersPage () {
   function tradersPageScripts() {
   
     let prices = document.querySelectorAll('.traders__item__content-p-price')
@@ -91,9 +91,35 @@
     }
   }
   
+  function colorThiefActivate() {
+    const tradersImages = $('.new_traders .traders__item .traders__item__image')
+    tradersImages.imgcolr((img, color) => {
+      console.log(img, color)
+      img.parentNode.style.backgroundColor = color
+    })
+    // const CT = new ColorThief()
+    console.log('tradersImages', tradersImages)
+    console.log('Vibrant', Vibrant)
+    // tradersImages.forEach(image => {
+    //   let color = '#fff'
+    //   const img = document.createElement('img')
+    //   img.setAttribute('src', image.src)
+
+    //   img.addEventListener('load', () => {
+    //     console.log('new Vibrant(img)', new Vibrant(img))
+    //     image.parentNode.style.backgroundColor = color
+    //   })
+    // })
+  }
+
   window.addEventListener('load', () => {
     tradersPageScripts()
     tradersTruncate()
     tradersPageScriptsTruncateAndSlider()
+    colorThiefActivate()
   })      
-})()
+}
+
+if (document.querySelector('.new_traders')) {
+  tradersPage()
+}

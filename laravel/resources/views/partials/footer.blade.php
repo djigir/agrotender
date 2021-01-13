@@ -65,11 +65,7 @@
 
 <script src="/app/assets/js/jquery-3.3.1.min.js"></script>
 
-<script src="/app/assets/my_js/events.js"></script>
-<script src="/app/assets/new_js/company.js"></script>
-<script src="/app/assets/new_js/filters.js"></script>
-<script src="/app/assets/new_js/header.js"></script>
-<script src="/app/assets/new_js/utils.js"></script>
+
 
 <script src="/app/assets/js/jquery.dataTables.min.js"></script>
 <script src="/app/assets/js/popper.min.js"></script>
@@ -89,6 +85,13 @@
 <script src="/app/assets/js/bootstrap-datepicker.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>
 <script src="/app/assets/js/color-thief.min.js"></script>
+
+<script src="/app/assets/my_js/events.js"></script>
+<script src="/app/assets/new_js/company.js"></script>
+<script src="/app/assets/new_js/filters.js"></script>
+<script src="/app/assets/new_js/header.js"></script>
+<script src="/app/assets/new_js/utils.js"></script>
+<script src="/app/assets/new_js/traders.js"></script>
 
 {{--<script src="/app/assets/js/app.js"></script>--}}
 </body>
