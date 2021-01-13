@@ -148,7 +148,12 @@ class AgtNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('NewsLang.title', 'Заголовок')->required(),
+
+                AdminFormElement::text('NewsLang.title', 'Заголовок')
+                    ->required(),
+
+                AdminFormElement::textarea('NewsLang.content', 'Текст'),
+
 
                 AdminFormElement::select('first_page', 'На главную')
                     ->setOptions([
@@ -162,14 +167,10 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::html('<hr>'),
 
-                AdminFormElement::datetime('dtime', 'Дата')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
                 AdminFormElement::image('filename_src', "Картинка")
+                    ->setHtmlAttribute('class', 'logo-img')
+                    ->addScript('my', asset('/app/assets/my_js/admin.js'))
                     ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
                         //Здесь ваша логика на сохранение картинки
                         $filename = $id.'-news.png';
@@ -178,15 +179,29 @@ class AgtNews extends Section implements Initializable
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
 
-                        return ['path' => asset($value), 'value' => "news/{$filename}"];
+
+                        return ['path' => asset($value), 'value' => $value = $path . $filename];
                     }),
-                AdminFormElement::textarea('NewsLang.content', 'Текст'),
-            ], 'col-xs-12 col-sm-6 col-md-2 col-lg-6'),
+
+
+                AdminFormElement::html('<hr>'),
+
+                AdminFormElement::datetime('dtime', 'Дата')
+                    ->setVisible(true)
+                    ->setReadonly(false),
+
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+
+                AdminFormElement::text('id', 'ID')->setReadonly(true)
+
+                    ->setHtmlAttribute('class', 'text-right'),
+            ], 'col-xs-12 col-sm-6 col-md-2 col-lg-2'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
+            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -229,7 +244,18 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ])->required(),
 
-                AdminFormElement::image('filename_src', 'Картинка'),
+                AdminFormElement::image('filename_src', "Картинка")
+                    ->setHtmlAttribute('class', 'logo-img')
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) {
+                        //Здесь ваша логика на сохранение картинки
+                        $path = 'files/news/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
+
+
+                        return ['path' => asset($value), 'value' => $value = $path . $filename];
+                    }),
 
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
 
