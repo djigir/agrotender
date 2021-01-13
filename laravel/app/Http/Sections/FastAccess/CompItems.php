@@ -645,7 +645,6 @@ class CompItems extends Section implements Initializable
 
         ]);
 
-
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
