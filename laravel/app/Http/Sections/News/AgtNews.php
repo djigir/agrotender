@@ -167,7 +167,18 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::image('filename_src', 'Картинка'),
+
+                AdminFormElement::image('filename_src', "Картинка")
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
+                    //Здесь ваша логика на сохранение картинки
+                        $filename = $id.'-news.png';
+                        $path = 'files/news/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
+
+                      return ['path' => asset($value), 'value' => "news/{$filename}"];
+                }),
 
 
                 AdminFormElement::html('<hr>'),
@@ -177,7 +188,9 @@ class AgtNews extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
+
                 AdminFormElement::text('id', 'ID')->setReadonly(true)
+
                     ->setHtmlAttribute('class', 'text-right'),
             ], 'col-xs-12 col-sm-6 col-md-2 col-lg-2'),
         ]);

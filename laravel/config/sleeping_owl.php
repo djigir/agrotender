@@ -149,7 +149,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'imagesUploadDirectory' => '../files/uploads',
+    'imagesUploadDirectory' => 'files/news',
     //'imagesUploadDirectory' => 'images/uploads',
 
     /*

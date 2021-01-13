@@ -25,15 +25,19 @@ class News extends Model
 
     /* Mutator & Accessor */
 
-    public function getFilenameSrcAttribute($value)
-    {
-        dd($this->attributes, $value);
-    }
-
-    public function setFilenameSrcAttribute($value)
-    {
-        dd($this->attributes, $value);
-    }
+//    public function getFilenameSrcAttribute($value)
+//    {
+//        dd($this->attributes, $value, 'get');
+//
+//        $path = $this->attributes['filename_src'];
+//    }
+//
+//    public function setFilenameSrcAttribute($value)
+//    {
+//        dd($this->attributes, $value, 'set');
+//
+//        $path = $this->attributes['filename_src'];
+//    }
 
     /* route for comment */
 
