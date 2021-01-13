@@ -393,7 +393,7 @@ class CompItems extends Section implements Initializable
 
                 AdminColumn::image('logo_file', 'Лого'),
 
-                AdminColumn::link('title', 'Название')
+                AdminColumn::text('title', 'Название')
                     ->setHtmlAttribute('class', 'text-center'),
 
                 AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
@@ -661,12 +661,14 @@ class CompItems extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
+
                 AdminFormElement::text('title', 'Название')
                     ->required(),
 
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
 
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
+
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_avail', 'Активна')
@@ -683,8 +685,11 @@ class CompItems extends Section implements Initializable
                 ]),
 
                 AdminFormElement::number('trader_sort', 'Приоретет'),
+
                 AdminFormElement::html('<hr>'),
+
                 AdminFormElement::html('<span>Таблица продаж:</span>'),
+
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_sell_avail', 'Активна')
@@ -756,9 +761,11 @@ class CompItems extends Section implements Initializable
     public function isDeletable(Model $model)
     {
         $type = \request()->get('type');
-        if ($type == 'email_company') {
+
+        if ($type == 'email_company' || $type == 'active_traders') {
             return  false;
         }
+
         return true;
     }
 
