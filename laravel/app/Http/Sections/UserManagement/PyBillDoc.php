@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -110,7 +111,7 @@ class PyBillDoc extends Section implements Initializable
     /**
      * @return \SleepingOwl\Admin\Form\FormCard
      */
-    public function onCreate($payload = [])
+    public function onCreate($payload = [], Request $request)
     {
         if(empty(\request()->all())){
             return redirect()->route('admin.model', 'py_bills');
@@ -125,22 +126,24 @@ class PyBillDoc extends Section implements Initializable
                 AdminFormElement::hidden('buyer_id')->setDefaultValue($py_bill['buyer_id']),
                 AdminFormElement::hidden('bill_id')->setDefaultValue($id),
                 AdminFormElement::hidden('add_date')->setDefaultValue($date),
-
+                AdminFormElement::hidden('sum_tot')->setDefaultValue($py_bill['amount']),
                 AdminFormElement::select('doc_type', 'Тип документа',[
                     0 => 'Счёт',
                     1 => 'Акт',
                     2 => 'Скан-копия',
                 ])->setDefaultValue(0)->required(),
-                AdminFormElement::number('sum_tot', 'Сумма счета')->setDefaultValue($py_bill['amount'])->required()->setReadonly(true),
-                AdminFormElement::file('filename', 'Файл')->required(),
+
+                AdminFormElement::file('filename', "Файл")->setValidationRules(['filename' => 'mimes:pdf,doc'])
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id, $date, $py_bill, $request) {
+                        $filename = 'bill_'.$id.'_'.$date->format('Y').'_'.$date->format('m').'_'.$date->format('d').'.'.\request()->file('file')->getClientOriginalExtension();
+                        $path = 'billdocs/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
+                        return ['path' => asset($value), 'value' => "{$filename}"];
+                    })->required(),
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
-
-        if(\request()->get('filename')){
-            $filename = 'billdocs/'.$date->format('Y').'_'.$date->format('m').'/'.\request()->get('filename');
-            \request()->merge(['filename' => $filename]);
-        }
-
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
