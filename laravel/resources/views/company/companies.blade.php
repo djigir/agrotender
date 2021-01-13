@@ -30,7 +30,7 @@
     <div class="new_container pb-4 companies">
         @if(!$isMobile)
         @foreach($companies as $index => $company)
-            @if($company->trader_price_avail == 1)
+            @if($company->visible == 1)
             <div class="row content-block companyItem mx-0 mt-4 pt-3 pb-3 px-1
                 {{$company['trader_premium'] == 1 || $company['trader_premium'] == 2 ? 'companyTop' : ''}}"
                 {{$company['trader_premium'] == 2 ?? 'style ="overflow:hidden;'}}>
@@ -115,7 +115,7 @@
         @endforeach
         @else
         @foreach($companies as $index => $company)
-            @if($company->trader_price_avail == 1)
+            @if($company->visible == 1)
                 <a href="{{route('company.index', $company['id'])}}" class="row content-block companyItem mx-0 mt-4 pt-3 pb-3 px-1
                     {{$company['trader_premium'] == 1 || $company['trader_premium'] == 2 ? 'companyTop' : ''}}"
                     {{$company['trader_premium'] == 2 ?? 'style ="overflow:hidden;'}}>
