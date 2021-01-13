@@ -685,7 +685,23 @@ class CompItems extends Section implements Initializable
 
                 AdminFormElement::number('trader_sort', 'Приоретет'),
                 AdminFormElement::html('<hr>'),
+                AdminFormElement::html('<span>Таблица продаж:</span>'),
+                AdminFormElement::html('<hr>'),
 
+                AdminFormElement::select('trader_price_sell_avail', 'Активна')
+                    ->setOptions([
+                        0 => 'Нет',
+                        1 => 'Да',
+                    ]),
+
+                AdminFormElement::select('trader_premium_sell', 'Премиум')
+                    ->setOptions([
+                        0 => 'Нет',
+                        1 => 'Да',
+                        2 => 'Премиум +'
+                    ]),
+
+                AdminFormElement::number('trader_sort_sell', 'Приоретет'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::html('<span>Таблица форвардов:</span>'),
                 AdminFormElement::html('<hr>'),
@@ -715,24 +731,6 @@ class CompItems extends Section implements Initializable
 
                 AdminFormElement::number('rate_admin1', 'К рейтинга Admin1'),
                 AdminFormElement::number('rate_admin2', 'К рейтинга Admin2'),
-                AdminFormElement::html('<span>Таблица продаж:</span>'),
-                AdminFormElement::html('<hr>'),
-
-                AdminFormElement::select('trader_price_sell_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium_sell', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                        2 => 'Премиум +'
-                    ]),
-
-                AdminFormElement::number('trader_sort_sell', 'Приоретет'),
-                AdminFormElement::html('<hr>'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
