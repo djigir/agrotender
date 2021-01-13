@@ -134,7 +134,9 @@ class BuyerPacksOrders extends Section implements Initializable
             })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('torgPost.id', 'ID Объяв.')
-                ->setWidth('80px')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('post_id', $direction);
+                })->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 
