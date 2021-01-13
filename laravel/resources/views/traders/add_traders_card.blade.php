@@ -2,7 +2,7 @@
     <div class="traders__item-wrap">
         <a href="{{route('company.index', $trader->id) }}" class="traders__item {{($trader->trader_premium == 1 ? 'yellow' : '')}}">
             <div class="traders__item__header">
-                <img class="logo traders__item__image" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Red_flag.svg/1000px-Red_flag.svg.png'}}">
+                <img class="logo traders__item__image" src="{{ $trader->logo_file && file_exists($trader->logo_file) ? '/'.$trader->logo_file : '/app/assets/img/no-image.png'}}">
             </div>
             <div class="traders__item__content">
                 <div class="traders__item__content-title">{{ $trader->title }}</div>

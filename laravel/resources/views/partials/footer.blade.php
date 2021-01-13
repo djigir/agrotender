@@ -84,7 +84,7 @@
 <script src="/app/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>
-<script src="/app/assets/js/color-thief.min.js"></script>
+<script src="/app/assets/js/color-thief-new.min.js"></script>
 
 <script src="/app/assets/my_js/events.js"></script>
 <script src="/app/assets/new_js/company.js"></script>

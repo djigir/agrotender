@@ -81,7 +81,6 @@ window.onload = (() => {
       tradersDropdownParent.addEventListener('mouseleave', listener)
     })
   }
-  
 
   headerTraderPricesArrow()
   tradersPriceLine()
