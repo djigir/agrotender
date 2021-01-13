@@ -13,7 +13,7 @@
     @endif
 </div>
 
-<div class="content-block prices-block mb-5" style="position: relative" currency="0">
+<div class="content-block prices-block  mb-5" style="position: relative" currency="0">
     <div class="port-UAH" style="{{($statusCurtypePort == "UAH" || $statusCurtypePort == "UAH_USD") ? '' : 'display: none'}}">
         <div class="price-table-wrap ports scroll-x d-none d-sm-block">
             @if(!empty($port_place))

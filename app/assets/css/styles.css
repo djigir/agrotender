@@ -2187,6 +2187,8 @@ table.price-table td {
 .sortTable .price-up {
   font-family: 'Montserrat';
   color: #009000;
+  font-weight: 600;
+  font-size: 12px;
 }
 
 table.sortTable tr td {
@@ -3191,7 +3193,8 @@ table.sortTable.regions-table th {
 }
 table.sortTable.ports-table th {
   background: #143573;
-  min-width: 140px;
+  min-width: 150px !important;
+  width: 150px !important;
 }
 
 .table-tabs {
@@ -6017,9 +6020,6 @@ table.proposedTable tr.not-viewed td {
   color: #92AAD4;
 }
 
-
-
-
 .new_feed {
   position: relative;
   background-color: #FFFFFF;
@@ -6035,6 +6035,7 @@ table.proposedTable tr.not-viewed td {
   padding-right: 50px;
 }
 .new_feed-item {
+  height: 136px;
   display: block;
   text-decoration: none;
   padding-top: 12px;
@@ -6127,6 +6128,10 @@ table.proposedTable tr.not-viewed td {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: absolute;
+  bottom: 12px;
+  right: 18px;
+  left: 18px;
 }
 .new_feed-item-bottom .link {
   text-decoration: none;

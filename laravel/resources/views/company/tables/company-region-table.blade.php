@@ -1,4 +1,4 @@
-<div class="regions-tabs table-tabs mt-5">
+<div class="regions-tabs table-tabs mt-3">
     @if($statusCurtypeRegion == 'UAH')
         <a  id="region-uah" class="active region-port-table">Закупки UAH</a>
     @endif

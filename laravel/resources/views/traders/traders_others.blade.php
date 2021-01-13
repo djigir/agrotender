@@ -88,8 +88,26 @@
     var port = $('#traders_card_param_param').attr('port');
 
     $(window).scroll(function () {
+        // kostil'
+        function colorThiefActivate() {
+            const tradersImages = $('.new_traders .traders__item .traders__item__image')
+            tradersImages.imgcolr((img, color) => {
+            img.parentNode.style.backgroundColor = color
+            })
+        }
+
+        function replaceWithSpacesAllItemsLocal () {
+            function replacerWithSpacesLocal(text) {
+                return text.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+            }
+            const replaceItems = document.querySelectorAll('.replace_numbers_js')
+            Array.prototype.slice.call(replaceItems).forEach(item => {
+                item.textContent = replacerWithSpacesLocal(item.textContent)
+            })
+        }
+
         if(execute_request && document.documentElement.scrollHeight - document.documentElement.scrollTop < document.documentElement.clientHeight + 3000 && count < 1) {
-            replaceWithSpacesAllItems();
+            replaceWithSpacesAllItemsLocal();
             count++;
             $.ajax({
                 url: window.location.origin + '/traders/get_traders_card',
@@ -101,7 +119,8 @@
                 },
                 success: function (data) {
                     $('#content_traders').append(data);
-                    replaceWithSpacesAllItems()
+                    replaceWithSpacesAllItemsLocal()
+                    colorThiefActivate()
                     count = 0;
                     start += add_count_item;
                     if(data == ''){
