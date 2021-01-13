@@ -109,7 +109,7 @@
                 <div style="">
                     <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('email')}}" name="email" placeholder="По Email" class="email_search form-control column-filter">
                     <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('number')}}" name="number" placeholder="По Телефону" class="email_search form-control column-filter">
-                    <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('session_id')}}" name="session_id" placeholder="По SES" class="email_search form-control column-filter">
+                    <input style="width: 200px;display: inline-block" type="text" data-type="text" id="sesid" value="{{request('session_id')}}" name="session_id" placeholder="По SES" class="email_search form-control column-filter">
                     <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('name')}}" name="name" placeholder="По Имени" class="email_search form-control column-filter">
                     <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('ip')}}" name="ip" placeholder="По IP" class="email_search form-control column-filter">
                     <input style="width: 200px;display: inline-block" type="text" data-type="text" value="{{request('id')}}" name="id" placeholder="По ID" class="email_search form-control column-filter">
@@ -119,10 +119,10 @@
 
             <div data-index="7">
                 <div class="btn-group">
-                    <button  data-type="control" id="filters-exec" class="btn btn-sm btn-primary column-filter">
+                    <button  id="bntSub" data-type="control" id="filters-exec" class="btn btn-sm btn-primary column-filter">
                         Фильтр
                     </button>
-                    <a href="{{url()->current()}}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
+                    <a href="{{url()->current()}}"  class="btn btn-sm btn-danger"><i class="fas fa-times"></i></a>
 
 
                 </div>
@@ -130,4 +130,18 @@
         </div>
         </form>
 
+
+<script>
+  function  setSesID(id)
+    {
+        event.preventDefault()
+       document.getElementById('sesid').value = id;
+       document.getElementById('bntSub').click();
+
+
+
+
+    }
+
+</script>
 

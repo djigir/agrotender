@@ -118,19 +118,11 @@ class AdvTorgPost extends Section implements Initializable
 
             AdminColumn::custom('Email/IP', function (\Illuminate\Database\Eloquent\Model $model) {
                 $view = '';
-                $prewRequests = \request()->all(['region', 'ad', 'group', 'section', 'period', 'session', 'active', 'improvements', 'moderation', 'words_ban', 'email',
-                    'number', '', 'name', 'ip', 'id', 'text', 'user_id']);
-                $href = '';
-                foreach ($prewRequests as $key => $value) {
-                    if ($value)
-                        $href .= "?$key=$value";
-                }
-
 
                 if (request()->get('session') == 2) {
                     $sesIds = $model->torgBuyerSession()->pluck('ses_id');
                     foreach ($sesIds as $sesId) {
-                        $view .= "<a href=\"$href?session_id={$sesId}\">$sesId</a><br>";
+                        $view .= "<a  onclick='setSesID(\"$sesId\")' href=\"#\">$sesId</a><br>";
                     }
                 }
 
