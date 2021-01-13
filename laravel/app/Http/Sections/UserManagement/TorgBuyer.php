@@ -279,13 +279,13 @@ class TorgBuyer extends Section implements Initializable
                 AdminFormElement::text('max_adv_posts', 'Максимальное кол-во объявл.'),
 
 
-//                AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
-//                        Текущее кол-во объявлений
-//                    </label> <input class='form-control' type='text' id='s' name='s' value='{$this->model_value['advTorgPost']->count()}' readonly='readonly'></div>"),
+                AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
+                        Текущее кол-во объявлений
+                    </label> <input class='form-control' type='text' id='s' name='s' value='{$this->model_value['advTorgPost']->count()}' readonly='readonly'></div>"),
 
-//                AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
-//                        Текущее кол-во активных объяв.
-//                    </label> <input class='form-control' type='text' id='s' name='s' value='{$this->model_value['advTorgPost']->where('active', 1)->count()}' readonly='readonly'></div>"),
+                AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
+                        Текущее кол-во активных объяв.
+                    </label> <input class='form-control' type='text' id='s' name='s' value='{$this->model_value['advTorgPost']->where('active', 1)->count()}' readonly='readonly'></div>"),
 
 
                 AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
