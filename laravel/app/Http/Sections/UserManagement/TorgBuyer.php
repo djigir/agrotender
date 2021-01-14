@@ -48,10 +48,6 @@ class TorgBuyer extends Section implements Initializable
      */
     public function initialize()
     {
-        $type = request()->get('type');
-        if ($type == 'email_adverts') {
-            $this->title = 'Экспорт Email объявлений';
-        }
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -63,51 +59,49 @@ class TorgBuyer extends Section implements Initializable
     public function onDisplay($payload = [])
     {
 
-        /* выгрузить сразу телефоны если нажата вкладка "Выгрузить Телефоны" */
-        $type = request()->get('type');
-        if ($type == 'download_phones') {
-            return redirect()->route('admin.download_phones');
-        }
-
-        /* выгрузить Email с фильтром */
-        if ($type == 'email_adverts') {
-
-            $columns = [
-                AdminColumn::text('id', 'ID')
-                    ->setWidth('40px')
-                    ->setHtmlAttribute('class', 'text-center')
-            ];
-
-            $display = AdminDisplay::datatables()
-                ->setName('firstdatatables')
-                ->setOrder([[0, 'desc']])
-                ->setDisplaySearch(false)
-                ->paginate(25)
-                ->setColumns($columns)
-                ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-                ->setFilters(
-                    \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
-                );
-
-            $display->setColumnFilters([
-                AdminColumnFilter::select()
-                    ->setModelForOptions(\App\Models\Regions\Regions::class)
-                    ->setLoadOptionsQueryPreparer(function($element, $query) {
-                        return $query;
-                    })
-                    ->setDisplay('name')
-                    ->setColumnName('obl_id')
-                    ->setPlaceholder('Все области'),
-
-            ]);
-
-            $display->getColumnFilters()->setPlacement('card.heading');
-
-            return $display;
-        }
-        /* выгрузить Email с фильтром !*/
-
-
+//        /* выгрузить сразу телефоны если нажата вкладка "Выгрузить Телефоны" */
+//        $type = request()->get('type');
+//        if ($type == 'download_phones') {
+//            return redirect()->route('admin.download_phones');
+//        }
+//
+//        /* выгрузить Email с фильтром */
+//        if ($type == 'email_adverts') {
+//
+//            $columns = [
+//                AdminColumn::text('id', 'ID')
+//                    ->setWidth('40px')
+//                    ->setHtmlAttribute('class', 'text-center')
+//            ];
+//
+//            $display = AdminDisplay::datatables()
+//                ->setName('firstdatatables')
+//                ->setOrder([[0, 'desc']])
+//                ->setDisplaySearch(false)
+//                ->paginate(25)
+//                ->setColumns($columns)
+//                ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+//                ->setFilters(
+//                    \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
+//                );
+//
+//            $display->setColumnFilters([
+//                AdminColumnFilter::select()
+//                    ->setModelForOptions(\App\Models\Regions\Regions::class)
+//                    ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                        return $query;
+//                    })
+//                    ->setDisplay('name')
+//                    ->setColumnName('obl_id')
+//                    ->setPlaceholder('Все области'),
+//
+//            ]);
+//
+//            $display->getColumnFilters()->setPlacement('card.heading');
+//
+//            return $display;
+//        }
+//        /* выгрузить Email с фильтром !*/
 
 
         $columns = [
