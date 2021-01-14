@@ -367,7 +367,7 @@ class Board extends \Core\Model {
         on tb.id = atp.author_id
       left join agt_comp_items ci
         on ci.id = atp.company_id
-      left join regions r
+      left join agt_regions r
               on r.id = atp.obl_id
       inner join agt_adv_torg_topic att
               on att.id = atp.topic_id 
@@ -459,7 +459,7 @@ class Board extends \Core\Model {
           on att.id = atp.topic_id $parentJoin
         inner join agt_torg_buyer tb
           on atp.author_id = tb.id $author
-        inner join regions as r
+        inner join agt_regions as r
           on r.id = atp.obl_id
         left join agt_comp_items ci
           on atp.company_id = ci.id
@@ -496,23 +496,21 @@ class Board extends \Core\Model {
           on att.id = atp.topic_id $parentJoin
         inner join agt_torg_buyer tb
           on atp.author_id = tb.id $author
-        inner join regions as r
+        inner join agt_regions as r
           on r.id = atp.obl_id
         left join agt_comp_items ci
           on atp.company_id = ci.id
         left join agt_buyer_packs_orders bpo on bpo.post_id = atp.id && bpo.endt > now() && bpo.pack_type = 1
         $region
       where $advert atp.active = 1 && atp.moderated = 1 && atp.archive = $archive $type $rubricCondition $query order by atp.$sort desc limit $start, $count");
-
-    foreach ($adverts as $key => $value) {
-      if ($author != null && strtotime($value['up_dt']) <= strtotime("-7 days")) {
-        $adverts[$key]['free_up'] = 1;
-      } else {
-        $adverts[$key]['free_up'] = 0;
-      }
-      $adverts[$key]['image'] = $this->getAdvertPhoto($value['id'], 1)[0]['filename_ico'] ?? null;
-    }
-
+        foreach ($adverts as $key => $value) {
+          if ($author != null && strtotime($value['up_dt']) <= strtotime("-7 days")) {
+            $adverts[$key]['free_up'] = 1;
+          } else {
+            $adverts[$key]['free_up'] = 0;
+          }
+          $adverts[$key]['image'] = $this->getAdvertPhoto($value['id'], 1)[0]['filename_ico'] ?? null;
+        }
     return ['data' => $adverts, 'totalPages' => $totalPages ?? 1, 'page' => $page, 'totalAdverts' => $totalAdverts];
   }
 

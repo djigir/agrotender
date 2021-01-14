@@ -61,7 +61,7 @@ class TraderService
 
         if (!empty($request->get('port'))) {
             $route_name = 'port';
-            $route_params = ['port' => $request->get('port'), 'currency' => $request->get('currency')];
+            $route_params = ['port_name' => $request->get('port'), 'currency' => $request->get('currency')];
         }
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
@@ -101,7 +101,11 @@ class TraderService
 
         $traders = $this->getTraders($data);
 
-        return ['traders' => $traders->where('trader_premium', '!=', 2), 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
+        if($data['type_view'] != 'table') {
+            return ['traders' => $traders->where('trader_premium', '!=', 2), 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
+        }
+
+        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
     }
 
 
@@ -129,7 +133,7 @@ class TraderService
             ->where('active', 1)
             ->get();
 
-        $ports = array_values($ports->sortBy('lang.portname')->push(['lang' => ['portname' => 'Все порты'], 'url' => 'all'])->toArray());
+        $ports = $ports->sortBy('lang.portname')->prepend(collect(['lang' => ['portname' => 'Все порты'], 'url' => 'all']));
 
         return $ports;
     }
@@ -172,11 +176,19 @@ class TraderService
             $groups[$index_g]['index_group'] = $index_g+1;
             foreach ($group["groups"]['products'] as $index_c => $culture) {
                 $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = 0;
-                if(isset($group_items[$culture['id']])){
+
+                if(!isset($group_items[$culture['id']])){
+                    unset($groups[$index_g]["groups"]['products'][$index_c]);
+                }else{
                     $groups[$index_g]["groups"]['products'][$index_c]['count_item'] = $group_items[$culture['id']]->count_item;
                 }
             }
-            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('traders_product_lang.0.name')->toArray();
+
+            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('traders_product_lang.0.name');
+
+            if(empty($groups[$index_g]["groups"]['products']) || $groups[$index_g]["groups"]['products']->count() == 0){
+                unset($groups[$index_g]);
+            }
         }
 
         return $groups;
@@ -262,33 +274,36 @@ class TraderService
             ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
             ->where($criteria_prices)
             ->where($criteria_places)
-            ->orderBy('comp_items.trader_premium', 'desc')
-            ->orderBy('traders_prices.change_date', 'desc')
-            ->orderBy('comp_items.trader_sort')
-            ->orderBy('comp_items.rate_formula', 'desc')
-            ->orderBy('comp_items.title')
-            ->select('comp_items.title', 'comp_items.author_id',
+            ->select([
+                'comp_items.title', 'comp_items.author_id',
                 'comp_items.logo_file', 'comp_items.id',
                 'comp_items.trader_premium', 'comp_items.trader_sort',
                 'comp_items.rate_formula', 'traders_prices.cult_id',
-                'traders_prices.place_id', 'traders_prices.change_date',
-                'traders_prices.dt', 'traders_products_lang.name as culture'
-            )
+                'traders_prices.place_id',
+                'traders_prices.dt', 'traders_products_lang.name as culture',
+                \DB::raw('max(agt_traders_prices.change_date) as change_date')
+            ])
+            ->orderBy('comp_items.trader_premium', 'desc')
+//            ->orderBy('traders_prices.change_date', 'desc')
+            ->orderBy('change_date', 'desc')
+            ->orderBy('comp_items.trader_sort')
+            ->orderBy('comp_items.rate_formula', 'desc')
+            ->orderBy('comp_items.title')
             ->groupBy('comp_items.id')
             ->get();
-
+        //dd($traders->toArray());
         $prices = TradersPrices::whereIn('traders_prices.buyer_id', $traders->pluck('author_id'))
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
             ->where($criteria_prices)
             ->where($criteria_places)
             ->where('traders_places.type_id', '!=', 1)
-            ->orderBy('traders_prices.change_date', 'desc')
             ->select('traders_prices.buyer_id', 'traders_prices.cult_id', 'traders_prices.curtype',
                 'traders_prices.change_date', 'traders_prices.dt','traders_prices.costval',
                 'traders_prices.costval_old', 'traders_prices.curtype',
                 'traders_products_lang.name', 'traders_places.obl_id',
                 'traders_places.port_id')
+            ->orderBy('traders_prices.change_date', 'desc')
             ->get();
 
         foreach ($traders as $index => $trader) {
@@ -320,7 +335,7 @@ class TraderService
         return $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
-            ->leftJoin(\DB::raw('regions'), 'traders_places.obl_id', '=', \DB::raw('regions.id'))
+            ->leftJoin('regions', 'traders_places.obl_id', '=', 'regions.id')
             ->leftJoin('traders_products2buyer', function ($join)
                 {
                     $join->on('comp_items.author_id', '=', 'traders_products2buyer.buyer_id');
@@ -346,7 +361,7 @@ class TraderService
                 'traders_prices.curtype', 'traders_prices.dt',
                 'traders_places.port_id', 'traders_places.place',
                 'traders_places.type_id', 'traders_places.port_id',
-                \DB::raw('regions.name as region'))->get();
+                'regions.name as region')->get();
     }
 
 

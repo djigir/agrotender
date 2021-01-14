@@ -15,6 +15,7 @@
                     if(isset($key_uah[0])){
                         $traders[$key_uah[0]]['costval_usd'] = $where_place_id->where('curtype', 1)->first()->costval;
                         $traders[$key_uah[0]]['costval_old_usd'] = $where_place_id->where('curtype', 1)->first()->costval_old;
+                        $traders[$key_uah[0]]['date_change'] = $where_place_id->where('curtype', 1)->first()->change_date;
                     }
 
                     if(isset($key_usd[0])){
@@ -25,6 +26,7 @@
                 if(isset($traders[$index]))
                 {
                     $change = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval - $traders[$index]->costval_old) : 0;
+
                     $traders[$index]['change_price'] = $change;
 
                     $traders[$index]['change_price_type'] = $change > 0 ? 'up' : 'down';
@@ -35,7 +37,8 @@
 
                     if(isset($traders[$index]['costval_usd']))
                     {
-                        $change_usd = $date_expired_diff <= $traders[$index]->change_date ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+                        $change_usd = $date_expired_diff <= $traders[$index]['date_change'] ? round($traders[$index]->costval_usd - $traders[$index]->costval_old_usd) : 0;
+
                         $traders[$index]['change_price_usd'] = $change_usd;
 
                         if(!$traders[$index]->change_date || !$change_usd){
@@ -76,7 +79,7 @@
                     </thead>
                     <tbody>
                     @foreach($traders as $index => $trader)
-                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 ? 'vip': ''}}">
+                        <tr role="row" class="{{$index%2 == 0 ? 'even' : 'odd'}} {{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
                             <td>
                                 <a class="d-flex align-items-center" href="{{$type_traders == 1 ? route('company.forwards', $trader->id) : route('company.index', $trader->id)}}">
                                     <img class="logo mr-3" src="/pics/comp/4964_89599.jpg">
@@ -114,13 +117,24 @@
                                 @endif
                             </td>
                             <td data-sorttable-customkey="20201101">
-                        <span class="{{$trader->dt == \Carbon\Carbon::now()->toDateString() ? 'today' : ''}}">
-                            @if($type_traders == 1)
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
-                            @else
-                                {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
-                            @endif
-                        </span>
+                                <?php
+                                    $class = '';
+
+                                    if(Carbon\Carbon::parse($trader->change_date)->toDateString() == Carbon\Carbon::now()->toDateString()){
+                                        $class = 'today';
+                                    }
+
+                                    if(Carbon\Carbon::parse($trader->dt)->toDateString() == Carbon\Carbon::now()->toDateString() && $type_traders == 1){
+                                        $class = 'today';
+                                    }
+                                ?>
+                                <span class="{{$class}}">
+                                    @if($type_traders == 1)
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->dt)->format('F Y'), MB_CASE_TITLE, "UTF-8")}}
+                                    @else
+                                        {{mb_convert_case(\Jenssegers\Date\Date::parse($trader->change_date)->format('d F'), MB_CASE_TITLE, "UTF-8")}}
+                                    @endif
+                                </span>
                             </td>
                             <td>
                                 @if($type_place == 0)
@@ -140,7 +154,7 @@
             <table class="sortTable sortable">
                 <tbody>
                     @foreach($traders as $index => $trader)
-                        <tr class="{{$trader->trader_premium == 1 ? 'vip': ''}}">
+                        <tr class="{{$trader->trader_premium == 1 || $trader->trader_premium == 2 ? 'vip': ''}}">
                             <td>
                                 <div class="d-flex align-items-center price-div">
                                     <img class="logo mr-3" src="/pics/c/Y4RqJIw3zNFX.jpg" data-toggle="tooltip" data-placement="top" title="{!! $trader->title !!}">
@@ -213,4 +227,10 @@
         <div class="text-center mt-5">
         </div>
     </div>
+
+    @if($seo_text && $type_traders == 0)
+        <div class="container mt-4 mb-5">
+            {!! $seo_text !!}
+        </div>
+    @endif
 @endif

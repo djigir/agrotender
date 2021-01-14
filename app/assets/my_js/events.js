@@ -99,14 +99,11 @@ window.onload = function (){
     $('.burger').click(function () {
 
         if(!$('.overlay').hasClass('open')){
-            console.log('if');
             $('.overlay').addClass('open');
             $('.mobileMenu').addClass('open');
-            $('body').addClass('open');
         }else{
             $('.overlay').removeClass('open');
             $('.mobileMenu').removeClass('open');
-            $('body').removeClass('open');
         }
 
         if($('.filters-wrap').css('display') == 'block'){
@@ -159,8 +156,6 @@ window.onload = function (){
         $('#active-port').addClass('active');
     });
 
-
-
     $(".group-culture").click(function (event) {
         let group = event.currentTarget.attributes[1].nodeValue;
         let group_culture = $(".group-culture");
@@ -183,7 +178,6 @@ window.onload = function (){
         }
 
     });
-
 
 
     $(".rubricInput").click(function (event) {
@@ -288,13 +282,18 @@ window.onload = function (){
         $('.step-3').css('display', 'none');
         $('.step-3-1').css('display', 'none');
     });
-
+    
     $(".region").click(function (event) {
         let region = event.currentTarget.getAttribute('region');
-        let region_name = event.target.innerHTML;
-            // + ' область';
+        let region_name = event.currentTarget.getAttribute('region_name');
 
-        $('#span-mobile-region').html(region_name);
+        if(region_name){
+            if(region_name != 'Вся Украина' && region_name != 'АР Крым'){
+                region_name += ' область';
+            }
+            $('#span-mobile-region').html(region_name);
+        }
+
         $('#input-mobile-region').attr('value', region);
 
         $('#input-mobile-region-t').attr('value', region);
@@ -302,11 +301,14 @@ window.onload = function (){
 
         $('.step-1').css('display', '');
         $('.step-4').css('display', 'none');
-
     });
 
     $('.port').click(function (event) {
         let port = event.currentTarget.getAttribute('port');
+        let port_name = event.currentTarget.getAttribute('port_name');
+
+
+        $('#span-mobile-region').html(port_name);
         $('#input-mobile-port-t').attr('value', port);
         $('#input-mobile-region-t').attr('value', null);
     });
