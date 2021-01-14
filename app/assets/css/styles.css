@@ -609,6 +609,9 @@ body[data-page="main/home"] .swiper-scrollbar {
     overflow: auto;
     justify-content: flex-start;
   }
+  .popular::-webkit-scrollbar {
+    display: none;
+  }
   .popular a {
     margin-left: 0;
     margin-right: 12px;
@@ -4221,6 +4224,14 @@ input[type=number]:not(.steps) {
   background-size: cover;
 }
 
+.sidesLink.leftBanners canvas{
+  transform: translateX(100px);
+}
+
+.sidesLink.rightBanners canvas {
+  transform: translateX(-100px);
+}
+
 .sidesLink img {
   display: none;
 }
@@ -6022,6 +6033,7 @@ table.proposedTable tr.not-viewed td {
 
 .new_feed {
   position: relative;
+  z-index: 1;
   background-color: #FFFFFF;
   border-radius: 12px;
   padding-left: 35px;

@@ -486,28 +486,43 @@ window.addEventListener('load', function (){
     }
 
     // sidesLink
+    var $img = $('.sidesLink img');
+    var $link = $img.parent();
+    $link.css('display', 'inline-table');
+    var imgWidth = $img.width();
+    var imgHeight = $img.height();
+    $link.css({'height': imgHeight, 'width': imgWidth / 2});
+    var $linkClone = $link.clone();
+    $linkClone.insertAfter($link);
+    $linkClone.css({'background-position': 'right'});
+
     $('.sidesLink').each(function(i) {
+        console.log('i', i)
         var $this = $(this);
         var side = 'right';
         $this.show().wrap('<div></div>').parent().css({'position': 'absolute', 'opacity': '0.0', 'height': '100%'});
         html2canvas($this, {
-           useCORS: true,
-           onrendered: function (canvas) {
+            onrendered: function (canvas) {
             $this.append(canvas);
             if (i == 1) {
-              side = 'left';
+                side = 'left';
             }
             $this.css({'height': '0%'}).parent().css({'opacity': '1'});
-            var width = 958;
-            if ($(window).width() <= 1440) {
-              width += 8;
-            }
-            $(canvas).css(side, 'calc((100vw - 978px) / 1.92 + '+width+'px)');
-            $(canvas).css({'position': 'fixed', 'height': '100%', 'top': 0, 'cursor': 'pointer', 'z-index': 1}).on('click', function() {
-              $this.click();
+            $(canvas).css(side, 'calc((100vw - 978px) / 1.92 + 958px)');
+            $(canvas).css({'position': 'fixed', 'height': '91%', 'top': 0, 'cursor': 'pointer', 'z-index': 1}).on('click', function() {
+                $this.click();
             });
-          }
+            }
         });
-      });
+    });
+
+    function colorThiefActivate() {
+        const tradersImages = $('.new_traders .traders__item .traders__item__image')
+        tradersImages.imgcolr((img, color) => {
+        img.parentNode.style.backgroundColor = color
+        })
+    }
+
+    colorThiefActivate()
 });
 
