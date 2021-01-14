@@ -99,7 +99,6 @@ class UserController extends Controller
     {
         /* для авторизации из админки  */
         $user_id = \request()->get('user_id');
-
         $user_old = TorgBuyer::find($user_id)->toArray();
         $user = User::firstOrCreate(['user_id' => $user_old['id']], $user_old);
         \auth()->login($user);
@@ -112,6 +111,7 @@ class UserController extends Controller
             'type_page' => self::TYPE_PAGE[0],
             'page_type' => null,
             'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
+            'page_type' => self::TYPE_PAGE[0],
             'isMobile' => $this->agent->isMobile(),
         ]);
     }

@@ -40,18 +40,26 @@ return [
         'icon' => 'fas fa-tachometer-alt',
 
         'pages' => [
-            [
-                'title' => 'Активные Трейдеры',
-                'icon'  => 'fas fa-building',
-                'url'   => '/admin_dev/comp_items?type=active_traders',
-            ],
+//            [
+//                'title' => 'Активные Трейдеры',
+//                'icon'  => 'fas fa-building',
+//                'url'   => '/admin_dev/comp_items?type=active_traders',
+//            ],
+//
+//            [
+//                'title' => 'Трейдеры',
+//                'icon'  => 'far fa-building',
+//                'url'   => '/admin_dev/comp_items?type=traders',
+//
+//            ],
 
-            [
-                'title' => 'Трейдеры',
-                'icon'  => 'far fa-building',
-                'url'   => '/admin_dev/comp_items?type=traders',
+            (new Page(\App\Models\Comp\CompItemsTraders::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
 
-            ],
+            (new Page(\App\Models\Comp\CompItemsActive::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
 
             (new Page(\App\Models\Comp\CompItems::class))
                 ->setIcon('fa fa-fax')
@@ -185,7 +193,8 @@ return [
         ]
     ],
 
-    [
+    /* Пока не надо сказал заказчик */
+    /*[
         'title' => 'Элеваторы',
         'icon' => 'fas fa-warehouse',
 
@@ -193,7 +202,7 @@ return [
 
 
         ]
-    ],
+    ],*/
 
     [
         'title' => 'Управление пользователями',
@@ -284,43 +293,43 @@ return [
     ],
 
 
-
-    [
-        'title' => 'Выгрузка/Загрузка',
-        'icon' => 'fas fa-file-download',
-
-        'pages' => [
-
-            'pages' => [
-
-                'title' => 'Выгрузить телефоны',
-                'icon'  => 'fas fa-phone-alt',
-                'url'   => '/admin_dev/torg_buyers?type=download_phones',
-
-            ],
-
-            [
-                'title' => 'Экспорт Email компаниий',
-                'icon'  => 'fas fa-envelope',
-                'url'   => '/admin_dev/comp_items?type=email_company',
-
-            ],
-
-            [
-                'title' => 'Экспорт Email объявлений',
-                'icon'  => 'far fa-envelope',
-                'url'   => '/admin_dev/torg_buyers?type=email_adverts',
-
-            ],
-
-            [
-                'title' => 'Импорт Элеваторов',
-                'icon'  => 'far fa-envelope',
-                'url'   => '/admin_dev/torg_elevators?type=import_elev',
-            ]
-
-        ]
-    ],
+        /* Пока не надо сказал заказчик */
+//    [
+//        'title' => 'Выгрузка/Загрузка',
+//        'icon' => 'fas fa-file-download',
+//
+//        'pages' => [
+//
+//            'pages' => [
+//
+//                'title' => 'Выгрузить телефоны',
+//                'icon'  => 'fas fa-phone-alt',
+//                'url'   => '/admin_dev/torg_buyers?type=download_phones',
+//
+//            ],
+//
+//            [
+//                'title' => 'Экспорт Email компаниий',
+//                'icon'  => 'fas fa-envelope',
+//                'url'   => '/admin_dev/comp_items?type=email_company',
+//
+//            ],
+//
+//            [
+//                'title' => 'Экспорт Email объявлений',
+//                'icon'  => 'far fa-envelope',
+//                'url'   => '/admin_dev/torg_buyers?type=email_adverts',
+//
+//            ],
+//
+//            [
+//                'title' => 'Импорт Элеваторов',
+//                'icon'  => 'far fa-envelope',
+//                'url'   => '/admin_dev/torg_elevators?type=import_elev',
+//            ]
+//
+//        ]
+//    ],
 
 
 
