@@ -46,7 +46,7 @@ class TradersProductsSell extends Section implements Initializable
      */
     public function initialize()
     {
-        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
+//        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
     /**
@@ -114,25 +114,26 @@ class TradersProductsSell extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+
+                AdminFormElement::select('group_id', 'Группа товаров')
+                    ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
+                    ->setDisplay('tradersProductGroupsLang.name')
+                    ->required(),
+
+                AdminFormElement::text('tradersProductLang.name', 'Название')->required(),
+                AdminFormElement::text('url', 'URL'),
+                AdminFormElement::hidden('tradersProductLang.lang_id')->setDefaultValue('1'),
+
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                AdminFormElement::textarea('tradersProductLang.descr', 'Описание')->setRows('4'),
+                AdminFormElement::image('icon_filename', 'Иконка'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
