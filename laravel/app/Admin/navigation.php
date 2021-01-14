@@ -252,16 +252,16 @@ return [
 
     [
         'title' => 'Управление страницами',
-        'icon' => 'fas fa-project-diagram',
+        'icon' => 'fas fa-file-invoice',
 
         'pages' => [
 
             (new Page(     \App\Models\Pages\Pages::class))
-                ->setIcon('fas fa-user')
+                ->setIcon('fas fa-eraser')
                 ->setPriority(0),
 
             (new Page(     \App\Models\Popup\PopupDlgs::class))
-                ->setIcon('fas fa-user')
+                ->setIcon('far fa-window-restore')
                 ->setPriority(1),
         ]
     ],
