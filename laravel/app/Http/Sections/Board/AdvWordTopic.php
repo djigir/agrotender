@@ -57,25 +57,17 @@ class AdvWordTopic extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('torgTopic.title.', 'Раздел')->setWidth('250px')->setOrderable(false),
-
-            AdminColumn::text('keyword', 'Запрос')->setWidth('250px'),
-
-            AdminColumn::text('add_date', 'Дата создания')
-                ->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('rating', 'Рейтинг')
-                ->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
+            AdminColumn::text('torgTopic.title.', 'Раздел')->setOrderable(false)->setWidth('150px'),
+            AdminColumn::text('keyword', 'Запрос')->setWidth('150px'),
+            AdminColumn::text('add_date', 'Дата создания')->setHtmlAttribute('class', 'text-center')->setWidth('140px'),
+            AdminColumn::text('rating', 'Рейтинг')->setHtmlAttribute('class', 'text-center')->setWidth('100px'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
 //            ->setOrder([[0, 'asc']])
-//            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')

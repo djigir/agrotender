@@ -65,13 +65,10 @@ class AdvTorgPostComplains extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
 //        $adverts = \App\Models\ADV\AdvTorgPostComplains::with('advTorgPostComplains')->get();
-
-
         $columns = [
             AdminColumn::link('id', 'ID')
-                ->setWidth('70px')
+                ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Автор', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -85,8 +82,11 @@ class AdvTorgPostComplains extends Section implements Initializable
                         </div>";
             })->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
-
-            AdminColumn::text('msg', 'Жалоба'),
+            AdminColumn::custom('Жалоба', function (\Illuminate\Database\Eloquent\Model $model) {
+                //dump(mb_detect_encoding($model->msg));
+                $text = \Illuminate\Support\Str::limit(mb_convert_encoding($model->msg, 'utf-8'), 50, $end='...');
+                return "<div class='row-text'>{$text}</div>";
+            })->setWidth('250px'),
 
             AdminColumn::custom('Новое', function (\Illuminate\Database\Eloquent\Model $model) {
                 $status = 'Обработаный';
@@ -98,7 +98,7 @@ class AdvTorgPostComplains extends Section implements Initializable
                 return "<div class='row-text' style='{$color}'>
                             {$status}
                         </div>";
-            })->setWidth('140px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $advert = 'Объявление не найдено';
@@ -108,7 +108,7 @@ class AdvTorgPostComplains extends Section implements Initializable
                 return "<div class='row-text'>
                             <a href='{$model->adv_url}'>{$advert}</a>
                         </div>";
-            })->setWidth('350px'),
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()

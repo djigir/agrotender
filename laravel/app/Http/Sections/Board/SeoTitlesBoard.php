@@ -68,16 +68,12 @@ class SeoTitlesBoard extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
 
             AdminColumn::text('culture.title', 'Раздел')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('cult_id', $direction);
-                })
-                ->setWidth('250px')
-                ->setHtmlAttribute('class', 'text-center'),
+                })->setHtmlAttribute('class', 'text-center')->setWidth('250px'),
 
             AdminColumn::custom('Область', function (Model $model) {
                 $region_name = 'Все Области';
@@ -85,12 +81,10 @@ class SeoTitlesBoard extends Section implements Initializable
                 if ($model['regions'] != null){
                     $region_name = $model['regions']->name;
                 }
-
                 return "<div class='row-text text-center'>{$region_name}</div>";
             })->setOrderable(function($query, $direction) {
                 $query->orderBy('obl_id', $direction);
-            })->setWidth('220px')
-                ->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::custom('Тип', function (Model $model){
                 $type = '';
@@ -111,12 +105,12 @@ class SeoTitlesBoard extends Section implements Initializable
 
             })->setOrderable(function($query, $direction) {
                 $query->orderBy('type_id', $direction);
-            })->setWidth('230px'),
+            })->setWidth('100px'),
 
             AdminColumn::link('page_title', 'Title')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
-                }),
+            })->setWidth('300px'),
 
         ];
 
