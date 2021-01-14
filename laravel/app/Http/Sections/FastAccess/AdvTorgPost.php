@@ -33,13 +33,6 @@ use SleepingOwl\Admin\Section;
  */
 class AdvTorgPost extends Section implements Initializable
 {
-    /* const for Filter */
-    const IN_TOP = 100;
-    const COLOR_TOP = 200;
-
-    const BY_SEVEN_DAYS = 700;
-    const BY_TODAY = 999;
-
     /**
      * @var bool
      */
@@ -94,7 +87,7 @@ class AdvTorgPost extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
 
-            AdminColumn::custom('Автор/Тел.', function (\Illuminate\Database\Eloquent\Model $model){
+            AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                     $name = '';
                     if($model['compItems']){
                         $name = $model['compItems']->title;
@@ -108,21 +101,19 @@ class AdvTorgPost extends Section implements Initializable
                             <small class='clearfix'>{$model->phone}</small>
                             <small class='clearfix'>{$model->phone2}</small>
                             <small class='clearfix'>{$model->phone3}</small>
-                         
-                            
                         </div>";
             })->setOrderable(function($query, $direction) {
                 $query->orderBy('author_id', $direction);
             })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
 
-            AdminColumn::custom('Email/IP', function (\Illuminate\Database\Eloquent\Model $model) {
+            AdminColumn::custom('Email / IP /<br>Session', function (\Illuminate\Database\Eloquent\Model $model) {
                 $view = '';
 
                 if (request()->get('session') == 2) {
                     $sesIds = $model->torgBuyerSession()->pluck('ses_id');
                     foreach ($sesIds as $sesId) {
-                        $view .= "<a  onclick='setSesID(\"$sesId\")' href=\"#\">$sesId</a><br>";
+                        $view .= "<a style='font-size: 10px;'  onclick='setSesID(\"$sesId\")' href=\"#\">$sesId</a><br>";
                     }
                 }
 
@@ -144,6 +135,9 @@ class AdvTorgPost extends Section implements Initializable
                 $cost = '';
                 $size = '';
                 $currency = '';
+                $colored = '';
+                $top = '';
+
 
                 switch ($currency_type) {
                     case 1:
@@ -168,10 +162,19 @@ class AdvTorgPost extends Section implements Initializable
                 if ($product_size != '' && $product_size !=0){
                     $size = 'Объем ' . $model->amount . $model->izm;
                 }
+                if ($model->colored) {
+                    $colored ="<span style='color: #f0841b;'>Выделено цветом</span><br />";
+                }
+                if ($model->targeting) {
+                    $top="<span style='color: #1968e0;'>Объявление в ТОП</span>";
+                }
+
 
                 return "<div class='row-text'>
                             {$model->title}
                             <small class='clearfix'>{$cost} {$size}</small>
+                            {$colored}
+                            {$top}
                         </div>";
                 })->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
@@ -180,11 +183,25 @@ class AdvTorgPost extends Section implements Initializable
             AdminColumn::text('regions.name', 'Область')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('add_date', 'Создано/Обновлено', 'up_dt')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
 
+            AdminColumn::custom('Дата созд. / Дата обн.', function (\Illuminate\Database\Eloquent\Model $model) {
+                $wordsBan = '';
+                $moderated = '';
+                if ($model->moderated == 0)
+                    $wordsBan = "<span style='color: red'>попало в бан по словам</span>";
+                if ($model->moderated == 1 && $model->active == 0)
+                    $moderated = "<span style='color: red'>на модерации</span>";
+
+                return "<div class='row-text'>
+                            {$model->add_date}
+                            <small class='clearfix'>{$model->up_dt}</small>
+                            {$wordsBan}
+                            {$moderated}
+                          
+                        </div>";
+            })->setOrderable(function ($query, $direction) {
+                $query->orderBy('add_date', $direction);
+            }),
         ];
 
         $display = AdminDisplay::datatables()
@@ -263,8 +280,6 @@ class AdvTorgPost extends Section implements Initializable
                     } else if ($value == 2) {
                         $query->where('moderated', 1)->where('active', 1);
                     }
-
-                    $query->where('moderated', $value - 1);
                 }),
                 AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
                     $query->where('email', $value);
