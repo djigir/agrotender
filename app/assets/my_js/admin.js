@@ -22,10 +22,19 @@ window.onload = function (){
 
     })
 
+    let str = window.location.pathname;
+
     let img_input = $('.logo-img').find('img');
     let src = img_input.attr('src');
     let src_to_database = src.split('/')[4];
-    let for_preview = img_input.attr('src', window.location.origin+'/files/news/'+src_to_database)
+
+    if(str.indexOf('news') !== -1){
+        let for_preview = img_input.attr('src', window.location.origin+'/files/news/'+src_to_database)
+    }
+
+    if(str.indexOf('banner_rotates') !== -1){
+        let for_preview = img_input.attr('src', window.location.origin+'/files/pict/'+src_to_database)
+    }
 
 
 }

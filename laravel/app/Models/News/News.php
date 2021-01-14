@@ -42,11 +42,7 @@ class News extends Model
         static::saved(function ($model) {
             $model = News::withoutEvents(function () use($model) {
                 /* set current path img in database */
-                $filename_src = $model->filename_src;
-                $filename_src = stristr($filename_src, '/');
-                $filename_src = ltrim($filename_src, '/');
-                $model->filename_src = $filename_src;
-
+                $model->filename_src = str_replace('files/', '', $model->filename_src);
                 /* set url slug */
                 $model->url = \Str::slug($model->id. '-' . $model['NewsLang']->title);
                 $model->save();

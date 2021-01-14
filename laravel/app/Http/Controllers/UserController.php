@@ -109,6 +109,7 @@ class UserController extends Controller
         return view('private_cabinet.profile.profile', [
             'meta' => $meta,
             'type_page' => self::TYPE_PAGE[0],
+            'page_type' => null,
             'type_page_profile' => self::TYPE_PAGE_PROFILE[0],
             'page_type' => self::TYPE_PAGE[0],
             'isMobile' => $this->agent->isMobile(),
