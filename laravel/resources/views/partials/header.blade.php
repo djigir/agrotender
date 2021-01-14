@@ -49,8 +49,8 @@
         height: 100%;
         position: absolute;
         left: 0;
-        top: 0; 
-        animation: sk-chase-dot 2.0s infinite ease-in-out both; 
+        top: 0;
+        animation: sk-chase-dot 2.0s infinite ease-in-out both;
       }
 
       .sk-chase-dot:before {
@@ -60,7 +60,7 @@
         height: 25%;
         background-color: #143573;
         border-radius: 100%;
-        animation: sk-chase-dot-before 2.0s infinite ease-in-out both; 
+        animation: sk-chase-dot-before 2.0s infinite ease-in-out both;
       }
 
       .sk-chase-dot:nth-child(1) { animation-delay: -1.1s; }
@@ -77,19 +77,19 @@
       .sk-chase-dot:nth-child(6):before { animation-delay: -0.6s; }
 
       @keyframes sk-chase {
-        100% { transform: rotate(360deg); } 
+        100% { transform: rotate(360deg); }
       }
 
       @keyframes sk-chase-dot {
-        80%, 100% { transform: rotate(360deg); } 
+        80%, 100% { transform: rotate(360deg); }
       }
 
       @keyframes sk-chase-dot-before {
         50% {
-          transform: scale(0.4); 
+          transform: scale(0.4);
         } 100%, 0% {
-          transform: scale(1.0); 
-        } 
+          transform: scale(1.0);
+        }
       }
     </style>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
@@ -238,7 +238,7 @@
                       <span class="bordered_line"></span>
                     </li>
                     <li>
-                        <a href="http://agrotender.local/tarif20.html" class="header__yellowText">Разместить компанию</a>
+                        <a href="/tarif20.html" class="header__yellowText">Разместить компанию</a>
                     </li>
                 </ul>
                 @endif
