@@ -343,13 +343,13 @@ class Traders extends Section implements Initializable
         return $form;
     }
 
-    /**
-     * @return FormInterface
-     */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }
+//    /**
+//     * @return FormInterface
+//     */
+//    public function onCreate($payload = [])
+//    {
+//        return $this->onEdit(null, $payload);
+//    }
 
     /**
      * @return bool
