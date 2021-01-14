@@ -154,3 +154,11 @@ Route::prefix('u')
 
         Route::get('/proposeds', 'UserController@application')->name('application');
 });
+
+Route::prefix('elev')
+    ->name('elev.')
+    ->group(function () {
+        Route::get('/', 'EvelatorController@elevators')->name('elevators');
+        Route::get('/{region}', 'EvelatorController@elevatorsRegion')->name('region')->where('region', '[A-Za-z]+');
+        Route::get('/{url}', 'EvelatorController@elevator')->name('elevator');
+    });
