@@ -23,21 +23,6 @@ class News extends Model
 
     public $timestamps = false;
 
-    /* Mutator & Accessor */
-
-//    public function getFilenameSrcAttribute($value)
-//    {
-//        dd($this->attributes, $value, 'get');
-//
-//        $path = $this->attributes['filename_src'];
-//    }
-//
-//    public function setFilenameSrcAttribute($value)
-//    {
-//        dd($this->attributes, $value, 'set');
-//
-//        $path = $this->attributes['filename_src'];
-//    }
 
     /* route for comment */
 

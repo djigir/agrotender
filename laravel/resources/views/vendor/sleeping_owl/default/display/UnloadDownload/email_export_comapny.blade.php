@@ -41,7 +41,10 @@ $rubricks_groups = \App\Models\Comp\CompTgroups::all();
                 </tr>
                 <tr>
                     <td class="fr" colspan="2" align="center" style="padding-top: 2rem;">
-                        <input class="btn btn-success" type="submit" value=" Экспортировать"></td>
+                        <form action="">
+                            <input class="btn btn-success" type="submit" value="Экспортировать">
+                        </form>
+                    </td>
                 </tr>
 
                 </tbody>
