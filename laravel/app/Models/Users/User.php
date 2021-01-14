@@ -116,6 +116,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
     public function getEmailForPasswordReset()
     {
         $this->email = auth()->user()->login;
@@ -132,4 +133,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(CompItems::class, 'author_id', 'user_id');
     }
+
 }

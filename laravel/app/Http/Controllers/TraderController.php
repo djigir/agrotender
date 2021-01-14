@@ -21,6 +21,15 @@ use Illuminate\Support\Facades\App;
 
 class TraderController extends Controller
 {
+    const GROUP_ID = [
+        1 => 1,
+        2 => 2,
+        3 => 3,
+        4 => 4,
+        7 => 5,
+        16 => 6,
+    ];
+
     const TYPE_REGION = 0;
     const TYPE_PORT = 2;
 
@@ -70,7 +79,6 @@ class TraderController extends Controller
         ][0];
 
         $name_region = ($region != null) ? Regions::where('translit', $region)->value('name') : null;
-//        $name_region = ($region != null) ? Regions::where('translit', $region)->value('name').' область' : null;
 
         if ($region == 'crimea') {
             $name_region = 'АР Крым';
@@ -86,11 +94,13 @@ class TraderController extends Controller
 
     public function setDataForTraders($data)
     {
+        $page_type = $data->get('type') != 'forward' ? 1 : 3;
         $route_name = \Route::getCurrentRoute()->getName();
         $prefix = substr($route_name, 0, strpos($route_name, '.'));
 
         $forward_months = $this->baseServices->getForwardsMonths();
-        $regions = !$this->agent->isMobile() ? $this->baseServices->getRegions() : $this->baseServices->getRegions()->forget(25);
+        $regions = $this->baseServices->getRegions();
+
         $ports = $this->traderService->getPorts();
         $currencies = $this->traderService->getCurrencies();
         $criteria_seo = [];
@@ -98,10 +108,12 @@ class TraderController extends Controller
         $currency = isset($data->get('query')['currency']) ? $data->get('query')['currency'] : null;
         $region_all = $data->get('region');
         $port_all = $data->get('port');
-        $culture_name = 'Все культуры';
+        $culture_name = $this->agent->isMobile() ? 'Выбрать культуру' : 'Все культуры';
         $type_place = $data->get('region') != null ? self::TYPE_REGION : self::TYPE_PORT;
         $culture = TradersProducts::where('url', $data->get('culture'))->with('traders_product_lang')->first();
         $id_region = null;
+        $culture_id = null;
+
         if($data->get('port') != 'all' && $data->get('port')) {
             $id_port = TradersPorts::where('url', $data->get('port'))->value('id');
 
@@ -136,7 +148,7 @@ class TraderController extends Controller
         $region_port_name = !empty($data->get('region')) ? $this->getNamePortRegion($data->get('region'))['region']
             : $this->getNamePortRegion(null, $data->get('port'))['port'];
 
-        $culture_id = null;
+
 
         if (!empty($culture))
         {
@@ -145,12 +157,13 @@ class TraderController extends Controller
             $criteria_seo[] = ['cult_id', $culture->id];
             $culture_name = $culture_meta->name;
         }
-        //dd('cult_id', $culture_id, 'region_id', $id_region);
+
         $seo_text = SeoTitles::where([
             'pagetype' => 2,
             'type_id' => $data->get('region') != null ? 0 : 2
         ])->where($criteria_seo)->value('content_text');
 
+        $seo_text = $this->seoService->parseSeoText($region_all, $seo_text);
 
         $meta = $this->seoService->getTradersMeta([
             'rubric' => $culture_meta, 'region' => $region_all,
@@ -176,26 +189,29 @@ class TraderController extends Controller
         $data_traders = $this->traderService->setTradersBreadcrumbs($data, $data_breadcrumbs);
         $rubrics = $this->traderService->getRubricsGroup();
 
+        $group_id = !empty($culture) ? self::GROUP_ID[$culture->group_id] : null;
+
         return view('traders.traders', [
             'regions' => $regions,
+            'region' => $data->get('region'),
+            'port' => $data->get('port'),
             'traders' => $data_traders['traders'],
-            'topTraders' => $data_traders['top_traders']->count() > 0 ? $data_traders['top_traders'] : [],
             'onlyPorts' => $ports,
             'currencies' => $currencies,
             'region_port_name' => $region_port_name,
-            'region' => $data->get('region'),
-            'port' => $data->get('port'),
+            'region_translit' => $data->get('region'),
+            'port_translit' => $data->get('port'),
             'culture_translit' => $data->get('culture'),
             'culture_name' => $culture_name,
             'meta' => $meta,
             'seo_text' => $seo_text,
             'forward_months' => $forward_months,
-            'group_id' => !empty($culture) ? $culture[0]['group_id'] : '',
+            'group_id' => $group_id,
             'currency' => $currency,
             'culture_id' => $culture_id,
             'isMobile' => $this->agent->isMobile(),
             'rubricGroups' => $rubrics,
-            'page_type' => 1,
+            'page_type' => $page_type,
             'type_place' => $type_place,
             'breadcrumbs' => $data_traders['breadcrumbs'],
             'type_traders' => $data_traders['type_traders'],
@@ -222,7 +238,40 @@ class TraderController extends Controller
         return $this->setDataForTraders($data_traders);
     }
 
+    public function addTradersCard(Request $request)
+    {
+        $data = collect([
+            'region' => $request->get('region'),
+            'query' => $request->all(),
+            'port' => $request->get('port'),
+            'culture' => null,
+            'type' => '',
+            'type_view' => 'card',
+            'start' => $request->get('start')
+        ]);
 
+        $data_traders = $this->traderService->setTradersBreadcrumbs($data, []);
+
+        return view('traders.add_traders_card', ['traders' => $data_traders['traders']]);
+    }
+
+
+    public function addTradersTable(Request $request)
+    {
+        $data = collect([
+            'region' => $request->get('region'),
+            'query' => $request->all(),
+            'port' => $request->get('port'),
+            'culture' => $request->get('culture'),
+            'type' => '',
+            'type_view' => 'table',
+            'start' => $request->get('start')
+        ]);
+
+        $data_traders = $this->traderService->setTradersBreadcrumbs($data, []);
+
+        return view('traders.add_traders_table', ['type_traders' => 0, 'type_place' => 0, 'traders' => $data_traders['traders']]);
+    }
     /**
      * @param  Request  $request
      * @param $region

@@ -2,6 +2,7 @@
 
 namespace App\Models\Elevators;
 
+
 use App\Models\Rayon\Rayon;
 use App\Models\Rayon\RayonLang;
 use App\Models\Regions\Regions;
@@ -29,6 +30,7 @@ class TorgElevator extends Model
     protected $fillable = ['id', 'obl_id', 'ray_id',
         'rate', 'phone', 'elev_url', 'email', 'filename'
     ];
+
 
     public $timestamps = false;
 
@@ -77,4 +79,16 @@ class TorgElevator extends Model
             });
         });
     }
+
+
+    public function lang_elevator()
+    {
+        return $this->hasMany(TorgElevatorLang::class,'item_id', 'id');
+    }
+
+    public function lang_rayon()
+    {
+        return $this->hasMany(RayonLang::class, 'ray_id', 'ray_id');
+    }
+
 }

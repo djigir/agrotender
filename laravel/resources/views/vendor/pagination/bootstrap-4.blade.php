@@ -2,11 +2,11 @@
     $agent = new \Jenssegers\Agent\Agent;
     $isMobile = $agent->isMobile();
 ?>
-<div class="row  mt-4 mobile-paginate">
+<div class="row pt-3 mt-4 mobile-paginate">
     <div style="margin: 0 auto">
         @if ($paginator->hasPages())
             <nav>
-                <ul class="pagination" style="{{ $isMobile ? 'width: 180px;': ''}}">
+                <ul class="pagination" style="{{ $isMobile ? 'max-width: 320px;width: 100%': ''}} display: flex; justify-content: center">
                     @if ($paginator->onFirstPage())
                         <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
 {{--                            <span style="background-color: #eff1f5" class="page-link" aria-hidden="true">--}}

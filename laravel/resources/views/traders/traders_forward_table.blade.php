@@ -2,7 +2,6 @@
 @if($traders->count() == 0)
     @include('traders.block-info.traders_forwards')
 @else
-    @if(!$isMobile)
     <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper no-footer pb-5">
         <table class="sortTable sortable dTable dataTable no-footer"  id="DataTables_Table_0" role="grid">
             <thead>
@@ -23,7 +22,7 @@
                     <i class="sort-date-icon fas fa-sort" style="font-size: 12px;"></i>
                 </th>
                 <th class="sth table_haeder_th_cell" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1"
-                    aria-label="Место закупки: activate to sort column ascending" style="text-align: left;width: 260px;">Место закупки
+                    aria-label="Место закупки: activate to sort column ascending" style="text-align: left;min-width: 260px;">Место закупки
                 </th>
             </tr>
             </thead>
@@ -112,7 +111,7 @@
             </tbody>
         </table>
     </div>
-    @else
+    <!--
         <table class="sortTable sortable">
             <tbody>
             @foreach($traders as $index_tr => $trader)
@@ -147,6 +146,5 @@
                 @endforeach
             @endforeach
             </tbody>
-        </table>
-    @endif
+        </table> -->
 @endif

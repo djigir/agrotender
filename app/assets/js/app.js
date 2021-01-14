@@ -3849,16 +3849,16 @@ var agrotender = new(function () {
           }
         }
       });
-      $('.sth').on('click', function() {
-        $('.sth i').attr('class', 'fas fa-sort');
-        if ($(this).hasClass('sorting_asc')) {
-          $(this).find('i').attr('class', 'fas fa-sort-up');
-        }
-        if ($(this).hasClass('sorting_desc')) {
-          $(this).find('i').attr('class', 'fas fa-sort-down');
-        }
-        $('.t-sub').insertAfter($('tbody tr:eq(3)'));
-      });
+      // $('.sth').on('click', function() {
+      //   $('.sth i').attr('class', 'fas fa-sort');
+      //   if ($(this).hasClass('sorting_asc')) {
+      //     $(this).find('i').attr('class', 'fas fa-sort-up');
+      //   }
+      //   if ($(this).hasClass('sorting_desc')) {
+      //     $(this).find('i').attr('class', 'fas fa-sort-down');
+      //   }
+      //   $('.t-sub').insertAfter($('tbody tr:eq(3)'));
+      // });
     }
     $('.filtersIcon').on('click', function() {
       $('html,body').animate({scrollTop:0},0);
@@ -4407,112 +4407,9 @@ var agrotender = new(function () {
 
 agrotender.init();
 
-const $tradersCardDescText = document.querySelectorAll('.traders__item__content-p-title')
-const $tradersCardTitle = document.querySelectorAll('.traders__item__content-title')
-
-if ($tradersCardDescText.length) {
-  $tradersCardDescText.forEach($el => {
-    if ($el.textContent.length > 12) {
-      $el.textContent = $el.textContent.split('').filter((_, idx) => idx < 12).join('') + '.'            
-    }
-  })
-}
-
-if ( $tradersCardTitle.length && document.documentElement.clientWidth < 480) {
-  if (document.documentElement.clientWidth < 400) {
-    $tradersCardTitle.forEach($el => {
-      if ($el.textContent.length > 20) {
-        $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 20).join('') + '.'            
-      }
-    }) 
-  } else {
-    $tradersCardTitle.forEach($el => {
-      if ($el.textContent.length > 26) {
-        $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 26).join('') + '.'            
-      }
-    })
-  }
-}
 
 
-if (document.querySelector('.new_feed')) {
-  setTimeout(() => new Swiper('.swiper-container', {
-    // Optional parameters
-    loop: false,
-    slidesPerView: 4,
-    noSwiping: false,
-    // Navigation arrows
-    navigation: {
-      nextEl: '.new_feed-button.next',
-      prevEl: '.new_feed-button.prev',
-    },
-    breakpoints: {
-      480: {
-        slidesPerView: 1,
-      },
-      768: {
-        slidesPerView: 2,
-      },
-      991: {
-        slidesPerView: 3,
-      },
-    }
-  }), 0)
-}
-
-const $new_feed_item_title = document.querySelectorAll('.new_feed-item-title')
-
-if ($new_feed_item_title.length) {
-  $new_feed_item_title.forEach($el => {
-    if ($el.textContent.length >= 25) {
-      $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 22).join('') + '..'
-    }
-  })
-}
-
-
-const $headerWrap = document.querySelector('.header__wrap')
-const $headerWrap_container = $headerWrap.querySelector('.new_container')
-
-window.onload = () => {
-  if ($headerWrap) {
-    const headerOffset = $headerWrap.offsetTop
-  
-    window.addEventListener('scroll', function(e) {
-      if (this.scrollY < 100) {
-        $headerWrap.classList.add("fixed-item");
-        $headerWrap.classList.remove("hidden");
-      } else if (this.scrollY < headerOffset) {
-        $headerWrap.classList.remove("fixed-item");
-        $headerWrap.classList.remove("hidden");
-      } else if (this.oldScroll_header < this.scrollY) {
-        $headerWrap.classList.add("fixed-item");
-        $headerWrap.classList.add("hidden");
-      } else {
-        $headerWrap.classList.add("fixed-item");
-        $headerWrap.classList.remove("hidden");
-      }
-      this.oldScroll_header = this.scrollY;
-    })
-    
-    const $drawer =  document.querySelector('.new_header .drawer')
-    const $drawerOpenBtn = document.querySelector('.header_drawerOpen-btn')
-    const $body = document.querySelector('body')
-
-    $drawerOpenBtn.addEventListener('click', () => {
-      $drawer.classList.add('open')
-      $body.classList.add('body_non_scroll')
-    })
-    $drawer.addEventListener('click', e => {
-      if (e.target === $drawer) {
-        $drawer.classList.remove('open')
-        $body.classList.remove('body_non_scroll')
-      }
-    })
-  }
-  
-}
-
+//== TRADERS PAGE ==//
 function tradersPageScripts() {
   $('.new_traders.vip .traders__item .traders__item__image').primaryColor({
     callback: function(color) {
@@ -4541,26 +4438,85 @@ function tradersPageScripts() {
 
 }
 
-tradersPageScripts()
-
-function headerTraderPricesArrow() {
-  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
-  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
-  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
-
-  tradersButton.addEventListener('click', () => {
-    tradersDropdown.classList.toggle('active')
-
-    const listener = (e) => {
-      tradersDropdown.classList.remove('active')
-      tradersDropdownParent.removeEventListener('mouseleave', listener)
-    }
+function tradersPageScriptsTruncateAndSlider() {
+  const $tradersCardDescText = document.querySelectorAll('.traders__item__content-p-title')
+  const $tradersCardTitle = document.querySelectorAll('.traders__item__content-title')
   
-    tradersDropdownParent.addEventListener('mouseleave', listener)
-  })
+  // Truncate
+  if ($tradersCardDescText.length) {
+    $tradersCardDescText.forEach($el => {
+      if ($el.textContent.length > 12) {
+        $el.textContent = $el.textContent.split('').filter((_, idx) => idx < 12).join('') + '.'            
+      }
+    })
+  }
+  
+  // Truncate
+  if ( $tradersCardTitle.length && document.documentElement.clientWidth < 480) {
+    if (document.documentElement.clientWidth < 400) {
+      $tradersCardTitle.forEach($el => {
+        if ($el.textContent.length > 20) {
+          $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 20).join('') + '.'            
+        }
+      }) 
+    } else {
+      $tradersCardTitle.forEach($el => {
+        if ($el.textContent.length > 26) {
+          $el.textContent = $el.textContent.trim().split('').filter((_, idx) => idx <= 26).join('') + '.'            
+        }
+      })
+    }
+  }
+  
+  // Slider
+  if (document.querySelector('.new_feed')) {
+    setTimeout(() => new Swiper('.swiper-container', {
+      // Optional parameters
+      loop: false,
+      slidesPerView: 4,
+      noSwiping: false,
+      // Navigation arrows
+      navigation: {
+        nextEl: '.new_feed-button.next',
+        prevEl: '.new_feed-button.prev',
+      },
+      breakpoints: {
+        480: {
+          slidesPerView: 1,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        991: {
+          slidesPerView: 3,
+        },
+      }
+    }), 0)
+  }
 }
-headerTraderPricesArrow()
 
+function tradersTruncate () {
+  const $new_feed_item_title = document.querySelectorAll('.new_feed-item-title')
+
+  if ($new_feed_item_title.length) {
+    $new_feed_item_title.forEach($el => {
+      if ($el.textContent.length >= 25) {
+        $el.textContent = $el.textContent.split('').filter((_, idx) => idx <= 22).join('') + '..'
+      }
+    })
+  }
+}
+
+window.addEventListener('load', () => {
+  tradersPageScripts()
+  tradersTruncate()
+  tradersPageScriptsTruncateAndSlider()
+})
+
+//== TRADERS PAGE END ==//
+
+
+//=== FILTERS START ===//
 class Filter {
   init() {
     // filter controls
@@ -4664,12 +4620,13 @@ class Filter {
   }
 }
 
-// Mobile filter
 class MobileFilter {
-  constructor (filter) {
+  constructor (filter, base = '') {
+    this.base = base
     this.$filter = filter
+    this.searchField = ''
     this.search_url = {
-      base: '',
+      base,
       region: '',
       currency: '',
       product: ''
@@ -4678,12 +4635,21 @@ class MobileFilter {
   }
 
   init() {
+    this.body = document.querySelector('body')
+    this.mobileFilterBg = document.querySelector('.mobile_filter-bg')
     this.search_url.product = this.findEl('#product').dataset.product
     this.search_url.region = this.findEl('#region').dataset.region
+    this.companySearchFiled = this.findEl('#companySearchField')
+    this.companySearchBtn = this.findEl('#companySearchBtn')
+    this.rebootBtn = this.findEl('#filterRebootBtn')
 
     this.first_screen = this.findEl('.first')
     this.second_screen = this.findEl('.second')
     this.third_screen = this.findEl('.third')
+
+    if (this.companySearchFiled) {
+      this.initSearchForCompany()
+    }
 
     this.buttons()
 
@@ -4693,14 +4659,46 @@ class MobileFilter {
 
     this.submitHandler()
     this.search()
+    // this.rebootInit()
   }
 
   open() {
+    this.body.classList.add('body_non_scroll')
     this.$filter.parentNode.classList.add('active')
+    
+    const listener = (e) => {
+      if (e.target === this.mobileFilterBg) {
+        this.close()
+        this.mobileFilterBg.removeEventListener('click', listener)
+      }
+    }
+
+    this.mobileFilterBg.addEventListener('click', listener)
   }
 
   close() {
+    this.body.classList.remove('body_non_scroll')
     this.$filter.parentNode.classList.remove('active')
+  }
+
+  rebootInit() {
+    if (this.rebootBtn) {
+      this.rebootBtn.addEventListener('click', (e) => {
+        e.preventDefault()
+        this.searchField = ''
+        this.search_url = {
+          base: this.base,
+          region: '',
+          currency: '',
+          product: ''
+        }
+        if (this.companySearchFiled) {
+          this.first_screen.querySelectorAll('.mobile_filter-content-item')[0].textContent = 'Выбрать продукцию'
+          this.first_screen.querySelectorAll('.mobile_filter-content-item')[1].textContent = 'Вся Украина'
+          this.companySearchFiled.value = ''
+        }
+      })
+    }
   }
 
   findEl(selector, node) {
@@ -4738,9 +4736,11 @@ class MobileFilter {
 
     this.button_first.onclick = () => this.close()
     this.button_second.onclick = () => {
+      this.setTitle('Фильтры')
       this.openScreen('first')
     }
     this.button_third.onclick = () => {
+      this.setTitle('Фильтры')
       this.openScreen('second')
     }
   }
@@ -4759,15 +4759,25 @@ class MobileFilter {
     const clickableItems = this.second_screen.querySelectorAll('.mobile_filter-content-item')
 
     clickableItems.forEach((c, idx) => {
-      c.addEventListener('click', (e) => {
-        this.openScreen('third', idx)
+      c.addEventListener('click', () => {
+        console.log(c.dataset)
+        if (c.dataset.url) {
+          console.log('c.dataset.url', c.dataset.url)
+          this.openScreen('first')
+          this.changeTextOnFirstScreen(c.dataset.id, c.textContent, c.dataset.url)
+        } else {
+          this.openScreen('third', idx)
+          if (c.dataset.title) {
+            this.setTitle(c.dataset.title)
+          }
+        }
       })
     })
 
     const clickableLinks = this.second_screen.querySelectorAll('a')
 
-    clickableLinks.forEach((a, idx) => {
-      a.addEventListener('click', (e) => {
+    clickableLinks.forEach((a) => {
+      a.addEventListener('click', () => {
         this.openScreen('first')
         this.changeTextOnFirstScreen(a.dataset.id, a.textContent, a.dataset.url)
       })
@@ -4777,7 +4787,7 @@ class MobileFilter {
   thirdScreen() {
     const clickableItems = this.third_screen.querySelectorAll('a')
 
-    clickableItems.forEach((c, idx) => {
+    clickableItems.forEach((c) => {
       c.addEventListener('click', (e) => {
         e.preventDefault()
         this.openScreen('first')
@@ -4796,8 +4806,14 @@ class MobileFilter {
   submitHandler() {
     const submitBtn = this.findEl('.mobile-filter-footer button')
     submitBtn.addEventListener('click', () => {
+      if (this.searchField.trim().length > 0) {
+        newUrl = `/kompanii/s/${this.searchField}`
+        window.location = newUrl
+      } else {
+        newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
+        window.location = newUrl
+      }
       const newUrl = `/${this.search_url.base}/${this.search_url.region}${this.search_url.product ? '/' +  this.search_url.product : ''}${this.search_url.currency ? '?currency=' + this.search_url.currency : ''}`
-      window.location = newUrl
     })
   }
 
@@ -4808,7 +4824,6 @@ class MobileFilter {
       const searchLinks = s.parentNode.parentNode.querySelectorAll('ul li a')
       const defaultValuesBlock = s.parentNode.parentNode.querySelector('.default_value')
       const output = s.parentNode.parentNode.querySelector('.output')
-      // s.parentNode.parentNode.insertAdjacentHTML('beforeend', '<ul class="mobile_filter-section-list output"></ul>')
 
       s.addEventListener('keyup', e => {
         const value = e.target.value.toLowerCase()
@@ -4850,16 +4865,286 @@ class MobileFilter {
       })
     })
   }
+
+  initSearchForCompany() {
+    this.companySearchBtn.addEventListener('click', e => {
+      this.companySearchFiled.value = ''
+      this.searchField = ''
+    })
+    this.companySearchFiled.addEventListener('input', e => {
+      this.searchField = e.target.value
+    })
+  }
+
+  setTitle(text) {
+    document.querySelector('.mobile_filter-header span').textContent = text
+  }
 }
 
 const $filter = document.querySelector('.mobile_filter')
 const isFilter = document.querySelector('.new_fitlers_container')
 
-
 if (isFilter) {
-  const filterExmp = new MobileFilter($filter)
-  document.querySelector('.openFilter').onclick = () => filterExmp.open()
   new Filter().init()
 }
+if ($filter) {
+  const filterExmp = new MobileFilter($filter, 'kompanii')
+  document.querySelector('.openFilter').onclick = () => filterExmp.open()
+}
 
+
+/* Для записи значение в value input в моб. фильтре компаний */
+$(".click-culture-company").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('culture-id');
+  $('#input-mobile-rubric-company').attr('value', rubric);
+});
+
+$(".click-region-company").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('data-url');
+  $('#input-mobile-region-company').attr('value', rubric);
+});
+
+
+/* Для записи значение в value input в моб. фильтре трейдеров */
+$(".click_culture").click(function (event) {
+  let rubric = event.currentTarget.getAttribute('data-product');
+  $('#new-input-mobile-rubric').attr('value', rubric);
+});
+
+
+$(".click_region").click(function (event) {
+  let region = event.currentTarget.getAttribute('data-url');
+  $('#new-input-mobile-region-t').attr('value', region);
+  $('#new-input-mobile-port-t').attr('value', null);
+});
+
+
+$(".click_port").click(function (event) {
+  let port = event.currentTarget.getAttribute('data-url');
+  $('#new-input-mobile-port-t').attr('value', port);
+  $('#new-input-mobile-region-t').attr('value', null);
+});
+
+
+//=== FILTERS END ===//
+
+
+//=== HEADER ===//
+const $headerWrap = document.querySelector('.header__wrap')
+const $headerWrap_container = document.querySelector('.header__wrap .new_container')
+
+function initHeader () {
+  if ($headerWrap) {
+    const headerOffset = $headerWrap.offsetTop
+  
+    window.addEventListener('scroll', function(e) {
+      if (this.scrollY < 100) {
+        $headerWrap.classList.add("fixed-item");
+        $headerWrap.classList.remove("hidden");
+      } else if (this.scrollY < headerOffset) {
+        $headerWrap.classList.remove("fixed-item");
+        $headerWrap.classList.remove("hidden");
+      } else if (this.oldScroll_header < this.scrollY) {
+        $headerWrap.classList.add("fixed-item");
+        $headerWrap.classList.add("hidden");
+      } else {
+        $headerWrap.classList.add("fixed-item");
+        $headerWrap.classList.remove("hidden");
+      }
+      this.oldScroll_header = this.scrollY;
+    })
+    
+    const $drawer =  document.querySelector('.new_header .drawer')
+    const $drawerOpenBtn = document.querySelector('.header_drawerOpen-btn')
+    const $body = document.querySelector('body')
+
+    $drawerOpenBtn.addEventListener('click', () => {
+      $drawer.classList.add('open')
+      $body.classList.add('body_non_scroll')
+    })
+    $drawer.addEventListener('click', e => {
+      if (e.target === $drawer) {
+        $drawer.classList.remove('open')
+        $body.classList.remove('body_non_scroll')
+      }
+    })
+  }
+}
+
+function tradersPriceLine() {
+  const $line = document.querySelector('.header__tradersPrice-line')
+  const $btn = document.querySelector('.header__tradersPrice-arrow')
+  const $link = document.querySelector('.header__center__button')
+  const $hoverElem = document.querySelector('.header__hoverElem-wrap')
+
+  function initItem(item) {
+    item.addEventListener('mouseover', () => {
+      $line.style.opacity = '0'
+    })
+    item.addEventListener('mouseout', () => {
+      $line.style.opacity = '0.5'
+    })
+  }
+
+  if ($btn) {
+    initItem($btn)
+  }
+  if ($link) {
+    initItem($link)
+  }
+  if ($hoverElem) {
+    initItem($hoverElem)
+  }
+
+}
+
+function headerTraderPricesArrow() {
+  const tradersDropdown = document.querySelector('#traders_prices_dropdown')
+  const tradersDropdownParent = document.querySelector('#traders_prices_dropdown_parent')
+  const tradersButton = document.querySelector('.header__tradersPrice-arrow')
+
+  if (tradersButton) {
+    tradersButton.addEventListener('click', () => {
+      tradersDropdown.classList.toggle('active')
+  
+      const listener = (e) => {
+        tradersDropdown.classList.remove('active')
+        tradersDropdownParent.removeEventListener('mouseleave', listener)
+      }
+    
+      tradersDropdownParent.addEventListener('mouseleave', listener)
+    })
+  }
+}
+
+window.addEventListener('load', () => {
+  headerTraderPricesArrow()
+  tradersPriceLine()
+  initHeader()
+})
+
+//=== HEADER END ===//
+
+
+//=== COMPANY ===//
+// Menu
+const $openCompanyMenu = document.querySelector('.open_company_menu')
+
+if ($openCompanyMenu) {
+  const $darkBg = document.querySelector('.bg_filters_spoiler')
+  const $openCompanyMenuBtn = $openCompanyMenu.querySelector('button')
+  const listener = e => {
+    if (!e.target.classList.contains('spoiler')) {
+      $openCompanyMenu.classList.remove('active')
+      $darkBg.classList.remove('active')
+      window.removeEventListener('click', listener)
+    }
+  }
+  $openCompanyMenuBtn.addEventListener('click', () => {
+    if (!$openCompanyMenu.classList.contains('active')) {
+      setTimeout(() => {
+        window.addEventListener('click', listener)
+      }, 0)
+    }
+    $darkBg.classList.toggle('active')
+    $openCompanyMenu.classList.toggle('active')
+  })
+}
+
+// Companies header
+function companiesPage() {
+  const $button = document.querySelector('#findCompany')
+
+  $button.addEventListener('click', () => {
+    $('html,body').animate({scrollTop:0},0);
+    if ($('.filters-wrap').is(':visible')) {
+      $('.filters-wrap').hide();
+      $('.filters .stp').hide();
+      $('.filters .step-1').show();
+      $('body').removeClass('open');
+      $('.top .filtersIcon, .top .burger').removeClass('z-index-1060');
+    } else {
+      $('.filters-wrap').show();
+      $('.filters .stp').hide();
+      $('.filters .step-1').show();
+      $('body').addClass('open');
+      $('.top .filtersIcon, .top .burger').addClass('z-index-1060');
+    }
+  })
+}
+
+if (document.querySelector('#findCompany')) {
+  companiesPage()
+}
+
+//=== COMPANY END ===//
+
+
+//=== UTILS ==//
+// REPLACEMENT START
+function replacerWithSpaces(text) {
+  return text.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
+}
+
+function replaceWithSpacesAllItems() {
+  const replaceItems = document.querySelectorAll('.replace_numbers_js')
+  Array.prototype.slice.call(replaceItems).forEach(item => {
+    item.textContent =  replacerWithSpaces(item.textContent)
+  })
+}
+
+const replaceItem = document.querySelector('.replace_numbers_js')
+
+if (replaceItem) {
+  replaceWithSpacesAllItems()
+}
+
+
+
+// REPLACEMENT END
+
+//=== UTILS END==//
+
+if (document.querySelector('.trust-swipe .swiper-container')) {
+  new Swiper('.trust-swipe .swiper-container', {
+    // Navigation arrows
+    navigation: {
+      nextEl: '.trust-swipe .swiper-button-next',
+      prevEl: '.trust-swipe .swiper-button-prev',
+    },
+    // Optional parameters
+    slidesPerView: 8,
+    centeredSlides: false,
+    spaceBetween: 20,
+    loop:false,
+    simulateTouch: false,
+    breakpoints: {
+      675: {
+        slidesPerView: 3
+      }
+    }
+  });
+}
+
+if (document.querySelector('.traders-swipe')) {
+  new Swiper('.traders-swipe .swiper-container', {
+    // Navigation arrows
+
+    navigation: {
+      nextEl: '.traders-swipe .swiper-button-next',
+      prevEl: '.traders-swipe .swiper-button-prev',
+    },
+    // Optional parameters
+    slidesPerView: 2,
+    centeredSlides: false,
+    spaceBetween: 20,
+    loop:false,
+    simulateTouch: false,
+    breakpoints: {
+      675: {
+        slidesPerView: 1
+      }
+    }
+  });
+}
 

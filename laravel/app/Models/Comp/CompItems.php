@@ -161,7 +161,7 @@ class CompItems extends Model
     {
         $activities = $this->activities->pluck('title');
 
-        return trim(implode(',', $activities->toArray()));
+        return trim(implode(', ', $activities->toArray()));
     }
 
 

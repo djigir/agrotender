@@ -36,6 +36,11 @@ Route::prefix('traders')
         Route::get('/region_{region}', 'TraderController@index')->name('region');
         Route::get('/region_{region}/{culture}', 'TraderController@regionCulture')->name('region_culture');
 
+        Route::get('/get_traders_card', 'TraderController@addTradersCard')->name('get_traders_card');
+        Route::get('/get_traders_table', 'TraderController@addTradersTable')->name('get_traders_table');
+
+
+
         Route::get('/tport_{port_name}', 'TraderController@port')->name('port');
         Route::get('/tport_{port}/{culture}', 'TraderController@portCulture')->name('port_culture');
     });
@@ -78,6 +83,7 @@ Route::prefix('kompanii')
         Route::get('/comp-{id_company}-cont', 'CompanyController@companyContact')->name('cont');
         Route::get('/comp-{id_company}-reviews', 'CompanyController@companyReviews')->name('reviews');
         Route::get('/comp-{id_company}-forwards', 'CompanyController@companyForwards')->name('forwards');
+        Route::get('/comp-{id_company}-adverts', 'CompanyController@companyAdverts')->name('adverts');
         Route::get('/comp-{id_company}-traderContacts', 'CompanyController@traderContacts')->name('trader_contacts');
         Route::get('/comp-{id_company}', 'CompanyController@company')->name('index');
         Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');
@@ -155,10 +161,15 @@ Route::prefix('u')
         Route::get('/proposeds', 'UserController@application')->name('application');
 });
 
+
 Route::prefix('elev')
     ->name('elev.')
     ->group(function () {
         Route::get('/', 'EvelatorController@elevators')->name('elevators');
         Route::get('/{region}', 'EvelatorController@elevatorsRegion')->name('region')->where('region', '[A-Za-z]+');
         Route::get('/{url}', 'EvelatorController@elevator')->name('elevator');
-    });
+
+});
+
+
+

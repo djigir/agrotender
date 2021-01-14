@@ -1,18 +1,30 @@
 @extends('layout.layout')
 
 @section('content')
-    @include('company.company-header', ['id' => $id])
+    @if($isMobile)
+        @include('mobile.company-header-mobile')
+    @else
+        @include('company.company-header', ['id' => $id])
+    @endif
     @if(!$prices_port->isEmpty() || !$prices_region->isEmpty())
-    <div class="container mt-4">
+
+    @if($updateDate)
+        <div class="new_container company mb-5">
+            <div class="new_company_actual_date new_company_actual_date-desktop-and-mobile">Актуальная цена на
+                <b>{{\Date::parse($updateDate)->format('d F'), MB_CASE_TITLE, "UTF-8"}}</b>
+            </div>
+        </div>
+    @endif
+    <!--<div class="container mt-4">
         <h2 class="d-inline-block">Цены трейдера</h2>
         @if($updateDate)
             <div class="d-inline-block content-block px-3 py-1 mt-3 mb-4 mb-sm-0 ml-0 ml-sm-3">
                 <b>Обновлено {{$updateDate}}</b>
             </div>
         @endif
-    </div>
+    </div> -->
     @endif
-    <div class="container mt-4 mb-5">
+    <div class="new_container mt-4 mb-5">
         @if($prices_port->count() != 0)
             <div class="ports-tabs table-tabs mt-3">
                 <a href="#" currency="1" class="active">Закупки USD</a>

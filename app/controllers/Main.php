@@ -1415,10 +1415,10 @@ class Main extends \Core\Controller {
             $phone      = $this->request->post['phone'];
 
             //$region     = $this->request->post['region'];
-            $code = $this->request->post['code'];
+
+            $code       = $this->request->post['code'];
             // check if correct confirm code
-//            if ($code == $this->session->get('code')) {
-            if ($code == 1111) {
+            if ($code == $this->session->get('code')) {
                 // register process
                 $this->user->register($email, $password, 0, $name, $phone); // without region
             } else {

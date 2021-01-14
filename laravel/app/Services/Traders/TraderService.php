@@ -18,10 +18,13 @@ use App\Services\CompanyService;
 use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 
 class TraderService
 {
+    const PER_PAGE_CARD = 15;
+    const PER_PAGE_TABLE = 30;
     const TYPE_TRADERS = 0;
     const TYPE_TRADERS_FORWARD = 1;
     const TYPE_TRADERS_SELL = 2;
@@ -66,7 +69,7 @@ class TraderService
 
         if (!empty($request->get('region')) && !empty($request->get('rubric'))) {
             $route_name = 'region_culture';
-            $route_params = [$request->get('region'), $request->get('rubric'), 'currency' => $request->get('currency')];
+            $route_params = ['region' => $request->get('region'), 'culture' => $request->get('rubric'), 'currency' => $request->get('currency')];
         }
 
         if (!empty($request->get('port')) && !empty($request->get('rubric'))) {
@@ -87,7 +90,7 @@ class TraderService
 
         $this->InitQuery($data);
 
-        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders($data_breadcrumbs);
+        $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTraders(!empty($data_breadcrumbs) ? $data_breadcrumbs : null);
 
         if (isset($data['forwards'])) {
             $breadcrumbs = $this->breadcrumbService->setBreadcrumbsTradersForward($data_breadcrumbs);
@@ -101,11 +104,7 @@ class TraderService
 
         $traders = $this->getTraders($data);
 
-        if($data['type_view'] != 'table') {
-            return ['traders' => $traders->where('trader_premium', '!=', 2), 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
-        }
-
-        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders, 'top_traders' => $traders->where('trader_premium', '=', 2)];
+        return ['traders' => $traders, 'breadcrumbs' => $breadcrumbs, 'type_traders' => $type_traders];
     }
 
 
@@ -136,6 +135,12 @@ class TraderService
         $ports = $ports->sortBy('lang.portname')->prepend(collect(['lang' => ['portname' => 'Все порты'], 'url' => 'all']));
 
         return $ports;
+    }
+
+
+    public function setRegions($regions, $rubric = null)
+    {
+
     }
 
 
@@ -184,7 +189,7 @@ class TraderService
                 }
             }
 
-            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortBy('traders_product_lang.0.name');
+            $groups[$index_g]["groups"]['products'] = collect($groups[$index_g]["groups"]['products'])->sortByDesc('count_item');
 
             if(empty($groups[$index_g]["groups"]['products']) || $groups[$index_g]["groups"]['products']->count() == 0){
                 unset($groups[$index_g]);
@@ -203,7 +208,7 @@ class TraderService
 
     /**
      * @param $data
-    */
+     */
     public function InitQuery($data)
     {
         $type = $data['type'] != '' ? '_'.$data['type'] : '';
@@ -216,15 +221,9 @@ class TraderService
     }
 
 
-    /**
-    * @param $author_ids
-    * @param $criteria_prices
-    * @param $criteria_places
-    * @return Builder
-    */
-    public function getTradersTable($author_ids, $criteria_prices, $criteria_places)
+    public function getTradersTable($author_ids, $criteria_prices, $criteria_places, $skip)
     {
-        return $this->treders->whereIn('author_id', $author_ids)
+        $traders = $this->treders->whereIn('author_id', $author_ids)
             ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_ports_lang', 'traders_places.port_id', '=', 'traders_ports_lang.port_id')
@@ -248,18 +247,17 @@ class TraderService
                 'traders_prices.change_date', 'traders_places.port_id',
                 'traders_places.place','traders_places.type_id', 'traders_ports_lang.portname',
                 'regions.name as region')
-            ->get();
+            ->limit(self::PER_PAGE_TABLE);
+
+        if($skip != 0){
+            $traders = $traders->skip($skip);
+        }
+
+        return $traders->get();
     }
 
 
-    /**
-    * @param $type
-    * @param $author_ids
-    * @param $criteria_prices
-    * @param $criteria_places
-    * @return \Illuminate\Support\Collection
-     */
-    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places)
+    public function getTradersCard($type, $author_ids, $criteria_prices, $criteria_places, $skip = 0)
     {
         $forward_months = $this->baseService->getForwardsMonths();
 
@@ -284,14 +282,19 @@ class TraderService
                 \DB::raw('max(agt_traders_prices.change_date) as change_date')
             ])
             ->orderBy('comp_items.trader_premium', 'desc')
-//            ->orderBy('traders_prices.change_date', 'desc')
             ->orderBy('change_date', 'desc')
             ->orderBy('comp_items.trader_sort')
             ->orderBy('comp_items.rate_formula', 'desc')
             ->orderBy('comp_items.title')
             ->groupBy('comp_items.id')
-            ->get();
-        //dd($traders->toArray());
+            ->limit(self::PER_PAGE_CARD);
+
+        if($skip != 0){
+            $traders = $traders->skip($skip);
+        }
+
+        $traders = $traders->get();
+
         $prices = TradersPrices::whereIn('traders_prices.buyer_id', $traders->pluck('author_id'))
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('traders_products_lang', 'traders_prices.cult_id', '=', 'traders_products_lang.id')
@@ -323,11 +326,11 @@ class TraderService
 
 
     /**
-    * @param $author_ids
-    * @param $criteria_prices
-    * @param $criteria_places
-    * @return Builder
-    */
+     * @param $author_ids
+     * @param $criteria_prices
+     * @param $criteria_places
+     * @return Builder
+     */
     public function getTradersForward($author_ids, $criteria_prices, $criteria_places)
     {
         $forward_months = $this->baseService->getForwardsMonths();
@@ -337,12 +340,12 @@ class TraderService
             ->leftJoin('traders_places', 'traders_prices.place_id', '=', 'traders_places.id')
             ->leftJoin('regions', 'traders_places.obl_id', '=', 'regions.id')
             ->leftJoin('traders_products2buyer', function ($join)
-                {
-                    $join->on('comp_items.author_id', '=', 'traders_products2buyer.buyer_id');
-                    $join->on('traders_products2buyer.acttype', '=', 'traders_prices.acttype');
-                    $join->on('traders_products2buyer.type_id', '=', 'traders_places.type_id');
-                    $join->on('traders_products2buyer.cult_id', '=', 'traders_prices.cult_id');
-                })
+            {
+                $join->on('comp_items.author_id', '=', 'traders_products2buyer.buyer_id');
+                $join->on('traders_products2buyer.acttype', '=', 'traders_prices.acttype');
+                $join->on('traders_products2buyer.type_id', '=', 'traders_places.type_id');
+                $join->on('traders_products2buyer.cult_id', '=', 'traders_prices.cult_id');
+            })
             ->where($criteria_prices)
             ->where($criteria_places)
             ->whereDate('traders_prices.dt', '>=', $forward_months)
@@ -425,23 +428,25 @@ class TraderService
         $criteria_traders = $this->setCriteriaTraders($data);
 
         $author_ids = TradersPrices::query()
-                ->select('traders_prices.buyer_id')
-                ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
-                ->where($criteria_traders->get('criteria_prices'))
-                ->where($criteria_traders->get('criteria_places'))
-                ->pluck('buyer_id')
+            ->select('traders_prices.buyer_id')
+            ->leftJoin('traders_places', 'traders_places.id', '=', 'traders_prices.place_id')
+            ->where($criteria_traders->get('criteria_prices'))
+            ->where($criteria_traders->get('criteria_places'))
+            ->pluck('buyer_id')
             ->toArray();
 
         $this->groups = $this->setRubrics($criteria_traders->get('criteria_places'), $criteria_traders->get('acttype'));
 
         if($data->get('type_view') == 'table' && $data->get('type') != 'forward')
         {
-            return $this->getTradersTable($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
+            return $this->getTradersTable($author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'), $data->get('start'));
         }
 
         if($data->get('type_view') == 'card')
         {
-            return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'), $criteria_traders->get('criteria_places'));
+            return $this->getTradersCard($data->get('type'), $author_ids, $criteria_traders->get('criteria_prices'),
+                $criteria_traders->get('criteria_places'), $data->get('start')
+            );
         }
 
         if($data->get('type') == 'forward')

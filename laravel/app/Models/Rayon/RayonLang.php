@@ -22,6 +22,7 @@ class RayonLang extends Model
     protected $fillable = ['id', 'lang_id', 'ray_id', 'name'];
 
 
+
     /*public function torg_elevator()
     {
         return $this->belongsTo(TorgElevator::class, 'ray_id', 'ray_id');
@@ -35,5 +36,11 @@ class RayonLang extends Model
     public function rayon()
     {
         return $this->hasMany(Rayon::class, 'obl_id');
+    }
+
+    public function torg_elevator()
+    {
+        return $this->belongsTo(TorgElevator::class, 'ray_id', 'ray_id');
+
     }
 }

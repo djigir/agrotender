@@ -4,6 +4,8 @@
 namespace App\Services;
 
 
+use App\Models\Regions\Regions;
+
 class BreadcrumbService
 {
     const PURCHASE_PRICE = [14 => '', 80 => '', 8 => ''];
@@ -265,20 +267,19 @@ class BreadcrumbService
     public function setBreadcrumbsTraders($data)
     {
         $breadcrumbs_trad[0] = ['name' => !empty($data['region_translit']) ? 'Цены трейдеров в Украине' : 'Цена на Аграрную продукцию в портах Украины', 'url' => null];
-        $arrow = '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>';
 
         if($data['region_translit'] != 'ukraine' && !empty($data['region'])){
-            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'.$arrow , 'url' => route('traders.region', 'ukraine')];
+            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров' , 'url' => route('traders.region', 'ukraine'), 'arrow' => 'true'];
             $breadcrumbs_trad[1] = ['name' => "Цена Аграрной продукции в {$data['region']['parental']} области", 'url' => null];
         }
 
         if($data['port_translit'] != 'all' && !empty($data['port'])){
-            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'.$arrow, 'url' => route('traders.region', 'ukraine')];
+            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров', 'url' => route('traders.region', 'ukraine'), 'arrow' => 'true'];
             $breadcrumbs_trad[1] = ['name' => "Цена на Аграрную продукцию в {$data['port']['portname']}", 'url' => null];
         }
 
         if($data['region_translit'] == 'ukraine' && !empty($data['culture_name'])){
-            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'.$arrow, 'url' => route('traders.region', $data['region_translit'])];
+            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров', 'url' => route('traders.region', $data['region_translit']), 'arrow' => 'true'];
 
             $name_1 = "Цена {$data['culture_name']} в Украине";
 
@@ -294,14 +295,14 @@ class BreadcrumbService
         }
 
         if($data['port_translit'] == 'all' && !empty($data['culture_name'])){
-            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров'.$arrow, 'url' => route('traders.port', $data['port_translit'])];
+            $breadcrumbs_trad[0] = ['name' => 'Цены трейдеров', 'url' => route('traders.port', $data['port_translit']), 'arrow' => 'true'];
             $breadcrumbs_trad[1] = ['name' => "Цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
 
 
         if($data['region'] && $data['culture_name'] && $data['region_translit'] != 'ukraine'){
-            $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" .$arrow, 'url' => route('traders.region', 'ukraine')];
-            $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}".$arrow, 'url' => route('traders.region_culture', ['ukraine', $data['culture']])];
+            $breadcrumbs_trad[0] = ['name' => "Цены трейдеров", 'url' => route('traders.region', 'ukraine'), 'arrow' => 'true'];
+            $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}", 'url' => route('traders.region_culture', ['ukraine', $data['culture']]), 'arrow' => 'true'];
             $breadcrumbs_trad[2] = ['name' => "Цена {$data['culture_name']} в {$data['region']['parental']} области", 'url' => null];
 
             if(isset(self::REGION_CULTURE[$data['id_region']]) && isset(self::REGION_CULTURE[$data['id_region']][$data['culture_id']])){
@@ -310,8 +311,8 @@ class BreadcrumbService
         }
 
         if($data['port'] && $data['culture_name'] && $data['port_translit'] != 'all'){
-            $breadcrumbs_trad[0] = ['name' => "Цены трейдеров" .$arrow, 'url' => route('traders.port', 'all')];
-            $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}".$arrow, 'url' => route('traders.port_culture', ['all', $data['culture']])];
+            $breadcrumbs_trad[0] = ['name' => "Цены трейдеров", 'url' => route('traders.port', 'all'), 'arrow' => 'true'];
+            $breadcrumbs_trad[1] = ['name' => "Цена {$data['culture_name']}", 'url' => route('traders.port_culture', ['all', $data['culture']]), 'arrow' => 'true'];
             $breadcrumbs_trad[2] = ['name' => "Цена на {$data['culture_name']} в {$data['port']['portname']}", 'url' => null];
         }
 
@@ -323,22 +324,21 @@ class BreadcrumbService
     public function setBreadcrumbsTradersForward($data)
     {
         $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => null];
-        $arrow = '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>';
 
         if($data['port_translit'] != null && $data['port_translit'] == 'all'){
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => null];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => null, 'arrow' => 'true'];
             $breadcrumbs_trad_forward[1] = ['name' => !$data['culture_name'] ? "Форвардная цена на аграрную продукцию в портах Украины"
                 : "Форвардная цена на {$data['culture_name']} в портах Украины", 'url' => null];
         }
 
         if($data['port_translit'] != null && $data['port_translit'] != 'all'){
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.port', 'all')];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => route('traders_forward.port', 'all'), 'arrow' => 'true'];
             $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на аграрную продукцию в {$data['port']['portname']}", 'url' => null];
         }
 
         if($data['port'] && $data['culture'] && $data['port_translit'] != 'all')
         {
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.port', 'all')];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => route('traders_forward.port', 'all'), 'arrow' => 'true'];
             if($data['culture_name']){
 //                $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}".'<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>' , 'url' => route('traders_forward.port_culture',['all', $data['culture']])];
                 $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на {$data['culture_name']} в {$data['port']['portname']}" , 'url' => null];
@@ -354,21 +354,21 @@ class BreadcrumbService
         }
 
         if($data['region'] != null && $data['region_translit'] != 'ukraine'){
-            $breadcrumbs_trad_forward[0] = ['name' => "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
+            $breadcrumbs_trad_forward[0] = ['name' => "Форварды", 'url' => route('traders_forward.region', 'ukraine'), 'arrow' => 'true'];
             $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на аграрную продукцию в {$data['region']['name']} области", 'url' => null];
         }
 
         if($data['region'] != null && $data['region_translit'] == 'ukraine' && $data['culture']){
-            $breadcrumbs_trad_forward[0] = ['name' => "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
+            $breadcrumbs_trad_forward[0] = ['name' => "Форварды", 'url' => route('traders_forward.region', 'ukraine'), 'arrow' => 'true'];
             $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на {$data['culture_name']} в Украине", 'url' => null];
         }
 
         if($data['region'] && $data['culture'] && $data['region_translit'] != 'ukraine')
         {
-            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды".$arrow, 'url' => route('traders_forward.region', 'ukraine')];
+            $breadcrumbs_trad_forward[0] = ['name' =>  "Форварды", 'url' => route('traders_forward.region', 'ukraine'), 'arrow' => 'true'];
 
             if($data['culture_name']){
-                $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}".$arrow , 'url' => route('traders_forward.region_culture',['ukraine', $data['culture']])];
+                $breadcrumbs_trad_forward[1] = ['name' => "Форварды {$data['culture_name']}" , 'url' => route('traders_forward.region_culture',['ukraine', $data['culture']]), 'arrow' => 'true'];
                 $breadcrumbs_trad_forward[2] = ['name' => "Форвардная цена на {$data['culture_name']} в {$data['region']['name']} области" , 'url' => null];
             }else{
                 $breadcrumbs_trad_forward[1] = ['name' => "Форвардная цена на аграрную продукцию в {$data['region']['parental']} области" , 'url' => null];
@@ -424,7 +424,6 @@ class BreadcrumbService
 
     public function setBreadcrumbsCompanies($data)
     {
-
         $breadcrumbs_comp[0] = ['name' => 'Компании в Украине', 'url' => null];
 
         if($data['region'] != 'ukraine' && $data['region']){
@@ -432,7 +431,7 @@ class BreadcrumbService
         }
 
         if($data['region'] == 'ukraine' && !empty($data['rubric_id'])) {
-            $breadcrumbs_comp[0] = ['name' => "Компании в Украине" . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region'])];
+            $breadcrumbs_comp[0] = ['name' => "Компании в Украине", 'url' => route('company.region', $data['region']), 'arrow' => 'true'];
 
             $catalog_farm = $this->setCatalogFarms($data);
 
@@ -448,7 +447,7 @@ class BreadcrumbService
         }
 
         if ($data['region'] && $data['rubric_id'] && $data['region'] != 'ukraine'){
-            $breadcrumbs_comp[0] = ['name' => "Компании в {$data['region']['parental']} области " . '<i style="margin-left: .5rem" class="fas fa-chevron-right extra-small"></i>', 'url' => route('company.region', $data['region']['translit'])];
+            $breadcrumbs_comp[0] = ['name' => "Компании в {$data['region']['parental']} области ", 'url' => route('company.region', $data['region']['translit']), 'arrow' => 'true'];
 
             $catalog_farm = $this->setCatalogFarms($data);
 
@@ -469,4 +468,6 @@ class BreadcrumbService
 
         return $breadcrumbs_comp;
     }
+
+
 }

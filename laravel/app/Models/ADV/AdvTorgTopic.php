@@ -2,6 +2,7 @@
 
 namespace App\Models\ADV;
 
+
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -75,4 +76,5 @@ class AdvTorgTopic extends Model
     {
         return $this->hasOne($this,'id','parent_id');
     }
+
 }
