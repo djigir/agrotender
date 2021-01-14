@@ -8,3 +8,4 @@ robots.txt
 laravel/public/packages
 packages
 files
+laravel/storage/framework/laravel-excel
