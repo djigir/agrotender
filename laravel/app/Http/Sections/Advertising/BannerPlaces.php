@@ -69,7 +69,8 @@ class BannerPlaces extends Section implements Initializable
             AdminColumn::custom('Заявки/ротация', function (\Illuminate\Database\Eloquent\Model $model){
                 $application = BannerRotate::where(['place_id' => $model->id, 'inrotate' => 0,'archive' => 0])->count();
                 $rotation = BannerRotate::where(['place_id' => $model->id, 'inrotate' => 1, 'archive' => 0])->count();
-                return " <div class='row-link text-center'><a href='http://agrotender.local/admin_dev/banner_rotates?id={$model->id}' target='_blank'>{$application} / {$rotation}</a></div>";
+                $route = route('admin.model', 'banner_rotates');
+                return " <div class='row-link text-center'><a href={$route}?id={$model->id}' target='_blank'>{$application} / {$rotation}</a></div>";
             })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
         ];
 
