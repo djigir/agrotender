@@ -3,6 +3,7 @@
 namespace App\Models\Torg;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Buyer\BuyerAuthArch;
 use App\Models\Buyer\BuyerPacksOrders;
 use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Comp\CompItems;
@@ -112,5 +113,9 @@ class TorgBuyer extends Model
     public function pyBalance()
     {
         return $this->belongsTo(PyBalance::class, 'buyer_id', 'id');
+    }
+    public function session()
+    {
+        return $this->hasMany(BuyerAuthArch::class,'user_login','login');
     }
 }

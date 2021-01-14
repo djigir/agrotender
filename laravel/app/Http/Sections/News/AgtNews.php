@@ -168,6 +168,7 @@ class AgtNews extends Section implements Initializable
                 }),
 
 
+
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::datetime('dtime', 'Дата')

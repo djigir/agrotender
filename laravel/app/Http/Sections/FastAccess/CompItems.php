@@ -62,6 +62,7 @@ class CompItems extends Section implements Initializable
     public function initialize()
     {
         $request = \request();
+
         if(!empty($request->all())) {
             if($request->get('type') == 'active_traders'){
                 $this->title = 'Активные трейды';

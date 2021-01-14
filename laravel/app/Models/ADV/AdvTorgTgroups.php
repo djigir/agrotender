@@ -30,6 +30,6 @@ class AdvTorgTgroups extends Model
 
     public function AdvTorgTopic()
     {
-        return $this->belongsTo(AdvTorgTopic::class, 'menu_group_id', 'id');
+        return $this->hasMany(AdvTorgTopic::class, 'menu_group_id', 'id')->where('parent_id',0);
     }
 }

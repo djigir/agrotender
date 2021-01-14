@@ -2,6 +2,7 @@
 
 namespace App\Models\ADV;
 
+use App\Models\Buyer\BuyerAuthArch;
 use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
@@ -101,6 +102,11 @@ class AdvTorgPost extends Model
     {
         return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
     }
+    public function torgBuyerSession()
+    {
+        return $this->hasManyThrough(BuyerAuthArch::class,TorgBuyer::class,'id','user_login','author_id','login');
+    }
+
 
     public function compItems()
     {
@@ -125,11 +131,6 @@ class AdvTorgPost extends Model
         $author_id = $type['author_id'];
 
         return $query->where('author_id', $author_id);
-    }
-
-    public function advTorgTopic2()
-    {
-        return $this->belongsTo(AdvTorgTopic::class, 'id', 'topic_id');
     }
 
 }

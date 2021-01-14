@@ -71,4 +71,8 @@ class AdvTorgTopic extends Model
     {
         return $this->hasMany(AdvTorgPost::class,'topic_id', 'id');
     }
+    public function subTopic()
+    {
+        return $this->hasOne($this,'id','parent_id');
+    }
 }
