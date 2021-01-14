@@ -40,18 +40,26 @@ return [
         'icon' => 'fas fa-tachometer-alt',
 
         'pages' => [
-            [
-                'title' => 'Активные Трейдеры',
-                'icon'  => 'fas fa-building',
-                'url'   => '/admin_dev/comp_items?type=active_traders',
-            ],
+//            [
+//                'title' => 'Активные Трейдеры',
+//                'icon'  => 'fas fa-building',
+//                'url'   => '/admin_dev/comp_items?type=active_traders',
+//            ],
+//
+//            [
+//                'title' => 'Трейдеры',
+//                'icon'  => 'far fa-building',
+//                'url'   => '/admin_dev/comp_items?type=traders',
+//
+//            ],
 
-            [
-                'title' => 'Трейдеры',
-                'icon'  => 'far fa-building',
-                'url'   => '/admin_dev/comp_items?type=traders',
+            (new Page(\App\Models\Comp\CompItemsTraders::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
 
-            ],
+            (new Page(\App\Models\Comp\CompItemsActive::class))
+                ->setIcon('fa fa-fax')
+                ->setPriority(0),
 
             (new Page(\App\Models\Comp\CompItems::class))
                 ->setIcon('fa fa-fax')
