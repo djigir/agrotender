@@ -7,6 +7,8 @@ use AdminColumnFilter;
 use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
+use App\Models\Comp\CompTgroups;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -34,7 +36,7 @@ class ActiveTraders extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title;
+    protected $title = 'Активные трейды';
 
     /**
      * @var string
@@ -46,59 +48,113 @@ class ActiveTraders extends Section implements Initializable
      */
     public function initialize()
     {
-        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
+//        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
     /**
      * @param array $payload
-     *
      * @return DisplayInterface
      */
     public function onDisplay($payload = [])
     {
+        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
+        $rubriks_gr = CompTgroups::all();
+
+        $rubrik_select = [];
+        /** @var CompTgroups $rubrik_gr */
+        foreach ($rubriks_gr as $rubrik_gr) {
+            /** @var \App\Models\Comp\CompTopic $rubrik */
+            foreach ($rubriks as $rubrik) {
+                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
+                    continue;
+                }
+                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
+            }
+        }
+
         $columns = [
-            AdminColumn::text('id', '#')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('name', 'Name', 'created_at')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query
-                        ->orWhere('name', 'like', '%'.$search.'%')
-                        ->orWhere('created_at', 'like', '%'.$search.'%')
-                    ;
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('created_at', $direction);
-                })
-            ,
-            AdminColumn::boolean('name', 'On'),
-            AdminColumn::text('created_at', 'Created / updated', 'updated_at')
-                ->setWidth('160px')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('updated_at', $direction);
-                })
-                ->setSearchable(false)
-            ,
+            AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
+                return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
+            })->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center')
+                ->setOrderable('id'),
+
+
+            AdminColumn::image('logo_file', 'Лого'),
+
+            AdminColumn::text('title', 'Название')
+                ->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
+                $table = 'Да';
+                $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
+                $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none;" : $issetLink = '';
+                return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}' target='_blank'>Посмотреть</a>";
+            })->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Таблица Скрыта', function(\Illuminate\Database\Eloquent\Model $model) {
+                $table = 'Да';
+                $style = 'color:green';
+
+                $model->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
+                $table == 'Нет' ? $style = 'color:green' : $style = 'color:red';
+
+                return "<div class='row-text text-center' style='{$style}'>
+                            {$table}
+                        </div>";
+            })->setHtmlAttribute('class', 'text-center'),
+
+
+            AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
+                $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
+                return $last_update;
+            })->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Дней назад', function (\Illuminate\Database\Eloquent\Model $model) {
+                $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
+                $d = Carbon::parse($last_update);
+                $now = Carbon::now();
+                return $d->diffInDays($now);
+            })->setHtmlAttribute('class', 'text-center'),
+
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query){
+                $query->where('trader_price_avail',1);
+            })
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(true)
+            ->setOrder([[0, 'desc']])
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Comp\CompItemsActive::class, 'name')
+                ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
                     return $query;
                 })
                 ->setDisplay('name')
-                ->setColumnName('name')
-                ->setPlaceholder('All names')
-            ,
+                ->setColumnName('obl_id')
+                ->setPlaceholder('Все Области'),
+
+
+            AdminColumnFilter::text()
+                ->setColumnName('title')
+                ->setOperator('contains')
+                ->setPlaceholder('По названию компании'),
+
+
+            AdminColumnFilter::text()
+                ->setHtmlAttribute('class', 'ID_search')
+                ->setColumnName('id')
+                ->setPlaceholder('по ID'),
+
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;
@@ -110,50 +166,50 @@ class ActiveTraders extends Section implements Initializable
      *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
-    {
-        $form = AdminForm::card()->addBody([
-            AdminFormElement::columns()->addColumn([
-                AdminFormElement::text('name', 'Name')
-                    ->required()
-                ,
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('created_at')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::text('id', 'ID')->setReadonly(true),
-                AdminFormElement::html('last AdminFormElement without comma')
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-        ]);
-
-        $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
-            'cancel'  => (new Cancel()),
-        ]);
-
-        return $form;
-    }
+//    public function onEdit($id = null, $payload = [])
+//    {
+//        $form = AdminForm::card()->addBody([
+//            AdminFormElement::columns()->addColumn([
+//                AdminFormElement::text('name', 'Name')
+//                    ->required()
+//                ,
+//                AdminFormElement::html('<hr>'),
+//                AdminFormElement::datetime('created_at')
+//                    ->setVisible(true)
+//                    ->setReadonly(false)
+//                ,
+//                AdminFormElement::html('last AdminFormElement without comma')
+//            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+//                AdminFormElement::text('id', 'ID')->setReadonly(true),
+//                AdminFormElement::html('last AdminFormElement without comma')
+//            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+//        ]);
+//
+//        $form->getButtons()->setButtons([
+//            'save'  => new Save(),
+//            'save_and_close'  => new SaveAndClose(),
+//            'save_and_create'  => new SaveAndCreate(),
+//            'cancel'  => (new Cancel()),
+//        ]);
+//
+//        return $form;
+//    }
 
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }
+//    public function onCreate($payload = [])
+//    {
+//        return $this->onEdit(null, $payload);
+//    }
 
     /**
      * @return bool
      */
-    public function isDeletable(Model $model)
-    {
-        return true;
-    }
+//    public function isDeletable(Model $model)
+//    {
+//        return true;
+//    }
 
     /**
      * @return void
