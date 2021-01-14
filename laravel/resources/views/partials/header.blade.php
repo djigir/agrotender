@@ -109,7 +109,7 @@
     <link rel="stylesheet" href="/app/assets/css/multiple-select.css">
     <link rel="stylesheet" href="/app/assets/css/noty.css">
     <link rel="stylesheet" href="/app/assets/css/simplelightbox.min.css">
-    <link rel="stylesheet" href="/app/assets/css/styles.css">
+    <link rel="stylesheet" href="/app/assets/css/styles.css?d=57">
     <link rel="stylesheet" href="/app/assets/css/swiper.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
           integrity="sha512-c42qTSw/wPZ3/5LBzD+Bw5f7bSF2oxou6wEb+I/lqeaKV5FDIfMvvRp772y4jcJLKuGUOpbJMdg/BTl50fJYAw=="
