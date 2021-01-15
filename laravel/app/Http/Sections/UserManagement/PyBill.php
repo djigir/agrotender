@@ -54,6 +54,7 @@ class PyBill extends Section implements Initializable
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
     const PAYMENTH_TYPE = [
+        0 => '',
         1 => 'Приват 24',
         2 => 'Карта',
         3 => 'По счету',

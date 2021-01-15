@@ -143,8 +143,7 @@ class TradersPorts extends Section implements Initializable
                     ])
                     ->required(),
 
-                AdminFormElement::textarea('portsLang.p_title', 'Title')
-                    ->setRows(2)
+                AdminFormElement::ckeditor('portsLang.p_title', 'Title')
                     ->required(),
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
@@ -152,12 +151,10 @@ class TradersPorts extends Section implements Initializable
                 AdminFormElement::text('portsLang.p_h1', 'H1')
                     ->required(),
 
-                AdminFormElement::textarea('portsLang.p_descr', 'Описание')
-                    ->setRows(3)
+                AdminFormElement::ckeditor('portsLang.p_descr', 'Описание')
                     ->required(),
 
-                AdminFormElement::textarea('portsLang.p_content', 'Content')
-                    ->setRows(3)
+                AdminFormElement::ckeditor('portsLang.p_content', 'Content')
                     ->required(),
 
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),

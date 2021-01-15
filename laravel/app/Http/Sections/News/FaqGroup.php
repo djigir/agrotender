@@ -57,9 +57,13 @@ class FaqGroup extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::image('icon_filename', 'Иконка')->setWidth('50px')
-                ->setHtmlAttributes(['class' => ['logo-img', 'text-center']])
-                ->addScript('my', asset('/app/assets/my_js/admin.js')),
+            AdminColumn::custom('Иконка', function (Model $model) {
+                return "<div class='row-image logo-img text-center'>
+						<a href='http://agrotender.local/files/{$model->icon_filename}' data-toggle='lightbox'>
+				            <img class='thumbnail' src='http://agrotender.local/files/{$model->icon_filename}'>
+			            </a>
+			            </div>";
+            }),
 
             AdminColumn::custom('Название', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqGroupLang']['type_name']}</div>";

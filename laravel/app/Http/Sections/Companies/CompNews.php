@@ -134,7 +134,7 @@ class CompNews extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-                AdminFormElement::textarea('content', 'Содержание'),
+                AdminFormElement::ckeditor('content', 'Содержание'),
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 

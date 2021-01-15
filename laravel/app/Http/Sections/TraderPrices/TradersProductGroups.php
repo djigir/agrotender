@@ -60,14 +60,19 @@ class TradersProductGroups extends Section implements Initializable
         $columns = [
 
             AdminColumn::text('sort_num', 'Сортировка')
-                ->setWidth('120px')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('sort_num', $direction);
+                })->setWidth('120px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::image('', 'Иконка')
+            AdminColumn::image('icon_filename', 'Иконка')
                 ->setHtmlAttribute('class', 'text-center'),
 
 
             AdminColumn::link('tradersProductGroupsLang.name', 'Название')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('id', $direction);
+                })
                 ->setHtmlAttribute('class', 'text-center'),
 
         ];
@@ -140,8 +145,7 @@ class TradersProductGroups extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-        $id = \App\Models\Traders\TradersProductGroups::get('id')->max('id');
-        return $this->onEdit($id+1, $payload);
+        return $this->onEdit(null, $payload);
     }
 
     /**

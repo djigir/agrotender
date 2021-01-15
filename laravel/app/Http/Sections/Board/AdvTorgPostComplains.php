@@ -140,9 +140,6 @@ class AdvTorgPostComplains extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                AdminFormElement::textarea('msg', 'Текст')
-                    ->setRows(6)
-                    ->required(),
 
                 AdminFormElement::select('viewed', 'Просмотрено')
                     ->setOptions([
@@ -158,6 +155,10 @@ class AdvTorgPostComplains extends Section implements Initializable
 
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+
+                AdminFormElement::ckeditor('msg', 'Текст')
+                    ->required(),
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

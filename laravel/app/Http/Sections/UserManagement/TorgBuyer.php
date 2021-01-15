@@ -226,7 +226,7 @@ class TorgBuyer extends Section implements Initializable
                         0 => 'Нет'
                     ]),
 
-                AdminFormElement::textarea('comments', 'Комментарии')->setRows(5),
+                AdminFormElement::ckeditor('comments', 'Комментарии'),
 
                 AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
                         Изменение пароля пользователя

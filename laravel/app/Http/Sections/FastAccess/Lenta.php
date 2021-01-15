@@ -106,15 +106,15 @@ class Lenta extends Section implements Initializable
                 AdminFormElement::text('author', 'Кто опубликовал')
                     ->required(),
 
-                AdminFormElement::textarea('title', 'Текст публикации')
-                    ->setRows(4),
+                AdminFormElement::ckeditor('title', 'Текст публикации'),
 
 
                 AdminFormElement::html('<hr>'),
+
                 AdminFormElement::datetime('add_date', 'Дата')
                     ->setVisible(true)
-                    ->setReadonly(false)
-                ,
+                    ->setReadonly(false),
+
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')
         ]);
 

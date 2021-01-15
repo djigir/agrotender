@@ -141,7 +141,7 @@ class AgtNewsComment extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')->addColumn([
-                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
+                AdminFormElement::ckeditor('newsLang.content', 'Коментарий'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-8'),
         ]);
 

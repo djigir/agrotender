@@ -154,9 +154,9 @@ class TorgElevator extends Section implements Initializable
 
                     AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-'),
 
-                    AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-'),
+                    AdminFormElement::ckeditor('langElevator.addr', 'Физический адрес')->setDefaultValue('-'),
 
-                    AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
+                    AdminFormElement::ckeditor('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
 
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
@@ -169,9 +169,9 @@ class TorgElevator extends Section implements Initializable
 
                     AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
 
-                    AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
+                    AdminFormElement::ckeditor('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
 
-                    AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
+                    AdminFormElement::ckeditor('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
@@ -210,9 +210,9 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-')->setDefaultValue('-'),
 
-                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-'),
+                AdminFormElement::ckeditor('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-'),
 
-                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-'),
+                AdminFormElement::ckeditor('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-'),
 
 
 
@@ -226,9 +226,9 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->setDefaultValue('-')->required(),
 
-                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
+                AdminFormElement::ckeditor('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
 
-                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
+                AdminFormElement::ckeditor('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
 
                 AdminFormElement::hidden('langElevator.lang_id')->setDefaultValue(1),
 

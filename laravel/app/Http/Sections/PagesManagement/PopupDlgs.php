@@ -135,7 +135,7 @@ class PopupDlgs extends Section implements Initializable
                 ])->setDefaultValue(0)->required(),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::textarea('popupDlgsLang.content', 'Текст'),
+                AdminFormElement::ckeditor('popupDlgsLang.content', 'Текст'),
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

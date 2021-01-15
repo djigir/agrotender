@@ -110,24 +110,24 @@ class AdvTorgTopic extends Section implements Initializable
                 AdminFormElement::text('page_h1', 'H1 заголовок'),
                 AdminFormElement::text('page_title','Title'),
                 AdminFormElement::text('page_keywords','Keywords'),
-                AdminFormElement::textarea('page_descr','Description')->setRows(5),
-                AdminFormElement::textarea('descr','Описание')->setRows(5),
+                AdminFormElement::ckeditor('page_descr','Description'),
+                AdminFormElement::ckeditor('descr','Описание'),
             ];
             $seo_buy = [
                 AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Покупка</span>'),
                 AdminFormElement::text('seo_h1_buy', 'H1 заголовок'),
                 AdminFormElement::text('seo_title_buy','Title'),
                 AdminFormElement::text('seo_keyw_buy','Keywords'),
-                AdminFormElement::textarea('seo_descr_buy','Description')->setRows(5),
-                AdminFormElement::textarea('seo_text_buy','Описание')->setRows(5),
+                AdminFormElement::ckeditor('seo_descr_buy','Description'),
+                AdminFormElement::ckeditor('seo_text_buy','Описание'),
             ];
             $seo_sale = [
                 AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Продажа</span>'),
                 AdminFormElement::text('seo_h1_sell','H1 заголовок'),
                 AdminFormElement::text('seo_title_sell','Title'),
                 AdminFormElement::text('seo_keyw_sell','Keywords'),
-                AdminFormElement::textarea('seo_descr_sell','Description')->setRows(5),
-                AdminFormElement::textarea('seo_text_sell','Описание')->setRows(5),
+                AdminFormElement::ckeditor('seo_descr_sell','Description'),
+                AdminFormElement::ckeditor('seo_text_sell','Описание'),
             ];
         }
 
@@ -142,7 +142,7 @@ class AdvTorgTopic extends Section implements Initializable
                     0 => 'Нет',
                     1 => 'Да',
                 ])->setDefaultValue(1),
-                AdminFormElement::textarea('descr', 'Описание')->required(),
+                AdminFormElement::ckeditor('descr', 'Описание')->required(),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
             ->addColumn($seo_data, 'col-xs-12 col-sm-6 col-md-8 col-lg-8')
             ->addColumn($seo_buy, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')

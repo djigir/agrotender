@@ -136,7 +136,7 @@ class CompVacancy extends Section implements Initializable
                     ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::textarea('content', 'Описание вакансии')->setRows(6),
+                AdminFormElement::ckeditor('content', 'Описание вакансии'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
         ]);
 
