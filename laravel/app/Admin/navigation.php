@@ -180,6 +180,10 @@ return [
 
             (new Page( \App\Models\Faq\FaqGroup::class))
                 ->setIcon('fas fa-comments')
+                ->setPriority(2),
+
+            (new Page( \App\Models\Faq\Faq::class))
+                ->setIcon('fas fa-comments')
                 ->setPriority(3),
 
         ]

@@ -57,13 +57,21 @@ class FaqGroup extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::image('icon_filename', 'Иконка')->setWidth('50px')
+            AdminColumn::image('icon_filename', 'Иконка')->setWidth('50px')->setImageWidth('50px')
                 ->setHtmlAttributes(['class' => ['logo-img', 'text-center']])
                 ->addScript('my', asset('/app/assets/my_js/admin.js')),
 
+
+
+
+
             AdminColumn::custom('Название', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqGroupLang']['type_name']}</div>";
-            })->setWidth('150px'),
+            })->setWidth('80px'),
+
+            AdminColumn::custom('Описание', function (Model $model) {
+                return "<div class='row-text text-center'>{$model['FaqGroupLang']['descr']}</div>";
+            })->setWidth('80px'),
         ];
 
         $display = AdminDisplay::datatables()
