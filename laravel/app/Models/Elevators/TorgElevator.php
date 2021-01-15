@@ -34,20 +34,26 @@ class TorgElevator extends Model
 
     public $timestamps = false;
 
-//    public function lang_elevator()
-//    {
-//        return $this->hasMany(TorgElevatorLang::class,'item_id', 'id');
-//    }
+    public function lang_elevator()
+    {
+        return $this->hasMany(TorgElevatorLang::class,'item_id', 'id');
+    }
+
+    public function lang_rayon()
+    {
+        return $this->hasMany(RayonLang::class, 'ray_id', 'ray_id');
+    }
 
     public function region()
     {
-        return $this->hasOne(Regions::class,'id', 'obl_id');
+        return $this->hasMany(Regions::class,'id', 'obl_id');
     }
 
-//    public function lang_rayon()
-//    {
-//        return $this->hasMany(RayonLang::class, 'ray_id', 'ray_id');
-//    }
+
+    public function regionAdmin()
+    {
+        return $this->hasOne(Regions::class,'id', 'obl_id');
+    }
 
     public function langElevator()
     {
@@ -79,16 +85,4 @@ class TorgElevator extends Model
             });
         });
     }
-
-
-    public function lang_elevator()
-    {
-        return $this->hasMany(TorgElevatorLang::class,'item_id', 'id');
-    }
-
-    public function lang_rayon()
-    {
-        return $this->hasMany(RayonLang::class, 'ray_id', 'ray_id');
-    }
-
 }
