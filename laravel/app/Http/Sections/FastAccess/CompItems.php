@@ -167,7 +167,9 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
-                return "<a href=".route('admin.login_as_user', ['user_id' => $compItems->author_id])." class='btn btn-success btn-sm'>Войти</a>";
+                $WWWHOST = 'https://agrotender.com.ua/';
+                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn btn-success btn-sm'>Войти</a>";
+
             })->setWidth('126px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable('id'),
