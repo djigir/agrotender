@@ -278,14 +278,14 @@ class CompItems extends Section implements Initializable
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
-                ]),
+                    ]),
 
                 AdminFormElement::select('trader_premium', 'Премиум')
                     ->setOptions([
                         0 => 'Нет',
                         1 => 'Да',
                         2 => 'Премиум +'
-                ]),
+                    ]),
 
 //                AdminFormElement::number('trader_sort', 'Приоретет'),
 
