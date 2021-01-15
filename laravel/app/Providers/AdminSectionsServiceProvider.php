@@ -25,6 +25,8 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Seo\SeoTitles::class => 'App\Http\Sections\TraderPrices\SeoTitlesTrades',
         \App\Models\Traders\TradersPorts::class => 'App\Http\Sections\TraderPrices\TradersPorts',
         \App\Models\Traders\TradersProductsSell::class => 'App\Http\Sections\TraderPrices\TradersProductsSell',
+        \App\Models\Traders\TradersProductGroups::class => 'App\Http\Sections\TraderPrices\TradersProductGroups',
+
 
 
 
