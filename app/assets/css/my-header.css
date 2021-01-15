@@ -2,12 +2,12 @@
     background: transparent;
 }
 .tableScroll.orange::-webkit-scrollbar-thumb {
-    background-color: #ffa800 !important;
+    background-color: #FF7404 !important;
     border-bottom-left-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
 }
 .tableScroll.blue::-webkit-scrollbar-thumb {
-    background-color: #1056B2 !important;
+    background-color: #143573 !important;
     border-bottom-left-radius: 10px !important;
     border-bottom-right-radius: 10px !important;
 }
@@ -31,7 +31,7 @@
     left: calc(100% - 15px);
     bottom: 0;
     position: absolute;
-    box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 18px -18px inset;
+    box-shadow: rgba(167, 167, 167, 0.62) -17px 1px 16px -18px inset;
 }
 .tableSecond:before {
     content: ''

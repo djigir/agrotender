@@ -1,164 +1,127 @@
-<div class="filters-wrap mobile-filters"  style="display: none;">
-    <div class="filters-inner">
-        <div class="filters arrow-t">
-            <div class="step-1 stp" style="">
-                <form>
-                <div class="position-relative scroll-wrap">
-                    <div class="mt-3">
-                        <span class="title ml-3 pt-3">Настройте фильтры:</span>
-                    </div>
-                        <span class="mt-3 p-4 content-block filter filter-type d-flex justify-content-between"  type="" id='type-page'>
-                            <input type="text"  value="" class="remove-input">
-                            @if($type_traders == 0)
-                                <span style="color: #1e56b2">Закупки</span>
-                            @elseif($type_traders == 1)
-                                <span style="color: #1e56b2">Форварды</span>
-                            @endif
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </span>
-                        <span class="mt-4 p-4 content-block filter filter-rubric d-flex justify-content-between"  rubric="0" id='mobile-rubric'>
-                            <input type="text" id='input-mobile-rubric' name="rubric" value="{{!empty($culture_translit) ? $culture_translit : ''}}"  class="remove-input">
-                            <span style="color: #1e56b2" id="span-mobile-rubric">{{$culture_name}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </span>
-                        <span class="mt-4 p-4 content-block filter filter-region d-flex justify-content-between"  region="0" port="0" id='mobile-region'>
-                            <input type="text" id='input-mobile-region-t' name="region" value="{{!empty($region) ? $region: ''}}"  class="remove-input">
-                            <input type="text" id='input-mobile-port-t' name="port" value="{{!empty($port) ? $port: ''}}"  class="remove-input">
-                            <span style="color: #1e56b2" id="span-mobile-region">{{$region_port_name}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </span>
-                        <span class="mt-4 p-4 content-block filter filter-currency d-flex justify-content-between" >
-                            <span class="text-muted">Валюта:</span>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-radio {{$currency == null ? 'active' : ''}}">
-                                    <input type="radio" id='currency-all'> Любая
-                                </label>
-                                <label class="btn btn-radio {{$currency == 0 && $currency != null ? 'active' : ''}}">
-                                    <input type="radio" id="currency-uah" name="currency"  value="0"> Гривна
-                                </label>
-                                <label class="btn btn-radio {{$currency == 1 && $currency != null ? 'active' : ''}}">
-                                    <input type="radio"  id="currency-usd" name="currency"  value="1"> Доллар
-                                </label>
-                            </div>
-                        </span>
-{{--                        <span class="mt-4 p-4 content-block filter filter-viewmod d-flex justify-content-between">--}}
-{{--                            <span class="text-muted">Показать:</span>--}}
-{{--                            <div class="btn-group btn-group-toggle" data-toggle="buttons">--}}
-{{--                                <label class="btn btn-radio">--}}
-{{--                                    <input type="radio" id='show-type-list' name="viewmod" value="list" autocomplete="off"> Списком--}}
-{{--                                </label>--}}
-{{--                                <label class="btn btn-radio active">--}}
-{{--                                    <input type="radio" id='show-type-table' name="viewmod" value="table" autocomplete="off" checked=""> Таблицей--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
-{{--                        </span>--}}
+<?php
+if($regions->count() > 0){
+    $temp = $regions[25];
+    $regions[25] = $regions[0];
+    $regions[0] = $temp;
+}
+?>
 
-                    <div class="error-text mt-3 text-center">
-                        <span>Для сравнения цен выберите продукцию</span>
+<div class="openFilter__wrap">
+    <button class="openFilter chose_culture">
+        <span>{{$culture_name}}</span>
+    </button>
+</div>
+<div class="mobile_filter-bg">
+    <div class="mobile_filter">
+        <div class="posrel">
+            <div class="mobile_filter-header">
+                <button class="back first-btn active">
+                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                </button>
+                <button class="back second-btn">
+                    <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
+                </button>
+                <button class="back third-btn">
+                    <img src="https://agrotender.com.ua/app/assets/img/chevron_left-bold.svg" alt="">
+                </button>
+                <span class="name_rubric">Фильтры</span>
+                <a href="{{route('traders.region', 'ukraine')}}">Сбросить</a>
+            </div>
+            <div class="screens">
+                <form action="" class="first active">
+                    <div class="mobile_filter-content">
+                        <input type="text" id='new-input-mobile-rubric' name="rubric" value="{{$culture_translit != null ? $culture_translit : ''}}" class="hidden">
+                        <input type="text" id='new-input-mobile-region-t' name="region" value="{{$region_translit != null ? $region_translit: ''}}" class="hidden">
+                        <input type="text" id='new-input-mobile-port-t' name="port" value="{{$port_translit != null ? $port_translit: ''}}" class="hidden">
+                        <div class="mobile_filter-content-item withmargin" id="product" data-product="" data-title="Культуры">{{$culture_name}}</div>
+                        <div class="mobile_filter-content-item withmargin" id="region" data-region="" data-title="Места приемки">{{$region_port_name}}</div>
+                    </div>
+
+                    <div class="mobile-filter-footer">
+                        <button type="submit">Применить</button>
+                    </div>
+                </form>
+
+                <div class="second">
+                    <div class="subItem">
+                        @foreach($rubricsGroup as $group => $item)
+                            <div class="mobile_filter-content-item" data-title="{{$item['groups']['name']}}">{{$item['groups']['name']}}</div>
+                        @endforeach
+                    </div>
+                    <div class="subItem">
+                        <div class="mobile_filter-content-item without_arrow click_region" data-id="1" data-url="ukraine">Вся Украина</div>
+                        <div class="mobile_filter-content-item without_arrow click_port" data-id="1" data-url="all">Все порты</div>
+
+                        <div class="mobile_filter-content-item select-region-filter" data-minusidx="1" data-title="Области">Выбрать область</div>
+                        <div class="mobile_filter-content-item select-port-filter" data-minusidx="1"  data-title="Порты">Выбрать порт</div>
                     </div>
                 </div>
-                <button class="remove-style-btn show" type="submit">Показать трейдеров</button>
-                </form>
-            </div>
-            <div class="step-2 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="1" href="#" id="back-page-type">
-                    <span>
-                        <i class="far fa-chevron-left mr-1"></i>
-                        Назад
-                    </span>
-                </a>
-                <div class="scroll">
-                    @if($region)
-                        @if($type_traders != 1)
-                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_forward.region_culture', [$region , $culture_translit]) :  route('traders_forward.region',  $region)}}">
-                                <span>Форварды</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
-                        @if($type_traders != 0)
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders.region_culture',  [$region , $culture_translit]) : route('traders.region',  $region)}}">
-                                <span>Закупки</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
-                    @endif
-                    @if($port)
-                        @if($type_traders != 1)
-                            <a class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders_forward.port_culture', [$port , $culture_translit]) : route('traders_forward.port',  $port)}}">
-                                <span>Форварды</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
-                        @if($type_traders != 0)
-                            <a class="px-4 py-3 my-3 content-block d-flex justify-content-between" href="{{$culture_translit ? route('traders.port_culture',  [$port, $culture_translit]) : route('traders.port',  $port)}}">
-                                <span>Закупки</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </a>
-                        @endif
-                    @endif
-                </div>
-            </div>
-            <div class="step-3 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="1" href="#" id="back">
-                    <span>
-                        <i class="far fa-chevron-left mr-1"></i>
-                        Назад
-                    </span>
-                </a>
-                <div class="scroll">
-                    @if(isset($rubricGroups))
-                        @foreach($rubricGroups as $group => $item)
-                            <span class="rubric px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}">
-                                <span style="color: #1e56b2">{{$item['groups']['name']}}</span>
-                                <span><i class="far fa-chevron-right"></i></span>
-                            </span>
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            <div class="step-3-1 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="3" href="#" id="back3" >
-                    <span>
-                        <i class="far fa-chevron-left mr-1"></i>
-                        Назад
-                    </span>
-                </a>
-                <div class="scroll">
-                    @if(isset($rubricGroups))
-                        @foreach($rubricGroups as $group => $item)
-                            @foreach($rubricGroups[$group]['groups']["products"] as $index => $item_culture)
-                                <span class="culture px-4 py-3 my-3 content-block d-flex justify-content-between"  group="{{$item['id']}}" rubric="{{$item_culture['url']}}">
-                                    <span style="color: #1e56b2">{{ $item_culture['traders_product_lang'][0]['name']}}</span>
-                                    @if($item_culture['count_item'] > 0)
-                                        <span class="companyCount small">({{$item_culture['count_item']}})</span>
-                                    @endif
-                                    <span><i class="far fa-chevron-right"></i></span>
-                                </span>
-                            @endforeach
-                        @endforeach
-                    @endif
-                </div>
-            </div>
-            <div class="step-4 stp h-100" style="display: none;">
-                <a class="back py-3 px-4 content-block d-block" step="1" href="#" id="back2">
-                    <span>
-                        <i class="far fa-chevron-left mr-1"></i>
-                        Назад
-                    </span>
-                </a>
-                <div class="scroll">
-                    @foreach($regions->reverse() as $index_region  => $region)
-                        <span class="region px-4 py-1 my-2 d-flex justify-content-between" style="color: #1e56b2" region="{{$region['translit']}}">
-                            <span style="{{$region['translit'] == 'ukraine' ? 'font-weight: 600;' : ''}}">{{$region['name']}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </span>
+
+                <div class="third">
+                    @foreach($rubricsGroup as $group => $item)
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название культуры" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    @foreach($rubricsGroup[$group]['groups']["products"] as $cult)
+                                        <li>
+                                            <a class="click_culture" href="#" data-id="0" data-product="{{$cult['url']}}">{{$cult['traders_product_lang'][0]['name']}} ({{$cult['count_item']}})</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
                     @endforeach
-                    @foreach(array_reverse($onlyPorts) as $index_port  => $port)
-                        <span  class="region px-4 py-1 my-2 d-flex justify-content-between port" style="color: #1e56b2" port="{{$port['url']}}">
-                            <span style="{{$index_port < 1 ? 'font-weight: 600;' : ''}}">{{$port['lang']['portname']}}</span>
-                            <span><i class="far fa-chevron-right"></i></span>
-                        </span>
-                    @endforeach
+                        <div class="subItem"></div>
+                        <div class="subItem"></div>
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название области" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    @foreach($regions as $region)
+                                        <li>
+                                            <a class="click_region" href="#" data-id="1" data-url="{{$region['translit']}}">{{$region['name']}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
+                        <div class="subItem">
+                            <div class="search_wrap">
+                                <input type="text" placeholder="Название порта" class="search_filed">
+                                <button>
+                                    <img src="https://agrotender.com.ua/app/assets/img/times.svg" alt="">
+                                </button>
+                            </div>
+                            <div class="default_value">
+                                <ul class="mobile_filter-section-list">
+                                    @foreach($onlyPorts as $port)
+                                        <li>
+                                            <a class="click_port" href="#" data-id="1" data-url="{{$port['url']}}">{{$port['lang']['portname']}}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <div class="output_values">
+                                <ul class="mobile_filter-section-list output"></ul>
+                            </div>
+                        </div>
                 </div>
             </div>
         </div>

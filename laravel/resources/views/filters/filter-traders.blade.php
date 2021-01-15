@@ -1,176 +1,167 @@
 <?php
-$route_name = \Route::getCurrentRoute()->getName();
-$prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
+    $route_name = \Route::getCurrentRoute()->getName();
+    $prefix = substr($route_name, 0, strpos($route_name, '.')).'.';
+
+    if($regions->count() > 0 && !$isMobile){
+        $temp = $regions[25];
+        $regions[25] = $regions[0];
+        $regions[0] = $temp;
+    }
 ?>
-<div class="d-none d-sm-block container mt-3">
-<ol class="breadcrumbs small p-0">
-    <li>
-        <a href="/reklama">Главная</a>
-    </li>
-    <i class="fas fa-chevron-right extra-small"></i>
-    @foreach($breadcrumbs as $index_bread => $breadcrumb)
-        <li>
-            @if($breadcrumb['url'])
-                <a href="{{$breadcrumb['url']}}">
-                    <h1>{!! $breadcrumb['name'] !!}</h1>
-                </a>
-            @else
-                <h1>{!! $breadcrumb['name'] !!}</h1>
-            @endif
-        </li>
-    @endforeach
-</ol>
-</div>
-@include('traders.feed.traders_feed', ['feed' => $feed])
-<div class="bg_filters"></div>
-<div class="new_filters-wrap">
-    <div class="fixed-item">
-        <div class="new_container">
-            <div class="new_filters">
-                @include('filters.routeSection.firstSection')
-                <div class="filter__item producrion" id="choseProduct">
-                    <button class="filter__button producrion-btn">
-                        {{$culture_name}}
-                    </button>
-                    <div class="new_filters_dropdown-wrap">
-                        <div class="new_filters_dropdown">
-                            <div class="new_filters_dropdown-column">
-                                <ul>
-                                    @foreach($rubricsGroup as $group => $item)
-                                        <li class="group-culture {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
-                                            <a href="#">{{$item['groups']['name']}}</a>
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                            @foreach($rubricsGroup as $group => $item)
-                                <div class="new_filters_dropdown-content culture-group {{$item['index_group'] == $group_id ? 'active': ''}}" group="{{$group+1}}">
-                                    <ul>
-                                        @foreach($rubricsGroup[$group]['groups']["products"] as $index => $item)
-                                            <li>
-                                                @if(!empty($region))
-                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
-                                                        {{ $item['traders_product_lang'][0]['name']}}
-                                                        @if($item['count_item'] > 0)
-                                                            ({{$item['count_item']}})
-                                                        @endif
-                                                    </a>
-                                                @endif
-                                                @if(!empty($port))
-                                                    <a style="pointer-events: {{$item['count_item'] == 0 ? 'none; color:#808080' : ''}}" href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
-                                                        {{ $item['traders_product_lang'][0]['name']}}
-                                                        @if($item['count_item'] > 0)
-                                                            ({{$item['count_item']}})
-                                                        @endif
-                                                    </a>
-                                                @endif
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="filter__item second" id="all_ukraine">
-                    <button class="filter__button second">
-                        {{$region_port_name}}
-                    </button>
-                    <div class="new_filters_dropdown-wrap">
-                        <div class="new_filters_dropdown">
-                            <div class="new_filters_dropdown-column">
-                                <ul>
-                                    <li class="" id="active-region" check_active="{{!empty($region) ? true : false}}">
-                                        <a href="#">Области</a>
-                                    </li>
-                                    <li class="" id="active-port" check_active="{{!empty($port) ? true : false}}">
-                                        <a href="#">Порты</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="new_filters_dropdown-content active" id="show-region">
-                                <ul>
-                                    @foreach($regions as $index => $region)
-                                        <li>
-                                            @if(!empty($culture) && !empty($region))
-                                                <a href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
-                                                    {{$region['name']}}
-                                                </a>
-                                            @else
-                                                @if(!empty($culture_translit))
-                                                    <a href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
-                                                        {{$region['name']}}
-                                                    </a>
-                                                @else
-                                                    <a href="{{route($prefix.'region', $region['translit'])}}">
-                                                        {{$region['name']}}
-                                                    </a>
-                                                @endif
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
 
-                            <div class="new_filters_dropdown-content" id="show-port" style="column-count: 3">
-                                <ul>
-                                    @foreach($onlyPorts as $index => $port)
-                                        <li>
-                                            @if(!empty($culture) && !empty($port))
-                                                <a href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
-                                                    {{$port['portname']}}
-                                                </a>
-                                            @else
-                                                @if(!empty($culture_translit))
-                                                    <a href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
-                                                        {{$port['lang']['portname']}}
-                                                    </a>
-                                                @else
-                                                    <a href="{{route($prefix.'port', $port['url'])}}">
-                                                        {{$port['lang']['portname']}}
-                                                    </a>
-                                                @endif
-                                            @endif
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <form style="display:flex;">
-                    <div class="new_filters_checkbox first">
-                        <button type="submit" class="btn-remove" name="currency" value="0">
-                            <input class="inp-cbx" id="new_filters_currency_uah" type="checkbox"  currency="{{$currency}}">
-                        <label class="cbx" for="new_filters_currency_uah">
-                            <span>
-                              <svg width="12px" height="10px">
-                                <use xlink:href="#check"></use>
-                              </svg>
-                            </span>
-                            <span name="uah">ГРН</span>
-                        </label>
-                        </button>
-                    </div>
-                    <div class="new_filters_checkbox second">
-                        <button type="submit" class="btn-remove" name="currency" value="1">
-                            <input class="inp-cbx" id="new_filters_currency_usd" type="checkbox" currency="{{$currency}}">
-                        <label class="cbx" for="new_filters_currency_usd">
-                            <span>
-                              <svg width="12px" height="10px">
-                                <use xlink:href="#check"></use>
-                              </svg>
-                            </span>
-                            <span>USD</span>
-                        </label>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <div class="bg_filters"></div>
+    <div class="new_fitlers_container">
+    <button class="new_filters_btn" id="cultures_btn">{{$culture_name}}</button>
+    <button class="new_filters_btn" id="regions_btn">{{$region_port_name}}</button>
+
+    <div class="new_filters_dropdown" id="cultures_dropdown">
+      <div class="new_filters_dropdown_column culures_first js_first">
+        <ul>
+          @foreach($rubricsGroup as $group => $item)
+              <?php
+                  $class = '';
+
+                  if($item['index_group'] == $group_id){
+                      $class = 'active';
+                  }
+
+                  if(!$group_id && $item['index_group'] == 1){
+                      $class = 'active';
+                  }
+              ?>
+              <li class="{{$class}}" group="{{$group+1}}">
+                  <a href="#" data-id="{{$group+1}}">{{$item['groups']['name']}}</a>
+              </li>
+          @endforeach
+        </ul>
+      </div>
+      <div class="new_filters_dropdown_column content">
+          @foreach($rubricsGroup as $group => $item)
+              <?php
+                  $class = '';
+
+                  if($item['index_group'] == $group_id){
+                      $class = 'active';
+                  }
+
+                  if(!$group_id && $item['index_group'] == 1){
+                      $class = 'active';
+                  }
+              ?>
+              <div class="new_filters_dropdown_column_tab {{$class}} js_content" group="{{$group+1}}" data-id="{{$group+1}}">
+                @foreach($rubricsGroup[$group]['groups']["products"]->chunk(6) as $chunk)
+                      <div class="new_filters_dropdown_column_item">
+                          <ul>
+                              @foreach($chunk as $item)
+                                  <li>
+                                      @if(!empty($region))
+                                          <a class="{{$culture_id == $item['id'] ? 'selected_in_filter' : ''}}" href="{{route($prefix.'region_culture', [$region, $item['url']])}}">
+                                              {{ $item['traders_product_lang'][0]['name']}}
+                                              @if($item['count_item'] > 0)
+                                                  ({{$item['count_item']}})
+                                              @endif
+                                          </a>
+                                      @endif
+                                      @if(!empty($port))
+                                          <a class="{{$culture_id == $item['id'] ? 'selected_in_filter' : ''}}" href="{{route($prefix.'port_culture', [$port, $item['url']])}}">
+                                              {{ $item['traders_product_lang'][0]['name']}}
+                                              @if($item['count_item'] > 0)
+                                                  ({{$item['count_item']}})
+                                              @endif
+                                          </a>
+                                      @endif
+                                  </li>
+                              @endforeach
+                          </ul>
+                      </div>
+                @endforeach
+              </div>
+          @endforeach
+      </div>
     </div>
-</div>
 
+    <div class="new_filters_dropdown" id="cultures_dropdown">
+      <div class="new_filters_dropdown_column culures_first js_first">
+        <ul>
+          <li class="{{!empty($region) ? 'active' : ''}}">
+            <a href="#" data-id="1">Области</a>
+          </li>
+          <li class="{{!empty($port) ? 'active' : ''}}">
+            <a href="#" data-id="1">Порты</a>
+          </li>
+        </ul>
+      </div>
+      <div class="new_filters_dropdown_column content">
+        <div class="new_filters_dropdown_column_tab {{!empty($region) ? 'active' : ''}}">
+            @foreach($regions->chunk(9) as $chunk)
+                <div class="new_filters_dropdown_column_item">
+                    <ul>
+                        @foreach($chunk as $region)
+                            <?php
+                                $class = '';
+                                if($region_translit == $region['translit']){
+                                    $class = 'selected_in_filter';
+                                }
+                            ?>
+                            <li>
+                                @if(!empty($culture) && !empty($region))
+                                    <a class="{{$class}}" data-id="1"data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                        {{$region['name']}}
+                                    </a>
+                                @else
+                                    @if(!empty($culture_translit))
+                                        <a class="{{$class}}" data-id="1" data-url="{{$region['translit']}}" href="{{route($prefix.'region_culture', [$region['translit'], $culture_translit])}}">
+                                            {{$region['name']}}
+                                        </a>
+                                    @else
+                                        <a class="{{$class}}" data-id="1" data-title="{{$region['name']}}" data-url="{{$region['translit']}}" href="{{route($prefix.'region', $region['translit'])}}">
+                                            {{$region['name']}}
+                                        </a>
+                                    @endif
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+        </div>
+
+        <div class="new_filters_dropdown_column_tab {{!empty($port) ? 'active' : ''}}">
+            @foreach($onlyPorts->chunk(5) as $chunk)
+                <div class="new_filters_dropdown_column_item">
+                    <ul>
+                        @foreach($chunk as $port)
+                            <?php
+                                $class = '';
+                                if($port_translit == $port['url']){
+                                    $class = 'selected_in_filter';
+                                }
+                            ?>
+                            <li>
+                                @if(!empty($culture) && !empty($port))
+                                    <a class="{{$class}}" data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                        {{$port['lang']['portname']}}
+                                    </a>
+                                @else
+                                    @if(!empty($culture_translit))
+                                        <a class="{{$class}}" data-id="1" href="{{route($prefix.'port_culture', [$port['url'], $culture_translit])}}">
+                                            {{$port['lang']['portname']}}
+                                        </a>
+                                    @else
+                                        <a class="{{$class}}" data-id="1" href="{{route($prefix.'port', $port['url'])}}">
+                                            {{$port['lang']['portname']}}
+                                        </a>
+                                    @endif
+                                @endif
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endforeach
+        </div>
+      </div>
+    </div>
+  </div>
 
 <style>
     .btn-remove{

@@ -1,15 +1,17 @@
-@extends('layout.layout', ['title' => $meta['title'],
-'keywords' => $meta['keywords'],
-'description' => $meta['description']])
+@extends('layout.layout', ['title' => $meta['meta_title'],
+'keywords' => $meta['meta_title'],
+'description' => $meta['meta_title']])
 
 @section('content')
-
-    @include('company.company-header', ['id' => $id, 'company_name' => $company['title']])
-
-    <div class="container">
+    @if($isMobile)
+        @include('mobile.company-header-mobile')
+    @else
+        @include('company.company-header', ['id' => $id])
+    @endif
+    <div class="new_container">
         <div class="row mt-4 pt-sm-3 mx-0 mx-sm-5 align-items-center justify-content-between">
             <div class="col-4 d-block">
-                <h2 class="d-inline-block text-uppercase">Отзывы</h2>
+                <h2 class="d-inline-block">Отзывы</h2>
             </div>
             <div class="col-8 text-center text-md-right" id="reviews">
                 <a href="#" class="top-btn btn btn-primary align-bottom addReview">
@@ -20,7 +22,7 @@
             </div>
         </div>
     </div>
-    <div class="container mb-5">
+    <div class="new_container mb-5">
     @forelse($reviews_with_comp as $review)
         <div class="content-block mt-4 review pt-3 mx-0 mx-sm-5">
             <div class="row comment-row px-3" review-id="{{ $review['id'] }}">

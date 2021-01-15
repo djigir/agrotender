@@ -6,8 +6,17 @@ use App\Models\Elevators\TorgElevator;
 use App\Models\Regions\Regions;
 use Illuminate\Database\Eloquent\Model;
 
+
+/**
+ * Class Rayon
+ * @package App\Models\Comp
+ * @property integer $id
+ * @property integer $obl_id
+ * @property string $ray_url
+ */
 class Rayon extends Model
 {
+
     protected $table = 'rayon';
 
     protected $fillable = [

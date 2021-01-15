@@ -152,8 +152,30 @@ class AgtNews extends Section implements Initializable
                 AdminFormElement::text('NewsLang.title', 'Заголовок')
                     ->required(),
 
-                AdminFormElement::textarea('NewsLang.content', 'Текст'),
 
+                AdminFormElement::image('filename_src', "Картинка")
+                    ->setHtmlAttribute('class', 'logo-img')
+                    ->addScript('my', asset('/app/assets/my_js/admin.js'))
+                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
+                    //Здесь ваша логика на сохранение картинки
+                        $path = 'files/news/';
+                        $full_path = "/var/www/agrotender/{$path}";
+                        $file->move($full_path, $filename);
+                        $value = $path . $filename;
+
+
+                      return ['path' => asset($value), 'value' => $value = $path . $filename];
+                }),
+
+
+
+                AdminFormElement::html('<hr>'),
+
+                AdminFormElement::datetime('dtime', 'Дата')
+                    ->setVisible(true)
+                    ->setReadonly(false),
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
 
                 AdminFormElement::select('first_page', 'На главную')
                     ->setOptions([
@@ -167,35 +189,9 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
+                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
 
-                AdminFormElement::image('filename_src', "Картинка")
-                    ->setHtmlAttribute('class', 'logo-img')
-                    ->addScript('my', asset('/app/assets/my_js/admin.js'))
-                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
-                        //Здесь ваша логика на сохранение картинки
-                        $filename = $id.'-news.png';
-                        $path = 'files/news/';
-                        $full_path = "/var/www/agrotender/{$path}";
-                        $file->move($full_path, $filename);
-                        $value = $path . $filename;
-
-
-                        return ['path' => asset($value), 'value' => $value = $path . $filename];
-                    }),
-
-
-                AdminFormElement::html('<hr>'),
-
-                AdminFormElement::datetime('dtime', 'Дата')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-
-                AdminFormElement::text('id', 'ID')->setReadonly(true)
-
-                    ->setHtmlAttribute('class', 'text-right'),
-            ], 'col-xs-12 col-sm-6 col-md-2 col-lg-2'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -227,8 +223,6 @@ class AgtNews extends Section implements Initializable
                 AdminFormElement::text('NewsLang.title', 'Заголовок')
                     ->required(),
 
-                AdminFormElement::textarea('NewsLang.content', 'Текст'),
-
 
                 AdminFormElement::select('first_page', 'На главную')
                     ->setOptions([
@@ -244,6 +238,7 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ])->required(),
 
+
                 AdminFormElement::image('filename_src', "Картинка")
                     ->setHtmlAttribute('class', 'logo-img')
                     ->setSaveCallback(function ($file, $path, $filename, $settings) {
@@ -257,9 +252,19 @@ class AgtNews extends Section implements Initializable
                         return ['path' => asset($value), 'value' => $value = $path . $filename];
                     }),
 
+
+            ], 'col-xs-12 col-sm-9 col-md-6 col-lg-6')->addColumn([
+
+                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
+
+
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
 
-            ], 'col-xs-12 col-sm-9 col-md-11 col-lg-11')
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
+
+
+
+
         ]);
 
         $form->getButtons()->setButtons([

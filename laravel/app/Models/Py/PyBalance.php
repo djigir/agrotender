@@ -2,6 +2,7 @@
 
 namespace App\Models\Py;
 
+
 use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Torg\TorgBuyer;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 class PyBalance extends Model
 {
     protected $table = 'py_balance';
+
 
     public $timestamps = false;
 
@@ -35,4 +37,6 @@ class PyBalance extends Model
     {
         return $this->hasMany(BuyerTarifPacks::class, 'id', 'debit_type');
     }
+
+
 }

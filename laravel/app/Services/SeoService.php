@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Comp\CompItems;
 use App\Models\Comp\CompTopic;
+use App\Models\Rayon\Rayon;
+use App\Models\Rayon\RayonLang;
 use App\Models\Regions\Regions;
 
 use App\Models\Pages\Pages;
@@ -12,6 +14,8 @@ use App\Models\Traders\Traders_Products_Lang;
 use App\Models\Traders\TradersPortsLang;
 use App\Models\Traders\TradersProductGroupLanguage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
+use phpDocumentor\Reflection\File;
 
 
 class SeoService
@@ -53,9 +57,8 @@ class SeoService
             $text = $this->parseSeoText($region, $rubric['page_descr']);
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
-
 
     public function getTradersMetaRegion($region, $culture)
     {
@@ -83,7 +86,7 @@ class SeoService
             $text = '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaPort($port, $culture)
@@ -108,14 +111,11 @@ class SeoService
             $text = $port != "all" ? $port['p_content'] : '';
         }
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaForward($region, $culture, $port)
     {
-        /*if(empty($region) || empty($port)){
-            return false;
-        }*/
         $year = date('Y');
         $yearsText = $year . '-' . ($year + 1);
 
@@ -146,7 +146,7 @@ class SeoService
        }
 
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMetaSell($region, $culture)
@@ -163,7 +163,7 @@ class SeoService
         $description = '';
         $text = '';
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description, 'h1' => $h1, 'text' => $text];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description, 'meta_h1' => $h1, 'meta_text' => $text];
     }
 
     public function getTradersMeta($data)
@@ -202,26 +202,69 @@ class SeoService
         $keywords = $company['title'];
         $description = mb_substr(strip_tags($company['content']), 0, 200);
 
-        return ['title' => $title, 'keywords' => $keywords, 'description' => $description];
+        return ['meta_title' => $title, 'meta_keywords' => $keywords, 'meta_description' => $description];
     }
+
 
     public function getMetaCompanyContacts($id_company)
     {
         $company = CompItems::find($id_company);
 
-        return ['title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
-            'keywords' => $company->title,
-            'description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
+        return ['meta_title' => "Контакты трейдера {$company->title} - узнать на Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "На этой странице Вы сможете ознакомиться с контактной информацией трейдера {$company->title}. Агрорынок №1 для покупки и сбыта сельскохозяйственной продукции. У нас выгодно!"];
     }
+
 
     public function getMetaCompanyReviews($id_company)
     {
         $company = CompItems::find($id_company);
 
-        return   ['title' => "Отзывы о {$company->title} на сайте Agrotender",
-            'keywords' => $company->title,
-            'description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
+        return   ['meta_title' => "Отзывы о {$company->title} на сайте Agrotender",
+            'meta_keywords' => $company->title,
+            'meta_description' => "Свежие и актуальные отзывы о компании {$company->title}. Почитать или оставить отзыв о компании {$company->title}"];
     }
+
+
+    public function getMetaCompanyForward($id)
+    {
+        $company = CompItems::find($id);
+
+        if(!$company){
+            return ['meta_title' => '', 'meta_keywords' => '', 'meta_description' => ''];
+        }
+
+        return [
+            'meta_title' => $company->title,
+            'meta_keywords' => $company->title,
+            'meta_description' => "Сайт компании {$company->title}"
+        ];
+    }
+
+
+    public function getMetaElevators()
+    {
+        $h1 = "Элеваторы";
+        $title = "Элеваторы Украины. ХПП, КХП.";
+        $description = "Уважаемые пользователи сайта АГРОТЕНДЕР, позвольте предоставить вашему вниманию Элеваторы Украины. Здесь вы найдете всю необходимую информацию по контактным данным хлебоприемных предприятий нашей страны.";
+        $keywords = "Элеваторы Украины, список элеваторов, каталог элеваторов, КХП, ХПП.";
+
+        return ['meta_h1' => $h1, 'meta_title' => $title, 'meta_description' => $description, 'meta_keywords' => $keywords];
+    }
+
+    public function getMetaElev($data)
+    {
+        $region = Regions::where('id', $data->obl_id)->get()[0];
+        $rayon = RayonLang::where('ray_id', $data->ray_id)->get()[0];
+
+        $h1 = "{$data['lang_elevator'][0]['name']}";
+        $title = "{$data['lang_elevator'][0]['name']} в {$region['name']} области, {$rayon->name}. Тендерные торги Агротендер";
+        $description = "{$data['lang_elevator'][0]['orgname']}, {$region['name']} области";
+        $keywords = "элеватор, {$data['lang_elevator'][0]['name']} в {$region['name']} области";
+
+        return ['meta_h1' => $h1, 'meta_title' => $title, 'meta_description' => $description, 'meta_keywords' => $keywords];
+    }
+
 
     public function parseSeoText($region, $str)
     {
@@ -230,12 +273,14 @@ class SeoService
         $city1 = $region['city'] ?? '';
         $city2 = $region['city_adverb'] ?? 'Украине';
         $city3 = $region['city_parental'] ?? 'Украины';
+
         $seostr = $str;
         $seostr = str_replace("__oblname__", $obl1, $seostr);
         $seostr = str_replace("__oblname2__", $obl2, $seostr);
         $seostr = str_replace("__cityname__", $city1, $seostr);
         $seostr = str_replace("__cityname2__", $city2, $seostr);
         $seostr = str_replace("__cityname3__", $city3, $seostr);
+//        $seostr = str_replace("__rubric_title__", isset($rubric['title']) ? : $rubric['name'], $seostr);
 
         $year = date("Y", time());
 

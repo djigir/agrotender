@@ -13,16 +13,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class AdminController extends Controller
 {
-    public function loginAsUser(Request $request)
-    {
-        $user_id = $request->get('user_id');
-
-        $user_old = TorgBuyer::find($user_id)->toArray();
-        $user = User::firstOrCreate(['user_id' => $user_old['id']], $user_old);
-        \auth()->login($user);
-        return redirect()->route('company.companies');
-
-    }
 
     public function downloadUsers(Request $request)
     {

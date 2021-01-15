@@ -14,7 +14,7 @@ class Main extends \Core\Controller {
         $this->view
             ->setData($this->data + $this->utils->getMenu($this->data['page']) + ['detect' => new \Core\MobileDetect, 'user' => $this->user, 'banners' => $this->utils->getBanners()])
             ->setHeader([
-                ['bootstrap.min.css', 'noty.css', 'noty/nest.css', 'fontawesome.min.css'],
+                ['bootstrap.min.css', 'noty.css', 'noty/nest.css', 'fontawesome.min.css', 'swiper.min.css'],
                 'main/home' => ['swiper.min.css'],
                 'main/(traders_analitic|traders_analitic-s)' => ['bootstrap-datepicker.min.css'],
                 'main/(traders|traders-s|traders_dev)' => ['swiper.min.css'],
@@ -23,7 +23,7 @@ class Main extends \Core\Controller {
                 ['styles.css']
             ])
             ->setFooter([
-                ['jquery-3.3.1.min.js', 'popper.min.js', 'bootstrap.min.js', 'noty.min.js', 'jquery.validate.min.js', 'jquery.mask.min.js', 'html2canvas.js', 'color-thief.min.js'],
+                ['jquery-3.3.1.min.js', 'popper.min.js', 'bootstrap.min.js', 'noty.min.js', 'jquery.validate.min.js', 'jquery.mask.min.js', 'html2canvas.js', 'color-thief.min.js', 'swiper.min.js', 'clamp.min.js'],
                 'main/home' => ['swiper.min.js', 'clamp.min.js'],
                 'main/(traders_analitic|traders_analitic-s)' => ['bootstrap-datepicker.min.js', 'bootstrap-datepicker.ru.min.js', 'highcharts.js'],
                 'main/(traders|traders-s|traders_dev)' => ['jquery.dataTables.min.js', 'stringMonthYear.js', 'swiper.min.js'],
@@ -1415,10 +1415,10 @@ class Main extends \Core\Controller {
             $phone      = $this->request->post['phone'];
 
             //$region     = $this->request->post['region'];
-            $code = $this->request->post['code'];
+
+            $code       = $this->request->post['code'];
             // check if correct confirm code
-//            if ($code == $this->session->get('code')) {
-            if ($code == 1111) {
+            if ($code == $this->session->get('code')) {
                 // register process
                 $this->user->register($email, $password, 0, $name, $phone); // without region
             } else {

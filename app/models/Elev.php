@@ -8,7 +8,8 @@ class Elev extends \Core\Model {
 
   public function getItem($url) {
     $elev = $this->db->query("
-      select e.id, e.phone, e.email, el.name, el.addr, el.orgname, el.orgaddr, el.holdcond, el.descr_podr, el.descr_qual, el.director, r.name as region, r.parental as region_parental, r.translit as region_translit, rl.name as ray
+      select e.id, e.phone, e.email, el.name, el.addr, el.orgname, el.orgaddr, el.holdcond, 
+      el.descr_podr, el.descr_qual, el.director, r.name as region, r.parental as region_parental, r.translit as region_translit, rl.name as ray
         from agt_torg_elevator e
         inner join agt_torg_elevator_lang el
           on el.item_id = e.id

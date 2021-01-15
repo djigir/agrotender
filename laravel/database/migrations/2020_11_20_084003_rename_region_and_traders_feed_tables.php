@@ -13,8 +13,8 @@ class RenameRegionAndTradersFeedTables extends Migration
      */
     public function up()
     {
-        Schema::rename('regions', 'agt_regions');
-        Schema::rename('traders_feed', 'agt_traders_feed');
+        Schema::connection('mysql_not_prefix')->rename('regions', 'agt_regions');
+        Schema::connection('mysql_not_prefix')->rename('traders_feed', 'agt_traders_feed');
     }
 
     /**
@@ -24,7 +24,7 @@ class RenameRegionAndTradersFeedTables extends Migration
      */
     public function down()
     {
-        Schema::rename('agt_regions', 'regions');
-        Schema::rename('agt_traders_feed', 'traders_feed');
+        Schema::connection('mysql_not_prefix')->rename('agt_regions', 'regions');
+        Schema::connection('mysql_not_prefix')->rename('agt_traders_feed', 'traders_feed');
     }
 }

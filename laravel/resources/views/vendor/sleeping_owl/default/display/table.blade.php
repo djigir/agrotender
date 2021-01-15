@@ -51,7 +51,7 @@
 
         @if ($creatable)
             <a href="{{ url($createUrl) }}" class="btn btn-primary btn-create"
-               @if($route == '/admin_dev/torg_buyers?type=email_adverts' || $route == '/admin_dev/torg_buyers')
+               @if($route == '/admin_dev/torg_buyers?type=email_adverts' || $route == '/admin_dev/torg_buyers' || $route == '/admin_dev/py_bill_docs')
                style="display: none" @endif>
                 <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
             </a>

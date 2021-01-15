@@ -4,6 +4,7 @@ namespace App\Models\Users;
 
 
 use App\Models\Comp\CompItems;
+use App\Models\Py\PyBalance;
 use App\Notifications\CustomChangeLoginNotification;
 use Carbon\Carbon;
 use Core\Request;
@@ -100,6 +101,12 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+
+
+    public function getBalance()
+    {
+        return PyBalance::select(\DB::raw('round(coalesce(sum(amount), 0)) as balance'))->where('buyer_id', $this->user_id)->get()[0]['balance'];
+    }
     /**
      * The attributes that should be cast to native types.
      *
@@ -108,6 +115,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
 
     public function getEmailForPasswordReset()
     {
@@ -125,4 +133,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(CompItems::class, 'author_id', 'user_id');
     }
+
 }

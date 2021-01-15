@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ADV\AdvTorgPost;
 use App\Models\Comp\CompComment;
 use App\Models\Comp\CompCommentLang;
 use App\Models\Comp\CompTopic;
@@ -21,6 +22,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Validator;
 
@@ -32,6 +34,7 @@ class CompanyController extends Controller
     protected $seoService;
     protected $agent;
     protected $company;
+
 
     public function __construct(CompanyService $companyService, BaseServices $baseServices, SeoService $seoService, BreadcrumbService $breadcrumbService)
     {
@@ -56,7 +59,8 @@ class CompanyController extends Controller
 
     private function regionName($region)
     {
-        $name = Regions::where('translit', $region)->value('name'). ' область';
+//        $name = Regions::where('translit', $region)->value('name'). ' область';
+        $name = Regions::where('translit', $region)->value('name');
 
         if($region == 'crimea'){
             $name = 'АР Крым';
@@ -72,16 +76,23 @@ class CompanyController extends Controller
 
     public function setDataForCompanies($data)
     {
-        $regions = $this->companyService->setRegions($this->baseServices->getRegions()->slice(1, -1), $data->get('rubric_id'));
+        $regions = $this->companyService->setRegions($this->baseServices->getRegions(), $data->get('rubric_id'));
         $region_name = $this->regionName($data->get('region'));
         $rubric_id = $data->has('rubric_id') ? $data->get('rubric_id') : null;
         $region_id = null;
         $region = $data->get('region');
         $culture_name = $data->get('rubric_id') ? CompTopic::where('id', $rubric_id)->first() : null;
-        $culture_name = $culture_name  ? $culture_name->title : 'Все рубрики';
+        $group_id =  $culture_name  ? $culture_name->menu_group_id : null;
+        $check_phone = $this->agent->isMobile() ? 1 : 0;
+        $culture_name = $culture_name  ? $culture_name->title : 'Виды деятельности';
 
         if($data->get('region') != 'ukraine' && $data->get('region')) {
             $region = Regions::where('translit', $data->get('region'))->first();
+
+            if(!$region) {
+                return redirect()->route('company.region', 'ukraine');
+            }
+
             $region_id = $region->id;
         }
 
@@ -100,11 +111,13 @@ class CompanyController extends Controller
             'rubric_id' => $rubric_id,
             'culture_name' => $culture_name,
             'region_id' => $region_id,
+            'region_translit' => $data->get('region'),
             'query' => $data->get('query'),
             'meta' => $meta,
             'isMobile' => $this->agent->isMobile(),
             'breadcrumbs' => $breadcrumbs,
             'page_type' => 0,
+            'group_id' => $group_id,
         ]);
     }
 
@@ -220,12 +233,8 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
 
-        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])
-            ->orderBy('dt')
-            ->limit(1)
-            ->value('change_date');
-
-        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.y') : null;
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 0]])->get()->max('change_date');
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         $data_port = $this->companyService->getTraderPricesRubrics($id, 2);
         $data_region = $this->companyService->getTraderPricesRubrics($id, 0);
@@ -243,6 +252,11 @@ class CompanyController extends Controller
 
         $meta = $this->seoService->getMetaForOneCompany($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
+        $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
+        $departments_contacts = $this->companyService->departamentsContacts($id);
+        $creator_departament_name = $this->companyService->getDepNameAndCreator($this->company->author_id, $departments_contacts);
 
         return view('company.company', [
             'company' => $this->company,
@@ -256,8 +270,14 @@ class CompanyController extends Controller
             'statusCurtypePort' => $statusCurtypePort,
             'statusCurtypeRegion' => $statusCurtypeRegion,
             'meta' => $meta,
+            'max_days' => 5,
+            'traders_contacts' => $traders_contacts,
+            'company_contacts' => $company_contacts,
+            'creator' => $creator_departament_name['creators'],
+            'departament_name' => $creator_departament_name['departament_name'],
             'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
             'current_page' => 'main',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -268,8 +288,8 @@ class CompanyController extends Controller
     /**
     * Display a listing of the resource.
     * @param $id
-    * @return Factory|View
-    */
+    * @return \Illuminate\Contracts\Foundation\Application|Factory|\Illuminate\Http\RedirectResponse|View
+     */
     public function companyForwards($id)
     {
         $this->setCompany($id);
@@ -278,6 +298,19 @@ class CompanyController extends Controller
         $prices_port = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 2);
         $prices_region = $this->companyService->getPricesForwards($this->company->author_id, 3, reset($forward_months), 0);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
+
+        if(!$checkForward){
+            return redirect()->route('company.index', $id);
+        }
+
+        $meta = $this->seoService->getMetaCompanyForward($id);
+        $updateDate = TradersPrices::where([['buyer_id', $this->company->author_id], ['acttype', 3]])
+            ->orderBy('change_date', 'desc')
+            ->limit(1)
+            ->value('change_date');
+
+        $updateDate = $updateDate != '' ? Carbon::parse($updateDate)->format('d.m.Y') : null;
 
         foreach ($prices_port as $index => $price){
             if($price['traders_places']->count() == 0){
@@ -301,8 +334,6 @@ class CompanyController extends Controller
             ->sortBy('cultures.0.name')
             ->pluck('cultures.0.name', 'cult_id');
 
-
-
         return view('company.company_forwards', [
             'company' => $this->company,
             'prices_port' => $prices_port,
@@ -310,7 +341,10 @@ class CompanyController extends Controller
             'prices_region' => $prices_region,
             'rubrics_region' => $rubrics_region,
             'id' => $id,
+            'meta' => $meta,
+            'updateDate' => $updateDate,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
             'current_page' => 'forwards',
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0
@@ -374,6 +408,8 @@ class CompanyController extends Controller
         $reviews_with_comp = $this->companyService->getReviews($id);
         $meta = $this->seoService->getMetaCompanyReviews($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
+
         return view('company.company_reviews', [
             'reviews_with_comp' => $reviews_with_comp,
             'company' => $this->company,
@@ -383,8 +419,8 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
         ]);
-
     }
 
 
@@ -397,19 +433,21 @@ class CompanyController extends Controller
     {
         $this->setCompany($id);
         $company_contacts = CompItemsContact::with('compItems2')->where('comp_id', $id)->get();
-        $departments_type = CompItemsContact::where('comp_id', $id)->get();
-        $creator_departament_name = $this->companyService->getContacts($this->company->author_id, $departments_type);
 
-        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)
-            ->with('traders_contacts')
-            ->get();
+        $departments_contacts = $this->companyService->departamentsContacts($id);
+
+        $creator_departament_name = $this->companyService->getDepNameAndCreator($this->company->author_id, $departments_contacts);
+
+        $traders_contacts = TradersContactsRegions::where('traders_contacts_regions.comp_id', $id)->with('traders_contacts')->get();
 
         $meta = $this->seoService->getMetaCompanyContacts($id);
         $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
 
-        return view('company.company_cont', [
+        return view('company.company_contacts_tab', [
             'company' => $this->company,
-            'creator' => $creator_departament_name["creators"],
+            'departments_contacts' => $departments_contacts,
+            'creator' => $creator_departament_name['creators'],
             'company_contacts' => $company_contacts,
             'departament_name' => $creator_departament_name['departament_name'],
             'traders_contacts' => $traders_contacts,
@@ -419,6 +457,48 @@ class CompanyController extends Controller
             'isMobile' => $this->agent->isMobile(),
             'page_type' => 0,
             'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
         ]);
+    }
+
+    public function companyPrices($id)
+    {
+        return redirect()->route('company.index', $id);
+    }
+
+
+    public function companyAdverts($id, Request $request)
+    {
+        $this->setCompany($id);
+
+        $checkForward = $this->companyService->checkForward($this->company->author_id, $id);
+        $type = $request->get('type');
+        $get_adverts_data = $this->companyService->getAdverts($this->company->author_id, $type);
+        $checkAdverts = $this->companyService->checkAdverts($this->company->author_id);
+        $meta = [
+            'meta_title' => $this->company->title,
+            'meta_keywords' => $this->company->title,
+            'meta_description' => 'Сайт компании '.$this->company->title
+        ];
+
+        if(!$checkAdverts){
+            return redirect()->route('company.index', $id);
+        }
+
+        return view('company.company_adverts', [
+            'company' => $this->company,
+            'id' => $id,
+            'adverts' => $get_adverts_data->get('adverts'),
+            'rubric_advert' => $get_adverts_data->get('rubric'),
+            'image_advert' => $get_adverts_data->get('image'),
+            'type' => $type,
+            'meta' => $meta,
+            'current_page' => 'adverts',
+            'isMobile' => $this->agent->isMobile(),
+            'page_type' => 0,
+            'check_forwards' => $checkForward,
+            'check_adverts' => $checkAdverts,
+        ]);
+
     }
 }

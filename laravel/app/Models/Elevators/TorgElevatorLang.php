@@ -24,8 +24,7 @@ class TorgElevatorLang extends Model
 {
     protected $table = 'torg_elevator_lang';
 
-    protected $fillable =
-        [
+    protected $fillable = [
             'id', 'item_id', 'lang_id', 'name',
             'addr', 'orgname', 'orgaddr', 'holdcond',
             'descr_podr', 'descr_qual', 'director'

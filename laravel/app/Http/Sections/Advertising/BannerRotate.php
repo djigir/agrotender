@@ -114,7 +114,16 @@ class BannerRotate extends Section implements Initializable
                     ]),
                     AdminFormElement::date('dt_start', 'Утвержденный период с'),
                     AdminFormElement::date('dt_end', 'Утвержденный период по'),
-                    AdminFormElement::image('ban_file','Картинка'),
+                    AdminFormElement::image('ban_file', "Картинка")
+                        ->setHtmlAttribute('class', 'logo-img')
+                        ->addScript('my', asset('/app/assets/my_js/admin.js'))
+                        ->setSaveCallback(function ($file, $path, $filename, $settings) {
+                            $path = 'files/pict/';
+                            $full_path = "/var/www/agrotender/{$path}";
+                            $file->move($full_path, $filename);
+                            $value = $path . $filename;
+                            return ['path' => asset($value), 'value' => $value = $path . $filename];
+                    }),
                     AdminFormElement::text('ban_link','Url Ссылки'),
                 ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                     AdminFormElement::html("
