@@ -156,6 +156,10 @@ return [
             (new Page(\App\Models\Traders\TradersPorts::class))
                 ->setIcon('fas fa-anchor')
                 ->setPriority(0),
+
+            (new Page(\App\Models\Traders\TradersProductGroups::class))
+                ->setIcon('fas fa-layer-group')
+                ->setPriority(0),
         ]
     ],
 
