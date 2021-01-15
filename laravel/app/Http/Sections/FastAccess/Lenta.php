@@ -64,16 +64,15 @@ class Lenta extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
-            AdminColumn::text('id', 'ID')->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('author', 'Компания')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('150px')->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
+            AdminColumn::text('author', 'Компания')->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
             AdminColumn::link('title', 'Запись в ленте')->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
-                }),
-            AdminColumn::text('add_date', 'Дата создания')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('up_dt', 'Дата обновления')->setHtmlAttribute('class', 'text-center'),
+                })->setWidth('400px'),
+            AdminColumn::text('add_date', 'Дата создания')->setHtmlAttribute('class', 'text-center')->setWidth('250px'),
+            AdminColumn::text('up_dt', 'Дата обновления')->setHtmlAttribute('class', 'text-center') ->setWidth('250px'),
         ];
 
         $display = AdminDisplay::datatables()

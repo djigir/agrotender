@@ -58,7 +58,6 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('80px')
@@ -119,9 +118,9 @@ class TorgBuyer extends Section implements Initializable
             })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Действие', function (\Illuminate\Database\Eloquent\Model $model) {
+                $WWWHOST = 'https://agrotender.com.ua/';
                 return "<div class='row-text'>
-                        <a href=".route('admin.login_as_user', ['user_id' => $model->id])."
-                                    class='btn btn-success small' target='_blank'>Войти</a>
+                        <a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($model->login)."&buyerpass=".stripslashes($model->passwd)."\" target='_blank' class='btn btn-success small'>Войти</a>
                     </div>";
             })->setHtmlAttribute('class', 'text-center'),
 

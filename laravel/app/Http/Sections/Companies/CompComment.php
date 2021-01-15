@@ -64,27 +64,24 @@ class CompComment extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
-
-            AdminColumn::text('author_id', 'User ID')
-                ->setWidth('80px')
+            AdminColumn::text('author_id', 'User ID')->setWidth('90px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('author', 'Автор', 'add_date')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+                })->setHtmlAttribute('class', 'text-center')->setWidth('180px'),
 
             AdminColumn::text('compItem.title', 'Компания')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('item_id', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+                })->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::text('compCommentLang.content', 'Отзыв')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                })->setWidth('400px')
+                })->setWidth('420px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Показать на сайте', function (Model $model) {
@@ -95,13 +92,13 @@ class CompComment extends Section implements Initializable
                     $style = 'color:red';
                 }
                 return "<div class='row-text text-center' style='{$style}'>{$show}</div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
 
             AdminColumn::custom('Жалобы', function (Model $model) {
                 return "<div class='row-link text-center'>
                             <a href='{$model->UsersComplains()}?UsersComplains[comment_id]={$model->id}' target='_blank'>{$model['compCommentComplains']->count()}</a>
                         </div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
 
         ];
 

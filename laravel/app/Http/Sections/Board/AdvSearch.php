@@ -72,17 +72,19 @@ class AdvSearch extends Section implements Initializable
                 })
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('rating', $direction);
-                }),
+            })->setWidth('150px'),
 
             AdminColumn::text('advTorgTopic.title', 'Раздел')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('topic_id', $direction);
-                }),
+            })->setWidth('80px'),
 
             AdminColumn::text('add_date', 'Дата создания')
+                ->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('rating', 'Рейтинг')
+                ->setWidth('70px')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 
