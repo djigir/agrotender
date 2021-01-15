@@ -26,7 +26,8 @@ window.onload = function (){
 
     let img_input = $('.logo-img').find('img');
     let src = img_input.attr('src');
-    let src_to_database = src.split('/')[4];
+    //let src_to_database = src.split('/')[4];
+    let src_to_database = '';
     /* ссылка чтобы открыть изображение на весь экран */
     let link = $('.form-element-files__image');
 
@@ -40,7 +41,10 @@ window.onload = function (){
         let link_for_preload = link.attr('href', window.location.origin+'/files/pict/'+src_to_database)
     }
 
-
+    if(str.indexOf('faq_groups') !== -1){
+        let for_preview = img_input.attr('src', src.replace(window.location.host, window.location.host + '/files'))
+        let link_for_preload = link.attr('href', window.location.origin+'/files/'+src_to_database)
+    }
 }
 
 

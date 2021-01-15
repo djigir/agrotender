@@ -174,6 +174,10 @@ return [
                 ->setIcon('fas fa-comments')
                 ->setPriority(0),
 
+            (new Page( \App\Models\Faq\FaqGroup::class))
+                ->setIcon('fas fa-comments')
+                ->setPriority(3),
+
         ]
     ],
 

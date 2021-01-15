@@ -124,8 +124,6 @@ class BannerRotate extends Section implements Initializable
                             $value = $path . $filename;
                             return ['path' => asset($value), 'value' => $value = $path . $filename];
                     }),
-                   // AdminFormElement::image('ban_file','Картинка')
-
                     AdminFormElement::text('ban_link','Url Ссылки'),
                 ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                     AdminFormElement::html("

@@ -45,6 +45,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
                                 /* Новости/Библиотека */
         \App\Models\News\News::class => 'App\Http\Sections\News\AgtNews',
         \App\Models\News\NewsComment::class => 'App\Http\Sections\News\AgtNewsComment',
+        \App\Models\Faq\FaqGroup::class => 'App\Http\Sections\News\FaqGroup',
 
 
                                 /* Доска объявлений  board */
