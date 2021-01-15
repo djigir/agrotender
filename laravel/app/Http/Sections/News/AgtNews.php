@@ -189,7 +189,7 @@ class AgtNews extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-                AdminFormElement::textarea('NewsLang.content', 'Текст'),
+                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
@@ -255,7 +255,7 @@ class AgtNews extends Section implements Initializable
 
             ], 'col-xs-12 col-sm-9 col-md-6 col-lg-6')->addColumn([
 
-                AdminFormElement::textarea('NewsLang.content', 'Текст'),
+                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
 
 
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
