@@ -1,7 +1,9 @@
 window.onload = (() => {
     const $loader = document.querySelector('.preloader_new')
     if ($loader) {
-        $loader.classList.add('hidden')
+        setTimeout(() => {
+            $loader.classList.add('hidden')
+        }, 450)
     }
 
     const $headerWrap = document.querySelector('.header__wrap')

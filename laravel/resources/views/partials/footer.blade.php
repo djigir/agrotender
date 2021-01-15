@@ -84,14 +84,14 @@
 <script src="/app/assets/js/bootstrap.bundle.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.min.js"></script>
 <script src="/app/assets/js/bootstrap-datepicker.ru.min.js"></script>
-<script src="/app/assets/js/color-thief-new.min.js"></script>
+<script src="/app/assets/js/color-thief-new.min.js?d=57"></script>
 
-<script src="/app/assets/my_js/events.js"></script>
-<script src="/app/assets/new_js/company.js"></script>
-<script src="/app/assets/new_js/filters.js"></script>
-<script src="/app/assets/new_js/header.js"></script>
-<script src="/app/assets/new_js/utils.js"></script>
-<script src="/app/assets/new_js/traders.js"></script>
+<script src="/app/assets/my_js/events.js?d=115"></script>
+<script src="/app/assets/new_js/company.js?d=57"></script>
+<script src="/app/assets/new_js/filters.js?d=57"></script>
+<script src="/app/assets/new_js/utils.js?d=57"></script>
+<script src="/app/assets/new_js/traders.js?d=57"></script>
+<script src="/app/assets/new_js/header.js?d=62"></script>
 
 {{--<script src="/app/assets/js/app.js"></script>--}}
 </body>

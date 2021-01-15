@@ -7,7 +7,7 @@
                 @foreach ($feed as $item)
                 <div class="swiper-slide swiper-slide-active" style="width: 207.5px; margin-right: 20px;">
                     <a href="{{ route('company.index', $item['comp_id']) }}" class="new_feed-item">
-                        <span class="new_feed-item-title">{{ $item['comp_title'] }}</span>
+                        <span class="new_feed-item-title">{{ \Illuminate\Support\Str::limit($item['comp_title'], 21, $end='...') }}</span>
                         <div class="new_feed-item-state {{ $item['onchange_class']  }}">{{ $item['onchange'] }}</div>
                         @foreach($item['tpl_name'] as $culture)
                         <ul>
