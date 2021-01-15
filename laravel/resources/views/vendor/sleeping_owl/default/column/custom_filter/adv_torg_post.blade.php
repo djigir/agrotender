@@ -6,9 +6,11 @@
     //region
     $regions = Regions::query()->pluck('name','id');
     //ad
-    $ad_types = [1 =>'Куплю',
+    $ad_types = [
+        1 =>'Куплю',
                  2 => 'Продам',
-                 3 => 'Услуги'];
+                 3 => 'Услуги'
+                 ];
     //group
     $groups = AdvTorgTgroups::query()->select(['id', 'title'])->pluck('title', 'id')->toArray();
     $subgroups = AdvTorgTopic::query()->where('parent_id', '0')->select('id', 'title', 'menu_group_id')->get()->groupBy('menu_group_id')->toArray();
@@ -24,12 +26,12 @@
     $period =[1 => 'Сегодня',
               2 => 'За 7 дней'];
     //session dont ready
-    $session = [1 => 'Нет',
-                2 => 'Да'];
+    $session = [
+         1 => 'Нет',
+         2 => 'Да'
+        ];
     //active
-    $active = [1 => 'Активные не арх.',
-               2 => 'Активные арх.',
-               3 => 'Все'];
+    $active = [ 1 => 'Активные не арх.', 2 => 'Активные арх.', 3 => 'Все' ];
     //improvements
     $improvements = [1 => 'Объявления в топе.',
                      2 => 'Выделенные цветом'];

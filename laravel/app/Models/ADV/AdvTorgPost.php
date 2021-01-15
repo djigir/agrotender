@@ -66,8 +66,17 @@ class AdvTorgPost extends Model
         'phone3', 'author2', 'author3', 'email', 'title', 'content', 'amount', 'izm', 'cost',
         'cost_izm', 'cost_cur', 'cost_dog', 'ups', 'ups_do_notif', 'deact_ups_guid', 'dub_guid', 'viewnum', 'viewnum_uniq', 'viewnum_cont', 'remote_ip',
     ];
-
+    public $timestamps = false;
     protected $dates = ['up_dt', 'upnotif_dt', 'add_date'];
+    public function setVirtualAttribute($value)
+    {
+
+    }
+    public function setIdAttribute($value)
+    {
+        $this->attributes['id'] = $this->attributes['id'];
+    }
+
 
 
     public function advertsType()
