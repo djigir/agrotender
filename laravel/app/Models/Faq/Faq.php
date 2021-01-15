@@ -11,4 +11,14 @@ class Faq extends Model
         'view_num', 'filename', 'add_date', 'url'
     ];
     public $timestamps = false;
+
+    public function FaqLang()
+    {
+        return $this->hasOne(FaqLang::class, 'item_id', 'id');
+    }
+
+    public function FaqGroup()
+    {
+        return $this->hasOne(FaqGroup::class, 'id', 'group_id');
+    }
 }

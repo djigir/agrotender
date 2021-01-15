@@ -17,3 +17,5 @@ Route::get('/login_as_user', [
     'uses' => '\App\Http\Controllers\UserController@profile',
 //    'middleware' => 'check_auth'
 ]);
+
+Route::post('/savePostModerMsg','\App\Http\Controllers\CustomAdminPanelController@savePostModerMsg')->name('savePostModerMsg');

@@ -67,7 +67,11 @@ class FaqGroup extends Section implements Initializable
 
             AdminColumn::custom('Название', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqGroupLang']['type_name']}</div>";
-            })->setWidth('150px'),
+            })->setWidth('80px'),
+
+            AdminColumn::custom('Описание', function (Model $model) {
+                return "<div class='row-text text-center'>{$model['FaqGroupLang']['descr']}</div>";
+            })->setWidth('80px'),
         ];
 
         $display = AdminDisplay::datatables()

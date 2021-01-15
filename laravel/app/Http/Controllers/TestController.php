@@ -8,6 +8,7 @@ use App\Exports\TorgBuyerExport;
 use App\Models\ADV\AdvTorgPost;
 use App\Models\ADV\AdvTorgTgroups;
 use App\Models\ADV\AdvTorgTopic;
+use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use App\Models\Users\User;
 use Carbon\Carbon;
@@ -21,16 +22,24 @@ class TestController
 
     public function index(Request $request)
     {
-     /*   dd();
+        dd(app()->getLocale());
+        $torgPost =AdvTorgPost::first();
+
+        dd(  $torgPost->advTorgTopic->subTopic->id);
+        $groups = AdvTorgTgroups::query()->select(['id', 'title'])->pluck('title', 'id')->toArray();
+        $subgroups = AdvTorgTopic::query()->where('parent_id', '0')->select('id', 'title', 'menu_group_id')->get()->groupBy('menu_group_id')->toArray();
+        $groupFilter = [];
+        foreach ($groups as $key => $value) {
+            $groupFilter[$key + 10000] = $value;
+            foreach ($subgroups[$key] as $key2 => $value2)
+                $groupFilter[$value2['id']] = '-' . $value2['title'];
+        }
+        dd($groupFilter);
 
 
-        $post = AdvTorgPost::with('torgBuyerSession')->find(231520);
-        dd($post);
-
-        $buyer = TorgBuyer::find(25786);
-        $buyer->session;
-        dd($buyer);*/
-
+       dd([
+           Regions::query()->pluck('name','id')
+       ]);
 
 
 
