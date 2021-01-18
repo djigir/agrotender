@@ -50,10 +50,6 @@ class TorgElevator extends Section implements Initializable
      */
     public function initialize()
     {
-        $type = request()->get('type');
-        if ($type == 'import_elev') {
-            $this->title = 'Импорт Элеваторов';
-        }
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 

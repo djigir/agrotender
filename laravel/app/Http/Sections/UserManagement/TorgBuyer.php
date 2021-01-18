@@ -182,7 +182,8 @@ class TorgBuyer extends Section implements Initializable
                 $request = \request()->get('columns')[6]['search']['value'];
                 $from = stristr($request, ':', ':');
                 $to = substr(strrchr($request, ':'), 1);
-
+//                dump($from, $to);
+//                $query->advTorgPost()->whereBetween('age', [$from, $to]);
             })->setHtmlAttribute('class', 'count-adverts-filter')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
