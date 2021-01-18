@@ -129,12 +129,6 @@ class CompVacancy extends Section implements Initializable
                         1 => 'Да',
                         0 => 'Нет',
                     ]),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::ckeditor('content', 'Описание вакансии'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),

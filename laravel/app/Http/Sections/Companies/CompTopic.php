@@ -68,24 +68,6 @@ class CompTopic extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        /* вывод с главной категорией */
-
-//        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
-//        $rubriks_gr = CompTgroups::all();
-//
-//        $rubrik_select = [];
-//        /** @var CompTgroups $rubrik_gr */
-//        foreach ($rubriks_gr as $rubrik_gr) {
-//            /** @var \App\Models\Comp\CompTopic $rubrik */
-//            foreach ($rubriks as $rubrik) {
-//                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
-//                    continue;
-//                }
-//                $rubrik_select[$rubrik->id] = $rubrik->title . '(' . $rubrik_gr->title . ')';
-//            }
-//        }
-////        dd($rubrik_select);
-
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('title', 'Рубрики')

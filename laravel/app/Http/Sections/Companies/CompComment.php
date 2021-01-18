@@ -142,9 +142,7 @@ class CompComment extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
                 AdminFormElement::text('author', 'Автор')->required(),
-
                 AdminFormElement::select('visible', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
@@ -152,17 +150,9 @@ class CompComment extends Section implements Initializable
                     ]),
 
                 AdminFormElement::ckeditor('compCommentLang.content', 'Текст'),
-
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
                 AdminFormElement::ckeditor('compCommentLang.content_plus', 'Преимущества'),
-
                 AdminFormElement::ckeditor('compCommentLang.content_minus', 'Недостатки'),
-
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 
