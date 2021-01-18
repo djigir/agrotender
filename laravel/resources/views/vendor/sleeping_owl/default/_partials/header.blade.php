@@ -11,11 +11,15 @@
 		</li>
 	@endif
 
+
 	@stack('navbar.left')
 
 	@stack('navbar')
 </ul>
 
 <ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+        <a href="/admin_dev/tinyfilemanager.php" class="nav-link" ><i class="fas fa-user-shield"></i></a>
+    </li>
 	@stack('navbar.right')
 </ul>
