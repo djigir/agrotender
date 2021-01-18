@@ -148,32 +148,19 @@ class AgtNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('NewsLang.title', 'Заголовок')
-                    ->required(),
-
-
+                AdminFormElement::text('NewsLang.title', 'Заголовок')->required(),
                 AdminFormElement::image('filename_src', "Картинка")
                     ->setHtmlAttribute('class', 'logo-img')
                     ->addScript('my', asset('/app/assets/my_js/admin.js'))
                     ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
-                    //Здесь ваша логика на сохранение картинки
                         $path = 'files/news/';
                         $full_path = "/var/www/agrotender/{$path}";
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
 
-
                       return ['path' => asset($value), 'value' => $value = $path . $filename];
                 }),
-
-
-
                 AdminFormElement::html('<hr>'),
-
-                AdminFormElement::datetime('dtime', 'Дата')
-                    ->setVisible(true)
-                    ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
 
@@ -191,13 +178,12 @@ class AgtNews extends Section implements Initializable
 
                 AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
 
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 
         $form->getButtons()->setButtons([
             'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
-            'save_and_create'  => new SaveAndCreate(),
             'cancel'  => (new Cancel()),
         ]);
 
@@ -211,7 +197,6 @@ class AgtNews extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
                 AdminFormElement::select('ngroup', 'Группа новстей')
                     ->setOptions([
                         0 => 'Новости Украины',
@@ -220,10 +205,7 @@ class AgtNews extends Section implements Initializable
                         3 => 'Новости сайта',
                     ])->required(),
 
-                AdminFormElement::text('NewsLang.title', 'Заголовок')
-                    ->required(),
-
-
+                AdminFormElement::text('NewsLang.title', 'Заголовок')->required(),
                 AdminFormElement::select('first_page', 'На главную')
                     ->setOptions([
                         0 => 'Нет',
@@ -254,17 +236,9 @@ class AgtNews extends Section implements Initializable
 
 
             ], 'col-xs-12 col-sm-9 col-md-6 col-lg-6')->addColumn([
-
                 AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
-
-
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
-
-
-
-
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')
         ]);
 
         $form->getButtons()->setButtons([

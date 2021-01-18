@@ -65,7 +65,6 @@ class AgtNewsComment extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('author', 'Автор', 'add_date')
@@ -134,11 +133,6 @@ class AgtNewsComment extends Section implements Initializable
                         0 => 'Нет',
                         1 => 'Да',
                     ]),
-
-                AdminFormElement::html('<span style="font-weight: bold;">Дата создания</span>'),
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')->addColumn([
                 AdminFormElement::ckeditor('newsLang.content', 'Коментарий'),

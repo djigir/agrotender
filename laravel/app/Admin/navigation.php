@@ -114,13 +114,13 @@ return [
                 ->setIcon('fas fa-layer-group')
                 ->setPriority(0),
 
-            (new Page(\App\Models\Comp\CompNews::class))
-                ->setIcon('fas fa-file')
-                ->setPriority(0),
-
-            (new Page(\App\Models\Comp\CompVacancy::class))
-                ->setIcon('fas fa-briefcase')
-                ->setPriority(0),
+//            (new Page(\App\Models\Comp\CompNews::class))
+//                ->setIcon('fas fa-file')
+//                ->setPriority(0),
+//
+//            (new Page(\App\Models\Comp\CompVacancy::class))
+//                ->setIcon('fas fa-briefcase')
+//                ->setPriority(0),
 
             (new Page(\App\Models\Comp\CompComment::class))
                 ->setIcon('fas fa-comments')

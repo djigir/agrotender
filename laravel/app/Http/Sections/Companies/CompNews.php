@@ -127,12 +127,6 @@ class CompNews extends Section implements Initializable
                         0 => 'Нет',
                     ]),
 
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('add_date')
-                    ->setLabel('Дата создания')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
                 AdminFormElement::ckeditor('content', 'Содержание'),
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
