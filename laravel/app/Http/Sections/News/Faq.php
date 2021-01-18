@@ -105,21 +105,18 @@ class Faq extends Section implements Initializable
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::hidden('FaqLang.item_id')->setDefaultValue($this->model_value['id']),
                 AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
-                /* TODO */
-                AdminFormElement::hidden('url')->setDefaultValue(''),
-                /* TODO */
                 AdminFormElement::select('group_id', 'Группа')->setModelForOptions(\App\Models\Faq\FaqGroup::class, 'FaqGroupLang.type_name')->required(),
                 AdminFormElement::text('FaqLang.title', 'Вопрос')->required(),
-                AdminFormElement::file('filename', 'Файл (*.pdf, *.doc, *.zip)')->setValidationRules(['filename' => 'mimes:pdf,doc, zip'])
-                    ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
+                AdminFormElement::file('filename', 'Файл (*.pdf, *.doc, *.zip)')
+                    ->setValidationRules(['filename' => 'mimes:pdf,doc,zip'])
+                    ->setSaveCallback(function ($file, $path, $filename, $settings){
                         $path = 'files/articles/';
                         $full_path = "/var/www/agrotender/{$path}";
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
-                        return ['path' => asset($value), 'value' => "{$filename}"];
+                        return ['path' => asset($value), 'value' => $value];
                     }),
-
-                AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
+                AdminFormElement::number('sort_num', 'Порядковый номер')->setDefaultValue(0)->required(),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')->addColumn([
                 AdminFormElement::ckeditor('FaqLang.content', 'Ответ')->setReadonly(true),
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-7'),

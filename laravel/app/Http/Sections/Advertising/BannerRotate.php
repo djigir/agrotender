@@ -122,7 +122,7 @@ class BannerRotate extends Section implements Initializable
                             $full_path = "/var/www/agrotender/{$path}";
                             $file->move($full_path, $filename);
                             $value = $path . $filename;
-                            return ['path' => asset($value), 'value' => $value = $path . $filename];
+                            return ['path' => asset($value), 'value' => $value];
                     }),
                     AdminFormElement::text('ban_link','Url Ссылки'),
                 ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
