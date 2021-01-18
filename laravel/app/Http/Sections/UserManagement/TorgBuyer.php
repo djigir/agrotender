@@ -182,6 +182,10 @@ class TorgBuyer extends Section implements Initializable
                 $request = \request()->get('columns')[6]['search']['value'];
                 $from = stristr($request, ':', ':');
                 $to = substr(strrchr($request, ':'), 1);
+                $a = \DB::table('torg_buyer')
+                    ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+                    ->havingRaw("COUNT(posts) posts>={$from} AND posts<={$to}")->get();
+
 //                if ($from !=null && $to != null){
 //                    return $query->where(['id' => function($q)use($from, $to) {
 //                        $q->where('author_id', $this->getModelValue()['id'])->whereBetween(\DB::raw('count(id) as posts', [$from, $to]));
