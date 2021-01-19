@@ -135,19 +135,19 @@ class Traders extends Section implements Initializable
                 ->setWidth('110px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('buyerTarifPacks.title', 'Пакет')
-                ->setWidth('130px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::count('compComment', 'Отзывов')
-                ->setWidth('90px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
+//            AdminColumn::text('buyerTarifPacks.title', 'Пакет')
+//                ->setWidth('130px')
+//                ->setHtmlAttribute('class', 'text-center')
+//                ->setOrderable(function($query, $direction) {
+//                    $query->orderBy('id', $direction);
+//                }),
+//
+//            AdminColumn::count('compComment', 'Отзывов')
+//                ->setWidth('90px')
+//                ->setHtmlAttribute('class', 'text-center')
+//                ->setOrderable(function($query, $direction) {
+//                    $query->orderBy('id', $direction);
+//                }),
 
             AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
                 $WWWHOST = 'https://agrotender.com.ua/';
@@ -181,14 +181,14 @@ class Traders extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
 
-            AdminColumnFilter::select()
-                ->setOptions($rubrik_select)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('compTopicItem.topic_id')
-                ->setPlaceholder('Все секции'),
+//            AdminColumnFilter::select()
+//                ->setOptions($rubrik_select)
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('compTopicItem.topic_id')
+//                ->setPlaceholder('Все секции'),
 
 
             \AdminColumnFilter::select()
