@@ -2,12 +2,32 @@ body{
     font-size: 16px;
 }
 
+a{
+    color: #7c69ef;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+nav a i{
+    color: #1c1b1b;
+}
 
 /* SideBar */
 [class*=sidebar-light] .brand-link {
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: none;
     color: rgba(0,0,0,.8);
+    pointer-events: none;
     /*background-color: #fff;*/
+}
+
+.brand-link .brand-image {
+    float: none!important;
+    line-height: .8;
+    margin-left: .8rem;
+    margin-right: .5rem;
+    margin-top: -3px;
+    max-height: 33px;
+    width: auto;
 }
 
 [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link {
@@ -21,7 +41,7 @@ body{
 
 [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active, [class*=sidebar-light-] .nav-treeview>.nav-item>.nav-link.active:hover {
     background-color: rgba(0,0,0,.02);
-    color: #9477ef;
+    color: #7c69ef;
 }
 
 [class*=sidebar-light-] .nav-sidebar>.nav-item.menu-open>.nav-link, [class*=sidebar-light-] .nav-sidebar>.nav-item:hover>.nav-link {
@@ -29,7 +49,7 @@ body{
 }
 
 .nav-pills .nav-link:not(.active):hover {
-    color: #9477ef;
+    color: #7c69ef;
 }
 
 [class*=sidebar-light-] .nav-sidebar>.nav-item.menu-open>.nav-link{
@@ -90,3 +110,23 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
     background-color: rgba(124,105,239,.1);
 }
 /* end Table*/
+
+/* Edit */
+.form-control:focus {
+    color: #495057;
+    background-color: #fff;
+    border-color: #9080f1;
+    outline: 0;
+    box-shadow: 0 0 0 2px #e1dcfb;
+}
+
+.btn-create {
+    color: #fff !important;
+    background-color: #7c69ef !important;
+    border-color: #7c69ef !important;
+}
+/* end Edit */
+
+/* Breadcrumb */
+
+/*end Breadcrumb*/
