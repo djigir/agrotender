@@ -174,26 +174,41 @@ class TorgBuyer extends Section implements Initializable
                 ->setHtmlAttribute('class', 'ip_filter')
                 ->setPlaceholder(' по IP'),
 
-            AdminColumnFilter::range()->setFrom(
-                AdminColumnFilter::text()->setPlaceholder('Объявл. от')
-            )->setTo(
-                AdminColumnFilter::text()->setPlaceholder('До')
-            )->setCallback(function ($value, $query){
-                $request = \request()->get('columns')[6]['search']['value'];
-                $from = stristr($request, ':', ':');
-                $to = substr(strrchr($request, ':'), 1);
-                $a = \DB::table('torg_buyer')
-                    ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
-                    ->havingRaw("COUNT(posts) posts>={$from} AND posts<={$to}")->get();
-
-//                if ($from !=null && $to != null){
-//                    return $query->where(['id' => function($q)use($from, $to) {
-//                        $q->where('author_id', $this->getModelValue()['id'])->whereBetween(\DB::raw('count(id) as posts', [$from, $to]));
-//                    }]);
-//                }
-//                return true;
-            })->setHtmlAttribute('class', 'count-adverts-filter')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
+//            AdminColumnFilter::range()->setFrom(
+//                AdminColumnFilter::text()->setPlaceholder('Объявл. от')
+//            )->setTo(
+//                AdminColumnFilter::text()->setPlaceholder('До')
+//            )->setCallback(function ($value, $query){
+//                $request = \request()->get('columns')[6]['search']['value'];
+//                $from = stristr($request, ':', ':');
+//                $to = substr(strrchr($request, ':'), 1);
+////                if ($from !=null && $to != null) {
+////                    return \DB::table('torg_buyer')
+////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+////                        ->select(\DB::raw('COUNT(adv_torg_post.author_id) as total'))
+////                        ->whereBetween('adv_torg_post.author_id', [$from, $to])->get();
+////                }
+////                $a = \DB::table('website_tags')
+////                        ->join('assigned_tags', 'website_tags.id', '=', 'assigned_tags.tag_id')
+////                        ->select('website_tags.id as id', 'website_tags.title as title', DB::raw("count(assigned_tags.tag_id) as count"))
+////                    ->get();
+//
+//                $a = \DB::table('torg_buyer')
+//                    ->join('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+//                    ->select('torg_buyer.id as id', \DB::raw("count(adv_torg_post.author_id) as count"))
+//                    ->get();
+//                dd($a);
+//
+////                if($from && $to){
+////                    return \DB::table('torg_buyer')
+////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+////                        ->select('torg_buyer.*', \DB::raw('count(agt_adv_torg_post.id) as count'))
+////                        ->get();
+////                }
+//
+//
+//            })->setHtmlAttribute('class', 'count-adverts-filter')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
         ]);
 
