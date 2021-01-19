@@ -146,7 +146,7 @@ return [
                 ->setPriority(0),
 
             (new Page( \App\Models\Traders\TradersProductsSell::class))
-                ->setIcon('fab fa-product-hunt')
+                ->setIcon('fas fa-shopping-cart')
                 ->setPriority(0),
 
             (new Page(\App\Models\Seo\SeoTitles::class))
@@ -189,16 +189,6 @@ return [
         ]
     ],
 
-    /* Пока не надо сказал заказчик */
-    /*[
-        'title' => 'Элеваторы',
-        'icon' => 'fas fa-warehouse',
-
-        'pages' => [
-
-
-        ]
-    ],*/
 
     [
         'title' => 'Управление пользователями',

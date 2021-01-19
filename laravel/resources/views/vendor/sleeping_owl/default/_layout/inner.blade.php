@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="wrapper" id="vueApp">
-        <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
+        <nav class="main-header navbar navbar-expand bg-custom navbar-light">
             @include(AdminTemplate::getViewPath('_partials.header'))
         </nav>
 
@@ -14,7 +14,7 @@
             }
         @endphp
 
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-light-fuchsia">
             @include(AdminTemplate::getViewPath('_partials.navigation'))
         </aside>
 
