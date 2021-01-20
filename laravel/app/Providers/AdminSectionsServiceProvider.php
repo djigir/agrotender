@@ -17,6 +17,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
         \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
         \App\Models\ADV\AdvTorgPost::class => 'App\Http\Sections\FastAccess\AdvTorgPost',
+        \App\Models\ADV\AdvTorgPostCompanies::class => 'App\Http\Sections\FastAccess\AdvTorgPostCompanies',
         \App\Models\Comp\CompItemsActive::class => 'App\Http\Sections\FastAccess\ActiveTraders',
         \App\Models\Comp\CompItemsTraders::class => 'App\Http\Sections\FastAccess\Traders',
 
