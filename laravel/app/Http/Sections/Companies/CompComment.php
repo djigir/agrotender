@@ -143,20 +143,16 @@ class CompComment extends Section implements Initializable
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('author', 'Автор')->required(),
-                AdminFormElement::textarea('compCommentLang.content_plus', 'Преимущества')->setRows(4),
-                AdminFormElement::textarea('compCommentLang.content_minus', 'Недостатки')->setRows(4),
-
-                AdminFormElement::datetime('add_date')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-                AdminFormElement::textarea('compCommentLang.content', 'Текст'),
                 AdminFormElement::select('visible', 'Показать на сайте')
                     ->setOptions([
                         1 => 'Да',
                         0 => 'Нет',
                     ]),
+
+                AdminFormElement::ckeditor('compCommentLang.content', 'Текст'),
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
+                AdminFormElement::ckeditor('compCommentLang.content_plus', 'Преимущества'),
+                AdminFormElement::ckeditor('compCommentLang.content_minus', 'Недостатки'),
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 

@@ -135,12 +135,12 @@ class PyBillDoc extends Section implements Initializable
 
                 AdminFormElement::file('filename', "Файл")->setValidationRules(['filename' => 'mimes:pdf,doc'])
                     ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id, $date, $py_bill, $request) {
-                        $filename = 'bill_'.$id.'_'.$date->format('Y').'_'.$date->format('m').'_'.$date->format('d').'.'.\request()->file('file')->getClientOriginalExtension();
+                        $filename = $date->format('Y').'_'.$date->format('m').'/bill_'.$id.'_'.$date->format('Y').'_'.$date->format('m').'_'.$date->format('d').'.'.\request()->file('file')->getClientOriginalExtension();
                         $path = 'billdocs/';
                         $full_path = "/var/www/agrotender/{$path}";
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
-                        return ['path' => asset($value), 'value' => "{$filename}"];
+                        return ['path' => asset($value), 'value' => $value];
                     })->required(),
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);

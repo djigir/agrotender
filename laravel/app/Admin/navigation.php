@@ -114,13 +114,13 @@ return [
                 ->setIcon('fas fa-layer-group')
                 ->setPriority(0),
 
-            (new Page(\App\Models\Comp\CompNews::class))
-                ->setIcon('fas fa-file')
-                ->setPriority(0),
-
-            (new Page(\App\Models\Comp\CompVacancy::class))
-                ->setIcon('fas fa-briefcase')
-                ->setPriority(0),
+//            (new Page(\App\Models\Comp\CompNews::class))
+//                ->setIcon('fas fa-file')
+//                ->setPriority(0),
+//
+//            (new Page(\App\Models\Comp\CompVacancy::class))
+//                ->setIcon('fas fa-briefcase')
+//                ->setPriority(0),
 
             (new Page(\App\Models\Comp\CompComment::class))
                 ->setIcon('fas fa-comments')
@@ -146,7 +146,7 @@ return [
                 ->setPriority(0),
 
             (new Page( \App\Models\Traders\TradersProductsSell::class))
-                ->setIcon('fab fa-product-hunt')
+                ->setIcon('fas fa-shopping-cart')
                 ->setPriority(0),
 
             (new Page(\App\Models\Seo\SeoTitles::class))
@@ -180,21 +180,15 @@ return [
 
             (new Page( \App\Models\Faq\FaqGroup::class))
                 ->setIcon('fas fa-comments')
+                ->setPriority(2),
+
+            (new Page( \App\Models\Faq\Faq::class))
+                ->setIcon('fas fa-comments')
                 ->setPriority(3),
 
         ]
     ],
 
-    /* Пока не надо сказал заказчик */
-    /*[
-        'title' => 'Элеваторы',
-        'icon' => 'fas fa-warehouse',
-
-        'pages' => [
-
-
-        ]
-    ],*/
 
     [
         'title' => 'Управление пользователями',

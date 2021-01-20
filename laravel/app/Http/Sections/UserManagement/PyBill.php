@@ -54,6 +54,7 @@ class PyBill extends Section implements Initializable
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
     const PAYMENTH_TYPE = [
+        0 => '',
         1 => 'Приват 24',
         2 => 'Карта',
         3 => 'По счету',
@@ -302,25 +303,7 @@ class PyBill extends Section implements Initializable
                 $address,
                 $payer,
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-                AdminFormElement::html('<br><br><br>'),
-                AdminFormElement::html("
-                <div class='form-group form-element-text' >
-                    <label for='id' class='control-label'>
-                            Дата загрузки документа
-                    </label>
-                    <input style='width: 150px' class='form-control' type='text' id='add_date' name='add_date' value='{$date->format('d.m.Y')}' readonly='readonly'>
-                </div>"),
 
-               AdminFormElement::hidden('pyBillDoc.add_date')->setDefaultValue($date),
-
-                AdminFormElement::select('pyBillDoc.doc_type', 'Тип документа')->setOptions([
-                    0 => 'Счёт',
-                    1 => 'Акт',
-                    2 => 'Скан-копия',
-                ]),
-//                AdminFormElement::number('pyBillDoc.sum_tot', 'Сумма счета'),
-                AdminFormElement::number('amount', 'Сумма счета')->setReadonly(true),
-                AdminFormElement::file('pyBillDoc.filename', 'Файл документа (*.doc, *.pdf)')
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

@@ -98,23 +98,10 @@ class Lenta extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('comp_id', 'ID Компании')
-                    ->setReadonly(true),
-
-
-                AdminFormElement::text('author', 'Кто опубликовал')
-                    ->required(),
-
-                AdminFormElement::textarea('title', 'Текст публикации')
-                    ->setRows(4),
-
-
+                AdminFormElement::text('comp_id', 'ID Компании')->setReadonly(true),
+                AdminFormElement::text('author', 'Кто опубликовал')->required(),
+                AdminFormElement::ckeditor('title', 'Текст публикации'),
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::datetime('add_date', 'Дата')
-                    ->setVisible(true)
-                    ->setReadonly(false)
-                ,
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')
         ]);
 

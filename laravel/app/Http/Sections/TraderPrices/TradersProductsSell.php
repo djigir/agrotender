@@ -113,6 +113,7 @@ class TradersProductsSell extends Section implements Initializable
     public function onEdit($id = null, $payload = [])
     {
         $form = AdminForm::card()->addBody([
+
             AdminFormElement::columns()->addColumn([
 
                 AdminFormElement::select('group_id', 'Группа товаров')
@@ -121,14 +122,20 @@ class TradersProductsSell extends Section implements Initializable
                     ->required(),
 
                 AdminFormElement::text('tradersProductLang.name', 'Название')->required(),
+
                 AdminFormElement::text('url', 'URL'),
+
                 AdminFormElement::hidden('tradersProductLang.lang_id')->setDefaultValue('1'),
 
+                AdminFormElement::image('icon_filename', 'Иконка'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::textarea('tradersProductLang.descr', 'Описание')->setRows('4'),
-                AdminFormElement::image('icon_filename', 'Иконка'),
+
+                AdminFormElement::ckeditor('tradersProductLang.descr', 'Описание'),
+
+
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+
         ]);
 
         $form->getButtons()->setButtons([

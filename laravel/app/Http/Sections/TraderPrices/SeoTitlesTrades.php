@@ -190,12 +190,10 @@ class SeoTitlesTrades extends Section implements Initializable
                     name='type_seo_title[type_id]' value='{$type}' readonly='readonly' style='margin-bottom: 10px'>";
                 }),
 
-                AdminFormElement::textarea('page_title', 'Title')
-                    ->setRows(3)
+                AdminFormElement::ckeditor('page_title', 'Title')
                     ->required(),
 
-                AdminFormElement::textarea('page_descr', 'Description')
-                    ->setRows(4)
+                AdminFormElement::ckeditor('page_descr', 'Description')
                     ->required(),
 
                 AdminFormElement::text('page_h1', 'Заголовок H1'),
@@ -203,9 +201,9 @@ class SeoTitlesTrades extends Section implements Initializable
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
 
-                AdminFormElement::textarea('content_text', 'Текст'),
+                AdminFormElement::ckeditor('content_text', 'Текст'),
 
-                AdminFormElement::textarea('content_words', 'Текст 2'),
+                AdminFormElement::ckeditor('content_words', 'Текст 2'),
 
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
@@ -362,12 +360,10 @@ class SeoTitlesTrades extends Section implements Initializable
                     ])->required(),
 
 
-                AdminFormElement::textarea('page_title', 'Title')
-                    ->setRows(3)
+                AdminFormElement::ckeditor('page_title', 'Title')
                     ->required(),
 
-                AdminFormElement::textarea('page_descr', 'Description')
-                    ->setRows(4)
+                AdminFormElement::ckeditor('page_descr', 'Description')
                     ->required(),
 
                 AdminFormElement::text('page_h1', 'Заголовок H1')
@@ -376,10 +372,10 @@ class SeoTitlesTrades extends Section implements Initializable
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
 
-                AdminFormElement::textarea('content_text', 'Текст')
+                AdminFormElement::ckeditor('content_text', 'Текст')
                     ->required(),
 
-                AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
+                AdminFormElement::ckeditor('content_words', 'Текст 2')->setDefaultValue('-'),
 
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 

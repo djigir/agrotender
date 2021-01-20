@@ -68,24 +68,6 @@ class CompTopic extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        /* вывод с главной категорией */
-
-//        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
-//        $rubriks_gr = CompTgroups::all();
-//
-//        $rubrik_select = [];
-//        /** @var CompTgroups $rubrik_gr */
-//        foreach ($rubriks_gr as $rubrik_gr) {
-//            /** @var \App\Models\Comp\CompTopic $rubrik */
-//            foreach ($rubriks as $rubrik) {
-//                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
-//                    continue;
-//                }
-//                $rubrik_select[$rubrik->id] = $rubrik->title . '(' . $rubrik_gr->title . ')';
-//            }
-//        }
-////        dd($rubrik_select);
-
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('title', 'Рубрики')
@@ -145,14 +127,15 @@ class CompTopic extends Section implements Initializable
 //                        0 => 'Нет',
 //                        1 => 'Да',
 //                ]),
+                AdminFormElement::ckeditor('page_keywords', 'Keywords'),
+
 
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
                 AdminFormElement::html('<span class="seo-data-title">Seo данные</span> <hr>'),
                 AdminFormElement::text('page_h1', 'H1 заголовок'),
                 AdminFormElement::text('page_title', 'Title'),
-                AdminFormElement::textarea('page_keywords', 'Keywords')->setRows(3),
-                AdminFormElement::textarea('page_descr', 'Description')->setRows(6),
-                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
+                AdminFormElement::ckeditor('page_descr', 'Description'),
+                AdminFormElement::ckeditor('descr', 'Описание'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 
@@ -188,7 +171,7 @@ class CompTopic extends Section implements Initializable
 //                        0 => 'Нет',
 //                        1 => 'Да',
 //                    ]),
-                AdminFormElement::textarea('descr', 'Описание')->setRows(6),
+                AdminFormElement::ckeditor('descr', 'Описание'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 

@@ -144,15 +144,15 @@ class Pages extends Section implements Initializable
                 AdminFormElement::text('pagesLang.page_mean', 'Назначение')->required(),
                 AdminFormElement::text('pagesLang.page_title', 'Title'),
                 AdminFormElement::text('pagesLang.page_keywords', 'Keywords'),
-                AdminFormElement::textarea('pagesLang.page_descr', 'Description')->setRows(4),
+                AdminFormElement::ckeditor('pagesLang.page_descr', 'Description'),
                 AdminFormElement::text('pagesLang.title', 'Заголовок Страницы'),
                 AdminFormElement::hidden('create_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::hidden('modify_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::hidden('pagesLang.lang_id')->setDefaultValue(1),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::textarea('pagesLang.header', 'Верхний Контент')->setRows(4),
-                AdminFormElement::textarea('pagesLang.content', 'Нижний Контент')->setRows(4),
+                AdminFormElement::ckeditor('pagesLang.header', 'Верхний Контент'),
+                AdminFormElement::ckeditor('pagesLang.content', 'Нижний Контент'),
 
                 AdminFormElement::select('show_in_menu', 'Показывать в меню', [
                     0 => 'Нет',

@@ -202,18 +202,15 @@ class SeoTitlesBoard extends Section implements Initializable
 
                 }),
 
-                AdminFormElement::textarea('page_title', 'Title')
-                    ->setRows(2)
+                AdminFormElement::ckeditor('page_title', 'Title')
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('page_keywords', 'Keywords')
-                    ->setRows(2)
+                AdminFormElement::ckeditor('page_keywords', 'Keywords')
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('page_descr', 'Description')
-                    ->setRows(4)
+                AdminFormElement::ckeditor('page_descr', 'Description')
                     ->setDefaultValue('-')
                     ->required(),
 
@@ -224,11 +221,11 @@ class SeoTitlesBoard extends Section implements Initializable
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('content_text', 'Текст')
+                AdminFormElement::ckeditor('content_text', 'Текст')
                     ->setDefaultValue('-')
                         ->required(),
 
-                AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
+                AdminFormElement::ckeditor('content_words', 'Текст 2')->setDefaultValue('-'),
 
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
@@ -255,13 +252,11 @@ class SeoTitlesBoard extends Section implements Initializable
             AdminFormElement::text('tpl_items_descr', 'Description')
                 ->setDefaultValue('-'),
 
-            AdminFormElement::textarea('tpl_items_text', 'Текст')
-                ->setDefaultValue('-')
-                ->setRows(3),
+            AdminFormElement::ckeditor('tpl_items_text', 'Текст')
+                ->setDefaultValue('-'),
 
-            AdminFormElement::textarea('tpl_items_words', 'Текст2')
-                ->setDefaultValue('-')
-                ->setRows(3),
+            AdminFormElement::ckeditor('tpl_items_words', 'Текст2')
+                ->setDefaultValue('-'),
 
         ]);
 
@@ -307,20 +302,15 @@ class SeoTitlesBoard extends Section implements Initializable
                         2 => 'Продам',
                     ])->required(),
 
-                AdminFormElement::textarea('page_title', 'Title')
-                    ->setRows(2)
+                AdminFormElement::ckeditor('page_title', 'Title')
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('page_keywords', 'Keywords')
-                    ->setRows(2)
+                AdminFormElement::ckeditor('page_keywords', 'Keywords')
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('page_descr', 'Description')
-                    ->setRows(4)
-                    ->setDefaultValue('-')
-                    ->required(),
+
 
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
@@ -329,11 +319,15 @@ class SeoTitlesBoard extends Section implements Initializable
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('content_text', 'Текст')
+                AdminFormElement::ckeditor('content_text', 'Текст')
                     ->setDefaultValue('-')
                     ->required(),
 
-                AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
+                AdminFormElement::ckeditor('page_descr', 'Description')
+                    ->setDefaultValue('-')
+                    ->required(),
+
+                AdminFormElement::ckeditor('content_words', 'Текст 2')->setDefaultValue('-'),
 
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 

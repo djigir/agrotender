@@ -174,17 +174,41 @@ class TorgBuyer extends Section implements Initializable
                 ->setHtmlAttribute('class', 'ip_filter')
                 ->setPlaceholder(' по IP'),
 
-            AdminColumnFilter::range()->setFrom(
-                AdminColumnFilter::text()->setPlaceholder('Объявл. от')
-            )->setTo(
-                AdminColumnFilter::text()->setPlaceholder('До')
-            )->setCallback(function ($value, $query){
-                $request = \request()->get('columns')[6]['search']['value'];
-                $from = stristr($request, ':', ':');
-                $to = substr(strrchr($request, ':'), 1);
-
-            })->setHtmlAttribute('class', 'count-adverts-filter')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
+//            AdminColumnFilter::range()->setFrom(
+//                AdminColumnFilter::text()->setPlaceholder('Объявл. от')
+//            )->setTo(
+//                AdminColumnFilter::text()->setPlaceholder('До')
+//            )->setCallback(function ($value, $query){
+//                $request = \request()->get('columns')[6]['search']['value'];
+//                $from = stristr($request, ':', ':');
+//                $to = substr(strrchr($request, ':'), 1);
+////                if ($from !=null && $to != null) {
+////                    return \DB::table('torg_buyer')
+////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+////                        ->select(\DB::raw('COUNT(adv_torg_post.author_id) as total'))
+////                        ->whereBetween('adv_torg_post.author_id', [$from, $to])->get();
+////                }
+////                $a = \DB::table('website_tags')
+////                        ->join('assigned_tags', 'website_tags.id', '=', 'assigned_tags.tag_id')
+////                        ->select('website_tags.id as id', 'website_tags.title as title', DB::raw("count(assigned_tags.tag_id) as count"))
+////                    ->get();
+//
+//                $a = \DB::table('torg_buyer')
+//                    ->join('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+//                    ->select('torg_buyer.id as id', \DB::raw("count(adv_torg_post.author_id) as count"))
+//                    ->get();
+//                dd($a);
+//
+////                if($from && $to){
+////                    return \DB::table('torg_buyer')
+////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
+////                        ->select('torg_buyer.*', \DB::raw('count(agt_adv_torg_post.id) as count'))
+////                        ->get();
+////                }
+//
+//
+//            })->setHtmlAttribute('class', 'count-adverts-filter')
+//                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
         ]);
 
@@ -226,7 +250,7 @@ class TorgBuyer extends Section implements Initializable
                         0 => 'Нет'
                     ]),
 
-                AdminFormElement::textarea('comments', 'Комментарии')->setRows(5),
+                AdminFormElement::ckeditor('comments', 'Комментарии'),
 
                 AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
                         Изменение пароля пользователя
