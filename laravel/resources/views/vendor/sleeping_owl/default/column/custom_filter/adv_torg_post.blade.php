@@ -18,7 +18,7 @@
         foreach ($groups as $key => $value) {
             $groupFilter[$key + 10000] = $value;
             foreach ($subgroups[$key] as $key2 => $value2)
-                $groupFilter[$value2['id']] = '-' . $value2['title'];
+                $groupFilter[$value2['id']] = $value2['title'];
         }
      //sections
      $sections = AdvTorgTopic::query()->where('parent_id', request()->get('group'))->pluck('title','id')->toArray();
@@ -69,7 +69,7 @@
                         <select style="width:300px;" data-type="select" name="group" class="form-control input-select column-filter ">
                         <option {{!request('group')?'selected="selected"':''}}   value="" >Все разделы</option>
                         @foreach($groupFilter as $key => $value)
-                            <option value="{{$key}}" {{request('group') == $key?'selected="selected"':''}}>{{$value}}</option>
+                            <option value="{{$key}}" {{request('group') == $key?'selected="selected"':''}} >@if($key<10000)&nbsp;&nbsp;&nbsp;@endif  {{$value}}</option>
                         @endforeach
                     </select>
                     </span>

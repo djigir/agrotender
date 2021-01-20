@@ -51,4 +51,8 @@ class TorgBuyerBan extends Model
 
         return $query->where('user_id', $user_id);
     }
+    public function scopeGetByUserId($query, $type)
+    {
+        return $query->where('user_id', $type);
+    }
 }

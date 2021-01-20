@@ -6,6 +6,7 @@ use App\Exports\CompItemsEmailsExport;
 use App\Exports\PhoneExport;
 use App\Exports\TorgBuyerExport;
 use App\Models\ADV\AdvTorgPost;
+use App\Models\ADV\AdvTorgPostPics;
 use App\Models\ADV\AdvTorgTgroups;
 use App\Models\ADV\AdvTorgTopic;
 use App\Models\Regions\Regions;
@@ -22,25 +23,9 @@ class TestController
 
     public function index(Request $request)
     {
-        dd(app()->getLocale());
-        $torgPost =AdvTorgPost::first();
-
-        dd(  $torgPost->advTorgTopic->subTopic->id);
-        $groups = AdvTorgTgroups::query()->select(['id', 'title'])->pluck('title', 'id')->toArray();
-        $subgroups = AdvTorgTopic::query()->where('parent_id', '0')->select('id', 'title', 'menu_group_id')->get()->groupBy('menu_group_id')->toArray();
-        $groupFilter = [];
-        foreach ($groups as $key => $value) {
-            $groupFilter[$key + 10000] = $value;
-            foreach ($subgroups[$key] as $key2 => $value2)
-                $groupFilter[$value2['id']] = '-' . $value2['title'];
-        }
-        dd($groupFilter);
 
 
-       dd([
-           Regions::query()->pluck('name','id')
-       ]);
-
+       /* AdvTorgPostPics::query()->where('item_id',$id)->sortBy(),*/
 
 
         /* $rubriks = \App\Models\ADV\AdvTorgTopic::orderBy('menu_group_id')->where('parent_id', 0)->get();

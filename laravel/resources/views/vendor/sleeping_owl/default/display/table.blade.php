@@ -67,7 +67,7 @@
 
         @yield('card.heading')
         @yield('panel.heading')
-            @if(substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts'))
+            @if(substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts') && !substr_count($createUrl,'/admin_dev/adv_torg_post_moder_msgs') )
                 @include('vendor.sleeping_owl.default.column.custom_filter.adv_torg_post')
             @endif
 

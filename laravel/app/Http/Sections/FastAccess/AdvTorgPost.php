@@ -9,15 +9,20 @@ use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use AdminSection;
+use App\Http\Sections\Advertising\BannerPlaces;
+use App\Models\ADV\AdvTorgPostModerMsg;
+use App\Models\ADV\AdvTorgPostPics;
 use App\Models\ADV\AdvTorgTgroups;
 use App\Models\ADV\AdvTorgTopic;
 use App\Models\Comp\CompTgroups;
 use App\Models\Regions\Regions;
+use App\Services\ImageResizeService;
 use Carbon\Carbon;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\URL;
 use Mpdf\Tag\P;
+use Mpdf\Tag\Q;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
 use SleepingOwl\Admin\Contracts\Initializable;
@@ -80,36 +85,39 @@ class AdvTorgPost extends Section implements Initializable
                     $query->orderBy('id', $direction);
                 }),
 
-            AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
-                return "<div class='row-text'>
-                            {$model->advertsType()->rubric_name}
-                            <br>
-                            {$model['advTorgTopic']->title}
-                            <small class='clearfix'>{$model->advTorgTopic->subTopic->title}</small>
-                        </div>";
-            })
-                ->setName('city')
-                ->setHtmlAttribute('class', 'text-center'),
+                   AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
+                       $titleTopic = $model['advTorgTopic']->title??'';
+                       $titleSubTopic = $model->advTorgTopic->subTopic->title??'';
+
+                       return "<div class='row-text'>
+                                   {$model->advertsType()->rubric_name}
+                                   <br>
+                                   {$titleTopic}
+                                   <small class='clearfix'>{$titleSubTopic}</small>
+                               </div>";
+                   })
+                       ->setName('city')
+                       ->setHtmlAttribute('class', 'text-center'),
 
 
-            AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
-                    $name = '';
-                    if($model['compItems']){
-                        $name = $model['compItems']->title;
-                    }else {
-                        $name = $model->author;
-                    }
+                   AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
+                       $name = '';
+                       if ($model['compItems']) {
+                           $name = $model['compItems']->title??'';
+                       } else {
+                           $name = $model->author;
+                       }
 
 
-                return "<div class='row-text'>
-                            {$name}
-                            <small class='clearfix'>{$model->phone}</small>
-                            <small class='clearfix'>{$model->phone2}</small>
-                            <small class='clearfix'>{$model->phone3}</small>
-                        </div>";
-            })->setOrderable(function($query, $direction) {
-                $query->orderBy('author_id', $direction);
-            })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
+                       return "<div class='row-text'>
+                                   {$name}
+                                   <small class='clearfix'>{$model->phone}</small>
+                                   <small class='clearfix'>{$model->phone2}</small>
+                                   <small class='clearfix'>{$model->phone3}</small>
+                               </div>";
+                   })->setOrderable(function($query, $direction) {
+                       $query->orderBy('author_id', $direction);
+                   })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
 
             AdminColumn::custom('Email / IP /<br>Session', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -181,9 +189,9 @@ class AdvTorgPost extends Section implements Initializable
                             {$colored}
                             {$top}
                         </div>";
-                })->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                }),
+            })->setOrderable(function ($query, $direction) {
+                $query->orderBy('add_date', $direction);
+            }),
 
             AdminColumn::text('regions.name', 'Область')
                 ->setHtmlAttribute('class', 'text-center'),
@@ -333,11 +341,12 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
-
+        $parent_category_id = \App\Models\ADV\AdvTorgPost::find($id)->advTorgTopic->subTopic->id; //magic fix
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::html("<div style='text-align: center'><h4>Редакировать объявление </h4></div>"),
             AdminFormElement::columns()->addColumn([
+                AdminFormElement::hidden('id'),
                 AdminFormElement::datetime('add_date', 'Дата:')
                     ->setVisible(true)
                     ->setReadonly(false),
@@ -347,30 +356,25 @@ class AdvTorgPost extends Section implements Initializable
                 AdminFormElement::text('phone', 'Телефон:'),
 
 
-                AdminFormElement::select('virtual', 'Секция')
+                AdminFormElement::select('virtual', 'Раздел:')
                     ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
                     ->setLoadOptionsQueryPreparer(function ($item, $query) {
                         return $query->where('parent_id', 0);
                     })->setDisplay('title')
-                    ->setDefaultValue($this->getModelValue()->advTorgTopic->subTopic->id),
+                    ->setDefaultValue($parent_category_id),
 
 
-                AdminFormElement::dependentselect('topic_id', 'Секция2')
+                AdminFormElement::dependentselect('topic_id', 'Подраздел:')
                     ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
-                    ->setDataDepends(['virtual'])
+                    ->setDataDepends('virtual')
                     ->setLoadOptionsQueryPreparer(function ($item, $query) {
                         return $query->where('parent_id', $item->getDependValue('virtual'));
                     })
-                    ->setDisplay('title')
                     ->required(),
-
-
                 AdminFormElement::text('title', 'Заглавие:'),
-                AdminFormElement::textarea('content', 'Текст:'),
+                AdminFormElement::ckeditor('content', 'Текст:'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
                 ->addColumn([
-                    /*AdminFormElement::text('id', 'ID')
-                        ->setReadonly(true),*/
                     AdminFormElement::select('obl_id', 'Область:')
                         ->setModelForOptions(Regions::class)
                         ->setDisplay('name')
@@ -419,9 +423,34 @@ class AdvTorgPost extends Section implements Initializable
                             0 => 'Активное'])
                         ->setSortable(false)
                         ->required(),
+                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')
+                ->addColumn([
+                    AdminFormElement::images('images', 'Images')->setHtmlAttribute('class', 'logo-img')
+                        ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
+                            //Здесь ваша логика на сохранение картинки
+                            $basePath = "/var/www/agrotender/pics/";
+                            $image = new ImageResizeService($file);
+                            // small image
+                            $image->resizeToBestFit(140, 120);
+                            $image->save($basePath . 's/' . $filename);
+                            // big image
+                            $image->resizeToBestFit(640, 640);
+                            $image->save($basePath . 'b/' . $filename);
 
+                            AdvTorgPostPics::create([
+                                'item_id' => $id,
+                                'filename' => "pics/b/$filename",
+                                'filename_ico' => "pics/s/$filename",
+                                'sort_num' => 2,
+                                'add_date' => Carbon::now()
+                            ]);
+                            return ['value' => 'pics/' . 'b/' . $filename];
 
-                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4'),
+                        })
+                ],
+                    'col-xs-12 col-sm-6 col-md-12 col-lg-4')
+        ])->addFooter([
+            AdminFormElement::html("<div style='text-align: center'><a href='/admin_dev/torg_buyer_bans?GetByUserId={$this->getModelValue()->author_id}'>Перейти к управлению баном для пользователя </a></div>")
         ]);
 
         $form->getButtons()->setButtons([
@@ -431,48 +460,89 @@ class AdvTorgPost extends Section implements Initializable
         ]);
 
 
-        $form2 = AdminForm::card()->addBody([
+        $formTwo = AdminForm::card()->addBody([
             AdminFormElement::hidden('redirect')->setDefaultValue(request()->path()),
-            AdminFormElement::hidden('post_id')->setDefaultValue($this->getModelValue()->id),
+            AdminFormElement::hidden('post_id')->setDefaultValue($id),
             AdminFormElement::html("<div style='text-align: center'><h4>Сообщение о модерации</h4></div>"),
             AdminFormElement::html("<div style='display: flex;padding-top: 20px;'>"),
             AdminFormElement::checkbox('reason_1', 'Похожий заголовок&#160;&#160;&#160;')->setDefaultValue(0),
-            AdminFormElement::checkbox('reason_2', 'Не цензурная брань&#160;&#160;&#160;')->setDefaultValue(0),
-            AdminFormElement::checkbox('reason_3', 'Цена не верна&#160;&#160;&#160;')->setDefaultValue(0),
+            AdminFormElement::checkbox('reason_2', 'Цена не верна&#160;&#160;&#160;')->setDefaultValue(0),
+            AdminFormElement::checkbox('reason_3', 'Не цензурная брань&#160;&#160;&#160;')->setDefaultValue(0),
             AdminFormElement::checkbox('reason_4', 'Капслок')->setDefaultValue(0),
             AdminFormElement::html("</div>"),
-            AdminFormElement::textarea('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
-                ->setDefaultValue('Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:
-
-{TPL_RULES}
-
-Исправьте данные нарушения и мы восстановим ротацию объявления.'),
+            AdminFormElement::ckeditor('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
+                ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>    
+                <br>    
+{TPL_RULES}<br>
+<br>
+Исправьте данные нарушения и мы восстановим ротацию объявления."),
+            /*  $companies*/
 
 
         ])->addFooter([
             AdminFormElement::html("<button class='btn btn-primary' >Отклонить объявление</button>")
-        ])
-            ->addBody([
-              AdminDisplay::table()->setModelClass(\App\Models\ADV\AdvTorgPostModerMsg::class)
-                ->setColumns([AdminColumn::text('id', 'Область')
-                    ->setHtmlAttribute('class', 'text-center'),
-                    AdminColumn::text('msg', 'Область')
-                        ->setHtmlAttribute('class', 'text-center'),])
-                ->setFilters(AdminDisplayFilter::custom('sdadasdasd')->setCallback(function ($query, $value) {
-                })),
-            ])
-            ->setAction(route('savePostModerMsg'));
+        ]);/*->addBody([
 
-        $form2->getButtons()->setButtons([
+            AdminDisplay::table()->setModelClass(\App\Models\ADV\AdvTorgPostModerMsg::class)
+                ->setScopes('test')
+                ->setColumns([
+                    AdminColumn::text('id', 'ID')
+                        ->setHtmlAttribute('class', 'text-center')->setWidth('80px'),
+                    AdminColumn::text('add_date', 'Дата')
+                        ->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
+                    AdminColumn::custom('Текст', function (\Illuminate\Database\Eloquent\Model $model) {
+                        return "<div class='row-text'>
+                            {$model->msg}
+                            </div>";
+                    }),
+                    AdminColumn::custom('Исправлено', function (\Illuminate\Database\Eloquent\Model $model) {
+                        $text = $model->fixed ? "<span style='color: red'>Да</span>" : '-';
+                        return "<div class='row-text'>
+                            {$text}
+                            </div>";
+                    }),
+                    AdminColumn::text('fix_date', 'Дата испр.')
+                        ->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
+                ]),
+        ])*/
+
+
+        $formTwo->getButtons()->setButtons([
             'save' => null,
             'save_and_close' => null,
             'cancel' => null,
         ]);
 
+        $companies = AdminSection::getModel(AdvTorgPostModerMsg::class)->fireDisplay(['scopes' => ['test', $id]]);
 
-        $display = AdminDisplay::tabbed();
-        $display->appendTab($form, 'Редакирование');
-        $display->appendTab($form2, 'Модерация');
+
+      /*  $companies->getScopes()->push(['withContact', $id]);*/
+        /*$companies->setParameter('contact_id', $id);*/
+    /*    dd($companies);*/
+
+        $formTwo->addBody([
+            AdminFormElement::columns()->addColumn([
+                $companies,
+                AdminFormElement::html("<div style='text-align: center'><a href='/admin_dev/torg_buyer_bans?GetByUserId={$this->getModelValue()->author_id}'>Перейти к управлению баном для пользователя </a></div>")
+            ])
+        ])  ->setAction(route('savePostModerMsg'));
+
+
+
+        $display = AdminDisplay::tabbed([
+            'Редакирование' =>
+                $form,
+            'Модерация' => $formTwo,
+
+
+
+
+        ]);
+
+
+
+     /*   $display->appendTab($form, 'Редакирование');
+        $display->appendTab($form2, 'Модерация');*/
 
         return $display;
     }
@@ -480,10 +550,10 @@ class AdvTorgPost extends Section implements Initializable
     /**
      * @return FormInterface
      */
-    public function onCreate($payload = [])
-    {
-        return $this->onEdit(null, $payload);
-    }
+    /*  public function onCreate($payload = [])
+      {
+          return $this->onEdit(null, $payload);
+      }*/
 
     /**
      * @return bool

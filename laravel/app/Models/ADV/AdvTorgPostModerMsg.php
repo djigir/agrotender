@@ -12,4 +12,15 @@ class AdvTorgPostModerMsg extends Model
 
     protected $dates = ['add_date'];
     public $timestamps = false;
+
+    public function scopeTest($query)
+    {
+         $query->where('post_id', 2);
+    }
+    public function scopeWithContact($query, $contactId)
+    {
+        $query->whereHas('contacts', function ($q) use ($contactId) {
+            $q->where('contact_id', $contactId);
+        });
+    }
 }

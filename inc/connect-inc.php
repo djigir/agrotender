@@ -4,6 +4,8 @@ error_reporting(E_ALL);
     $db_host = '127.0.0.1';
     $db_user = 'whiskas';
     $db_password = '12345';
+   // $db_user = 'root';
+    //$db_password = 'root';
 	// Установление соединения с сервером mysqli
     if(!$upd_link_db=@mysqli_connect($db_host,$db_user,$db_password)){
 		die ("<center><b>Could not connect to local database.</b></center><br />");

@@ -84,6 +84,9 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Banner\BannerPlaces::class => 'App\Http\Sections\Advertising\BannerPlaces',
         \App\Models\Banner\BannerRotate::class => 'App\Http\Sections\Advertising\BannerRotate',
 
+                                                /* Fire */
+        \App\Models\ADV\AdvTorgPostModerMsg::class => 'App\Http\Sections\FastAccess\ModerMsg'
+
     ];
 
     /**
