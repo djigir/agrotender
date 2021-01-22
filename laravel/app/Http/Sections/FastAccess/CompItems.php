@@ -97,18 +97,16 @@ class CompItems extends Section implements Initializable
         }
 
         $columns = [
-
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
-            })->setWidth('100px')
+            })->setWidth('90px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable('id'),
 
-
-            AdminColumn::image('logo_file', 'Лого'),
+            AdminColumn::image('logo_file', 'Лого')->setWidth('50px')->setImageWidth('40px'),
 
             AdminColumn::link('title', 'Компания')
-                ->setHtmlAttribute('class', 'text-center'),
+                ->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::text('torgBuyer.name', 'Ф.И.О')
                 ->setWidth('130px')
@@ -118,6 +116,7 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::text('torgBuyer.login', 'Логин')
+                ->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
@@ -131,7 +130,7 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::text('add_date', 'Дата рег./Последн. вход', 'torgBuyer.last_login')
-                ->setWidth('192px')
+                ->setWidth('190px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('T/З/У', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -139,7 +138,7 @@ class CompItems extends Section implements Initializable
                         <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=1&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 1)->count()}</a> /
                         <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=3&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 3)->count()}</a>
                         ";
-            })->setWidth('80px')
+            })->setWidth('75px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
@@ -149,7 +148,7 @@ class CompItems extends Section implements Initializable
 //                ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('rate', 'Посещений')
-                ->setWidth('110px')
+                ->setWidth('105px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('buyerTarifPacks.title', 'Пакет')
@@ -160,7 +159,7 @@ class CompItems extends Section implements Initializable
                 }),
 
             AdminColumn::count('compComment', 'Отзывов')
-                ->setWidth('83px')
+                ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);

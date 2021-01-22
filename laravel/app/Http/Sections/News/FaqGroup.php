@@ -58,20 +58,21 @@ class FaqGroup extends Section implements Initializable
     {
         $columns = [
             AdminColumn::custom('Иконка', function (Model $model) {
-                return "<div class='row-image logo-img text-center'>
-						<a href='http://agrotender.local/files/{$model->icon_filename}' data-toggle='lightbox'>
-				            <img class='thumbnail' src='http://agrotender.local/files/{$model->icon_filename}'>
+                $url = \Str::before(\Request::url(), '/ad') . '/files/' . $model->icon_filename;
+                return "<div class='row-image logo-img'>
+						<a href='{$url}' data-toggle='lightbox'>
+				            <img width='50' height='50' class='thumbnail' src='{$url}'>
 			            </a>
 			            </div>";
-            }),
+            })->setWidth('200px')->setOrderable(false),
 
             AdminColumn::custom('Название', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqGroupLang']['type_name']}</div>";
-            })->setWidth('80px'),
+            })->setWidth('200px'),
 
             AdminColumn::custom('Описание', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqGroupLang']['descr']}</div>";
-            })->setWidth('80px'),
+            })->setWidth('200px'),
         ];
 
         $display = AdminDisplay::datatables()

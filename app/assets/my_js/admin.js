@@ -40,7 +40,7 @@ window.onload = function (){
         let link_for_preload = link.attr('href', src.replace(window.location.host, window.location.host + '/files'))
     }
 
-    if(str.indexOf('faq_groups') !== -1){
+    if(str.indexOf('faq_groups') !== -1 && str.indexOf('edit') !== -1){
         let for_preview = img_input.attr('src', src.replace(window.location.host, window.location.host + '/files'))
         let link_for_preload = link.attr('href', src.replace(window.location.origin, window.location.origin + '/files'))
     }
