@@ -3310,6 +3310,7 @@ function Board_PostPhotosNum($prod_id) { global $upd_link_db;
 
 function Board_PostPhotos($LangId, $prod_id, $pn=0) { global $upd_link_db;
 	global $TABLE_ADV_POST_PICS, $PICHOST;
+	//$PICHOST = 'http://agrotender.local/';
 
 	$photos = Array();
 

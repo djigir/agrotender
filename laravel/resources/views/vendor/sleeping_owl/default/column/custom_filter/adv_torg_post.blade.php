@@ -1,3 +1,16 @@
+<style>
+    #section:focus{
+        box-shadow: 0 0 0 12px red!important; ;
+
+    }
+    #section{
+        width: 900px;
+    }
+    .form-control:focus{
+        border-color: red;
+    }
+
+</style>
 @php
     use App\Models\ADV\AdvTorgTgroups;
     use App\Models\ADV\AdvTorgTopic;
@@ -18,10 +31,11 @@
         foreach ($groups as $key => $value) {
             $groupFilter[$key + 10000] = $value;
             foreach ($subgroups[$key] as $key2 => $value2)
-                $groupFilter[$value2['id']] = '-' . $value2['title'];
+                $groupFilter[$value2['id']] = $value2['title'];
         }
      //sections
-     $sections = AdvTorgTopic::query()->where('parent_id', request()->get('group'))->pluck('title','id')->toArray();
+  //   $sections = AdvTorgTopic::query()->where('parent_id', request()->get('group'))->pluck('title','id')->toArray();
+     $sections = AdvTorgTopic::query()->where('parent_id','<>',0)->select('id','parent_id','title')->with('subTopic:id,menu_group_id') ->get()->sortBy('parent_id')->toArray();
     //period
     $period =[1 => 'Сегодня',
               2 => 'За 7 дней'];
@@ -66,21 +80,22 @@
                     </select>
                     </span>
                     <span style="display: inline-block;padding: 2px">Раздел:
-                        <select style="width:300px;" data-type="select" name="group" class="form-control input-select column-filter ">
+                        <select style="width:300px;" data-type="select" name="group" class="form-control input-select column-filter " onchange="showSubCategoies(this.value)">
                         <option {{!request('group')?'selected="selected"':''}}   value="" >Все разделы</option>
                         @foreach($groupFilter as $key => $value)
-                            <option value="{{$key}}" {{request('group') == $key?'selected="selected"':''}}>{{$value}}</option>
+                            <option value="{{$key}}" {{request('group') == $key?'selected="selected"':''}} >@if($key<10000)&nbsp;&nbsp;&nbsp;@endif  {{$value}}</option>
                         @endforeach
                     </select>
                     </span>
                     <span style="display: inline-block;padding: 2px">Секция:
-                        <select style="width:300px;" data-type="select" name="section" class="form-control input-select column-filter ">
+                        <select style="width:300px;" data-type="select" name="section" class="form-control  column-filter" id ='section'>
                         <option {{!request('section')?'selected="selected"':''}}   value="" >Все секции</option>
                         @foreach($sections as $key => $value)
-                            <option value="{{$key}}" {{request('section') == $key?'selected="selected"':''}}>{{$value}}</option>
+                            <option data-main="{{$value['sub_topic']['menu_group_id']}}" data-parent="{{$value['parent_id']}}" value="{{$value['id']}}" {{request('section') == $value['id']?'selected="selected"':''}}>{{$value['title']}}</option>
                         @endforeach
                     </select>
                     </span>
+
                     <span style="display: inline-block;padding: 2px">За:
                         <select style="width:150px;" data-type="select" name="period" class="form-control input-select column-filter ">
                         <option {{!request('group')?'selected="selected"':''}}   value="" >Не Указан</option>
@@ -161,10 +176,28 @@
        document.getElementById('sesid').value = id;
        document.getElementById('bntSub').click();
 
+    }
 
+    function showSubCategoies(id) {
+      if (!id)
+      {
+          $('select[data-type="select"] option').show()
+          return true
+      }
 
+        $('select[data-type="select"] option').hide()
+        $('#section').show()
+       if (id<10000) {
+          $('select[data-type=\"select\"] option[ data-parent=' + id + ']').show()
+
+      }
+      else {
+          id = id-10000
+          $('select[data-type=\"select\"] option[ data-main=' + id + ']').show()
+      }
 
     }
 
 </script>
+
 

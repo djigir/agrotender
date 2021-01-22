@@ -12,6 +12,7 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        '*/admin_dev/adv_torg_posts/dependent-select/topic_id/*',
+        '*/admin_dev/adv_torg_post_companies/dependent-select/topic_id/*',
     ];
 }

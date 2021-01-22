@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ADV\AdvTorgPost;
 use App\Models\ADV\AdvTorgPostModerMsg;
 use Carbon\Carbon;
+use Doctrine\DBAL\Driver\AbstractDB2Driver;
 use Illuminate\Http\Request;
 
 class CustomAdminPanelController extends Controller
@@ -18,11 +19,16 @@ class CustomAdminPanelController extends Controller
             'reason_3' => 'В тексте или заголовке объявления указаны недопустимые слова.',
             'reason_4' => 'Заголовок или текст объявления набран в верхнем регистре.',
         ];
+        $index = 1;
         foreach ($replace as $key => $value) {
-            if ($request->get('message')&& $request->get($key))
-                $message .= "$value<br>";
+            if ($request->get('message') && $request->get($key))
+            {
+                $index ===1? $message .= "$value":$message .= "<br>$value";
+            }
+            $index++;
+
         }
-        $message = str_replace('{TPL_RULES}',$message, $request->get('message'));
+        $message = str_replace("{TPL_RULES}",$message, $request->get('message'));
         AdvTorgPostModerMsg::create(
             ['post_id' => $request->get('post_id', 0),
                 'add_date' => Carbon::now(),
@@ -32,7 +38,6 @@ class CustomAdminPanelController extends Controller
         AdvTorgPost::find($request->get('post_id'))->update([
             'active' => 0,
         ]);
-
 
         return redirect($request->get('redirect'));
 

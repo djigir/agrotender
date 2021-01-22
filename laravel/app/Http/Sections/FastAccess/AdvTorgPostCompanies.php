@@ -35,13 +35,13 @@ use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
 
 /**
- * Class AdvTorgPost
+ * Class AdvTorgPostCompanies
  *
  * @property \App\Models\ADV\AdvTorgPost $model
  *
  * @see https://sleepingowladmin.ru/#/ru/model_configuration_section
  */
-class AdvTorgPost extends Section implements Initializable
+class AdvTorgPostCompanies extends Section implements Initializable
 {
     /**
      * @var bool
@@ -51,7 +51,7 @@ class AdvTorgPost extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Объявления';
+    protected $title = 'Объявления компаний';
 
     /**
      * @var string
@@ -221,7 +221,7 @@ class AdvTorgPost extends Section implements Initializable
             ->setApply(function ($query) {
                 if (!request('active'))
                     $query->where('active', 1)->where('archive', 0);
-
+                $query->where('company_id','<>',0);
             })
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])

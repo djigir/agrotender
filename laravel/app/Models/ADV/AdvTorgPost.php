@@ -8,6 +8,7 @@ use App\Models\Regions\Regions;
 use App\Models\Torg\TorgBuyer;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 /**
  * Class Adv_torg_post
@@ -60,8 +61,10 @@ class AdvTorgPost extends Model
 {
     protected $table = 'adv_torg_post';
 
+
+
     protected $fillable = [
-        'id', 'topic_id', 'obl_id', 'type_id', 'author_id', 'real_author_id', 'company_id', 'publish_utype',
+         'topic_id', 'obl_id', 'type_id', 'author_id', 'real_author_id', 'company_id', 'publish_utype',
         'active', 'moderated', 'archive', 'targeting', 'colored', 'fixdone', 'author', 'city', 'phone', 'phone2',
         'phone3', 'author2', 'author3', 'email', 'title', 'content', 'amount', 'izm', 'cost',
         'cost_izm', 'cost_cur', 'cost_dog', 'ups', 'ups_do_notif', 'deact_ups_guid', 'dub_guid', 'viewnum', 'viewnum_uniq', 'viewnum_cont', 'remote_ip',
@@ -71,10 +74,6 @@ class AdvTorgPost extends Model
     public function setVirtualAttribute($value)
     {
 
-    }
-    public function setIdAttribute($value)
-    {
-        $this->attributes['id'] = $this->attributes['id'];
     }
 
 
@@ -116,11 +115,40 @@ class AdvTorgPost extends Model
         return $this->hasManyThrough(BuyerAuthArch::class,TorgBuyer::class,'id','user_login','author_id','login');
     }
 
+    public function pics()
+    {
+        return $this->hasOne(AdvTorgPostPics::class, 'item_id', 'id');
+    }
 
     public function compItems()
     {
         return $this->hasOne(CompItems::class, 'id', 'author_id');
     }
+
+
+    public function getImagesAttribute()
+    {
+        return $this->pics->images??'';
+    }
+
+    public function setImagesAttribute($values)
+    {
+        $basePath = '/var/www/agrotender/';
+        $filesForDelete = AdvTorgPostPics::query()->where('item_id','=', request()->get('id'))
+            ->whereNotIn('filename',$values)
+            ->whereNotIn('filename_ico',$values)
+            ->pluck('filename_ico','filename')->toArray();
+        AdvTorgPostPics::query()->where('item_id','=', request()->get('id'))
+            ->whereNotIn('filename',$values)
+            ->whereNotIn('filename_ico',$values)->delete();
+        foreach ($filesForDelete as $key => $item)
+        {
+            File::delete($basePath.$key);
+            File::delete($basePath.$item);
+
+        }
+    }
+
 
     /**
      * @param     $query

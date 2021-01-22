@@ -127,7 +127,8 @@ class TorgBuyerBan extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-                \AdminDisplayFilter::scope('GetBanedUser') // ?type=news | ?latest&type=news
+                \AdminDisplayFilter::scope('GetBanedUser'), // ?type=news | ?latest&type=news
+                \AdminDisplayFilter::scope('GetByUserId') // ?type=news | ?latest&type=news
             );
 
         $display->setColumnFilters([

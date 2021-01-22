@@ -63,6 +63,9 @@ return [
             (new Page(\App\Models\ADV\AdvTorgPost::class))
                 ->setIcon('fas fa-ad')
                 ->setPriority(0),
+            (new Page(\App\Models\ADV\AdvTorgPostCompanies::class))
+                ->setIcon('fas fa-ad')
+                ->setPriority(0),
         ],
 
     ],
