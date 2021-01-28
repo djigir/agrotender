@@ -14,12 +14,14 @@ class AdminSectionsServiceProvider extends ServiceProvider
 //        \App\Models\Users\User::class => 'App\Http\Sections\Users\Users',
 
                             /* Быстрый Доступ  Fast access */
-        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
+//        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
         \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
         \App\Models\ADV\AdvTorgPost::class => 'App\Http\Sections\FastAccess\AdvTorgPost',
         \App\Models\ADV\AdvTorgPostCompanies::class => 'App\Http\Sections\FastAccess\AdvTorgPostCompanies',
         \App\Models\Comp\CompItemsActive::class => 'App\Http\Sections\FastAccess\ActiveTraders',
         \App\Models\Comp\CompItemsTraders::class => 'App\Http\Sections\FastAccess\Traders',
+        \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
+
 
                                 /* Цены трейдеров */
         \App\Models\Traders\TradersProducts::class => 'App\Http\Sections\TraderPrices\TradersProducts',
@@ -27,7 +29,6 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Traders\TradersPorts::class => 'App\Http\Sections\TraderPrices\TradersPorts',
         \App\Models\Traders\TradersProductsSell::class => 'App\Http\Sections\TraderPrices\TradersProductsSell',
         \App\Models\Traders\TradersProductGroups::class => 'App\Http\Sections\TraderPrices\TradersProductGroups',
-
 
 
 
@@ -41,9 +42,6 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\Buyer\BuyerPacksOrders::class => 'App\Http\Sections\UserManagement\BuyerPacksOrders',
 
 
-                                    /* Быстрый доступ */
-        \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
-
 
                                 /* Новости/Библиотека */
         \App\Models\News\News::class => 'App\Http\Sections\News\AgtNews',
@@ -53,7 +51,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
 
 
                                 /* Доска объявлений  board */
-        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Board\AdvSearch',
+//        \App\Models\ADV\AdvSearch::class => 'App\Http\Sections\Board\AdvSearch',
         \App\Models\ADV\AdvTorgTgroups::class => 'App\Http\Sections\Board\AdvTorgTgroups',
         \App\Models\ADV\AdvTorgPostComplains::class => 'App\Http\Sections\Board\AdvTorgPostComplains',
         \App\Models\ADV\AdvWordTopic::class => 'App\Http\Sections\Board\AdvWordTopic',
@@ -63,11 +61,11 @@ class AdminSectionsServiceProvider extends ServiceProvider
 
                                         /* Компании */
         \App\Models\Comp\CompTopic::class => 'App\Http\Sections\Companies\CompTopic',
-        \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
-        \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
+//        \App\Models\Comp\CompNews::class => 'App\Http\Sections\Companies\CompNews',
+//        \App\Models\Comp\CompVacancy::class => 'App\Http\Sections\Companies\CompVacancy',
         \App\Models\Comp\CompTgroups::class => 'App\Http\Sections\Companies\CompTgroups',
-        \App\Models\Comp\CompComment::class => 'App\Http\Sections\Companies\CompComment',
-        \App\Models\Comp\CompCommentComplains::class => 'App\Http\Sections\Companies\CompCommentComplains',
+//        \App\Models\Comp\CompComment::class => 'App\Http\Sections\Companies\CompComment',
+//        \App\Models\Comp\CompCommentComplains::class => 'App\Http\Sections\Companies\CompCommentComplains',
 
 
                                     /* Управление алгоритмами */

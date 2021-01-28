@@ -1,4 +1,5 @@
-@if ( ! empty($title) && (!substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts') && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') ))
+@if ( ! empty($title) && (!substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts')&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') )
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')))
     <div class="row">
         <div class="col-lg-12 pt-3">
             {!! $title !!}
@@ -69,6 +70,10 @@
         @yield('panel.heading')
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts') ||substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') ) && !substr_count($createUrl,'/admin_dev/adv_torg_post_moder_msgs') )
                 @include('vendor.sleeping_owl.default.column.custom_filter.adv_torg_post')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')))
+                @include('vendor.sleeping_owl.default.column.custom_filter.comp_items_traders')
             @endif
 
     </div>

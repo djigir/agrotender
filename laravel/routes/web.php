@@ -9,7 +9,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
 
+
 /* Admins routes */
+Route::get('/admin_dev/delete_traders', 'TraderController@deleteAdmin')->name('delete_traders_admin');
+/* */
 
 /* routes for traders  */
 Route::prefix('admin_dev')
@@ -19,7 +22,6 @@ Route::prefix('admin_dev')
         Route::get('/download_phones', 'AdminController@downloadPhones')->name('download_phones');
         Route::get('/download_company_emails', 'AdminController@downloadCompanyEmails')->name('download_company_emails');
     });
-
 
 /* routes for traders  */
 Route::prefix('traders')
@@ -38,8 +40,6 @@ Route::prefix('traders')
 
         Route::get('/get_traders_card', 'TraderController@addTradersCard')->name('get_traders_card');
         Route::get('/get_traders_table', 'TraderController@addTradersTable')->name('get_traders_table');
-
-
 
         Route::get('/tport_{port_name}', 'TraderController@port')->name('port');
         Route::get('/tport_{port}/{culture}', 'TraderController@portCulture')->name('port_culture');

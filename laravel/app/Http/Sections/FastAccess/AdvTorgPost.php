@@ -83,7 +83,7 @@ class AdvTorgPost extends Section implements Initializable
             })->setWidth('65px')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                }),
+                })->setHtmlAttribute('class', 'text-center'),
 
                    AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
                        $titleTopic = $model['advTorgTopic']->title??'';
@@ -210,11 +210,11 @@ class AdvTorgPost extends Section implements Initializable
                             <small class='clearfix'>{$model->up_dt}</small>
                             {$wordsBan}
                             {$moderated}
-                          
+
                         </div>";
             })->setOrderable(function ($query, $direction) {
                 $query->orderBy('add_date', $direction);
-            }),
+            })->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -471,8 +471,8 @@ class AdvTorgPost extends Section implements Initializable
             AdminFormElement::checkbox('reason_4', 'Капслок')->setDefaultValue(0),
             AdminFormElement::html("</div>"),
             AdminFormElement::ckeditor('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
-                ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>    
-                <br>    
+                ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>
+                <br>
 {TPL_RULES}<br>
 <br>
 Исправьте данные нарушения и мы восстановим ротацию объявления."),

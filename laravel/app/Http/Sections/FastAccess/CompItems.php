@@ -49,7 +49,7 @@ class CompItems extends Section implements Initializable
     /**
      * @var string
      */
-    protected $title = 'Редактор компаний';
+    protected $title = 'Компании';
 
     /**
      * @var string
@@ -115,22 +115,8 @@ class CompItems extends Section implements Initializable
                     $query->orderBy('id', $direction);
                 }),
 
-            AdminColumn::text('torgBuyer.login', 'Логин')
-                ->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::text('region.name', 'Область')
-                ->setWidth('140px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('obl_id', $direction);
-                }),
-
-            AdminColumn::text('add_date', 'Дата рег./Последн. вход', 'torgBuyer.last_login')
-                ->setWidth('190px')
+            AdminColumn::text('add_date', 'Дата рег./Вход', 'torgBuyer.last_login')
+                ->setWidth('192px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('T/З/У', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -143,32 +129,10 @@ class CompItems extends Section implements Initializable
                 ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
 
 
-//            AdminColumn::text('rate_formula', 'Рейт.')
-//                ->setWidth('65px')
-//                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('rate', 'Посещений')
-                ->setWidth('105px')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('buyerTarifPacks.title', 'Пакет')
-                ->setWidth('130px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::count('compComment', 'Отзывов')
-                ->setWidth('80px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
+            AdminColumn::custom('Войти', function (\App\Models\Comp\CompItems $compItems){
                 $WWWHOST = 'https://agrotender.com.ua/';
-                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn btn-success btn-sm'>Войти</a>";
-            })->setWidth('126px')
+                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn-success btn btn-xs' title='' data-toggle='tooltip' data-original-title='Залогиниться'><i class='fas fa-user-lock'></i></a>";
+            })->setWidth('60px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable('id'),
 
@@ -194,14 +158,14 @@ class CompItems extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
 
-            AdminColumnFilter::select()
-                ->setOptions($rubrik_select)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('compTopicItem.topic_id')
-                ->setPlaceholder('Все секции'),
+//            AdminColumnFilter::select()
+//                ->setOptions($rubrik_select)
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('compTopicItem.topic_id')
+//                ->setPlaceholder('Все секции'),
 
 
             \AdminColumnFilter::select()
@@ -223,30 +187,24 @@ class CompItems extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('title')
                 ->setOperator('contains')
-                ->setPlaceholder('По названию компании'),
+                ->setPlaceholder('Название компании'),
 
             AdminColumnFilter::text()
                 ->setColumnName('torgBuyer.login')
-                ->setPlaceholder('Фильтровать по E-mail'),
+                ->setPlaceholder('E-mail'),
 
             AdminColumnFilter::text()
                 ->setColumnName('phone')
-                ->setHtmlAttribute('class', 'phone_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                ->setPlaceholder('по Тел.'),
+                ->setPlaceholder('Тел.'),
 
             AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'author_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                 ->setColumnName('torgBuyer.name')
                 ->setOperator('contains')
-                ->setPlaceholder('по Автору'),
+                ->setPlaceholder('Автор'),
 
             AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'ID_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
                 ->setColumnName('id')
-                ->setPlaceholder('по ID'),
+                ->setPlaceholder('ID'),
 
         ]);
 

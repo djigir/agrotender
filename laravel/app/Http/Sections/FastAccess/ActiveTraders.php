@@ -81,9 +81,7 @@ class ActiveTraders extends Section implements Initializable
 
 
             AdminColumn::image('logo_file', 'Лого'),
-
-            AdminColumn::text('title', 'Название')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('title', 'Название'),
 
             AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
                 $table = 'Да';

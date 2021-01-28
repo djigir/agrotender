@@ -5,6 +5,7 @@ namespace App\Http\Sections\FastAccess;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Buyer\BuyerTarifPacks;
@@ -28,9 +29,10 @@ use SleepingOwl\Admin\Section;
  */
 class Traders extends Section implements Initializable
 {
-    /* const for filter  */
     const TRADER_SELL = 100;
     const TRADER_BUYER = 200;
+
+    protected $per_page = 25;
     /**
      * @var bool
      */
@@ -69,6 +71,7 @@ class Traders extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
+
         $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
         $rubriks_gr = CompTgroups::all();
 
@@ -85,6 +88,7 @@ class Traders extends Section implements Initializable
         }
 
         $columns = [
+            AdminColumn::checkbox('')->setOrderable(false),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('80px')
@@ -93,69 +97,29 @@ class Traders extends Section implements Initializable
 
             AdminColumn::image('logo_file', 'Лого')->setWidth('50px'),
 
-            AdminColumn::link('title', 'Компания')
+            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')
                 ->setWidth('110px')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::text('torgBuyer.name', 'Ф.И.О')
-                ->setWidth('140px')
-                ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::text('torgBuyer.login', 'Логин')
-                ->setWidth('110px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                }),
-
-            AdminColumn::text('region.name', 'Область')
-                ->setWidth('140px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('obl_id', $direction);
-                }),
-
-            AdminColumn::text('add_date', 'Дата рег./Последн. вход', 'torgBuyer.last_login')
-                ->setWidth('195px')
+                })
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('T/З/У', function (\Illuminate\Database\Eloquent\Model $model) {
-                return "<a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=2&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 2)->count()}</a> /
-                        <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=1&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 1)->count()}</a> /
-                        <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=3&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 3)->count()}</a>
-                        ";
-            })->setWidth('110px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
+            AdminColumn::text('torgBuyer.last_login', 'Последний вход')
+                ->setOrderable(function($query, $direction) {
+                    $query->orderBy('torgBuyer.last_login', $direction);
+                })->setWidth('80px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
-            AdminColumn::text('rate', 'Посещений')
-                ->setWidth('110px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
+                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? $model['torgBuyer']['buyerPacksOrders'][0]['endt'] : '';
+                return "<div class='row-text text-center'>{$package}</div>";
+            })->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
 
-//            AdminColumn::text('buyerTarifPacks.title', 'Пакет')
-//                ->setWidth('130px')
-//                ->setHtmlAttribute('class', 'text-center')
-//                ->setOrderable(function($query, $direction) {
-//                    $query->orderBy('id', $direction);
-//                }),
-//
-//            AdminColumn::count('compComment', 'Отзывов')
-//                ->setWidth('90px')
-//                ->setHtmlAttribute('class', 'text-center')
-//                ->setOrderable(function($query, $direction) {
-//                    $query->orderBy('id', $direction);
-//                }),
-
-            AdminColumn::custom('Действие', function (\App\Models\Comp\CompItems $compItems){
+            AdminColumn::custom('Войти', function (\App\Models\Comp\CompItems $compItems){
                 $WWWHOST = 'https://agrotender.com.ua/';
-                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn btn-success btn-sm'>Войти</a>";
-            })->setWidth('150px')
+                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn-success btn btn-xs' title='' data-toggle='tooltip' data-original-title='Залогиниться'><i class='fas fa-user-lock'></i></a>";
+            })->setWidth('50px')
                 ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable('id'),
-
+                ->setOrderable(false),
         ];
 
 
@@ -166,81 +130,56 @@ class Traders extends Section implements Initializable
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
-            ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('name')
-                ->setColumnName('obl_id')
-                ->setPlaceholder('Все Области'),
-
-//            AdminColumnFilter::select()
-//                ->setOptions($rubrik_select)
-//                ->setLoadOptionsQueryPreparer(function($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('compTopicItem.topic_id')
-//                ->setPlaceholder('Все секции'),
-
-
-            \AdminColumnFilter::select()
-                ->setOptions([
-                    self::TRADER_BUYER => 'Трейдер (закуп.)',
-                    self::TRADER_SELL => 'Трейдер (продажи.)',
-                ])
-                ->setPlaceholder('Все компании')->setCallback(function( $value,$query,$v) {
-                    $request = \request()->get('columns')[2]['search']['value'];
-
-                    if ($request == 100){
-                        $query->where('trader_price_sell_avail', 1);
-                    }
-                    if ($request == 200){
-                        $query->where('trader_price_avail', 1);
-                    }
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setActions([
+                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
+            ])
+            ->setFilters(
+                AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
+                    $query->where('id', $value);
                 }),
 
-            AdminColumnFilter::text()
-                ->setColumnName('title')
-                ->setOperator('contains')
-                ->setPlaceholder('По названию компании'),
+                AdminDisplayFilter::custom('phone')->setCallback(function ($query, $value) {
+                    $query->where('phone', $value);
+                }),
 
-            AdminColumnFilter::text()
-                ->setColumnName('torgBuyer.login')
-                ->setPlaceholder('Фильтровать по E-mail'),
+                AdminDisplayFilter::custom('author')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgBuyer', function ($query) use ($value) {
+                        $query->where('name', $value);
+                    });
+                }),
 
-            AdminColumnFilter::text()
-                ->setColumnName('phone')
-                ->setHtmlAttribute('class', 'phone_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                ->setPlaceholder('по Тел.'),
+                AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgBuyer', function ($query) use ($value) {
+                        $query->where('login', $value);
+                    });
+                })
 
-            AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'author_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                ->setColumnName('torgBuyer.name')
-                ->setOperator('contains')
-                ->setPlaceholder('по Автору'),
 
-            AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'ID_search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css'))
-                ->setColumnName('id')
-                ->setPlaceholder('по ID'),
-
-        ]);
-
+            );
+//        $display->setColumnFilters([
+//            AdminColumnFilter::text()
+//                ->setColumnName('torgBuyer.login')
+//                ->setPlaceholder('E-mail'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('phone')
+//                ->setPlaceholder('Тел.'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('torgBuyer.name')
+//                ->setOperator('contains')
+//                ->setPlaceholder('Автору'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('id')
+//                ->setPlaceholder('ID'),
+//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
-        return $display;
+        return $display->paginate((int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate"));
     }
 
     /**
@@ -253,14 +192,9 @@ class Traders extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('title', 'Название')
-                    ->required(),
-
+                AdminFormElement::text('title', 'Название')->required(),
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
-
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
-
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_avail', 'Активна')
@@ -276,12 +210,8 @@ class Traders extends Section implements Initializable
                         2 => 'Премиум +'
                     ]),
 
-//                AdminFormElement::number('trader_sort', 'Приоретет'),
-
                 AdminFormElement::html('<hr>'),
-
                 AdminFormElement::html('<span>Таблица продаж:</span>'),
-
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_sell_avail', 'Активна')
@@ -297,7 +227,6 @@ class Traders extends Section implements Initializable
                         2 => 'Премиум +'
                     ]),
 
-//                AdminFormElement::number('trader_sort_sell', 'Приоретет'),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                 AdminFormElement::html('<span>Таблица форвардов:</span>'),
                 AdminFormElement::html('<hr>'),
@@ -314,7 +243,6 @@ class Traders extends Section implements Initializable
                         1 => 'Да',
                     ]),
 
-//                AdminFormElement::number('trader_sort_forward', 'Приоретет'),
                 AdminFormElement::html('<hr>'),
 
 
@@ -348,6 +276,7 @@ class Traders extends Section implements Initializable
 //    }
 
     /**
+     * @param Model $model
      * @return bool
      */
     public function isDeletable(Model $model)

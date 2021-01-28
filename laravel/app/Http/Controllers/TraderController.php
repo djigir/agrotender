@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Seo\SeoTitles;
 use App\Models\Traders\Traders_Products_Lang;
@@ -91,6 +92,10 @@ class TraderController extends Controller
         return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
     }
 
+    public function deleteAdmin()
+    {
+        CompItems::whereIn('id', \request()->get('_id'))->delete();
+    }
 
     public function setDataForTraders($data)
     {

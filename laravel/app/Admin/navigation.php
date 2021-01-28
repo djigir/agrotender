@@ -22,19 +22,6 @@ use SleepingOwl\Admin\Navigation\Page;
 // AdminSection::addMenuPage(\App\User::class)
 
 return [
-//    [
-//        'title' => 'Dashboard',
-//        'icon'  => 'fas fa-tachometer-alt',
-//        'url'   => route('admin.dashboard'),
-//    ],
-
-//    [
-//        'title' => 'Information',
-//        'icon'  => 'fas fa-info-circle',
-//        'url'   => route('admin.information'),
-//    ],
-
-
     [
         'title' => 'Быстрый доступ',
         'icon' => 'fas fa-tachometer-alt',
@@ -56,9 +43,9 @@ return [
                 ->setIcon('fas fa-warehouse')
                 ->setPriority(0),
 
-            (new Page(\App\Models\Lenta\Lenta::class))
-                ->setIcon('fas fa-scroll')
-                ->setPriority(0),
+//            (new Page(\App\Models\Lenta\Lenta::class))
+//                ->setIcon('fas fa-scroll')
+//                ->setPriority(0),
 
             (new Page(\App\Models\ADV\AdvTorgPost::class))
                 ->setIcon('fas fa-ad')
@@ -84,9 +71,9 @@ return [
                 ->setIcon('fas fa-minus-circle')
                 ->setPriority(0),
 
-            (new Page(\App\Models\ADV\AdvSearch::class))
-                ->setIcon('fas fa-question')
-                ->setPriority(0),
+//            (new Page(\App\Models\ADV\AdvSearch::class))
+//                ->setIcon('fas fa-question')
+//                ->setPriority(0),
 
             (new Page(\App\Models\ADV\AdvWordTopic::class))
                 ->setIcon('fas fa-info')
@@ -125,13 +112,13 @@ return [
 //                ->setIcon('fas fa-briefcase')
 //                ->setPriority(0),
 
-            (new Page(\App\Models\Comp\CompComment::class))
-                ->setIcon('fas fa-comments')
-                ->setPriority(0),
-
-            (new Page(\App\Models\Comp\CompCommentComplains::class))
-                ->setIcon('fas fa-ban')
-                ->setPriority(0),
+//            (new Page(\App\Models\Comp\CompComment::class))
+//                ->setIcon('fas fa-comments')
+//                ->setPriority(0),
+//
+//            (new Page(\App\Models\Comp\CompCommentComplains::class))
+//                ->setIcon('fas fa-ban')
+//                ->setPriority(0),
 
 
 

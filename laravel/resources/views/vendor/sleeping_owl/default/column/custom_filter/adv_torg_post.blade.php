@@ -60,7 +60,7 @@
 
 @endphp
         <form method="GET">
-        <div   class="display-filters-top table table-default display-filters">
+        <div class="display-filters-top table table-default display-filters">
 
                 <div style="">
                     <span style="display: inline-block; padding: 2px">Область:
