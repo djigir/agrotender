@@ -71,7 +71,7 @@ class Traders extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
+        $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
         $rubriks_gr = CompTgroups::all();
 
@@ -88,38 +88,35 @@ class Traders extends Section implements Initializable
         }
 
         $columns = [
-            AdminColumn::checkbox('')->setOrderable(false),
+            AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
+
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
-            })->setWidth('80px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable('id'),
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
-            AdminColumn::image('logo_file', 'Лого')->setWidth('50px'),
+            AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
             AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')
-                ->setWidth('110px')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                })
-                ->setHtmlAttribute('class', 'text-center'),
+            }),
+
+            AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('torgBuyer.last_login', 'Последний вход')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('torgBuyer.last_login', $direction);
-                })->setWidth('80px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+                })->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
             AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
                 $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? $model['torgBuyer']['buyerPacksOrders'][0]['endt'] : '';
                 return "<div class='row-text text-center'>{$package}</div>";
-            })->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Войти', function (\App\Models\Comp\CompItems $compItems){
                 $WWWHOST = 'https://agrotender.com.ua/';
                 return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn-success btn btn-xs' title='' data-toggle='tooltip' data-original-title='Залогиниться'><i class='fas fa-user-lock'></i></a>";
-            })->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable(false),
+            })->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
 
@@ -128,7 +125,7 @@ class Traders extends Section implements Initializable
                 $query->where('trader_price_avail', 1);
             })
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            //->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
@@ -155,31 +152,11 @@ class Traders extends Section implements Initializable
                         $query->where('login', $value);
                     });
                 })
-
-
             );
-//        $display->setColumnFilters([
-//            AdminColumnFilter::text()
-//                ->setColumnName('torgBuyer.login')
-//                ->setPlaceholder('E-mail'),
-//
-//            AdminColumnFilter::text()
-//                ->setColumnName('phone')
-//                ->setPlaceholder('Тел.'),
-//
-//            AdminColumnFilter::text()
-//                ->setColumnName('torgBuyer.name')
-//                ->setOperator('contains')
-//                ->setPlaceholder('Автору'),
-//
-//            AdminColumnFilter::text()
-//                ->setColumnName('id')
-//                ->setPlaceholder('ID'),
-//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
-        return $display->paginate((int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate"));
+        return $display->paginate($per_page);
     }
 
     /**

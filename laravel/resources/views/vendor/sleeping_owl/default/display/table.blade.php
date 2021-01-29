@@ -1,5 +1,5 @@
 @if ( ! empty($title) && (!substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts')&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') )
-&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')))
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders') && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items'))
     <div class="row">
         <div class="col-lg-12 pt-3">
             {!! $title !!}
@@ -21,30 +21,17 @@
              <?php $route_export = route('admin.download_users'); ?>
         @endif
 
-        @if(request()->server('REQUEST_URI') == '/admin_dev/torg_buyers?type=email_adverts')
-            <?php $route_export = route('admin.download_users'); ?>
-        @endif
-
-        @if(request()->server('REQUEST_URI') == '/admin_dev/comp_items?type=email_company')
-            <?php $route_export = route('admin.download_company_emails'); ?>
-        @endif
-
-
-        @if(request()->server('REQUEST_URI') == '/admin_dev/torg_buyers' ||
-            request()->server('REQUEST_URI') == '/admin_dev/torg_buyers?type=email_adverts' ||
-            request()->server('REQUEST_URI') == '/admin_dev/comp_items?type=email_company'
-            )
-
-                <form action="{{ $route_export }}" class="export-form" style="margin-bottom: 1rem;" autocomplete="off">
-                    <input type="hidden" name="obl_id" class="export-input_obl" value="">
-                    <input type="hidden" name="section_id" class="export-input_section" value="">
-                    <input type="hidden" name="email_filter" class="export-input_email_filter" value="">
-                    <input type="hidden" name="phone_filter" class="export-input_phone_filter" value="">
-                    <input type="hidden" name="name_filter" class="export-input_name_filter" value="">
-                    <input type="hidden" name="id_filter" class="export-input_id_filter" value="">
-                    <input type="hidden" name="ip_filter" class="export-input_ip_filter" value="">
-                    <input type="submit" value="Выгрузить csv" class="export-btn btn btn-warning btn-create export-btn">
-                </form>
+        @if(request()->server('REQUEST_URI') == '/admin_dev/torg_buyers')
+            <form action="{{ $route_export }}" class="export-form" style="margin-bottom: 1rem;" autocomplete="off">
+                <input type="hidden" name="obl_id" class="export-input_obl" value="">
+                <input type="hidden" name="section_id" class="export-input_section" value="">
+                <input type="hidden" name="email_filter" class="export-input_email_filter" value="">
+                <input type="hidden" name="phone_filter" class="export-input_phone_filter" value="">
+                <input type="hidden" name="name_filter" class="export-input_name_filter" value="">
+                <input type="hidden" name="id_filter" class="export-input_id_filter" value="">
+                <input type="hidden" name="ip_filter" class="export-input_ip_filter" value="">
+                <input type="submit" value="Выгрузить csv" class="export-btn btn btn-warning btn-create export-btn">
+            </form>
         @endif
 
         {{-- убрать кнопку "Новая запись" если роуты .... --}}
@@ -52,7 +39,7 @@
 
         @if ($creatable)
             <a href="{{ url($createUrl) }}" class="btn btn-primary btn-create"
-               @if($route == '/admin_dev/torg_buyers?type=email_adverts' || $route == '/admin_dev/torg_buyers' || $route == '/admin_dev/py_bill_docs')
+               @if($route == '/admin_dev/torg_buyers' || $route == '/admin_dev/py_bill_docs')
                style="display: none" @endif>
                 <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
             </a>
@@ -72,8 +59,12 @@
                 @include('vendor.sleeping_owl.default.column.custom_filter.adv_torg_post')
             @endif
 
-            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')))
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')) && \Request::segment(2) == 'comp_items_traders')
                 @include('vendor.sleeping_owl.default.column.custom_filter.comp_items_traders')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')) && \Request::segment(2) == 'comp_items')
+                @include('vendor.sleeping_owl.default.column.custom_filter.comp_items')
             @endif
 
     </div>

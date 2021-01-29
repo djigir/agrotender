@@ -17,8 +17,8 @@
 <form method="GET">
     <div class="display-filters-top table table-default display-filters">
         <div data-index="0">
-            <select name="paginate" class="form-control column-filter">
-                <option value="0">Показать по</option>
+            <select name="paginate" class="form-control input-select column-filter">
+                <option @if(request('paginate') == 0) selected="selected" @endif value="0">Показать по</option>
                 <option @if(request('paginate') == 25) selected="selected" @endif value="25">25</option>
                 <option @if(request('paginate') == 50) selected="selected" @endif value="50">50</option>
                 <option @if(request('paginate') == 100) selected="selected" @endif value="100">100</option>

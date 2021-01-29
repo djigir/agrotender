@@ -80,7 +80,7 @@ class ActiveTraders extends Section implements Initializable
                 ->setOrderable('id'),
 
 
-            AdminColumn::image('logo_file', 'Лого'),
+            AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
             AdminColumn::text('title', 'Название'),
 
             AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){

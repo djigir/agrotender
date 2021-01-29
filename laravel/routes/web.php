@@ -5,13 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::any('/test','TestController@index')->name('test');
 Route::get('/home', 'HomeController@index')->name('home');
-//Auth::routes();
 
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
 
-
 /* Admins routes */
-Route::get('/admin_dev/delete_traders', 'TraderController@deleteAdmin')->name('delete_traders_admin');
+Route::get('/admin_dev/delete_traders', 'TraderController@deleteTradersAdmin')->name('delete_traders_admin');
+Route::get('/admin_dev/delete_posts', 'TraderController@deletePostsAdmin')->name('delete_posts_admin');
 /* */
 
 /* routes for traders  */
@@ -88,15 +87,6 @@ Route::prefix('kompanii')
         Route::get('/comp-{id_company}', 'CompanyController@company')->name('index');
         Route::post('/create_review/{id_company}', 'CompanyController@createReviews')->name('create_review');
     });
-
-
-//Route::prefix('info')
-//    ->name('info.')
-//    ->group(function () {
-//        Route::get('/orfeta', 'InfoController@companies')->name('orfeta');
-//        Route::get('/limit_adv', 'InfoController@companies')->name('limit_adv');
-//        Route::get('/contacts', 'InfoController@companies')->name('contacts');
-//});
 
 
 Route::prefix('u')

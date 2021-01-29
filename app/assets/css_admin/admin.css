@@ -112,6 +112,10 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
     outline: none;
 }
 
+.display-filters.display-filters-top, .display-filters.display-filters-top>div {
+    margin-bottom: .5rem !important;
+}
+
 .table-primary tbody+tbody, .table-primary td, .table-primary th, .table-primary thead th {
      border-color: rgba(0,40,100,.12);;
 }

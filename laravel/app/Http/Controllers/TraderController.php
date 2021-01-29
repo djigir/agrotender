@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Models\ADV\AdvTorgPost;
 use App\Models\Comp\CompItems;
 use App\Models\Regions\Regions;
 use App\Models\Seo\SeoTitles;
@@ -92,10 +92,18 @@ class TraderController extends Controller
         return ['region' => $name_region, 'port' => $port_name, 'onlyPorts' => $onlyPorts];
     }
 
-    public function deleteAdmin()
+
+    public function deleteTradersAdmin()
     {
         CompItems::whereIn('id', \request()->get('_id'))->delete();
     }
+
+    /* TODO временно метод здесь пока мы не сделаем объявления */
+    public function deletePostsAdmin()
+    {
+        AdvTorgPost::whereIn('id', \request()->get('_id'))->delete();
+    }
+
 
     public function setDataForTraders($data)
     {

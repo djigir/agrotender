@@ -73,74 +73,51 @@ class AdvTorgPost extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
+        $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
+            AdminColumn::checkbox('')->setWidth('70px')->setOrderable(false),
 
             AdminColumn::custom('ID', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
                         </div>";
-            })->setWidth('65px')
-                ->setOrderable(function($query, $direction) {
+            })->setWidth('65px')->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center'),
 
-                   AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
-                       $titleTopic = $model['advTorgTopic']->title??'';
-                       $titleSubTopic = $model->advTorgTopic->subTopic->title??'';
+           AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
+               $titleTopic = $model['advTorgTopic']->title??'';
+               $titleSubTopic = $model->advTorgTopic->subTopic->title??'';
 
-                       return "<div class='row-text'>
-                                   {$model->advertsType()->rubric_name}
-                                   <br>
-                                   {$titleTopic}
-                                   <small class='clearfix'>{$titleSubTopic}</small>
-                               </div>";
-                   })
-                       ->setName('city')
-                       ->setHtmlAttribute('class', 'text-center'),
+               return "<div class='row-text'>{$model->advertsType()->rubric_name}
+                           <br>
+                           {$titleTopic}
+                           <small class='clearfix'>{$titleSubTopic}</small>
+                       </div>";
+           })->setName('city')->setHtmlAttribute('class', 'text-center'),
 
 
-                   AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
-                       $name = '';
-                       if ($model['compItems']) {
-                           $name = $model['compItems']->title??'';
-                       } else {
-                           $name = $model->author;
-                       }
+           AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
+//               $name = '';
+//               if ($model['compItems']) {
+//                   $name = $model['compItems']->title ?? '';
+//               } else {
+//                   $name = $model->author;
+//               }
+               return "<div class='row-text'>
+                           {$model->author}
+                           <small class='clearfix'>{$model->phone}</small>
+                           <small class='clearfix'>{$model->phone2}</small>
+                           <small class='clearfix'>{$model->phone3}</small>
+                       </div>";
+           })->setOrderable(function($query, $direction) {
+               $query->orderBy('author_id', $direction);
+           })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
+           AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+           AdminColumn::text('title', 'Имя')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
-                       return "<div class='row-text'>
-                                   {$name}
-                                   <small class='clearfix'>{$model->phone}</small>
-                                   <small class='clearfix'>{$model->phone2}</small>
-                                   <small class='clearfix'>{$model->phone3}</small>
-                               </div>";
-                   })->setOrderable(function($query, $direction) {
-                       $query->orderBy('author_id', $direction);
-                   })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
-
-
-            AdminColumn::custom('Email / IP /<br>Session', function (\Illuminate\Database\Eloquent\Model $model) {
-                $view = '';
-
-                if (request()->get('session') == 2) {
-                    $sesIds = $model->torgBuyerSession()->pluck('ses_id');
-                    foreach ($sesIds as $sesId) {
-                        $view .= "<a style='font-size: 10px;'  onclick='setSesID(\"$sesId\")' href=\"#\">$sesId</a><br>";
-                    }
-                }
-
-                return "<div class='row-text'>
-                            {$model->email}
-                            <small class='clearfix'>{$model->remote_ip}</small>
-                            {$view}
-                        </div>";
-            }),
-
-
-
-
-            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
+           AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $type_cost = $model->cost_dog;
                 $currency_type = $model->cost_cur;
                 $price = $model->cost;
@@ -150,7 +127,6 @@ class AdvTorgPost extends Section implements Initializable
                 $currency = '';
                 $colored = '';
                 $top = '';
-
 
                 switch ($currency_type) {
                     case 1:
@@ -175,6 +151,7 @@ class AdvTorgPost extends Section implements Initializable
                 if ($product_size != '' && $product_size !=0){
                     $size = 'Объем ' . $model->amount . $model->izm;
                 }
+
                 if ($model->colored) {
                     $colored ="<span style='color: #f0841b;'>Выделено цветом</span><br />";
                 }
@@ -182,39 +159,34 @@ class AdvTorgPost extends Section implements Initializable
                     $top="<span style='color: #1968e0;'>Объявление в ТОП</span>";
                 }
 
-
                 return "<div class='row-text'>
                             {$model->title}
                             <small class='clearfix'>{$cost} {$size}</small>
                             {$colored}
-                            {$top}
-                        </div>";
+                            {$top}</div>";
             })->setOrderable(function ($query, $direction) {
                 $query->orderBy('add_date', $direction);
             }),
 
-            AdminColumn::text('regions.name', 'Область')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('regions.name', 'Область')->setHtmlAttribute('class', 'text-center'),
 
-
-            AdminColumn::custom('Дата созд. / Дата обн.', function (\Illuminate\Database\Eloquent\Model $model) {
+            AdminColumn::custom('Дата созд./обн.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $wordsBan = '';
                 $moderated = '';
+                $add_date = $model->add_date->format('Y-m-d');
                 if ($model->moderated == 0)
                     $wordsBan = "<span style='color: red'>попало в бан по словам</span>";
                 if ($model->moderated == 1 && $model->active == 0)
                     $moderated = "<span style='color: red'>на модерации</span>";
 
                 return "<div class='row-text'>
-                            {$model->add_date}
+                            {$add_date}
                             <small class='clearfix'>{$model->up_dt}</small>
                             {$wordsBan}
-                            {$moderated}
-
-                        </div>";
+                            {$moderated}</div>";
             })->setOrderable(function ($query, $direction) {
                 $query->orderBy('add_date', $direction);
-            })->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -226,9 +198,12 @@ class AdvTorgPost extends Section implements Initializable
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
             ->setDisplaySearch(false)
-            ->paginate(25)
+
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setActions([
+                AdminColumn::action('id', ' Удалить')->setAction(route('delete_posts_admin'))->useGet(),
+            ])
             ->setFilters(
                 \AdminDisplayFilter::scope('typeAdverts'), // ?type=news | ?latest&type=news
                 \AdminDisplayFilter::scope('TorgBuyerAdverts'),
@@ -310,8 +285,11 @@ class AdvTorgPost extends Section implements Initializable
                         $query->where('ses_id', $value);
                     });
                 }),
-                AdminDisplayFilter::custom('name')->setCallback(function ($query, $value) {
+                AdminDisplayFilter::custom('author')->setCallback(function ($query, $value) {
                     $query->where('author', 'like', '%' . $value . '%');
+                }),
+                AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
+                    $query->where('title', 'like', '%' . $value . '%');
                 }),
                 AdminDisplayFilter::custom('ip')->setCallback(function ($query, $value) {
                     $query->where('remote_ip', $value);
@@ -330,7 +308,7 @@ class AdvTorgPost extends Section implements Initializable
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
-        return $display;
+        return $display->paginate($per_page);
     }
 
     /**
