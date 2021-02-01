@@ -1,6 +1,26 @@
 @extends(AdminTemplate::getViewPath('_layout.base'))
 
 @section('content')
+    @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')) && \Request::segment(2) == 'comp_items' || (substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')) && \Request::segment(2) == 'comp_items_traders')
+        <style>
+            .dataTables_paginate {
+                display: flex;
+                padding: 1em 1.25rem 0;
+                list-style: none;
+                border-radius: .25rem;
+                float: right;
+            }
+            .dataTables_info {
+                font-weight: 500;
+                font-size: 85%;
+                padding-right: 1.25rem;
+                text-align: right;
+            }
+            .test{
+                margin-left: .5rem; margin-top: -1.1rem;
+            }
+        </style>
+    @endif
     <div class="wrapper" id="vueApp">
         <nav class="main-header navbar navbar-expand bg-custom navbar-light">
             @include(AdminTemplate::getViewPath('_partials.header'))

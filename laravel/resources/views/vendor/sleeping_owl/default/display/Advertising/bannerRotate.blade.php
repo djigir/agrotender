@@ -19,6 +19,7 @@
     ];
 
 ?>
+
 <div class="card-heading card-header" style="margin-bottom: 25px">
     <a href="{{Request::url()}}/create?place_id={{\request()->get('id')}}" class="btn btn-primary btn-create" target="_blank">
         <i class="fas fa-plus"></i> Новая запись
@@ -227,3 +228,4 @@
     </div>
 </div>
 @endif
+

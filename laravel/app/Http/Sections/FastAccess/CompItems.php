@@ -38,7 +38,6 @@ use SleepingOwl\Admin\Section;
  */
 class CompItems extends Section implements Initializable
 {
-    /* const for filter  */
     const TRADER_SELL = 100;
     const TRADER_BUYER = 200;
     const PACKAGES = [
@@ -63,6 +62,7 @@ class CompItems extends Section implements Initializable
      */
     protected $title = 'Компании';
 
+    protected $title_comp = '';
     /**
      * @var string
      */
@@ -73,9 +73,14 @@ class CompItems extends Section implements Initializable
      */
     public function initialize()
     {
-
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
+
+    public function getEditTitle()
+    {
+        return "Редактировать {$this->title_comp}";
+    }
+
 
     /**
      * @param array $payload
@@ -84,33 +89,21 @@ class CompItems extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $type = \request()->get('type');
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
-        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
-        $rubriks_gr = CompTgroups::all();
-
-        $rubrik_select = [];
-        /** @var CompTgroups $rubrik_gr */
-        foreach ($rubriks_gr as $rubrik_gr) {
-            /** @var \App\Models\Comp\CompTopic $rubrik */
-            foreach ($rubriks as $rubrik) {
-                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
-                    continue;
-                }
-                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
-            }
-        }
-
         $columns = [
             AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
-
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
-            AdminColumn::link('title', 'Компания')->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
+            AdminColumn::custom('Компания', function (\Illuminate\Database\Eloquent\Model $model){
+                $url = \Str::before(\Request::url(), '/ad').'/admin_dev/comp_items/'.$model->id.'/edit';
+                $title = htmlspecialchars_decode($model->title);
+                return "<div class='row-link text-center'>
+                    <a href='{$url}'>{$title}</a></div>";
+            })->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::text('torgBuyer.name', 'Ф.И.О')
                 ->setWidth('200px')
@@ -123,7 +116,7 @@ class CompItems extends Section implements Initializable
 
             AdminColumn::text('add_date', 'Дата рег./Вход', 'torgBuyer.last_login')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('T/З/У', function (\Illuminate\Database\Eloquent\Model $model) {
+            AdminColumn::custom('П/К/У', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=2&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 2)->count()}</a> /
                         <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=1&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 1)->count()}</a> /
                         <a class='comp_items_adverts' href='{$model->AdvertsType()}?typeAdverts[type_id]=3&typeAdverts[comp_id]={$model->getKey()}' target='_blank'>{$model['advTorgPosts']->where('type_id', 3)->count()}</a>
@@ -152,9 +145,9 @@ class CompItems extends Section implements Initializable
             ->setDisplaySearch(false)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-            ->setActions([
-                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
-            ])
+//            ->setActions([
+//                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
+//            ])
             ->setFilters(
                 AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
                     $query->where('id', $value);
@@ -209,6 +202,8 @@ class CompItems extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+        $this->title_comp = $this->model_value['title'];
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')->addColumn([
@@ -269,7 +264,7 @@ class CompItems extends Section implements Initializable
                     ]),
 
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::html('Заготовка логики еще нет <br><span>Активировать ТОП</span>'),
+                AdminFormElement::html('Заготовка, логики еще нет <br><span>Активировать ТОП</span>'),
                 AdminFormElement::datetime('add_date', 'Выбрать дату'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
@@ -297,12 +292,6 @@ class CompItems extends Section implements Initializable
      */
     public function isDeletable(Model $model)
     {
-        $type = \request()->get('type');
-
-        if ($type == 'email_company' || $type == 'active_traders') {
-            return  false;
-        }
-
         return true;
     }
 

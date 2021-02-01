@@ -44,6 +44,10 @@ window.onload = function (){
         let for_preview = img_input.attr('src', src.replace(window.location.host, window.location.host + '/files'))
         let link_for_preload = link.attr('href', src.replace(window.location.origin, window.location.origin + '/files'))
     }
+
+    setTimeout(function() {
+        $('#actionTR').show();
+    }, 500);
 }
 
 

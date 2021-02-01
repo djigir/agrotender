@@ -4,6 +4,13 @@ body, html{
 
 }
 
+
+.per{
+    margin-left: .5rem;
+    margin-top: -5.1rem;
+    padding-bottom: 2.5rem;
+}
+
 a{
     color: #007eff;
     text-decoration: none;

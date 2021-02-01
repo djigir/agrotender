@@ -57,28 +57,12 @@ class ActiveTraders extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
-        $rubriks_gr = CompTgroups::all();
-
-        $rubrik_select = [];
-        /** @var CompTgroups $rubrik_gr */
-        foreach ($rubriks_gr as $rubrik_gr) {
-            /** @var \App\Models\Comp\CompTopic $rubrik */
-            foreach ($rubriks as $rubrik) {
-                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
-                    continue;
-                }
-                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
-            }
-        }
-
         $columns = [
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setOrderable('id'),
-
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
             AdminColumn::text('title', 'Название'),
@@ -102,14 +86,15 @@ class ActiveTraders extends Section implements Initializable
                         </div>";
             })->setHtmlAttribute('class', 'text-center'),
 
-
             AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
-                $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
-                return $last_update;
-            })->setHtmlAttribute('class', 'text-center'),
+                return $model['tradersPrices']->max('dt');
+            })->setHtmlAttribute('class', 'text-center')
+                ->setOrderCallback(function($column, $query, $direction){
+                    return $query->join('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')->orderBy('dt', $direction);
+            }),
 
             AdminColumn::custom('Дней назад', function (\Illuminate\Database\Eloquent\Model $model) {
-                $last_update = \DB::table('traders_prices')->where('buyer_id', $model->author_id)->max('dt');
+                $last_update = $model['tradersPrices']->max('dt');
                 $d = Carbon::parse($last_update);
                 $now = Carbon::now();
                 return $d->diffInDays($now);
@@ -122,7 +107,8 @@ class ActiveTraders extends Section implements Initializable
                 $query->where('trader_price_avail',1);
             })
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            //->setOrder([[5, 'desc']])
+            //->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

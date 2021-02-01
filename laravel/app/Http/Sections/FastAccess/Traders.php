@@ -122,16 +122,16 @@ class Traders extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setApply(function ($query){
-                $query->where('trader_price_avail', 1);
+                $query->where('trader_price_avail', 1)->orderBy('id', 'desc');
             })
             ->setName('firstdatatables')
             //->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-            ->setActions([
-                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
-            ])
+//            ->setActions([
+//                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
+//            ])
             ->setFilters(
                 AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
                     $query->where('id', $value);
