@@ -95,7 +95,7 @@ class CompItems extends Model
 
     protected $table = 'comp_items';
 
-    protected $appends = ['date', 'date_price', 'activities_text', 'date_update'];
+    protected $appends = ['date', 'date_price', 'activities_text'];
 
     protected $fillable = [
         'id', 'topic_id', 'obl_id', 'ray_id', 'type_id', 'author_id', 'rate', 'logo_file_w',
