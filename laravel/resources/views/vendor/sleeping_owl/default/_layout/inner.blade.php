@@ -1,7 +1,7 @@
 @extends(AdminTemplate::getViewPath('_layout.base'))
 
 @section('content')
-    @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')) && \Request::segment(2) == 'comp_items' || (substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')) && \Request::segment(2) == 'comp_items_traders')
+    @if(\Request::segment(2) == 'comp_items' || \Request::segment(2) == 'comp_items_traders' || \Request::segment(2) == 'adv_torg_posts')
         <style>
             .dataTables_paginate {
                 display: flex;

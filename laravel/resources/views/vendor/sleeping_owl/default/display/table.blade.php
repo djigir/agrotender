@@ -76,14 +76,22 @@
     @yield('card.footer')
     @yield('panel.footer')
 
-    @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')) && \Request::segment(2) == 'comp_items' || (substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')) && \Request::segment(2) == 'comp_items_traders')
-        <div id="actionTR" style="display: none; margin-left: .5rem; margin-top: -5.1rem; padding-bottom: 2.5rem; z-index: 5000" class="pull-left block-actions">
+    @if(\Request::segment(2) == 'comp_items' || \Request::segment(2) == 'comp_items_traders' || \Request::segment(2) == 'adv_torg_posts')
+        <?php
+            $delete = route('delete_traders_admin');
+
+            if(\Request::segment(2) == 'adv_torg_posts'){
+                $delete = route('delete_posts_admin');
+            }
+        ?>
+
+        <div id="actionTR" style="display: none; margin-left: 1.2rem; margin-top: -5.1rem; padding-bottom: 2.5rem; z-index: 5000; width: 50%;" class="pull-left block-actions">
             <form data-type="display-actions" id="action_form" style="display: inline-flex;">
                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                 <div class="action_select">
                     <select id="sleepingOwlActionsStore" name="action" tabindex="-1" aria-hidden="true" class="form-control sleepingOwlActionsStore">
                         <option value="0">Нет действия</option>
-                        <option data-method="get" value="{{\Str::before(\Request::url(), '/ad')}}/admin_dev/delete_traders">
+                        <option data-method="get" value="{{$delete}}">
                             Удалить
                         </option>
                     </select>

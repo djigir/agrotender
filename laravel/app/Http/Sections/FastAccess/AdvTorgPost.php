@@ -201,9 +201,9 @@ class AdvTorgPost extends Section implements Initializable
 
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-            ->setActions([
-                AdminColumn::action('id', ' Удалить')->setAction(route('delete_posts_admin'))->useGet(),
-            ])
+//            ->setActions([
+//                AdminColumn::action('id', ' Удалить')->setAction(route('delete_posts_admin'))->useGet(),
+//            ])
             ->setFilters(
                 \AdminDisplayFilter::scope('typeAdverts'), // ?type=news | ?latest&type=news
                 \AdminDisplayFilter::scope('TorgBuyerAdverts'),
@@ -325,14 +325,10 @@ class AdvTorgPost extends Section implements Initializable
             AdminFormElement::html("<div style='text-align: center'><h4>Редакировать объявление </h4></div>"),
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::hidden('id'),
-                AdminFormElement::datetime('add_date', 'Дата:')
-                    ->setVisible(true)
-                    ->setReadonly(false),
-
+                AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
                 AdminFormElement::text('author', 'Автор:'),
                 AdminFormElement::text('email', 'E-mail:'),
                 AdminFormElement::text('phone', 'Телефон:'),
-
 
                 AdminFormElement::select('virtual', 'Раздел:')
                     ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
@@ -340,7 +336,6 @@ class AdvTorgPost extends Section implements Initializable
                         return $query->where('parent_id', 0);
                     })->setDisplay('title')
                     ->setDefaultValue($parent_category_id),
-
 
                 AdminFormElement::dependentselect('topic_id', 'Подраздел:')
                     ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')

@@ -45,9 +45,11 @@ window.onload = function (){
         let link_for_preload = link.attr('href', src.replace(window.location.origin, window.location.origin + '/files'))
     }
 
+
+    /* Для блока с событиями */
     setTimeout(function() {
         $('#actionTR').show();
-    }, 500);
+    }, 400);
 }
 
 

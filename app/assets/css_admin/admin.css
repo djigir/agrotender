@@ -4,19 +4,16 @@ body, html{
 
 }
 
-
-.per{
-    margin-left: .5rem;
-    margin-top: -5.1rem;
-    padding-bottom: 2.5rem;
-}
-
 a{
     color: #007eff;
     text-decoration: none;
     background-color: transparent;
 }
 
+.content-header h1 {
+    font-size: 1.8rem;
+    margin: 0;
+}
 
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .link-page:hover {
     color: rgba(0,0,0,.7);
@@ -145,7 +142,7 @@ table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTa
 
 .btn-create {
     color: #fff !important;
-    background-color: #7c69ef !important;
+    background-color: #007eff !important;
     border-color: #7c69ef !important;
 }
 /* end Edit */
