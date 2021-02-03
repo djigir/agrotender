@@ -18,7 +18,7 @@ use SleepingOwl\Admin\Form\Buttons\Save;
 use SleepingOwl\Admin\Form\Buttons\SaveAndClose;
 use SleepingOwl\Admin\Form\Buttons\SaveAndCreate;
 use SleepingOwl\Admin\Section;
-use \SleepingOwl\WithJoin\WithJoinTrait;
+
 /**
  * Class ActiveTraders
  *

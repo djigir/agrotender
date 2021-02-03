@@ -87,8 +87,6 @@ use phpDocumentor\Reflection\Types\Object_;
  */
 class CompItems extends Model
 {
-    use \SleepingOwl\WithJoin\WithJoinTrait;
-
     const PURCHASES_TYPE_ID = 1;
     const SALES_TYPE_ID = 2;
     const SERVICES_TYPE_ID = 3;

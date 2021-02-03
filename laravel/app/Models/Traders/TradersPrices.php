@@ -24,7 +24,6 @@ use Jenssegers\Date\Date;
  */
 class TradersPrices extends Model
 {
-    use \SleepingOwl\WithJoin\WithJoinTrait;
 
     protected $table = 'traders_prices';
 
