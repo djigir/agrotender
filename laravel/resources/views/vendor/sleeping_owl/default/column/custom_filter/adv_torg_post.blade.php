@@ -127,7 +127,7 @@
         </div>
 
         <div data-index="9">
-            <input type="text" data-type="text" value="{{request('id')}}" name="id" placeholder="ID" class="form-control column-filter">
+            <input type="text" style="width: 90px" data-type="text" value="{{request('id')}}" name="id" placeholder="ID" class="form-control column-filter">
         </div>
 
         <div data-index="10">

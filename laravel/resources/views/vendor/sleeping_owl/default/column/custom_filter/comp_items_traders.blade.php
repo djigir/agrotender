@@ -37,7 +37,7 @@
         </div>
         <div data-index="3">
             <div>
-                <input type="text" data-type="text" placeholder="Автор" class="form-control column-filter" name="author"  value="{{request('author')}}">
+                <input type="text" data-type="text" placeholder="Название компании" class="form-control column-filter" name="title"  value="{{request('title')}}">
             </div>
         </div>
         <div data-index="4">

@@ -43,10 +43,6 @@ return [
                 ->setIcon('fas fa-warehouse')
                 ->setPriority(0),
 
-//            (new Page(\App\Models\Lenta\Lenta::class))
-//                ->setIcon('fas fa-scroll')
-//                ->setPriority(0),
-
             (new Page(\App\Models\ADV\AdvTorgPost::class))
                 ->setIcon('fas fa-ad')
                 ->setPriority(0),

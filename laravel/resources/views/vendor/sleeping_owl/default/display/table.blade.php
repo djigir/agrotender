@@ -11,6 +11,25 @@
 @yield('before.card')
 @yield('before.panel')
 
+<?php $route = request()->server('REQUEST_URI'); ?>
+@if($route == '/admin_dev/torg_elevators')
+    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; margin-top: -1rem;">
+        <div>
+            <h1 style="font-size: 23px; line-height: 28px; margin-left: 1.5rem">
+                Элеваторы
+            </h1>
+        </div>
+        <div style="margin-top: -.5rem;">
+            @if ($creatable)
+                <span>{{$title}}</span>
+                <a href="{{ url($createUrl) }}" style="float: right" class="btn btn-primary btn-create">
+                    <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
+                </a>
+            @endif
+        </div>
+    </div>
+@endif
+
 <div class="card card-default {!! $card_class !!}">
     <div class="card-heading card-header">
 

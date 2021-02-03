@@ -94,18 +94,13 @@ class AdvTorgPost extends Section implements Initializable
                            {$titleTopic}
                            <small class='clearfix'>{$titleSubTopic}</small>
                        </div>";
-           })->setName('city')->setHtmlAttribute('class', 'text-center'),
+           })->setName('city')->setWidth('200px'),
 
 
-           AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
-//               $name = '';
-//               if ($model['compItems']) {
-//                   $name = $model['compItems']->title ?? '';
-//               } else {
-//                   $name = $model->author;
-//               }
+           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                return "<div class='row-text'>
-                           {$model->author}
                            <small class='clearfix'>{$model->phone}</small>
                            <small class='clearfix'>{$model->phone2}</small>
                            <small class='clearfix'>{$model->phone3}</small>
@@ -114,8 +109,7 @@ class AdvTorgPost extends Section implements Initializable
                $query->orderBy('author_id', $direction);
            })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
-           AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
-           AdminColumn::text('title', 'Имя')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+          // AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $type_cost = $model->cost_dog;
@@ -168,7 +162,9 @@ class AdvTorgPost extends Section implements Initializable
                 $query->orderBy('add_date', $direction);
             }),
 
-            AdminColumn::text('regions.name', 'Область')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('regions.name', 'Область')
+                ->setWidth('100px')
+                ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Дата созд./обн.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $wordsBan = '';
@@ -196,14 +192,10 @@ class AdvTorgPost extends Section implements Initializable
 
             })
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
+            ->setOrder([[1, 'asc']])
             ->setDisplaySearch(false)
-
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-//            ->setActions([
-//                AdminColumn::action('id', ' Удалить')->setAction(route('delete_posts_admin'))->useGet(),
-//            ])
             ->setFilters(
                 \AdminDisplayFilter::scope('typeAdverts'), // ?type=news | ?latest&type=news
                 \AdminDisplayFilter::scope('TorgBuyerAdverts'),

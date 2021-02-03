@@ -49,7 +49,7 @@ window.onload = function (){
     /* Для блока с событиями */
     setTimeout(function() {
         $('#actionTR').show();
-    }, 400);
+    }, 100);
 }
 
 

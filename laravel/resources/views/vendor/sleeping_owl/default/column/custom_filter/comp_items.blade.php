@@ -41,26 +41,13 @@
                 <input type="text" style="width: 150px" data-type="text" placeholder="E-mail" class="form-control column-filter" name="email" value="{{request('email')}}">
             </div>
         </div>
-
-{{--        <div data-index="5">--}}
-{{--            <div>--}}
-{{--                <input type="text" style="width: 100px" data-type="text" placeholder="Тел." class="form-control column-filter" name="phone" value="{{request('phone')}}">--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        <div data-index="5">
+            <div>
+                <input type="text" style="width: 90px" data-type="text" placeholder="ID" class="form-control column-filter" name="id" value="{{request('id')}}">
+            </div>
+        </div>
 
         <div data-index="6">
-            <div>
-                <input type="text" style="width: 150px" data-type="text" placeholder="Автор" class="form-control column-filter" name="author" value="{{request('author')}}">
-            </div>
-        </div>
-
-        <div data-index="7">
-            <div>
-                <input type="text" style="width: 150px" data-type="text" placeholder="ID" class="form-control column-filter" name="id" value="{{request('id')}}">
-            </div>
-        </div>
-
-        <div data-index="8">
             <div class="btn-group">
                 <button data-type="control" id="bntSub" class="btn btn-sm btn-primary column-filter"
                         onclick="localStorage.clear()">

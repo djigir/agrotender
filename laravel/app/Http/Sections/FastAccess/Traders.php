@@ -10,6 +10,7 @@ use AdminForm;
 use AdminFormElement;
 use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Comp\CompTgroups;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
 use SleepingOwl\Admin\Contracts\Form\FormInterface;
@@ -31,6 +32,18 @@ class Traders extends Section implements Initializable
 {
     const TRADER_SELL = 100;
     const TRADER_BUYER = 200;
+    const PACKAGES = [
+        0 => 'Стандарт',
+        1 => 'Премиум',
+        2 => 'ТОП',
+    ];
+
+    const PACKAGES_STYLE = [
+        0 => 'black',
+        1 => '#dda216',
+        2 => '#b6581b',
+    ];
+
 
     protected $per_page = 25;
     /**
@@ -72,23 +85,8 @@ class Traders extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
-        $rubriks = \App\Models\Comp\CompTopic::orderBy('menu_group_id')->get();
-        $rubriks_gr = CompTgroups::all();
-
-        $rubrik_select = [];
-        /** @var CompTgroups $rubrik_gr */
-        foreach ($rubriks_gr as $rubrik_gr) {
-            /** @var \App\Models\Comp\CompTopic $rubrik */
-            foreach ($rubriks as $rubrik) {
-                if ($rubrik->menu_group_id !== $rubrik_gr->id) {
-                    continue;
-                }
-                $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrik_gr->title . ')';
-            }
-        }
-
         $columns = [
-            AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
+            AdminColumn::checkbox('')->setWidth('50px')->setOrderable(false),
 
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
@@ -101,37 +99,32 @@ class Traders extends Section implements Initializable
                     $query->orderBy('id', $direction);
             }),
 
-            AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('email', 'E-mail')->setWidth('180px')
+                ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
-            AdminColumn::text('torgBuyer.last_login', 'Последний вход')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('torgBuyer.last_login', $direction);
-                })->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            AdminColumn::custom('Пакет', function (\App\Models\Comp\CompItems $compItems){
+                $package = $compItems->trader_premium != 0 ? '<b>'.self::PACKAGES[$compItems->trader_premium].'</b>' : self::PACKAGES[$compItems->trader_premium];
+                $color = self::PACKAGES_STYLE[$compItems->trader_premium];
+                return "<div style='color: $color' class='row-custom text-center'>{$package}</div>";
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')
+                ->setOrderable('trader_premium'),
 
             AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
-                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? $model['torgBuyer']['buyerPacksOrders'][0]['endt'] : '';
+                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders'][0]['endt'])->format('Y-m-d') : '';
                 return "<div class='row-text text-center'>{$package}</div>";
             })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Войти', function (\App\Models\Comp\CompItems $compItems){
-                $WWWHOST = 'https://agrotender.com.ua/';
-                return "<a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($compItems['torgBuyer']['login'])."&buyerpass=".stripslashes($compItems['torgBuyer']['passwd'])."\" target='_blank' class='btn-success btn btn-xs' title='' data-toggle='tooltip' data-original-title='Залогиниться'><i class='fas fa-user-lock'></i></a>";
-            })->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
 
         $display = AdminDisplay::datatables()
             ->setApply(function ($query){
-                $query->where('trader_price_avail', 1)->orderBy('id', 'desc');
+                $query->where('trader_price_avail', 1);
             })
             ->setName('firstdatatables')
-            //->setOrder([[0, 'desc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-//            ->setActions([
-//                AdminColumn::action('id', ' Удалить')->setAction(route('delete_traders_admin'))->useGet(),
-//            ])
             ->setFilters(
                 AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
                     $query->where('id', $value);
@@ -141,10 +134,8 @@ class Traders extends Section implements Initializable
                     $query->where('phone', $value);
                 }),
 
-                AdminDisplayFilter::custom('author')->setCallback(function ($query, $value) {
-                    $query->whereHas('torgBuyer', function ($query) use ($value) {
-                        $query->where('name', $value);
-                    });
+                AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
+                    $query->where('title', 'like', '%' . $value . '%');
                 }),
 
                 AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
@@ -155,6 +146,16 @@ class Traders extends Section implements Initializable
             );
 
         $display->getColumnFilters()->setPlacement('card.heading');
+
+        $button = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
+            $WWWHOST = 'https://agrotender.com.ua/';
+            return $WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($model['torgBuyer']['login'])."&buyerpass=".stripslashes($model['torgBuyer']['passwd']);
+        }, '', 50);
+
+        $button->setIcon('fas fa-user-lock');
+        $button->setHtmlAttributes(['target' => '_blank', 'class' => 'btn-success btn btn-xs']);
+
+        $display->getColumns()->getControlColumn()->addButton($button);
 
         return $display->paginate($per_page);
     }

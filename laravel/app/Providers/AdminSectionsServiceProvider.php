@@ -20,7 +20,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
         \App\Models\ADV\AdvTorgPostCompanies::class => 'App\Http\Sections\FastAccess\AdvTorgPostCompanies',
         \App\Models\Comp\CompItemsActive::class => 'App\Http\Sections\FastAccess\ActiveTraders',
         \App\Models\Comp\CompItemsTraders::class => 'App\Http\Sections\FastAccess\Traders',
-        \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\TorgElevator',
+        \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\FastAccess\TorgElevator',
 
 
                                 /* Цены трейдеров */

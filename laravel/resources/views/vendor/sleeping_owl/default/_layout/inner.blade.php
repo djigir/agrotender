@@ -46,12 +46,14 @@
                       <div class="col-sm-12">
                         {!! $template->renderBreadcrumbs($breadcrumbKey) !!}
                       </div>
-
-                      <div class="col-sm-12">
-                        <h1>
-                          {!! $title !!}
-                        </h1>
-                      </div>
+                        <?php $route = request()->server('REQUEST_URI'); ?>
+                        @if($route != '/admin_dev/torg_elevators')
+                            <div class="col-sm-12">
+                              <h1>
+                                {!! $title !!}
+                              </h1>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
