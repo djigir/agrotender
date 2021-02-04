@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Comp\CompTgroups;
+use App\Models\Traders\TradersPrices;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use SleepingOwl\Admin\Contracts\Display\DisplayInterface;
@@ -48,6 +49,8 @@ class ActiveTraders extends Section implements Initializable
      */
     public function initialize()
     {
+        //dd(\App\Models\Comp\CompItems::first()->tradersPrices);
+//        dd(\App\Models\Comp\CompItems::find(6614)->tradersPrices);
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
 
@@ -86,15 +89,21 @@ class ActiveTraders extends Section implements Initializable
                         </div>";
             })->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
-                return $model['tradersPrices']->max('dt');
-            })->setHtmlAttribute('class', 'text-center')
-                ->setOrderCallback(function($column, $query, $direction){
-                    return $query->join('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')->orderBy('dt', $direction);
-            }),
+
+            AdminColumn::datetime('tradersPrices.dt', 'Последнее обновление')
+                ->setSearchable(true)
+                ->setHtmlAttribute('class', 'text-center')
+                ->setFormat('Y-m-d'),
+
+//            AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
+//                return $model['tradersPrices']['dt'];
+//            })->setHtmlAttribute('class', 'text-center')
+//                ->setOrderCallback(function($column, $query, $direction){
+//                    return $query->join('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')->orderBy('dt', $direction);
+//            }),
 
             AdminColumn::custom('Дней назад', function (\Illuminate\Database\Eloquent\Model $model) {
-                $last_update = $model['tradersPrices']->max('dt');
+                $last_update = $model['tradersPrices']['dt'];
                 $d = Carbon::parse($last_update);
                 $now = Carbon::now();
                 return $d->diffInDays($now);
@@ -104,11 +113,10 @@ class ActiveTraders extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setApply(function ($query){
-                $query->where('trader_price_avail',1);
+                $query->where('trader_price_avail', 1);
             })
             ->setName('firstdatatables')
-            //->setOrder([[5, 'desc']])
-            //->setOrder([[0, 'desc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

@@ -81,7 +81,7 @@ class AdvTorgPost extends Section implements Initializable
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
                         </div>";
-            })->setWidth('65px')->setOrderable(function($query, $direction) {
+            })->setWidth('80px')->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
             })->setHtmlAttribute('class', 'text-center'),
 
@@ -97,7 +97,7 @@ class AdvTorgPost extends Section implements Initializable
            })->setName('city')->setWidth('200px'),
 
 
-           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                return "<div class='row-text'>
@@ -108,8 +108,6 @@ class AdvTorgPost extends Section implements Initializable
            })->setOrderable(function($query, $direction) {
                $query->orderBy('author_id', $direction);
            })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
-
-          // AdminColumn::text('email', 'E-mail')->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $type_cost = $model->cost_dog;
@@ -160,10 +158,10 @@ class AdvTorgPost extends Section implements Initializable
                             {$top}</div>";
             })->setOrderable(function ($query, $direction) {
                 $query->orderBy('add_date', $direction);
-            }),
+            })->setWidth('200px'),
 
             AdminColumn::text('regions.name', 'Область')
-                ->setWidth('100px')
+                ->setWidth('130px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Дата созд./обн.', function (\Illuminate\Database\Eloquent\Model $model) {

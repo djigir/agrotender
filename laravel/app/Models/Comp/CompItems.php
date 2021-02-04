@@ -393,6 +393,6 @@ class CompItems extends Model
 
     public function tradersPrices()
     {
-        return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
+        return $this->hasOne(TradersPrices::class, 'buyer_id', 'author_id')->orderByDesc('dt');
     }
 }

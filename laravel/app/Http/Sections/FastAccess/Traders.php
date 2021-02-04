@@ -90,16 +90,16 @@ class Traders extends Section implements Initializable
 
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
-            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
+            })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
             AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-            }),
+            })->setWidth('160px'),
 
-            AdminColumn::text('email', 'E-mail')->setWidth('180px')
+            AdminColumn::text('email', 'E-mail')->setWidth('160px')
                 ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
             AdminColumn::custom('Пакет', function (\App\Models\Comp\CompItems $compItems){
