@@ -110,9 +110,19 @@ class Traders extends Section implements Initializable
                 ->setOrderable('trader_premium'),
 
             AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
-                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders'][0]['endt'])->format('Y-m-d') : '';
+                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders']->max('endt'))->format('Y-m-d') : '';
                 return "<div class='row-text text-center'>{$package}</div>";
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center')
+                ->setOrderCallback(function($column, $query, $direction){
+                    //\DB::enableQueryLog();
+                    $query->leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
+                        ->leftJoin('buyer_packs_orders', 'torg_buyer.id', '=', 'buyer_packs_orders.user_id')
+                        ->select('comp_items.*', \DB::raw('max(agt_buyer_packs_orders.endt) AS orders_endt'))
+                        ->groupBy('comp_items.id')
+                        ->orderBy('orders_endt', $direction);
+                    //dd(\DB::getQueryLog());
+                    //
+            }),
         ];
 
 
