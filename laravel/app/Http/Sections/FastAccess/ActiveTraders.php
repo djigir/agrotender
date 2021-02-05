@@ -112,7 +112,7 @@ class ActiveTraders extends Section implements Initializable
             ->setName('firstdatatables')
             ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
-            ->paginate(110)
+            ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
