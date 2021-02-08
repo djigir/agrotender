@@ -5,6 +5,7 @@ namespace App\Http\Sections\TraderPrices;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use Illuminate\Database\Eloquent\Model;
@@ -80,24 +81,17 @@ class TradersProductsSell extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Traders\TradersProductGroups::class)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query->where('acttype', 0);
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+                AdminDisplayFilter::custom('group_id')->setCallback(function ($query, $value) {
+                    $query->where('group_id', $value);
+                }),
+                AdminDisplayFilter::custom('name')->setCallback(function ($query, $value) {
+                    $query->whereHas('tradersProductLang', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' . $value . '%');
+                    });
                 })
-                ->setDisplay('tradersProductGroupsLang.name')
-                ->setColumnName('group_id')
-                ->setPlaceholder('Все группы'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('tradersProductLang.name')
-                ->setOperator('contains')
-                ->setPlaceholder('По названию'),
-
-        ]);
+            );
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

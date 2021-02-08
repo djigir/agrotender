@@ -46,6 +46,7 @@ class Traders extends Section implements Initializable
 
 
     protected $per_page = 25;
+
     /**
      * @var bool
      */
@@ -59,6 +60,11 @@ class Traders extends Section implements Initializable
     /**
      * @var string
      */
+    protected $title_comp = '';
+
+    /**
+     * @var string
+     */
     protected $alias;
 
     /**
@@ -67,6 +73,11 @@ class Traders extends Section implements Initializable
     public function initialize()
     {
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
+    }
+
+    public function getEditTitle()
+    {
+        return "Редактировать {$this->title_comp}";
     }
 
     /**
@@ -178,11 +189,13 @@ class Traders extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
+        $this->title_comp = $this->model_value['title'];
+
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('title', 'Название')->required(),
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
-                AdminFormElement::html('<span>Таблица закупок:</span>'),
+                AdminFormElement::html('<span><b>Таблица закупок:</b></span>'),
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_avail', 'Активна')
@@ -199,24 +212,7 @@ class Traders extends Section implements Initializable
                     ]),
 
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::html('<span>Таблица продаж:</span>'),
-                AdminFormElement::html('<hr>'),
-
-                AdminFormElement::select('trader_price_sell_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium_sell', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                        2 => 'Премиум +'
-                    ]),
-
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::html('<span>Таблица форвардов:</span>'),
+                AdminFormElement::html('<span><b>Таблица форвардов:</b></span>'),
                 AdminFormElement::html('<hr>'),
 
                 AdminFormElement::select('trader_price_forward_avail', 'Активна')
@@ -240,10 +236,7 @@ class Traders extends Section implements Initializable
                         return $query;
                     })
                     ->setDisplay('title'),
-
-//                AdminFormElement::number('rate_admin1', 'К рейтинга Admin1'),
-//                AdminFormElement::number('rate_admin2', 'К рейтинга Admin2'),
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
         ]);
 
         $form->getButtons()->setButtons([

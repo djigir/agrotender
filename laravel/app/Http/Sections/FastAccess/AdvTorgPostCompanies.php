@@ -73,9 +73,7 @@ class AdvTorgPostCompanies extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
-
             AdminColumn::custom('ID', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
@@ -83,41 +81,36 @@ class AdvTorgPostCompanies extends Section implements Initializable
             })->setWidth('65px')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
-                }),
+            })->setHtmlAttribute('class', 'text-center'),
 
-                   AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
-                       $titleTopic = $model['advTorgTopic']->title??'';
-                       $titleSubTopic = $model->advTorgTopic->subTopic->title??'';
+           AdminColumn::custom('Раздел', function (\Illuminate\Database\Eloquent\Model $model){
+               $titleTopic = $model['advTorgTopic']->title??'';
+               $titleSubTopic = $model->advTorgTopic->subTopic->title??'';
 
-                       return "<div class='row-text'>
-                                   {$model->advertsType()->rubric_name}
-                                   <br>
-                                   {$titleTopic}
-                                   <small class='clearfix'>{$titleSubTopic}</small>
-                               </div>";
-                   })
-                       ->setName('city')
-                       ->setHtmlAttribute('class', 'text-center'),
+               return "<div class='row-text'>
+                           {$model->advertsType()->rubric_name}
+                           <br>
+                           {$titleTopic}
+                           <small class='clearfix'>{$titleSubTopic}</small>
+                       </div>";
+           })->setName('city')->setHtmlAttribute('class', 'text-center'),
 
-
-                   AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
-                       $name = '';
-                       if ($model['compItems']) {
-                           $name = $model['compItems']->title??'';
-                       } else {
-                           $name = $model->author;
-                       }
-
-
-                       return "<div class='row-text'>
-                                   {$name}
-                                   <small class='clearfix'>{$model->phone}</small>
-                                   <small class='clearfix'>{$model->phone2}</small>
-                                   <small class='clearfix'>{$model->phone3}</small>
-                               </div>";
-                   })->setOrderable(function($query, $direction) {
-                       $query->orderBy('author_id', $direction);
-                   })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
+           AdminColumn::custom('Автор / Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
+               $name = '';
+               if ($model['compItems']) {
+                   $name = $model['compItems']->title??'';
+               } else {
+                   $name = $model->author;
+               }
+               return "<div class='row-text'>
+                           {$name}
+                           <small class='clearfix'>{$model->phone}</small>
+                           <small class='clearfix'>{$model->phone2}</small>
+                           <small class='clearfix'>{$model->phone3}</small>
+                       </div>";
+           })->setOrderable(function($query, $direction) {
+               $query->orderBy('author_id', $direction);
+           })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
 
             AdminColumn::custom('Email / IP /<br>Session', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -137,9 +130,6 @@ class AdvTorgPostCompanies extends Section implements Initializable
                         </div>";
             }),
 
-
-
-
             AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $type_cost = $model->cost_dog;
                 $currency_type = $model->cost_cur;
@@ -150,7 +140,6 @@ class AdvTorgPostCompanies extends Section implements Initializable
                 $currency = '';
                 $colored = '';
                 $top = '';
-
 
                 switch ($currency_type) {
                     case 1:
@@ -182,7 +171,6 @@ class AdvTorgPostCompanies extends Section implements Initializable
                     $top="<span style='color: #1968e0;'>Объявление в ТОП</span>";
                 }
 
-
                 return "<div class='row-text'>
                             {$model->title}
                             <small class='clearfix'>{$cost} {$size}</small>
@@ -193,9 +181,7 @@ class AdvTorgPostCompanies extends Section implements Initializable
                 $query->orderBy('add_date', $direction);
             }),
 
-            AdminColumn::text('regions.name', 'Область')
-                ->setHtmlAttribute('class', 'text-center'),
-
+            AdminColumn::text('regions.name', 'Область')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Дата созд. / Дата обн.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $wordsBan = '';
@@ -210,7 +196,7 @@ class AdvTorgPostCompanies extends Section implements Initializable
                             <small class='clearfix'>{$model->up_dt}</small>
                             {$wordsBan}
                             {$moderated}
-                          
+
                         </div>";
             })->setOrderable(function ($query, $direction) {
                 $query->orderBy('add_date', $direction);
@@ -471,8 +457,8 @@ class AdvTorgPostCompanies extends Section implements Initializable
             AdminFormElement::checkbox('reason_4', 'Капслок')->setDefaultValue(0),
             AdminFormElement::html("</div>"),
             AdminFormElement::ckeditor('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
-                ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>    
-                <br>    
+                ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>
+                <br>
 {TPL_RULES}<br>
 <br>
 Исправьте данные нарушения и мы восстановим ротацию объявления."),

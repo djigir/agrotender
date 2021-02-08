@@ -1,5 +1,14 @@
-@if ( ! empty($title) && (!substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts')&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') )
-&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders') && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items'))
+@if ( ! empty($title)
+&&(!substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_posts')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/adv_torg_post_companies') )
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items_traders')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_elevators')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_products')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_products_sells')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')
+)
     <div class="row">
         <div class="col-lg-12 pt-3">
             {!! $title !!}
@@ -11,28 +20,8 @@
 @yield('before.card')
 @yield('before.panel')
 
-<?php $route = request()->server('REQUEST_URI'); ?>
-@if($route == '/admin_dev/torg_elevators')
-    <div style="display: flex; justify-content: space-between; padding-bottom: 1rem; margin-top: -1rem;">
-        <div>
-            <h1 style="font-size: 23px; line-height: 28px; margin-left: 1.5rem">
-                Элеваторы
-            </h1>
-        </div>
-        <div style="margin-top: -.5rem;">
-            @if ($creatable)
-                <span>{{$title}}</span>
-                <a href="{{ url($createUrl) }}" style="float: right" class="btn btn-primary btn-create">
-                    <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
-                </a>
-            @endif
-        </div>
-    </div>
-@endif
-
 <div class="card card-default {!! $card_class !!}">
     <div class="card-heading card-header">
-
         <?php $route_export = '';  ?>
 
         {{-- добавить кнопку если роуты .... --}}
@@ -58,7 +47,14 @@
 
         @if ($creatable)
             <a href="{{ url($createUrl) }}" class="btn btn-primary btn-create"
-               @if($route == '/admin_dev/torg_buyers' || $route == '/admin_dev/py_bill_docs')
+               @if($route == '/admin_dev/torg_buyers'
+                    || $route == '/admin_dev/py_bill_docs'
+                    || \Request::segment(2) == 'torg_elevators'
+                    || \Request::segment(2) == 'traders_products'
+                    || \Request::segment(2) == 'traders_products_sells'
+                    || \Request::segment(2) == 'traders_ports'
+                    || \Request::segment(2) == 'seo_titles'
+               )
                style="display: none" @endif>
                 <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
             </a>
@@ -84,6 +80,26 @@
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_items')) && \Request::segment(2) == 'comp_items')
                 @include('vendor.sleeping_owl.default.column.custom_filter.comp_items')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_elevators')) && \Request::segment(2) == 'torg_elevators')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_products')) && \Request::segment(2) == 'traders_products')
+                @include('vendor.sleeping_owl.default.column.custom_filter.traders_products_sells')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_products_sells')) && \Request::segment(2) == 'traders_products_sells')
+                @include('vendor.sleeping_owl.default.column.custom_filter.traders_products_sells')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')) && \Request::segment(2) == 'seo_titles')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')) && \Request::segment(2) == 'traders_ports')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
             @endif
 
     </div>

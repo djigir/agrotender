@@ -4,10 +4,41 @@ body, html{
 
 }
 
+details summary {
+    display: block;
+    outline: none;
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+details summary::before {
+    content: "+ ";
+}
+
+details[open] summary::before {
+    content: "- ";
+}
+
+summary:focus {
+    outline: none;
+}
+
 a{
     color: #007eff;
     text-decoration: none;
     background-color: transparent;
+}
+
+table.dataTable thead .sorting, table.dataTable thead .sorting_asc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+    padding-right: 1.2em;
+    line-height: 1;
+    word-break: break-word;
+    outline: none;
+    font-size: 13px;
 }
 
 .content-header h1 {

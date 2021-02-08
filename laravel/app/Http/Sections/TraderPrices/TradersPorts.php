@@ -5,6 +5,7 @@ namespace App\Http\Sections\TraderPrices;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Regions\Regions;
@@ -96,19 +97,13 @@ class TradersPorts extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(30)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(Regions::class, 'name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+                AdminDisplayFilter::custom('obl_id')->setCallback(function ($query, $value) {
+                    $query->where('obl_id', $value);
                 })
-                ->setDisplay('name')
-                ->setColumnName('obl_id')
-                ->setPlaceholder('Все области'),
+            );
 
-        ]);
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;

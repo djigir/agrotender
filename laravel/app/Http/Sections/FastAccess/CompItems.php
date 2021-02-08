@@ -62,7 +62,11 @@ class CompItems extends Section implements Initializable
      */
     protected $title = 'Компании';
 
+    /**
+     * @var string
+     */
     protected $title_comp = '';
+
     /**
      * @var string
      */
@@ -185,7 +189,6 @@ class CompItems extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')->addColumn([
                 AdminFormElement::text('title', 'Название')->required(),
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
@@ -196,6 +199,7 @@ class CompItems extends Section implements Initializable
                         0 => 'Нет',
                         1 => 'Да',
                     ]),
+
                 AdminFormElement::select('trader_premium', 'Премиум')
                     ->setOptions([
                         0 => 'Нет',
@@ -224,29 +228,7 @@ class CompItems extends Section implements Initializable
                         return $query;
                     })
                     ->setDisplay('title'),
-
-                AdminFormElement::html('<span>Таблица продаж:</span>'),
-
-                AdminFormElement::html('<hr>'),
-
-                AdminFormElement::select('trader_price_sell_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium_sell', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                        2 => 'Премиум +'
-                    ]),
-
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::html('Заготовка, логики еще нет <br><span>Активировать ТОП</span>'),
-                AdminFormElement::datetime('add_date', 'Выбрать дату'),
-
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
         ]);
 
         $form->getButtons()->setButtons([

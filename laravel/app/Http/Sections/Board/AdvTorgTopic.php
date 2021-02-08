@@ -100,35 +100,37 @@ class AdvTorgTopic extends Section implements Initializable
         $section = \App\Models\ADV\AdvTorgTopic::select('parent_id', 'menu_group_id', 'id', 'sort_num', 'title')->orderBy('sort_num')->orderBy('title')->get();
         $base_section = $section->whereIn('menu_group_id', $groups->pluck('id'))->where('parent_id', 0)->push(['id' => 0, 'title' => 'Корневой раздел']);
 
-        $seo_buy = [];
-        $seo_sale = [];
-        $seo_data = [];
+        $seo_buy = '';
+        $seo_sale = '';
+        $seo_data = '';
 
         if($type != 'create'){
-            $seo_data = [
-                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные</span>'),
-                AdminFormElement::text('page_h1', 'H1 заголовок'),
-                AdminFormElement::text('page_title','Title'),
-                AdminFormElement::text('page_keywords','Keywords'),
-                AdminFormElement::ckeditor('page_descr','Description'),
-                AdminFormElement::ckeditor('descr','Описание'),
-            ];
-            $seo_buy = [
-                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Покупка</span>'),
-                AdminFormElement::text('seo_h1_buy', 'H1 заголовок'),
-                AdminFormElement::text('seo_title_buy','Title'),
-                AdminFormElement::text('seo_keyw_buy','Keywords'),
-                AdminFormElement::ckeditor('seo_descr_buy','Description'),
-                AdminFormElement::ckeditor('seo_text_buy','Описание'),
-            ];
-            $seo_sale = [
-                AdminFormElement::html('<span style="background-color: #c8dfec;">Seo данные - Продажа</span>'),
-                AdminFormElement::text('seo_h1_sell','H1 заголовок'),
-                AdminFormElement::text('seo_title_sell','Title'),
-                AdminFormElement::text('seo_keyw_sell','Keywords'),
-                AdminFormElement::ckeditor('seo_descr_sell','Description'),
-                AdminFormElement::ckeditor('seo_text_sell','Описание'),
-            ];
+            $seo_data =
+                AdminFormElement::html('<br><div style="display: block;text-align: center;"><b>Seo данные</b></div><br>').
+                AdminFormElement::text('page_h1', 'H1 заголовок').
+                AdminFormElement::text('page_title','Title').
+                AdminFormElement::text('page_keywords','Keywords').
+                AdminFormElement::ckeditor('page_descr','Description').
+                AdminFormElement::ckeditor('descr','Описание')
+            ;
+
+            $seo_buy =
+                AdminFormElement::html('<br><div style="display: block; text-align: center;"><b>Seo данные - Покупка</b></div><br>').
+                AdminFormElement::text('seo_h1_buy', 'H1 заголовок').
+                AdminFormElement::text('seo_title_buy','Title').
+                AdminFormElement::text('seo_keyw_buy','Keywords').
+                AdminFormElement::ckeditor('seo_descr_buy','Description').
+                AdminFormElement::ckeditor('seo_text_buy','Описание')
+            ;
+
+            $seo_sale =
+                AdminFormElement::html('<br><div style="display: block; text-align: center;"><b>Seo данные - Продажа</b></div><br>').
+                AdminFormElement::text('seo_h1_sell','H1 заголовок').
+                AdminFormElement::text('seo_title_sell','Title').
+                AdminFormElement::text('seo_keyw_sell','Keywords').
+                AdminFormElement::ckeditor('seo_descr_sell','Description').
+                AdminFormElement::ckeditor('seo_text_sell','Описание')
+            ;
         }
 
         $form = AdminForm::card()->addBody([
@@ -136,17 +138,18 @@ class AdvTorgTopic extends Section implements Initializable
                 AdminFormElement::select('parent_id', 'Раздел в который добавлять', $base_section->pluck('title', 'id')->toArray())->setDefaultValue(0)->required(),
                 AdminFormElement::hidden('add_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::select('menu_group_id', 'В группе (только для 1го уровня)', $groups->pluck('title', 'id')->toArray()),
-                AdminFormElement::text('title', 'Название новой рубрики')->required(),
+                AdminFormElement::text('title', 'Название рубрики')->required(),
+                AdminFormElement::ckeditor('descr', 'Описание')->required(),
+                $seo_data,
+                $seo_buy,
+                $seo_sale,
+                AdminFormElement::html('<br><div style="display: block; text-align: center;"><b>Другие параметры</b></div><br>'),
                 AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
                 AdminFormElement::select('visible', 'Показывать на сайте', [
                     0 => 'Нет',
                     1 => 'Да',
                 ])->setDefaultValue(1),
-                AdminFormElement::ckeditor('descr', 'Описание')->required(),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
-            ->addColumn($seo_data, 'col-xs-12 col-sm-6 col-md-8 col-lg-8')
-            ->addColumn($seo_buy, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')
-            ->addColumn($seo_sale, 'col-xs-12 col-sm-6 col-md-8 col-lg-6')
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')
         ]);
 
         $form->getButtons()->setButtons([

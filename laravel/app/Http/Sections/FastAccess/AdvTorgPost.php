@@ -76,7 +76,6 @@ class AdvTorgPost extends Section implements Initializable
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
             AdminColumn::checkbox('')->setWidth('70px')->setOrderable(false),
-
             AdminColumn::custom('ID', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
@@ -97,7 +96,7 @@ class AdvTorgPost extends Section implements Initializable
            })->setName('city')->setWidth('200px'),
 
 
-           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px')->setHtmlAttribute('class', 'text-center'),
+           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px'),
 
             AdminColumn::custom('Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                return "<div class='row-text'>
@@ -312,81 +311,8 @@ class AdvTorgPost extends Section implements Initializable
         $parent_category_id = \App\Models\ADV\AdvTorgPost::find($id)->advTorgTopic->subTopic->id; //magic fix
 
         $form = AdminForm::card()->addBody([
-            AdminFormElement::html("<div style='text-align: center'><h4>Редакировать объявление </h4></div>"),
-            AdminFormElement::columns()->addColumn([
-                AdminFormElement::hidden('id'),
-                AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
-                AdminFormElement::text('author', 'Автор:'),
-                AdminFormElement::text('email', 'E-mail:'),
-                AdminFormElement::text('phone', 'Телефон:'),
-
-                AdminFormElement::select('virtual', 'Раздел:')
-                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
-                    ->setLoadOptionsQueryPreparer(function ($item, $query) {
-                        return $query->where('parent_id', 0);
-                    })->setDisplay('title')
-                    ->setDefaultValue($parent_category_id),
-
-                AdminFormElement::dependentselect('topic_id', 'Подраздел:')
-                    ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
-                    ->setDataDepends('virtual')
-                    ->setLoadOptionsQueryPreparer(function ($item, $query) {
-                        return $query->where('parent_id', $item->getDependValue('virtual'));
-                    })
-                    ->required(),
-                AdminFormElement::text('title', 'Заглавие:'),
-                AdminFormElement::ckeditor('content', 'Текст:'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')
-                ->addColumn([
-                    AdminFormElement::select('obl_id', 'Область:')
-                        ->setModelForOptions(Regions::class)
-                        ->setDisplay('name')
-                        ->setDefaultValue(1)
-                        ->required(),
-                    AdminFormElement::text('city', 'Город:'),
-                    AdminFormElement::html("<div style='display: flex'>"),
-                    AdminFormElement::text('amount', 'Объем:'),
-                    AdminFormElement::text('izm', '&#160;'),
-                    AdminFormElement::html("</div>"),
-                    AdminFormElement::html("<div style='display: flex'>"),
-                    AdminFormElement::text('cost', 'Цена:'),
-                    AdminFormElement::text('cost_izm', '&#160;'),
-                    AdminFormElement::html("</div>"),
-                    AdminFormElement::select('colored', 'Выделение цветом:')
-                        ->setOptions([1 => 'Выделено цветом',
-                            0 => 'Обычное'])
-                        ->setSortable(false)
-                        ->required(),
-                    AdminFormElement::select('targeting', 'Поднято в ТОП:')
-                        ->setOptions([1 => 'Выделено в топе',
-                            0 => 'Обычное'])
-                        ->setSortable(false)
-                        ->required(),
-                    AdminFormElement::hidden('ups')->setHtmlAttribute('id', 'ups'),
-                    AdminFormElement::html("<button class='btn btn-default' onclick='up()'>Апнуть Объявление</button>
-                                    <span >Всего:<span id='ups_count'>{$this->getModelValue()->ups}</span></span>
-                                    <script> function up(){ event.preventDefault()
-                                        let elem = document.getElementById(\"ups\")
-                                        let value = parseInt(elem.value)+1
-                                        elem.value = value
-                                         document.getElementById(\"ups_count\").innerHTML = value;
-                                    }</script> "),
-                    AdminFormElement::select('active', 'Статус модерации:')
-                        ->setOptions([1 => 'Прошло модерацию',
-                            0 => 'Не прошло модерацию'])
-                        ->setSortable(false)
-                        ->required(),
-                    AdminFormElement::select('moderated', 'Бан по словам:')
-                        ->setOptions([1 => 'Все Ок, допущено',
-                            0 => 'Скрыто по правилам бана'])
-                        ->setSortable(false)
-                        ->required(),
-                    AdminFormElement::select('archive', 'Активное/Архив:')
-                        ->setOptions([1 => 'В архиве',
-                            0 => 'Активное'])
-                        ->setSortable(false)
-                        ->required(),
-                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')
+            AdminFormElement::html("<div style='text-align: center'><h4>Фото в объявлении</h4></div>"),
+            AdminFormElement::columns()
                 ->addColumn([
                     AdminFormElement::images('images', 'Images')->setHtmlAttribute('class', 'logo-img')
                         ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
@@ -409,9 +335,70 @@ class AdvTorgPost extends Section implements Initializable
                             ]);
                             return ['value' => 'pics/' . 'b/' . $filename];
 
-                        })
-                ],
-                    'col-xs-12 col-sm-6 col-md-12 col-lg-4')
+                        }),
+                    AdminFormElement::html("<div style='text-align: center'><h4>Редакировать объявление</h4></div>")
+                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-12')->addColumn([
+                    AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
+                    AdminFormElement::hidden('id'),
+                    AdminFormElement::text('author', 'Автор:'),
+                    AdminFormElement::text('email', 'E-mail:'),
+                    AdminFormElement::text('phone', 'Телефон:'),
+                    AdminFormElement::select('virtual', 'Раздел:')
+                        ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
+                        ->setLoadOptionsQueryPreparer(function ($item, $query) {
+                            return $query->where('parent_id', 0);
+                        })->setDisplay('title')
+                        ->setDefaultValue($parent_category_id),
+
+                    AdminFormElement::dependentselect('topic_id', 'Подраздел:')
+                        ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
+                        ->setDataDepends('virtual')
+                        ->setLoadOptionsQueryPreparer(function ($item, $query) {
+                            return $query->where('parent_id', $item->getDependValue('virtual'));
+                        })->required(),
+                    AdminFormElement::text('title', 'Заглавие:'),
+                    AdminFormElement::textarea('content', 'Текст:'),
+                        AdminFormElement::select('obl_id', 'Область:')
+                            ->setModelForOptions(Regions::class)
+                            ->setDisplay('name')
+                            ->setDefaultValue(1)
+                            ->required(),
+                        AdminFormElement::text('city', 'Город:'),
+                        AdminFormElement::html("<div style='display: flex'>"),
+                        AdminFormElement::text('amount', 'Объем:'),
+                        AdminFormElement::text('izm', '&#160;'),
+                        AdminFormElement::html("</div>"),
+                        AdminFormElement::html("<div style='display: flex'>"),
+                        AdminFormElement::text('cost', 'Цена:'),
+                        AdminFormElement::text('cost_izm', '&#160;'),
+                        AdminFormElement::html("</div>"),
+                        AdminFormElement::select('colored', 'Выделение цветом:')
+                            ->setOptions([1 => 'Выделено цветом',
+                                0 => 'Обычное'])->setSortable(false)->required(),
+                        AdminFormElement::select('targeting', 'Поднято в ТОП:')
+                            ->setOptions([1 => 'Выделено в топе',
+                                0 => 'Обычное'])->setSortable(false)->required(),
+                        AdminFormElement::hidden('ups')->setHtmlAttribute('id', 'ups'),
+                        AdminFormElement::html("<button class='btn btn-default' onclick='up()'>Апнуть Объявление</button>
+                                        <span >Всего:<span id='ups_count'>{$this->getModelValue()->ups}</span></span>
+                                        <script> function up(){ event.preventDefault()
+                                            let elem = document.getElementById(\"ups\")
+                                            let value = parseInt(elem.value)+1
+                                            elem.value = value
+                                             document.getElementById(\"ups_count\").innerHTML = value;
+                                        }</script> "),
+                        AdminFormElement::select('active', 'Статус модерации:')
+                            ->setOptions([1 => 'Прошло модерацию',
+                                0 => 'Не прошло модерацию'])->setSortable(false)->required(),
+                        AdminFormElement::select('moderated', 'Бан по словам:')
+                            ->setOptions([1 => 'Все Ок, допущено',
+                                0 => 'Скрыто по правилам бана'])->setSortable(false)->required(),
+                        AdminFormElement::select('archive', 'Активное/Архив:')
+                            ->setOptions([1 => 'В архиве',
+                                0 => 'Активное'])->setSortable(false)->required(),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')
+                ->addColumn([], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')
+                ->addColumn([], 'col-xs-12 col-sm-6 col-md-12 col-lg-4')
         ])->addFooter([
             AdminFormElement::html("<div style='text-align: center'><a href='/admin_dev/torg_buyer_bans?GetByUserId={$this->getModelValue()->author_id}'>Перейти к управлению баном для пользователя </a></div>")
         ]);
@@ -433,42 +420,16 @@ class AdvTorgPost extends Section implements Initializable
             AdminFormElement::checkbox('reason_3', 'Не цензурная брань&#160;&#160;&#160;')->setDefaultValue(0),
             AdminFormElement::checkbox('reason_4', 'Капслок')->setDefaultValue(0),
             AdminFormElement::html("</div>"),
-            AdminFormElement::ckeditor('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
+            AdminFormElement::textarea('message', 'Текст сообщения:')->setHtmlAttribute('value', 'message')
                 ->setDefaultValue("Уважаемый пользователь, Ваше объявление снято с ротации, т.к. вы нарушили следующие правила размещения объявлений:<br>
                 <br>
 {TPL_RULES}<br>
 <br>
 Исправьте данные нарушения и мы восстановим ротацию объявления."),
-            /*  $companies*/
-
 
         ])->addFooter([
             AdminFormElement::html("<button class='btn btn-primary' >Отклонить объявление</button>")
-        ]);/*->addBody([
-
-            AdminDisplay::table()->setModelClass(\App\Models\ADV\AdvTorgPostModerMsg::class)
-                ->setScopes('test')
-                ->setColumns([
-                    AdminColumn::text('id', 'ID')
-                        ->setHtmlAttribute('class', 'text-center')->setWidth('80px'),
-                    AdminColumn::text('add_date', 'Дата')
-                        ->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
-                    AdminColumn::custom('Текст', function (\Illuminate\Database\Eloquent\Model $model) {
-                        return "<div class='row-text'>
-                            {$model->msg}
-                            </div>";
-                    }),
-                    AdminColumn::custom('Исправлено', function (\Illuminate\Database\Eloquent\Model $model) {
-                        $text = $model->fixed ? "<span style='color: red'>Да</span>" : '-';
-                        return "<div class='row-text'>
-                            {$text}
-                            </div>";
-                    }),
-                    AdminColumn::text('fix_date', 'Дата испр.')
-                        ->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
-                ]),
-        ])*/
-
+        ]);
 
         $formTwo->getButtons()->setButtons([
             'save' => null,
@@ -478,11 +439,6 @@ class AdvTorgPost extends Section implements Initializable
 
         $companies = AdminSection::getModel(AdvTorgPostModerMsg::class)->fireDisplay(['scopes' => ['test', $id]]);
 
-
-      /*  $companies->getScopes()->push(['withContact', $id]);*/
-        /*$companies->setParameter('contact_id', $id);*/
-    /*    dd($companies);*/
-
         $formTwo->addBody([
             AdminFormElement::columns()->addColumn([
                 $companies,
@@ -491,21 +447,11 @@ class AdvTorgPost extends Section implements Initializable
         ])  ->setAction(route('savePostModerMsg'));
 
 
-
         $display = AdminDisplay::tabbed([
             'Редакирование' =>
                 $form,
             'Модерация' => $formTwo,
-
-
-
-
         ]);
-
-
-
-     /*   $display->appendTab($form, 'Редакирование');
-        $display->appendTab($form2, 'Модерация');*/
 
         return $display;
     }

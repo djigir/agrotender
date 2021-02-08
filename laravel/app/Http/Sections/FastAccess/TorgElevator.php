@@ -5,6 +5,7 @@ namespace App\Http\Sections\FastAccess;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Rayon\Rayon;
@@ -40,7 +41,18 @@ class TorgElevator extends Section implements Initializable
     /**
      * @var string
      */
+    protected $title_elev = '';
+
+    /**
+     * @var string
+     */
     protected $alias;
+
+
+    public function getEditTitle()
+    {
+        return "Редактировать {$this->title_elev}";
+    }
 
     /**
      * Initialize class.
@@ -66,53 +78,40 @@ class TorgElevator extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-        /* импрот Элеватора */
-        $type = request()->get('type');
-
-        if ($type == 'import_elev') {
-            return AdminDisplay::datatables()->setName('firstdatatables')->setView('display.UnloadDownload.import_elevators');
-        }
-
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),
+                ->setHtmlAttribute('class', 'text-center')
+                ->setHtmlAttributes(['style' => 'font-size: 14px']),
+
             AdminColumn::link('langElevator.name', 'Название')
                 ->setWidth('200px')
-                ->setHtmlAttribute('class', 'text-left')
+                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
                 ->setOrderable('id'),
 
             AdminColumn::text('langRayon.name.', 'Район')
                 ->setWidth('150px')
-                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 16px'])
+                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
                 ->setOrderable('obl_id'),
 
             AdminColumn::text('langElevator.addr', 'Адрес')
                 ->setWidth('350px')
-                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 16px'])
+                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
                 ->setOrderable('id'),
-
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
             ->setDisplaySearch(false)
-            ->paginate(25)
+            ->paginate(50)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+            ->setFilters(
+                AdminDisplayFilter::custom('obl_id')->setCallback(function ($query, $value) {
+                    $query->where('obl_id', $value);
                 })
-                ->setDisplay('name')
-                ->setColumnName('obl_id')
-                ->setPlaceholder('Все области'),
-        ]);
+            )
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -128,6 +127,7 @@ class TorgElevator extends Section implements Initializable
 
     public function onEdit($id = null, $payload = [])
     {
+        $this->title_elev = $this->model_value['langElevator']['name'];
         $elevator = null;
         if ($id){
             $elevator = \App\Models\Elevators\TorgElevator::with('regionAdmin', 'langRayon')->find($id)->toArray();
@@ -135,7 +135,6 @@ class TorgElevator extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
                 AdminFormElement::select('ray_id', 'Район области')
                     ->setModelForOptions(Rayon::class)
                     ->setLoadOptionsQueryPreparer(function($element, $query) use ($elevator, $id){
@@ -143,30 +142,16 @@ class TorgElevator extends Section implements Initializable
                     })->setDisplay('rayonLang.name')->required(),
 
                 AdminFormElement::text('langElevator.name', 'Название')->required(),
-
-
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-'),
-
-                AdminFormElement::ckeditor('langElevator.addr', 'Физический адрес')->setDefaultValue('-'),
-
-                AdminFormElement::ckeditor('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-'),
-
-
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-
+                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setRows(7),
+                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setRows(7),
                 AdminFormElement::text('phone', 'Телефон')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('email', 'E-mail')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('langElevator.director', 'Директор')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
-
-                AdminFormElement::ckeditor('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
-
-                AdminFormElement::ckeditor('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(7)->required(),
+                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(7)->required(),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
         ]);
 
         $form->getButtons()->setButtons([
@@ -187,7 +172,6 @@ class TorgElevator extends Section implements Initializable
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
                 AdminFormElement::select('obl_id', 'Область', $regions->toArray())->required(),
                 AdminFormElement::dependentselect('ray_id', 'Район области')
                     ->setModelForOptions(Rayon::class, 'title')
@@ -200,32 +184,17 @@ class TorgElevator extends Section implements Initializable
                     ->required(),
 
                 AdminFormElement::text('langElevator.name', 'Название')->required(),
-
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-')->setDefaultValue('-'),
-
-                AdminFormElement::ckeditor('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-'),
-
-                AdminFormElement::ckeditor('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-'),
-
-
-
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
-
+                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
+                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
                 AdminFormElement::text('phone', 'Телефон')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('email', 'E-mail')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('langElevator.director', 'Директор')->setDefaultValue('-')->required(),
-
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->setDefaultValue('-')->required(),
-
-                AdminFormElement::ckeditor('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->required(),
-
-                AdminFormElement::ckeditor('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->required(),
-
+                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(7)->required(),
+                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(7)->required(),
                 AdminFormElement::hidden('langElevator.lang_id')->setDefaultValue(1),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-5')->addColumn([], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
 
         $form->getButtons()->setButtons([
