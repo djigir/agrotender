@@ -1,6 +1,11 @@
 <?php
-    $groups = \App\Models\Traders\TradersProductGroups::get();
-    $groups_lang = \App\Models\Traders\TradersProductGroupLanguage::whereIn('item_id', $groups->pluck('id'))->get();
+
+    $acttype = 1;
+    if(\Request::segment(2) == 'traders_products_sells'){
+        $acttype = 0;
+    }
+    $groups = \App\Models\Traders\TradersProductGroups::where('acttype', $acttype)->get();
+    $groups_lang = \App\Models\Traders\TradersProductGroupLanguage::select('item_id', 'name')->whereIn('item_id', $groups->pluck('id'))->get();
 ?>
 
 <form method="GET">
