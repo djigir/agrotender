@@ -91,6 +91,15 @@ class BannerRotate extends Section implements Initializable
                         2 => 'Оплата на безналичный счет',
                         3 => 'Оплата через WebMoney',
                     ])->setDefaultValue(1)->required(),
+                    AdminFormElement::image('ban_file', "Картинка")
+                        ->setHtmlAttribute('class', 'logo-img')
+                        ->setSaveCallback(function ($file, $path, $filename, $settings) {
+                            $path = 'files/pict/';
+                            $full_path = "/var/www/agrotender/{$path}";
+                            $file->move($full_path, $filename);
+                            $value = $path . $filename;
+                            return ['path' => asset($value), 'value' => $value];
+                        }),
                     AdminFormElement::date('dt_start_req', 'Разместить с')->required(),
                     AdminFormElement::date('dt_end_req', 'Разместить по')->required(),
 
@@ -124,8 +133,8 @@ class BannerRotate extends Section implements Initializable
                             $value = $path . $filename;
                             return ['path' => asset($value), 'value' => $value];
                     }),
+
                     AdminFormElement::text('ban_link','Url Ссылки'),
-                ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                     AdminFormElement::html("
                         <div class='form-group form-element-text'>
                         <label  class='control-label'>
@@ -157,7 +166,7 @@ class BannerRotate extends Section implements Initializable
                         </label>
                         <input class='form-control' type='text' value='{$period}' readonly='readonly'></div>
                     "),
-                ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')
+                ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')
             ]);
         }
 

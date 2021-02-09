@@ -86,7 +86,7 @@ class PyBillDoc extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-//            ->setOrder([[0, 'asc']])
+            ->setOrder([[1, 'desc']])
 //            ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)

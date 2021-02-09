@@ -5,6 +5,7 @@ namespace App\Http\Sections;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\City\CityLang;
@@ -70,13 +71,11 @@ class UsersAdmin extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::custom('Логин' , function (\Illuminate\Database\Eloquent\Model $model){
+                $url = \Str::before(\Request::url(), '/ad')."/admin_dev/users/{$model->id}/edit";
+                return "<div class='row-link text-center'><i class='fas fa-user'></i><a href='{$url}'> {$model->login}</a></div>";
+            })->setWidth('100px'),
 
-            AdminColumn::link('login', 'Логин')
-                ->setHtmlAttributes([
-                    'class' => 'fas fa-user'
-                ])
-                ->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('name', 'Ф.И.О')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
@@ -111,7 +110,9 @@ class UsersAdmin extends Section implements Initializable
                 ->setPlaceholder('Все пользователи')
             ,
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
+
         return $display;
     }
 
@@ -128,25 +129,19 @@ class UsersAdmin extends Section implements Initializable
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('login', 'Логин')->required(),
-                AdminFormElement::password('passwd', 'Пароль')->required()->hashWithBcrypt(),
                 AdminFormElement::text('name', 'Ф.И.О.'),
                 AdminFormElement::text('address', 'Адрес'),
                 AdminFormElement::select('city_id', 'Город')->setModelForOptions(CityLang::class)->setDisplay('name'),
                 AdminFormElement::number('zip_code', 'Почтовый Индекс'),
-
-                AdminFormElement::text('web_url', 'Веб-страница'),
-                AdminFormElement::select('group_id', 'Группа пользователей')
-                    ->setModelForOptions(UserGroups::class)
-                    ->setDisplay('group_name'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')->addColumn([
                 AdminFormElement::number('telephone', 'Телефон')->setMin($min_number_phone),
                 AdminFormElement::number('office_phone', 'Рабочий тел')->setMin($min_number_phone),
                 AdminFormElement::number('cell_phone', 'Мобильный тел')->setMin($min_number_phone),
-
                 AdminFormElement::text('email1', 'E-Mail 1'),
                 AdminFormElement::text('email2', 'E-Mail 2'),
                 AdminFormElement::text('email3', 'E-Mail 3'),
-            ], 'col-xs-4 col-sm-3 col-md-3 col-lg-6'),
+                AdminFormElement::text('web_url', 'Веб-страница'),
+                AdminFormElement::select('group_id', 'Группа пользователей')->setModelForOptions(UserGroups::class)->setDisplay('group_name'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3'),
         ]);
 
         $form->getButtons()->setButtons([
@@ -173,18 +168,15 @@ class UsersAdmin extends Section implements Initializable
                 AdminFormElement::text('address', 'Адрес'),
                 AdminFormElement::select('city_id', 'Город')->setModelForOptions(CityLang::class)->setDisplay('name'),
                 AdminFormElement::number('zip_code', 'Почтовый Индекс'),
-                AdminFormElement::text('web_url', 'Веб-страница'),
-                AdminFormElement::select('group_id', 'Группа пользователей')
-                    ->setModelForOptions(UserGroups::class)
-                    ->setDisplay('group_name'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')->addColumn([
                 AdminFormElement::number('telephone', 'Телефон')->setMin($min_number_phone),
                 AdminFormElement::number('office_phone', 'Рабочий тел')->setMin($min_number_phone),
                 AdminFormElement::number('cell_phone', 'Мобильный тел')->setMin($min_number_phone),
                 AdminFormElement::text('email1', 'E-Mail 1'),
                 AdminFormElement::text('email2', 'E-Mail 2'),
                 AdminFormElement::text('email3', 'E-Mail 3'),
-            ], 'col-xs-4 col-sm-3 col-md-3 col-lg-6'),
+                AdminFormElement::text('web_url', 'Веб-страница'),
+                AdminFormElement::select('group_id', 'Группа пользователей')->setModelForOptions(UserGroups::class)->setDisplay('group_name'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')
         ]);
 
         $form->getButtons()->setButtons([

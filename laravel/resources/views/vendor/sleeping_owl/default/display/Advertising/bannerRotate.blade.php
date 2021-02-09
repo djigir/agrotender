@@ -49,20 +49,13 @@
                        style="width: 100%;" id="DataTables_Table_0" role="grid"
                        aria-describedby="DataTables_Table_0_info">
                     <colgroup>
-                        <col width="250px">
-                        <col width="150px">
-                        <col width="150px">
-                        <col width="350px">
-                        <col width="350px">
-                        <col width="300px">
+                        <col width="500px">
+                        <col width="500px">
+                        <col width="570px">
                     </colgroup>
                     <thead>
 
                     <tr role="row">
-                        <th class="row-header" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата заявки">
-                            Дата заявки
-                        </th>
-
                         <th class="row-header " tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Отправитель">
                             Отправитель
                         </th>
@@ -70,15 +63,6 @@
                         <th class="row-header " tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Тип оплаты">
                             Тип оплаты
                         </th>
-
-                        <th class="row-header" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Желаемый период">
-                            Желаемый период
-                        </th>
-
-                        <th class="row-header" tabindex="4" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Назначенный период">
-                            Назначенный период
-                        </th>
-
                         <th class="row-header" tabindex="5" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Файл">
                             Файл
                         </th>
@@ -95,11 +79,8 @@
                             $url_delete = Request::url() . '/' . $confirmed->id . '/delete';
                         ?>
                         <tr role="row" class="odd">
-                            <td><div class="row-text text-center">{{$confirmed->add_date}}</div></td>
                             <td><div class="row-text text-center">{{$confirmed->cont_name}} <a href="mailto:{{$confirmed->cont_mail}}">{{$confirmed->cont_mail}}</a></div></td>
                             <td><div class="row-text text-center">{{$TYPE_PAY[$confirmed->pay_type]}}</div></td>
-                            <td><div class="row-text text-center">{{$confirmed->dt_start_req}} - {{$confirmed->dt_end_req}}</div></td>
-                            <td><div class="row-text text-center">{{$confirmed->dt_start}} - {{$confirmed->dt_end}}</div></td>
                             <td><div class="row-text text-center">{{$confirmed->ban_file}}</div></td>
                             <td>
                                 <div class="table-control-btn">
@@ -126,7 +107,7 @@
     </div>
 </div>
 @endif
-
+<br>
 @if(!$banner_rotate_applications->isEmpty())
 <div class="content body">
     <div class="links-row"></div>
@@ -149,26 +130,15 @@
                        style="width: 100%;" id="DataTables_Table_0" role="grid"
                        aria-describedby="DataTables_Table_0_info">
                     <colgroup>
-                        <col width="250px">
-                        <col width="250px">
-                        <col width="350px">
-                        <col width="250px">
-                        <col width="350px">
-                        <col width="200px">
+                        <col width="500px">
+                        <col width="500px">
+                        <col width="570px">
                     </colgroup>
                     <thead>
 
                     <tr role="row">
-                        <th class="row-header" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Дата заявки">
-                            Дата заявки
-                        </th>
-
                         <th class="row-header " tabindex="1" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Отправитель">
                             Отправитель
-                        </th>
-
-                        <th class="row-header " tabindex="2" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Тип оплаты">
-                            Желаемый период
                         </th>
 
                         <th class="row-header" tabindex="3" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Желаемый период">
@@ -198,9 +168,7 @@
                         ?>
 
                         <tr role="row" class="odd">
-                            <td><div class="row-text text-center">{{$applications->add_date}}</div></td>
                             <td><div class="row-text text-center">{{$applications->cont_name}} <a href="mailto:{{$applications->cont_mail}}">{{$applications->cont_mail}}</a></div></td>
-                            <td><div class="row-text text-center">{{$applications->dt_start_req}} - {{$applications->dt_end_req}}</div></td>
                             <td><div class="row-text text-center"></div>{{$is_busy ? "период занят" : 'размещение доступно'}}</td>
                             <td><div class="row-text text-center">{{$TYPE_PAY[$applications->pay_type]}}</div></td>
                             <td>

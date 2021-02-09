@@ -165,9 +165,7 @@ class TorgBuyerBan extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('ban_ses')
                 ->setPlaceholder('по SES')
-                ->setHtmlAttribute('class', 'ses-search')
-                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
-
+                ->setHtmlAttribute('class', 'ses-search'),
         ]);
 
 

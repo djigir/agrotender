@@ -65,7 +65,7 @@ class TorgBuyer extends Section implements Initializable
             AdminColumn::link('login', 'Логин/Дата регистр.', 'add_date')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('add_date', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+                }),
 
             AdminColumn::boolean('isactive_web', 'Активация'),
 
@@ -76,21 +76,16 @@ class TorgBuyer extends Section implements Initializable
                 return "<div class='row-text'>
                          {$balance}
                     </div>";
-            })
-                ->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center'),
 
-
-            AdminColumn::text('name', 'Ф.И.О')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('name', 'Ф.И.О'),
 
             AdminColumn::text('regions.name', 'Область')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('obl_id', $direction);
-                })
-                ->setHtmlAttribute('class', 'text-center'),
+            }),
 
-            AdminColumn::text('phone', 'Контакты', 'email')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('phone', 'Контакты', 'email'),
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
@@ -116,14 +111,6 @@ class TorgBuyer extends Section implements Initializable
                         <a href='{$model->TorgBuyerBanRoute()}?GetBanedUser[user_id]={$model->id}' target='_blank'>{$ban}</a>
                     </div>";
             })->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Действие', function (\Illuminate\Database\Eloquent\Model $model) {
-                $WWWHOST = 'https://agrotender.com.ua/';
-                return "<div class='row-text'>
-                        <a href=\"".$WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($model->login)."&buyerpass=".stripslashes($model->passwd)."\" target='_blank' class='btn btn-success small'>Войти</a>
-                    </div>";
-            })->setHtmlAttribute('class', 'text-center'),
-
         ];
 
         $display = AdminDisplay::datatables()
@@ -173,46 +160,19 @@ class TorgBuyer extends Section implements Initializable
                 ->setColumnName('last_ip')
                 ->setHtmlAttribute('class', 'ip_filter')
                 ->setPlaceholder(' по IP'),
-
-//            AdminColumnFilter::range()->setFrom(
-//                AdminColumnFilter::text()->setPlaceholder('Объявл. от')
-//            )->setTo(
-//                AdminColumnFilter::text()->setPlaceholder('До')
-//            )->setCallback(function ($value, $query){
-//                $request = \request()->get('columns')[6]['search']['value'];
-//                $from = stristr($request, ':', ':');
-//                $to = substr(strrchr($request, ':'), 1);
-////                if ($from !=null && $to != null) {
-////                    return \DB::table('torg_buyer')
-////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
-////                        ->select(\DB::raw('COUNT(adv_torg_post.author_id) as total'))
-////                        ->whereBetween('adv_torg_post.author_id', [$from, $to])->get();
-////                }
-////                $a = \DB::table('website_tags')
-////                        ->join('assigned_tags', 'website_tags.id', '=', 'assigned_tags.tag_id')
-////                        ->select('website_tags.id as id', 'website_tags.title as title', DB::raw("count(assigned_tags.tag_id) as count"))
-////                    ->get();
-//
-//                $a = \DB::table('torg_buyer')
-//                    ->join('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
-//                    ->select('torg_buyer.id as id', \DB::raw("count(adv_torg_post.author_id) as count"))
-//                    ->get();
-//                dd($a);
-//
-////                if($from && $to){
-////                    return \DB::table('torg_buyer')
-////                        ->leftJoin('adv_torg_post', 'torg_buyer.id', '=', 'adv_torg_post.author_id')
-////                        ->select('torg_buyer.*', \DB::raw('count(agt_adv_torg_post.id) as count'))
-////                        ->get();
-////                }
-//
-//
-//            })->setHtmlAttribute('class', 'count-adverts-filter')
-//                ->addStyle('my', asset('/app/assets/css/my-laravel.css')),
-
         ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
+
+        $button = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
+            $WWWHOST = 'https://agrotender.com.ua/';
+            return $WWWHOST."buyerlog.html?action=dologin0&buyerlog=".stripslashes($model->login)."&buyerpass=".stripslashes($model->passwd);
+        }, '', 50);
+
+        $button->setIcon('fas fa-user-lock');
+        $button->setHtmlAttributes(['target' => '_blank', 'class' => 'btn-success btn btn-xs']);
+
+        $display->getColumns()->getControlColumn()->addButton($button);
 
         return $display;
     }

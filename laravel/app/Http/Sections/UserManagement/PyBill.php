@@ -54,7 +54,6 @@ class PyBill extends Section implements Initializable
 //        $this->addToNavigation()->setPriority(100)->setIcon('fa fa-lightbulb-o');
     }
     const PAYMENTH_TYPE = [
-        0 => '',
         1 => 'Приват 24',
         2 => 'Карта',
         3 => 'По счету',
@@ -69,7 +68,6 @@ class PyBill extends Section implements Initializable
     ];
 
     const STATUS_AKT = [
-        0 => '',
         1 => 'Нужен',
         2 => 'Загружен',
     ];
@@ -83,19 +81,19 @@ class PyBill extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', '№')->setWidth('60px')->setOrderable(false),
-            AdminColumn::text('add_date', 'Дата')->setOrderable(false),
+            AdminColumn::text('id', '№')->setWidth('60px')->setOrderable(false)->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('add_date', 'Дата')->setOrderable('add_date')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('torgBuyer.login.', 'Логин')->setOrderable(false),
             AdminColumn::text('torgBuyer.name.', 'Пользователь')->setOrderable(false),
 
             AdminColumn::custom('Метод', function (\Illuminate\Database\Eloquent\Model $model){
                 $paymeth_type = self::PAYMENTH_TYPE;
-                return "<div class='row-text'>{$paymeth_type[$model->paymeth_type]}</div>";
+                return "<div class='row-text text-center'>{$paymeth_type[$model->paymeth_type]}</div>";
             }),
 
             AdminColumn::custom('Физ./Юр.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $orgtype = $model->orgtype == 1 ? 'Юр. лицо' : 'Физ. лицо';
-                return "<div class='row-text'>{$orgtype}</div>";
+                return "<div class='row-text text-center'>{$orgtype}</div>";
             }),
 
             AdminColumn::custom('№ док', function (\Illuminate\Database\Eloquent\Model $model) {
@@ -117,7 +115,7 @@ class PyBill extends Section implements Initializable
                     $doc = 'Счет №'.$pyBillDoc->bill_id;
                 }
 
-                return "<div class='row-text'><a href='{$file}' target='_blank'>{$doc}</a></div>";
+                return "<div class='row-text text-center'><a href='{$file}' target='_blank'>{$doc}</a></div>";
             }),
 
 
@@ -127,10 +125,10 @@ class PyBill extends Section implements Initializable
                 if($model->status == 0){
                     $style = 'color:red';
                 }
-                return "<div style='{$style}' class='row-text'>{$status[$model->status]}</div>";
+                return "<div style='{$style}' class='row-text text-center'>{$status[$model->status]}</div>";
             }),
 
-            AdminColumn::text('amount', 'Сумма')->setOrderable(false)->setWidth('70px'),
+            AdminColumn::text('amount', 'Сумма')->setOrderable(false)->setHtmlAttribute('class', 'text-center')->setWidth('70px'),
 
             AdminColumn::custom('Акт', function (\Illuminate\Database\Eloquent\Model $model) {
                 $akt = '-';
@@ -144,32 +142,20 @@ class PyBill extends Section implements Initializable
                 }
 
                 return "<div class='row-text'>{$akt}</div>";
-            })->setWidth('70px'),
+            })->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Плательщик', function (\Illuminate\Database\Eloquent\Model $model) {
                 $payer = $model['pyBillFirm']['id'] != 0 ? $model['pyBillFirm']['otitle'] : '';
                 return "<div class='row-text'>{$payer}</div>";
             }),
-
-            AdminColumn::custom('Добавить докумен', function (\Illuminate\Database\Eloquent\Model $model) {
-                return "
-                    <div>
-                        <a href='{$model->PyBillDocCreate()}?id={$model->id}' target='_blank' class='btn-success btn btn-xs'>
-                            <i class='fas fa-plus'></i>
-                        </a>
-                    </div>
-                    ";
-
-            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
-
         ];
 
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
-//            ->setDisplaySearch(true)
-            ->paginate(25)
+            ->setOrder([[0, 'desc']])
+            ->setDisplaySearch(false)
+            ->paginate(100)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
@@ -208,6 +194,15 @@ class PyBill extends Section implements Initializable
         });
 
         $display->getColumnFilters()->setPlacement('card.heading');
+
+        $button = new \SleepingOwl\Admin\Display\ControlLink(function (\Illuminate\Database\Eloquent\Model $model) {
+            return  "{$model->PyBillDocCreate()}?id={$model->id}";
+        }, '', 50);
+
+        $button->setIcon('fas fa-plus');
+        $button->setHtmlAttributes(['target' => '_blank', 'class' => 'btn-success btn btn-xs']);
+
+        $display->getColumns()->getControlColumn()->addButton($button);
 
         return $display;
     }
