@@ -2,7 +2,6 @@
     $banner_rotate = \App\Models\Banner\BannerRotate::where('place_id', \request()->get('id'))->get();
     $banner_rotate_confirmed = $banner_rotate->where('archive', 0)->where('inrotate', 1);
     $banner_rotate_applications = $banner_rotate->where('archive', 0)->where('inrotate', 0);
-
     $banner_info = \App\Models\Banner\BannerPlaces::find(\request()->get('id'));
 
     $PAGE = [
@@ -11,13 +10,14 @@
         2 => 'Торги по регионам',
         3 => 'Остальные страницы',
     ];
+
+
     $TYPE_PAY = [
         0 => 'Подарок',
         1 => 'Наличными',
         2 => 'Безнал',
         3 => 'Webmoney',
     ];
-
 ?>
 
 <div class="card-heading card-header" style="margin-bottom: 25px">
@@ -39,8 +39,9 @@
         <div class="panel-table card-body pt-0 pl-0 pr-0">
             <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
                 <div class="">
-                    <div id="DataTables_Table_0_processing" class="dataTables_processing panel panel-default"
-                         style="display: none;"><i class="fas fa-spinner fa-5x fa-spin"></i></div>
+                    <div id="DataTables_Table_0_processing" class="dataTables_processing panel panel-default" style="display: none;">
+                        <i class="fas fa-spinner fa-5x fa-spin"></i>
+                    </div>
                 </div>
                 <table data-id="i5aACgpnkj" data-order="[[0,&quot;asc&quot;]]"
                        data-url="{{Request::url().'/async/firstdatatables'}}"
@@ -84,12 +85,10 @@
                             <td><div class="row-text text-center">{{$confirmed->ban_file}}</div></td>
                             <td>
                                 <div class="table-control-btn">
-                                    <a href="{{$url_edit}}"
-                                       class="btn-primary btn btn-xs" title="" data-toggle="tooltip" data-original-title="Редактировать">
+                                    <a href="{{$url_edit}}" class="btn-primary btn btn-xs" title="" data-toggle="tooltip" data-original-title="Редактировать">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <form action="{{$url_delete}}" method="POST"
-                                          style="display:inline-block;">
+                                    <form action="{{$url_delete}}" method="POST" style="display:inline-block;">
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <input type="hidden" name="_method" value="delete">
                                         <button class="btn-danger btn-delete btn btn-xs" title="" data-toggle="tooltip" data-original-title="Удалить">
@@ -173,12 +172,10 @@
                             <td><div class="row-text text-center">{{$TYPE_PAY[$applications->pay_type]}}</div></td>
                             <td>
                                 <div class="table-control-btn">
-                                    <a href="{{$url_edit}}"
-                                       class="btn-primary btn btn-xs" title="" data-toggle="tooltip" data-original-title="Редактировать">
+                                    <a href="{{$url_edit}}" class="btn-primary btn btn-xs" title="" data-toggle="tooltip" data-original-title="Редактировать">
                                         <i class="fas fa-pencil-alt"></i>
                                     </a>
-                                    <form action="{{$url_delete}}" method="POST"
-                                          style="display:inline-block;">
+                                    <form action="{{$url_delete}}" method="POST" style="display:inline-block;">
                                         <input type="hidden" name="_token" value="{{csrf_token()}}">
                                         <input type="hidden" name="_method" value="delete">
                                         <button class="btn-danger btn-delete btn btn-xs" title="" data-toggle="tooltip" data-original-title="Удалить">

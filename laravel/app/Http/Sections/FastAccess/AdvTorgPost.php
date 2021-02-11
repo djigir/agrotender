@@ -75,12 +75,12 @@ class AdvTorgPost extends Section implements Initializable
     {
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
-            AdminColumn::checkbox('')->setWidth('70px')->setOrderable(false),
+            AdminColumn::checkbox('')->setWidth('50px')->setOrderable(false),
             AdminColumn::custom('ID', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
                             <a href='https://agrotender.com.ua/board/post-{$model->getKey()}'>{$model->getKey()}</a>
                         </div>";
-            })->setWidth('80px')->setOrderable(function($query, $direction) {
+            })->setWidth('60px')->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
             })->setHtmlAttribute('class', 'text-center'),
 
@@ -93,7 +93,7 @@ class AdvTorgPost extends Section implements Initializable
                            {$titleTopic}
                            <small class='clearfix'>{$titleSubTopic}</small>
                        </div>";
-           })->setName('city')->setWidth('200px'),
+           })->setName('city')->setWidth('160px'),
 
 
            AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px'),
@@ -296,7 +296,7 @@ class AdvTorgPost extends Section implements Initializable
             );
 
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('70px');
         return $display->paginate($per_page);
     }
 

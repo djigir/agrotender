@@ -97,8 +97,7 @@ class Traders extends Section implements Initializable
     {
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
-            AdminColumn::checkbox('')->setWidth('50px')->setOrderable(false),
-
+            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),

@@ -4,6 +4,12 @@ body, html{
 
 }
 
+[class*=icheck-] {
+    min-height: 1rem;
+    margin-top: 4px;
+    padding-left: .4rem;
+}
+
 details summary {
     display: block;
     outline: none;

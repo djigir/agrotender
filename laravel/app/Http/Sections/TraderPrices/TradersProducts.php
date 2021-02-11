@@ -98,7 +98,7 @@ class TradersProducts extends Section implements Initializable
             );
 
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('70px');
         return $display;
     }
 

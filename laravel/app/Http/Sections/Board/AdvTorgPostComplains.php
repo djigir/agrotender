@@ -126,7 +126,7 @@ class AdvTorgPostComplains extends Section implements Initializable
                 ->setPlaceholder('По жалобе')
         ]);
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('40px');
         return $display;
     }
 

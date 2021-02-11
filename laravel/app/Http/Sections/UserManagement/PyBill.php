@@ -81,7 +81,7 @@ class PyBill extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', '№')->setWidth('60px')->setOrderable(false)->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('60px')->setOrderable(false)->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('add_date', 'Дата')->setOrderable('add_date')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('torgBuyer.login.', 'Логин')->setOrderable(false),
             AdminColumn::text('torgBuyer.name.', 'Пользователь')->setOrderable(false),
@@ -150,10 +150,9 @@ class PyBill extends Section implements Initializable
             }),
         ];
 
-
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(100)
             ->setColumns($columns)
@@ -188,10 +187,7 @@ class PyBill extends Section implements Initializable
                 ->setPlaceholder('Статус акт'),
         ]);
 
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('add_date', 'desc');
-        });
+
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

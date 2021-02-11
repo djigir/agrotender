@@ -93,7 +93,7 @@ class PyBillDoc extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-
+        $display->getColumns()->getControlColumn()->setWidth('20px');
 
         return $display;
     }

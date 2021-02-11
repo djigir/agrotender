@@ -60,17 +60,7 @@ class BuyerTarifPacks extends Section implements Initializable
         $columns = [
             AdminColumn::text('title', 'Содержание записей')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('add_date', 'Дата')->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Показывать на сайте', function (\Illuminate\Database\Eloquent\Model $model){
-                $style = '';
-                $text = 'Нет';
-
-                if($model->active == 1){
-                    $style = 'color:red';
-                    $text = 'Да';
-                }
-                return "<div style = '{$style}' class='row-text text-center'>{$text}</div>";
-            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('active', 'Показывать на сайте'),
             AdminColumn::text('cost', 'Цена')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::custom('Период', function (\Illuminate\Database\Eloquent\Model $model){
                 $period_type = [

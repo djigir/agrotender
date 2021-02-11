@@ -8,6 +8,7 @@
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_products_sells')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles_boards')
 )
     <div class="row">
         <div class="col-lg-12 pt-3">
@@ -54,6 +55,7 @@
                     || \Request::segment(2) == 'traders_products_sells'
                     || \Request::segment(2) == 'traders_ports'
                     || \Request::segment(2) == 'seo_titles'
+                    || \Request::segment(2) == 'seo_titles_boards'
                )
                style="display: none" @endif>
                 <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
@@ -99,6 +101,10 @@
             @endif
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')) && \Request::segment(2) == 'traders_ports')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles_boards')) && \Request::segment(2) == 'seo_titles_boards')
                 @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
             @endif
 

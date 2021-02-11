@@ -112,6 +112,7 @@ class UsersAdmin extends Section implements Initializable
         ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
+        $display->getColumns()->getControlColumn()->setWidth('55px');
 
         return $display;
     }

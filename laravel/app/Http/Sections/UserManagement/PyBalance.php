@@ -56,22 +56,21 @@ class PyBalance extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-//        {$model['pyBill']['torgBuyer']['login']}
         $columns = [
-            AdminColumn::datetime('add_date', 'Дата')->setFormat('Y-m-d H:i:s')->setOrderable(false),
+            AdminColumn::datetime('add_date', 'Дата')->setFormat('Y-m-d H:i:s')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('torgBuyer.login', 'Логин')->setOrderable(false),
             AdminColumn::text('torgBuyer.name', 'Пользователь')->setOrderable(false),
             AdminColumn::custom('Кто провел', function (\Illuminate\Database\Eloquent\Model $model) {
                 $spent = $model->oper_by == 1 ? 'Админ' : 'Польз.';
 
                 return "<div class='row-text'>{$spent}</div>";
-            }),
+            })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Тип платежа', function (\Illuminate\Database\Eloquent\Model $model) {
                 $payment_type = $model->oper_debkred == 1 ? 'Пополнение' : 'Списание';
-
-                return "<div class='row-text'>{$payment_type}</div>";
-            }),
+                $style = $model->oper_debkred == 1 ? 'color: green' : 'color: red';
+                return "<div style='{$style}' class='row-text'>{$payment_type}</div>";
+            })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Назначение', function (\Illuminate\Database\Eloquent\Model $model) {
                 $appointment = null;
@@ -105,18 +104,15 @@ class PyBalance extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-//            ->setOrder([[0, 'asc']])
-//            ->setDisplaySearch(true)
-            ->paginate(25)
+            ->setOrder([[0, 'desc']])
+            ->setDisplaySearch(false)
+            ->paginate(100)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('add_date', 'desc');
-        });
-
         $display->getColumnFilters()->setPlacement('card.heading');
+
+        $display->getColumns()->getControlColumn()->setWidth('1px');
 
         return $display;
     }

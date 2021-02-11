@@ -114,7 +114,7 @@ class TorgElevator extends Section implements Initializable
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('70px');
         return $display;
     }
 

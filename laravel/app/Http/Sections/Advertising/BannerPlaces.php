@@ -60,34 +60,31 @@ class BannerPlaces extends Section implements Initializable
 
         $columns = [
             AdminColumn::text('name', 'Название типа')
-                ->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+                ->setWidth('300px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Размеры', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text text-center'>{$model->size_w} х {$model->size_h}</div>";
-            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('300px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Заявки/ротация', function (\Illuminate\Database\Eloquent\Model $model){
                 $application = BannerRotate::where(['place_id' => $model->id, 'inrotate' => 0,'archive' => 0])->count();
                 $rotation = BannerRotate::where(['place_id' => $model->id, 'inrotate' => 1, 'archive' => 0])->count();
                 $route = route('admin.model', 'banner_rotates');
                 return " <div class='row-link text-center'><a href={$route}?id={$model->id}' target='_blank'>{$application} / {$rotation}</a></div>";
-            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('300px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
-            //->paginate(25)
+            ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('id', 'desc');
-        });
 
         $display->getColumnFilters()->setPlacement('card.heading');
+        $display->getColumns()->getControlColumn()->setWidth('70px');
 
         return $display;
     }

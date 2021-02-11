@@ -49,7 +49,6 @@ class ActiveTraders extends Section implements Initializable
      */
     public function initialize()
     {
-        //dd(\App\Models\Comp\CompItems::where('trader_price_avail', 1)->pluck('author_id'));
     }
 
     /**
@@ -58,46 +57,32 @@ class ActiveTraders extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('100px')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setOrderable('id'),
+            ->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
             AdminColumn::text('title', 'Название'),
 
             AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
-                $table = 'Да';
-                $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
+                $table = $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
                 $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none;" : $issetLink = '';
                 return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}' target='_blank'>Посмотреть</a>";
             })->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('Таблица Скрыта', function(\Illuminate\Database\Eloquent\Model $model) {
-                $table = 'Да';
-                $style = 'color:green';
-
-                $model->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
-                $table == 'Нет' ? $style = 'color:green' : $style = 'color:red';
-
-                return "<div class='row-text text-center' style='{$style}'>
-                            {$table}
-                        </div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('trader_price_visible', 'Таблица Скрыта')->setHtmlAttribute('class', 'text-center')->setWidth('110px'),
 
             AdminColumn::custom('Последнее обновление', function(\Illuminate\Database\Eloquent\Model $model){
                 return $model['tradersPrices']->max('dt');
             })->setHtmlAttribute('class', 'text-center')
-                ->setOrderCallback(function($column, $query, $direction){
-                     $query->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
-                        ->select('comp_items.*', \DB::raw('max(agt_traders_prices.dt) AS prices_dt'))
-                        ->groupBy('comp_items.id')
-                        ->orderBy('prices_dt', $direction);
+                ->setOrderable(function($query, $direction){
+                        $query->select('comp_items.*', \DB::raw('max(agt_traders_prices.dt) AS prices_dt'))
+                            ->leftJoin('traders_prices', 'comp_items.author_id', '=', 'traders_prices.buyer_id')
+                            ->groupBy('comp_items.id')
+                            ->orderBy('prices_dt', $direction);
             }),
-
 
             AdminColumn::custom('Дней назад', function (\Illuminate\Database\Eloquent\Model $model) {
                 $last_update = $model['tradersPrices']->max('dt');
@@ -105,7 +90,6 @@ class ActiveTraders extends Section implements Initializable
                 $now = Carbon::now();
                 return $d->diffInDays($now);
             })->setHtmlAttribute('class', 'text-center'),
-
         ];
 
         $display = AdminDisplay::datatables()
@@ -114,8 +98,8 @@ class ActiveTraders extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+        ;
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
@@ -127,18 +111,15 @@ class ActiveTraders extends Section implements Initializable
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
 
-
             AdminColumnFilter::text()
                 ->setColumnName('title')
                 ->setOperator('contains')
                 ->setPlaceholder('По названию компании'),
 
-
             AdminColumnFilter::text()
                 ->setHtmlAttribute('class', 'ID_search')
                 ->setColumnName('id')
                 ->setPlaceholder('по ID'),
-
         ]);
 
         $display->setApply(function ($query){
@@ -146,6 +127,8 @@ class ActiveTraders extends Section implements Initializable
         });
 
         $display->getColumnFilters()->setPlacement('card.heading');
+
+        $display->getColumns()->getControlColumn()->setWidth('1px');
 
         return $display;
     }
