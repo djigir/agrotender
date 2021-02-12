@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Admin\Display\DisplayDatatablesAsync;
 use SleepingOwl\Admin\Providers\AdminSectionsServiceProvider as ServiceProvider;
 
 class AdminSectionsServiceProvider extends ServiceProvider
@@ -97,8 +98,12 @@ class AdminSectionsServiceProvider extends ServiceProvider
      */
     public function boot(\SleepingOwl\Admin\Admin $admin)
     {
-    	//
-
         parent::boot($admin);
+
+        if(\Request::segment(2) == 'comp_items_actives' || \Request::segment(2) == 'comp_items_traders')
+        {
+            $displayElementContainer = app('sleeping_owl.display');
+            $displayElementContainer->add('datatables', DisplayDatatablesAsync::class);
+        }
     }
 }
