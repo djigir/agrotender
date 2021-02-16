@@ -67,28 +67,20 @@ class TradersPorts extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')
-                ->setWidth('70px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('portsLang.portname', 'Название порта')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('active', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+                    $query->leftJoin('traders_ports_lang', 'traders_ports.id', '=', 'traders_ports_lang.port_id')->orderBy('portname', $direction);
+            })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('regions.name', 'Область')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('obl_id', $direction);
-                })
-                ->setHtmlAttribute('class', 'text-center'),
+                    $query->select('regions.*', 'traders_ports.*')->leftJoin('regions', 'traders_ports.obl_id', '=', 'regions.id')->orderBy('name', $direction);
+            })->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('url', 'URL')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::boolean('active', 'Отображать на сайте')
-                ->setWidth('200px')
-                ->setHtmlAttribute('class', 'text-center'),
-
+            AdminColumn::text('url', 'URL')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('active', 'Отображать на сайте')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()

@@ -27,22 +27,22 @@
 
         <div data-index="1">
             <div>
-                <input type="text" data-type="text" placeholder="E-mail" class="form-control column-filter" name="email" value="{{request('email')}}">
+                <input type="text" data-type="text" placeholder="По e-mail" class="form-control column-filter" name="email" value="{{request('email')}}">
             </div>
         </div>
-        <div data-index="2">
-            <div>
-                <input type="text" data-type="text" placeholder="Тел." class="form-control column-filter" name="phone"  value="{{request('phone')}}">
-            </div>
-        </div>
+{{--        <div data-index="2">--}}
+{{--            <div>--}}
+{{--                <input type="text" data-type="text" placeholder="Тел." class="form-control column-filter" name="phone"  value="{{request('phone')}}">--}}
+{{--            </div>--}}
+{{--        </div>--}}
         <div data-index="3">
             <div>
-                <input type="text" data-type="text" placeholder="Название компании" class="form-control column-filter" name="title"  value="{{request('title')}}">
+                <input type="text" data-type="text" placeholder="По название компании" class="form-control column-filter" name="title"  value="{{request('title')}}">
             </div>
         </div>
         <div data-index="4">
             <div>
-                <input type="text" data-type="text" placeholder="ID" class="form-control column-filter" name="id"  value="{{request('id')}}">
+                <input type="text" data-type="text" placeholder="по ID" class="form-control column-filter" name="id"  value="{{request('id')}}">
             </div>
         </div>
         <div data-index="5">

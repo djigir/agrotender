@@ -18,7 +18,7 @@ class AdminSectionsServiceProvider extends ServiceProvider
 //        \App\Models\Lenta\Lenta::class => 'App\Http\Sections\FastAccess\Lenta',
         \App\Models\Comp\CompItems::class => 'App\Http\Sections\FastAccess\CompItems',
         \App\Models\ADV\AdvTorgPost::class => 'App\Http\Sections\FastAccess\AdvTorgPost',
-        \App\Models\ADV\AdvTorgPostCompanies::class => 'App\Http\Sections\FastAccess\AdvTorgPostCompanies',
+        //\App\Models\ADV\AdvTorgPostCompanies::class => 'App\Http\Sections\FastAccess\AdvTorgPostCompanies',
         \App\Models\Comp\CompItemsActive::class => 'App\Http\Sections\FastAccess\ActiveTraders',
         \App\Models\Comp\CompItemsTraders::class => 'App\Http\Sections\FastAccess\Traders',
         \App\Models\Elevators\TorgElevator::class => 'App\Http\Sections\FastAccess\TorgElevator',
@@ -100,7 +100,11 @@ class AdminSectionsServiceProvider extends ServiceProvider
     {
         parent::boot($admin);
 
-        if(\Request::segment(2) == 'comp_items_actives' || \Request::segment(2) == 'comp_items_traders')
+        if(\Request::segment(2) == 'comp_items_actives'
+            || \Request::segment(2) == 'comp_items_traders'
+            || \Request::segment(2) == 'torg_elevators'
+            || \Request::segment(2) == 'seo_titles'
+        )
         {
             $displayElementContainer = app('sleeping_owl.display');
             $displayElementContainer->add('datatables', DisplayDatatablesAsync::class);

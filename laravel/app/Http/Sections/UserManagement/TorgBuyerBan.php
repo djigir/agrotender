@@ -63,24 +63,23 @@ class TorgBuyerBan extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('torgBuyer.id', 'User ID')
+                ->setOrderable('user_id')
                 ->setWidth('90px')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                })->setHtmlAttribute('class', 'text-center'),
+                ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('torgBuyer.login', 'Логин')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('user_id', $direction);
+                    $query->select('torg_buyer.*', 'torg_buyer_ban.*')->leftJoin('torg_buyer', 'torg_buyer_ban.user_id', '=', 'torg_buyer.id')->orderBy('login', $direction);
                 })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('torgBuyer.name', 'Ф.И.О.')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('user_id', $direction);
+                    $query->select('torg_buyer.*', 'torg_buyer_ban.*')->leftJoin('torg_buyer', 'torg_buyer_ban.user_id', '=', 'torg_buyer.id')->orderBy('name', $direction);
                 })->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('regions.city', 'Адрес', 'torgBuyer.city')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('user_id', $direction);
+                    $query->select('torg_buyer.*', 'torg_buyer_ban.*')->leftJoin('torg_buyer', 'torg_buyer_ban.user_id', '=', 'torg_buyer.id')->orderBy('city', $direction);
                 })->setWidth('120px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('ban_phone', 'Контакты', 'ban_email')
@@ -102,10 +101,7 @@ class TorgBuyerBan extends Section implements Initializable
             AdminColumn::custom('Статус', function (\Illuminate\Database\Eloquent\Model $model){
                 $status_date = Carbon::now();
                 $diff_date = $status_date->diffInDays($model->end_date, false);
-
-
                 $status = $model->is_disabled;
-
                 $is_active = 'Нет актив.';
                 $style = '';
                 if ($status == 0 && $diff_date > 0) {
@@ -113,9 +109,7 @@ class TorgBuyerBan extends Section implements Initializable
                     $style = 'color:red;';
                 }
                 return "<div class='row-text text-center' style='{$style}'>{$is_active}</div>";
-            })->setOrderable(function($query, $direction) {
-                $query->orderBy('end_date', $direction);
-            })->setHtmlAttribute('class', 'text-center')
+            })->setOrderable(false)->setHtmlAttribute('class', 'text-center')
                 ->setHtmlAttribute('class', 'text-center'),
         ];
 

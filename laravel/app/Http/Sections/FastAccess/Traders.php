@@ -104,10 +104,7 @@ class Traders extends Section implements Initializable
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
-            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-            })->setWidth('160px'),
+            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')->setOrderable('title')->setWidth('160px'),
 
             AdminColumn::text('email', 'E-mail')->setWidth('160px')
                 ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
@@ -124,14 +121,11 @@ class Traders extends Section implements Initializable
                 return "<div class='row-text text-center'>{$package}</div>";
             })->setWidth('150px')->setHtmlAttribute('class', 'text-center')
                 ->setOrderCallback(function($column, $query, $direction){
-                    //\DB::enableQueryLog();
                     $query->leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
                         ->leftJoin('buyer_packs_orders', 'torg_buyer.id', '=', 'buyer_packs_orders.user_id')
                         ->select('comp_items.*', \DB::raw('max(agt_buyer_packs_orders.endt) AS orders_endt'))
                         ->groupBy('comp_items.id')
                         ->orderBy('orders_endt', $direction);
-                    //dd(\DB::getQueryLog());
-                    //
             }),
         ];
 

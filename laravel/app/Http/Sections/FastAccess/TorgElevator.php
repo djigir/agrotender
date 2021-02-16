@@ -81,28 +81,47 @@ class TorgElevator extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', 'ID')
                 ->setWidth('50px')
+                ->setSearchable(false)
                 ->setHtmlAttribute('class', 'text-center')
                 ->setHtmlAttributes(['style' => 'font-size: 14px']),
 
-            AdminColumn::link('langElevator.name', 'Название')
-                ->setWidth('200px')
-                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
-                ->setOrderable('id'),
 
-            AdminColumn::text('langRayon.name.', 'Район')
-                ->setWidth('150px')
-                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
-                ->setOrderable('obl_id'),
+            AdminColumn::custom('Название' , function (\Illuminate\Database\Eloquent\Model $model){
+                $url = \Str::before(\Request::url(), '/ad')."/admin_dev/torg_elevators/{$model->id}/edit";
+                $name = htmlspecialchars_decode($model['langElevator']['name']);
+                return "<div class='row-link'><a href='$url'>{$name}</a></div>";
+            })->setSearchable(true)->setSearchCallback(function($column, $query, $search){
+                $query->whereHas('langElevator', function ($lang) use ($search) {
+                    $lang->where('id', $search)->orWhere('name', 'like', '%' . $search . '%');
+                });
+            })->setOrderable(function($query, $direction){
+                $query->leftJoin('torg_elevator_lang', 'torg_elevator.id', '=', 'torg_elevator_lang.item_id')
+                    ->select('torg_elevator_lang.item_id','torg_elevator_lang.name', 'torg_elevator.*')
+                    ->orderBy('name', $direction);
+            })->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])->setWidth('200px'),
 
-            AdminColumn::text('langElevator.addr', 'Адрес')
-                ->setWidth('350px')
+
+            AdminColumn::custom('Район', function (\Illuminate\Database\Eloquent\Model $model){
+                return $model['langRayon'][0]['name'];
+            })->setWidth('150px')
                 ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
-                ->setOrderable('id'),
+                ->setOrderable(function($query, $direction){
+                    $query->leftJoin('rayon_lang', 'torg_elevator.ray_id', '=', 'rayon_lang.ray_id')
+                        ->select('rayon_lang.*', 'torg_elevator.*')
+                        ->groupBy('torg_elevator.id')
+                        ->orderBy('name', $direction);
+            }),
+
+            AdminColumn::custom('Адрес', function (\Illuminate\Database\Eloquent\Model $model){
+                return $model['langElevator']['addr'];
+            })->setWidth('350px')
+                ->setHtmlAttributes(['class' => 'text-left', 'style' => 'font-size: 14px'])
+                ->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(50)
             ->setColumns($columns)
@@ -110,11 +129,11 @@ class TorgElevator extends Section implements Initializable
                 AdminDisplayFilter::custom('obl_id')->setCallback(function ($query, $value) {
                     $query->where('obl_id', $value);
                 })
-            )
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            )->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('70px');
+
         return $display;
     }
 

@@ -32,18 +32,18 @@
 
         <div data-index="3">
             <div>
-                <input type="text" style="width: 180px" data-type="text" placeholder="Название компании" class="form-control column-filter" name="comp_name" value="{{request('comp_name')}}">
+                <input type="text" style="width: 180px" data-type="text" placeholder="По название компании" class="form-control column-filter" name="comp_name" value="{{request('comp_name')}}">
             </div>
         </div>
 
         <div data-index="4">
             <div>
-                <input type="text" style="width: 150px" data-type="text" placeholder="E-mail" class="form-control column-filter" name="email" value="{{request('email')}}">
+                <input type="text" style="width: 150px" data-type="text" placeholder="По e-mail" class="form-control column-filter" name="email" value="{{request('email')}}">
             </div>
         </div>
         <div data-index="5">
             <div>
-                <input type="text" style="width: 90px" data-type="text" placeholder="ID" class="form-control column-filter" name="id" value="{{request('id')}}">
+                <input type="text" style="width: 90px" data-type="text" placeholder="по ID" class="form-control column-filter" name="id" value="{{request('id')}}">
             </div>
         </div>
 

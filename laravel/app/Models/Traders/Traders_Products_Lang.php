@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models\Traders;
+use App\Models\Seo\SeoTitles;
 use App\Models\Traders\TradersProducts;
 use Illuminate\Database\Eloquent\Model;
 
@@ -47,6 +48,11 @@ class Traders_Products_Lang extends Model
     public function traders_feed()
     {
         return $this->hasMany(TraderFeed::class, 'rubric');
+    }
+
+    public function seoTitles()
+    {
+        return $this->belongsTo(SeoTitles::class, 'cult_id', 'item_id');
     }
 }
 

@@ -74,20 +74,17 @@ class UsersAdmin extends Section implements Initializable
             AdminColumn::custom('Логин' , function (\Illuminate\Database\Eloquent\Model $model){
                 $url = \Str::before(\Request::url(), '/ad')."/admin_dev/users/{$model->id}/edit";
                 return "<div class='row-link text-center'><i class='fas fa-user'></i><a href='{$url}'> {$model->login}</a></div>";
-            })->setWidth('100px'),
+            })->setWidth('100px')->setOrderable('login'),
 
             AdminColumn::text('name', 'Ф.И.О')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('login', $direction);
-                })->setWidth('100px')->setHtmlAttribute('class', 'text-center')
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')
             ,
-            AdminColumn::text('address', 'Адресс')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('telephone', 'Телефон:')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('office_phone', 'Рабочий тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('cell_phone', 'Мобильный тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('address', 'Адресс')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            AdminColumn::text('telephone', 'Телефон:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            AdminColumn::text('office_phone', 'Рабочий тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            AdminColumn::text('cell_phone', 'Мобильный тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()

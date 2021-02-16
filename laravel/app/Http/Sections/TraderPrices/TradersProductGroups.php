@@ -58,23 +58,18 @@ class TradersProductGroups extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-
             AdminColumn::text('sort_num', 'Сортировка')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('sort_num', $direction);
-                })->setWidth('120px')
-                ->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('120px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::image('icon_filename', 'Иконка')
-                ->setHtmlAttribute('class', 'text-center'),
-
+            AdminColumn::image('icon_filename', 'Иконка')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('tradersProductGroupsLang.name', 'Название')
                 ->setOrderable(function($query, $direction) {
                     $query->orderBy('id', $direction);
                 })
                 ->setHtmlAttribute('class', 'text-center'),
-
         ];
 
         $display = AdminDisplay::datatables()
@@ -87,11 +82,6 @@ class TradersProductGroups extends Section implements Initializable
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
-
-        $display->setColumnFilters([
-
-
-        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

@@ -101,10 +101,8 @@ class CompItems extends Section implements Initializable
             })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
-            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('id', $direction);
-                })->setWidth('200px'),
+
+            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')->setOrderable('title')->setWidth('200px'),
 
             AdminColumn::text('email', 'E-mail')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
 

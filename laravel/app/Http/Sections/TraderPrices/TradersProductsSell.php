@@ -64,7 +64,7 @@ class TradersProductsSell extends Section implements Initializable
 
             AdminColumn::link('tradersProductLang.name', 'Название')
                 ->setOrderable(function ($query, $direction){
-                    $query->OrderBy('group_id', $direction);
+                    $query->join('traders_products_lang', 'traders_products.id', '=', 'traders_products_lang.item_id')->orderBy('name', $direction);
                 })
                 ->setWidth('350px')
                 ->setHtmlAttribute('class', 'text-center'),

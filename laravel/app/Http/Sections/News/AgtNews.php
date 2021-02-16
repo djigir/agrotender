@@ -68,20 +68,14 @@ class AgtNews extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::link('NewsLang.title', 'Содержание', 'dtime')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('NewsLang.title', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('dtime', $direction);
-                }),
+            })->setOrderable(false),
 
             AdminColumn::boolean('first_page', 'На главную'),
-
 
             AdminColumn::custom('Коммент.', function (Model $model) {
                 $count = $model['NewsComment']->count();
@@ -98,8 +92,7 @@ class AgtNews extends Section implements Initializable
                 ->setWidth('100px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('view_num', 'Просмотров')
-                ->setHtmlAttribute('class', 'text-center')
+            AdminColumn::text('view_num', 'Просмотров')->setHtmlAttribute('class', 'text-center')
         ];
 
         $display = AdminDisplay::datatables()

@@ -63,16 +63,18 @@ class SeoTitlesTrades extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-
         $columns = [
             AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
+                ->setWidth('70px')
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('tradersProductsLang.name', 'Культура')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('cult_id', $direction);
-                })
+                ->setOrderable(false)
+//                ->setOrderable(function ($query, $direction){
+//                    $query->leftJoin('traders_products_lang', 'seo_titles.cult_id', '=', 'traders_products_lang.item_id')
+//                        ->groupBy('seo_titles.cult_id')
+//                        ->orderBy('name', $direction);
+//                })
                 ->setWidth('250px')
                 ->setHtmlAttribute('class', 'text-center'),
 
@@ -110,10 +112,7 @@ class SeoTitlesTrades extends Section implements Initializable
                 $query->orderBy('type_id', $direction);
             })->setWidth('230px'),
 
-            AdminColumn::link('page_title', 'Title')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                }),
+            AdminColumn::link('page_title', 'Title')->setWidth('300px'),
 
         ];
 
