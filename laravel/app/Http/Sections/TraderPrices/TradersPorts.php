@@ -79,7 +79,7 @@ class TradersPorts extends Section implements Initializable
                     $query->select('regions.*', 'traders_ports.*')->leftJoin('regions', 'traders_ports.obl_id', '=', 'regions.id')->orderBy('name', $direction);
             })->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('url', 'URL')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('url', 'URL')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
             AdminColumn::boolean('active', 'Отображать на сайте')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
         ];
 

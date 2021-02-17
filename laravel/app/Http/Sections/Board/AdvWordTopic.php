@@ -58,15 +58,15 @@ class AdvWordTopic extends Section implements Initializable
     {
         $columns = [
             AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
-            AdminColumn::text('torgTopic.title.', 'Раздел')->setOrderable(false)->setWidth('150px'),
-            AdminColumn::text('keyword', 'Запрос')->setWidth('150px'),
+            AdminColumn::text('torgTopic.title.', 'Раздел')->setOrderable(false)->setWidth('180px'),
+            AdminColumn::text('keyword', 'Запрос')->setOrderable(false)->setWidth('120px'),
             AdminColumn::text('add_date', 'Дата создания')->setHtmlAttribute('class', 'text-center')->setWidth('140px'),
-            AdminColumn::text('rating', 'Рейтинг')->setHtmlAttribute('class', 'text-center')->setWidth('100px'),
+            AdminColumn::text('rating', 'Рейтинг')->setOrderable(false)->setHtmlAttribute('class', 'text-center')->setWidth('100px'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-//            ->setOrder([[0, 'asc']])
+            ->setOrder([[3, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
@@ -76,6 +76,7 @@ class AdvWordTopic extends Section implements Initializable
 
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('30px');
+
         return $display;
     }
 

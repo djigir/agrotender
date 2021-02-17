@@ -65,13 +65,10 @@ class AdvTorgPostComplains extends Section implements Initializable
      */
     public function onDisplay($payload = [])
     {
-//        $adverts = \App\Models\ADV\AdvTorgPostComplains::with('advTorgPostComplains')->get();
         $columns = [
-            AdminColumn::link('id', 'ID')
-                ->setWidth('80px')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('Автор', function (\Illuminate\Database\Eloquent\Model $model) {
+            AdminColumn::custom('Автор/Дата регистр.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $author = 'Аноним';
                 if ($model['torgBuyer']){
                     $author = $model['torgBuyer']->name;
@@ -80,25 +77,14 @@ class AdvTorgPostComplains extends Section implements Initializable
                             {$author}
                             <small class='clearfix'>{$model->add_date}</small>
                         </div>";
-            })->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('180px'),
 
             AdminColumn::custom('Жалоба', function (\Illuminate\Database\Eloquent\Model $model) {
-                //dump(mb_detect_encoding($model->msg));
                 $text = \Illuminate\Support\Str::limit(mb_convert_encoding($model->msg, 'utf-8'), 50, $end='...');
                 return "<div class='row-text'>{$text}</div>";
             })->setWidth('250px'),
 
-            AdminColumn::custom('Новое', function (\Illuminate\Database\Eloquent\Model $model) {
-                $status = 'Обработаный';
-                $color = '';
-                if ($model->status == 0) {
-                    $status = 'Да';
-                    $color = 'color:red;';
-                }
-                return "<div class='row-text' style='{$color}'>
-                            {$status}
-                        </div>";
-            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('status', 'Новое')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $advert = 'Объявление не найдено';

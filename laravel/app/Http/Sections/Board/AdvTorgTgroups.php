@@ -59,16 +59,14 @@ class AdvTorgTgroups extends Section implements Initializable
     {
         $columns = [
             AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
+                ->setWidth('80px')
                 ->setHtmlAttribute('class', 'text-center'),
+
             AdminColumn::link('title', 'Название')
                 ->setHtmlAttribute('class', 'text-center')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('title', 'like', '%'.$search.'%');
-                })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('sort_num', $direction);
-                }),
+                })->setOrderable('title'),
 
             AdminColumn::datetime('add_date', 'Создано')
                 ->setHtmlAttribute('class', 'text-center'),
@@ -76,16 +74,12 @@ class AdvTorgTgroups extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
+            ->setOrder([[2, 'desc']])
             ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
-
-        $display->setColumnFilters([
-
-        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

@@ -73,7 +73,7 @@ class TradersProducts extends Section implements Initializable
                 ->setOrderable(function ($query, $direction){
                     $query->join('traders_products_lang', 'traders_products.id', '=', 'traders_products_lang.item_id')->orderBy('name', $direction);
                 })->setWidth('350px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()

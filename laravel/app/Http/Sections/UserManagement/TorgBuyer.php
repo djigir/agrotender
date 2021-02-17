@@ -59,48 +59,40 @@ class TorgBuyer extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')
-                ->setWidth('80px')
-                ->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('login', 'Логин/Дата регистр.', 'add_date')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-                }),
-
-            AdminColumn::boolean('isactive_web', 'Активация'),
-
-            AdminColumn::boolean('smschecked', 'Телефон'),
+            AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('login', 'Логин/ФИО', 'name')->setOrderable('name')->setWidth('250px'),
+            AdminColumn::boolean('isactive_web', 'Активация')->setWidth('70px'),
+            AdminColumn::boolean('smschecked', 'Телефон')->setWidth('70px'),
 
             AdminColumn::custom('Баланс', function (\Illuminate\Database\Eloquent\Model $model) {
                 $balance = $model->getBalance();
                 return "<div class='row-text'>
                          {$balance}
                     </div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center')->setWidth('70px'),
 
-            AdminColumn::text('name', 'Ф.И.О'),
+            AdminColumn::datetime('add_date', 'Дата регистр.')->setHtmlAttribute('class', 'text-center')
+            ->setFormat('Y:m:d H:i')->setWidth('220px'),
 
             AdminColumn::text('regions.name', 'Область')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('obl_id', $direction);
-            }),
+                    $query->select('regions.*', 'torg_buyer.*')->leftJoin('regions', 'torg_buyer.obl_id', '=', 'regions.id')->orderBy('regions.name', $direction);
+            })->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('phone', 'Контакты', 'email'),
+            AdminColumn::text('phone', 'Контакты', 'email')->setWidth('160px')->setOrderable(false),
 
             AdminColumn::custom('Пакеты', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text'>
                         <a class='comp_items_adverts' href='{$model->TorgBuyerPackOreders()}?TorgBuyerPackOreders[user_id]={$model->id}' user_id='{$model->getKey()}' target='_blank'>{$model['buyerPacksOrders']->count()}</a>
                     </div>";
-            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('82px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Объявл.', function (\Illuminate\Database\Eloquent\Model $model) {
                 return "<div class='row-text'>
                         <a class='comp_items_adverts' href='{$model->TorgBuyerAdverts()}?TorgBuyerAdverts[author_id]={$model->id}' target='_blank'>{$model['advTorgPost']->count()}</a>
                     </div>";
 
-            })->setOrderable(function($query, $direction) {
-                $query->orderBy('obl_id', $direction);
-            })->setWidth('88px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
             AdminColumn::custom('Бан', function (\Illuminate\Database\Eloquent\Model $model) {
                 $ban = 0;
@@ -110,7 +102,7 @@ class TorgBuyer extends Section implements Initializable
                 return "<div class='row-text'>
                         <a href='{$model->TorgBuyerBanRoute()}?GetBanedUser[user_id]={$model->id}' target='_blank'>{$ban}</a>
                     </div>";
-            })->setHtmlAttribute('class', 'text-center'),
+            })->setHtmlAttribute('class', 'text-center')->setWidth('80px'),
         ];
 
         $display = AdminDisplay::datatables()

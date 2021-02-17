@@ -60,35 +60,17 @@ class PopupDlgs extends Section implements Initializable
         $columns = [
             AdminColumn::custom('Содержание записей', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text text-center'>{$model['popupDlgsLang']['title']} [{$model->dtime}]</div>";
-            })->setWidth('350px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('300px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::custom('Показывать', function (\Illuminate\Database\Eloquent\Model $model){
-                $style = '';
-                $display = [
-                    0 => 'Нет',
-                    1 => 'Да',
-                ];
-                if($model->first_page == 1){
-                    $style = 'color:red';
-                }
-                return "<div style='{$style}' class='row-text text-center'>{$display[$model->first_page]}</div>";
-            })->setWidth('40px')->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::custom('Активно', function (\Illuminate\Database\Eloquent\Model $model){
-                $is_active = $model->end_date < \Carbon\Carbon::now() ? 'Нет' : 'Да';
-                $style = '';
-                if($is_active == 'Да'){
-                    $style = 'color:red';
-                }
-                return "<div style='{$style}' class='row-text text-center'>{$is_active}</div>";
-            })->setWidth('40px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('first_page', 'Показывать')->setWidth('40px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::boolean('is_active', 'Активно')->setWidth('40px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('До даты', function (\Illuminate\Database\Eloquent\Model $model){
                 $date = \Carbon\Carbon::parse($model->end_date)->format('d.m.Y');
                 return "<div class='row-text text-center'>{$date}</div>";
             })->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('urlgo', 'URL')->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('urlgo', 'URL')->setWidth('200px')->setOrderable(false)->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Просм', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text text-center'>{$model['popupDlgsViews']->count()}</div>";
@@ -97,20 +79,17 @@ class PopupDlgs extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
+            ->setOrder([[3, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('end_date', 'desc');
-        });
+
 
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('75px');
         return $display;
     }
 

@@ -59,9 +59,9 @@ class Pages extends Section implements Initializable
         $columns = [
             AdminColumn::custom('Страница', function (\Illuminate\Database\Eloquent\Model $model){
                 return "<div class='row-text text-center'>{$model['pagesLang']['page_mean']} ({$model->sort_num})</div>";
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('180px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('page_name', 'Скрипт (без расшир.)')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('page_name', 'Скрипт (без расшир.)')->setWidth('100px')->setOrderable(false)->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Ссылка', function (\Illuminate\Database\Eloquent\Model $model){
                 $link_file = "";
@@ -73,27 +73,26 @@ class Pages extends Section implements Initializable
                     case 4: $link_file = stripslashes($model->page_name);						break;
                 }
                 return "<div class='row-text text-center'>{$link_file}</div>";
-            })->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('create_date', 'Дата создание')->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('modify_date', 'Дата модификации')->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('create_date', 'Дата создание')->setWidth('120px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('modify_date', 'Дата модификации')->setWidth('120px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query)
+            {
+                $query->orderBy('show_in_menu')->orderBy('sort_num');
+            })
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
+            ->setOrder([[3, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('show_in_menu')->orderBy('sort_num');
-        });
-
         $display->getColumnFilters()->setPlacement('card.heading');
-
+        $display->getColumns()->getControlColumn()->setWidth('40px');
         return $display;
     }
 

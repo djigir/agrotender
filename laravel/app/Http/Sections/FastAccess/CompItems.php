@@ -102,7 +102,13 @@ class CompItems extends Section implements Initializable
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
-            AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')->setOrderable('title')->setWidth('200px'),
+            AdminColumn::custom('Компания/Имя', function (\Illuminate\Database\Eloquent\Model $model){
+                $url = \Str::before(\Request::url(), '/ad')."/admin_dev/comp_items/{$model->id}/edit";
+                $name = $model['torgBuyer']['name'];
+                $title = htmlspecialchars_decode($model->title);
+
+                return "<div class='row-link'><a href='{$url}'>{$title}</a><small class='clearfix'>{$name}</small></div>";
+            })->setOrderable('title')->setWidth('200px'),
 
             AdminColumn::text('email', 'E-mail')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
 

@@ -69,7 +69,7 @@ class TradersProductsSell extends Section implements Initializable
                 ->setWidth('350px')
                 ->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('url', 'URL')->setWidth('250px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()

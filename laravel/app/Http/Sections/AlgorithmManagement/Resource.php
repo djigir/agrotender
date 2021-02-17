@@ -58,7 +58,7 @@ class Resource extends Section implements Initializable
     {
         $columns = [
             AdminColumn::text('title', 'Название')->setWidth('90px')
-                ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+                ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('resourceLang.content', 'Значение')
                 ->setWidth('300px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
@@ -66,17 +66,12 @@ class Resource extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
-
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('id');
-        });
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

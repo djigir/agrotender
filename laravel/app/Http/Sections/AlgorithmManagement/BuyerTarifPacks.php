@@ -58,7 +58,7 @@ class BuyerTarifPacks extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('title', 'Содержание записей')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('title', 'Содержание записей')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
             AdminColumn::text('add_date', 'Дата')->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::boolean('active', 'Показывать на сайте'),
             AdminColumn::text('cost', 'Цена')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
@@ -89,13 +89,11 @@ class BuyerTarifPacks extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
-            //->setDisplaySearch(true)
+            ->setOrder([[1, 'desc']])
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
-
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

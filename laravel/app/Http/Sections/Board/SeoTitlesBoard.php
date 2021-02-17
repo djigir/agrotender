@@ -69,12 +69,12 @@ class SeoTitlesBoard extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
+            AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('70px'),
 
             AdminColumn::text('culture.title', 'Раздел')
                 ->setOrderable(function($query, $direction) {
-                    $query->orderBy('cult_id', $direction);
-                })->setHtmlAttribute('class', 'text-center')->setWidth('250px'),
+                    $query->select('adv_torg_topic.*', 'seo_titles.*')->leftJoin('adv_torg_topic', 'seo_titles.sect_id', '=', 'adv_torg_topic.id')->orderBy('cult_id', $direction);
+                })->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::custom('Область', function (Model $model) {
                 $region_name = '-';
@@ -104,14 +104,9 @@ class SeoTitlesBoard extends Section implements Initializable
                 }
                 return "<div class='row-text text-center'>{$type}</div>";
 
-            })->setOrderable(function($query, $direction) {
-                $query->orderBy('type_id', $direction);
-            })->setWidth('100px'),
+            })->setOrderable(false)->setWidth('100px'),
 
-            AdminColumn::link('page_title', 'Title')
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('add_date', $direction);
-            })->setWidth('300px'),
+            AdminColumn::link('page_title', 'Title')->setOrderable(false)->setWidth('300px'),
 
         ];
 
