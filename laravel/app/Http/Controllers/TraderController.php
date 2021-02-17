@@ -93,18 +93,6 @@ class TraderController extends Controller
     }
 
 
-    public function deleteTradersAdmin()
-    {
-        CompItems::whereIn('id', \request()->get('_id'))->delete();
-    }
-
-    /* TODO временно метод здесь пока мы не сделаем объявления */
-    public function deletePostsAdmin()
-    {
-        AdvTorgPost::whereIn('id', \request()->get('_id'))->delete();
-    }
-
-
     public function setDataForTraders($data)
     {
         $page_type = $data->get('type') != 'forward' ? 1 : 3;

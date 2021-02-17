@@ -59,6 +59,7 @@ class TorgBuyer extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('login', 'Логин/ФИО', 'name')->setOrderable('name')->setWidth('250px'),
             AdminColumn::boolean('isactive_web', 'Активация')->setWidth('70px'),
@@ -107,7 +108,7 @@ class TorgBuyer extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

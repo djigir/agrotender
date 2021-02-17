@@ -1,7 +1,17 @@
 @extends(AdminTemplate::getViewPath('_layout.base'))
 
 @section('content')
-    @if(\Request::segment(2) == 'comp_items' || \Request::segment(2) == 'comp_items_traders' || \Request::segment(2) == 'adv_torg_posts')
+    @if(\Request::segment(2) == 'comp_items'
+        || \Request::segment(2) == 'comp_items_traders'
+        || \Request::segment(2) == 'adv_torg_posts'
+        || \Request::segment(2) == 'adv_torg_post_complains'
+        || \Request::segment(2) == 'torg_elevators'
+        || \Request::segment(2) == 'seo_titles_boards'
+        || \Request::segment(2) == 'adv_word_topics'
+        || \Request::segment(2) == 'seo_titles'
+        || \Request::segment(2) == 'torg_buyers'
+        || \Request::segment(2) == 'comp_items_actives'
+)
         <style>
             .dataTables_paginate {
                 display: flex;

@@ -115,23 +115,23 @@
         </div>
 
         <div data-index="6">
-            <input type="text" data-type="text" value="{{request('email')}}" name="email" placeholder="Email" class="form-control column-filter">
+            <input type="text" data-type="text" value="{{request('email')}}" name="email" placeholder="По email" class="form-control column-filter">
         </div>
 
         <div data-index="7">
-            <input type="text" data-type="text" value="{{request('number')}}" name="number" placeholder="Телефону" class="form-control column-filter">
+            <input type="text" data-type="text" value="{{request('number')}}" name="number" placeholder="По тел." class="form-control column-filter">
         </div>
 
         <div data-index="8">
-            <input type="text" data-type="text" value="{{request('author')}}" name="author" placeholder="Автор" class="form-control column-filter">
+            <input type="text" data-type="text" value="{{request('author')}}" name="author" placeholder="По автору" class="form-control column-filter">
         </div>
 
         <div data-index="9">
-            <input type="text" style="width: 90px" data-type="text" value="{{request('id')}}" name="id" placeholder="ID" class="form-control column-filter">
+            <input type="text" style="width: 90px" data-type="text" value="{{request('id')}}" name="id" placeholder="по ID" class="form-control column-filter">
         </div>
 
         <div data-index="10">
-            <input type="text" data-type="text" value="{{request('title')}}" name="title" placeholder="Название" class="form-control column-filter">
+            <input type="text" data-type="text" value="{{request('title')}}" name="title" placeholder="По Название" class="form-control column-filter">
         </div>
 
         <div data-index="11">

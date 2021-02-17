@@ -5,6 +5,7 @@ namespace App\Http\Sections\Companies;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Comp\CompTgroups;
@@ -69,14 +70,11 @@ class CompTopic extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('100px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::link('title', 'Рубрики')
                 ->setSearchCallback(function ($column, $query, $search) {
                     return $query->orWhere('title', 'like', '%' . $search . '%');
-                })
-                ->setOrderable(function ($query, $direction) {
-                    $query->orderBy('menu_group_id', $direction);
-                }),
+                })->setOrderable('title')->setHtmlAttribute('class', 'text-center')->setWidth('350px'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -85,18 +83,24 @@ class CompTopic extends Section implements Initializable
             ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
+            ->setFilters(
+                AdminDisplayFilter::custom('group_id')->setCallback(function ($query, $value) {
+                    $query->where('menu_group_id', $value);
+            }));
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Comp\CompTgroups::class, 'title')
-                ->setLoadOptionsQueryPreparer(function ($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('menu_group_id')
-                ->setPlaceholder('Все Рубрики'),
-        ]);
+//        $display->setColumnFilters([
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Comp\CompTgroups::class, 'title')
+//                ->setLoadOptionsQueryPreparer(function ($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('menu_group_id')
+//                ->setPlaceholder('Все Рубрики'),
+//        ]);
+
+
         $display->getColumnFilters()->setPlacement('card.heading');
 
         return $display;

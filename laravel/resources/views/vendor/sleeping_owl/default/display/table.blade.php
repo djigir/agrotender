@@ -9,6 +9,7 @@
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles_boards')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_topics')
 )
     <div class="row">
         <div class="col-lg-12 pt-3">
@@ -56,6 +57,8 @@
                     || \Request::segment(2) == 'traders_ports'
                     || \Request::segment(2) == 'seo_titles'
                     || \Request::segment(2) == 'seo_titles_boards'
+                    || \Request::segment(2) == 'comp_topics'
+
                )
                style="display: none" @endif>
                 <i class="fas fa-plus"></i> {{ $newEntryButtonText }}
@@ -108,6 +111,10 @@
                 @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
             @endif
 
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_topics')) && \Request::segment(2) == 'comp_topics')
+                @include('vendor.sleeping_owl.default.column.custom_filter.comp_topics')
+            @endif
+
     </div>
 
     @foreach($extensions as $ext)
@@ -117,13 +124,33 @@
     @yield('card.footer')
     @yield('panel.footer')
 
-    @if(\Request::segment(2) == 'comp_items' || \Request::segment(2) == 'comp_items_traders' || \Request::segment(2) == 'adv_torg_posts')
+    @if(\Request::segment(2) == 'comp_items'
+        || \Request::segment(2) == 'comp_items_traders'
+        || \Request::segment(2) == 'adv_torg_posts'
+        || \Request::segment(2) == 'adv_torg_post_complains'
+        || \Request::segment(2) == 'torg_elevators'
+        || \Request::segment(2) == 'seo_titles_boards'
+        || \Request::segment(2) == 'adv_word_topics'
+        || \Request::segment(2) == 'seo_titles'
+        || \Request::segment(2) == 'torg_buyers'
+        || \Request::segment(2) == 'comp_items_actives'
+)
         <?php
-            $delete = route('delete_traders_admin');
+            $SEGMENT = [
+                'comp_items' => 'delete_traders_admin',
+                'comp_items_traders' => 'delete_traders_admin',
+                'adv_torg_posts' => 'delete_posts_admin',
+                'adv_torg_post_complains' => 'delete_torg_post_complains_admin',
+                'torg_elevators' => 'delete_torg_elevators_admin',
+                'adv_word_topics' => 'delete_adv_word_topics_admin',
+                'seo_titles_boards' => 'delete_seo_titles_boards_admin',
+                'seo_titles' => 'delete_seo_titles_admin',
+                'torg_buyers' => 'delete_torg_buyers_admin',
+                'comp_items_actives' => 'delete_comp_items_actives_admin',
+            ];
 
-            if(\Request::segment(2) == 'adv_torg_posts'){
-                $delete = route('delete_posts_admin');
-            }
+            $route = isset($SEGMENT[\Request::segment(2)]) ? $SEGMENT[\Request::segment(2)] : '';
+            $delete = route($route);
         ?>
 
         <div id="actionTR" style="display: none; margin-left: 1.2rem; margin-top: -5.1rem; padding-bottom: 2.5rem; z-index: 5000; width: 50%;" class="pull-left block-actions">

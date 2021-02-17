@@ -57,6 +57,7 @@ class AdvWordTopic extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('50px'),
             AdminColumn::text('torgTopic.title.', 'Раздел')->setOrderable(false)->setWidth('180px'),
             AdminColumn::text('keyword', 'Запрос')->setOrderable(false)->setWidth('120px'),
@@ -66,7 +67,7 @@ class AdvWordTopic extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[3, 'desc']])
+            ->setOrder([[4, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

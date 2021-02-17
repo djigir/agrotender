@@ -79,6 +79,7 @@ class TorgElevator extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('id', 'ID')
                 ->setWidth('50px')
                 ->setSearchable(false)
@@ -92,7 +93,7 @@ class TorgElevator extends Section implements Initializable
                 return "<div class='row-link'><a href='$url'>{$name}</a></div>";
             })->setSearchable(true)->setSearchCallback(function($column, $query, $search){
                 $query->whereHas('langElevator', function ($lang) use ($search) {
-                    $lang->where('id', $search)->orWhere('name', 'like', '%' . $search . '%');
+                    $lang->where('name', 'like', '%' . $search . '%');
                 });
             })->setOrderable(function($query, $direction){
                 $query->leftJoin('torg_elevator_lang', 'torg_elevator.id', '=', 'torg_elevator_lang.item_id')
@@ -121,8 +122,8 @@ class TorgElevator extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
-            ->setDisplaySearch(false)
+            ->setOrder([[1, 'desc']])
+            ->setDisplaySearch(true)
             ->paginate(50)
             ->setColumns($columns)
             ->setFilters(

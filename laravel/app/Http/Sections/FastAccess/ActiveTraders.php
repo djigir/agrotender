@@ -58,6 +58,7 @@ class ActiveTraders extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('100px')
@@ -94,7 +95,7 @@ class ActiveTraders extends Section implements Initializable
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

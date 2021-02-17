@@ -66,9 +66,7 @@ class CompTgroups extends Section implements Initializable
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('title', 'like', '%'.$search.'%');
                 })
-                ->setOrderable(function($query, $direction) {
-                    $query->orderBy('sort_num', $direction);
-                }),
+                ->setOrderable('title'),
 
             AdminColumn::datetime('add_date', 'Созданно')
                 ->setHtmlAttribute('class', 'text-center')

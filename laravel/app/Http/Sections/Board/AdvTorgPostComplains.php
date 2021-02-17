@@ -66,7 +66,8 @@ class AdvTorgPostComplains extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::link('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
+            AdminColumn::link('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center')->setSearchable(false),
 
             AdminColumn::custom('Автор/Дата регистр.', function (\Illuminate\Database\Eloquent\Model $model) {
                 $author = 'Аноним';
@@ -94,13 +95,18 @@ class AdvTorgPostComplains extends Section implements Initializable
                 return "<div class='row-text'>
                             <a href='{$model->adv_url}'>{$advert}</a>
                         </div>";
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center')->setSearchable(true)
+                ->setSearchCallback(function($column, $query, $search){
+                    $query->whereHas('advTorgPostComplains', function ($lang) use ($search) {
+                        $lang->where('title', 'like', '%' . $search . '%');
+                    });
+            }),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(false)
+            ->setOrder([[1, 'asc']])
+            ->setDisplaySearch(true)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
@@ -109,10 +115,17 @@ class AdvTorgPostComplains extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('msg')
                 ->setOperator('contains')
-                ->setPlaceholder('По жалобе')
+                ->setPlaceholder('По жалобе'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('id')
+                ->setOperator('contains')
+                ->setPlaceholder('по ID')
         ]);
+
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('40px');
+
         return $display;
     }
 

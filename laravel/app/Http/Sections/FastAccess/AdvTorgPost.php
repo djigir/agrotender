@@ -96,7 +96,7 @@ class AdvTorgPost extends Section implements Initializable
            })->setName('city')->setWidth('160px'),
 
 
-           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px'),
+           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px')->setOrderable(false),
 
             AdminColumn::custom('Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                return "<div class='row-text'>

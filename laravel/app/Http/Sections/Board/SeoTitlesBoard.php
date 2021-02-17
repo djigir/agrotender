@@ -69,12 +69,10 @@ class SeoTitlesBoard extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
+            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('id', 'ID')->setHtmlAttribute('class', 'text-center')->setWidth('70px'),
-
             AdminColumn::text('culture.title', 'Раздел')
-                ->setOrderable(function($query, $direction) {
-                    $query->select('adv_torg_topic.*', 'seo_titles.*')->leftJoin('adv_torg_topic', 'seo_titles.sect_id', '=', 'adv_torg_topic.id')->orderBy('cult_id', $direction);
-                })->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
+                ->setOrderable(false)->setHtmlAttribute('class', 'text-center')->setWidth('200px'),
 
             AdminColumn::custom('Область', function (Model $model) {
                 $region_name = '-';
@@ -115,7 +113,7 @@ class SeoTitlesBoard extends Section implements Initializable
                 $query->where('pagetype', 0);
             })
             ->setName('firstdatatables')
-            ->setOrder([[0, 'desc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)

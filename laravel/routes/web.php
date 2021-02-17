@@ -9,8 +9,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::redirect('/traders_sell', '/traders_sell/region_ukraine', 301);
 
 /* Admins routes */
-Route::get('/admin_dev/delete_traders', 'TraderController@deleteTradersAdmin')->name('delete_traders_admin');
-Route::get('/admin_dev/delete_posts', 'TraderController@deletePostsAdmin')->name('delete_posts_admin');
+Route::get('/admin_dev/delete_traders', 'DeleteController@traders')->name('delete_traders_admin');
+Route::get('/admin_dev/delete_posts', 'DeleteController@posts')->name('delete_posts_admin');
+Route::get('/admin_dev/delete_torg_post_complains', 'DeleteController@torgPostComplains')->name('delete_torg_post_complains_admin');
+Route::get('/admin_dev/delete_torg_elevators', 'DeleteController@torgElevators')->name('delete_torg_elevators_admin');
+Route::get('/admin_dev/delete_adv_word_topics', 'DeleteController@advWordTopics')->name('delete_adv_word_topics_admin');
+Route::get('/admin_dev/delete_seo_titles_boards', 'DeleteController@seoTitlesBoards')->name('delete_seo_titles_boards_admin');
+Route::get('/admin_dev/delete_seo_titles', 'DeleteController@seoTitles')->name('delete_seo_titles_admin');
+Route::get('/admin_dev/delete_torg_buyers', 'DeleteController@torgBuyers')->name('delete_torg_buyers_admin');
+Route::get('/admin_dev/delete_comp_items_actives', 'DeleteController@compItemsActives')->name('delete_comp_items_actives_admin');
 /* */
 
 /* routes for traders  */
