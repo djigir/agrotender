@@ -45,11 +45,16 @@ window.onload = function (){
         let link_for_preload = link.attr('href', src.replace(window.location.origin, window.location.origin + '/files'))
     }
 
+    if(str.indexOf('comp_items_traders') !== -1 && str.indexOf('edit') !== -1){
+        $('.multiselect__input').attr("placeholder", "");
+
+    }
+
 
     /* Для блока с событиями */
     setTimeout(function() {
         $('#actionTR').show();
-    }, 100);
+    }, 250);
 }
 
 

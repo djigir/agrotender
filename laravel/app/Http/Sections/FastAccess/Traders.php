@@ -97,24 +97,20 @@ class Traders extends Section implements Initializable
     {
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
-            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
+//            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
-
             AdminColumn::link('title', 'Компания/Имя', 'torgBuyer.name')->setOrderable('title')->setWidth('160px'),
-
-            AdminColumn::text('email', 'E-mail')->setWidth('160px')
-                ->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            AdminColumn::text('torgBuyer.email', 'E-mail')->setWidth('160px')->setOrderable(false),
 
             AdminColumn::custom('Пакет', function (\App\Models\Comp\CompItems $compItems){
                 $package = $compItems->trader_premium != 0 ? '<b>'.self::PACKAGES[$compItems->trader_premium].'</b>' : self::PACKAGES[$compItems->trader_premium];
                 $color = self::PACKAGES_STYLE[$compItems->trader_premium];
                 return "<div style='color: $color' class='row-custom text-center'>{$package}</div>";
-            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')
-                ->setOrderable('trader_premium'),
+            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable('trader_premium'),
 
             AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
                 $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders']->max('endt'))->format('Y-m-d') : '';
@@ -190,45 +186,13 @@ class Traders extends Section implements Initializable
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
                 AdminFormElement::html('<span><b>Таблица закупок:</b></span>'),
                 AdminFormElement::html('<hr>'),
-
-                AdminFormElement::select('trader_price_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                        2 => 'Премиум +'
-                    ]),
-
+                AdminFormElement::select('trader_price_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да']),
+                AdminFormElement::select('trader_premium', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да', 2 => 'Премиум +']),
                 AdminFormElement::html('<hr>'),
                 AdminFormElement::html('<span><b>Таблица форвардов:</b></span>'),
                 AdminFormElement::html('<hr>'),
-
-                AdminFormElement::select('trader_price_forward_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium_forward', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::html('<hr>'),
-
-
-                AdminFormElement::select('site_pack_id', 'Пакет размещения')
-                    ->setModelForOptions(BuyerTarifPacks::class)
-                    ->setLoadOptionsQueryPreparer(function($element, $query) {
-                        return $query;
-                    })
-                    ->setDisplay('title'),
+                AdminFormElement::select('trader_price_forward_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                AdminFormElement::select('trader_premium_forward', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да',]),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
         ]);
 

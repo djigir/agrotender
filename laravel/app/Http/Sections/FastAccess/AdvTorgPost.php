@@ -274,9 +274,6 @@ class AdvTorgPost extends Section implements Initializable
                         $query->where('ses_id', $value);
                     });
                 }),
-                AdminDisplayFilter::custom('author')->setCallback(function ($query, $value) {
-                    $query->where('author', 'like', '%' . $value . '%');
-                }),
                 AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
                     $query->where('title', 'like', '%' . $value . '%');
                 }),

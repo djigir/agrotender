@@ -11,25 +11,6 @@
 	@endif
 
 	@stack('navbar.left')
-    <li class="nav-item">
-        <a style="margin-left: 10px" class="nav-link link-page" href="/admin_dev/comp_items_traders">Трейдеры</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link link-page" href="/admin_dev/comp_items_actives">Активные трейды</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link link-page" href="/admin_dev/comp_items">Редактор компаний</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link link-page" href="/admin_dev/torg_elevators">Элеваторы</a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link link-page" href="/admin_dev/adv_torg_posts">Объявления</a>
-    </li>
 	@stack('navbar')
 </ul>
 

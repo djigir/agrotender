@@ -37,7 +37,7 @@ class TradersProducts extends Section implements Initializable
      * @var string
      */
 
-    protected $title = 'Товары';
+    protected $title = 'Продажи';
 
     /**
      * @var string

@@ -2,7 +2,7 @@
 
 @section('content')
     @if(\Request::segment(2) == 'comp_items'
-        || \Request::segment(2) == 'comp_items_traders'
+        //|| \Request::segment(2) == 'comp_items_traders'
         || \Request::segment(2) == 'adv_torg_posts'
         || \Request::segment(2) == 'adv_torg_post_complains'
         || \Request::segment(2) == 'torg_elevators'
@@ -10,7 +10,7 @@
         || \Request::segment(2) == 'adv_word_topics'
         || \Request::segment(2) == 'seo_titles'
         || \Request::segment(2) == 'torg_buyers'
-        || \Request::segment(2) == 'comp_items_actives'
+        //|| \Request::segment(2) == 'comp_items_actives'
 )
         <style>
             .dataTables_paginate {
@@ -30,6 +30,20 @@
                 margin-left: .5rem; margin-top: -1.1rem;
             }
         </style>
+    @endif
+    @if(\Request::segment(2) == 'adv_torg_tgroups'
+        || \Request::segment(2) == 'traders_product_groups'
+
+)
+        <style>
+            .dataTables_paginate {
+                display: none;
+            }
+            .dataTables_info {
+                display: none;
+            }
+        </style>
+
     @endif
     <div class="wrapper" id="vueApp">
         <nav class="main-header navbar navbar-expand bg-custom navbar-light">

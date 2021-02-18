@@ -10,7 +10,7 @@
 
         <div data-index="1">
             <select data-type="select" name="group_id" class="form-control input-select column-filter">
-                <option @if(!request('obl_id')) selected="selected" @endif  value="" >Все рубрики</option>
+                <option @if(!request('obl_id')) selected="selected" @endif  value="" >Все разделы</option>
                 @foreach($tgroups as $group)
                     <option value="{{$group->id}}" @if(request('group_id') == $group->id) selected="selected" @endif >{{$group->title}}</option>
                 @endforeach

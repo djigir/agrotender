@@ -74,7 +74,7 @@ class CompTopic extends Section implements Initializable
             AdminColumn::link('title', 'Рубрики')
                 ->setSearchCallback(function ($column, $query, $search) {
                     return $query->orWhere('title', 'like', '%' . $search . '%');
-                })->setOrderable('title')->setHtmlAttribute('class', 'text-center')->setWidth('350px'),
+                })->setOrderable('title')->setWidth('350px'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -88,18 +88,6 @@ class CompTopic extends Section implements Initializable
                 AdminDisplayFilter::custom('group_id')->setCallback(function ($query, $value) {
                     $query->where('menu_group_id', $value);
             }));
-
-//        $display->setColumnFilters([
-//            AdminColumnFilter::select()
-//                ->setModelForOptions(\App\Models\Comp\CompTgroups::class, 'title')
-//                ->setLoadOptionsQueryPreparer(function ($element, $query) {
-//                    return $query;
-//                })
-//                ->setDisplay('title')
-//                ->setColumnName('menu_group_id')
-//                ->setPlaceholder('Все Рубрики'),
-//        ]);
-
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

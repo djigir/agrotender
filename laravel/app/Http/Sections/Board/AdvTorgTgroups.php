@@ -58,24 +58,15 @@ class AdvTorgTgroups extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::text('id', 'ID')
-                ->setWidth('80px')
-                ->setHtmlAttribute('class', 'text-center'),
-
-            AdminColumn::link('title', 'Название')
-                ->setHtmlAttribute('class', 'text-center')
-                ->setSearchCallback(function($column, $query, $search){
-                    return $query->orWhere('title', 'like', '%'.$search.'%');
-                })->setOrderable('title'),
-
-            AdminColumn::datetime('add_date', 'Создано')
-                ->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('id', 'ID')->setWidth('80px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::link('title', 'Название')->setHtmlAttribute('class', 'text-center')->setOrderable('title'),
+            AdminColumn::datetime('add_date', 'Создано')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
-            ->setOrder([[2, 'desc']])
-            ->setDisplaySearch(true)
+            ->setOrder([[0, 'desc']])
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')

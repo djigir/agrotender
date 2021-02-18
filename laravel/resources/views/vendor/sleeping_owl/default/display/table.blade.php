@@ -125,7 +125,7 @@
     @yield('panel.footer')
 
     @if(\Request::segment(2) == 'comp_items'
-        || \Request::segment(2) == 'comp_items_traders'
+       // || \Request::segment(2) == 'comp_items_traders'
         || \Request::segment(2) == 'adv_torg_posts'
         || \Request::segment(2) == 'adv_torg_post_complains'
         || \Request::segment(2) == 'torg_elevators'
@@ -133,12 +133,12 @@
         || \Request::segment(2) == 'adv_word_topics'
         || \Request::segment(2) == 'seo_titles'
         || \Request::segment(2) == 'torg_buyers'
-        || \Request::segment(2) == 'comp_items_actives'
+        //|| \Request::segment(2) == 'comp_items_actives'
 )
         <?php
             $SEGMENT = [
                 'comp_items' => 'delete_traders_admin',
-                'comp_items_traders' => 'delete_traders_admin',
+                //'comp_items_traders' => 'delete_traders_admin',
                 'adv_torg_posts' => 'delete_posts_admin',
                 'adv_torg_post_complains' => 'delete_torg_post_complains_admin',
                 'torg_elevators' => 'delete_torg_elevators_admin',
@@ -146,7 +146,7 @@
                 'seo_titles_boards' => 'delete_seo_titles_boards_admin',
                 'seo_titles' => 'delete_seo_titles_admin',
                 'torg_buyers' => 'delete_torg_buyers_admin',
-                'comp_items_actives' => 'delete_comp_items_actives_admin',
+                //'comp_items_actives' => 'delete_comp_items_actives_admin',
             ];
 
             $route = isset($SEGMENT[\Request::segment(2)]) ? $SEGMENT[\Request::segment(2)] : '';

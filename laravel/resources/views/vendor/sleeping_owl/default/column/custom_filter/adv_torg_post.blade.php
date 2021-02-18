@@ -14,16 +14,11 @@
     use App\Models\ADV\AdvTorgTgroups;
     use App\Models\ADV\AdvTorgTopic;
     use App\Models\Regions\Regions;
-    //**Filters data**
-    //region
-    $regions = Regions::query()->pluck('name','id');
-    //ad
-    $ad_types = [
-        1 =>'Куплю',
-                 2 => 'Продам',
-                 3 => 'Услуги'
-                 ];
-    //group
+
+    $regions = Regions::query()->orderBy('id', 'desc')->pluck('name','id');
+
+    $ad_types = [1 =>'Куплю', 2 => 'Продам', 3 => 'Услуги'];
+
     $groups = AdvTorgTgroups::query()->select(['id', 'title'])->pluck('title', 'id')->toArray();
     $subgroups = AdvTorgTopic::query()->where('parent_id', '0')->select('id', 'title', 'menu_group_id')->get()->groupBy('menu_group_id')->toArray();
     $groupFilter = [];
@@ -32,31 +27,15 @@
             foreach ($subgroups[$key] as $key2 => $value2)
                 $groupFilter[$value2['id']] = $value2['title'];
         }
-     //sections
-  //   $sections = AdvTorgTopic::query()->where('parent_id', request()->get('group'))->pluck('title','id')->toArray();
-     $sections = AdvTorgTopic::query()->where('parent_id','<>',0)->select('id','parent_id','title')->with('subTopic:id,menu_group_id') ->get()->sortBy('parent_id')->toArray();
-    //period
-    $period =[1 => 'Сегодня',
-              2 => 'За 7 дней'];
-    //session dont ready
-    $session = [
-         1 => 'Нет',
-         2 => 'Да'
-        ];
-    //active
+
+    $sections = AdvTorgTopic::query()->where('parent_id','<>',0)->select('id','parent_id','title')->with('subTopic:id,menu_group_id') ->get()->sortBy('parent_id')->toArray();
+
+    $period =[1 => 'Сегодня', 2 => 'За 7 дней'];
+    $session = [1 => 'Нет', 2 => 'Да'];
     $active = [ 1 => 'Активные не арх.', 2 => 'Активные арх.', 3 => 'Все' ];
-    //improvements
-    $improvements = [1 => 'Объявления в топе.',
-                     2 => 'Выделенные цветом'];
-    //moderation
-    $moderation =[1 =>'На модерации',
-                  2 =>'Допущенные'];
-    //words_ban
-    $wordsBan =[1 =>'Заблокированые',
-                  2 =>'Допущенные'];
-
-     //**End filters data**
-
+    $improvements = [1 => 'Объявления в топе.', 2 => 'Выделенные цветом'];
+    $moderation =[1 =>'На модерации', 2 =>'Допущенные'];
+    $wordsBan =[1 =>'Заблокированые', 2 =>'Допущенные'];
 ?>
 
 <form method="GET">
@@ -71,7 +50,7 @@
         </div>
 
         <div data-index="1">
-            <select style="width:200px;" data-type="select" name="region" class="form-control input-select column-filter " data-select2-id="1" tabindex="-1" aria-hidden="true">
+            <select style="width:180px;" data-type="select" name="region" class="form-control input-select column-filter " data-select2-id="1" tabindex="-1" aria-hidden="true">
                 <option {{!request('region')?'selected="selected"':''}}   value="" >Все области</option>
                 @foreach($regions as $key => $region)
                     <option value="{{$key}}" {{request('region') == $key?'selected="selected"':''}}   >{{$region}}</option>
@@ -115,23 +94,23 @@
         </div>
 
         <div data-index="6">
-            <input type="text" data-type="text" value="{{request('email')}}" name="email" placeholder="По email" class="form-control column-filter">
+            <input type="text" style="width: 160px" data-type="text" value="{{request('email')}}" name="email" placeholder="Email" class="form-control column-filter">
         </div>
 
         <div data-index="7">
-            <input type="text" data-type="text" value="{{request('number')}}" name="number" placeholder="По тел." class="form-control column-filter">
+            <input type="text" style="width: 140px" data-type="text" value="{{request('number')}}" name="number" placeholder="Тел." class="form-control column-filter">
         </div>
 
         <div data-index="8">
-            <input type="text" data-type="text" value="{{request('author')}}" name="author" placeholder="По автору" class="form-control column-filter">
+            <input type="text" style="width: 100px" data-type="text" value="{{request('user_id')}}" name="user_id" placeholder="ID Автора" class="form-control column-filter">
         </div>
 
         <div data-index="9">
-            <input type="text" style="width: 90px" data-type="text" value="{{request('id')}}" name="id" placeholder="по ID" class="form-control column-filter">
+            <input type="text" style="width: 80px" data-type="text" value="{{request('id')}}" name="id" placeholder="ID" class="form-control column-filter">
         </div>
 
         <div data-index="10">
-            <input type="text" data-type="text" value="{{request('title')}}" name="title" placeholder="По Название" class="form-control column-filter">
+            <input type="text" data-type="text" value="{{request('title')}}" name="title" placeholder="Название" class="form-control column-filter">
         </div>
 
         <div data-index="11">

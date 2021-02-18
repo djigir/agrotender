@@ -8,6 +8,7 @@ use AdminDisplay;
 use AdminForm;
 use AdminFormElement;
 use App\Models\Comp\CompTgroups;
+use App\Models\Regions\Regions;
 use App\Models\Traders\TradersPrices;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -58,7 +59,6 @@ class ActiveTraders extends Section implements Initializable
     public function onDisplay($payload = [])
     {
         $columns = [
-            AdminColumn::checkbox('')->setOrderable(false)->setWidth('50px'),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('100px')
@@ -94,8 +94,11 @@ class ActiveTraders extends Section implements Initializable
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query){
+                $query->where('trader_price_avail', 1);
+            })
             ->setName('firstdatatables')
-            ->setOrder([[1, 'desc']])
+            ->setOrder([[0, 'desc']])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
@@ -115,17 +118,15 @@ class ActiveTraders extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('title')
                 ->setOperator('contains')
-                ->setPlaceholder('По названию компании'),
+                ->setPlaceholder('Название'),
 
             AdminColumnFilter::text()
                 ->setHtmlAttribute('class', 'ID_search')
                 ->setColumnName('id')
-                ->setPlaceholder('по ID'),
+                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
         ]);
 
-        $display->setApply(function ($query){
-            $query->where('trader_price_avail', 1);
-        });
+
 
         $display->getColumnFilters()->setPlacement('card.heading');
 

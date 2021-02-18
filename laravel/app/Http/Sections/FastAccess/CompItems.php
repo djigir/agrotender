@@ -110,7 +110,7 @@ class CompItems extends Section implements Initializable
                 return "<div class='row-link'><a href='{$url}'>{$title}</a><small class='clearfix'>{$name}</small></div>";
             })->setOrderable('title')->setWidth('200px'),
 
-            AdminColumn::text('email', 'E-mail')->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('torgBuyer.email', 'E-mail')->setWidth('200px')->setOrderable(false),
 
             AdminColumn::custom('Дата рег./Вход', function (\Illuminate\Database\Eloquent\Model $model){
                 $add_date = Carbon::parse($model->add_date)->format('Y-m-d');

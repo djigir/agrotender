@@ -1,5 +1,5 @@
 <?php
-$regions = App\Models\Regions\Regions::select('name', 'id')->get();
+    $regions = App\Models\Regions\Regions::select('name', 'id')->orderBy('id', 'desc')->get();
 ?>
 
 <form method="GET">
@@ -9,7 +9,7 @@ $regions = App\Models\Regions\Regions::select('name', 'id')->get();
         </div>
 
         <div data-index="1">
-            <select data-type="select" name="obl_id" class="form-control input-select column-filter">
+            <select style="width:180px;" data-type="select" name="obl_id" class="form-control input-select column-filter">
                 <option @if(!request('obl_id')) selected="selected" @endif  value="" >Все области</option>
                 @foreach($regions as $region)
                     <option value="{{$region->id}}" @if(request('obl_id') == $region->id) selected="selected" @endif >{{$region->name}}</option>
