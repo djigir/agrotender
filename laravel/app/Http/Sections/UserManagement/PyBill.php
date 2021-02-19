@@ -160,7 +160,6 @@ class PyBill extends Section implements Initializable
         ;
 
         $display->setColumnFilters([
-            AdminColumnFilter::text()->setColumnName('id')->setPlaceholder('по ID'),
             AdminColumnFilter::select()
                 ->setOptions(self::PAYMENTH_TYPE)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
@@ -185,6 +184,11 @@ class PyBill extends Section implements Initializable
                 ->setDisplay('aktstatus')
                 ->setColumnName('aktstatus')
                 ->setPlaceholder('Статус акт'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('id')
+                ->setPlaceholder('ID')
+                ->setHtmlAttribute('style', 'width: 80px'),
         ]);
 
 

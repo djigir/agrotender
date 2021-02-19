@@ -121,38 +121,39 @@ class TorgBuyer extends Section implements Initializable
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\Regions\Regions::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+                    return $query->orderBy('id', 'desc');
                 })
+                ->setSortable(false)
                 ->setDisplay('name')
                 ->setColumnName('obl_id')
                 ->setHtmlAttribute('class', 'obl_filter')
-                ->setPlaceholder('Все области'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('email')
-                ->setHtmlAttribute('class', 'email_filter')
-                ->setPlaceholder('Фильтровать по E-mail:'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('phone')
-                ->setHtmlAttribute('class', 'phone_filter')
-                ->setPlaceholder('по Тел.'),
+                ->setPlaceholder('Все области')->setHtmlAttribute('style', 'width: 180px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('name')
                 ->setOperator('contains')
                 ->setHtmlAttribute('class', 'name_filter')
-                ->setPlaceholder('по Имени'),
+                ->setPlaceholder('Имени'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('email')
+                ->setHtmlAttribute('class', 'email_filter')
+                ->setPlaceholder('E-mail')->setHtmlAttribute('style', 'width: 160px'),
+
+            AdminColumnFilter::text()
+                ->setColumnName('phone')
+                ->setHtmlAttribute('class', 'phone_filter')
+                ->setPlaceholder('Тел.')->setHtmlAttribute('style', 'width: 140px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('id')
                 ->setHtmlAttribute('class', 'id_filter')
-                ->setPlaceholder('по ID'),
+                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('last_ip')
                 ->setHtmlAttribute('class', 'ip_filter')
-                ->setPlaceholder(' по IP'),
+                ->setPlaceholder('IP')->setHtmlAttribute('style', 'width: 80px'),
         ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
@@ -178,8 +179,6 @@ class TorgBuyer extends Section implements Initializable
      */
     public function onEdit($id = null, $payload = [])
     {
-
-
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('login', 'Логин')->required(),
@@ -188,21 +187,15 @@ class TorgBuyer extends Section implements Initializable
                 AdminFormElement::text('orgname', 'Организация'),
                 AdminFormElement::text('addres', 'Адрес'),
                 AdminFormElement::text('regions.name', 'Город'),
-                AdminFormElement::text('phone', 'Телефон'),
-                AdminFormElement::text('phone2', 'Телефон2'),
-                AdminFormElement::text('phone3', 'Телефон3'),
-                AdminFormElement::text('email', 'E-Mail'),
-            ], 'col-xs-12 col-sm-6 col-md-9 col-lg-6')->addColumn([
+                AdminFormElement::text('phone', 'Телефон')->setValidationRules(['phone' => 'required|min:9|numeric']),
+                AdminFormElement::text('phone2', 'Телефон2')->setValidationRules(['phone' => 'required|min:9|numeric']),
+                AdminFormElement::text('phone3', 'Телефон3')->setValidationRules(['phone' => 'required|min:9|numeric']),
+                AdminFormElement::text('email', 'E-Mail') ->setValidationRules(['email' => 'required|email']),
                 AdminFormElement::text('compItems.www', 'Веб-страница'),
                 AdminFormElement::password('passwd', 'Новый пароль')->hashWithBcrypt(),
                 AdminFormElement::text('avail_adv_posts', 'Сейчас доступно бесплатно объявл.'),
                 AdminFormElement::text('max_adv_posts', 'Максимальное кол-во объявл.'),
-                AdminFormElement::select('isactive_web')
-                    ->setOptions([
-                        1 => 'Да',
-                        0 => 'Нет'
-                    ]),
-
+                AdminFormElement::select('isactive_web')->setOptions([1 => 'Да', 0 => 'Нет']),
                 AdminFormElement::ckeditor('comments', 'Комментарии'),
 
                 AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
@@ -220,6 +213,10 @@ class TorgBuyer extends Section implements Initializable
                 AdminFormElement::html("<div class='form-group form-element-text'><label for='s' class='control-label'>
                         Доступно к размещению объявлений
                     </label> <input class='form-control' type='text' id='s' name='s' value='10' readonly='readonly'></div>"),
+            ], 'col-xs-12 col-sm-6 col-md-9 col-lg-3')->addColumn([
+
+
+
             ], 'col-xs-12 col-sm-6 col-md-3 col-lg-6'),
         ]);
 

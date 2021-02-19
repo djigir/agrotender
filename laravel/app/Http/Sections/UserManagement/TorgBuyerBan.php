@@ -129,37 +129,38 @@ class TorgBuyerBan extends Section implements Initializable
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\Regions\Regions::class)
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+                    return $query->orderBy('id', 'desc');
                 })
+                ->setSortable(false)
                 ->setDisplay('name')
                 ->setColumnName('torgBuyer.obl_id')
-                ->setPlaceholder('Все области'),
+                ->setPlaceholder('Все области')->setHtmlAttribute('style', 'width: 180px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('ban_email')
-                ->setPlaceholder('Фильтровать по E-mail:'),
+                ->setPlaceholder('E-mail')->setHtmlAttribute('style', 'width: 160px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('ban_phone')
-                ->setPlaceholder('по Тел.'),
+                ->setPlaceholder('Тел.')->setHtmlAttribute('style', 'width: 140px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('torgBuyer.name')
                 ->setOperator('contains')
-                ->setPlaceholder('по Имени'),
+                ->setPlaceholder('Имени'),
 
             AdminColumnFilter::text()
                 ->setColumnName('torgBuyer.id')
-                ->setPlaceholder('по ID'),
+                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('ban_ip')
-                ->setPlaceholder('по IP'),
+                ->setPlaceholder('IP')->setHtmlAttribute('style', 'width: 80px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('ban_ses')
-                ->setPlaceholder('по SES')
-                ->setHtmlAttribute('class', 'ses-search'),
+                ->setPlaceholder('SES')
+                ->setHtmlAttribute('class', 'ses-search')->setHtmlAttribute('style', 'width: 140px'),
         ]);
 
 
@@ -190,8 +191,8 @@ class TorgBuyerBan extends Section implements Initializable
                         30 => '30 дней',
                     ])->setSortable('id', true)->required(),
 
-                AdminFormElement::text('ban_phone', 'Телефон')->required(),
-                AdminFormElement::text('ban_email', 'E-mail')->required(),
+                AdminFormElement::text('ban_phone', 'Телефон')->setValidationRules(['ban_phone' => 'required|min:9|numeric'])->required(),
+                AdminFormElement::text('ban_email', 'E-mail') ->setValidationRules(['ban_email' => 'required|email'])->required(),
                 AdminFormElement::text('ban_ip', 'IP адресс')->required(),
                 AdminFormElement::text('ban_ses', 'Сессия')->required(),
                 AdminFormElement::text('comment', 'Комментарий')->required(),
@@ -242,13 +243,13 @@ class TorgBuyerBan extends Section implements Initializable
                         30 => '30 дней',
                     ])->setSortable('id', true)->required(),
 
-                AdminFormElement::text('ban_phone', 'Телефон')->required()->setDefaultValue('не указан'),
+                AdminFormElement::text('ban_phone', 'Телефон')->setValidationRules(['ban_phone' => 'required|min:9|numeric'])->required()->setDefaultValue('не указан'),
 
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
 
-                AdminFormElement::text('ban_email', 'E-mail')->required()->setDefaultValue('не указан'),
+                AdminFormElement::text('ban_email', 'E-mail')->setValidationRules(['ban_email' => 'required|email'])->required()->setDefaultValue('не указан'),
 
                 AdminFormElement::text('ban_ip', 'IP адресс')->required()->setDefaultValue('0.0.0.0'),
 

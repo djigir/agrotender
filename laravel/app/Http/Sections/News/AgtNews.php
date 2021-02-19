@@ -121,7 +121,7 @@ class AgtNews extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('NewsLang.title')
                 ->setOperator('contains')
-                ->setPlaceholder('По содержанию'),
+                ->setPlaceholder('Содержание'),
 
         ]);
 

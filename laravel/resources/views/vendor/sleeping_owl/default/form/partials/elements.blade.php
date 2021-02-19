@@ -19,3 +19,8 @@
         @endforeach
     </div>
 @endif
+
+@if(\Request::segment(4) == 'edit' && (\Request::segment(2) == 'comp_items_traders' || \Request::segment(2) == 'comp_items'))
+    <script src="../../../../../../../../app/assets/my_js/admin.js"></script>
+@endif
+

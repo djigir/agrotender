@@ -103,12 +103,12 @@ class AgtNewsComment extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('newsLang.content')
                 ->setOperator('contains')
-                ->setPlaceholder('По комментарию'),
+                ->setPlaceholder('Комментарий'),
 
             AdminColumnFilter::text()
                 ->setColumnName('author')
                 ->setOperator('contains')
-                ->setPlaceholder('По автору'),
+                ->setPlaceholder('Автор'),
 
         ]);
 

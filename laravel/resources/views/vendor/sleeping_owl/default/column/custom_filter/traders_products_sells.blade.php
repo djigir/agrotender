@@ -27,7 +27,7 @@
 
         <div data-index="2">
             <div>
-                <input type="text" style="width: 180px" data-type="text" placeholder="По названию" class="form-control column-filter" name="name" value="{{request('name')}}">
+                <input type="text" style="width: 180px" data-type="text" placeholder="Название" class="form-control column-filter" name="name" value="{{request('name')}}">
             </div>
         </div>
 

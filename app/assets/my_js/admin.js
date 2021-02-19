@@ -45,11 +45,12 @@ window.onload = function (){
         let link_for_preload = link.attr('href', src.replace(window.location.origin, window.location.origin + '/files'))
     }
 
-    if(str.indexOf('comp_items_traders') !== -1 && str.indexOf('edit') !== -1){
+    if(str.indexOf('edit') !== -1 &&  (str.indexOf('comp_items_traders') !== -1 || str.indexOf('comp_items') !== -1)){
         $('.multiselect__input').attr("placeholder", "");
-
+        $('.multiselect__option').attr("data-select", "");
+        $('.multiselect__option').attr("data-selected", "");
+        $('.multiselect__option').attr("data-deselect", "");
     }
-
 
     /* Для блока с событиями */
     setTimeout(function() {

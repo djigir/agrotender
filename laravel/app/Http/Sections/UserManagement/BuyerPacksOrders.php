@@ -160,20 +160,20 @@ class BuyerPacksOrders extends Section implements Initializable
                 })
                 ->setDisplay('title')
                 ->setColumnName('pack_id')
-                ->setPlaceholder('Все типы объявления'),
+                ->setPlaceholder('Типы объявления'),
 
             AdminColumnFilter::text()
                 ->setHtmlAttribute('class', 'ID_search')
                 ->setColumnName('id')
-                ->setPlaceholder('По ID'),
+                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
 
             AdminColumnFilter::text()
                 ->setColumnName('post_id')
-                ->setPlaceholder('По ID Объявления'),
+                ->setPlaceholder('ID Объявления'),
 
             AdminColumnFilter::text()
                 ->setColumnName('torgPost.title')
-                ->setPlaceholder('По Тексту Объявления'),
+                ->setPlaceholder('Объявление'),
 
         ]);
 

@@ -395,4 +395,14 @@ class CompItems extends Model
     {
         return $this->hasMany(TradersPrices::class, 'buyer_id', 'author_id');
     }
+
+
+    public function getTitleAttribute($value)
+    {
+        if(strpos(\Request::url(), 'admin_dev') != false){
+            return htmlspecialchars_decode($value);
+        }
+
+        return $value;
+    }
 }

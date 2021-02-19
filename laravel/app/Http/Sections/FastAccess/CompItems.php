@@ -102,13 +102,10 @@ class CompItems extends Section implements Initializable
 
             AdminColumn::image('logo_file', 'Лого')->setImageWidth('48px'),
 
-            AdminColumn::custom('Компания/Имя', function (\Illuminate\Database\Eloquent\Model $model){
-                $url = \Str::before(\Request::url(), '/ad')."/admin_dev/comp_items/{$model->id}/edit";
-                $name = $model['torgBuyer']['name'];
-                $title = htmlspecialchars_decode($model->title);
-
-                return "<div class='row-link'><a href='{$url}'>{$title}</a><small class='clearfix'>{$name}</small></div>";
-            })->setOrderable('title')->setWidth('200px'),
+            AdminColumn::link('title','Компания/Имя', 'torgBuyer.name')
+                ->setIsolated(true)
+                ->setOrderable('title')
+                ->setWidth('200px'),
 
             AdminColumn::text('torgBuyer.email', 'E-mail')->setWidth('200px')->setOrderable(false),
 
@@ -198,41 +195,28 @@ class CompItems extends Section implements Initializable
                 AdminFormElement::html('<span>Таблица закупок:</span>'),
                 AdminFormElement::html('<hr>'),
 
-                AdminFormElement::select('trader_price_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                        2 => 'Премиум +'
-                    ]),
+                AdminFormElement::columns()->addColumn([
+                    AdminFormElement::select('trader_price_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да']),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::select('trader_premium', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да', 2 => 'Топ']),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
 
                 AdminFormElement::html('<span>Таблица форвардов:</span>'),
                 AdminFormElement::html('<hr>'),
 
-                AdminFormElement::select('trader_price_forward_avail', 'Активна')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('trader_premium_forward', 'Премиум')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
+                AdminFormElement::columns()->addColumn([
+                    AdminFormElement::select('trader_price_forward_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::select('trader_premium_forward', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
 
                 AdminFormElement::select('site_pack_id', 'Пакет размещения')
                     ->setModelForOptions(BuyerTarifPacks::class)
                     ->setLoadOptionsQueryPreparer(function($element, $query) {
                         return $query;
-                    })
-                    ->setDisplay('title'),
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
+                    })->setDisplay('title'),
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-4')
         ]);
 
         $form->getButtons()->setButtons([

@@ -96,7 +96,7 @@ class AdvTorgPost extends Section implements Initializable
            })->setName('city')->setWidth('160px'),
 
 
-           AdminColumn::text('author', 'Автор / E-mail', 'email')->setWidth('190px')->setOrderable(false),
+           AdminColumn::text('torgBuyer.name', 'Автор / E-mail', 'torgBuyer.email')->setWidth('190px')->setOrderable(false),
 
             AdminColumn::custom('Тел.', function (\Illuminate\Database\Eloquent\Model $model) {
                return "<div class='row-text'>
@@ -104,9 +104,7 @@ class AdvTorgPost extends Section implements Initializable
                            <small class='clearfix'>{$model->phone2}</small>
                            <small class='clearfix'>{$model->phone3}</small>
                        </div>";
-           })->setOrderable(function($query, $direction) {
-               $query->orderBy('author_id', $direction);
-           })->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
+           })->setOrderable(false)->setWidth('130px')->setHtmlAttribute('class', 'text-center'),
 
            AdminColumn::custom('Объявление', function (\Illuminate\Database\Eloquent\Model $model){
                 $type_cost = $model->cost_dog;
@@ -177,9 +175,7 @@ class AdvTorgPost extends Section implements Initializable
                             <small class='clearfix'>{$model->up_dt}</small>
                             {$wordsBan}
                             {$moderated}</div>";
-            })->setOrderable(function ($query, $direction) {
-                $query->orderBy('add_date', $direction);
-            })->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
+            })->setOrderable(false)->setWidth('150px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -189,7 +185,7 @@ class AdvTorgPost extends Section implements Initializable
 
             })
             ->setName('firstdatatables')
-            ->setOrder([[1, 'asc']])
+            ->setOrder([[1, 'desc']])
             ->setDisplaySearch(false)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
@@ -214,19 +210,6 @@ class AdvTorgPost extends Section implements Initializable
                         });
                     }
                 }),
-                AdminDisplayFilter::custom('section')->setCallback(function ($query, $value) {
-                    $query->whereHas('advTorgTopic', function ($query) use ($value) {
-                        $query->where('id', $value);
-                    });
-                }),
-                AdminDisplayFilter::custom('period')->setCallback(function ($query, $value) {
-                    if ($value == 1) {
-                        $query->where('add_date', '>', Carbon::today());
-                    } else if ($value == 2) {
-                        $query->where('add_date', '>', Carbon::today()->subDays(7));
-                    }
-
-                }),
                 AdminDisplayFilter::custom('active')->setCallback(function ($query, $value) {
                     if ($value == 1)//if active and !archive
                     {
@@ -243,48 +226,20 @@ class AdvTorgPost extends Section implements Initializable
                         $query->where('colored', 1);
                     }
                 }),
-                AdminDisplayFilter::custom('moderation')->setCallback(function ($query, $value) {
-                    if ($value == 1) {
-                        $query->where('moderated', 1)->where('active', 0);
-                    } else if ($value == 2) {
-                        $query->where('moderated', 1)->where('active', 1);
-                    }
-
-                }),
-                AdminDisplayFilter::custom('words_ban')->setCallback(function ($query, $value) {
-                    if ($value == 1) {
-                        $query->where('moderated', 0);
-                    } else if ($value == 2) {
-                        $query->where('moderated', 1)->where('active', 1);
-                    }
-                }),
                 AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
                     $query->where('email', $value);
                 }),
+
                 AdminDisplayFilter::custom('number')->setCallback(function ($query, $value) {
                     $query->where(function ($query) use ($value) {
-                        $query->where('phone', $value)
-                            ->orWhere('phone2', $value)
-                            ->orWhere('phone3', $value);
-                    });
-
-                }),
-                AdminDisplayFilter::custom('session_id')->setCallback(function ($query, $value) {
-                    $query->whereHas('torgBuyerSession', function ($query) use ($value) {
-                        $query->where('ses_id', $value);
+                        $query->where('phone', $value)->orWhere('phone2', $value)->orWhere('phone3', $value);
                     });
                 }),
                 AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
                     $query->where('title', 'like', '%' . $value . '%');
                 }),
-                AdminDisplayFilter::custom('ip')->setCallback(function ($query, $value) {
-                    $query->where('remote_ip', $value);
-                }),
                 AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
                     $query->where('id', $value);
-                }),
-                AdminDisplayFilter::custom('text')->setCallback(function ($query, $value) {
-                    $query->where('title', 'like', '%' . $value . '%');
                 }),
                 AdminDisplayFilter::custom('user_id')->setCallback(function ($query, $value) {
                     $query->where('author_id', $value);
@@ -294,6 +249,7 @@ class AdvTorgPost extends Section implements Initializable
 
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('70px');
+
         return $display->paginate($per_page);
     }
 
@@ -308,7 +264,7 @@ class AdvTorgPost extends Section implements Initializable
         $parent_category_id = \App\Models\ADV\AdvTorgPost::find($id)->advTorgTopic->subTopic->id; //magic fix
 
         $form = AdminForm::card()->addBody([
-            AdminFormElement::html("<div style='text-align: center'><h4>Фото в объявлении</h4></div>"),
+            AdminFormElement::html("<div style='text-align: left'><h4>Фото в объявлении</h4></div>"),
             AdminFormElement::columns()
                 ->addColumn([
                     AdminFormElement::images('images', 'Images')->setHtmlAttribute('class', 'logo-img')
@@ -331,15 +287,15 @@ class AdvTorgPost extends Section implements Initializable
                                 'add_date' => Carbon::now()
                             ]);
                             return ['value' => 'pics/' . 'b/' . $filename];
-
-                        }),
-                    AdminFormElement::html("<div style='text-align: center'><h4>Редакировать объявление</h4></div>")
+                    }),
+                    AdminFormElement::html("<br><div style='text-align: left'><h4>Редакировать объявление</h4></div>")
                 ], 'col-xs-12 col-sm-6 col-md-8 col-lg-12')->addColumn([
                     AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
                     AdminFormElement::hidden('id'),
+
                     AdminFormElement::text('author', 'Автор:'),
-                    AdminFormElement::text('email', 'E-mail:'),
-                    AdminFormElement::text('phone', 'Телефон:'),
+                    AdminFormElement::text('email', 'E-mail:') ->setValidationRules(['email' => 'required|email']),
+                    AdminFormElement::text('phone', 'Телефон:')->setValidationRules(['phone' => 'required|min:9|numeric']),
                     AdminFormElement::select('virtual', 'Раздел:')
                         ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
                         ->setLoadOptionsQueryPreparer(function ($item, $query) {
@@ -355,11 +311,8 @@ class AdvTorgPost extends Section implements Initializable
                         })->required(),
                     AdminFormElement::text('title', 'Заглавие:'),
                     AdminFormElement::textarea('content', 'Текст:'),
-                        AdminFormElement::select('obl_id', 'Область:')
-                            ->setModelForOptions(Regions::class)
-                            ->setDisplay('name')
-                            ->setDefaultValue(1)
-                            ->required(),
+                        AdminFormElement::select('obl_id', 'Область:')->setModelForOptions(Regions::class)
+                            ->setDisplay('name')->setDefaultValue(1)->required(),
                         AdminFormElement::text('city', 'Город:'),
                         AdminFormElement::html("<div style='display: flex'>"),
                         AdminFormElement::text('amount', 'Объем:'),
@@ -369,12 +322,8 @@ class AdvTorgPost extends Section implements Initializable
                         AdminFormElement::text('cost', 'Цена:'),
                         AdminFormElement::text('cost_izm', '&#160;'),
                         AdminFormElement::html("</div>"),
-                        AdminFormElement::select('colored', 'Выделение цветом:')
-                            ->setOptions([1 => 'Выделено цветом',
-                                0 => 'Обычное'])->setSortable(false)->required(),
-                        AdminFormElement::select('targeting', 'Поднято в ТОП:')
-                            ->setOptions([1 => 'Выделено в топе',
-                                0 => 'Обычное'])->setSortable(false)->required(),
+                        AdminFormElement::select('colored', 'Выделение цветом:')->setOptions([1 => 'Выделено цветом', 0 => 'Обычное'])->setSortable(false)->required(),
+                        AdminFormElement::select('targeting', 'Поднято в ТОП:')->setOptions([1 => 'Выделено в топе', 0 => 'Обычное'])->setSortable(false)->required(),
                         AdminFormElement::hidden('ups')->setHtmlAttribute('id', 'ups'),
                         AdminFormElement::html("<button class='btn btn-default' onclick='up()'>Апнуть Объявление</button>
                                         <span >Всего:<span id='ups_count'>{$this->getModelValue()->ups}</span></span>
@@ -383,16 +332,9 @@ class AdvTorgPost extends Section implements Initializable
                                             let value = parseInt(elem.value)+1
                                             elem.value = value
                                              document.getElementById(\"ups_count\").innerHTML = value;
-                                        }</script> "),
-                        AdminFormElement::select('active', 'Статус модерации:')
-                            ->setOptions([1 => 'Прошло модерацию',
-                                0 => 'Не прошло модерацию'])->setSortable(false)->required(),
-                        AdminFormElement::select('moderated', 'Бан по словам:')
-                            ->setOptions([1 => 'Все Ок, допущено',
-                                0 => 'Скрыто по правилам бана'])->setSortable(false)->required(),
-                        AdminFormElement::select('archive', 'Активное/Архив:')
-                            ->setOptions([1 => 'В архиве',
-                                0 => 'Активное'])->setSortable(false)->required(),
+                                        }</script> <br><br>"),
+                        AdminFormElement::select('active', 'Статус модерации:')->setOptions([1 => 'Прошло модерацию', 0 => 'Не прошло модерацию'])->setSortable(false)->required(),
+                        AdminFormElement::select('archive', 'Активное/Архив:')->setOptions([1 => 'В архиве', 0 => 'Активное'])->setSortable(false)->required(),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')
                 ->addColumn([], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')
                 ->addColumn([], 'col-xs-12 col-sm-6 col-md-12 col-lg-4')

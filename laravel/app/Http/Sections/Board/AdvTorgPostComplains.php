@@ -115,12 +115,12 @@ class AdvTorgPostComplains extends Section implements Initializable
             AdminColumnFilter::text()
                 ->setColumnName('msg')
                 ->setOperator('contains')
-                ->setPlaceholder('По жалобе'),
+                ->setPlaceholder('Жалоба'),
 
             AdminColumnFilter::text()
                 ->setColumnName('id')
                 ->setOperator('contains')
-                ->setPlaceholder('по ID')
+                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px')
         ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');

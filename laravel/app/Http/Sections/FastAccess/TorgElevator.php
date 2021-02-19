@@ -80,18 +80,15 @@ class TorgElevator extends Section implements Initializable
     {
         $columns = [
             AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('id', 'ID')
-                ->setWidth('50px')
-                ->setSearchable(false)
+            AdminColumn::custom('id', function (\Illuminate\Database\Eloquent\Model $model){
+                $url = route('elev.elevator', $model->elev_url);
+                return "<div class='row-link'><a target='_blank' href='{$url}'>{$model->id}</a></div>";
+            })->setWidth('50px')->setSearchable(false)
                 ->setHtmlAttribute('class', 'text-center')
                 ->setHtmlAttributes(['style' => 'font-size: 14px']),
 
-
-            AdminColumn::custom('Название' , function (\Illuminate\Database\Eloquent\Model $model){
-                $url = \Str::before(\Request::url(), '/ad')."/admin_dev/torg_elevators/{$model->id}/edit";
-                $name = htmlspecialchars_decode($model['langElevator']['name']);
-                return "<div class='row-link'><a href='$url'>{$name}</a></div>";
-            })->setSearchable(true)->setSearchCallback(function($column, $query, $search){
+            AdminColumn::text('langElevator.name','Название')
+            ->setSearchable(true)->setSearchCallback(function($column, $query, $search){
                 $query->whereHas('langElevator', function ($lang) use ($search) {
                     $lang->where('name', 'like', '%' . $search . '%');
                 });
@@ -152,7 +149,6 @@ class TorgElevator extends Section implements Initializable
         if ($id){
             $elevator = \App\Models\Elevators\TorgElevator::with('regionAdmin', 'langRayon')->find($id)->toArray();
         }
-
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::select('ray_id', 'Район области')
@@ -163,14 +159,14 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::text('langElevator.name', 'Название')->required(),
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-'),
-                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setRows(7),
-                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setRows(7),
-                AdminFormElement::text('phone', 'Телефон')->setDefaultValue('-')->required(),
-                AdminFormElement::text('email', 'E-mail')->setDefaultValue('-')->required(),
+                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setRows(4),
+                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setRows(4),
+                AdminFormElement::text('phone', 'Телефон')->setValidationRules(['phone' => 'required|min:9|numeric'])->setDefaultValue('-')->required(),
+                AdminFormElement::text('email', 'E-mail')->setValidationRules(['email' => 'required|email'])->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.director', 'Директор')->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->required(),
-                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(7)->required(),
-                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(7)->required(),
+                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(4)->required(),
+                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(4)->required(),
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
         ]);
 
@@ -207,8 +203,8 @@ class TorgElevator extends Section implements Initializable
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-')->setDefaultValue('-'),
                 AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
                 AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
-                AdminFormElement::text('phone', 'Телефон')->setDefaultValue('-')->required(),
-                AdminFormElement::text('email', 'E-mail')->setDefaultValue('-')->required(),
+                AdminFormElement::text('phone', 'Телефон')->setValidationRules(['phone' => 'required|min:9|numeric'])->setDefaultValue('-')->required(),
+                AdminFormElement::text('email', 'E-mail')->setValidationRules(['email' => 'required|email'])->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.director', 'Директор')->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->setDefaultValue('-')->required(),
                 AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(7)->required(),

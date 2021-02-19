@@ -97,7 +97,6 @@ class Traders extends Section implements Initializable
     {
         $per_page = (int)request()->get("paginate") == 0 ? 25 : (int)request()->get("paginate");
         $columns = [
-//            AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::custom('ID', function(\Illuminate\Database\Eloquent\Model $model) {
                 return "<a href='{$model->companyLink()}' target='_blank'>{$model->getKey()}</a>";
             })->setWidth('90px')->setHtmlAttribute('class', 'text-center')->setOrderable('id'),
@@ -111,6 +110,18 @@ class Traders extends Section implements Initializable
                 $color = self::PACKAGES_STYLE[$compItems->trader_premium];
                 return "<div style='color: $color' class='row-custom text-center'>{$package}</div>";
             })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable('trader_premium'),
+
+            AdminColumn::custom('Начало пакета', function (\Illuminate\Database\Eloquent\Model $model){
+                $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders']->max('stdt'))->format('Y-m-d') : '';
+                return "<div class='row-text text-center'>{$package}</div>";
+            })->setWidth('150px')->setHtmlAttribute('class', 'text-center')
+                ->setOrderCallback(function($column, $query, $direction){
+                    $query->leftJoin('torg_buyer', 'comp_items.author_id', '=', 'torg_buyer.id')
+                        ->leftJoin('buyer_packs_orders', 'torg_buyer.id', '=', 'buyer_packs_orders.user_id')
+                        ->select('comp_items.*', \DB::raw('max(agt_buyer_packs_orders.stdt) AS orders_stdt'))
+                        ->groupBy('comp_items.id')
+                        ->orderBy('orders_stdt', $direction);
+            }),
 
             AdminColumn::custom('Окончание пакета', function (\Illuminate\Database\Eloquent\Model $model){
                 $package = !$model['torgBuyer']['buyerPacksOrders']->isEmpty() ? Carbon::parse($model['torgBuyer']['buyerPacksOrders']->max('endt'))->format('Y-m-d') : '';
@@ -179,25 +190,42 @@ class Traders extends Section implements Initializable
     public function onEdit($id = null, $payload = [])
     {
         $this->title_comp = $this->model_value['title'];
+        $url = \Str::before(\Request::url(), '/ad')."/admin_dev/torg_buyers/{$this->model_value['torgBuyer']['id']}/edit";
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
+                AdminFormElement::html("<br>
+                <a href='{$url}' target='_blank' class='btn btn-primary'>Пользователь</a><br><br>"),
                 AdminFormElement::text('title', 'Название')->required(),
                 AdminFormElement::image('logo_file', 'Лого')->setReadonly(true),
+
                 AdminFormElement::html('<span><b>Таблица закупок:</b></span>'),
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::select('trader_price_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да']),
-                AdminFormElement::select('trader_premium', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да', 2 => 'Премиум +']),
+
+                AdminFormElement::columns()->addColumn([
+                    AdminFormElement::select('trader_price_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да']),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::select('trader_premium', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да', 2 => 'Топ']),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+
                 AdminFormElement::html('<hr>'),
-                AdminFormElement::html('<span><b>Таблица форвардов:</b></span>'),
-                AdminFormElement::html('<hr>'),
-                AdminFormElement::select('trader_price_forward_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да',]),
-                AdminFormElement::select('trader_premium_forward', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да',]),
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')
+                AdminFormElement::html('<span><b>Таблица форвардов:</b></span><br><br>'),
+
+                AdminFormElement::columns()->addColumn([
+                    AdminFormElement::select('trader_price_forward_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::select('trader_premium_forward', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+
+//                AdminFormElement::html('<hr>'),
+//                AdminFormElement::html('<span><b>Пакеты:</b></span>'),
+                //AdminFormElement::datetime('torgBuyer.buyerPacksOrders.add_date', 'Начало пакета'),
+                //AdminFormElement::datetime('torgBuyer.buyerPacksOrders.endt', 'Окончание пакета'),
+
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-4')
         ]);
 
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
             'save_and_close'  => new SaveAndClose(),
             'cancel'  => (new Cancel()),
         ]);

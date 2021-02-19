@@ -36,5 +36,14 @@ class TorgElevatorLang extends Model
     {
         return $this->belongsTo(TorgElevator::class, 'id', 'item_id');
     }
+
+    public function getNameAttribute($value)
+    {
+        if(strpos(\Request::url(), 'admin_dev') != false){
+            return htmlspecialchars_decode($value);
+        }
+
+        return $value;
+    }
 }
 

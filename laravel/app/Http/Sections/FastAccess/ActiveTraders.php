@@ -69,7 +69,8 @@ class ActiveTraders extends Section implements Initializable
 
             AdminColumn::custom('Таблица закупок', function (\App\Models\Comp\CompItems $compItems){
                 $table = $compItems->trader_price_visible == 1 ? $table = 'Нет' : $table = 'Да';
-                $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none;" : $issetLink = '';
+                $table == 'Да' ? $issetLink = "color: currentColor; opacity: 0.5; text-decoration: none; pointer-events: none;" : $issetLink = '';
+
                 return "<a href=".route('company.index', ['id_company' => $compItems->id])." class='btn btn-success btn-sm' style='{$issetLink}' target='_blank'>Посмотреть</a>";
             })->setHtmlAttribute('class', 'text-center'),
 
@@ -109,8 +110,9 @@ class ActiveTraders extends Section implements Initializable
             AdminColumnFilter::select()
                 ->setModelForOptions(\App\Models\Regions\Regions::class, 'name')
                 ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+                    return $query->orderBy('id', 'desc');
                 })
+                ->setSortable(false)
                 ->setDisplay('name')
                 ->setColumnName('obl_id')
                 ->setPlaceholder('Все Области'),
@@ -125,8 +127,6 @@ class ActiveTraders extends Section implements Initializable
                 ->setColumnName('id')
                 ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
         ]);
-
-
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
