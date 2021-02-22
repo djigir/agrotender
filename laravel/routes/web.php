@@ -167,6 +167,3 @@ Route::prefix('elev')
         Route::get('/{url}', 'EvelatorController@elevator')->name('elevator');
 
 });
-
-
-

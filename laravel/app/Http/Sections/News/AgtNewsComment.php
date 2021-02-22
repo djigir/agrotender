@@ -128,14 +128,10 @@ class AgtNewsComment extends Section implements Initializable
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
                 AdminFormElement::text('author', 'Автор')->required(),
-                AdminFormElement::select('visible', 'Показывать на сайте')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
+                AdminFormElement::select('visible', 'Показывать на сайте')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                AdminFormElement::textarea('newsLang.content', 'Коментарий'),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-3')->addColumn([
 
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')->addColumn([
-                AdminFormElement::ckeditor('newsLang.content', 'Коментарий'),
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-8'),
         ]);
 

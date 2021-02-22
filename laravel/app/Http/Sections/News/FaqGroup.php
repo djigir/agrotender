@@ -112,9 +112,10 @@ class FaqGroup extends Section implements Initializable
                     }),
                 AdminFormElement::text('url', 'URL')->required(),
                 AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
+                AdminFormElement::textarea('FaqGroupLang.descr', 'Описание группы'),
 
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::ckeditor('FaqGroupLang.descr', 'Описание группы'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

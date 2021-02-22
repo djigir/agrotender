@@ -111,23 +111,17 @@ class CompTopic extends Section implements Initializable
                     ->setModelForOptions(CompTgroups::class)->required(),
 
                 AdminFormElement::text('title', 'Название рубрики')->required(),
-
                 AdminFormElement::html('<span class="other-params">Другие параметры</span> <hr>'),
                 AdminFormElement::text('sort_num', 'Порядковый номер'),
-//                AdminFormElement::select('parent_id', 'Показывать на сайте')
-//                    ->setOptions([
-//                        0 => 'Нет',
-//                        1 => 'Да',
-//                ]),
                 AdminFormElement::ckeditor('page_keywords', 'Keywords'),
-
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
                 AdminFormElement::html('<span class="seo-data-title">Seo данные</span> <hr>'),
                 AdminFormElement::text('page_h1', 'H1 заголовок'),
                 AdminFormElement::text('page_title', 'Title'),
                 AdminFormElement::ckeditor('page_descr', 'Description'),
                 AdminFormElement::ckeditor('descr', 'Описание'),
+
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-5')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 
@@ -155,15 +149,10 @@ class CompTopic extends Section implements Initializable
 
                 AdminFormElement::text('title', 'Название новой рубрики')->required(),
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-6')->addColumn([
                 AdminFormElement::number('sort_num', 'Порядковый номер'),
-//                AdminFormElement::select('parent_id', 'Показывать на сайте')
-//                    ->setOptions([
-//                        0 => 'Нет',
-//                        1 => 'Да',
-//                    ]),
-                AdminFormElement::ckeditor('descr', 'Описание'),
+                AdminFormElement::textarea('descr', 'Описание'),
+            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-5')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
 

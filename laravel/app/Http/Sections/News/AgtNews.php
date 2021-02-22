@@ -5,6 +5,7 @@ namespace App\Http\Sections\News;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\News\News;
@@ -70,7 +71,7 @@ class AgtNews extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
 
-            AdminColumn::link('NewsLang.title', 'Содержание', 'dtime')
+            AdminColumn::link('NewsLang.title', 'Название', 'dtime')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('NewsLang.title', 'like', '%'.$search.'%');
             })->setOrderable(false),
@@ -101,29 +102,17 @@ class AgtNews extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
+            ->setFilters(
+                AdminDisplayFilter::custom('ngroup')->setCallback(function ($query, $value) {
+                    $query->where('ngroup', $value);
+                }),
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setOptions([
-                    0 => 'Новости Украины',
-                    1 => 'Новости мира',
-                    2 => 'Другие новости',
-                    3 => 'Новости сайта',
-                ])
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
+                AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
+                    $query->whereHas('NewsLang', function ($query) use ($value) {
+                        $query->where('title', 'like', '%' . $value . '%');
+                    });
                 })
-                ->setDisplay('ngroup')
-                ->setColumnName('ngroup')
-                ->setPlaceholder('Все группы'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('NewsLang.title')
-                ->setOperator('contains')
-                ->setPlaceholder('Содержание'),
-
-        ]);
+            )->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -154,22 +143,13 @@ class AgtNews extends Section implements Initializable
                       return ['path' => asset($value), 'value' => $value = $path . $filename];
                 }),
                 AdminFormElement::html('<hr>'),
+                AdminFormElement::select('first_page', 'На главную')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                AdminFormElement::select('intop', 'В топ')->setOptions([0 => 'Нет', 1 => 'Да',]),
+                AdminFormElement::textarea('NewsLang.content', 'Текст'),
 
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')->addColumn([
 
-                AdminFormElement::select('first_page', 'На главную')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
 
-                AdminFormElement::select('intop', 'В топ')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
 
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
         ]);
@@ -197,40 +177,23 @@ class AgtNews extends Section implements Initializable
                         2 => 'Другие новости',
                         3 => 'Новости сайта',
                     ])->required(),
-
                 AdminFormElement::text('NewsLang.title', 'Заголовок')->required(),
-                AdminFormElement::select('first_page', 'На главную')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ])->required(),
-
+                AdminFormElement::select('first_page', 'На главную')->setOptions([0 => 'Нет', 1 => 'Да',])->required(),
                 AdminFormElement::hidden('NewsLang.lang_id')->setDefaultValue('1'),
-
-                AdminFormElement::select('intop', 'В топ')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ])->required(),
-
-
+                AdminFormElement::select('intop', 'В топ')->setOptions([0 => 'Нет', 1 => 'Да',])->required(),
                 AdminFormElement::image('filename_src', "Картинка")
                     ->setHtmlAttribute('class', 'logo-img')
                     ->setSaveCallback(function ($file, $path, $filename, $settings) {
-                        //Здесь ваша логика на сохранение картинки
                         $path = 'files/news/';
                         $full_path = "/var/www/agrotender/{$path}";
                         $file->move($full_path, $filename);
                         $value = $path . $filename;
-
-
                         return ['path' => asset($value), 'value' => $value = $path . $filename];
                     }),
-
-
-            ], 'col-xs-12 col-sm-9 col-md-6 col-lg-6')->addColumn([
-                AdminFormElement::ckeditor('NewsLang.content', 'Текст'),
+                AdminFormElement::textarea('NewsLang.content', 'Текст')->setRows(6),
                 AdminFormElement::hidden('dtime')->setDefaultValue(Carbon::now()),
+            ], 'col-xs-12 col-sm-9 col-md-6 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6')
         ]);
 

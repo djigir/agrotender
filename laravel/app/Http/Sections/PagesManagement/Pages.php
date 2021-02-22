@@ -138,20 +138,17 @@ class Pages extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-                //AdminFormElement::select('name', 'Name', [0 => 'Корневой раздел'])->setDefaultValue(0)->required(),
                 AdminFormElement::text('page_name', 'Имя файла (без расшир.)')->required(),
                 AdminFormElement::text('pagesLang.page_mean', 'Назначение')->required(),
                 AdminFormElement::text('pagesLang.page_title', 'Title'),
                 AdminFormElement::text('pagesLang.page_keywords', 'Keywords'),
-                AdminFormElement::ckeditor('pagesLang.page_descr', 'Description'),
+                AdminFormElement::textarea('pagesLang.page_descr', 'Description')->setRows(6),
                 AdminFormElement::text('pagesLang.title', 'Заголовок Страницы'),
                 AdminFormElement::hidden('create_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::hidden('modify_date')->setDefaultValue(\Carbon\Carbon::now()),
                 AdminFormElement::hidden('pagesLang.lang_id')->setDefaultValue(1),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::ckeditor('pagesLang.header', 'Верхний Контент'),
-                AdminFormElement::ckeditor('pagesLang.content', 'Нижний Контент'),
+                AdminFormElement::textarea('pagesLang.header', 'Верхний Контент')->setRows(6),
+                AdminFormElement::textarea('pagesLang.content', 'Нижний Контент')->setRows(6),
 
                 AdminFormElement::select('show_in_menu', 'Показывать в меню', [
                     0 => 'Нет',
@@ -169,6 +166,9 @@ class Pages extends Section implements Initializable
                 ])->setDefaultValue(1),
 
                 AdminFormElement::number('sort_num', 'Порядковый номер')->setDefaultValue(0),
+
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

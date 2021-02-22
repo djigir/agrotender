@@ -52,10 +52,44 @@ window.onload = function (){
         $('.multiselect__option').attr("data-deselect", "");
     }
 
+
+    if(str.indexOf('edit') !== -1 && (str.indexOf('comp_items_traders') !== -1 || str.indexOf('comp_items') !== -1 || str.indexOf('faq_groups') !== -1 || str.indexOf('banner_rotates') !== -1)){
+       $('.form-element-files__item').css({'width':'200px'});
+       $('a.form-element-files__image').css({'height':'65%', 'padding-top':'25px'});
+    }
+
+    if(str.indexOf('edit') !== -1 && str.indexOf('news') !== -1){
+        $('.form-element-files__item').css({'width':'200px'});
+        $('a.form-element-files__image').css({'padding-top':'25px'});
+    }
+
+    if(str.indexOf('edit') !== -1 && str.indexOf('adv_torg_posts') !== -1){
+        $('button').css('display', 'none');
+        $('.form-element-files__item').css({'min-width':'200px'});
+        $('a.form-element-files__image').css({'height':'100px'});
+    }
+
+
     /* Для блока с событиями */
     setTimeout(function() {
         $('#actionTR').show();
     }, 250);
+
+    if(str.indexOf('torg_elevators' !== -1)){
+        $('#DataTables_Table_0_filter').css({
+            'opacity':'0.8',
+            'position': 'absolute',
+            'top': '-9999px',
+            'left': '-9999px'
+        });
+
+        $(document).on('input', '#search', function () {
+            $('.input-sm').val($('#search').val())
+            $(".input-sm").focus();
+
+            setTimeout(function () {
+                $('#search').focus();
+            }, 100);
+        });
+    }
 }
-
-

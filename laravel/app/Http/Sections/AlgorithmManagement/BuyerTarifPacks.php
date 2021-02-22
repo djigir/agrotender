@@ -123,8 +123,7 @@ class BuyerTarifPacks extends Section implements Initializable
                     3 => 'Выделение цветом',
                 ])->setDefaultValue(0)->required(),
                 AdminFormElement::text('title', 'Имя')->required(),
-                AdminFormElement::ckeditor('content', 'Текст'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+                AdminFormElement::textarea('content', 'Текст')->setRows(6),
                 AdminFormElement::select('active', 'Показывать на сайте', [
                     0 => 'Нет',
                     1 => 'Да',
@@ -139,6 +138,8 @@ class BuyerTarifPacks extends Section implements Initializable
                 AdminFormElement::number('adv_num', 'Кол-во объявлений')->required(),
                 AdminFormElement::number('sort_num', 'Порядковый номер')->required(),
                 $create_element
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-3'),
         ]);
 

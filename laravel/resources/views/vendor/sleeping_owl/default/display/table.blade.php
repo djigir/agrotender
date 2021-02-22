@@ -10,6 +10,11 @@
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles_boards')
 && !substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_topics')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/buyer_packs_orders')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/news')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_buyers')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_buyer_bans')
+&& !substr_count(request()->server('REQUEST_URI'),'/admin_dev/faqs')
 )
     <div class="row">
         <div class="col-lg-12 pt-3">
@@ -31,19 +36,6 @@
              <?php $route_export = route('admin.download_users'); ?>
         @endif
 
-        @if(request()->server('REQUEST_URI') == '/admin_dev/torg_buyers')
-            <form action="{{ $route_export }}" class="export-form" style="margin-bottom: 1rem;" autocomplete="off">
-                <input type="hidden" name="obl_id" class="export-input_obl" value="">
-                <input type="hidden" name="section_id" class="export-input_section" value="">
-                <input type="hidden" name="email_filter" class="export-input_email_filter" value="">
-                <input type="hidden" name="phone_filter" class="export-input_phone_filter" value="">
-                <input type="hidden" name="name_filter" class="export-input_name_filter" value="">
-                <input type="hidden" name="id_filter" class="export-input_id_filter" value="">
-                <input type="hidden" name="ip_filter" class="export-input_ip_filter" value="">
-                <input type="submit" value="Выгрузить csv" class="export-btn btn btn-warning btn-create export-btn">
-            </form>
-        @endif
-
         {{-- убрать кнопку "Новая запись" если роуты .... --}}
         <?php $route = request()->server('REQUEST_URI'); ?>
 
@@ -58,6 +50,11 @@
                     || \Request::segment(2) == 'seo_titles'
                     || \Request::segment(2) == 'seo_titles_boards'
                     || \Request::segment(2) == 'comp_topics'
+                    || \Request::segment(2) == 'buyer_packs_orders'
+                    || \Request::segment(2) == 'news'
+                    || \Request::segment(2) == 'torg_buyers'
+                    || \Request::segment(2) == 'torg_buyer_bans'
+                    || \Request::segment(2) == 'faqs'
 
                )
                style="display: none" @endif>
@@ -100,11 +97,11 @@
             @endif
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles')) && \Request::segment(2) == 'seo_titles')
-                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
+                @include('vendor.sleeping_owl.default.column.custom_filter.seo_port')
             @endif
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/traders_ports')) && \Request::segment(2) == 'traders_ports')
-                @include('vendor.sleeping_owl.default.column.custom_filter.torg_elevators_seo_port')
+                @include('vendor.sleeping_owl.default.column.custom_filter.seo_port')
             @endif
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/seo_titles_boards')) && \Request::segment(2) == 'seo_titles_boards')
@@ -113,6 +110,26 @@
 
             @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/comp_topics')) && \Request::segment(2) == 'comp_topics')
                 @include('vendor.sleeping_owl.default.column.custom_filter.comp_topics')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/buyer_packs_orders')) && \Request::segment(2) == 'buyer_packs_orders')
+                @include('vendor.sleeping_owl.default.column.custom_filter.buyer_packs_orders')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/news')) && \Request::segment(2) == 'news')
+                @include('vendor.sleeping_owl.default.column.custom_filter.news')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_buyers')) && \Request::segment(2) == 'torg_buyers')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_buyers')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/torg_buyer_bans')) && \Request::segment(2) == 'torg_buyer_bans')
+                @include('vendor.sleeping_owl.default.column.custom_filter.torg_buyer_bans')
+            @endif
+
+            @if((substr_count(request()->server('REQUEST_URI'),'/admin_dev/faqs')) && \Request::segment(2) == 'faqs')
+                @include('vendor.sleeping_owl.default.column.custom_filter.faqs')
             @endif
 
     </div>
@@ -133,12 +150,10 @@
         || \Request::segment(2) == 'adv_word_topics'
         || \Request::segment(2) == 'seo_titles'
         || \Request::segment(2) == 'torg_buyers'
-        //|| \Request::segment(2) == 'comp_items_actives'
 )
         <?php
             $SEGMENT = [
                 'comp_items' => 'delete_traders_admin',
-                //'comp_items_traders' => 'delete_traders_admin',
                 'adv_torg_posts' => 'delete_posts_admin',
                 'adv_torg_post_complains' => 'delete_torg_post_complains_admin',
                 'torg_elevators' => 'delete_torg_elevators_admin',
@@ -146,7 +161,6 @@
                 'seo_titles_boards' => 'delete_seo_titles_boards_admin',
                 'seo_titles' => 'delete_seo_titles_admin',
                 'torg_buyers' => 'delete_torg_buyers_admin',
-                //'comp_items_actives' => 'delete_comp_items_actives_admin',
             ];
 
             $route = isset($SEGMENT[\Request::segment(2)]) ? $SEGMENT[\Request::segment(2)] : '';

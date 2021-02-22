@@ -5,6 +5,7 @@ namespace App\Http\Sections\UserManagement;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use Carbon\Carbon;
@@ -121,48 +122,34 @@ class TorgBuyerBan extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-                \AdminDisplayFilter::scope('GetBanedUser'), // ?type=news | ?latest&type=news
-                \AdminDisplayFilter::scope('GetByUserId') // ?type=news | ?latest&type=news
-            );
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Regions\Regions::class)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query->orderBy('id', 'desc');
+                AdminDisplayFilter::scope('GetBanedUser'),
+                AdminDisplayFilter::scope('GetByUserId'),
+                AdminDisplayFilter::custom('obl_id')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgBuyer', function ($query) use ($value) {
+                        $query->where('obl_id', $value );
+                    });
+                }),
+                AdminDisplayFilter::custom('name')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgBuyer', function ($query) use ($value) {
+                        $query->where('name', 'like', '%' .$value. '%');
+                    });
+                }),
+                AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
+                    $query->where('ban_email', $value);
+                }),
+                AdminDisplayFilter::custom('phone')->setCallback(function ($query, $value) {
+                    $query->where('ban_phone', $value);
+                }),
+                AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
+                    $query->where('id', $value);
+                }),
+                AdminDisplayFilter::custom('ip')->setCallback(function ($query, $value) {
+                    $query->where('ban_ip', $value);
+                }),
+                AdminDisplayFilter::custom('ses')->setCallback(function ($query, $value) {
+                    $query->where('ban_ses', $value);
                 })
-                ->setSortable(false)
-                ->setDisplay('name')
-                ->setColumnName('torgBuyer.obl_id')
-                ->setPlaceholder('Все области')->setHtmlAttribute('style', 'width: 180px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('ban_email')
-                ->setPlaceholder('E-mail')->setHtmlAttribute('style', 'width: 160px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('ban_phone')
-                ->setPlaceholder('Тел.')->setHtmlAttribute('style', 'width: 140px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('torgBuyer.name')
-                ->setOperator('contains')
-                ->setPlaceholder('Имени'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('torgBuyer.id')
-                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('ban_ip')
-                ->setPlaceholder('IP')->setHtmlAttribute('style', 'width: 80px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('ban_ses')
-                ->setPlaceholder('SES')
-                ->setHtmlAttribute('class', 'ses-search')->setHtmlAttribute('style', 'width: 140px'),
-        ]);
-
+            );
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -179,10 +166,7 @@ class TorgBuyerBan extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('torgBuyer.login', 'Логин')
-                    ->required(),
-
+                AdminFormElement::text('torgBuyer.login', 'Логин')->required(),
                 AdminFormElement::select('period_days', 'Период бана')
                     ->setOptions([
                         1 => '1 день',
@@ -196,17 +180,13 @@ class TorgBuyerBan extends Section implements Initializable
                 AdminFormElement::text('ban_ip', 'IP адресс')->required(),
                 AdminFormElement::text('ban_ses', 'Сессия')->required(),
                 AdminFormElement::text('comment', 'Комментарий')->required(),
-
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
                 AdminFormElement::text('torgBuyer.name', 'Имя')->setReadonly(true),
-
                 AdminFormElement::number('torgBuyer.id', 'ID пользователя')->setReadonly(true),
-
                 AdminFormElement::text('add_date', 'Добавлено')->setReadonly(true),
-
                 AdminFormElement::text('end_date', 'Истекает')->setReadonly(true),
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-3')->addColumn([
+
 
 
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
@@ -228,12 +208,8 @@ class TorgBuyerBan extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::number('user_id', 'ID пользователя')
-                    ->required(),
-
-                AdminFormElement::text('torgBuyer.login', 'Логин')
-                    ->required(),
+                AdminFormElement::number('user_id', 'ID пользователя')->required(),
+                AdminFormElement::text('torgBuyer.login', 'Логин')->required(),
 
                 AdminFormElement::select('period_days', 'Период бана')
                     ->setOptions([
@@ -244,26 +220,19 @@ class TorgBuyerBan extends Section implements Initializable
                     ])->setSortable('id', true)->required(),
 
                 AdminFormElement::text('ban_phone', 'Телефон')->setValidationRules(['ban_phone' => 'required|min:9|numeric'])->required()->setDefaultValue('не указан'),
-
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
                 AdminFormElement::text('ban_email', 'E-mail')->setValidationRules(['ban_email' => 'required|email'])->required()->setDefaultValue('не указан'),
-
                 AdminFormElement::text('ban_ip', 'IP адресс')->required()->setDefaultValue('0.0.0.0'),
-
                 AdminFormElement::text('ban_ses', 'Сессия')->required()->setDefaultValue(rand(1, 999)),
-
                 AdminFormElement::text('comment', 'Комментарий'),
-
                 AdminFormElement::custom(function (Model $model){
                     $period = request()->get('period_days');
                     $model->end_date = $end_date = Carbon::now()->addDays($period)->setHour(23)->setMinute(59);
                     $model->save();
                 }),
 
-            ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-3')->addColumn([
+            ], 'col-xs-12 col-sm-6 col-md-7 col-lg-3'),
         ]);
 
         $form->getButtons()->setButtons([

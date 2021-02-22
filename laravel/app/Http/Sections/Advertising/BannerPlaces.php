@@ -115,7 +115,7 @@ class BannerPlaces extends Section implements Initializable
                 AdminFormElement::html('Размеры банера px</br></br>'),
                 AdminFormElement::number('size_w', 'ширина')->required(),
                 AdminFormElement::number('size_h', 'высота')->required(),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-6'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3'),
         ]);
 
         $form->getButtons()->setButtons([

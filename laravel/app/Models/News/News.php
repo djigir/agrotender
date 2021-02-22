@@ -9,14 +9,8 @@ class News extends Model
     protected $table = 'news';
 
     protected $fillable = [
-        'id',
-        'first_page',
-        'intop',
-        'ngroup',
-        'view_num',
-        'filename_src',
-        'url',
-        'filename_ico',
+        'id', 'first_page', 'intop', 'ngroup', 'view_num',
+        'filename_src', 'url', 'filename_ico',
     ];
 
     protected $dates = ['dtime'];

@@ -132,10 +132,7 @@ class PyBill extends Section implements Initializable
 
             AdminColumn::custom('Акт', function (\Illuminate\Database\Eloquent\Model $model) {
                 $akt = '-';
-                $aktstatus = [
-                    1 => 'Нужен',
-                    2 => 'Загружен',
-                ];
+                $aktstatus = [1 => 'Нужен', 2 => 'Загружен',];
 
                 if($model->aktstatus != 0){
                     $akt = $aktstatus[$model->aktstatus];
@@ -156,8 +153,7 @@ class PyBill extends Section implements Initializable
             ->setDisplaySearch(false)
             ->paginate(100)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
+            ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
         $display->setColumnFilters([
             AdminColumnFilter::select()
@@ -189,6 +185,11 @@ class PyBill extends Section implements Initializable
                 ->setColumnName('id')
                 ->setPlaceholder('ID')
                 ->setHtmlAttribute('style', 'width: 80px'),
+
+            AdminColumnFilter::range()
+                ->setColumnName('add_date')
+                ->setFrom(AdminColumnFilter::date()->setPlaceholder('От'))
+                ->setTo(AdminColumnFilter::date()->setPlaceholder('До')),
         ]);
 
 
@@ -234,8 +235,14 @@ class PyBill extends Section implements Initializable
 
         $pyBillAddr = PyBillAddr::where('id', $this->model_value['payer_addr_id'])->first();
         $pyBill = PyBillFirm::where('id', $this->model_value['payer_ooo_id'])->first();
-        $getPyBillFirm = PyBillFirm::where('buyer_id', $this->model_value['buyer_id'])->orderBy('payer_type')->orderBy('otitle')->pluck('otitle', 'id');
+        $getPyBillFirm = PyBillFirm::where('buyer_id', $this->model_value['buyer_id'])->orderBy('payer_type')->orderBy('otitle')->select('otitle', 'id')->get();
         $getPyBillAddr = PyBillAddr::select('add_date', 'id', 'city', 'address')->orderBy('add_date')->get();
+
+        foreach ($getPyBillFirm as $firm){
+            $firm->otitle = htmlspecialchars_decode($firm->otitle);
+        }
+
+        $getPyBillFirm = $getPyBillFirm->pluck('otitle', 'id');
 
         foreach ($getPyBillAddr as $bill_addr){
             $addresses[$bill_addr->id] = $bill_addr->city.$bill_addr->address;
@@ -257,7 +264,7 @@ class PyBill extends Section implements Initializable
                 <label for='amount' class='control-label'>
                         Указанный Плательщик
                 </label>
-                <textarea rows='7' style='width: 750px' class='form-control' type='text' readonly='readonly'>
+                <textarea rows='7' class='form-control' type='text' readonly='readonly'>
 {$orgtype}: {$pyBill->otitle}
 Юр.адрес: {$regions[$pyBill->obl_id]}, {$pyBill->zip} {$pyBill->city}, {$pyBill->address}
 ИНН: {$pyBill->oipn}
@@ -278,8 +285,6 @@ class PyBill extends Section implements Initializable
                     ])->setDefaultValue($this->model_value['aktstatus']),
                 AdminFormElement::select('payer_addr_id', 'Сменить адрес')->setOptions($addresses)->setDefaultValue(isset($addresses[$this->model_value['payer_addr_id']]) ? $addresses[$this->model_value['payer_addr_id']] : ''),
                 AdminFormElement::select('payer_ooo_id', 'Задать Плательщика')->setOptions($getPyBillFirm->toArray()),
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
                 AdminFormElement::text('add_date', 'Дата счета')->setReadonly(true),
                 AdminFormElement::html("
                 <div class='form-group form-element-text'>
@@ -297,9 +302,7 @@ class PyBill extends Section implements Initializable
                 </div>"),
                 $address,
                 $payer,
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8')->addColumn([
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')
         ]);
 
 

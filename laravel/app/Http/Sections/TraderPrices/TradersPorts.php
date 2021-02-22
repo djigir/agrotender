@@ -111,39 +111,17 @@ class TradersPorts extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
                 AdminFormElement::select('obl_id', 'Область')
-                    ->setModelForOptions(Regions::class, 'name')
-                    ->required(),
+                    ->setModelForOptions(Regions::class, 'name')->required(),
+                AdminFormElement::text('portsLang.portname', 'Название порта')->required(),
+                AdminFormElement::text('url', 'URL')->required(),
+                AdminFormElement::select('active', 'Показать на сайте')->setOptions([1 => 'Да', 0 => 'Нет',])->required(),
+                AdminFormElement::text('portsLang.p_h1', 'H1')->required(),
+                AdminFormElement::textarea('portsLang.p_title', 'Title')->required()->setRows(6),
+                AdminFormElement::textarea('portsLang.p_descr', 'Описание')->required()->setRows(6),
+                AdminFormElement::textarea('portsLang.p_content', 'Content')->required()->setRows(6),
 
-
-                    AdminFormElement::text('portsLang.portname', 'Название порта')
-                        ->required(),
-
-                AdminFormElement::text('url', 'URL')
-                    ->required(),
-
-                AdminFormElement::select('active', 'Показать на сайте')
-                    ->setOptions([
-                        1 => 'Да',
-                        0 => 'Нет',
-                    ])
-                    ->required(),
-
-                AdminFormElement::ckeditor('portsLang.p_title', 'Title')
-                    ->required(),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
-                AdminFormElement::text('portsLang.p_h1', 'H1')
-                    ->required(),
-
-                AdminFormElement::ckeditor('portsLang.p_descr', 'Описание')
-                    ->required(),
-
-                AdminFormElement::ckeditor('portsLang.p_content', 'Content')
-                    ->required(),
-
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-3')->addColumn([
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 

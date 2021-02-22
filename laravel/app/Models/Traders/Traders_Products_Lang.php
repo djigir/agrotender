@@ -20,13 +20,7 @@ class Traders_Products_Lang extends Model
 {
     protected $table = 'traders_products_lang';
 
-    protected $fillable = [
-        'id',
-        'item_id',
-        'lang_id',
-        'name',
-        'descr',
-    ];
+    protected $fillable = ['id', 'item_id', 'lang_id', 'name', 'descr'];
 
     public $timestamps = false;
 

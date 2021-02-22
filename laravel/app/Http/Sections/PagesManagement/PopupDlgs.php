@@ -108,13 +108,11 @@ class PopupDlgs extends Section implements Initializable
                 AdminFormElement::text('popupDlgsLang.btntext', 'Текст кнопки'),
                 AdminFormElement::text('urlgo', 'УРЛ перехода'),
                 AdminFormElement::hidden('dtime')->setDefaultValue(\Carbon\Carbon::now()),
-                AdminFormElement::select('first_page', 'Показывать', [
-                    0 => 'Нет',
-                    1 => 'Да',
-                ])->setDefaultValue(0)->required(),
+                AdminFormElement::select('first_page', 'Показывать', [0 => 'Нет', 1 => 'Да',])->setDefaultValue(0)->required(),
+                AdminFormElement::textarea('popupDlgsLang.content', 'Текст')->setRows(6),
 
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-                AdminFormElement::ckeditor('popupDlgsLang.content', 'Текст'),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
         ]);
 

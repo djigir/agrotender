@@ -70,9 +70,11 @@ class SeoTitlesTrades extends Section implements Initializable
                 ->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('tradersProductsLang.name', 'Культура')
-                ->setOrderable(false)
-                ->setWidth('250px')
-                ->setHtmlAttribute('class', 'text-center'),
+                ->setOrderable(function($query, $direction){
+                    $query->leftJoin('traders_products_lang', 'traders_products.id', '=', 'traders_products_lang.item_id')
+                        ->select('traders_products_lang.*', 'traders_products.*')
+                        ->orderBy('name', $direction);
+                })->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Область', function (Model $model) {
                 $region_name = 'Все Области';
@@ -108,7 +110,7 @@ class SeoTitlesTrades extends Section implements Initializable
                 $query->orderBy('type_id', $direction);
             })->setWidth('230px'),
 
-            AdminColumn::link('page_title', 'Title')->setWidth('300px'),
+            AdminColumn::link('page_title', 'Title')->setWidth('300px')->setOrderable(false),
 
         ];
 
@@ -179,22 +181,16 @@ class SeoTitlesTrades extends Section implements Initializable
                     name='type_seo_title[type_id]' value='{$type}' readonly='readonly' style='margin-bottom: 10px'>";
                 }),
 
-                AdminFormElement::ckeditor('page_title', 'Title')
-                    ->required(),
-
-                AdminFormElement::ckeditor('page_descr', 'Description')
-                    ->required(),
-
+                AdminFormElement::ckeditor('page_title', 'Title')->required(),
+                AdminFormElement::ckeditor('page_descr', 'Description')->required(),
                 AdminFormElement::text('page_h1', 'Заголовок H1'),
-
+                AdminFormElement::ckeditor('content_text', 'Текст'),
+                AdminFormElement::ckeditor('content_words', 'Текст 2'),
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
 
-                AdminFormElement::ckeditor('content_text', 'Текст'),
 
-                AdminFormElement::ckeditor('content_words', 'Текст 2'),
-
-                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
 
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
@@ -213,108 +209,12 @@ class SeoTitlesTrades extends Section implements Initializable
      */
     public function onCreate($payload = [])
     {
-//        $type = \request()->get('type');
-//
-//        if ($type == 'seo_board'){
-//            $regions = Regions::pluck('id', 'name')->toArray();
-//            $ukraine = ['Вся Украина' => 0];
-//            $all_regions = array_merge($regions, $ukraine);
-//            $all_regions = array_flip($all_regions);
-//
-//            /* вывод с главной категорией */
-//
-//            $rubriks = \App\Models\ADV\AdvTorgTopic::where('parent_id', '!=', 0)->get();
-//
-//            $rubriks_gr = AdvTorgTopic::where('parent_id', 0)->get();
-//
-//            $rubriks_gr_name = AdvTorgTopic::where('parent_id', 0)->pluck('title', 'id')->toArray();
-//
-//            $rubrik_select = [];
-//
-//            foreach ($rubriks_gr as $rubrick_gr) {
-//                foreach ($rubriks as $rubrik) {
-//                    if ($rubrik->parent_id !== $rubrick_gr->id) {
-//                        continue;
-//                    }
-//                    $rubrik_select[$rubrik->id] = $rubrik->title . ' (' . $rubrick_gr->title . ')';
-//                }
-//            }
-//
-//
-//            $form = AdminForm::card()->addBody([
-//                AdminFormElement::columns()->addColumn([
-//
-//
-//                    AdminFormElement::select('sect_id', 'Раздел')
-//                        ->setOptions($rubriks_gr_name)->setSortable('menu_group_id'),
-//
-//                    AdminFormElement::select('sect_id', 'Раздел с культурой')
-//                        ->setOptions($rubrik_select)->setSortable('menu_group_id'),
-//
-//
-//                    AdminFormElement::select('obl_id', 'Область')
-//                        ->setOptions($all_regions)
-//                        ->setDisplay($all_regions)
-//                        ->setDefaultValue(0),
-//
-//                    AdminFormElement::select('type_id', 'Тип')
-//                        ->setOptions([
-//                            0 => 'Все типы',
-//                            1 => 'Куплю',
-//                            2 => 'Продам',
-//                        ])->setDefaultValue(0)->required(),
-//
-//
-//                    AdminFormElement::textarea('page_title', 'Title')
-//                        ->setRows(3)
-//                        ->required(),
-//
-//                    AdminFormElement::textarea('page_descr', 'Description')
-//                        ->setRows(4)
-//                        ->required(),
-//
-//                    AdminFormElement::text('page_h1', 'Заголовок H1')
-//                        ->required(),
-//
-//
-//                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-//
-//                    AdminFormElement::textarea('content_text', 'Текст')
-//                        ->required(),
-//
-//                    AdminFormElement::textarea('content_words', 'Текст 2')->setDefaultValue('-'),
-//
-//                    AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-//
-//                    AdminFormElement::hidden('lang_id')->setDefaultValue(1),
-//
-//                    AdminFormElement::hidden('pagetype')->setDefaultValue(0)
-//
-//                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
-//            ]);
-//
-//            $form->getButtons()->setButtons([
-//                'save'  => new Save(),
-//                'save_and_close'  => new SaveAndClose(),
-//                'save_and_create'  => new SaveAndCreate(),
-//                'cancel'  => (new Cancel()),
-//            ]);
-//
-//            return $form;
-//        }
-
-
         $regions = Regions::pluck('id', 'name')->toArray();
         $ukraine = ['Вся Украина' => 0];
         $all_regions = array_merge($regions, $ukraine);
         $all_regions = array_flip($all_regions);
-
-        /* вывод с главной категорией */
-
         $rubriks = \App\Models\Traders\TradersProducts::orderBy('group_id')->where('acttype', 0)->get();
-
         $rubriks_gr = TradersProductGroupLanguage::all();
-
         $rubrik_select = [];
 
         foreach ($rubriks_gr as $rubrick_gr) {
@@ -326,51 +226,28 @@ class SeoTitlesTrades extends Section implements Initializable
             }
         }
 
-
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-
                 AdminFormElement::select('cult_id', 'Раздел')
-                    ->setOptions($rubrik_select)->setSortable('group_id')
-                    ->required(),
-
-
+                    ->setOptions($rubrik_select)->setSortable('group_id')->required(),
                 AdminFormElement::select('obl_id', 'Область')
                     ->setOptions($all_regions)
                     ->setDisplay($all_regions)
                     ->setDefaultValue(0),
 
-                AdminFormElement::select('type_id', 'Тип')
-                    ->setOptions([
-                        0 => 'Закупки',
-                        1 => 'Продажи',
-                        3 => 'Форварды',
-                    ])->required(),
-
-
-                AdminFormElement::ckeditor('page_title', 'Title')
-                    ->required(),
-
-                AdminFormElement::ckeditor('page_descr', 'Description')
-                    ->required(),
-
-                AdminFormElement::text('page_h1', 'Заголовок H1')
-                    ->required(),
-
+                AdminFormElement::select('type_id', 'Тип')->setOptions([0 => 'Закупки', 1 => 'Продажи', 3 => 'Форварды',])->required(),
+                AdminFormElement::ckeditor('page_title', 'Title')->required(),
+                AdminFormElement::ckeditor('page_descr', 'Description')->required(),
+                AdminFormElement::text('page_h1', 'Заголовок H1')->required(),
+                AdminFormElement::ckeditor('content_text', 'Текст')->required(),
+                AdminFormElement::ckeditor('content_words', 'Текст 2')->setDefaultValue('-'),
+                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+                AdminFormElement::hidden('lang_id')->setDefaultValue(1),
+                AdminFormElement::hidden('pagetype')->setDefaultValue(2)
 
             ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
 
-                AdminFormElement::ckeditor('content_text', 'Текст')
-                    ->required(),
 
-                AdminFormElement::ckeditor('content_words', 'Текст 2')->setDefaultValue('-'),
-
-                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-                AdminFormElement::hidden('lang_id')->setDefaultValue(1),
-
-                AdminFormElement::hidden('pagetype')->setDefaultValue(2)
 
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);

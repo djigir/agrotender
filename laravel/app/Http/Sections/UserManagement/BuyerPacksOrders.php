@@ -5,6 +5,7 @@ namespace App\Http\Sections\UserManagement;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\ADV\AdvTorgPost;
@@ -149,33 +150,47 @@ class BuyerPacksOrders extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-                \AdminDisplayFilter::scope('TorgBuyerPackOreders')
+                \AdminDisplayFilter::scope('TorgBuyerPackOreders'),
+                AdminDisplayFilter::custom('pack_id')->setCallback(function ($query, $value) {
+                    $query->where('pack_id', $value);
+                }),
+                AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
+                    $query->where('id', $value);
+                }),
+                AdminDisplayFilter::custom('post_id')->setCallback(function ($query, $value) {
+                    $query->where('post_id', $value);
+                }),
+                AdminDisplayFilter::custom('title')->setCallback(function ($query, $value) {
+                    $query->whereHas('torgPost', function ($query) use ($value) {
+                        $query->where('title', 'like', '%' . $value . '%');
+                    });
+                })
             );
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Buyer\BuyerTarifPacks::class, 'title')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('title')
-                ->setColumnName('pack_id')
-                ->setPlaceholder('Типы объявления'),
-
-            AdminColumnFilter::text()
-                ->setHtmlAttribute('class', 'ID_search')
-                ->setColumnName('id')
-                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('post_id')
-                ->setPlaceholder('ID Объявления'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('torgPost.title')
-                ->setPlaceholder('Объявление'),
-
-        ]);
+//        $display->setColumnFilters([
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Buyer\BuyerTarifPacks::class, 'title')
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query;
+//                })
+//                ->setDisplay('title')
+//                ->setColumnName('pack_id')
+//                ->setPlaceholder('Типы объявления'),
+//
+//            AdminColumnFilter::text()
+//                ->setHtmlAttribute('class', 'ID_search')
+//                ->setColumnName('id')
+//                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('post_id')
+//                ->setPlaceholder('ID Объявления'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('torgPost.title')
+//                ->setPlaceholder('Объявление'),
+//
+//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -188,56 +203,56 @@ class BuyerPacksOrders extends Section implements Initializable
      *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
-    {
-        $order = \App\Models\Buyer\BuyerPacksOrders::select('user_id')->find($id);
-        $user = \App\Models\Torg\TorgBuyer::select('id', 'name')->find($order->user_id);
-
-
-        $form = AdminForm::card()->addBody([
-            AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('user_id', 'ID пользователя')
-                    ->setDefaultValue($user->id)
-                    ->setReadonly(true)
-                    ->required(),
-
-
-                AdminFormElement::select('pack_id', 'Пакет')
-                    ->setOptions([
-                        28 => '+1 объявления на 30 дней',
-                        27 => '+2 объявления на 30 дней',
-                        7 => '+5 объявлений на 30 дней'
-                    ]),
-
-                AdminFormElement::custom(function (Model $model) {
-                    $model->stdt = Carbon::now();
-                }),
-
-                AdminFormElement::custom(function (Model $model) {
-                    $days = 30;
-                    $model->endt = Carbon::now()->addDays($days);
-                }),
-
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-
-                AdminFormElement::ckeditor('comments', 'Комментарии')
-                    ->setDefaultValue('Добавлено админом+'),
-
-                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-        ]);
-
-        $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'cancel'  => (new Cancel()),
-        ]);
-
-        return $form;
-    }
+//    public function onEdit($id = null, $payload = [])
+//    {
+//        $order = \App\Models\Buyer\BuyerPacksOrders::select('user_id')->find($id);
+//        $user = \App\Models\Torg\TorgBuyer::select('id', 'name')->find($order->user_id);
+//
+//
+//        $form = AdminForm::card()->addBody([
+//            AdminFormElement::columns()->addColumn([
+//
+//                AdminFormElement::text('user_id', 'ID пользователя')
+//                    ->setDefaultValue($user->id)
+//                    ->setReadonly(true)
+//                    ->required(),
+//
+//
+//                AdminFormElement::select('pack_id', 'Пакет')
+//                    ->setOptions([
+//                        28 => '+1 объявления на 30 дней',
+//                        27 => '+2 объявления на 30 дней',
+//                        7 => '+5 объявлений на 30 дней'
+//                    ]),
+//
+//                AdminFormElement::custom(function (Model $model) {
+//                    $model->stdt = Carbon::now();
+//                }),
+//
+//                AdminFormElement::custom(function (Model $model) {
+//                    $days = 30;
+//                    $model->endt = Carbon::now()->addDays($days);
+//                }),
+//
+//
+//            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+//
+//                AdminFormElement::ckeditor('comments', 'Комментарии')
+//                    ->setDefaultValue('Добавлено админом+'),
+//
+//                AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
+//
+//            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+//        ]);
+//
+//        $form->getButtons()->setButtons([
+//            'save'  => new Save(),
+//            'save_and_close'  => new SaveAndClose(),
+//            'cancel'  => (new Cancel()),
+//        ]);
+//
+//        return $form;
+//    }
 
     /**
      * @return FormInterface
@@ -312,14 +327,10 @@ class BuyerPacksOrders extends Section implements Initializable
                         ->setLoadOptionsQueryPreparer(function ($item, $query) {
                             return $query->where('pack_type', 0);
                         })->setDisplay('title'),
-
-
-                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
-                    AdminFormElement::ckeditor('comments', 'Комментарии')
+                    AdminFormElement::textarea('comments', 'Комментарии')
                         ->setDefaultValue('Добавлено админом+'),
 
-                ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
+                ], 'col-xs-12 col-sm-6 col-md-5 col-lg-3')
 
             ]);
 

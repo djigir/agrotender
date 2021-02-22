@@ -73,40 +73,28 @@ class UsersAdmin extends Section implements Initializable
         $columns = [
             AdminColumn::custom('Логин' , function (\Illuminate\Database\Eloquent\Model $model){
                 $url = \Str::before(\Request::url(), '/ad')."/admin_dev/users/{$model->id}/edit";
-                return "<div class='row-link text-center'><i class='fas fa-user'></i><a href='{$url}'> {$model->login}</a></div>";
+                return "<div class='row-link'><i class='fas fa-user'></i><a href='{$url}'> {$model->login}</a></div>";
             })->setWidth('100px')->setOrderable('login'),
 
-            AdminColumn::text('name', 'Ф.И.О')
+            AdminColumn::text('name', 'ФИО')
                 ->setSearchCallback(function($column, $query, $search){
                     return $query->orWhere('name', 'like', '%'.$search.'%');
-            })->setWidth('100px')->setHtmlAttribute('class', 'text-center')
-            ,
-            AdminColumn::text('address', 'Адресс')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
-            AdminColumn::text('telephone', 'Телефон:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
-            AdminColumn::text('office_phone', 'Рабочий тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
-            AdminColumn::text('cell_phone', 'Мобильный тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+            })->setWidth('100px'),
+//            AdminColumn::text('address', 'Адресс')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+//            AdminColumn::text('telephone', 'Телефон:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+//            AdminColumn::text('office_phone', 'Рабочий тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
+//            AdminColumn::text('cell_phone', 'Мобильный тел:')->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
         ];
 
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[0, 'asc']])
-            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
         ;
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Users\Users::class, 'login')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query;
-                })
-                ->setDisplay('login')
-                ->setColumnName('id')
-                ->setPlaceholder('Все пользователи')
-            ,
-        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('55px');

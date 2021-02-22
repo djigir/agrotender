@@ -111,17 +111,17 @@ class AdvTorgPostComplains extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center');
 
-        $display->setColumnFilters([
-            AdminColumnFilter::text()
-                ->setColumnName('msg')
-                ->setOperator('contains')
-                ->setPlaceholder('Жалоба'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('id')
-                ->setOperator('contains')
-                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px')
-        ]);
+//        $display->setColumnFilters([
+//            AdminColumnFilter::text()
+//                ->setColumnName('msg')
+//                ->setOperator('contains')
+//                ->setPlaceholder('Жалоба'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('id')
+//                ->setOperator('contains')
+//                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px')
+//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
         $display->getColumns()->getControlColumn()->setWidth('40px');
@@ -135,40 +135,40 @@ class AdvTorgPostComplains extends Section implements Initializable
      *
      * @return FormInterface
      */
-    public function onEdit($id = null, $payload = [])
-    {
-        $form = AdminForm::card()->addBody([
-            AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::select('viewed', 'Просмотрено')
-                    ->setOptions([
-                        0 => 'Нет',
-                        1 => 'Да',
-                    ]),
-
-                AdminFormElement::select('status', 'Статус')
-                    ->setOptions([
-                        0 => 'Новый',
-                        1 => 'Обработаный'
-                    ]),
-
-
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
-
-                AdminFormElement::ckeditor('msg', 'Текст')
-                    ->required(),
-
-            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
-        ]);
-
-        $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
-            'cancel'  => (new Cancel()),
-        ]);
-
-        return $form;
-    }
+//    public function onEdit($id = null, $payload = [])
+//    {
+//        $form = AdminForm::card()->addBody([
+//            AdminFormElement::columns()->addColumn([
+//
+//                AdminFormElement::select('viewed', 'Просмотрено')
+//                    ->setOptions([
+//                        0 => 'Нет',
+//                        1 => 'Да',
+//                    ]),
+//
+//                AdminFormElement::select('status', 'Статус')
+//                    ->setOptions([
+//                        0 => 'Новый',
+//                        1 => 'Обработаный'
+//                    ]),
+//
+//
+//            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-4')->addColumn([
+//
+//                AdminFormElement::ckeditor('msg', 'Текст')
+//                    ->required(),
+//
+//            ], 'col-xs-12 col-sm-6 col-md-8 col-lg-8'),
+//        ]);
+//
+//        $form->getButtons()->setButtons([
+//            'save'  => new Save(),
+//            'save_and_close'  => new SaveAndClose(),
+//            'cancel'  => (new Cancel()),
+//        ]);
+//
+//        return $form;
+//    }
 
     /**
      * @return bool

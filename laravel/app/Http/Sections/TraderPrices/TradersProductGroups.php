@@ -96,26 +96,14 @@ class TradersProductGroups extends Section implements Initializable
     {
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
-
-                AdminFormElement::text('tradersProductGroupsLang.name', 'Название группы')
-                    ->required(),
-
+                AdminFormElement::text('tradersProductGroupsLang.name', 'Название группы')->required(),
                 AdminFormElement::text('url', 'URL'),
-
-//                AdminFormElement::image('icon_filename', 'Иконка'),
-
                 AdminFormElement::number('sort_num', 'Порядковый номер'),
-
                 AdminFormElement::html('<hr>'),
-
-            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-5')->addColumn([
-
-                AdminFormElement::ckeditor('tradersProductGroupsLang.descr', 'Описание'),
-
+                AdminFormElement::textarea('tradersProductGroupsLang.descr', 'Описание')->setRows(6),
                 AdminFormElement::hidden('tradersProductGroupsLang.item_id')->setDefaultValue($id),
-
                 AdminFormElement::hidden('tradersProductGroupsLang.lang_id')->setDefaultValue(1),
-
+            ], 'col-xs-12 col-sm-6 col-md-5 col-lg-3')->addColumn([
             ], 'col-xs-12 col-sm-6 col-md-7 col-lg-7'),
         ]);
 

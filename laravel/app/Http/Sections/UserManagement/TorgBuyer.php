@@ -5,6 +5,7 @@ namespace App\Http\Sections\UserManagement;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use App\Models\ADV\AdvTorgPost;
@@ -61,9 +62,9 @@ class TorgBuyer extends Section implements Initializable
         $columns = [
             AdminColumn::checkbox('')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('id', 'ID')->setWidth('70px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::link('login', 'Логин/ФИО', 'name')->setOrderable('name')->setWidth('250px'),
+            AdminColumn::link('login', 'Логин/ФИО', 'name')->setOrderable(false)->setWidth('250px'),
             AdminColumn::boolean('isactive_web', 'Активация')->setWidth('70px'),
-            AdminColumn::boolean('smschecked', 'Телефон')->setWidth('70px'),
+//            AdminColumn::boolean('smschecked', 'Телефон')->setWidth('70px'),
 
             AdminColumn::custom('Баланс', function (\Illuminate\Database\Eloquent\Model $model) {
                 $balance = $model->getBalance();
@@ -74,11 +75,6 @@ class TorgBuyer extends Section implements Initializable
 
             AdminColumn::datetime('add_date', 'Дата регистр.')->setHtmlAttribute('class', 'text-center')
             ->setFormat('Y:m:d H:i')->setWidth('220px'),
-
-            AdminColumn::text('regions.name', 'Область')
-                ->setOrderable(function($query, $direction) {
-                    $query->select('regions.*', 'torg_buyer.*')->leftJoin('regions', 'torg_buyer.obl_id', '=', 'regions.id')->orderBy('regions.name', $direction);
-            })->setWidth('200px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::text('phone', 'Контакты', 'email')->setWidth('160px')->setOrderable(false),
 
@@ -95,15 +91,6 @@ class TorgBuyer extends Section implements Initializable
 
             })->setWidth('100px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
 
-            AdminColumn::custom('Бан', function (\Illuminate\Database\Eloquent\Model $model) {
-                $ban = 0;
-                if ($model['torgBuyerBan']){
-                    $ban = $model['torgBuyerBan']->where('user_id', $model->getKey())->count();
-                }
-                return "<div class='row-text'>
-                        <a href='{$model->TorgBuyerBanRoute()}?GetBanedUser[user_id]={$model->id}' target='_blank'>{$ban}</a>
-                    </div>";
-            })->setHtmlAttribute('class', 'text-center')->setWidth('80px'),
         ];
 
         $display = AdminDisplay::datatables()
@@ -114,47 +101,65 @@ class TorgBuyer extends Section implements Initializable
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')
             ->setFilters(
-                \AdminDisplayFilter::scope('typeAdverts') // ?type=news | ?latest&type=news
+                AdminDisplayFilter::scope('typeAdverts'),
+                AdminDisplayFilter::custom('obl_id')->setCallback(function ($query, $value) {
+                    $query->where('obl_id', $value);
+                }),
+                AdminDisplayFilter::custom('name')->setCallback(function ($query, $value) {
+                    $query->where('name', 'like', '%' .$value. '%');
+                }),
+                AdminDisplayFilter::custom('email')->setCallback(function ($query, $value) {
+                    $query->where('email', $value);
+                }),
+                AdminDisplayFilter::custom('phone')->setCallback(function ($query, $value) {
+                    $query->where('phone', $value);
+                }),
+                AdminDisplayFilter::custom('id')->setCallback(function ($query, $value) {
+                    $query->where('id', $value);
+                }),
+                AdminDisplayFilter::custom('ip')->setCallback(function ($query, $value) {
+                    $query->where('last_ip', $value);
+                })
             );
 
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Regions\Regions::class)
-                ->setLoadOptionsQueryPreparer(function($element, $query) {
-                    return $query->orderBy('id', 'desc');
-                })
-                ->setSortable(false)
-                ->setDisplay('name')
-                ->setColumnName('obl_id')
-                ->setHtmlAttribute('class', 'obl_filter')
-                ->setPlaceholder('Все области')->setHtmlAttribute('style', 'width: 180px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('name')
-                ->setOperator('contains')
-                ->setHtmlAttribute('class', 'name_filter')
-                ->setPlaceholder('Имени'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('email')
-                ->setHtmlAttribute('class', 'email_filter')
-                ->setPlaceholder('E-mail')->setHtmlAttribute('style', 'width: 160px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('phone')
-                ->setHtmlAttribute('class', 'phone_filter')
-                ->setPlaceholder('Тел.')->setHtmlAttribute('style', 'width: 140px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('id')
-                ->setHtmlAttribute('class', 'id_filter')
-                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
-
-            AdminColumnFilter::text()
-                ->setColumnName('last_ip')
-                ->setHtmlAttribute('class', 'ip_filter')
-                ->setPlaceholder('IP')->setHtmlAttribute('style', 'width: 80px'),
-        ]);
+//        $display->setColumnFilters([
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Regions\Regions::class)
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {
+//                    return $query->orderBy('id', 'desc');
+//                })
+//                ->setSortable(false)
+//                ->setDisplay('name')
+//                ->setColumnName('obl_id')
+//                ->setHtmlAttribute('class', 'obl_filter')
+//                ->setPlaceholder('Все области')->setHtmlAttribute('style', 'width: 180px'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('name')
+//                ->setOperator('contains')
+//                ->setHtmlAttribute('class', 'name_filter')
+//                ->setPlaceholder('Имени'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('email')
+//                ->setHtmlAttribute('class', 'email_filter')
+//                ->setPlaceholder('E-mail')->setHtmlAttribute('style', 'width: 160px'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('phone')
+//                ->setHtmlAttribute('class', 'phone_filter')
+//                ->setPlaceholder('Тел.')->setHtmlAttribute('style', 'width: 140px'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('id')
+//                ->setHtmlAttribute('class', 'id_filter')
+//                ->setPlaceholder('ID')->setHtmlAttribute('style', 'width: 80px'),
+//
+//            AdminColumnFilter::text()
+//                ->setColumnName('last_ip')
+//                ->setHtmlAttribute('class', 'ip_filter')
+//                ->setPlaceholder('IP')->setHtmlAttribute('style', 'width: 80px'),
+//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -191,12 +196,10 @@ class TorgBuyer extends Section implements Initializable
                 AdminFormElement::text('phone2', 'Телефон2')->setValidationRules(['phone' => 'required|min:9|numeric']),
                 AdminFormElement::text('phone3', 'Телефон3')->setValidationRules(['phone' => 'required|min:9|numeric']),
                 AdminFormElement::text('email', 'E-Mail') ->setValidationRules(['email' => 'required|email']),
-                AdminFormElement::text('compItems.www', 'Веб-страница'),
                 AdminFormElement::password('passwd', 'Новый пароль')->hashWithBcrypt(),
                 AdminFormElement::text('avail_adv_posts', 'Сейчас доступно бесплатно объявл.'),
                 AdminFormElement::text('max_adv_posts', 'Максимальное кол-во объявл.'),
                 AdminFormElement::select('isactive_web')->setOptions([1 => 'Да', 0 => 'Нет']),
-                AdminFormElement::ckeditor('comments', 'Комментарии'),
 
                 AdminFormElement::html("<span style='color: gray; font-weight:bold; margin-top: 1rem;'>
                         Изменение пароля пользователя

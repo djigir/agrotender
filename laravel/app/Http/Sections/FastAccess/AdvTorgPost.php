@@ -267,7 +267,7 @@ class AdvTorgPost extends Section implements Initializable
             AdminFormElement::html("<div style='text-align: left'><h4>Фото в объявлении</h4></div>"),
             AdminFormElement::columns()
                 ->addColumn([
-                    AdminFormElement::images('images', 'Images')->setHtmlAttribute('class', 'logo-img')
+                    AdminFormElement::images('images', 'Images')
                         ->setSaveCallback(function ($file, $path, $filename, $settings) use ($id) {
                             //Здесь ваша логика на сохранение картинки
                             $basePath = "/var/www/agrotender/pics/";

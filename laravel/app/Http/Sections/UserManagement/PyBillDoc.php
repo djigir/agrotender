@@ -67,11 +67,15 @@ class PyBillDoc extends Section implements Initializable
         $columns = [
             AdminColumn::text('id', 'ID')->setWidth('10px')->setHtmlAttribute('class', 'text-center'),
             AdminColumn::text('add_date', 'Дата')->setWidth('10px')->setHtmlAttribute('class', 'text-center'),
-
             AdminColumn::custom('Тип', function (\Illuminate\Database\Eloquent\Model $model) {
                 $type_doc = self::TYPE_DOC[$model->doc_type];
                 return "<div class='row-link'>{$type_doc}</div>";
             })->setWidth('10px')->setHtmlAttribute('class', 'text-center'),
+
+            AdminColumn::custom('Счёт', function (\Illuminate\Database\Eloquent\Model $model) {
+                $amount = $model->doc_type == 0 ? \App\Models\Py\PyBill::where('id', $model->bill_id)->value('amount') : '<i class="fas fa-minus"></i>';
+                return $amount;
+            })->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
 
             AdminColumn::custom('Название', function (\Illuminate\Database\Eloquent\Model $model) {
                 $file = 'https://agrotender.com.ua/'.$model->filename;
@@ -87,7 +91,7 @@ class PyBillDoc extends Section implements Initializable
         $display = AdminDisplay::datatables()
             ->setName('firstdatatables')
             ->setOrder([[1, 'desc']])
-//            ->setDisplaySearch(true)
+            ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
             ->setHtmlAttribute('class', 'table-primary table-hover th-center')

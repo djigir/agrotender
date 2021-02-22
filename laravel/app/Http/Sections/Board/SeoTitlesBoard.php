@@ -233,7 +233,7 @@ class SeoTitlesBoard extends Section implements Initializable
 
                 AdminFormElement::ckeditor('tpl_items_words', 'Текст2')
                     ->setDefaultValue('-'),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')
 
         ]);
 
@@ -294,7 +294,7 @@ class SeoTitlesBoard extends Section implements Initializable
                 AdminFormElement::hidden('add_date')->setDefaultValue(Carbon::now()),
                 AdminFormElement::hidden('lang_id')->setDefaultValue(1),
                 AdminFormElement::hidden('pagetype')->setDefaultValue(0)
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')
         ]);
 
 

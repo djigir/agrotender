@@ -5,6 +5,7 @@ namespace App\Http\Sections\News;
 use AdminColumn;
 use AdminColumnFilter;
 use AdminDisplay;
+use AdminDisplayFilter;
 use AdminForm;
 use AdminFormElement;
 use Illuminate\Database\Eloquent\Model;
@@ -59,34 +60,35 @@ class Faq extends Section implements Initializable
         $columns = [
             AdminColumn::custom('Содержание faq', function (Model $model) {
                 return "<div class='row-text text-center'>{$model['FaqLang']['title']} ({$model->sort_num})</div>";
-            })->setWidth('150px'),
-            AdminColumn::text('FaqGroup.FaqGroupLang.type_name', 'Группа')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('filename', 'Прикрепленный Файл')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
-            AdminColumn::text('view_num', 'Просм.')->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            })->setWidth('150px')->setOrderable(false),
+            AdminColumn::text('FaqGroup.FaqGroupLang.type_name', 'Группа')->setOrderable(false)->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('filename', 'Прикрепленный Файл')->setOrderable(false)->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
+            AdminColumn::text('view_num', 'Просм.')->setOrderable(false)->setWidth('50px')->setHtmlAttribute('class', 'text-center'),
         ];
 
         $display = AdminDisplay::datatables()
+            ->setApply(function ($query) {
+                $query->orderBy('group_id');
+            })
             ->setName('firstdatatables')
-            //->setOrder([[0, 'asc']])
+            ->setOrder([])
             ->setDisplaySearch(false)
             ->paginate(25)
             ->setColumns($columns)
-            ->setHtmlAttribute('class', 'table-primary table-hover th-center')
-        ;
-
-        $display->setColumnFilters([
-            AdminColumnFilter::select()
-                ->setModelForOptions(\App\Models\Faq\FaqGroup::class, 'FaqGroupLang.type_name')
-                ->setLoadOptionsQueryPreparer(function($element, $query) {return $query;})
-                ->setDisplay('FaqGroupLang.type_name')
-                ->setColumnName('group_id')
-                ->setPlaceholder('Все группы'),
-        ]);
-
-        $display->setApply(function ($query)
-        {
-            $query->orderBy('group_id');
-        });
+            ->setFilters(
+                AdminDisplayFilter::custom('group_id')->setCallback(function ($query, $value) {
+                    $query->where('group_id', $value);
+                })
+            )->setHtmlAttribute('class', 'table-primary table-hover th-center');
+        //group_id
+//        $display->setColumnFilters([
+//            AdminColumnFilter::select()
+//                ->setModelForOptions(\App\Models\Faq\FaqGroup::class, 'FaqGroupLang.type_name')
+//                ->setLoadOptionsQueryPreparer(function($element, $query) {return $query;})
+//                ->setDisplay('FaqGroupLang.type_name')
+//                ->setColumnName('group_id')
+//                ->setPlaceholder('Все группы'),
+//        ]);
 
         $display->getColumnFilters()->setPlacement('card.heading');
 
@@ -117,8 +119,9 @@ class Faq extends Section implements Initializable
                         return ['path' => asset($value), 'value' => $value];
                     }),
                 AdminFormElement::number('sort_num', 'Порядковый номер')->setDefaultValue(0)->required(),
-            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')->addColumn([
-                AdminFormElement::ckeditor('FaqLang.content', 'Ответ')->setReadonly(true),
+                AdminFormElement::textarea('FaqLang.content', 'Ответ')->setReadonly(true),
+            ], 'col-xs-12 col-sm-6 col-md-4 col-lg-3')->addColumn([
+
             ], 'col-xs-12 col-sm-6 col-md-8 col-lg-7'),
         ]);
 

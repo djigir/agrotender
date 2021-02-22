@@ -201,16 +201,16 @@ class TorgElevator extends Section implements Initializable
 
                 AdminFormElement::text('langElevator.name', 'Название')->required(),
                 AdminFormElement::text('langElevator.orgname', 'Юридическое название')->setDefaultValue('-')->setDefaultValue('-'),
-                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
-                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(7),
+                AdminFormElement::textarea('langElevator.addr', 'Физический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(4),
+                AdminFormElement::textarea('langElevator.orgaddr', 'Юридический адрес')->setDefaultValue('-')->setDefaultValue('-')->setRows(4),
                 AdminFormElement::text('phone', 'Телефон')->setValidationRules(['phone' => 'required|min:9|numeric'])->setDefaultValue('-')->required(),
                 AdminFormElement::text('email', 'E-mail')->setValidationRules(['email' => 'required|email'])->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.director', 'Директор')->setDefaultValue('-')->required(),
                 AdminFormElement::text('langElevator.holdcond', 'Способ хранения')->setDefaultValue('-')->required(),
-                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(7)->required(),
-                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(7)->required(),
+                AdminFormElement::textarea('langElevator.descr_podr', 'Услуги по подработке')->setDefaultValue('-')->setRows(4)->required(),
+                AdminFormElement::textarea('langElevator.descr_qual', 'Услуги по опр. качества')->setDefaultValue('-')->setRows(4)->required(),
                 AdminFormElement::hidden('langElevator.lang_id')->setDefaultValue(1),
-            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-5')->addColumn([], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
+            ], 'col-xs-12 col-sm-6 col-md-6 col-lg-3')->addColumn([], 'col-xs-12 col-sm-6 col-md-4 col-lg-4'),
         ]);
 
         $form->getButtons()->setButtons([

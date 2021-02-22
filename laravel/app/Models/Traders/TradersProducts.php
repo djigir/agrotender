@@ -26,14 +26,6 @@ class TradersProducts extends Model
 
     public $timestamps = false;
 
-//    protected $appends = ['culture'];
-//
-//
-//    public function getCultureAttribute()
-//    {
-//        return $this->traders_product_lang->first()->toArray();
-//    }
-
     public function traders_prices()
     {
         return $this->hasMany(TradersPrices::class, 'cult_id');
