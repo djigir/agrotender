@@ -187,6 +187,17 @@ class CompItems extends Section implements Initializable
     public function onEdit($id = null, $payload = [])
     {
         $this->title_comp = $this->model_value['title'];
+        $packs = null;
+        $packs2 = null;
+
+        if($this->model_value['trader_price_avail'] == 1){
+            $packs = AdminFormElement::html('<span><b>Пакеты:</b></span><hr>');
+            $packs2 = AdminFormElement::columns()->addColumn([
+                    AdminFormElement::datetime('buyerPacksOrdersStart.stdt', 'Начало пакета')->setFormat('Y-m-d'),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::datetime('buyerPacksOrdersEnd.endt', 'Окончание пакета')->setFormat('Y-m-d'),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6');
+        }
 
         $form = AdminForm::card()->addBody([
             AdminFormElement::columns()->addColumn([
@@ -215,6 +226,8 @@ class CompItems extends Section implements Initializable
                     ->setLoadOptionsQueryPreparer(function($element, $query) {
                         return $query;
                     })->setDisplay('title'),
+
+                $packs,$packs2
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-4')
         ]);

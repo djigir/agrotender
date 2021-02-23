@@ -289,43 +289,57 @@ class AdvTorgPost extends Section implements Initializable
                             return ['value' => 'pics/' . 'b/' . $filename];
                     }),
                     AdminFormElement::html("<br><div style='text-align: left'><h4>Редакировать объявление</h4></div>")
-                ], 'col-xs-12 col-sm-6 col-md-8 col-lg-12')->addColumn([
-                    AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
+                    ], 'col-xs-12 col-sm-6 col-md-8 col-lg-12')->addColumn([
+                    AdminFormElement::columns()->addColumn([
+                        AdminFormElement::datetime('add_date', 'Дата:')->setVisible(true)->setReadonly(false),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                        AdminFormElement::select('archive', 'Активное/Архив:')->setOptions([1 => 'В архиве', 0 => 'Активное'])->setSortable(false)->required(),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+
                     AdminFormElement::hidden('id'),
 
                     AdminFormElement::text('author', 'Автор:'),
                     AdminFormElement::text('email', 'E-mail:') ->setValidationRules(['email' => 'required|email']),
                     AdminFormElement::text('phone', 'Телефон:')->setValidationRules(['phone' => 'required|min:9|numeric']),
-                    AdminFormElement::select('virtual', 'Раздел:')
-                        ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
-                        ->setLoadOptionsQueryPreparer(function ($item, $query) {
-                            return $query->where('parent_id', 0);
-                        })->setDisplay('title')
-                        ->setDefaultValue($parent_category_id),
-
-                    AdminFormElement::dependentselect('topic_id', 'Подраздел:')
-                        ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
-                        ->setDataDepends('virtual')
-                        ->setLoadOptionsQueryPreparer(function ($item, $query) {
-                            return $query->where('parent_id', $item->getDependValue('virtual'));
-                        })->required(),
+                    AdminFormElement::columns()->addColumn([
+                        AdminFormElement::select('virtual', 'Раздел:')
+                            ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class)
+                            ->setLoadOptionsQueryPreparer(function ($item, $query) {
+                                return $query->where('parent_id', 0);
+                            })->setDisplay('title')
+                            ->setDefaultValue($parent_category_id),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                        AdminFormElement::dependentselect('topic_id', 'Подраздел:')
+                            ->setModelForOptions(\App\Models\ADV\AdvTorgTopic::class, 'title')
+                            ->setDataDepends('virtual')
+                            ->setLoadOptionsQueryPreparer(function ($item, $query) {
+                                return $query->where('parent_id', $item->getDependValue('virtual'));
+                            })->required(),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
                     AdminFormElement::text('title', 'Заглавие:'),
-                    AdminFormElement::textarea('content', 'Текст:'),
+                    AdminFormElement::textarea('content', 'Текст:')->setRows(6),
+                    AdminFormElement::columns()->addColumn([
                         AdminFormElement::select('obl_id', 'Область:')->setModelForOptions(Regions::class)
                             ->setDisplay('name')->setDefaultValue(1)->required(),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                         AdminFormElement::text('city', 'Город:'),
-                        AdminFormElement::html("<div style='display: flex'>"),
-                        AdminFormElement::text('amount', 'Объем:'),
-                        AdminFormElement::text('izm', '&#160;'),
-                        AdminFormElement::html("</div>"),
-                        AdminFormElement::html("<div style='display: flex'>"),
-                        AdminFormElement::text('cost', 'Цена:'),
-                        AdminFormElement::text('cost_izm', '&#160;'),
-                        AdminFormElement::html("</div>"),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+                    AdminFormElement::html("<div style='display: flex'>"),
+                    AdminFormElement::text('amount', 'Объем:'),
+                    AdminFormElement::text('izm', '&#160;'),
+                    AdminFormElement::html("</div>"),
+                    AdminFormElement::html("<div style='display: flex'>"),
+                    AdminFormElement::text('cost', 'Цена:'),
+                    AdminFormElement::text('cost_izm', '&#160;'),
+                    AdminFormElement::html("</div>"),
+                    AdminFormElement::columns()->addColumn([
                         AdminFormElement::select('colored', 'Выделение цветом:')->setOptions([1 => 'Выделено цветом', 0 => 'Обычное'])->setSortable(false)->required(),
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
                         AdminFormElement::select('targeting', 'Поднято в ТОП:')->setOptions([1 => 'Выделено в топе', 0 => 'Обычное'])->setSortable(false)->required(),
-                        AdminFormElement::hidden('ups')->setHtmlAttribute('id', 'ups'),
-                        AdminFormElement::html("<button class='btn btn-default' onclick='up()'>Апнуть Объявление</button>
+                    ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
+
+                    AdminFormElement::hidden('ups')->setHtmlAttribute('id', 'ups'),
+                    AdminFormElement::html("<button class='btn btn-default' onclick='up()'>Апнуть Объявление</button>
                                         <span >Всего:<span id='ups_count'>{$this->getModelValue()->ups}</span></span>
                                         <script> function up(){ event.preventDefault()
                                             let elem = document.getElementById(\"ups\")
@@ -333,8 +347,8 @@ class AdvTorgPost extends Section implements Initializable
                                             elem.value = value
                                              document.getElementById(\"ups_count\").innerHTML = value;
                                         }</script> <br><br>"),
-                        AdminFormElement::select('active', 'Статус модерации:')->setOptions([1 => 'Прошло модерацию', 0 => 'Не прошло модерацию'])->setSortable(false)->required(),
-                        AdminFormElement::select('archive', 'Активное/Архив:')->setOptions([1 => 'В архиве', 0 => 'Активное'])->setSortable(false)->required(),
+                    AdminFormElement::select('active', 'Статус модерации:')->setOptions([1 => 'Прошло модерацию', 0 => 'Не прошло модерацию'])->setSortable(false)->required(),
+
             ], 'col-xs-12 col-sm-6 col-md-4 col-lg-5')
                 ->addColumn([], 'col-xs-12 col-sm-6 col-md-8 col-lg-4')
                 ->addColumn([], 'col-xs-12 col-sm-6 col-md-12 col-lg-4')
@@ -343,8 +357,8 @@ class AdvTorgPost extends Section implements Initializable
         ]);
 
         $form->getButtons()->setButtons([
-            'save'  => new Save(),
-            'save_and_close'  => new SaveAndClose(),
+            'save'  => (new Save()),
+            'save_and_close'  => (new SaveAndClose()),
             'cancel'  => (new Cancel()),
         ]);
 

@@ -208,8 +208,8 @@ class Traders extends Section implements Initializable
                     AdminFormElement::select('trader_premium', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да', 2 => 'Топ']),
                 ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
 
-                AdminFormElement::html('<hr>'),
                 AdminFormElement::html('<span><b>Таблица форвардов:</b></span><br><br>'),
+                AdminFormElement::html('<hr>'),
 
                 AdminFormElement::columns()->addColumn([
                     AdminFormElement::select('trader_price_forward_avail', 'Активна')->setOptions([0 => 'Нет', 1 => 'Да',]),
@@ -217,10 +217,14 @@ class Traders extends Section implements Initializable
                     AdminFormElement::select('trader_premium_forward', 'Премиум')->setOptions([0 => 'Нет', 1 => 'Да',]),
                 ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
 
-//                AdminFormElement::html('<hr>'),
-//                AdminFormElement::html('<span><b>Пакеты:</b></span>'),
-                //AdminFormElement::datetime('torgBuyer.buyerPacksOrders.add_date', 'Начало пакета'),
-                //AdminFormElement::datetime('torgBuyer.buyerPacksOrders.endt', 'Окончание пакета'),
+
+                AdminFormElement::html('<span><b>Пакеты:</b></span>'),
+                AdminFormElement::html('<hr>'),
+                AdminFormElement::columns()->addColumn([
+                    AdminFormElement::datetime('buyerPacksOrdersStart.stdt', 'Начало пакета')->setFormat('Y-m-d'),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6')->addColumn([
+                    AdminFormElement::datetime('buyerPacksOrdersEnd.endt', 'Окончание пакета')->setFormat('Y-m-d'),
+                ], 'col-xs-12 col-sm-6 col-md-6 col-lg-6'),
 
             ], 'col-xs-12 col-sm-6 col-md-6 col-lg-4')
         ]);

@@ -71,8 +71,8 @@ class SeoTitlesTrades extends Section implements Initializable
 
             AdminColumn::text('tradersProductsLang.name', 'Культура')
                 ->setOrderable(function($query, $direction){
-                    $query->leftJoin('traders_products_lang', 'traders_products.id', '=', 'traders_products_lang.item_id')
-                        ->select('traders_products_lang.*', 'traders_products.*')
+                    $query->leftJoin('traders_products_lang', 'seo_titles.cult_id', '=', 'traders_products_lang.item_id')
+                        ->select('traders_products_lang.*', 'seo_titles.*')
                         ->orderBy('name', $direction);
                 })->setWidth('250px')->setHtmlAttribute('class', 'text-center'),
 

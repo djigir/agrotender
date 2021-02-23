@@ -103,7 +103,6 @@ class AdminSectionsServiceProvider extends ServiceProvider
         if(\Request::segment(2) == 'comp_items_actives'
             || \Request::segment(2) == 'comp_items_traders'
             || \Request::segment(2) == 'torg_elevators'
-            || \Request::segment(2) == 'seo_titles'
         )
         {
             $displayElementContainer = app('sleeping_owl.display');

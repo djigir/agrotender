@@ -3,6 +3,7 @@
 namespace App\Models\Comp;
 
 use App\Models\ADV\AdvTorgPost;
+use App\Models\Buyer\BuyerPacksOrders;
 use App\Models\Buyer\BuyerTarifPacks;
 use App\Models\Lenta\Lenta;
 use App\Models\Regions\Regions;
@@ -107,7 +108,6 @@ class CompItems extends Model
         'trader_price_sell_visible', 'trader_price_sell_transpon', 'trader_price_sell_dtupdt',
         'trader_price_sell_avail', 'trader_sort_sell', 'trader_premium_sell',
         'trader_price_forward_visible', 'trader_price_forward_avail', 'trader_sort_forward', 'trader_premium_forward', 'add_date'
-
     ];
 
     protected $dates = ['add_date', 'culture_prices'];
@@ -354,6 +354,17 @@ class CompItems extends Model
     public function torgBuyer()
     {
         return $this->hasOne(TorgBuyer::class, 'id', 'author_id');
+    }
+
+
+    public function buyerPacksOrdersStart()
+    {
+       return $this->hasOne(BuyerPacksOrders::class, 'user_id', 'author_id')->orderByDesc('stdt');
+    }
+
+    public function buyerPacksOrdersEnd()
+    {
+        return $this->hasOne(BuyerPacksOrders::class, 'user_id', 'author_id')->orderByDesc('endt');
     }
 
     public function region()

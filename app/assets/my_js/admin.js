@@ -54,8 +54,12 @@ window.onload = function (){
 
 
     if(str.indexOf('edit') !== -1 && (str.indexOf('comp_items_traders') !== -1 || str.indexOf('comp_items') !== -1 || str.indexOf('faq_groups') !== -1 || str.indexOf('banner_rotates') !== -1)){
-       $('.form-element-files__item').css({'width':'200px'});
+       $('.form-element-files__item').css({'width':'130px', 'height':'145px'});
        $('a.form-element-files__image').css({'height':'65%', 'padding-top':'25px'});
+       $('.multiselect__input').css({'opacity':'0', 'cursor':'default'});
+       //$('.multiselect__input').remove();
+       //$('.multiselect__tags').append('<span class="multiselect__input"></span>');
+
     }
 
     if(str.indexOf('edit') !== -1 && str.indexOf('news') !== -1){
@@ -64,7 +68,9 @@ window.onload = function (){
     }
 
     if(str.indexOf('edit') !== -1 && str.indexOf('adv_torg_posts') !== -1){
-        $('button').css('display', 'none');
+        let elev = $('.btn-sm');
+        elev[4].style.display = 'none';
+        elev[2].style.display = 'none';
         $('.form-element-files__item').css({'min-width':'200px'});
         $('a.form-element-files__image').css({'height':'100px'});
     }
